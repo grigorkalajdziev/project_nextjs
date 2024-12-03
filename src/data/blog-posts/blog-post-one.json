@@ -1,0 +1,70 @@
+[
+  {
+    "id": "1",
+    "title": {
+      "en": "Perfect Perfume & Cologne",
+      "mk": "Совршен парфем и колонија"
+    },
+    "text": {
+      "en": "Michele seemed to say, was the 21st-century Gucci girl, an eccentric, fresh-faced weirdo who wasn’t afraid to wear backless fur-lined loafers, to personify the idea of “ugly pretty.",
+      "mk": "Мишел изгледаше да каже, беше девојката на Гучи од 21 век, ексцентрична, свежа личност која не се плашеше да носи чевли со крзно на задниот дел, да ја претстави идејата за “грда убавина."
+    },
+    "image": "/assets/images/blog/blog_makeupbykika.png",
+    "url": "/blog/post-left-sidebar",
+    "date": {
+      "en": "june 5, 2024",
+      "mk": "5 јуни, 2024"
+    }
+  },
+  {
+    "id": "2",
+    "title": {
+      "en": "Shirt Color Picking Guide",
+      "mk": "Водич за избор на боја на кошула"
+    },
+    "text": {
+      "en": "Michele seemed to say, was the 21st-century Gucci girl, an eccentric, fresh-faced weirdo who wasn’t afraid to wear backless fur-lined loafers, to personify the idea of “ugly pretty.",
+      "mk": "Мишел изгледаше да каже, беше девојката на Гучи од 21 век, ексцентрична, свежа личност која не се плашеше да носи чевли со крзно на задниот дел, да ја претстави идејата за “грда убавина."
+    },
+    "image": "/assets/images/blog/blog_makeupkika.png",
+    "url": "/blog/post-left-sidebar",
+    "date": {
+      "en": "june 5, 2024",
+      "mk": "5 јуни, 2024"
+    }
+  },
+  {
+    "id": "3",
+    "title": {
+      "en": "Chic Fashion Phenomenon",
+      "mk": "Шик моден феномен"
+    },
+    "text": {
+      "en": "Michele seemed to say, was the 21st-century Gucci girl, an eccentric, fresh-faced weirdo who wasn’t afraid to wear backless fur-lined loafers, to personify the idea of “ugly pretty.",
+      "mk": "Мишел изгледаше да каже, беше девојката на Гучи од 21 век, ексцентрична, свежа личност која не се плашеше да носи чевли со крзно на задниот дел, да ја претстави идејата за “грда убавина."
+    },
+    "image": "/assets/images/blog/post-thumbnail-8-370x200.png",
+    "url": "/blog/post-left-sidebar",
+    "date": {
+      "en": "june 5, 2020",
+      "mk": "5 јуни, 2020"
+    }
+  },
+  {
+    "id": "4",
+    "title": {
+      "en": "T-Shirts as Minimalist Style",
+      "mk": "Т-Ширт како минималистички стил"
+    },
+    "text": {
+      "en": "Michele seemed to say, was the 21st-century Gucci girl, an eccentric, fresh-faced weirdo who wasn’t afraid to wear backless fur-lined loafers, to personify the idea of “ugly pretty.",
+      "mk": "Мишел изгледаше да каже, беше девојката на Гучи од 21 век, ексцентрична, свежа личност која не се плашеше да носи чевли со крзно на задниот дел, да ја претстави идејата за “грда убавина."
+    },
+    "image": "/assets/images/blog/post-thumbnail-370x200.png",
+    "url": "/blog/post-left-sidebar",
+    "date": {
+      "en": "june 5, 2020",
+      "mk": "5 јуни, 2020"
+    }
+  }
+]

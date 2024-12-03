@@ -1,0 +1,65 @@
+/*=============================================
+=            grid            =
+=============================================*/
+
+/*----------  custom container style  ----------*/
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1200px;
+    &.wide {
+      max-width: 95%;
+    }
+    &.full {
+      max-width: 100%;
+      padding: 0;
+    }
+  }
+}
+
+/* no gutters */
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+  & > .col,
+  & > [class*="col-"] {
+    margin: 0;
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+.five-column {
+  [class*="col-lg-"] {
+    flex-basis: 20%;
+
+@include respond(small-desktop) {
+      flex-basis: 25%;
+    }
+
+@include respond(extra-large-mobile) {
+      flex-basis: 50%;
+    }
+
+@include respond(large-mobile) {
+      flex-basis: 50%;
+    }
+
+@include respond(small-mobile) {
+      flex-basis: 100%;
+    }
+  }
+}
+
+.row-5 {
+  margin-right: -5px;
+  margin-left: -5px;
+}
+
+.row-5 > [class*="col"] {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+
+/*=====  End of grid  ======*/

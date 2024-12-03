@@ -1,0 +1,42 @@
+
+/*=============================================
+=            brand logo            =
+=============================================*/
+
+
+.brand-carousel-content {
+  &__title {
+    font-size: 17px;
+    font-weight: 600;
+    font-style: normal;
+    line-height: 1.3;
+
+    margin-bottom: 30px;
+
+    letter-spacing: 2px;
+
+    color: rgba(51,51,51,0.35);
+  }
+
+  &__text {
+    font-family: $spectral;
+    font-size: 32px;
+    font-weight: 200;
+    font-style: italic;
+    line-height: 1.3;
+
+    width: 730px;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+
+    color: #333;
+
+@include respond(small-mobile) {
+      font-size: 25px;
+    }
+  }
+}
+
+/*=====  End of brand logo  ======*/
+

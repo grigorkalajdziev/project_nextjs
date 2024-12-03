@@ -1,0 +1,27 @@
+
+/*=============================================
+=            empty area            =
+=============================================*/
+
+
+.item-empty-area {
+  &__icon {
+    svg {
+      font-size: 140px;
+      line-height: 1;
+
+      color: $black--two;
+
+@include respond(large-mobile) {
+        font-size: 100px;
+      }
+    }
+  }
+
+  &__text {
+    font-size: 20px;
+  }
+}
+
+/*=====  End of empty area  ======*/
+

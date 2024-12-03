@@ -1,0 +1,251 @@
+
+/*=============================================
+=            product image gallery            =
+=============================================*/
+
+.product-large-image-wrapper {
+  position: relative;
+
+  .single-image {
+    img {
+      width: 100%;
+    }
+  }
+  .swiper-pagination {
+    bottom: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &-bullet {
+      width: 10px;
+      height: 10px;
+      &-active {
+        width: 15px;
+        height: 15px;
+        margin: 0;
+
+        opacity: 1;
+        border: 1px solid $black--two;
+        border-radius: 100%;
+        background-color: transparent;
+      }
+    }
+  }
+  .react_lightgallery_item {
+    position: absolute;
+    top: 80px;
+    right: 20px;
+  }
+
+  .enlarge-icon {
+    font-size: 30px;
+
+    color: $grey;
+    border: none;
+    background: none;
+    &:hover {
+      color: $black--two;
+    }
+  }
+
+  .product-details-button-wrapper {
+    position: absolute;
+    z-index: 9;
+    top: 30px;
+    right: 20px;
+  }
+
+  .wishlist-icon {
+    font-size: 30px;
+
+    color: $grey;
+    border: none;
+    background: none;
+    &:hover,
+    &.active {
+      color: $black--two;
+    }
+  }
+
+  &__floating-badges {
+    position: absolute;
+    z-index: 9;
+    top: 20px;
+    left: 20px;
+
+    display: flex;
+    flex-direction: column;
+    span {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 48px;
+
+      z-index: 3;
+
+      display: inline-block;
+
+      width: 48px;
+      height: 48px;
+      margin-bottom: 10px;
+
+      text-align: center;
+      text-transform: lowercase;
+
+      color: $white;
+      border-radius: 100%;
+
+@include respond(small-desktop) {
+        line-height: 40px;
+
+        width: 40px;
+        height: 40px;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &.onsale {
+        background-color: $green--one;
+      }
+
+      &.hot {
+        background-color: $red--three;
+      }
+
+      &.out-of-stock {
+        background-color: $black--two;
+      }
+    }
+  }
+}
+
+.product-small-image-wrapper {
+  .ht-swiper-button-nav {
+    border: none;
+    background: none;
+    svg {
+      font-size: 20px;
+
+      color: $grey;
+    }
+    &:after {
+      display: none;
+    }
+  }
+
+  .swiper-container-vertical {
+    height: 100%;
+  }
+
+  &--side-thumb {
+    overflow: hidden;
+
+    height: 970px;
+
+@include respond(large-desktop) {
+      height: 676px;
+    }
+
+@include respond(small-desktop) {
+      height: auto;
+      margin-top: 10px;
+    }
+
+@include respond(extra-large-mobile) {
+      height: auto;
+      margin-top: 10px;
+    }
+
+@include respond(large-mobile) {
+      height: auto;
+      margin-top: 10px;
+    }
+
+    .single-image {
+      height: 100%;
+
+@include respond(small-desktop) {
+        height: auto;
+      }
+
+@include respond(extra-large-mobile) {
+        height: auto;
+      }
+
+@include respond(large-mobile) {
+        height: auto;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+
+@include respond(small-desktop) {
+          height: auto;
+        }
+
+@include respond(extra-large-mobile) {
+          height: auto;
+        }
+
+@include respond(large-mobile) {
+          height: auto;
+        }
+      }
+    }
+  }
+}
+
+.image-gallery-side-thumb-wrapper {
+  &.row {
+    margin-right: -5px;
+    margin-left: -5px;
+
+@include respond(small-desktop) {
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+
+@include respond(extra-large-mobile) {
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+
+@include respond(large-mobile) {
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+  }
+
+  .col-xl-2,
+  .col-xl-10 {
+    padding-right: 5px;
+    padding-left: 5px;
+
+@include respond(small-desktop) {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+
+@include respond(extra-large-mobile) {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+
+@include respond(large-mobile) {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+  }
+}
+
+.product-details {
+  .sticky {
+    top: 130px !important;
+  }
+}
+
+/*=====  End of product image gallery  ======*/
+

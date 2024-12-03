@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "name": "Sally Ramsey",
+    "designation": "Reporter",
+    "image": "/assets/images/testimonial/testimonial-1.png",
+    "content": "I can say your dedication is second to none. I like the fact that you are strongly proud of your work in every way."
+  },
+  {
+    "id": "2",
+    "name": "Lois Thompson",
+    "designation": "Actor",
+    "image": "/assets/images/testimonial/testimonial-2.jpg",
+    "content": "This has already been my fifth-time purchasing their theme. I have been highly satisfied with their work."
+  },
+  {
+    "id": "3",
+    "name": "Florence Pittman",
+    "designation": "Model",
+    "image": "/assets/images/testimonial/testimonial-3.jpg",
+    "content": "There's nothing would satisfy me much more than a worry-free clean and responsive theme for my high-traffic site."
+  },
+  {
+    "id": "4",
+    "name": "Anais Coulon",
+    "designation": "Model",
+    "image": "/assets/images/testimonial/testimonial-4.jpg",
+    "content": "Five-star for good customer support. They have the ability to resolve any issue in less than the time for a coffee cup."
+  }
+]

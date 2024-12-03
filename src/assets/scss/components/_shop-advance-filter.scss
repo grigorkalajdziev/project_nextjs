@@ -1,0 +1,91 @@
+
+/*=============================================
+=            shop advance filter            =
+=============================================*/
+
+.shop-advance-filter {  
+  overflow: hidden;
+
+  transition: height 0.4s ease-out;
+
+  background-color: $grey--twentyFour;
+
+  .single-filter-widget {
+    &__title {      
+      font-size: 24px;
+      line-height: 1.2;
+
+      margin-bottom: 20px;
+
+      color: $black--two;
+    }
+
+    &__list {
+      li {
+        button {
+          margin-bottom: 10px;
+          padding: 0;
+
+          text-transform: capitalize;
+
+          border: none;
+          background: none;
+
+          &:hover,
+          &.active {
+            color: $black--two;
+          }
+        }
+
+        &:last-child {
+          button {
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      &--size {
+        li {
+          button {
+            text-transform: uppercase;
+          }
+          &:first-child {
+            button {
+              text-transform: capitalize;
+            }
+          }
+        }
+      }
+
+      &--color {
+        display: flex;
+        li {
+          margin-right: 15px;
+          button {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 15px;
+
+            cursor: pointer;
+
+            border-radius: 50%;
+
+            &:hover,
+            &.active {
+              box-shadow: 0 0 0 2px $white, 0 0 0 3px rgba($black , 0.3);
+            }
+          }
+          &:last-child {
+            margin-right: 0;
+            button {
+              border: 1px solid $grey;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/*=====  End of shop advance filter  ======*/
+

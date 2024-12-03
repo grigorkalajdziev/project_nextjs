@@ -1,0 +1,135 @@
+
+/*=============================================
+=            countdown timer            =
+=============================================*/
+
+
+
+
+.countdown-wrapper {
+  h3 {
+    font-size: 48px;
+    line-height: 58px;
+
+    margin-top: -10px;
+    margin-bottom: 30px;
+
+    color: $black--two;
+
+@include respond(small-mobile) {
+      font-size: 38px;
+      line-height: 48px;
+    }
+
+@include respond(extra-small-mobile) {
+      font-size: 28px;
+      line-height: 38px;
+    }
+  }
+
+  &--style2 {
+    a.lezada-button {
+      &:hover {
+        color: $white !important;
+        border-color: $white;
+      }
+    }
+  }
+
+
+  &--white-bg {
+    a.lezada-button {
+      &:hover {
+        color: $black !important;
+        border-color: $black;
+      }
+    }
+  }
+}
+
+.deal-countdown {
+  &.text-white {
+    & * {
+      color: $white !important;
+    }
+  }
+  .single-countdown {
+    display: inline-block;
+
+    margin-right: 100px;
+    margin-bottom: 40px;
+
+@include respond(large-mobile) {
+      margin-right: 50px;
+    }
+
+@include respond(extra-small-mobile) {
+      margin-right: 15px;
+    }
+
+    &:last-child {
+      margin-right: 0;
+
+      .single-countdown__time {
+        &:after {
+          display: none;
+        }
+      }
+    }
+    &__time {
+      font-size: 56px;
+      font-weight: 300;
+      line-height: 56px;
+
+      position: relative;
+
+      display: block;
+
+      margin-bottom: 30px;
+
+      color: $grey;
+
+@include respond(large-mobile) {
+        font-size: 48px;
+        line-height: 48px;
+      }
+
+@include respond(extra-small-mobile) {
+        font-size: 32px;
+        line-height: 22px;
+      }
+
+      &:after {
+        font-size: 35px;
+
+        position: absolute;
+        top: 0;
+        left: 170%;
+
+        content: ":";
+
+@include respond(large-mobile) {
+          left: 150%;
+        }
+
+@include respond(extra-small-mobile) {
+          left: 120%;
+        }
+      }
+    }
+
+    &__text {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 22px;
+
+      text-transform: uppercase;
+
+      color: $grey--twentySeven;
+    }
+  }
+}
+
+
+/*=====  End of countdown timer  ======*/
+

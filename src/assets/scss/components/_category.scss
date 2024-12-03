@@ -1,0 +1,835 @@
+
+/*=============================================
+=            category            =
+=============================================*/
+
+.product-category-slider-container {
+	overflow-x: hidden;
+	.swiper-container {
+		margin-right: -50px;
+		margin-left: -50px;
+		padding-right: 50px;
+		padding-left: 50px;
+
+@include respond(small-desktop) {
+			margin-right: 0;
+			margin-left: 0;
+			padding-right: 0;
+			padding-left: 0;
+		}
+
+@include respond(extra-large-mobile) {
+			margin-right: 0;
+			margin-left: 0;
+			padding-right: 0;
+			padding-left: 0;
+		}
+
+@include respond(large-mobile) {
+			margin-right: 0;
+			margin-left: 0;
+			padding-right: 0;
+			padding-left: 0;
+		}
+
+		.ht-swiper-button-nav {
+			font-size: 40px;
+
+			visibility: hidden;
+
+			padding: 0;
+
+			transition: $transition--default;
+
+			opacity: 0;
+			border: none;
+			background: none;
+
+			&:after {
+				display: none;
+			}
+			svg {
+				color: $black--two;
+			}
+		}
+	}
+
+	&:hover {
+		.ht-swiper-button-nav {
+			visibility: visible;
+
+			opacity: 1;
+		}
+	}
+}
+
+.single-category {
+	position: relative;
+
+	overflow: hidden;
+
+@include respond(extra-large-mobile) {
+		margin-bottom: 10px;
+	}
+
+@include respond(large-mobile) {
+		margin-bottom: 10px;
+	}
+
+	&--two {
+		@include respond(extra-large-mobile) {
+			margin-bottom: 0;
+		}
+
+@include respond(large-mobile) {
+			margin-bottom: 0;
+		}
+	}
+
+	&--three {
+		@include respond(extra-large-mobile) {
+			margin-bottom: 30px;
+		}
+
+@include respond(large-mobile) {
+			margin-bottom: 30px;
+		}
+	}
+
+	&--custom-width {
+		max-width: 370px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+
+	&__image {
+		position: relative;
+
+		overflow: hidden;
+		img {
+			width: 100%;
+
+			transition: 0.8s;
+		}
+
+		&:after {
+			position: absolute;
+			top: 20px;
+			left: 20px;
+
+			display: block;
+			visibility: hidden;
+
+			width: calc(100% - 40px);
+			height: calc(100% - 40px);
+
+			content: "";
+			transition: 0.6s;
+
+			opacity: 0;
+			border: 1px solid $white;
+			background-color: transparent;
+		}
+
+		&--two {
+			&:after {
+				display: none;
+			}
+		}
+
+		&--three {
+			&--creativehome {
+				&:after {
+					display: none;
+				}
+			}
+		}
+	}
+
+	&__content {
+		position: relative;
+		z-index: 5;
+
+		display: flex;
+		justify-content: space-between;
+
+		.title {
+			position: relative;
+
+			width: 70%;
+
+@include respond(large-desktop) {
+				width: 70%;
+			}
+
+@include respond(small-desktop) {
+				width: 70%;
+			}
+
+@include respond(extra-large-mobile) {
+				width: 70%;
+			}
+
+@include respond(large-mobile) {
+				width: 70%;
+			}
+
+			p {
+				font-size: 18px;
+				font-weight: 400;
+				line-height: 36px;
+
+				visibility: visible;
+
+				margin: 0;
+				margin-bottom: 0;
+
+				transition-duration: 0.6s;
+				transform: translateY(0);
+
+				opacity: 1;
+				color: $black--two;
+			}
+
+			a {
+				font-size: 24px;
+				line-height: 36px;
+
+				position: absolute;
+				top: 0;
+				left: 0;
+
+				display: inline-block;
+				visibility: hidden;
+
+				transition-duration: 0.6s;
+				transform: translateY(60%);
+
+				opacity: 0;
+				color: $red--one;
+
+@include respond(large-desktop) {
+					font-size: 22px;
+				}
+
+@include respond(small-desktop) {
+					font-size: 20px;
+				}
+
+@include respond(extra-large-mobile) {
+					font-size: 20px;
+				}
+
+@include respond(large-mobile) {
+					font-size: 20px;
+				}
+			}
+
+			&--style-two {
+				p {
+					font-size: 34px;
+					line-height: 1.3;
+				}
+			}
+		}
+		.product-count {
+			font-size: 14px;
+			font-weight: 500;
+			line-height: 36px;
+
+			width: 30%;
+
+			text-align: right;
+			letter-spacing: 1px;
+
+@include respond(large-desktop) {
+				width: 30%;
+			}
+
+@include respond(small-desktop) {
+				width: 30%;
+			}
+
+@include respond(extra-large-mobile) {
+				width: 30%;
+			}
+
+@include respond(large-mobile) {
+				width: 30%;
+			}
+
+			&:before {
+				display: inline-block;
+
+				width: 50px;
+				height: 1px;
+				margin-right: 10px;
+
+				content: "";
+				vertical-align: middle;
+
+				background-color: $grey--eleven;
+
+@include respond(large-desktop) {
+					width: 30px;
+				}
+
+@include respond(small-desktop) {
+					width: 10px;
+				}
+
+@include respond(extra-small-mobile) {
+					width: 10px;
+				}
+			}
+		}
+
+		&--two {
+			.title {
+				p {
+					display: none;
+				}
+
+				a {
+					font-weight: 500;
+
+					visibility: visible;
+
+					transform: translateY(0);
+
+					opacity: 1;
+					color: $black--two;
+				}
+			}
+		}
+
+
+		&--three {
+			position: absolute;
+			bottom: 50px;
+			left: 50px;
+
+			width: calc(100% - 100px);
+
+@include respond(small-desktop) {
+				bottom: 25px;
+			}
+
+@include respond(large-mobile) {
+				bottom: 25px;
+			}
+
+			.title {
+				width: 100%;
+
+				p {
+					font-size: 34px;
+
+					color: $black--two;
+
+@include respond(small-desktop) {
+						font-size: 24px;
+					}
+
+@include respond(large-mobile) {
+						font-size: 24px;
+					}
+				}
+			}
+
+
+			/*----------  creative home style  ----------*/
+
+			&--creativehome {
+				bottom: 30px;
+				left: 40px;
+
+				width: 100%;
+
+@include respond(large-mobile) {
+					bottom: 20px;
+					left: 20px;
+				}
+
+				.title {
+					p {
+						& > a {
+							font-size: 34px;
+							font-weight: 500;
+							font-style: normal;
+							line-height: 48px;
+
+							transform: translateY(0);
+							text-transform: capitalize;
+
+							color: $black--two;
+
+@include respond(large-desktop) {
+								font-size: 25px;
+								line-height: 35px;
+							}
+
+@include respond(small-desktop) {
+								font-size: 25px;
+								line-height: 35px;
+							}
+
+@include respond(large-mobile) {
+								font-size: 25px;
+								line-height: 35px;
+							}
+
+							&:hover {
+								color: $black--two;
+							}
+						}
+					}
+					a {
+						font-size: 14px;
+						font-weight: 500;
+
+						position: static;
+
+						visibility: visible;
+
+						transform: translateY(0);
+						text-transform: uppercase;
+
+						opacity: 1;
+						color: $black--two;
+
+						&:hover {
+							color: $red--one;
+						}
+					}
+				}
+			}
+
+			&--banner {
+				width: 50%;
+
+@include respond(small-desktop) {
+					width: 80%;
+				}
+
+@include respond(extra-large-mobile) {
+					bottom: 0;
+
+					width: 80%;
+				}
+
+@include respond(large-mobile) {
+					bottom: 20px;
+				}
+
+@include respond(extra-small-mobile) {
+					bottom: 5px;
+
+					width: 100%;
+				}
+
+				.title {
+					p {
+						margin-bottom: 15px;
+
+@include respond(small-desktop) {
+							font-size: 28px;
+							line-height: 38px;
+						}
+
+@include respond(extra-large-mobile) {
+							margin-bottom: 5px;
+						}
+
+						a {
+							font-weight: 400;
+
+@include respond(extra-large-mobile) {
+								font-size: 15px;
+								line-height: 25px;
+							}
+
+							span {
+								display: block;
+							}
+						}
+					}
+
+					& > a {
+						line-height: 22px;
+
+						border-bottom: 1px solid $black--two;
+
+@include respond(extra-large-mobile) {
+							font-size: 12px;
+							line-height: 22px;
+						}
+
+						&:hover {
+							border-color: $red--one;
+						}
+					}
+				}
+			}
+		}
+
+		&--textbanner {
+			position: relative;
+
+			display: block;
+
+			min-height: 520px;
+			padding: 40px;
+
+			border: 1px solid $grey--sixteen;
+
+@include respond(large-desktop) {
+				min-height: 400px;
+			}
+
+@include respond(small-desktop) {
+				min-height: 350px;
+			}
+
+			a {
+				font-size: 24px;
+				font-weight: 400;
+				line-height: 36px;
+
+				position: absolute;
+				z-index: 5px;
+				top: 30px;
+				right: 40px;
+
+				color: $black--two;
+
+
+				&:hover {
+					color: $red--one;
+				}
+			}
+
+			p {
+				position: absolute;
+				bottom: 30px;
+				span {
+					font-size: 56px;
+					font-weight: 300;
+					line-height: 66px;
+
+					display: block;
+
+					color: $black--two;
+
+@include respond(large-desktop) {
+						font-size: 42px;
+						line-height: 52px;
+					}
+
+@include respond(small-desktop) {
+						font-size: 35px;
+						line-height: 45px;
+					}
+				}
+			}
+
+
+			&:hover {
+				border: 1px solid $grey--thirteen;
+			}
+
+			&--style-two {
+				p {
+					span {
+						color: $white;
+					}
+				}
+			}
+		}
+	}
+
+	.banner-link {
+		position: absolute;
+		z-index: 2;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+
+		margin: auto;
+	}
+
+	&:hover {
+		.single-category__image {
+			img {
+				transform: scale(1.1);
+			}
+
+			&:after {
+				visibility: visible;
+
+				opacity: 1;
+			}
+		}
+
+		.single-category__content {
+			.title {
+				p {
+					visibility: hidden;
+
+					transform: translateY(-60%);
+
+					opacity: 0;
+				}
+
+				a {
+					visibility: visible;
+
+					transform: translateY(0);
+
+					opacity: 1;
+				}
+			}
+			&.single-category__content--three--creativehome {
+				.title {
+					p {
+						visibility: visible;
+
+						transform: translateY(0);
+
+						opacity: 1;
+					}
+
+					a {
+						visibility: visible;
+
+						transform: translateY(0);
+
+						opacity: 1;
+					}
+				}
+			}
+		}
+	}
+}
+
+.accessories-single-category {
+	position: relative;
+
+	overflow: hidden;
+	a {
+		&.banner-hover {
+			position: absolute;
+			z-index: 2;
+			top: 0;
+			left: 0;
+
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	img {
+		width: 100%;
+
+		transition: 0.6s;
+	}
+
+	span {
+		&.number {
+			font-size: 18px;
+			font-weight: 600;
+			line-height: 36px;
+
+			position: absolute;
+			z-index: 2;
+			top: 40px;
+			left: 40px;
+
+			letter-spacing: 1px;
+
+			color: $black--two;
+		}
+	}
+
+	&__content {
+		position: absolute;
+		bottom: 30px;
+		left: 30px;
+
+		p {
+			margin-bottom: 0;
+
+			&.name {
+				font-size: 18px;
+				font-weight: 400;
+				line-height: 28px;
+
+				color: $black--two;
+			}
+
+			&.price {
+				font-size: 14px;
+				font-weight: 700;
+				line-height: 28px;
+
+				color: $black--two;
+
+				.discounted {
+					font-size: 12px;
+					font-weight: 300;
+					line-height: 28px;
+
+					padding-right: 10px;
+
+					text-decoration: line-through;
+
+					color: $grey--twentySeven;
+				}
+			}
+		}
+	}
+
+	&:hover {
+		img {
+			transform: scale(1.1);
+		}
+	}
+}
+
+
+.product-category-text-content {
+	width: 920px;
+	max-width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+	.image {
+		margin-bottom: 30px;
+		img {
+			animation-name: spin;
+			animation-duration: 6000ms;
+			animation-timing-function: linear;
+			animation-iteration-count: infinite;
+		}
+	}
+
+
+
+	.title {
+		font-size: 40px;
+		line-height: 1.3;
+
+		margin-bottom: 30px;
+
+		color: #404969;
+
+@include respond (small-desktop) {
+			font-size: 35px;
+		}
+
+@include respond (extra-large-mobile) {
+			font-size: 25px;
+		}
+
+@include respond (large-mobile) {
+			font-size: 25px;
+		}
+	}
+
+	.text {
+		line-height: 1.5;
+
+		margin-bottom: 50px;
+	}
+
+	a {
+		font-size: 14px;
+		font-weight: 500;
+
+		display: inline-block;
+
+		padding: 15px 50px;
+
+		color: #FFFFFF;
+		border-color: transparent;
+		background-color: #E75E47;
+		&:hover {
+			background-color: #404969;
+		}
+	}
+}
+
+
+.product-category-list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+
+	margin-bottom: -30px;
+	.single-product-category {
+		flex: 0 0 20%;
+
+		max-width: 20%;
+		margin-bottom: 30px;
+
+@include respond(extra-large-mobile) {
+			flex: 0 0 33.33%;
+
+			max-width: 33.33%;
+		}
+
+@include respond(large-mobile) {
+			flex: 0 0 50%;
+
+			max-width: 50%;
+		}
+
+@include respond(extra-small-mobile) {
+			flex: 0 0 100%;
+
+			max-width: 100%;
+		}
+
+		&__image {
+			min-height: 130px;
+			margin-bottom: 20px;
+			a {
+				display: block;
+
+				width: 100%;
+				img {
+					transition: $transition--default;
+				}
+				&:hover {
+					img {
+						transform: scale(1.05);
+					}
+				}
+			}
+		}
+
+		&__title {
+			font-size: 20px;
+			font-weight: 500;
+			line-height: 1.3;
+
+			color: #404969;
+			&:hover {
+				color: #E75E47;
+				span {
+					color: #E75E47;
+				}
+			}
+			span {
+				font-size: 14px;
+				font-weight: 300;
+
+				color: #404969;
+			}
+		}
+	}
+}
+
+
+/*=====  End of category  ======*/
+

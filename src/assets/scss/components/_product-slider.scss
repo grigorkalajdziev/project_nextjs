@@ -1,0 +1,95 @@
+
+/*=============================================
+=            product slider            =
+=============================================*/
+
+.product-slider-container {
+  .swiper-container {
+    margin-right: -30px;
+    margin-left: -30px;
+    padding-right: 30px;
+    padding-left: 30px;
+
+@include respond(small-desktop) {
+      margin-right: 0;
+      margin-left: 0;
+      padding-right: 0;
+      padding-left: 0;
+    }
+
+@include respond(extra-large-mobile) {
+      margin-right: 0;
+      margin-left: 0;
+      padding-right: 0;
+      padding-left: 0;
+    }
+
+@include respond(large-mobile) {
+      margin-right: 0;
+      margin-left: 0;
+      padding-right: 0;
+      padding-left: 0;
+    }
+
+    .ht-swiper-button-nav {
+      font-size: 40px;
+
+      visibility: hidden;
+
+      padding: 0;
+
+      transition: $transition--default;
+
+      opacity: 0;
+      border: none;
+      background: none;
+
+      &:after {
+        display: none;
+      }
+      svg {
+        color: $black--two;
+      }
+    }
+  }
+
+  &:hover {
+    .ht-swiper-button-nav {
+      visibility: visible;
+
+      opacity: 1;
+    }
+  }
+
+  .swiper-pagination {
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    &-bullet {
+      width: 10px;
+      height: 10px;
+      &-active {
+        width: 15px;
+        height: 15px;
+        margin: 0;
+
+        opacity: 1;
+        border: 1px solid $black--two;
+        border-radius: 100%;
+        background-color: transparent;
+      }
+    }
+  }
+
+  &--style2 {
+    overflow-x: hidden;
+  }
+}
+
+/*=====  End of product slider  ======*/
+

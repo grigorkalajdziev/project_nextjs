@@ -1,0 +1,66 @@
+[
+  {
+    "id": "1",
+    "name": {
+      "en": "Sally Ramsey",
+      "mk": "Сали Рамзи"
+    },
+    "designation": {
+      "en": "Reporter",
+      "mk": "Новинар"
+    },
+    "image": "/assets/images/testimonial/testimonial-1-80x80.png",
+    "content": {
+      "en": "I can say your dedication is second to none. I like the fact that you are strongly proud of your work in every way.",
+      "mk": "Можам да кажам дека вашата посветеност е несоразмерна. Ми се допаѓа фактот дека сте многу горди на вашата работа во секој поглед."
+    }
+  },
+  {
+    "id": "2",
+    "name": {
+      "en": "Lois Thompson",
+      "mk": "Лоис Томпсон"
+    },
+    "designation": {
+      "en": "Actor",
+      "mk": "Актер"
+    },
+    "image": "/assets/images/testimonial/testimonial-2-80x80.jpg",
+    "content": {
+      "en": "This has already been my fifth time purchasing their theme. I have been highly satisfied with their work.",
+      "mk": "Ова веќе е моето петто купување на нивниот темплат. Јас сум многу задоволен од нивната работа."
+    }
+  },
+  {
+    "id": "3",
+    "name": {
+      "en": "Florence Pittman",
+      "mk": "Флоренс Питман"
+    },
+    "designation": {
+      "en": "Model",
+      "mk": "Модел"
+    },
+    "image": "/assets/images/testimonial/testimonial-3-80x80.jpg",
+    "content": {
+      "en": "There's nothing that would satisfy me much more than a worry-free clean and responsive theme for my high-traffic site.",
+      "mk": "Ништо не би ме задоволило повеќе од безгрижен, чист и одговорен темплат за мојата страница со висок сообраќај."
+    }
+  },
+  {
+    "id": "4",
+    "name": {
+      "en": "Anais Coulon",
+      "mk": "Анаис Кулон"
+    },
+    "designation": {
+      "en": "Model",
+      "mk": "Модел"
+    },
+    "image": "/assets/images/testimonial/testimonial-4-80x80.jpg",
+    "content": {
+      "en": "Five-star for good customer support. They have the ability to resolve any issue in less than the time for a coffee cup.",
+      "mk": "Пет ѕвездички за добар кориснички поддршка. Тие имаат способност да решат секое прашање за помалку време од што е потребно за една шолја кафе."
+    }
+  }
+]

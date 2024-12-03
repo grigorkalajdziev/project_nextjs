@@ -1,0 +1,61 @@
+@mixin clearfix {
+  &::after {
+    display: table;
+    clear: both;
+
+    content: "";
+  }
+}
+
+@mixin absCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+}
+
+@mixin absLeft {
+  position: absolute;
+  top: 50%;
+
+  transform: translate(0, -50%);
+}
+
+@mixin respond($breakpoint) {
+  @if $breakpoint == extra-large-desktop {
+    @media only screen and (min-width: 1500px) {
+      @content;
+    }
+  }
+  @if $breakpoint == large-desktop {
+    @media only screen and (min-width: 1200px) and (max-width: 1499px) {
+      @content;
+    }
+  }
+  @if $breakpoint == small-desktop {
+    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+      @content;
+    }
+  }
+  @if $breakpoint == extra-large-mobile {
+    @media only screen and (min-width: 768px) and (max-width: 991px) {
+      @content;
+    }
+  }
+  @if $breakpoint == large-mobile {
+    @media only screen and (max-width: 767px) {
+      @content;
+    }
+  }
+  @if $breakpoint == small-mobile {
+    @media only screen and (max-width: 575px) {
+      @content;
+    }
+  }
+  @if $breakpoint == extra-small-mobile {
+    @media only screen and (max-width: 479px) {
+      @content;
+    }
+  }
+}

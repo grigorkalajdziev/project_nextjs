@@ -1,0 +1,38 @@
+
+/*=============================================
+=            animations            =
+=============================================*/
+
+@keyframes fadeInDown {
+  0% {
+    transform: translate3d(0,-100%,0);
+
+    opacity: 0;
+  }
+  100% {
+    transform: translateZ(0);
+
+    opacity: 1;
+  }
+}
+
+@keyframes bounceUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-40px);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*=====  End of animations  ======*/
+

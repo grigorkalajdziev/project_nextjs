@@ -1,0 +1,48 @@
+
+/*=============================================
+=            map            =
+=============================================*/
+
+.google-map {
+  iframe {
+    width: 100%;
+    height: 500px;
+
+    border: 0;
+
+@include respond(large-mobile) {
+      height: 300px;
+    }
+  }
+}
+
+
+.group-map-container {
+  display: flex;
+  justify-content: space-between;
+
+@include respond(extra-large-mobile) {
+    flex-direction: column;
+  }
+
+@include respond(large-mobile) {
+    flex-direction: column;
+  }
+
+  .single-map {
+    flex-basis: 32%;
+
+@include respond(extra-large-mobile) {
+      flex-basis: 100%;
+    }
+
+@include respond(large-mobile) {
+      flex-basis: 100%;
+    }
+  }
+}
+
+
+
+/*=====  End of map  ======*/
+

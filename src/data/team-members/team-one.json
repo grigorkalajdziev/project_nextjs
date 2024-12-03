@@ -1,0 +1,74 @@
+[
+  {
+    "id": "1",
+    "name": "Cynthia Casey",
+    "designation": "Design",
+    "image": "/assets/images/team/team-member-1.jpg",
+    "facebookUrl": "https://www.facebook.com",
+    "googlePlusUrl": "https://plus.google.com",
+    "twitterUrl": "https://www.twitter.com"
+  },
+  {
+    "id": "2",
+    "name": "Dollie Horton",
+    "designation": "Marketing",
+    "image": "/assets/images/team/team-member-2.jpg",
+    "facebookUrl": "https://www.facebook.com",
+    "googlePlusUrl": "https://plus.google.com",
+    "twitterUrl": "https://www.twitter.com"
+  },
+  {
+    "id": "3",
+    "name": "Ravi Tamada",
+    "designation": "Design",
+    "image": "/assets/images/team/team-member-3.jpg",
+    "facebookUrl": "https://www.facebook.com",
+    "googlePlusUrl": "https://plus.google.com",
+    "twitterUrl": "https://www.twitter.com"
+  },
+  {
+    "id": "4",
+    "name": "Terry Myers",
+    "designation": "Developer",
+    "image": "/assets/images/team/team-member-4.jpg",
+    "facebookUrl": "https://www.facebook.com",
+    "googlePlusUrl": "https://plus.google.com",
+    "twitterUrl": "https://www.twitter.com"
+  },
+  {
+    "id": "5",
+    "name": "Phillip Butler",
+    "designation": "Director",
+    "image": "/assets/images/team/team-member-5.jpg",
+    "facebookUrl": "https://www.facebook.com",
+    "googlePlusUrl": "https://plus.google.com",
+    "twitterUrl": "https://www.twitter.com"
+  },
+  {
+    "id": "6",
+    "name": "Erik Murray",
+    "designation": "Marketing",
+    "image": "/assets/images/team/team-member-6.jpg",
+    "facebookUrl": "https://www.facebook.com",
+    "googlePlusUrl": "https://plus.google.com",
+    "twitterUrl": "https://www.twitter.com"
+  },
+  {
+    "id": "7",
+    "name": "Phillip Butler",
+    "designation": "Director",
+    "image": "/assets/images/team/team-member-7.jpg",
+    "facebookUrl": "https://www.facebook.com",
+    "googlePlusUrl": "https://plus.google.com",
+    "twitterUrl": "https://www.twitter.com"
+  },
+  {
+    "id": "8",
+    "name": "Eva Byrd",
+    "designation": "Marketing",
+    "image": "/assets/images/team/team-member-8.jpg",
+    "facebookUrl": "https://www.facebook.com",
+    "googlePlusUrl": "https://plus.google.com",
+    "twitterUrl": "https://www.twitter.com"
+  }
+]

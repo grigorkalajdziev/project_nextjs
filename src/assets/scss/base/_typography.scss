@@ -1,0 +1,51 @@
+/*=============================================
+=            typography            =
+=============================================*/
+
+body,
+html {
+  font-family: $work-sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+
+  color: $grey--seven;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  
+  font-weight: 400;
+  line-height: 1;
+
+  margin-bottom: 0;
+
+  color: $black;
+}
+
+a,
+button {
+  line-height: inherit;
+
+  text-decoration: none;
+
+  color: inherit;
+}
+
+a:focus {
+  text-decoration: none;
+
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+
+  color: $theme-color--default;
+}
+
+/*=====  End of typography  ======*/

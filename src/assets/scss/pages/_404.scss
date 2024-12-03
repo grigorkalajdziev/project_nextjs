@@ -1,0 +1,67 @@
+
+/*=============================================
+=            not found            =
+=============================================*/
+
+
+.nothing-found-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  height: 100vh;
+
+  h1 {
+    font-size: 72px;
+    line-height: 100px;
+
+    color: $black--two;
+
+@include respond(small-desktop) {
+      font-size: 50px;
+      line-height: 80px;
+    }
+
+@include respond(large-mobile) {
+      font-size: 50px;
+      line-height: 80px;
+    }
+
+@include respond(extra-small-mobile) {
+      font-size: 35px;
+      line-height: 60px;
+    }
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+
+    letter-spacing: 4px;
+
+    color: $grey--fourteen;
+@include respond(extra-small-mobile) {
+      text-align: center;
+    }
+
+    a {
+      font-weight: 500;
+
+      letter-spacing: 1px;
+      text-transform: uppercase;
+
+      color: $black--two;
+      border-bottom: 1px solid $black--two;
+
+      &:hover {
+        color: $red--one;
+      }
+    }
+  }
+}
+
+
+/*=====  End of not found  ======*/
+

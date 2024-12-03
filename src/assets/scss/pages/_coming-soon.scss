@@ -1,0 +1,263 @@
+
+/*=============================================
+=            coming soon            =
+=============================================*/
+
+
+
+.countdown-wrapper {
+  h3 {
+    font-size: 48px;
+    line-height: 58px;
+
+    margin-top: -10px;
+    margin-bottom: 30px;
+
+    color: $black--two;
+
+@include respond(small-mobile) {
+      font-size: 38px;
+      line-height: 48px;
+    }
+
+@include respond(extra-small-mobile) {
+      font-size: 28px;
+      line-height: 38px;
+    }
+  }
+
+  &--style2 {
+    a.lezada-button {
+      &:hover {
+        color: $white !important;
+        border-color: $white;
+      }
+    }
+  }
+
+
+  &--white-bg {
+    a.lezada-button {
+      &:hover {
+        color: $black !important;
+        border-color: $black;
+      }
+    }
+  }
+}
+
+.deal-countdown {
+  &.text-white {
+    & * {
+      color: $white !important;
+    }
+  }
+  .single-countdown {
+    display: inline-block;
+
+    margin-right: 100px;
+    margin-bottom: 40px;
+
+@include respond(large-mobile) {
+      margin-right: 50px;
+    }
+
+@include respond(extra-small-mobile) {
+      margin-right: 15px;
+    }
+
+    &:last-child {
+      margin-right: 0;
+
+      .single-countdown__time {
+        &:after {
+          display: none;
+        }
+      }
+    }
+    &__time {
+      font-size: 56px;
+      font-weight: 300;
+      line-height: 56px;
+
+      position: relative;
+
+      display: block;
+
+      margin-bottom: 30px;
+
+      color: $grey;
+
+@include respond(large-mobile) {
+        font-size: 48px;
+        line-height: 48px;
+      }
+
+@include respond(extra-small-mobile) {
+        font-size: 32px;
+        line-height: 22px;
+      }
+
+      &:after {
+        font-size: 35px;
+
+        position: absolute;
+        top: 0;
+        left: 170%;
+
+        content: ":";
+
+@include respond(large-mobile) {
+          left: 150%;
+        }
+
+@include respond(xtra-small-mobile) {
+          left: 120%;
+        }
+      }
+    }
+
+    &__text {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 22px;
+
+      text-transform: uppercase;
+
+      color: $grey--twentySeven;
+    }
+  }
+}
+
+
+.coming-soon-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  height: 100vh;
+}
+
+.coming-soon-subtitle {
+  font-size: 24px;
+  line-height: 36px;
+
+  color: $grey;
+
+@include respond(extra-small-mobile) {
+    font-size: 18px;
+    line-height: 26px;
+  }
+}
+
+.coming-soon-title {
+  font-size: 72px;
+  line-height: 86px;
+
+  color: $black--two;
+
+@include respond(large-desktop) {
+    font-size: 62px;
+    line-height: 76px;
+  }
+
+@include respond(small-desktop) {
+    font-size: 56px;
+    line-height: 66px;
+  }
+
+@include respond(extra-large-mobile) {
+    font-size: 58px;
+    line-height: 66px;
+  }
+
+@include respond(large-mobile) {
+    font-size: 48px;
+    line-height: 56px;
+  }
+
+@include respond(small-mobile) {
+    font-size: 42px;
+    line-height: 56px;
+  }
+
+@include respond(extra-small-mobile) {
+    font-size: 32px;
+    line-height: 46px;
+  }
+}
+
+.coming-soon-subscribe-form {
+  width: 80%;
+
+@include respond(small-mobile) {
+    width: 100%;
+  }
+
+  &:hover {
+    input {
+      border-bottom-color: $black--two;
+    }
+  }
+
+  input {
+    width: 100%;
+    padding: 10px 0;
+    padding-right: 40px;
+
+    border: none;
+    border-bottom: 2px solid $grey--eleven;
+    background: none;
+    &:focus {
+      border-bottom-color: $black--two;
+    }
+  }
+
+  ::placeholder {
+    opacity: 1; /* Firefox */
+
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: $grey--seven;
+  }
+
+  :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: $grey--seven;
+  }
+
+  ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: $grey--seven;
+  }
+
+  button {
+    font-size: 14px;
+
+    position: absolute;
+    top: 50%;
+    right: 0;
+
+    padding: 0;
+
+    transform: translateY(-50%);
+
+    color: $black--two;
+    border: none;
+    background: none;
+    &:hover {
+      color: $black--two;
+    }
+  }
+}
+
+
+.coming-soon-deal-countdown {
+  .single-countdown__time::after {
+    @include respond(extra-small-mobile) {
+      left: 100%;
+    }
+  }
+}
+
+/*=====  End of coming soon  ======*/
+

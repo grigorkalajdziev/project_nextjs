@@ -1,0 +1,76 @@
+/* third party styles */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap');
+@import "~bootstrap/scss/bootstrap";
+@import "~swiper/css/swiper.css";
+@import "~react-tippy/dist/tippy.css";
+@import "~react-custom-scroll/dist/customScroll.css";
+@import "~lightgallery.js/dist/css/lightgallery.css";
+@import "~react-slidedown/lib/slidedown.css";
+@import "~react-modal-video/scss/modal-video.scss";
+
+
+/* project styles */
+@import "abstracts/variables";
+@import "abstracts/mixins";
+
+@import "base/animations";
+@import "base/base";
+@import "base/typography";
+@import "base/utilities";
+@import "base/reset";
+
+@import "layouts/footer";
+@import "layouts/grid";
+@import "layouts/header";
+@import "layouts/navigation";
+@import "layouts/sidebar";
+
+@import "pages/cart-wishlist";
+@import "pages/my-account";
+@import "pages/checkout";
+@import "pages/compare";
+@import "pages/coming-soon";
+@import "pages/404";
+
+@import "components/button";
+@import "components/form";
+@import "components/cta";
+@import "components/hero-slider";
+@import "components/product-tab";
+@import "components/product-thumb";
+@import "components/product-modal";
+@import "components/product-image-gallery";
+@import "components/product-description";
+@import "components/breadcrumb";
+@import "components/empty-area";
+@import "components/shop-header";
+@import "components/shop-advance-filter";
+@import "components/pagination";
+@import "components/section-title";
+@import "components/testimonial";
+@import "components/icon-box";
+@import "components/map";
+@import "components/faq";
+@import "components/blog";
+@import "components/category";
+@import "components/product-slider";
+@import "components/product-widget";
+@import "components/team";
+@import "components/newsletter";
+@import "components/countdown-timer";
+@import "components/lookbook";
+@import "components/shop-info";
+@import "components/banner";
+@import "components/about";
+@import "components/brand-logo";
+@import "components/image-slider";
+
+html[lang='en'] {
+    font-family: 'Dancing Script', cursive; /* Use Dancing Script for English */
+  }
+  
+  html[lang='mk'] {
+    font-family: 'Caveat', cursive; /* Use Marck Script for Macedonian */    
+    font-size: 70px; 
+  }

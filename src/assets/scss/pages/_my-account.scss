@@ -1,0 +1,171 @@
+
+/*=============================================
+=            my account            =
+=============================================*/
+
+.my-account-area {
+  &__navigation {
+    .nav-item {
+      .nav-link {
+        font-size: 13px;
+        font-weight: 400;
+
+        display: inline-block;
+
+        margin-right: 5px;
+        padding: 15px 10px;
+
+        text-transform: capitalize;
+
+        border-radius: 0;
+        &:hover,
+        &.active {
+          color: $white;
+          border-color: $black--two;
+          background-color: $black--two;
+        }
+      }
+      &:last-child {
+        .nav-link {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+
+  &__content {
+    padding: 30px;
+
+    border: 1px solid $grey--ten;
+
+@include respond(large-mobile) {
+      padding: 20px 15px;
+    }
+
+    p {
+      line-height: 1.3;
+    }
+
+    form {
+      margin-top: -20px;
+    }
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+
+      margin-bottom: 25px;
+      padding-bottom: 10px;
+
+      border-bottom: 1px dashed $grey--eleven;
+    }
+    .welcome {
+      a {
+        &:hover {
+          color: $black--two;
+        }
+      }
+      strong {
+        font-weight: 600;
+
+        color: $black--two;
+      }
+    }
+    fieldset {
+      margin-top: 20px;
+      & legend {
+        font-size: 16px;
+        font-weight: 600;
+
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+
+        border-bottom: 1px solid $grey--eleven;
+      }
+    }
+    .account-details-form {
+      margin-top: 50px;
+      .single-input-item {
+        margin-bottom: 20px;
+        label {
+          font-size: 14px;
+
+          display: block;
+
+          margin: 0 0 5px;
+
+          text-transform: capitalize;
+        }
+        input {
+          font-size: 13px;
+
+          width: 100%;
+          height: 50px;
+          padding: 2px 20px;
+
+          color: $black--two;
+          border: 1px solid $grey--nineteen;
+          background-color: transparent;
+          &:focus {
+            border: 1px solid $black--two;
+          }
+        }
+        button {
+          font-size: 13px;
+          font-weight: 600;
+
+          padding: 15px 25px;
+
+          text-transform: uppercase;
+
+          color: $white;
+          border: none;
+          background-color: $black--two;
+          &:hover {
+            background-color: $black--two;
+          }
+        }
+      }
+    }
+  }
+
+  .myaccount-table {
+    font-size: 14px;
+
+    white-space: nowrap;
+    table,
+    .table {
+      th {
+        font-weight: 600;
+
+        padding: 10px;
+
+        color: $black--two;
+        border-color: $grey--eleven;
+        border-bottom: 0;
+        background-color: $grey--four;
+      }
+
+      td {
+        padding: 10px;
+
+        vertical-align: middle;
+
+        border-color: $grey--eleven;
+      }
+    }
+  }
+
+  .saved-message {
+    font-size: 14px;
+
+    padding: 20px 0;
+
+    color: $black--two;
+    border-top: 3px solid $black--two;
+    background-color: $white;
+  }
+}
+
+/*=====  End of my account  ======*/
+

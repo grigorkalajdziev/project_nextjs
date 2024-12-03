@@ -1,0 +1,36 @@
+
+/*=============================================
+=            reset            =
+=============================================*/
+
+/* tooltip */
+.tippy-tooltip {
+  font-size: 12px !important;
+
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 8px rgba(0,0,0,0.3) !important;
+}
+
+button {
+  &:focus {
+    outline: none !important;
+  }
+}
+
+.rcs-custom-scroll {
+  .rcs-inner-handle {
+    background-color: rgba($black--two,0.7) !important;
+  }
+}
+
+.react-toast-notifications__container {
+  z-index: 99999 !important;
+}
+
+.modal-video-close-btn {
+  right: 0 !important;
+}
+
+
+/*=====  End of reset  ======*/
+

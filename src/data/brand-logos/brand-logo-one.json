@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1",
+    "image": "/assets/images/brands/logo-1.png",
+    "url": "/"
+  },
+  {
+    "id": "2",
+    "image": "/assets/images/brands/logo-2.png",
+    "url": "/"
+  },
+  {
+    "id": "3",
+    "image": "/assets/images/brands/logo-3.png",
+    "url": "/"
+  },
+  {
+    "id": "4",
+    "image": "/assets/images/brands/logo-4.png",
+    "url": "/"
+  },
+  {
+    "id": "5",
+    "image": "/assets/images/brands/logo-5.png",
+    "url": "/"
+  },
+  {
+    "id": "6",
+    "image": "/assets/images/brands/logo-6.png",
+    "url": "/"
+  }
+]

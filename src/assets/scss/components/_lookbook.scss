@@ -1,0 +1,94 @@
+
+/*=============================================
+=            lookbook            =
+=============================================*/
+
+
+.lookbook-content-wrapper {
+  height: 100vh;
+}
+
+.lookbook-content {
+  p {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 36px;
+
+    margin-bottom: 25px;
+
+    color: $white;
+  }
+
+  h2 {
+    font-size: 72px;
+    font-weight: 400;
+    line-height: 80px;
+
+    margin-bottom: 70px;
+
+    color: $white;
+
+@include respond(small-desktop) {
+      font-size: 60px;
+      line-height: 70px;
+    }
+
+@include respond(extra-large-mobile) {
+      font-size: 60px;
+      line-height: 70px;
+    }
+
+@include respond(large-mobile) {
+      font-size: 60px;
+      line-height: 70px;
+    }
+
+@include respond(small-mobile) {
+      font-size: 50px;
+      line-height: 60px;
+    }
+
+@include respond(extra-small-mobile) {
+      font-size: 40px;
+      line-height: 50px;
+    }
+  }
+
+  a {
+    &.lookbook-btn {
+      color: $black--two !important;
+      border-color: $white;
+      background-color: $white;
+      &:hover {
+        color: $white !important;
+        background-color: $black--two;
+      }
+    }
+  }
+
+  &--dark {
+    p {
+      color: $black--two;
+    }
+
+    h2 {
+      color: $black--two;
+    }
+
+    a {
+      &.lookbook-btn {
+        color: $white !important;
+        border-color: $black--two;
+        background-color: $black--two;
+        &:hover {
+          color: $black--two !important;
+          background-color: transparent;
+        }
+      }
+    }
+  }
+}
+
+
+/*=====  End of lookbook  ======*/
+

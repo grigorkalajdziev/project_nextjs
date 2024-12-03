@@ -1,0 +1,67 @@
+
+/*=============================================
+=            shop info            =
+=============================================*/
+
+.shop-info-container {  
+  display: flex;
+  justify-content: center;
+
+@include respond(extra-large-mobile) {
+    flex-direction: column;
+  }
+
+@include respond(large-mobile) {
+    flex-direction: column;
+  }
+
+  .shop-info-single {    
+    flex-basis: 33.33%;
+
+    text-align: center;
+
+    border-right: 1px solid $grey--three;
+
+@include respond(extra-large-mobile) {
+      margin-bottom: 30px;
+
+      border-right: 0;
+    }
+
+@include respond(large-mobile) {
+      margin-bottom: 30px;
+
+      border-right: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+
+      border-right: 0;
+    }
+    .title {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 26px;
+
+      margin-top: 25px;
+      margin-bottom: 15px;
+
+      color: $black--two;
+
+@include respond(extra-large-mobile) {
+        margin-top: 0;
+      }
+
+@include respond(large-mobile) {
+        margin-top: 0;
+      }
+    }
+
+    .content {
+    }
+  }
+}
+
+/*=====  End of shop info  ======*/
+

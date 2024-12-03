@@ -1,0 +1,78 @@
+
+/*=============================================
+=            product tab            =
+=============================================*/
+
+.product-tab {
+  &__navigation {
+    .nav-item {
+      margin-right: 40px;
+
+@include respond(small-mobile) {
+        margin-right: 20px;
+      }
+
+      .nav-link {
+        font-size: 48px;
+
+        padding: 0;
+
+        transition: $transition--default;
+
+        color: $grey--eleven;
+
+@include respond(large-mobile) {
+          font-size: 38px;
+        }
+
+@include respond(small-mobile) {
+          font-size: 25px;
+        }
+
+        &.active {
+          color: $black--two;
+          border-radius: 0;
+          background: none;
+        }
+        &:hover {
+          color: $black--two;
+        }
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &--style2 {
+    .product-tab__navigation {
+      .nav-item {
+        position: relative;
+
+        margin-right: 100px;
+        &:after {
+          font-size: 40px;
+
+          position: absolute;
+          top: 50%;
+          right: -50px;
+
+          content: "/";
+          transform: translateY(-50%);
+
+          color: $grey--eleven;
+        }
+
+        &:last-child {
+          margin-right: 0;
+          &:after {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+/*=====  End of product tab  ======*/
+

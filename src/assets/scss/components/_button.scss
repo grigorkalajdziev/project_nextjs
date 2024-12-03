@@ -1,0 +1,204 @@
+
+/*=============================================
+=            button            =
+=============================================*/
+
+/*----------  default style  ----------*/
+
+.lezada-button {
+  font-weight: 500;
+
+  display: inline-block;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  color: $white;
+  border: 1px solid $black--two;
+  border-radius: 0;
+  background-color: $black--two;
+
+  &:hover {
+    color: $black--two !important;
+    background-color: transparent;
+  }
+
+
+
+  /*----------  small button style  ----------*/
+
+  &--small {
+    font-size: 12px;
+
+    padding: 12px 15px;
+
+    &--style2 {
+      padding: 7px 15px;
+    }
+  }
+
+
+  /*----------  medium button style  ----------*/
+
+  &--medium {
+    font-size: 14px;
+
+    padding: 15px 40px;
+  }
+
+  /*----------  large button style  ----------*/
+
+  &--large {
+    font-size: 16px;
+
+    padding: 15px 35px;
+  }
+
+  /*----------  extra large button style  ----------*/
+
+  &--xl {
+    font-size: 18px;
+
+    padding: 25px 35px;
+  }
+
+
+  /*----------  icon left style  ----------*/
+
+  &--icon {
+    /*----------  icon left style  ----------*/
+    &--left {
+      svg {
+        margin-right: 5px;
+      }
+    }
+    /*----------  icon right style  ----------*/
+    &--right {
+      svg {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  &--transparent-white {
+    border: 1px solid $white;
+    background: transparent;
+    &:hover {
+      color: $black--two;
+      background: $white;
+    }
+  }
+}
+
+
+/*----------  lezada button 2  ----------*/
+
+.lezada-button-2 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+
+  position: relative;
+
+  display: inline-block;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  color: $black--two;
+
+  &:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 1px;
+
+    content: "";
+
+    opacity: 0.2;
+    background-color: $black--two;
+  }
+
+  &:before {
+    font-size: 0;
+    font-weight: 400;
+    line-height: 0;
+
+    display: inline-block;
+    visibility: hidden;
+
+    padding-right: 0;
+
+    transition: 0.6s;
+
+    opacity: 0;
+  }
+
+
+  &:hover {
+    color: $red--one;
+
+    &:before {
+      font-size: 14px;
+      line-height: 0;
+
+      visibility: visible;
+
+      padding-right: 8px;
+
+      opacity: 1;
+    }
+  }
+}
+
+
+/*----------  load more button  ----------*/
+
+.lezada-loadmore-button {  
+  font-weight: 500;
+
+  letter-spacing: 1px;
+
+  color: $black--two;
+
+  &:hover {
+    color: $black--two;
+  }
+  svg {
+    font-size: 26px;
+    font-weight: 600;
+
+    display: inline-block;
+
+    padding-right: 8px;
+
+    color: $black--two;
+  }
+}
+
+
+
+/*----------  shopping more button  ----------*/
+
+.lezada-shopping-more-button {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+
+  transition: 0.6s;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  color: $black--two;
+  border-bottom: 1px solid $grey--two;
+
+  &:hover {
+    color: $black--two;
+    border-color: $black--two;
+  }
+}
+
+/*=====  End of button  ======*/
+

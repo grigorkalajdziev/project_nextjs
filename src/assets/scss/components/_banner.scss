@@ -1,0 +1,629 @@
+
+/*=============================================
+=            banner            =
+=============================================*/
+
+
+.single-banner {
+  /*----------  banner zoom effect  ----------*/
+  &--hoverzoom {
+    position: relative;
+
+    overflow: hidden;
+    & > a {
+      display: block;
+
+      img {
+        width: 100%;
+
+        transition: 0.6s;
+        transform: scale(1);
+      }
+
+      &:hover {
+        img {
+          transform: scale(1.1);
+        }
+      }
+
+      .banner-content {
+        position: absolute;
+
+        display: inline-block;
+
+        &--product-type {
+          bottom: 30px;
+          left: 30px;
+
+
+          .name {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 28px;
+
+            display: block;
+
+            color: $black--two;
+          }
+
+          .price {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 28px;
+
+            color: $black--two;
+          }
+
+          &--bigtitle {
+            bottom: 50px;
+            left: 50px;
+
+@include respond(extra-small-mobile) {
+              bottom: 20px;
+              left: 20px;
+            }
+
+            .name {
+              font-size: 34px;
+              font-weight: 300;
+              line-height: 48px;
+
+              margin-bottom: 20px;
+
+@include respond(extra-small-mobile) {
+                font-size: 24px;
+                line-height: 34px;
+
+                margin-bottom: 0;
+              }
+
+              span {
+                display: block;
+              }
+            }
+
+            .price {
+              font-size: 14px;
+              font-weight: 700;
+              line-height: 28px;
+
+              color: $grey--seven;
+            }
+          }
+        }
+
+        &--banner-type {
+          &--top-right {
+            top: 15%;
+            right: 5%;
+
+            width: 27%;
+
+@include respond(extra-small-mobile) {
+              width: 40%;
+            }
+
+@include respond(extra-large-mobile) {
+              right: 15%;
+            }
+
+@include respond(large-mobile) {
+              right: 10%;
+            }
+
+@include respond(small-mobile) {
+              right: 15%;
+            }
+          }
+          &--top-left {
+            top: 15%;
+            left: 10%;
+
+            width: 30%;
+
+@include respond(extra-large-mobile) {
+              width: 50%;
+            }
+
+@include respond(large-mobile) {
+              width: 50%;
+            }
+          }
+
+          .name {
+            font-size: 34px;
+            font-weight: 400;
+            font-style: normal;
+            line-height: 48px;
+
+            margin-bottom: 10px;
+
+            color: $black--two;
+
+@include respond(extra-small-mobile) {
+              font-size: 24px;
+              line-height: 32px;
+            }
+
+            span {
+              display: block;
+            }
+          }
+
+          .lezada-button-link {
+            font-size: 14px;
+            font-weight: 500;
+
+            position: relative;
+
+            margin-top: 10px;
+            padding: 0;
+            padding-bottom: 3px;
+
+            letter-spacing: 1px;
+            text-transform: none;
+
+            color: $black--two;
+            border: none;
+            background-color: transparent;
+
+            &:after {
+              position: absolute;
+              bottom: 0;
+              left: 0;
+
+              width: 100%;
+              height: 1px;
+
+              content: "";
+
+              background-color: $black--two;
+            }
+
+            &:hover {
+              color: $red--one;
+
+              &:after {
+                background-color: $red--one;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &--hoverborder {
+    position: relative;
+
+    overflow: hidden;
+
+    img {
+      width: 100%;
+
+      transition: 0.6s;
+      transform: scale(1);
+    }
+
+    .banner-link {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+    }
+
+    .banner-content {
+      position: absolute;
+      top: 50%;
+      bottom: auto;
+
+      width: 100%;
+      &--middle-white {
+        font-size: 37px;
+        font-weight: 300;
+        line-height: 48px;
+
+        left: 50%;
+
+        transform: translate(-50%, -50%);
+        text-align: center;
+        text-transform: uppercase;
+
+        color: $white;
+
+@include respond(extra-small-mobile) {
+          font-size: 15px;
+          line-height: 25px;
+        }
+
+@include respond(large-desktop) {
+          font-size: 25px;
+          line-height: 35px;
+        }
+
+@include respond(small-desktop) {
+          font-size: 25px;
+          line-height: 35px;
+        }
+
+@include respond(extra-large-mobile) {
+          font-size: 20px;
+          line-height: 30px;
+        }
+
+@include respond(large-mobile) {
+          font-size: 25px;
+          line-height: 35px;
+        }
+      }
+
+      &--middle-dark {
+        color: $black--two;
+      }
+
+
+      &--black-left {
+        left: 80px;
+
+        transform: translateY(-50%);
+        text-align: left;
+
+@include respond(extra-small-mobile) {
+          left: 30px;
+        }
+
+@include respond(extra-large-mobile) {
+          left: 30px;
+        }
+      }
+
+      span {
+        &.bold-white {
+          font-weight: 600;
+
+          padding-right: 10px;
+        }
+
+        &.big-text {
+          font-size: 37px;
+          font-weight: 500;
+          line-height: 48px;
+
+          letter-spacing: 5px;
+          text-transform: uppercase;
+
+          color: $black--two;
+
+@include respond(extra-small-mobile) {
+            font-size: 15px;
+            line-height: 25px;
+          }
+
+@include respond(large-desktop) {
+            font-size: 25px;
+            line-height: 35px;
+          }
+
+@include respond(small-desktop) {
+            font-size: 25px;
+            line-height: 35px;
+          }
+
+@include respond(extra-large-mobile) {
+            font-size: 20px;
+            line-height: 30px;
+          }
+
+@include respond(large-mobile) {
+            font-size: 25px;
+            line-height: 35px;
+          }
+        }
+
+        &.small-text {
+          font-size: 14px;
+          line-height: 22px;
+
+          color: $grey--seven;
+        }
+      }
+    }
+
+    &:after {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+
+      display: block;
+      visibility: hidden;
+
+      width: calc(100% - 40px);
+      height: calc(100% - 40px);
+
+      content: "";
+      transition: 0.6s;
+
+      opacity: 0;
+      border: 1px solid $white;
+      background-color: transparent;
+    }
+
+    &:hover {
+      &:after {
+        visibility: visible;
+
+        opacity: 1;
+      }
+
+      img {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  &--style-two {
+    position: relative;
+
+    display: flex;
+    .single-banner__image {
+      img {
+        max-width: 100%;
+      }
+    }
+    .single-banner__content {
+      position: absolute;
+      right: 0;
+
+      align-self: center;
+
+      .title {
+        font-size: 29px;
+        font-weight: 400;
+        line-height: 1.5;
+
+        margin-bottom: 20px;
+
+@include respond (small-desktop) {
+          font-size: 25px;
+        }
+
+@include respond (extra-large-mobile) {
+          font-size: 25px;
+        }
+      }
+
+      .link {
+        font-size: 14px;
+
+        padding-bottom: 5px;
+
+        color: $black--two;
+        border-bottom: 1px solid;
+        &:hover {
+          color: $red--one;
+          border-color: $red--one;
+        }
+      }
+    }
+  }
+}
+
+.banner-cta {
+  padding: 200px 0;
+
+@include respond(small-desktop) {
+    padding: 150px 0;
+  }
+
+@include respond(extra-large-mobile) {
+    padding: 150px 0;
+  }
+
+@include respond(large-mobile) {
+    padding: 100px 0;
+  }
+}
+
+.banner-cta-content {
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+
+    margin-bottom: 40px;
+
+    color: $white;
+  }
+  &__subtitle {
+    font-family: $spectral;
+    font-size: 40px;
+    line-height: 1.4;
+
+    margin-bottom: 40px;
+
+    color: $white;
+
+@include respond(large-mobile) {
+      font-size: 30px;
+    }
+  }
+  &__button {
+    font-size: 14px;
+    font-weight: 500;
+
+    display: inline-block;
+
+    padding: 10px 45px;
+
+    transition: 0.3s;
+
+    color: $white;
+    border: 1px solid $white;
+    &:hover {
+      color: #333;
+      background-color: $white;
+    }
+  }
+}
+
+.single-image-text-banner {
+  &__media {
+    height: 100%;
+
+    background-repeat: no-repeat;
+    background-size: cover;
+
+@include respond(large-mobile) {
+      height: 600px;
+    }
+
+@include respond(extra-small-mobile) {
+      height: 400px;
+    }
+  }
+  &__content {
+    height: 100%;
+    padding: 200px 80px;
+
+    text-align: center;
+
+@include respond(large-desktop) {
+      padding: 100px 50px;
+    }
+
+@include respond(small-desktop) {
+      padding: 100px 50px;
+    }
+
+@include respond(tablet-device) {
+      padding: 100px 50px;
+    }
+
+@include respond(large-mobile) {
+      padding: 100px 50px;
+    }
+
+@include respond(extra-small-mobile) {
+      padding: 80px 30px;
+    }
+
+    .image {
+      margin-bottom: 30px;
+    }
+    .text {
+      font-family: $spectral;
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 1.2;
+
+      margin-bottom: 30px;
+
+      color: #333;
+
+@include respond(small-desktop) {
+        font-size: 20px;
+      }
+
+@include respond(extra-small-mobile) {
+        font-size: 20px;
+      }
+    }
+
+    a {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+
+      position: relative;
+
+      display: inline-block;
+
+      letter-spacing: 1px;
+      text-transform: uppercase;
+
+      color: #333;
+
+      &:before {
+        font-size: 0;
+        font-weight: 400;
+        line-height: 0;
+
+        display: inline-block;
+        visibility: hidden;
+
+        padding-right: 0;
+
+        transition: 0.6s;
+
+        opacity: 0;
+      }
+
+      &:after {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+
+        width: 100%;
+        height: 1px;
+
+        content: "";
+
+        opacity: 0.2;
+        background-color: #333;
+      }
+
+      &:hover {
+        &:before {
+          font-size: 14px;
+          line-height: 0;
+
+          visibility: visible;
+
+          padding-right: 8px;
+
+          opacity: 1;
+        }
+      }
+    }
+
+    &--yellow-bg {
+      background-color: #fbd47d;
+    }
+
+    &--pink-bg {
+      background-color: #f9d0c2;
+    }
+  }
+}
+
+
+.product-side-banner {
+  &:hover {
+    img {
+      filter: grayscale(100%);
+    }
+  }
+
+  &--link {
+    font-size: 48px;
+    line-height: 56px;
+
+    display: block;
+
+    text-align: center;
+
+    color: #333;
+
+    &:hover {
+      opacity: 0.85;
+      color: #333;
+    }
+  }
+}
+
+
+/*=====  End of banner  ======*/
+

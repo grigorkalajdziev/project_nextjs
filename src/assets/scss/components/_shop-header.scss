@@ -1,0 +1,100 @@
+
+/*=============================================
+=            shop header            =
+=============================================*/
+
+.shop-header {  
+  padding: 20px 0;
+
+  border-bottom: 1px solid $grey--sixteen;
+
+  &__filter-icons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+@include respond(large-mobile) {
+      margin-top: 15px;
+    }
+
+    .single-icon {
+      margin-right: 30px;
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &.filter-dropdown {
+        select {
+          padding-bottom: 5px;
+          padding-left: 0;
+
+          cursor: pointer;
+
+          color: $grey;
+          border-top: none;
+          border-right: none;
+          border-bottom: 2px solid $grey--eleven;
+          border-left: none;
+          border-radius: 0;
+          background-color: $white;
+        }
+      }
+
+      &.grid-icons {
+        button {
+          font-size: 25px;
+
+          margin-right: 10px;
+          padding: 0;
+
+          color: $grey--eleven;
+          border: none;
+          background: none;
+          &:hover,
+          &.active {
+            color: $black--two;
+          }
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+
+      &.advance-filter-icon {
+        position: relative;
+        button {
+          border: none;
+          background: none;
+          &:after {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: auto;
+
+            width: 0;
+            height: 1px;
+
+            content: "";
+            transition: 0.3s;
+
+            background-color: $black--two;
+          }
+          &.active,
+          &:hover {
+            color: $black--two;
+
+            &:after {
+              right: auto;
+              left: 0;
+
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/*=====  End of shop header  ======*/
+

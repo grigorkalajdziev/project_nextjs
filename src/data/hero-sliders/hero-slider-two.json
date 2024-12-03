@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "subtitle": "men_collection",
+    "title": "feeling_relax_day",
+    "url": "/shop/left-sidebar",
+    "image": "/assets/images/hero-slider/hero-slider-two/1.png",
+    "bgColor": "#ebf4f2"
+  },
+  {
+    "id": "2",
+    "subtitle": "sport_collection",
+    "title": "feeling_relax_day",
+    "url": "/shop/left-sidebar",
+    "image": "/assets/images/hero-slider/hero-slider-two/2.png",
+    "bgColor": "#f4ede7"
+  },
+  {
+    "id": "3",
+    "subtitle": "women_collection",
+    "title": "feeling_relax_day",
+    "url": "/shop/left-sidebar",
+    "image": "/assets/images/hero-slider/hero-slider-two/3.png",
+    "bgColor": "#ebf4f2"
+  }
+]

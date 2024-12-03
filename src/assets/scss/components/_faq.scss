@@ -1,0 +1,62 @@
+
+/*=============================================
+=            faq            =
+=============================================*/
+
+
+.faq-title {
+  font-size: 35px;
+  line-height: 38px;
+
+@include respond(small-mobile) {
+    font-size: 25px;
+    line-height: 32px;
+  }
+}
+
+.single-faq {
+  .card {
+    border: none;
+  }
+
+  .card-header {
+    border-bottom: none;
+    background-color: transparent;
+
+    button {
+      font-size: 24px;
+      line-height: 1.4;
+
+      padding: 0;
+
+      text-align: left;
+      white-space: normal;
+
+      color: $black--two;
+      border: none;
+      background: none;
+
+@include respond(small-mobile) {
+        font-size: 18px;
+        line-height: 26px;
+      }  overflow-wrap: break-word;
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .card-body {
+    p {
+      font-size: 15px;
+      line-height: 24px;
+
+      color: $grey--seven;
+    }
+  }
+}
+
+/*=====  End of faq  ======*/
+

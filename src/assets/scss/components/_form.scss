@@ -1,0 +1,139 @@
+
+/*=============================================
+=            form            =
+=============================================*/
+
+.lezada-form {  
+  form {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea {      
+      font-size: 14px;
+
+      display: block;
+
+      width: 100%;
+      padding: 9.5px 0;
+
+      transition: all 0.3s ease-in-out;
+
+      color: $black--two;
+      border: 1px solid transparent;
+      border-bottom: 2px solid $grey--eleven;
+      background: transparent;
+
+      &:hover,
+      &:active,
+      &:focus {
+        border-bottom-color: $black--two;
+      }
+    }
+    ::placeholder {
+      opacity: 1; /* Firefox */
+
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: $grey--seven;
+    }
+
+    :-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: $grey--seven;
+    }
+
+    ::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: $grey--seven;
+    }
+  }
+
+  &.login-form {    
+    padding: 60px 50px;
+
+    background-color: $grey--twentyOne;
+
+@include respond(extra-small-mobile) {
+      padding: 50px 20px;
+    }
+
+    &--register {      
+      padding: 60px 50px;
+
+@include respond(extra-small-mobile) {
+        padding: 50px 20px;
+      }
+
+      label {        
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 24px;
+
+        letter-spacing: 1px;
+        text-transform: uppercase;
+
+        color: $black--two;
+
+        span {
+          color: $red--two;
+        }
+      }
+    }
+    .remember-text {      
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 25px;
+
+      color: $black--two;
+    }
+
+    .reset-pass-link {      
+      font-size: 15px;
+      line-height: 24px;
+
+      display: block;
+
+      margin-top: 20px;
+
+      color: $black--two;
+
+      &:hover {
+        color: $black--two;
+      }
+    }
+  }
+
+  &.order-tracking-form {
+    label {      
+      font-size: 20px;
+      line-height: 32px;
+
+      color: $black--two;
+    }
+
+    .order-tracking-button {
+      padding: 10px 65px;
+    }
+  }
+}
+
+
+.order-tracking-box {
+  padding: 50px;
+
+  background-color: $grey--twentyOne;
+
+  @include respond(extra-small-mobile) {
+    padding: 20px;
+  }
+
+  .info-text {
+    line-height: 1.5;
+  }
+}
+
+
+
+
+
+/*=====  End of form  ======*/
+

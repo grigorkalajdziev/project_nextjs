@@ -1,0 +1,185 @@
+
+/*=============================================
+=            icon box            =
+=============================================*/
+
+
+/*----------  icon box  ----------*/
+
+.icon-box {  
+  display: flex;
+  align-items: center;
+
+  &--feature-icon {
+    align-items: flex-start;
+
+
+    &__icon {
+      font-size: 30px;
+
+      color: $grey--eleven;
+
+      &--green {
+        color: green--one;
+      }
+    }
+
+    &__content {      
+      padding-left: 20px;
+      .title {
+        
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.5;
+
+        letter-spacing: 1px;
+
+        color: $black--three;
+      }
+
+      .content {        
+        font-size: 15px;
+        line-height: 1.6;
+
+        margin-top: 15px;
+
+        color: $grey--twentySix;
+      }
+    }
+  }
+
+  &--grey-center {
+    flex-direction: column;
+
+    text-align: center;
+
+    &__icon {
+      font-size: 56px;
+
+      margin-bottom: 30px;
+
+      color: $grey--eleven;
+    }
+
+    &__content {
+      padding-left: 0;
+
+      h3 {        
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.5;
+
+        letter-spacing: 1px;
+
+        color: $black--three;
+      }
+
+      p {
+        font-size: 15px;
+        line-height: 1.6;
+
+        margin-top: 15px;
+
+        color: $grey--twentySix;
+      }
+    }
+  }
+
+  &--color-center {
+    flex-direction: column;
+
+    min-height: 300px;
+    padding-top: 70px;
+
+    text-align: center;
+
+    &__icon {
+      font-size: 56px;
+
+      margin-bottom: 30px;
+
+      color: $grey--eleven;
+    }
+
+    &__content {
+      padding-left: 0;
+
+      h3 {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.5;
+
+        letter-spacing: 1px;
+
+        color: $black--three;
+      }
+
+      p {
+        font-size: 15px;
+        line-height: 1.6;
+
+        margin-top: 15px;
+
+        color: $grey--twentySix;
+      }
+    }
+
+    &--green {
+      background-color: $green--two;
+      &__icon {
+        color: $green--three;
+      }
+    }
+
+    &--yellow {
+      background-color: $yellow--three;
+      &__icon {
+        color: $yellow--four;
+      }
+    }
+
+    &--blue {
+      background-color: $blue--two;
+      &__icon {
+        color: $blue--three;
+      }
+    }
+  }
+
+  &__icon {
+    font-size: 32px;
+
+    color: $grey--sixteen;
+  }
+
+
+  &__content {
+    padding-left: 20px;
+    .title {      
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 21px;
+
+      margin-bottom: 10px;
+
+      letter-spacing: 1px;
+
+      color: $black--two;
+    }
+
+    .content {
+      font-size: 15px;
+      line-height: 24px;
+
+      color: $grey--twentySix;
+
+      span {
+        display: block;
+      }
+    }
+  }
+}
+
+
+/*=====  End of icon box  ======*/
+

@@ -1,0 +1,47 @@
+
+/*=============================================
+=            pagination            =
+=============================================*/
+
+.pro-pagination-style {
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .page-item {
+      margin-right: 20px;
+      &:last-child {
+        margin-right: 0;
+      }
+
+      .page-link {
+        font-weight: 500;
+
+        padding: 0 5px;
+
+        color: $grey--fifteen;
+        border: none;
+        border-radius: 0;
+        background: none;
+        &:focus {
+          box-shadow: none;
+        }
+      }
+
+      &.active {
+        .page-link {
+          color: $black--two;
+          border-bottom: 1px solid $black--two;
+          border-radius: 0;
+          background: none;
+          &:focus {
+            box-shadow: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+/*=====  End of pagination  ======*/
+

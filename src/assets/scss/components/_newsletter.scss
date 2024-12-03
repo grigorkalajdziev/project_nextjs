@@ -1,0 +1,369 @@
+
+/*=============================================
+=            newsletter            =
+=============================================*/
+
+
+.border-top-bottom {
+  border-top: 1px solid $grey--twentyEight;
+  border-bottom: 1px solid $grey--twentyEight;
+}
+
+.mc-newsletter-content-container {
+  background-color: $red--four;
+  &.no-bg {
+    background-color: transparent;
+  }
+}
+
+.mc-newsletter-content {
+  border: 1px solid $white;
+
+  .icon {
+    svg {
+      font-size: 70px;
+
+      color: $white;
+    }
+  }
+
+  .title {
+    h3 {
+      font-size: 40px;
+      font-weight: 500;
+      line-height: 1.5;
+
+      letter-spacing: 1px;
+
+      color: $white;
+
+@include respond(extra-small-mobile) {
+        font-size: 30px;
+      }
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+
+      margin-top: 15px;
+
+      color: $white;
+
+@include respond(extra-small-mobile) {
+        font-size: 13px;
+      }
+    }
+  }
+
+  &--big-icon {
+    border: none;
+
+    .icon {
+      svg {
+        font-size: 150px;
+
+        color: rgba(34,34,34,0.1);
+      }
+    }
+
+    .title {
+      h3 {
+        font-size: 40px;
+
+        color: $black--three;
+      }
+
+      p {
+        font-size: 15px;
+
+        color: $grey--six;
+      }
+    }
+
+    .mc-newsletter-form {
+      input {
+        color: $black--two;
+        border-bottom-color: $grey--eleven;
+
+        &:focus {
+          border-bottom-color: $grey--eleven;
+        }
+      }
+
+      ::placeholder {
+        opacity: 1; /* Firefox */
+
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: $grey--seven;
+      }
+
+      :-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: $grey--seven;
+      }
+
+      ::-ms-input-placeholder {
+        /* Microsoft Edge */
+        color: $grey--seven;
+      }
+
+
+      button {
+        color: $black--two;
+
+        &:hover {
+          color: $black--two;
+        }
+      }
+    }
+
+    .link {
+      a {
+        color: $black--two;
+      }
+    }
+  }
+
+  &--fullwidth {
+    border: none;
+
+    .icon {
+      svg {
+        font-size: 35px;
+
+        color: $white;
+      }
+    }
+  }
+}
+
+
+
+/*----------  subscription form   ----------*/
+.mc-newsletter-form {
+  position: relative;
+
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+
+@include respond(large-mobile) {
+    max-width: 400px;
+  }
+
+@include respond(small-mobile) {
+    max-width: 350px;
+  }
+
+@include respond(extra-small-mobile) {
+    max-width: 240px;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px 0;
+    padding-right: 40px;
+
+    color: $white;
+    border: none;
+    border-bottom: 2px solid $white;
+    background: none;
+    &:focus {
+      border-bottom-color: $white;
+    }
+  }
+
+  ::placeholder {
+    opacity: 0.5; /* Firefox */
+
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: $white;
+  }
+
+  :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: $white;
+  }
+
+  ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: $white;
+  }
+
+  button {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+
+    position: absolute;
+    top: 50%;
+    right: 0;
+
+    padding: 0;
+
+    transform: translateY(-50%);
+    letter-spacing: 1px;
+
+    color: $white;
+    border: none;
+    background: none;
+
+@include respond(extra-small-mobile) {
+      font-size: 12px;
+    }
+
+    &:hover {
+      color: $white;
+    }
+  }
+
+  &--popup {
+    margin: 0;
+    input {
+      color: $black--two;
+      border-bottom: 2px solid $grey--eleven;
+      &:focus {
+        border-bottom-color: $grey--eleven;
+      }
+    }
+
+
+    ::placeholder {
+      opacity: 0.5; /* Firefox */
+
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: $black--two;
+    }
+
+    :-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: $grey--eleven;
+    }
+
+    ::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: $grey--eleven;
+    }
+
+    button {
+      color: $black--two;
+      &:hover {
+        color: $black--two;
+      }
+    }
+  }
+}
+
+
+.link {
+  a {
+    text-decoration: underline;
+
+    color: $white;
+  }
+}
+
+
+
+/*----------  newsletter popup style  ----------*/
+
+.newsletter-overlay-inactive {
+  .newsletter-content {
+    visibility: hidden;
+
+    opacity: 0;
+  }
+}
+
+.newsletter-content {
+  position: fixed;
+  z-index: 9999;
+  top: 50%;
+  left: 50%;
+
+  visibility: hidden;
+
+  width: 100%;
+  max-width: 870px;
+  padding: 50px 60px 70px 400px;
+
+  transition: 0.6s;
+  transform: translate(-150%, -50%);
+
+  opacity: 0;
+
+@include respond(large-desktop) {
+    max-width: 900px;
+    padding: 50px 60px 70px 400px;
+  }
+
+  &.show-popup {
+    visibility: visible;
+
+    transition: 0.6s;
+    transform: translate(-50%, -50%);
+
+    opacity: 1;
+  }
+
+  &.hide-popup {
+    visibility: hidden;
+
+    opacity: 0;
+  }
+
+  h2 {
+    font-size: 34px;
+    font-weight: 300;
+    line-height: 48px;
+
+    color: $black--two;
+
+@include respond(extra-large-mobile) {
+      font-size: 26px;
+      line-height: 36px;
+    }
+
+    span {
+      font-weight: 600;
+    }
+  }
+
+  p {
+    font-size: 15px;
+    line-height: 26px;
+
+    letter-spacing: 1px;
+  }
+
+
+  .close-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    a {
+      transition: 0.6s;
+
+      &:hover {
+        transform: rotate(90deg);
+      }
+
+      svg {
+        font-size: 25px;
+
+        color: $black--two;
+      }
+    }
+  }
+
+  .mailchimp-alerts {
+    position: absolute;
+    bottom: 130px;
+  }
+}
+
+
+/*=====  End of newsletter  ======*/
+
