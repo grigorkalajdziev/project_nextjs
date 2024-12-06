@@ -329,7 +329,7 @@ header {
 }
 
 .header-content {  
-  font-size: larger;
+  font-size: xx-large;
   &__logo {
     button {
       font-size: 30px;
@@ -428,8 +428,8 @@ header {
     ul {
       li {
         display: inline-block;
-
         margin-right: 30px;
+        font-size: 20px;
 
 @include respond(extra-small-mobile) {
           margin-right: 15px;
@@ -528,8 +528,8 @@ header {
         position: relative;
 
         transition: $transition--default;
-        a {
-          font-size: 15px;
+        a {          
+          font-size: 20px;
           line-height: 1.4;
 
           position: relative;
@@ -676,8 +676,8 @@ header {
 
         fill: $grey--eight;
       }
-      a {
-        font-size: 15px;
+      a {        
+        font-size: 20px;
         line-height: 22px;
 
         position: relative;
