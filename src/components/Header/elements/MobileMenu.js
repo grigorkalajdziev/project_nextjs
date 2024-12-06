@@ -38,7 +38,7 @@ const MobileMenu = ({ activeStatus, getActiveStatus }) => {
                 </select>
               </div>
               <div className="lang-curr-style">
-                <span className="title">{t("choose_language")}</span>
+                <span className="title">{t("choose_currency")}</span>
                 <select>
                   <option value="USD">USD</option>
                   <option value="EUR">EUR</option>
