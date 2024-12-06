@@ -140,7 +140,9 @@ const translations = {
     add_to_wishlist: "Add to wishlist",
     added_to_compare: "Added to compare",
     add_to_compare: "Add to compare",
-    quick_view: "Quick view"
+    quick_view: "Quick view",
+    choose_language: "Choose Language",
+    choose_currency: "Choose Currency"
   },
   mk: {
     english: "Англиски",
@@ -277,7 +279,9 @@ const translations = {
     add_to_wishlist: "Додади во листата на желби",
     added_to_compare: "Додадено за споредба",
     add_to_compare: "Додади за споредба",
-    quick_view: "Брз преглед"
+    quick_view: "Брз преглед",
+    choose_language: "Изберете јазик",
+    choose_currency: "Изберете валута"
   }
 };
 
