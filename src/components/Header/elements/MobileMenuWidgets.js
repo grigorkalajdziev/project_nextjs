@@ -7,10 +7,12 @@ import {
   IoLogoPinterest,
   IoMdPerson
 } from "react-icons/io";
+import { useLocalization } from "../../../context/LocalizationContext";
 
 import Link from "next/link";
 
 const MobileMenuWidgets = () => {
+  const { t } = useLocalization();  
   return (
     <div className="offcanvas-mobile-menu__widgets">
       <div className="contact-widget space-mb--30">
@@ -21,7 +23,7 @@ const MobileMenuWidgets = () => {
               href="/other/login-register"
               as={process.env.PUBLIC_URL + "/other/login-register"}
             >
-              <a>Login / Register</a>
+              <a>{t('signup_login')}</a>
             </Link>
           </li>
           <li>
