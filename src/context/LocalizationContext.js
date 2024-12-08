@@ -85,7 +85,7 @@ const translations = {
     mobile: "Mobile",
     email: "EMAIL",
     email_value: "contact@makeupbykika.com",
-    about_page_extra_description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac tortor nec felis fermentum tincidunt.",
+    about_page_extra_description: "Welcome to Kika Makeup and Beauty Academy, a place where creativity, innovation, and professionalism come together to prepare the future experts in the beauty industry. Our mission is to provide our students with the best training and practical skills to set them on the path to success. As an academy dedicated to makeup and beauty, we offer comprehensive courses that cover not only the basics of makeup but also advanced techniques that are current in the global market. Our program is designed to inspire the creative potential of our students and develop them into highly qualified professionals capable of tackling any challenge in the industry. At Kika Makeup and Beauty Academy, we value an individualized approach and strive to create a motivating and inspiring environment for every student. Our courses focus on the development of makeup techniques as well as the importance of confidence and creativity, which are crucial for building successful careers in this dynamic industry. Whether you aspire to become a professional makeup artist, a beautician, or to refine your skills in the latest beauty trends, our academy is here to guide you on that journey and provide you with the highest training standards.",
     online_store: "online store",
     testimonial_title: "Testimonial",
     our_brands_title: "Our Brands",
@@ -142,7 +142,8 @@ const translations = {
     add_to_compare: "Add to compare",
     quick_view: "Quick view",
     choose_language: "Choose Language",
-    choose_currency: "Choose Currency"
+    choose_currency: "Choose Currency",
+    search_here: "Search here"
   },
   mk: {
     english: "Англиски",
@@ -281,7 +282,8 @@ const translations = {
     add_to_compare: "Додади за споредба",
     quick_view: "Брз преглед",
     choose_language: "Изберете јазик",
-    choose_currency: "Изберете валута"
+    choose_currency: "Изберете валута",
+    search_here: "Пребарувај тука"
   }
 };
 
