@@ -233,7 +233,7 @@ const translations = {
     showing: "Прикажани",
     of: "од",
     result: "резултати",
-    default: "По првобитна поставеност",
+    default: "Стандардно",
     price_high_to_low: "Цена - Од висока до ниска",
     price_low_to_high: "Цена - Од ниска до висока",
     filter: "Филтер",
