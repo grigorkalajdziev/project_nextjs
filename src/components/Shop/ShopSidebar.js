@@ -174,7 +174,7 @@ const ShopSidebar = ({ products, getSortParams }) => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> 
               );
             })}
           </div>
