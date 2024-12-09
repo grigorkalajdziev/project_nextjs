@@ -151,7 +151,7 @@ const translations = {
     billing_address: "Billing Address",
     account_details: "Account Details",
     hello_user: "Hello, {name}",
-    not_you: "If Not {name}",
+    if_not: "If Not ",
     logout: "Logout",
     dashboard_intro: "From your account dashboard, you can easily check & view your recent orders, manage your shipping and billing addresses, and edit your password and account details.",
     order: "Order",
@@ -179,7 +179,18 @@ const translations = {
     no_account_register: "If you don’t have an account, register now!",
     email_address: "Email Address",
     email_placeholder: "Enter your email",
-    password_placeholder: "Enter your password"
+    password_placeholder: "Enter your password",
+    dashboard_welcome: "This is your dashboard, where you can easily review your latest orders, manage your shipping and billing addresses, and update your password and profile information.",
+    no_payment_saved: "You have not saved a payment method yet.",
+    edit_address: "Edit address",    
+    last_name: "Last name",
+    display_name: "Display name",
+    email_address: "Email Address",
+    password_change: "Change password",
+    current_password: "Current password",
+    new_password: "New password",
+    confirm_password: "Confirm password",
+    save_changes: "Save changes"
   },
   mk: {
     english: "Англиски",
@@ -365,7 +376,9 @@ const translations = {
     no_account_register: "Ако немате сметка, регистрирајте се сега!",
     email_address: "Е-пошта",
     email_placeholder: "Внесете ја вашата е-пошта",
-    password_placeholder: "Внесете ја вашата лозинка"
+    password_placeholder: "Внесете ја вашата лозинка",
+    hello_user: "Здраво, {name}",
+    not_you: "Ако не си {name}"
   }
 };
 
