@@ -6,8 +6,10 @@ import { getDiscountPrice } from "../../lib/product";
 import { IoMdCash } from "react-icons/io";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
+import { useLocalization } from "../../context/LocalizationContext";
 
 const Checkout = ({ cartItems }) => {
+  const { t } = useLocalization();
   let cartTotalPrice = 0;
 
   useEffect(() => {
@@ -18,17 +20,20 @@ const Checkout = ({ cartItems }) => {
     <LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
-        pageTitle="Checkout"
+        pageTitle={t("checkout_title")}
         backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.png"
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              <a>Home</a>
+            <Link
+              href="/home/trending"
+              as={process.env.PUBLIC_URL + "/home/trending"}
+            >
+              <a>{t("home")}</a>
             </Link>
           </li>
 
-          <li>Checkout</li>
+          <li>{t("checkout_title")}</li>
         </ul>
       </BreadcrumbOne>
       <div className="checkout-area space-mt--r130 space-mb--r130">
@@ -42,54 +47,54 @@ const Checkout = ({ cartItems }) => {
                       <div className="col-lg-7 space-mb--20">
                         {/* Billing Address */}
                         <div id="billing-form" className="space-mb--40">
-                          <h4 className="checkout-title">Billing Address</h4>
+                          <h4 className="checkout-title">{t("billing_address")}</h4>
                           <div className="row">
                             <div className="col-md-6 col-12 space-mb--20">
-                              <label>First Name*</label>
-                              <input type="text" placeholder="First Name" />
+                              <label>{t("first_name_label")}*</label>
+                              <input type="text" placeholder={t("first_name_placeholder")} />
                             </div>
                             <div className="col-md-6 col-12 space-mb--20">
-                              <label>Last Name*</label>
-                              <input type="text" placeholder="Last Name" />
+                              <label>{t("last_name_label")}*</label>
+                              <input type="text" placeholder={t("last_name_placeholder")} />
                             </div>
                             <div className="col-md-6 col-12 space-mb--20">
-                              <label>Email Address*</label>
-                              <input type="email" placeholder="Email Address" />
+                              <label>{t("email_label")}*</label>
+                              <input type="email" placeholder={t("email_placeholder")} />
                             </div>
                             <div className="col-md-6 col-12 space-mb--20">
-                              <label>Phone no*</label>
-                              <input type="text" placeholder="Phone number" />
+                              <label>{t("phone_label")}*</label>
+                              <input type="text" placeholder={t("phone_placeholder")} />
                             </div>
                             <div className="col-12 space-mb--20">
-                              <label>Company Name</label>
-                              <input type="text" placeholder="Company Name" />
+                              <label>{t("company_label")}</label>
+                              <input type="text" placeholder={t("company_placeholder")} />
                             </div>
                             <div className="col-12 space-mb--20">
-                              <label>Address*</label>
-                              <input type="text" placeholder="Address line 1" />
-                              <input type="text" placeholder="Address line 2" />
+                              <label>{t("address_label")}*</label>
+                              <input type="text" placeholder={t("address_line1_placeholder")} />
+                              <input type="text" placeholder={t("address_line2_placeholder")} />
                             </div>
                             <div className="col-md-6 col-12 space-mb--20">
-                              <label>Country*</label>
+                              <label>{t("country_label")}*</label>
                               <select>
-                                <option>Bangladesh</option>
-                                <option>China</option>
-                                <option>Australia</option>
-                                <option>India</option>
-                                <option>Japan</option>
+                                <option>{t("country_bangladesh")}</option>
+                                <option>{t("country_china")}</option>
+                                <option>{t("country_australia")}</option>
+                                <option>{t("country_india")}</option>
+                                <option>{t("country_japan")}</option>
                               </select>
                             </div>
                             <div className="col-md-6 col-12 space-mb--20">
-                              <label>Town/City*</label>
-                              <input type="text" placeholder="Town/City" />
+                              <label>{t("city_label")}*</label>
+                              <input type="text" placeholder={t("city_placeholder")} />
                             </div>
                             <div className="col-md-6 col-12 space-mb--20">
-                              <label>State*</label>
-                              <input type="text" placeholder="State" />
+                              <label>{t("state_label")}*</label>
+                              <input type="text" placeholder={t("state_placeholder")} />
                             </div>
                             <div className="col-md-6 col-12 space-mb--20">
-                              <label>Zip Code*</label>
-                              <input type="text" placeholder="Zip Code" />
+                              <label>{t("zip_label")}*</label>
+                              <input type="text" placeholder={t("zip_placeholder")} />
                             </div>
                           </div>
                         </div>
@@ -98,10 +103,10 @@ const Checkout = ({ cartItems }) => {
                         <div className="row">
                           {/* Cart Total */}
                           <div className="col-12 space-mb--50">
-                            <h4 className="checkout-title">Cart Total</h4>
+                            <h4 className="checkout-title">{t("cart_total")}</h4>
                             <div className="checkout-cart-total">
                               <h4>
-                                Product <span>Total</span>
+                                {t("product_label")} <span>{t("total_label")}</span>
                               </h4>
                               <ul>
                                 {cartItems.map((product, i) => {
@@ -121,21 +126,21 @@ const Checkout = ({ cartItems }) => {
                                 })}
                               </ul>
                               <p>
-                                Sub Total{" "}
+                                {t("subtotal_label")} {" "}
                                 <span>${cartTotalPrice.toFixed(2)}</span>
                               </p>
                               <p>
-                                Shipping Fee <span>$00.00</span>
+                                {t("shipping_fee_label")} <span>$00.00</span>
                               </p>
                               <h4>
-                                Grand Total{" "}
+                                {t("grand_total_label")} {" "}
                                 <span>${cartTotalPrice.toFixed(2)}</span>
                               </h4>
                             </div>
                           </div>
                           {/* Payment Method */}
                           <div className="col-12">
-                            <h4 className="checkout-title">Payment Method</h4>
+                            <h4 className="checkout-title">{t("payment_method")}</h4>
                             <div className="checkout-payment-method">
                               <div className="single-method">
                                 <input
@@ -145,7 +150,7 @@ const Checkout = ({ cartItems }) => {
                                   defaultValue="check"
                                 />
                                 <label htmlFor="payment_check">
-                                  Check Payment
+                                  {t("payment_check")}
                                 </label>
                               </div>
                               <div className="single-method">
@@ -156,7 +161,7 @@ const Checkout = ({ cartItems }) => {
                                   defaultValue="bank"
                                 />
                                 <label htmlFor="payment_bank">
-                                  Direct Bank Transfer
+                                  {t("payment_bank")}
                                 </label>
                               </div>
                               <div className="single-method">
@@ -167,7 +172,7 @@ const Checkout = ({ cartItems }) => {
                                   defaultValue="cash"
                                 />
                                 <label htmlFor="payment_cash">
-                                  Cash on Delivery
+                                  {t("payment_cash")}
                                 </label>
                               </div>
                               <div className="single-method">
@@ -177,7 +182,9 @@ const Checkout = ({ cartItems }) => {
                                   name="payment-method"
                                   defaultValue="paypal"
                                 />
-                                <label htmlFor="payment_paypal">Paypal</label>
+                                <label htmlFor="payment_paypal">
+                                  {t("payment_paypal")}
+                                </label>
                               </div>
                               <div className="single-method">
                                 <input
@@ -187,19 +194,18 @@ const Checkout = ({ cartItems }) => {
                                   defaultValue="payoneer"
                                 />
                                 <label htmlFor="payment_payoneer">
-                                  Payoneer
+                                  {t("payment_payoneer")}
                                 </label>
                               </div>
                               <div className="single-method">
                                 <input type="checkbox" id="accept_terms" />
                                 <label htmlFor="accept_terms">
-                                  I’ve read and accept the terms &amp;
-                                  conditions
+                                  {t("accept_terms_label")}
                                 </label>
                               </div>
                             </div>
                             <button className="lezada-button lezada-button--medium space-mt--20">
-                              Place order
+                              {t("place_order")}
                             </button>
                           </div>
                         </div>
@@ -218,14 +224,14 @@ const Checkout = ({ cartItems }) => {
                   </div>
                   <div className="item-empty-area__text">
                     <p className="space-mb--30">
-                      No items found in cart to checkout
+                      {t("cart_empty_message")}
                     </p>
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
                       <a className="lezada-button lezada-button--medium">
-                        Shop Now
+                        {t("shop_now")}
                       </a>
                     </Link>
                   </div>
