@@ -2,23 +2,26 @@ import Link from "next/link";
 import { Container, Row, Col } from "react-bootstrap";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
+import { useLocalization } from "../../context/LocalizationContext";
 
 const LoginRegister = () => {
+  const { t } = useLocalization();
+
   return (
     <LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
-        pageTitle="Customer Login"
+        pageTitle={t("customer_login")}
         backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.jpg"
       >
         <ul className="breadcrumb__list">
           <li>
             <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              <a>Home</a>
+              <a>{t("home")}</a>
             </Link>
           </li>
 
-          <li>Customer Login</li>
+          <li>{t("customer_login")}</li>
         </ul>
       </BreadcrumbOne>
       <div className="login-area space-mt--r130 space-mb--r130">
@@ -30,30 +33,30 @@ const LoginRegister = () => {
                   <Row>
                     <Col lg={12}>
                       <div className="section-title--login text-center space-mb--50">
-                        <h2 className="space-mb--20">Login</h2>
-                        <p>Great to have you back!</p>
+                        <h2 className="space-mb--20">{t("login")}</h2>
+                        <p>{t("welcome_back")}</p>
                       </div>
                     </Col>
                     <Col lg={12} className="space-mb--60">
                       <input
                         type="text"
-                        placeholder="Username or email address"
+                        placeholder={t("username_or_email")}
                         required
                       />
                     </Col>
                     <Col lg={12} className="space-mb--60">
-                      <input type="password" placeholder="Password" required />
+                      <input type="password" placeholder={t("password")} required />
                     </Col>
                     <Col lg={12} className="space-mb--30">
                       <button className="lezada-button lezada-button--medium">
-                        login
+                      {t("login")}
                       </button>
                     </Col>
                     <Col>
                       <input type="checkbox" />{" "}
-                      <span className="remember-text">Remember me</span>
+                      <span className="remember-text">{t("remember_me")}</span>
                       <a href="#" className="reset-pass-link">
-                        Lost your password?
+                      {t("lost_password")}
                       </a>
                     </Col>
                   </Row>
@@ -66,25 +69,25 @@ const LoginRegister = () => {
                   <Row>
                     <Col lg={12}>
                       <div className="section-title--login text-center space-mb--50">
-                        <h2 className="space-mb--20">Register</h2>
-                        <p>If you don’t have an account, register now!</p>
+                        <h2 className="space-mb--20">{t("register")}</h2>
+                        <p>{t("no_account_register")}</p>
                       </div>
                     </Col>
                     <Col lg={12} className="space-mb--30">
                       <label htmlFor="regEmail">
-                        Email Address <span className="required">*</span>{" "}
+                      {t("email_address")} <span className="required">*</span>{" "}
                       </label>
-                      <input type="text" id="regEmail" required />
+                      <input type="text" id="regEmail" placeholder={t("email_placeholder")} required />
                     </Col>
                     <Col lg={12} className="space-mb--50">
                       <label htmlFor="regPassword">
-                        Password <span className="required">*</span>{" "}
+                      {t("password")} <span className="required">*</span>{" "}
                       </label>
-                      <input type="password" id="regPassword" required />
+                      <input type="password" id="regPassword" placeholder={t("password_placeholder")} required />
                     </Col>
                     <Col lg={12} className="text-center">
                       <button className="lezada-button lezada-button--medium">
-                        register
+                      {t("register")}
                       </button>
                     </Col>
                   </Row>
