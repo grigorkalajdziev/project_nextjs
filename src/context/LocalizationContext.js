@@ -260,7 +260,8 @@ const translations = {
     accept_terms_label: "I have read and agree to the terms and conditions",
     place_order: "Place Order",
     cart_empty_message: "No items found in cart to checkout",
-    shop_now: "Shop Now"
+    shop_now: "Shop Now",
+    compare: "Compare"
   },
   mk: {
     english: "Англиски",
@@ -517,7 +518,8 @@ const translations = {
     accept_terms_label: "Го прочитав и се согласувам со условите и правилата",
     place_order: "Нарачај",
     cart_empty_message: "Нема продукти во вашата количка",
-    shop_now: "Купувајте сега"
+    shop_now: "Купувајте сега",
+    compare: "Споредба"
   }
 };
 

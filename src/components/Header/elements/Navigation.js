@@ -11,7 +11,7 @@ const Navigation = () => {
         <li>
           <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
             <a>{t("home")}</a>
-          </Link>        
+          </Link>
         </li>
         <li>
           <Link
@@ -21,8 +21,8 @@ const Navigation = () => {
             <a>{t("shop")}</a>
           </Link>
           <IoIosArrowDown />
-          <ul className="sub-menu sub-menu--mega sub-menu--mega--column-1">           
-            <li className="sub-menu--mega__title">           
+          <ul className="sub-menu sub-menu--mega sub-menu--mega--column-1">
+            <li className="sub-menu--mega__title">
               <ul className="sub-menu--mega__list">
                 <li>
                   <Link
@@ -31,7 +31,15 @@ const Navigation = () => {
                   >
                     <a>{t("checkout")}</a>
                   </Link>
-                </li>               
+                </li>
+                <li>
+                  <Link
+                    href="/other/compare"
+                    as={process.env.PUBLIC_URL + "/other/compare"}
+                  >
+                    <a>{t("compare")}</a>
+                  </Link>
+                </li>
                 <li>
                   <Link
                     href="/other/my-account"
@@ -49,15 +57,15 @@ const Navigation = () => {
                   </Link>
                 </li>
               </ul>
-            </li>            
+            </li>
           </ul>
-        </li>        
+        </li>
         <li className="position-relative">
           <Link href="/other/about" as={process.env.PUBLIC_URL + "/other/about"}>
             <a>{t("about_us")}</a>
           </Link>
           <IoIosArrowDown />
-          <ul className="sub-menu sub-menu--one-column">         
+          <ul className="sub-menu sub-menu--one-column">
             <li>
               <Link
                 href="/other/contact"
@@ -73,9 +81,9 @@ const Navigation = () => {
               >
                 <a>{t("faq")}</a>
               </Link>
-            </li>           
+            </li>
           </ul>
-        </li>        
+        </li>
       </ul>
     </nav>
   );

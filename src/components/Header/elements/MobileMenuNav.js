@@ -49,48 +49,56 @@ const MobileMenuNav = ({ getActiveStatus }) => {
         <li className="menu-item-has-children">
           <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
             <a>{t('home')}</a>
-          </Link>         
+          </Link>
         </li>
 
         <li className="menu-item-has-children">
-        <Link
-          href="/shop/left-sidebar"
-          as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-        >
-          <a>{t('shop')}</a>
-        </Link>
-        <ul className="mobile-sub-menu">
-          <li>
-            <Link
-              href="/other/checkout"
-              as={process.env.PUBLIC_URL + "/other/checkout"}
-            >
-              <a>{t('checkout')}</a>
-            </Link>
-          </li>          
-          <li>
-            <Link
-              href="/other/my-account"
-              as={process.env.PUBLIC_URL + "/other/my-account"}
-            >
-              <a>{t('my_account')}</a>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/other/login-register"
-              as={process.env.PUBLIC_URL + "/other/login-register"}
-            >
-              <a>{t('login_register')}</a>
-            </Link>
-          </li>
-        </ul>
-      </li>      
+          <Link
+            href="/shop/left-sidebar"
+            as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
+          >
+            <a>{t('shop')}</a>
+          </Link>
+          <ul className="mobile-sub-menu">
+            <li>
+              <Link
+                href="/other/checkout"
+                as={process.env.PUBLIC_URL + "/other/checkout"}
+              >
+                <a>{t('checkout')}</a>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/other/compare"
+                as={process.env.PUBLIC_URL + "/other/compare"}
+              >
+                <a>{t("compare")}</a>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/other/my-account"
+                as={process.env.PUBLIC_URL + "/other/my-account"}
+              >
+                <a>{t('my_account')}</a>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/other/login-register"
+                as={process.env.PUBLIC_URL + "/other/login-register"}
+              >
+                <a>{t('login_register')}</a>
+              </Link>
+            </li>
+          </ul>
+        </li>
         <li className="menu-item-has-children">
           <Link href="/other/about" as={process.env.PUBLIC_URL + "/other/about"}>
             <a>{t('about_us')}</a>
           </Link>
-          <ul className="mobile-sub-menu">           
+          <ul className="mobile-sub-menu">
             <li>
               <Link
                 href="/other/contact"
@@ -105,9 +113,9 @@ const MobileMenuNav = ({ getActiveStatus }) => {
               >
                 <a>{t('faq')}</a>
               </Link>
-            </li>           
+            </li>
           </ul>
-        </li>       
+        </li>
       </ul>
     </nav>
   );
