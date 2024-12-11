@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { useToasts } from "react-toast-notifications";
 import { getDiscountPrice } from "../../../lib/product";
 import { deleteFromWishlist } from "../../../redux/actions/wishlistActions";
+import { useLocalization } from "../../../context/LocalizationContext"; // Import localization hook
 
 const WishlistOverlay = ({
   activeStatus,
@@ -13,6 +14,8 @@ const WishlistOverlay = ({
   deleteFromWishlist
 }) => {
   const { addToast } = useToasts();
+  const { t } = useLocalization(); // Use localization hook
+  
   return (
     <div className={`wishlist-overlay ${activeStatus ? "active" : ""}`}>
       <div
@@ -35,7 +38,7 @@ const WishlistOverlay = ({
         </button>
         {/*=======  offcanvas wishlist content container  =======*/}
         <div className="wishlist-overlay__content-container">
-          <h3 className="wishlist-title">Wishlist</h3>
+          <h3 className="wishlist-title">{t("wishlist_title")}</h3>
           {wishlistItems.length >= 1 ? (
             <div className="wishlist-product-wrapper">
               <div className="wishlist-product-container">
@@ -98,12 +101,12 @@ const WishlistOverlay = ({
                   href="/other/wishlist"
                   as={process.env.PUBLIC_URL + "/other/wishlist"}
                 >
-                  <a>view wishlist</a>
+                  <a>{t("view_wishlist")}</a>
                 </Link>
               </div>
             </div>
           ) : (
-            "No items found in wishlist"
+            t("no_items_in_wishlist")
           )}
         </div>
       </div>

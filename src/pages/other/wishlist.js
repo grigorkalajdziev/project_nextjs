@@ -13,6 +13,7 @@ import { getDiscountPrice } from "../../lib/product";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { IoIosClose, IoIosHeartEmpty } from "react-icons/io";
+import { useLocalization } from "../../context/LocalizationContext";
 
 const Wishlist = ({
   wishlistItems,
@@ -22,6 +23,7 @@ const Wishlist = ({
   deleteAllFromWishlist
 }) => {
   const { addToast } = useToasts();
+  const { t } = useLocalization();
 
   useEffect(() => {
     document.querySelector("body").classList.remove("overflow-hidden");
@@ -31,17 +33,17 @@ const Wishlist = ({
     <LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
-        pageTitle="Wishlist"
+        pageTitle={t("wishlist_title")}
         backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.jpg"
       >
         <ul className="breadcrumb__list">
           <li>
             <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              <a>Home</a>
+              <a>{t("home")}</a>
             </Link>
           </li>
 
-          <li>Wishlist</li>
+          <li>{t("wishlist_title")}</li>
         </ul>
       </BreadcrumbOne>
 
@@ -56,9 +58,9 @@ const Wishlist = ({
                   <thead>
                     <tr>
                       <th className="product-name" colSpan="2">
-                        Product
+                      {t("product")}
                       </th>
-                      <th className="product-price">Price</th>
+                      <th className="product-price">{t("price")}</th>
                       <th className="product-subtotal">&nbsp;</th>
                       <th className="product-remove">&nbsp;</th>
                     </tr>
@@ -103,10 +105,8 @@ const Wishlist = ({
                             {product.selectedProductColor &&
                             product.selectedProductSize ? (
                               <div className="product-variation">
-                                <span>
-                                  Color: {product.selectedProductColor}
-                                </span>
-                                <span>Size: {product.selectedProductSize}</span>
+                                <span>{t("color")}: {product.selectedProductColor}</span>
+                                <span>{t("size")}: {product.selectedProductSize}</span>
                               </div>
                             ) : (
                               ""
@@ -124,7 +124,7 @@ const Wishlist = ({
                                 target="_blank"
                                 className="lezada-button lezada-button--medium"
                               >
-                                Buy now
+                                {t("buy_now")}
                               </a>
                             ) : product.variation &&
                               product.variation.length >= 1 ? (
@@ -133,7 +133,7 @@ const Wishlist = ({
                                 as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                               >
                                 <a className="lezada-button lezada-button--medium">
-                                  Select option
+                                {t("select_option")}
                                 </a>
                               </Link>
                             ) : product.stock && product.stock > 0 ? (
@@ -151,20 +151,20 @@ const Wishlist = ({
                                 }
                                 title={
                                   product !== undefined
-                                    ? "Added to cart"
-                                    : "Add to cart"
+                                    ? t("added_to_cart")
+                                    : t("add_to_cart")
                                 }
                               >
                                 {cartItem !== undefined && cartItem.quantity > 0
-                                  ? "Added"
-                                  : "Add to cart"}
+                                  ? t("added")
+                                  : t("add_to_cart")}
                               </button>
                             ) : (
                               <button
                                 disabled
                                 className="active lezada-button lezada-button--medium"
                               >
-                                Out of stock
+                                {t("out_of_stock")}
                               </button>
                             )}
                           </td>
@@ -192,7 +192,7 @@ const Wishlist = ({
                         className="lezada-button lezada-button--medium"
                         onClick={() => deleteAllFromWishlist(addToast)}
                       >
-                        clear wishlist
+                        {t("clear_wishlist")}
                       </button>
                     </Col>
                   </Row>
@@ -207,13 +207,13 @@ const Wishlist = ({
                     <IoIosHeartEmpty />
                   </div>
                   <div className="item-empty-area__text">
-                    <p className="space-mb--30">No items found in wishlist</p>
+                    <p className="space-mb--30">{t("no_items_found")}</p>
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
                       <a className="lezada-button lezada-button--medium">
-                        Shop Now
+                      {t("shop_now")}
                       </a>
                     </Link>
                   </div>

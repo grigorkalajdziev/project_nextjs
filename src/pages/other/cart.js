@@ -14,6 +14,7 @@ import { getDiscountPrice } from "../../lib/product";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { IoIosClose, IoMdCart } from "react-icons/io";
+import { useLocalization } from "../../context/LocalizationContext";
 
 const Cart = ({
   cartItems,
@@ -24,6 +25,7 @@ const Cart = ({
 }) => {
   const [quantityCount] = useState(1);
   const { addToast } = useToasts();
+  const { t } = useLocalization(); 
   let cartTotalPrice = 0;
 
   useEffect(() => {
@@ -34,17 +36,17 @@ const Cart = ({
     <LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
-        pageTitle="Cart"
+        pageTitle={t("cart_title")}
         backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.jpg"
       >
         <ul className="breadcrumb__list">
           <li>
             <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              <a>Home</a>
+              <a>{t("home")}</a>
             </Link>
           </li>
 
-          <li>Cart</li>
+          <li>{t("cart")}</li>
         </ul>
       </BreadcrumbOne>
 
@@ -59,11 +61,11 @@ const Cart = ({
                   <thead>
                     <tr>
                       <th className="product-name" colSpan="2">
-                        Product
+                        {t("product")} {/* Translated Product */}
                       </th>
-                      <th className="product-price">Price</th>
-                      <th className="product-quantity">Quantity</th>
-                      <th className="product-subtotal">Total</th>
+                      <th className="product-price">{t("price")}</th> {/* Translated Price */}
+                      <th className="product-quantity">{t("quantity")}</th> {/* Translated Quantity */}
+                      <th className="product-subtotal">{t("total")}</th> {/* Translated Total */}
                       <th className="product-remove">&nbsp;</th>
                     </tr>
                   </thead>
@@ -105,9 +107,9 @@ const Cart = ({
                             product.selectedProductSize ? (
                               <div className="product-variation">
                                 <span>
-                                  Color: {product.selectedProductColor}
+                                  {t("color")}: {product.selectedProductColor} {/* Translated Color */}
                                 </span>
-                                <span>Size: {product.selectedProductSize}</span>
+                                <span>{t("size")}: {product.selectedProductSize}</span> {/* Translated Size */}
                               </div>
                             ) : (
                               ""
@@ -184,12 +186,12 @@ const Cart = ({
                             <Col md={7}>
                               <input
                                 type="text"
-                                placeholder="Enter your coupon code"
+                                placeholder={t("enter_coupon_code")} // Translated coupon code placeholder
                               />
                             </Col>
                             <Col md={5}>
                               <button className="lezada-button lezada-button--medium">
-                                apply coupon
+                                {t("apply_coupon")} {/* Translated Apply Coupon */}
                               </button>
                             </Col>
                           </Row>
@@ -201,7 +203,7 @@ const Cart = ({
                         className="lezada-button lezada-button--medium"
                         onClick={() => deleteAllFromCart(addToast)}
                       >
-                        clear cart
+                        {t("clear_cart")} {/* Translated Clear Cart */}
                       </button>
                     </Col>
                   </Row>
@@ -209,17 +211,17 @@ const Cart = ({
               </Col>
               <Col lg={5} className="ml-auto">
                 <div className="cart-calculation-area">
-                  <h2 className="space-mb--40">Cart totals</h2>
+                  <h2 className="space-mb--40">{t("cart_totals")}</h2> {/* Translated Cart Totals */}
                   <table className="cart-calculation-table space-mb--40">
                     <tbody>
                       <tr>
-                        <th>SUBTOTAL</th>
+                        <th>{t("subtotal")}</th> {/* Translated Subtotal */}
                         <td className="subtotal">
                           ${cartTotalPrice.toFixed(2)}
                         </td>
                       </tr>
                       <tr>
-                        <th>TOTAL</th>
+                        <th>{t("total")}</th> {/* Translated Total */}
                         <td className="total">${cartTotalPrice.toFixed(2)}</td>
                       </tr>
                     </tbody>
@@ -230,7 +232,7 @@ const Cart = ({
                       as={process.env.PUBLIC_URL + "/other/checkout"}
                     >
                       <a className="lezada-button lezada-button--medium">
-                        proceed to checkout
+                        {t("proceed_to_checkout")} {/* Translated Proceed to Checkout */}
                       </a>
                     </Link>
                   </div>
@@ -245,13 +247,13 @@ const Cart = ({
                     <IoMdCart />
                   </div>
                   <div className="item-empty-area__text">
-                    <p className="space-mb--30">No items found in cart</p>
+                    <p className="space-mb--30">{t("no_items_in_cart")}</p> {/* Translated No items found */}
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
                       <a className="lezada-button lezada-button--medium">
-                        Shop Now
+                        {t("shop_now")} {/* Translated Shop Now */}
                       </a>
                     </Link>
                   </div>

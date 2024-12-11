@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { useToasts } from "react-toast-notifications";
 import { getDiscountPrice } from "../../../lib/product";
 import { deleteFromCart } from "../../../redux/actions/cartActions";
+import { useLocalization } from "../../../context/LocalizationContext";
 
 const CartOverlay = ({
   activeStatus,
@@ -14,6 +15,8 @@ const CartOverlay = ({
 }) => {
   let cartTotalPrice = 0;
   const { addToast } = useToasts();
+  const { t } = useLocalization();
+
   return (
     <div className={`cart-overlay ${activeStatus ? "active" : ""}`}>
       <div
@@ -24,7 +27,7 @@ const CartOverlay = ({
         }}
       />
       <div className="cart-overlay__content">
-        {/*=======  close icon  =======*/}
+        {/* Close icon */}
         <button
           className="cart-overlay__close-icon"
           onClick={() => {
@@ -34,9 +37,9 @@ const CartOverlay = ({
         >
           <IoIosClose />
         </button>
-        {/*=======  offcanvas cart content container  =======*/}
+        {/* Cart content */}
         <div className="cart-overlay__content-container">
-          <h3 className="cart-title">Cart</h3>
+          <h3 className="cart-title">{t("cart_title")}</h3>
           {cartItems.length >= 1 ? (
             <div className="cart-product-wrapper">
               <div className="cart-product-container">
@@ -86,8 +89,12 @@ const CartOverlay = ({
                           {product.selectedProductColor &&
                           product.selectedProductSize ? (
                             <div className="cart-item-variation">
-                              <span>Color: {product.selectedProductColor}</span>
-                              <span>Size: {product.selectedProductSize}</span>
+                              <span>
+                                {t("color")}: {product.selectedProductColor}
+                              </span>
+                              <span>
+                                {t("size")}: {product.selectedProductSize}
+                              </span>
                             </div>
                           ) : (
                             ""
@@ -106,35 +113,33 @@ const CartOverlay = ({
                   })}
                 </CustomScroll>
               </div>
-              {/*=======  subtotal calculation  =======*/}
+              {/* Subtotal calculation */}
               <p className="cart-subtotal">
-                <span className="subtotal-title">Subtotal:</span>
+                <span className="subtotal-title">{t("subtotal")}</span>
                 <span className="subtotal-amount">
                   ${cartTotalPrice.toFixed(2)}
                 </span>
               </p>
-              {/*=======  cart buttons  =======*/}
+              {/* Cart buttons */}
               <div className="cart-buttons">
                 <Link
                   href="/other/cart"
                   as={process.env.PUBLIC_URL + "/other/cart"}
                 >
-                  <a>view cart</a>
+                  <a>{t("view_cart")}</a>
                 </Link>
                 <Link
                   href="/other/checkout"
                   as={process.env.PUBLIC_URL + "/other/checkout"}
                 >
-                  <a>checkout</a>
+                  <a>{t("checkout")}</a>
                 </Link>
               </div>
-              {/*=======  free shipping text  =======*/}
-              <p className="free-shipping-text">
-                Free Shipping on All Orders Over $100!
-              </p>
+              {/* Free shipping text */}
+              <p className="free-shipping-text">{t("free_shipping_text")}</p>
             </div>
           ) : (
-            "No items found in cart"
+            t("no_items_found_in_cart")
           )}
         </div>
       </div>
