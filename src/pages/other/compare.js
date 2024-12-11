@@ -10,25 +10,27 @@ import { deleteFromCompare } from "../../redux/actions/compareActions";
 import { addToCart } from "../../redux/actions/cartActions";
 import { ProductRating } from "../../components/Product";
 import { getDiscountPrice } from "../../lib/product";
+import { useLocalization } from "../../context/LocalizationContext";
 
 const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
   const { addToast } = useToasts();
+  const { t } = useLocalization();
 
   return (
     <LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
-        pageTitle="Compare"
+        pageTitle={t("compare_page_title")}
         backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.png"
       >
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              <a>{t("home")}</a>
             </Link>
           </li>
 
-          <li>Compare</li>
+          <li>{t("compare")}</li>
         </ul>
       </BreadcrumbOne>
       <div className="compare-area space-mt--r130 space-mb--r130">
@@ -43,7 +45,7 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                         <table className="table table-bordered mb-0">
                           <tbody>
                             <tr>
-                              <th className="title-column">Product Info</th>
+                              <th className="title-column">{t("product_info")}</th>
                               {compareItems.map((product, i) => {
                                 const cartItem = cartItems.filter(
                                   (item) => item.id === product.id
@@ -55,6 +57,7 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                                         onClick={() =>
                                           deleteFromCompare(product, addToast)
                                         }
+                                        aria-label={t("remove_product")}
                                       >
                                         <IoIosTrash />
                                       </button>
@@ -89,8 +92,7 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                                           target="_blank"
                                           className="lezada-button lezada-button--primary"
                                         >
-                                          {" "}
-                                          Buy now{" "}
+                                          {t("buy_now")}
                                         </a>
                                       ) : product.variation &&
                                         product.variation.length >= 1 ? (
@@ -99,7 +101,7 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                                           as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                                         >
                                           <a className="lezada-button lezada-button--primary">
-                                            Select Option
+                                            {t("select_option")}
                                           </a>
                                         </Link>
                                       ) : product.stock && product.stock > 0 ? (
@@ -122,15 +124,15 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                                         >
                                           {cartItem !== undefined &&
                                           cartItem.quantity > 0
-                                            ? "Added"
-                                            : "Add to cart"}
+                                            ? t("added")
+                                            : t("add_to_cart")}
                                         </button>
                                       ) : (
                                         <button
                                           disabled
                                           className="active lezada-button lezada-button--primary"
                                         >
-                                          Out of Stock
+                                          {t("out_of_stock")}
                                         </button>
                                       )}
                                     </div>
@@ -139,7 +141,7 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                               })}
                             </tr>
                             <tr>
-                              <th className="title-column">Price</th>
+                              <th className="title-column">{t("price")}</th>
                               {compareItems.map((product, key) => {
                                 const discountedPrice = getDiscountPrice(
                                   product.price,
@@ -169,14 +171,14 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                             </tr>
 
                             <tr>
-                              <th className="title-column">Description</th>
+                              <th className="title-column">{t("description")}</th>
                               {compareItems.map((product, i) => {
                                 return (
                                   <td className="product-desc" key={i}>
                                     <p>
                                       {product.shortDescription
                                         ? product.shortDescription
-                                        : "N/A"}
+                                        : t("not_available")}
                                     </p>
                                   </td>
                                 );
@@ -184,7 +186,7 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                             </tr>
 
                             <tr>
-                              <th className="title-column">Rating</th>
+                              <th className="title-column">{t("rating")}</th>
                               {compareItems.map((product, key) => {
                                 return (
                                   <td className="product-rating" key={key}>
@@ -209,13 +211,13 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                         <IoIosShuffle />
                       </div>
                       <div className="item-empty-area__text">
-                        <p className="space-mb--30">No items to compare</p>
+                        <p className="space-mb--30">{t("no_items_to_compare")}</p>
                         <Link
                           href="/shop/left-sidebar"
                           as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                         >
                           <a className="lezada-button lezada-button--medium">
-                            Add Items
+                            {t("add_items")}
                           </a>
                         </Link>
                       </div>

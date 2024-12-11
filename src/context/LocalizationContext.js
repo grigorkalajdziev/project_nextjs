@@ -261,7 +261,24 @@ const translations = {
     place_order: "Place Order",
     cart_empty_message: "No items found in cart to checkout",
     shop_now: "Shop Now",
-    compare: "Compare"
+    compare: "Compare",
+    compare_page_title: "Compare",
+    home: "Home",
+    compare: "Compare",
+    product_info: "Product Info",
+    remove_product: "Remove Product",
+    buy_now: "Buy Now",
+    select_option: "Select Option",
+    added: "Added",
+    add_to_cart: "Add to Cart",
+    out_of_stock: "Out of Stock",
+    price: "Price",
+    description: "Description",
+    not_available: "N/A",
+    rating: "Rating",
+    no_items_to_compare: "No items to compare",
+    add_items: "Add Items"
+
   },
   mk: {
     english: "Англиски",
@@ -404,7 +421,7 @@ const translations = {
     search_here: "Пребарувај тука",
     dashboard: "Контролна табла",
     orders: "Нарачки",
-    download: "Превземи",
+    download: "Преземи",
     payment: "Плаќање",
     address: "Адреса",
     account_details: "Детали за профилот",
@@ -420,7 +437,7 @@ const translations = {
     view: "Прегледај",
     product: "Производ",
     expire: "Истекува",
-    download_file: "Превземи датотека",
+    download_file: "Преземи датотека",
     payment_method: "Начин на плаќање",
     no_payment_saved: "Сè уште немате зачувано начин на плаќање.",
     billing_address: "Адреса за фактурирање",
@@ -519,7 +536,23 @@ const translations = {
     place_order: "Нарачај",
     cart_empty_message: "Нема продукти во вашата количка",
     shop_now: "Купувајте сега",
-    compare: "Споредба"
+    compare: "Споредба",
+    compare_page_title: "Споредба",
+    home: "Дома",
+    compare: "Споредба",
+    product_info: "Информации за производот",
+    remove_product: "Отстрани производ",
+    buy_now: "Купи сега",
+    select_option: "Избери опција",
+    added: "Додадено",
+    add_to_cart: "Додади во кошничка",
+    out_of_stock: "Нема на залиха",
+    price: "Цена",
+    description: "Опис",
+    not_available: "Нема",
+    rating: "Оценка",
+    no_items_to_compare: "Нема производи за споредба",
+    add_items: "Додади производи"
   }
 };
 
