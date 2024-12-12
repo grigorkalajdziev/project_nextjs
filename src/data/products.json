@@ -35,7 +35,7 @@
       {
         "color": "blue",
         "colorCode": "#1e73be",
-        "image": "/assets/images/product/decor/2.jpg",
+        "image": "/assets/images/product/decor/1.jpg",
         "size": [
           {
             "name": "x",
@@ -58,7 +58,7 @@
       {
         "color": "yellow",
         "colorCode": "#dd9933",
-        "image": "/assets/images/product/decor/3.jpg",
+        "image": "/assets/images/product/decor/1.jpg",
         "size": [
           {
             "name": "x",
@@ -80,15 +80,10 @@
       }
     ],
     "thumbImage": [
-      "/assets/images/product/decor/1.jpg",
-      "/assets/images/product/decor/2.jpg"
+      "/assets/images/product/decor/1.jpg"      
     ],
     "image": [
-      "/assets/images/product/decor/1.jpg",
-      "/assets/images/product/decor/2.jpg",
-      "/assets/images/product/decor/3.jpg",
-      "/assets/images/product/decor/4.jpg",
-      "/assets/images/product/decor/5.jpg"
+      "/assets/images/product/decor/1.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -108,15 +103,10 @@
     "tag": ["decor"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/decor/2.jpg",
-      "/assets/images/product/decor/3.jpg"
+      "/assets/images/product/decor/2.jpg"
     ],
     "image": [
-      "/assets/images/product/decor/2.jpg",
-      "/assets/images/product/decor/3.jpg",
-      "/assets/images/product/decor/4.jpg",
-      "/assets/images/product/decor/5.jpg",
-      "/assets/images/product/decor/6.jpg"
+      "/assets/images/product/decor/2.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -136,15 +126,10 @@
     "tag": ["decor"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/decor/3.jpg",
-      "/assets/images/product/decor/4.jpg"
+      "/assets/images/product/decor/3.jpg"
     ],
     "image": [
-      "/assets/images/product/decor/3.jpg",
-      "/assets/images/product/decor/4.jpg",
-      "/assets/images/product/decor/5.jpg",
-      "/assets/images/product/decor/6.jpg",
-      "/assets/images/product/decor/7.jpg"
+      "/assets/images/product/decor/3.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -165,15 +150,10 @@
     "stock": 12,
     "affiliateLink": "https://www.amazon.com",
     "thumbImage": [
-      "/assets/images/product/decor/4.jpg",
-      "/assets/images/product/decor/5.jpg"
+      "/assets/images/product/decor/4.jpg"
     ],
     "image": [
-      "/assets/images/product/decor/4.jpg",
-      "/assets/images/product/decor/5.jpg",
-      "/assets/images/product/decor/6.jpg",
-      "/assets/images/product/decor/7.jpg",
-      "/assets/images/product/decor/8.jpg"
+      "/assets/images/product/decor/4.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -193,15 +173,10 @@
     "tag": ["decor"],
     "stock": 14,
     "thumbImage": [
-      "/assets/images/product/decor/5.jpg",
-      "/assets/images/product/decor/6.jpg"
+      "/assets/images/product/decor/5.jpg"
     ],
     "image": [
-      "/assets/images/product/decor/5.jpg",
-      "/assets/images/product/decor/6.jpg",
-      "/assets/images/product/decor/7.jpg",
-      "/assets/images/product/decor/8.jpg",
-      "/assets/images/product/decor/9.jpg"
+      "/assets/images/product/decor/5.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -221,15 +196,10 @@
     "tag": ["decor"],
     "stock": 0,
     "thumbImage": [
-      "/assets/images/product/decor/6.jpg",
-      "/assets/images/product/decor/7.jpg"
+      "/assets/images/product/decor/6.jpg"
     ],
     "image": [
-      "/assets/images/product/decor/6.jpg",
-      "/assets/images/product/decor/7.jpg",
-      "/assets/images/product/decor/8.jpg",
-      "/assets/images/product/decor/9.jpg",
-      "/assets/images/product/decor/10.jpg"
+      "/assets/images/product/decor/6.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -249,15 +219,10 @@
     "tag": ["decor"],
     "stock": 18,
     "thumbImage": [
-      "/assets/images/product/decor/7.jpg",
-      "/assets/images/product/decor/8.jpg"
+      "/assets/images/product/decor/7.jpg"
     ],
     "image": [
-      "/assets/images/product/decor/7.jpg",
-      "/assets/images/product/decor/8.jpg",
-      "/assets/images/product/decor/9.jpg",
-      "/assets/images/product/decor/10.jpg",
-      "/assets/images/product/decor/1.jpg"
+      "/assets/images/product/decor/7.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -277,15 +242,10 @@
     "tag": ["decor"],
     "stock": 12,
     "thumbImage": [
-      "/assets/images/product/decor/8.jpg",
-      "/assets/images/product/decor/9.jpg"
+      "/assets/images/product/decor/8.jpg"
     ],
     "image": [
-      "/assets/images/product/decor/8.jpg",
-      "/assets/images/product/decor/9.jpg",
-      "/assets/images/product/decor/10.jpg",
-      "/assets/images/product/decor/1.jpg",
-      "/assets/images/product/decor/2.jpg"
+      "/assets/images/product/decor/8.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -305,15 +265,10 @@
     "tag": ["decor"],
     "stock": 16,
     "thumbImage": [
-      "/assets/images/product/decor/9.jpg",
-      "/assets/images/product/decor/10.jpg"
+      "/assets/images/product/decor/9.jpg"
     ],
     "image": [
-      "/assets/images/product/decor/9.jpg",
-      "/assets/images/product/decor/10.jpg",
-      "/assets/images/product/decor/1.jpg",
-      "/assets/images/product/decor/2.jpg",
-      "/assets/images/product/decor/3.jpg"
+      "/assets/images/product/decor/9.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -333,15 +288,10 @@
     "tag": ["decor"],
     "stock": 14,
     "thumbImage": [
-      "/assets/images/product/decor/10.jpg",
-      "/assets/images/product/decor/1.jpg"
+      "/assets/images/product/decor/10.jpg"
     ],
     "image": [
-      "/assets/images/product/decor/10.jpg",
-      "/assets/images/product/decor/1.jpg",
-      "/assets/images/product/decor/2.jpg",
-      "/assets/images/product/decor/3.jpg",
-      "/assets/images/product/decor/4.jpg"
+      "/assets/images/product/decor/10.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -427,15 +377,10 @@
       }
     ],
     "thumbImage": [
-      "/assets/images/product/fashion/1.jpg",
       "/assets/images/product/fashion/1.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/1.jpg",
-      "/assets/images/product/fashion/2.jpg",
-      "/assets/images/product/fashion/3.jpg",
-      "/assets/images/product/fashion/4.jpg",
-      "/assets/images/product/fashion/5.jpg"
+      "/assets/images/product/fashion/1.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -521,15 +466,10 @@
       }
     ],
     "thumbImage": [
-      "/assets/images/product/fashion/2.jpg",
       "/assets/images/product/fashion/2.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/2.jpg",
-      "/assets/images/product/fashion/3.jpg",
-      "/assets/images/product/fashion/4.jpg",
-      "/assets/images/product/fashion/5.jpg",
-      "/assets/images/product/fashion/6.jpg"
+      "/assets/images/product/fashion/2.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -615,15 +555,10 @@
       }
     ],
     "thumbImage": [
-      "/assets/images/product/fashion/3.jpg",
       "/assets/images/product/fashion/3.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/3.jpg",
-      "/assets/images/product/fashion/4.jpg",
-      "/assets/images/product/fashion/5.jpg",
-      "/assets/images/product/fashion/6.jpg",
-      "/assets/images/product/fashion/7.jpg"
+      "/assets/images/product/fashion/3.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -709,15 +644,10 @@
       }
     ],
     "thumbImage": [
-      "/assets/images/product/fashion/4.jpg",
       "/assets/images/product/fashion/4.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/4.jpg",
-      "/assets/images/product/fashion/5.jpg",
-      "/assets/images/product/fashion/6.jpg",
-      "/assets/images/product/fashion/7.jpg",
-      "/assets/images/product/fashion/8.jpg"
+      "/assets/images/product/fashion/4.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -803,15 +733,10 @@
       }
     ],
     "thumbImage": [
-      "/assets/images/product/fashion/5.jpg",
       "/assets/images/product/fashion/5.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/5.jpg",
-      "/assets/images/product/fashion/6.jpg",
-      "/assets/images/product/fashion/7.jpg",
-      "/assets/images/product/fashion/8.jpg",
-      "/assets/images/product/fashion/9.jpg"
+      "/assets/images/product/fashion/5.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -897,15 +822,10 @@
       }
     ],
     "thumbImage": [
-      "/assets/images/product/fashion/6.jpg",
       "/assets/images/product/fashion/6.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/6.jpg",
-      "/assets/images/product/fashion/7.jpg",
-      "/assets/images/product/fashion/8.jpg",
-      "/assets/images/product/fashion/10.jpg",
-      "/assets/images/product/fashion/10.jpg"
+      "/assets/images/product/fashion/6.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -991,15 +911,10 @@
       }
     ],
     "thumbImage": [
-      "/assets/images/product/fashion/7.jpg",
       "/assets/images/product/fashion/7.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/7.jpg",
-      "/assets/images/product/fashion/8.jpg",
-      "/assets/images/product/fashion/9.jpg",
-      "/assets/images/product/fashion/10.jpg",
-      "/assets/images/product/fashion/1.jpg"
+      "/assets/images/product/fashion/7.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -1085,15 +1000,10 @@
       }
     ],
     "thumbImage": [
-      "/assets/images/product/fashion/8.jpg",
       "/assets/images/product/fashion/8.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/8.jpg",
-      "/assets/images/product/fashion/9.jpg",
-      "/assets/images/product/fashion/10.jpg",
-      "/assets/images/product/fashion/1.jpg",
-      "/assets/images/product/fashion/2.jpg"
+      "/assets/images/product/fashion/8.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
@@ -1179,15 +1089,10 @@
       }
     ],
     "thumbImage": [
-      "/assets/images/product/fashion/9.jpg",
       "/assets/images/product/fashion/9.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/9.jpg",
-      "/assets/images/product/fashion/10.jpg",
-      "/assets/images/product/fashion/1.jpg",
-      "/assets/images/product/fashion/2.jpg",
-      "/assets/images/product/fashion/3.jpg"
+      "/assets/images/product/fashion/9.jpg"
     ],
     "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
     "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
