@@ -318,7 +318,9 @@ const translations = {
     subtotal: "Subtotal",
     proceed_to_checkout: "Proceed to checkout",
     no_items_in_cart: "No items found in cart",
-    shop_now: "Shop Now"
+    shop_now: "Shop Now",
+    search_products_placeholder: "Search Products...",
+    search_hint: "# Hit enter to search"
   },
   mk: {
     english: "Англиски",
@@ -362,7 +364,7 @@ const translations = {
     faqs: "Најчесто поставувани прашања",
     follow_us: "Следете не на",
     subscribe: "Претплатете се.",
-    subscribe_message: "Претплатете се на нашиот билтен за да добивате новости за ажурирања.",
+    subscribe_message: "Претплатете се на нашиот весник за да добивате новости за ажурирања.",
     email_placeholder: "Вашата email адреса",
     contact_title: "Контакт",
     home: "Дома",
@@ -546,8 +548,8 @@ const translations = {
     company_label: "Компанија",
     company_placeholder: "Внесете го името на вашата компанија",
     address_label: "Адреса",
-    address_line1_placeholder: "Внесете ја адресата (линија 1)",
-    address_line2_placeholder: "Внесете ја адресата (линија 2)",
+    address_line1_placeholder: "Внесете ја адресата (адреса 1)",
+    address_line2_placeholder: "Внесете ја адресата (адреса 2)",
     country_label: "Држава",
     city_label: "Град",
     city_placeholder: "Внесете го вашиот град",
@@ -574,7 +576,7 @@ const translations = {
     payment_payoneer: "Payoneer",
     accept_terms_label: "Го прочитав и се согласувам со условите и правилата",
     place_order: "Нарачај",
-    cart_empty_message: "Нема продукти во вашата количка",
+    cart_empty_message: "Нема продукти во вашата кошничката",
     shop_now: "Купувајте сега",
     compare: "Споредба",
     compare_page_title: "Споредба",
@@ -603,13 +605,13 @@ const translations = {
     no_items_found_in_cart: "Нема производи во кошничката",
     wishlist_title: "Листа на желби",
     view_wishlist: "Преглед на листата на желби",
-    no_items_in_wishlist: "Нема пронајдени предмети во листата на желби",
+    no_items_in_wishlist: "Нема производи во листата на желби",
     wishlist_title: "Листа на желби",
     home: "Дома",
     product: "Продукт",
     price: "Цена",
     clear_wishlist: "Исчисти ја листата на желби",
-    no_items_found: "Нема пронајдени предмети во листата на желби",
+    no_items_found: "Нема производи во листата на желби",
     shop_now: "Купувај сега",
     added_to_cart: "Додадено во кошничката",
     add_to_cart: "Додади во кошничка",
@@ -633,8 +635,9 @@ const translations = {
     subtotal: "Пресметка",
     proceed_to_checkout: "Продолжи до наплата",
     no_items_in_cart: "Нема производи во кошничката",
-    shop_now: "Купи сега"
-
+    shop_now: "Купи сега",
+    search_products_placeholder: "Пребарај производи...",
+    search_hint: "# Притиснете Enter за пребарување"
   }
 };
 

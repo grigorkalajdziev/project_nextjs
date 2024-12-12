@@ -1,6 +1,8 @@
 import { MdClose } from "react-icons/md";
+import { useLocalization } from "../../../context/LocalizationContext";
 
 const SearchOverlay = ({ activeStatus, getActiveStatus }) => {
+  const { t } = useLocalization();
   return (
     <div className={`search-overlay ${activeStatus ? "active" : ""}`}>
       {/*=======  close icon  =======*/}
@@ -17,9 +19,9 @@ const SearchOverlay = ({ activeStatus, getActiveStatus }) => {
       {/*=======  search overlay content  =======*/}
       <div className="search-overlay__content">
         <form className="space-mb--20">
-          <input type="search" placeholder="Search Products..." />
+          <input type="search" placeholder={t("search_products_placeholder")} />
         </form>
-        <div className="search-overlay__hint"># Hit enter to search</div>
+        <div className="search-overlay__hint">{t("search_hint")}</div>
       </div>
       {/*=======  End of search overlay content  =======*/}
     </div>
