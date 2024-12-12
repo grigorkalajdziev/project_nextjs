@@ -364,7 +364,7 @@ const translations = {
     faqs: "Најчесто поставувани прашања",
     follow_us: "Следете не на",
     subscribe: "Претплатете се.",
-    subscribe_message: "Претплатете се на нашиот весник за да добивате новости за ажурирања.",
+    subscribe_message: "Претплатете се на нашиот весник за да добивате новости.",
     email_placeholder: "Вашата email адреса",
     contact_title: "Контакт",
     home: "Дома",

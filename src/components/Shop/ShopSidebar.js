@@ -61,7 +61,7 @@ const ShopSidebar = ({ products, getSortParams }) => {
                       setActiveSort(e);
                     }}
                   >
-                    {category}
+                    {t(category) || category}
                   </button>
                 </li>
               );
@@ -197,7 +197,7 @@ const ShopSidebar = ({ products, getSortParams }) => {
                     setActiveSort(e);
                   }}
                 >
-                  {tag}
+                  {t(tag) || tag}
                 </button>
               );
             })}

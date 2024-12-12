@@ -11,7 +11,7 @@ import { useLocalization } from "../../context/LocalizationContext";
 const ShopFilter = ({ products, getSortParams }) => {  
   const { t } = useLocalization();
 
-  const categories = getIndividualCategories(products);  
+  const categories = getIndividualCategories(products);    
   const colors = getIndividualColors(products);
   const sizes = getProductsIndividualSizes(products);
   const tags = getIndividualTags(products);
@@ -139,7 +139,7 @@ const ShopFilter = ({ products, getSortParams }) => {
                           setActiveSort(e);
                         }}
                       >
-                        {tag}
+                        {t(tag) || tag}
                       </button>
                     );
                   })}

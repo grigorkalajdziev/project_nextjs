@@ -147,62 +147,34 @@ const getIndividualColorObjectArray = (array) => {
 
 // get individual categories
 export const getIndividualCategories = (products) => {
-  const { t, currentLanguage } = useLocalization();
-
   let productCategories = [];
   products &&
     products.map((product) => {
-      return (
-        product.category &&
-        product.category.map((single) => {
-          productCategories.push(single);
+        return (
+            product.category &&
+            product.category.map((single) => {
+          return productCategories.push(single);
         })
       );
     });
   const individualProductCategories = getIndividualItemArray(productCategories);
-
-  const translatedCategories = individualProductCategories.map((category) => {
-    // Check if translation exists for the category name
-    if (t(`${category}`)) {
-      return t(`${category}`);
-    }
-    return category; // Return the category name as-is if no translation is found
-  });
-
-  return translatedCategories;
+  return individualProductCategories;
 };
 
 // get individual tags
 export const getIndividualTags = (products) => {
-  const { t, currentLanguage } = useLocalization(); // Get translation function and current language
-
   let productTags = [];
-
-  // Extract tags from products
   products &&
     products.map((product) => {
       return (
         product.tag &&
         product.tag.map((single) => {
-          // Push the tag into the productTags array
-          productTags.push(single);
+          return productTags.push(single);
         })
       );
     });
-
-  // Remove duplicates using the helper function (assuming getIndividualItemArray is already defined)
   const individualProductTags = getIndividualItemArray(productTags);
-
-  // Translate tags based on the current language
-  const translatedTags = individualProductTags.map((tag) => {
-    // Check if translation exists for the tag
-    if (t(`${tag}`)) {
-      return t(`${tag}`);
-    }
-    return tag; // Return the tag name as-is if no translation is found
-  });
-
-  return translatedTags;
+  return individualProductTags;
 };
 
 // get individual colors
