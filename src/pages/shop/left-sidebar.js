@@ -26,6 +26,7 @@ const LeftSidebar = ({ products }) => {
   const [offset, setOffset] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentData, setCurrentData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [sortedProducts, setSortedProducts] = useState([]);
   const [shopTopFilterStatus, setShopTopFilterStatus] = useState(false);
 
@@ -53,9 +54,16 @@ const LeftSidebar = ({ products }) => {
       filterSortValue
     );
     sortedProducts = filterSortedProducts;
+
+    if (searchTerm) {
+      sortedProducts = sortedProducts.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
     setSortedProducts(sortedProducts);
     setCurrentData(sortedProducts.slice(offset, offset + pageLimit));
-  }, [offset, products, sortType, sortValue, filterSortType, filterSortValue]);
+  }, [offset, products, sortType, sortValue, filterSortType, filterSortValue, searchTerm]);
 
   return (
     <LayoutTwo>
@@ -102,6 +110,8 @@ const LeftSidebar = ({ products }) => {
                 <ShopSidebar
                   products={products}
                   getSortParams={getSortParams}
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
                 />
               </Col>
 

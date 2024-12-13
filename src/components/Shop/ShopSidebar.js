@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import Link from "next/link";
 import { IoIosSearch } from "react-icons/io";
 import {
@@ -7,12 +7,13 @@ import {
   getIndividualTags,
   setActiveSort,
   getProducts,
-  getDiscountPrice
+  getDiscountPrice,
+  getIndividualName
 } from "../../lib/product";
 import { ProductRating } from "../Product";
 import { useLocalization } from "../../context/LocalizationContext";
 
-const ShopSidebar = ({ products, getSortParams }) => {
+const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => {
   const { t } = useLocalization();
 
   const categories = getIndividualCategories(products);
@@ -26,7 +27,12 @@ const ShopSidebar = ({ products, getSortParams }) => {
         {/* search widget */}
         <div className="search-widget">
           <form>
-            <input type="search" placeholder={t("searchPlaceholder")} />
+            <input
+              type="search"
+              placeholder={t("searchPlaceholder")}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)} // Update the parent state
+            />
             <button type="button">
               <IoIosSearch />
             </button>
@@ -37,7 +43,7 @@ const ShopSidebar = ({ products, getSortParams }) => {
       {/* category list */}
       <div className="single-sidebar-widget space-mb--40">
         <h2 className="single-sidebar-widget__title space-mb--30">
-        {t("categories")}
+          {t("categories")}
         </h2>
         {categories.length > 0 ? (
           <ul className="single-sidebar-widget__list single-sidebar-widget__list--category">
@@ -109,7 +115,7 @@ const ShopSidebar = ({ products, getSortParams }) => {
       {/* popular products */}
       <div className="single-sidebar-widget space-mb--40">
         <h2 className="single-sidebar-widget__title space-mb--30">
-        {t("popularProducts")}
+          {t("popularProducts")}
         </h2>
         {popularProducts.length > 0 ? (
           <div className="widget-product-wrapper">
@@ -174,7 +180,7 @@ const ShopSidebar = ({ products, getSortParams }) => {
                       </div>
                     </div>
                   </div>
-                </div> 
+                </div>
               );
             })}
           </div>

@@ -1,5 +1,3 @@
-import { useLocalization } from "../context/LocalizationContext";
-
 // get products
 export const getProducts = (products, category, type, limit) => {
   const finalProducts = category
@@ -246,4 +244,16 @@ export const setActiveLayout = (e) => {
     item.classList.remove("active");
   });
   e.currentTarget.classList.add("active");
+};
+
+export const getIndividualName = (products) => {
+  let productNames = [];
+  products &&
+    products.forEach((product) => {
+      if (product.name) {
+        productNames.push(product.name);
+      }
+    });
+  const individualProductName = getIndividualItemArray(productNames);
+  return individualProductName;
 };
