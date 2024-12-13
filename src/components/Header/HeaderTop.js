@@ -24,10 +24,10 @@ const HeaderTop = () => {
             </div>
             <span className="header-separator">|</span>
             <div className="currency-change change-dropdown">
-              <span>USD</span> <IoIosArrowDown />
+              <span>EUR</span> <IoIosArrowDown />
               <ul>
                 <li>
-                  <button>USD</button>
+                  <button>MKD</button>
                 </li>
                 <li>
                   <button>EUR</button>
