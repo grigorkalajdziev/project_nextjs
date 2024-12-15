@@ -24,7 +24,7 @@ const ProductGrid = ({
   column
 }) => {
   const [modalShow, setModalShow] = useState(false);
-  const { t, currentLanguage } = useLocalization();
+  const { t } = useLocalization();
 
   return (
     <Fragment>
@@ -160,7 +160,7 @@ const ProductGrid = ({
               {/* add to cart */}
               {product.affiliateLink ? (
                 <a href={product.affiliateLink} target="_blank">
-                  Buy now
+                  {t("buy_now")}
                 </a>
               ) : product.variation && product.variation.length >= 1 ? (
                 <Link
@@ -171,7 +171,7 @@ const ProductGrid = ({
                     product.slug
                   }
                 >
-                  <a>Select Option</a>
+                  <a>{t("select_option")}</a>
                 </Link>
               ) : product.stock && product.stock > 0 ? (
                 <button
@@ -181,10 +181,10 @@ const ProductGrid = ({
                     cartItem.quantity >= cartItem.stock
                   }
                 >
-                  {cartItem !== undefined ? "Added to cart" : "Add to cart"}
+                  {cartItem !== undefined ? t("added_to_cart") : t("add_to_cart")}
                 </button>
               ) : (
-                <button disabled>Out of Stock</button>
+                <button disabled>{t("out_of_stock")}</button>
               )}
             </div>
             <div className="price">

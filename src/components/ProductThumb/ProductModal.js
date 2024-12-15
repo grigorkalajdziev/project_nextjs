@@ -5,8 +5,11 @@ import Swiper from "react-id-swiper";
 import CustomScroll from "react-custom-scroll";
 import { getProductCartQuantity } from "../../lib/product";
 import { ProductRating } from "../Product";
+import { useLocalization } from "../../context/LocalizationContext";
 
 const ProductModal = (props) => {
+  const { t } = useLocalization();
+
   const {
     product,
     discountedprice,
@@ -109,7 +112,7 @@ const ProductModal = (props) => {
                 {product.variation ? (
                   <div className="product-quickview__size-color">
                     <div className="product-quickview__size space-mb--20">
-                      <div className="product-quickview__size__title">Size</div>
+                      <div className="product-quickview__size__title">{t("size")}</div>
                       <div className="product-quickview__size__content">
                         {product.variation &&
                           product.variation.map((single) => {
@@ -147,7 +150,7 @@ const ProductModal = (props) => {
                     </div>
                     <div className="product-quickview__color space-mb--20">
                       <div className="product-quickview__color__title">
-                        Color
+                        {t("color")}
                       </div>
                       <div className="product-quickview__color__content">
                         {product.variation.map((single, i) => {
@@ -192,7 +195,7 @@ const ProductModal = (props) => {
                         target="_blank"
                         className="lezada-button lezada-button--medium"
                       >
-                        Buy Now
+                        {t("buy_now")}
                       </a>
                     </div>
                   </div>
@@ -200,7 +203,7 @@ const ProductModal = (props) => {
                   <Fragment>
                     <div className="product-quickview__quantity space-mb--20">
                       <div className="product-quickview__quantity__title">
-                        Quantity
+                      {t("quantity")}
                       </div>
                       <div className="cart-plus-minus">
                         <button
@@ -249,14 +252,14 @@ const ProductModal = (props) => {
                           disabled={productCartQty >= productStock}
                           className="lezada-button lezada-button--medium product-quickview__cart space-mr--10"
                         >
-                          Add To Cart
+                          {t("add_to_cart")}
                         </button>
                       ) : (
                         <button
                           className="lezada-button lezada-button--medium product-quickview__ofs space-mr--10"
                           disabled
                         >
-                          Out of Stock
+                          {t("out_of_stock")}
                         </button>
                       )}
 
@@ -266,8 +269,8 @@ const ProductModal = (props) => {
                         }`}
                         title={
                           wishlistitem !== undefined
-                            ? "Added to wishlist"
-                            : "Add to wishlist"
+                          ? t("added_to_wishlist")
+                          : t("add_to_wishlist")
                         }
                         onClick={
                           wishlistitem !== undefined
@@ -284,8 +287,8 @@ const ProductModal = (props) => {
                         }`}
                         title={
                           compareitem !== undefined
-                            ? "Added to compare"
-                            : "Add to compare"
+                          ? t("added_to_compare")
+                          : t("add_to_compare")
                         }
                         onClick={
                           compareitem !== undefined

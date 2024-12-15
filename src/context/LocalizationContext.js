@@ -320,7 +320,13 @@ const translations = {
     no_items_in_cart: "No items found in cart",
     shop_now: "Shop Now",
     search_products_placeholder: "Search Products...",
-    search_hint: "# Hit enter to search"
+    search_hint: "# Hit enter to search",
+    out_of_stock: "Out of Stock",
+    select_option: "Select Option",
+    buy_now: "Buy Now",
+    add_to_cart: "Add to Cart",
+    added_to_cart: "Added to Cart",
+    share: "Share"
   },
   mk: {
     english: "Англиски",
@@ -637,7 +643,13 @@ const translations = {
     no_items_in_cart: "Нема производи во кошничката",
     shop_now: "Купи сега",
     search_products_placeholder: "Пребарај производи...",
-    search_hint: "# Притиснете Enter за пребарување"
+    search_hint: "# Притиснете Enter за пребарување",
+    out_of_stock: "Нема на залиха",
+    select_option: "Изберете опција",
+    buy_now: "Купете веднаш",
+    add_to_cart: "Додај во кошничка",
+    added_to_cart: "Додадено во кошничка",
+    share: "Сподели"
   }
 };
 

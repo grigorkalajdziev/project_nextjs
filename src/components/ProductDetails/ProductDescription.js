@@ -4,6 +4,7 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
 import Link from "next/link";
 import { ProductRating } from "../Product";
 import { getProductCartQuantity } from "../../lib/product";
+import { useLocalization } from "../../context/LocalizationContext";
 
 const ProductDescription = ({
   product,
@@ -36,6 +37,7 @@ const ProductDescription = ({
     selectedProductColor,
     selectedProductSize
   );
+  const { t } = useLocalization();
 
   return (
     <div className="product-content">
@@ -69,7 +71,7 @@ const ProductDescription = ({
       {product.variation ? (
         <div className="product-content__size-color">
           <div className="product-content__size space-mb--20">
-            <div className="product-content__size__title">Size</div>
+            <div className="product-content__size__title">{t("size")}</div>
             <div className="product-content__size__content">
               {product.variation &&
                 product.variation.map((single) => {
@@ -103,7 +105,7 @@ const ProductDescription = ({
             </div>
           </div>
           <div className="product-content__color space-mb--20">
-            <div className="product-content__color__title">Color</div>
+            <div className="product-content__color__title">{t("color")}</div>
             <div className="product-content__color__content">
               {product.variation.map((single, i) => {
                 return (
@@ -145,14 +147,14 @@ const ProductDescription = ({
               target="_blank"
               className="lezada-button lezada-button--medium"
             >
-              Buy Now
+              {t("buy_now")}
             </a>
           </div>
         </div>
       ) : (
         <Fragment>
           <div className="product-content__quantity space-mb--40">
-            <div className="product-content__quantity__title">Quantity</div>
+            <div className="product-content__quantity__title">{t("quantity")}</div>
             <div className="cart-plus-minus">
               <button
                 onClick={() =>
@@ -198,14 +200,14 @@ const ProductDescription = ({
                 disabled={productCartQty >= productStock}
                 className="lezada-button lezada-button--medium product-content__cart space-mr--10"
               >
-                Add To Cart
+               {t("add_to_cart")}
               </button>
             ) : (
               <button
                 className="lezada-button lezada-button--medium product-content__ofs space-mr--10"
                 disabled
               >
-                Out of Stock
+                {t("out_of_stock")}
               </button>
             )}
 
@@ -215,8 +217,8 @@ const ProductDescription = ({
               }`}
               title={
                 wishlistItem !== undefined
-                  ? "Added to wishlist"
-                  : "Add to wishlist"
+                ? t("added_to_wishlist")
+                : t("add_to_wishlist")
               }
               onClick={
                 wishlistItem !== undefined
@@ -233,8 +235,8 @@ const ProductDescription = ({
               }`}
               title={
                 compareItem !== undefined
-                  ? "Added to compare"
-                  : "Add to compare"
+                  ? t("added_to_compare")
+                  : t("add_to_compare")
               }
               onClick={
                 compareItem !== undefined
@@ -254,7 +256,7 @@ const ProductDescription = ({
                   <td className="value">{product.sku}</td>
                 </tr>
                 <tr className="single-info">
-                  <td className="title">Categories: </td>
+                  <td className="title">{t("categories")}: </td>
                   <td className="value">
                     {product.category &&
                       product.category.map((item, index, arr) => {
@@ -273,7 +275,7 @@ const ProductDescription = ({
                   </td>
                 </tr>
                 <tr className="single-info">
-                  <td className="title">Tags: </td>
+                  <td className="title">{t("tags")}: </td>
                   <td className="value">
                     {product.tag &&
                       product.tag.map((item, index, arr) => {
@@ -292,7 +294,7 @@ const ProductDescription = ({
                   </td>
                 </tr>
                 <tr className="single-info">
-                  <td className="title">Share on: </td>
+                  <td className="title">{t("share")}: </td>
                   <td className="value">
                     <ul className="social-icons">
                       <li>

@@ -54,7 +54,6 @@ const LeftSidebar = ({ products }) => {
       filterSortValue
     );
     sortedProducts = filterSortedProducts;
-
     if (searchTerm) {
       sortedProducts = sortedProducts.filter((product) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase())

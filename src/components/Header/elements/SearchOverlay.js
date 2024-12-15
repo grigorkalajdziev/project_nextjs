@@ -1,8 +1,9 @@
 import { MdClose } from "react-icons/md";
 import { useLocalization } from "../../../context/LocalizationContext";
 
-const SearchOverlay = ({ activeStatus, getActiveStatus }) => {
-  const { t } = useLocalization();
+const SearchOverlay = ({ activeStatus, getActiveStatus  }) => {  
+  const { t } = useLocalization(); 
+
   return (
     <div className={`search-overlay ${activeStatus ? "active" : ""}`}>
       {/*=======  close icon  =======*/}

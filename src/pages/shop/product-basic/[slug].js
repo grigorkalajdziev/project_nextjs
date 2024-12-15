@@ -21,6 +21,7 @@ import {
   deleteFromCompare
 } from "../../../redux/actions/compareActions";
 import products from "../../../data/products.json";
+import { useLocalization } from "../../../context/LocalizationContext";
 
 const ProductBasic = ({
   product,
@@ -53,6 +54,7 @@ const ProductBasic = ({
   const compareItem = compareItems.filter(
     (compareItem) => compareItem.id === product.id
   )[0];
+  const { t } = useLocalization();
 
   return (
     <LayoutTwo>
@@ -64,7 +66,7 @@ const ProductBasic = ({
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              <a>{t("home")}</a>
             </Link>
           </li>
           <li>
@@ -72,7 +74,7 @@ const ProductBasic = ({
               href="/shop/left-sidebar"
               as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
             >
-              <a>Shop</a>
+              <a>{t("shop")}</a>
             </Link>
           </li>
           <li>{product.name}</li>

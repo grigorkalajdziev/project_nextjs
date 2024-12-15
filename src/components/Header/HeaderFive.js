@@ -192,8 +192,8 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
       {/* search overlay */}
       <SearchOverlay
         activeStatus={offCanvasSearchActive}
-        getActiveStatus={setOffCanvasSearchActive}
-      />
+        getActiveStatus={setOffCanvasSearchActive}        
+      />      
 
       {/* cart overlay */}
       <CartOverlay

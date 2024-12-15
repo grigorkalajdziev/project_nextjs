@@ -156,7 +156,7 @@ const ProductGridList = ({
               {/* add to cart */}
               {product.affiliateLink ? (
                 <a href={product.affiliateLink} target="_blank">
-                  Buy now
+                  {t("buy_now")}
                 </a>
               ) : product.variation && product.variation.length >= 1 ? (
                 <Link
@@ -167,7 +167,7 @@ const ProductGridList = ({
                     product.slug
                   }
                 >
-                  <a>Select Option</a>
+                  <a>{t("select_option")}</a>
                 </Link>
               ) : product.stock && product.stock > 0 ? (
                 <button
@@ -177,10 +177,10 @@ const ProductGridList = ({
                     cartItem.quantity >= cartItem.stock
                   }
                 >
-                  {cartItem !== undefined ? "Added to cart" : "Add to cart"}
+                  {cartItem !== undefined ? t("added_to_cart") : t("add_to_cart")}
                 </button>
               ) : (
-                <button disabled>Out of Stock</button>
+                <button disabled>{t("out_of_stock")}</button>
               )}
             </div>
             <div className="price">
@@ -341,7 +341,7 @@ const ProductGridList = ({
                   target="_blank"
                   className="lezada-button lezada-button--medium"
                 >
-                  Buy now
+                  {t("buy_now")}
                 </a>
               ) : product.variation && product.variation.length >= 1 ? (
                 <Link
@@ -353,7 +353,7 @@ const ProductGridList = ({
                   }
                 >
                   <a className="lezada-button lezada-button--medium">
-                    Select Option
+                  {t("select_option")}
                   </a>
                 </Link>
               ) : product.stock && product.stock > 0 ? (
@@ -365,14 +365,14 @@ const ProductGridList = ({
                   }
                   className="lezada-button lezada-button--medium"
                 >
-                  {cartItem !== undefined ? "Added to cart" : "Add to cart"}
+                  {cartItem !== undefined ? t("added_to_cart") : t("add_to_cart")}
                 </button>
               ) : (
                 <button
                   disabled
                   className="lezada-button lezada-button--medium"
                 >
-                  Out of Stock
+                  {t("out_of_stock")}
                 </button>
               )}
             </div>
