@@ -326,7 +326,10 @@ const translations = {
     buy_now: "Buy Now",
     add_to_cart: "Add to Cart",
     added_to_cart: "Added to Cart",
-    share: "Share"
+    share: "Share",
+    new: "new",
+    out: "out",
+    sku: "SKU"
   },
   mk: {
     english: "Англиски",
@@ -649,7 +652,10 @@ const translations = {
     buy_now: "Купете веднаш",
     add_to_cart: "Додај во кошничка",
     added_to_cart: "Додадено во кошничка",
-    share: "Сподели"
+    share: "Сподели",
+    new: "ново",
+    out: "нема",
+    sku: "Код"
   }
 };
 

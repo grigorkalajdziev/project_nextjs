@@ -252,7 +252,7 @@ const ProductDescription = ({
             <table>
               <tbody>
                 <tr className="single-info">
-                  <td className="title">SKU: </td>
+                  <td className="title">{t("sku")}: </td>
                   <td className="value">{product.sku}</td>
                 </tr>
                 <tr className="single-info">

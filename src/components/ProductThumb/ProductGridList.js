@@ -61,9 +61,9 @@ const ProductGridList = ({
               ) : (
                 ""
               )}
-              {product.new ? <span className="hot">New</span> : ""}
+              {product.new ? <span className="hot">{t("new")}</span> : ""}
               {product.stock === 0 ? (
-                <span className="out-of-stock">out</span>
+                <span className="out-of-stock">{t("out")}</span>
               ) : (
                 ""
               )}
