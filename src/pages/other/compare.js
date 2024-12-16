@@ -55,7 +55,7 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                                     <div className="compare-remove">
                                       <button
                                         onClick={() =>
-                                          deleteFromCompare(product, addToast)
+                                          deleteFromCompare(product, addToast, t)
                                         }
                                         aria-label={t("remove_product")}
                                       >
