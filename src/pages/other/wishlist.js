@@ -172,7 +172,7 @@ const Wishlist = ({
                           <td className="product-remove">
                             <button
                               onClick={() =>
-                                deleteFromWishlist(product, addToast)
+                                deleteFromWishlist(product, addToast, t)
                               }
                             >
                               <IoIosClose />
@@ -190,7 +190,7 @@ const Wishlist = ({
                     <Col lg={5} className="text-left text-lg-right ml-auto">
                       <button
                         className="lezada-button lezada-button--medium"
-                        onClick={() => deleteAllFromWishlist(addToast)}
+                        onClick={() => deleteAllFromWishlist(addToast, t)}
                       >
                         {t("clear_wishlist")}
                       </button>
@@ -239,14 +239,14 @@ const mapDispatchToProps = (dispatch) => {
     addToCart: (item, addToast, quantityCount) => {
       dispatch(addToCart(item, addToast, quantityCount));
     },
-    addToWishlist: (item, addToast) => {
-      dispatch(addToWishlist(item, addToast));
+    addToWishlist: (item, addToast, t) => {
+      dispatch(addToWishlist(item, addToast, t));
     },
-    deleteFromWishlist: (item, addToast) => {
-      dispatch(deleteFromWishlist(item, addToast));
+    deleteFromWishlist: (item, addToast, t) => {
+      dispatch(deleteFromWishlist(item, addToast, t));
     },
-    deleteAllFromWishlist: (addToast) => {
-      dispatch(deleteAllFromWishlist(addToast));
+    deleteAllFromWishlist: (addToast, t) => {
+      dispatch(deleteAllFromWishlist(addToast, t));
     }
   };
 };

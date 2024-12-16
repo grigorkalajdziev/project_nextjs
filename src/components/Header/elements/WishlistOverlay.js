@@ -53,7 +53,7 @@ const WishlistOverlay = ({
                         <span className="wishlist-close-icon">
                           <button
                             onClick={() =>
-                              deleteFromWishlist(product, addToast)
+                              deleteFromWishlist(product, addToast, t)
                             }
                           >
                             <IoIosClose />
@@ -122,8 +122,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteFromWishlist: (item, addToast) => {
-      dispatch(deleteFromWishlist(item, addToast));
+    deleteFromWishlist: (item, addToast, t) => {
+      dispatch(deleteFromWishlist(item, addToast, t));
     }
   };
 };

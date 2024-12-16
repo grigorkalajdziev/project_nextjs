@@ -194,7 +194,7 @@ const ProductDescription = ({
                     addToast,
                     quantityCount,
                     selectedProductColor,
-                    selectedProductSize
+                    selectedProductSize                    
                   )
                 }
                 disabled={productCartQty >= productStock}

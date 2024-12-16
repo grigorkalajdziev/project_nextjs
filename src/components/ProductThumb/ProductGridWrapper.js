@@ -13,6 +13,7 @@ import {
   deleteFromCompare
 } from "../../redux/actions/compareActions";
 import ProductGrid from "./ProductGrid";
+import { useLocalization } from "../../context/LocalizationContext";
 
 const ProductGridWrapper = ({
   products,
@@ -28,6 +29,8 @@ const ProductGridWrapper = ({
   column
 }) => {
   const { addToast } = useToasts();
+  const { t } = useLocalization();
+  
   return (
     <Fragment>
       {products &&
@@ -46,6 +49,22 @@ const ProductGridWrapper = ({
           const compareItem = compareItems.filter(
             (compareItem) => compareItem.id === product.id
           )[0];
+        
+
+          const handleAddToWishlist = () => {
+            addToWishlist(product, addToast, t); 
+          }
+
+          const handleDeleteToWishlist = () => {
+            deleteFromWishlist(product, addToast, t); 
+          }
+          
+          const handleAddToCompare = () => {
+            addToCompare(product, addToast, t); 
+          }
+          const handleDeleteToCompare = () => {
+            deleteFromCompare(product, addToast, t); 
+          }
 
           return (
             <ProductGrid
@@ -58,10 +77,10 @@ const ProductGridWrapper = ({
               compareItem={compareItem}
               bottomSpace={bottomSpace}
               addToCart={addToCart}
-              addToWishlist={addToWishlist}
-              deleteFromWishlist={deleteFromWishlist}
-              addToCompare={addToCompare}
-              deleteFromCompare={deleteFromCompare}
+              addToWishlist={handleAddToWishlist}
+              deleteFromWishlist={handleDeleteToWishlist}
+              addToCompare={handleAddToCompare}
+              deleteFromCompare={handleDeleteToCompare}
               addToast={addToast}
               cartItems={cartItems}
               column={column}
@@ -87,7 +106,7 @@ const mapDispatchToProps = (dispatch) => {
       addToast,
       quantityCount,
       selectedProductColor,
-      selectedProductSize
+      selectedProductSize      
     ) => {
       dispatch(
         addToCart(
@@ -95,21 +114,21 @@ const mapDispatchToProps = (dispatch) => {
           addToast,
           quantityCount,
           selectedProductColor,
-          selectedProductSize
+          selectedProductSize          
         )
       );
     },
-    addToWishlist: (item, addToast) => {
-      dispatch(addToWishlist(item, addToast));
+    addToWishlist: (item, addToast, t) => {
+      dispatch(addToWishlist(item, addToast, t));
     },
-    deleteFromWishlist: (item, addToast) => {
-      dispatch(deleteFromWishlist(item, addToast));
+    deleteFromWishlist: (item, addToast, t) => {
+      dispatch(deleteFromWishlist(item, addToast, t));
     },
-    addToCompare: (item, addToast) => {
-      dispatch(addToCompare(item, addToast));
+    addToCompare: (item, addToast, t) => {
+      dispatch(addToCompare(item, addToast, t));
     },
-    deleteFromCompare: (item, addToast) => {
-      dispatch(deleteFromCompare(item, addToast));
+    deleteFromCompare: (item, addToast, t) => {
+      dispatch(deleteFromCompare(item, addToast, t));
     }
   };
 };

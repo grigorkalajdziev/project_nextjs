@@ -125,7 +125,7 @@ const Cart = ({
                               <button
                                 className="dec qtybutton"
                                 onClick={() =>
-                                  decreaseQuantity(product, addToast)
+                                  decreaseQuantity(product, addToast, t)
                                 }
                               >
                                 -
@@ -165,7 +165,7 @@ const Cart = ({
 
                           <td className="product-remove">
                             <button
-                              onClick={() => deleteFromCart(product, addToast)}
+                              onClick={() => deleteFromCart(product, addToast, t)}
                             >
                               <IoIosClose />
                             </button>
@@ -201,7 +201,7 @@ const Cart = ({
                     <Col lg={5} className="text-left text-lg-right">
                       <button
                         className="lezada-button lezada-button--medium"
-                        onClick={() => deleteAllFromCart(addToast)}
+                        onClick={() => deleteAllFromCart(addToast, t)}
                       >
                         {t("clear_cart")} {/* Translated Clear Cart */}
                       </button>
@@ -278,14 +278,14 @@ const mapDispatchToProps = (dispatch) => {
     addToCart: (item, addToast, quantityCount) => {
       dispatch(addToCart(item, addToast, quantityCount));
     },
-    decreaseQuantity: (item, addToast) => {
-      dispatch(decreaseQuantity(item, addToast));
+    decreaseQuantity: (item, addToast, t) => {
+      dispatch(decreaseQuantity(item, addToast, t));
     },
-    deleteFromCart: (item, addToast) => {
-      dispatch(deleteFromCart(item, addToast));
+    deleteFromCart: (item, addToast, t) => {
+      dispatch(deleteFromCart(item, addToast, t));
     },
-    deleteAllFromCart: (addToast) => {
-      dispatch(deleteAllFromCart(addToast));
+    deleteAllFromCart: (addToast, t) => {
+      dispatch(deleteAllFromCart(addToast, t));
     }
   };
 };

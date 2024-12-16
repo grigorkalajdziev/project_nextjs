@@ -56,7 +56,7 @@ const CartOverlay = ({
                       <div className="single-cart-product" key={i}>
                         <span className="cart-close-icon">
                           <button
-                            onClick={() => deleteFromCart(product, addToast)}
+                            onClick={() => deleteFromCart(product, addToast, t)}
                           >
                             <IoIosClose />
                           </button>
@@ -155,8 +155,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteFromCart: (item, addToast) => {
-      dispatch(deleteFromCart(item, addToast));
+    deleteFromCart: (item, addToast, t) => {
+      dispatch(deleteFromCart(item, addToast, t));
     }
   };
 };

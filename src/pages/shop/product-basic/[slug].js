@@ -39,6 +39,7 @@ const ProductBasic = ({
   });
 
   const { addToast } = useToasts();
+  const { t } = useLocalization();
   const discountedPrice = getDiscountPrice(
     product.price,
     product.discount
@@ -53,8 +54,21 @@ const ProductBasic = ({
   )[0];
   const compareItem = compareItems.filter(
     (compareItem) => compareItem.id === product.id
-  )[0];
-  const { t } = useLocalization();
+  )[0]; 
+
+  const handleAddToWishlist = () => {
+    addToWishlist(product, addToast, t); 
+  }
+  const handleDeleteToWishlist = () => {
+    deleteFromWishlist(product, addToast, t); 
+  }
+  
+  const handleAddToCompare = () => {
+    addToCompare(product, addToast, t); 
+  }
+  const handleDeleteToCompare = () => {
+    deleteFromCompare(product, addToast, t); 
+  }
 
   return (
     <LayoutTwo>
@@ -91,8 +105,8 @@ const ProductBasic = ({
                 product={product}
                 wishlistItem={wishlistItem}
                 addToast={addToast}
-                addToWishlist={addToWishlist}
-                deleteFromWishlist={deleteFromWishlist}
+                addToWishlist={handleAddToWishlist}
+                deleteFromWishlist={handleDeleteToWishlist}
               />
             </Col>
 
@@ -108,10 +122,10 @@ const ProductBasic = ({
                 compareItem={compareItem}
                 addToast={addToast}
                 addToCart={addToCart}
-                addToWishlist={addToWishlist}
-                deleteFromWishlist={deleteFromWishlist}
-                addToCompare={addToCompare}
-                deleteFromCompare={deleteFromCompare}
+                addToWishlist={handleAddToWishlist}
+                deleteFromWishlist={handleDeleteToWishlist}
+                addToCompare={handleAddToCompare}
+                deleteFromCompare={handleDeleteToCompare}
               />
             </Col>
           </Row>
@@ -150,21 +164,21 @@ const mapDispatchToProps = (dispatch) => {
           addToast,
           quantityCount,
           selectedProductColor,
-          selectedProductSize
+          selectedProductSize          
         )
       );
     },
-    addToWishlist: (item, addToast) => {
-      dispatch(addToWishlist(item, addToast));
+    addToWishlist: (item, addToast, t) => {
+      dispatch(addToWishlist(item, addToast, t));
     },
-    deleteFromWishlist: (item, addToast) => {
-      dispatch(deleteFromWishlist(item, addToast));
+    deleteFromWishlist: (item, addToast, t) => {
+      dispatch(deleteFromWishlist(item, addToast, t));
     },
-    addToCompare: (item, addToast) => {
-      dispatch(addToCompare(item, addToast));
+    addToCompare: (item, addToast, t) => {
+      dispatch(addToCompare(item, addToast, t));
     },
-    deleteFromCompare: (item, addToast) => {
-      dispatch(deleteFromCompare(item, addToast));
+    deleteFromCompare: (item, addToast, t) => {
+      dispatch(deleteFromCompare(item, addToast, t));
     }
   };
 };

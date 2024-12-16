@@ -89,8 +89,8 @@ const ProductGrid = ({
                 <button
                   onClick={
                     wishlistItem !== undefined
-                      ? () => deleteFromWishlist(product, addToast)
-                      : () => addToWishlist(product, addToast)
+                      ? () => deleteFromWishlist(product, addToast, t)
+                      : () => addToWishlist(product, addToast, t)
                   }
                   className={wishlistItem !== undefined ? "active" : ""}
                 >
@@ -114,8 +114,8 @@ const ProductGrid = ({
                 <button
                   onClick={
                     compareItem !== undefined
-                      ? () => deleteFromCompare(product, addToast)
-                      : () => addToCompare(product, addToast)
+                      ? () => deleteFromCompare(product, addToast, t)
+                      : () => addToCompare(product, addToast, t)
                   }
                   className={compareItem !== undefined ? "active" : ""}
                 >

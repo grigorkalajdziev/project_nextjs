@@ -3,10 +3,10 @@ export const DELETE_FROM_WISHLIST = "DELETE_FROM_WISHLIST";
 export const DELETE_ALL_FROM_WISHLIST = "DELETE_ALL_FROM_WISHLIST";
 
 // add to wishlist
-export const addToWishlist = (item, addToast) => {
+export const addToWishlist = (item, addToast, t) => {
   return dispatch => {
     if (addToast) {
-      addToast("Added To Wishlist", {
+      addToast(t("added_to_wishlist"), {
         appearance: "success",
         autoDismiss: true
       });
@@ -16,10 +16,10 @@ export const addToWishlist = (item, addToast) => {
 };
 
 // delete from wishlist
-export const deleteFromWishlist = (item, addToast) => {
+export const deleteFromWishlist = (item, addToast, t) => {
   return dispatch => {
     if (addToast) {
-      addToast("Removed From Wishlist", {
+      addToast(t("removed_from_wishlist"), {
         appearance: "error",
         autoDismiss: true
       });
@@ -29,10 +29,10 @@ export const deleteFromWishlist = (item, addToast) => {
 };
 
 //delete all from wishlist
-export const deleteAllFromWishlist = addToast => {
+export const deleteAllFromWishlist = (addToast, t) => {
   return dispatch => {
     if (addToast) {
-      addToast("Removed All From Wishlist", {
+      addToast(t("removed_all_from_wishlist"), {
         appearance: "error",
         autoDismiss: true
       });

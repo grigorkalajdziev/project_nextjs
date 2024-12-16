@@ -246,8 +246,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(addToCart(item, addToast, quantityCount));
     },
 
-    deleteFromCompare: (item, addToast) => {
-      dispatch(deleteFromCompare(item, addToast));
+    deleteFromCompare: (item, addToast, t) => {
+      dispatch(deleteFromCompare(item, addToast, t));
     }
   };
 };

@@ -246,7 +246,7 @@ const ProductModal = (props) => {
                               addtoast,
                               quantityCount,
                               selectedProductColor,
-                              selectedProductSize
+                              selectedProductSize                              
                             )
                           }
                           disabled={productCartQty >= productStock}
@@ -274,8 +274,8 @@ const ProductModal = (props) => {
                         }
                         onClick={
                           wishlistitem !== undefined
-                            ? () => deletefromwishlist(product, addtoast)
-                            : () => addtowishlist(product, addtoast)
+                            ? () => deletefromwishlist(product, addtoast, t)
+                            : () => addtowishlist(product, addtoast, t)
                         }
                       >
                         <IoIosHeartEmpty />
@@ -292,8 +292,8 @@ const ProductModal = (props) => {
                         }
                         onClick={
                           compareitem !== undefined
-                            ? () => deletefromcompare(product, addtoast)
-                            : () => addtocompare(product, addtoast)
+                            ? () => deletefromcompare(product, addtoast, t)
+                            : () => addtocompare(product, addtoast, t)
                         }
                       >
                         <IoIosShuffle />
