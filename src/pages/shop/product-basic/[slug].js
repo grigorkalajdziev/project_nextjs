@@ -56,6 +56,10 @@ const ProductBasic = ({
     (compareItem) => compareItem.id === product.id
   )[0]; 
 
+  const handleAddToCart = (item, addToast, quantityCount, selectedColor, selectedSize) => {
+    addToCart(item, addToast, quantityCount, selectedColor, selectedSize, t);
+  };
+
   const handleAddToWishlist = () => {
     addToWishlist(product, addToast, t); 
   }
@@ -121,7 +125,7 @@ const ProductBasic = ({
                 wishlistItem={wishlistItem}
                 compareItem={compareItem}
                 addToast={addToast}
-                addToCart={addToCart}
+                addToCart={handleAddToCart}
                 addToWishlist={handleAddToWishlist}
                 deleteFromWishlist={handleDeleteToWishlist}
                 addToCompare={handleAddToCompare}
@@ -156,7 +160,8 @@ const mapDispatchToProps = (dispatch) => {
       addToast,
       quantityCount,
       selectedProductColor,
-      selectedProductSize
+      selectedProductSize,
+      t
     ) => {
       dispatch(
         addToCart(
@@ -164,7 +169,8 @@ const mapDispatchToProps = (dispatch) => {
           addToast,
           quantityCount,
           selectedProductColor,
-          selectedProductSize          
+          selectedProductSize,
+          t       
         )
       );
     },

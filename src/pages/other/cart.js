@@ -32,6 +32,18 @@ const Cart = ({
     document.querySelector("body").classList.remove("overflow-hidden");
   });
 
+  const handleAddToCart = (product) => {
+    addToCart(
+      product,
+      addToast,
+      quantityCount,
+      product.selectedProductColor,
+      product.selectedProductSize,
+      t // Localization function used directly in addToast
+    );
+  };
+ 
+
   return (
     <LayoutTwo>
       {/* breadcrumb */}
@@ -124,9 +136,7 @@ const Cart = ({
                             <div className="cart-plus-minus">
                               <button
                                 className="dec qtybutton"
-                                onClick={() =>
-                                  decreaseQuantity(product, addToast, t)
-                                }
+                                onClick={() => decreaseQuantity(product, addToast, t)}
                               >
                                 -
                               </button>
@@ -138,9 +148,7 @@ const Cart = ({
                               />
                               <button
                                 className="inc qtybutton"
-                                onClick={() =>
-                                  addToCart(product, addToast, quantityCount)
-                                }
+                                onClick={() => handleAddToCart(product)}
                                 disabled={
                                   product !== undefined &&
                                   product.quantity &&
@@ -275,8 +283,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addToCart: (item, addToast, quantityCount) => {
-      dispatch(addToCart(item, addToast, quantityCount));
+    addToCart: (item, addToast, quantity, color, size, t) => {
+      dispatch(addToCart(item, addToast, quantity, color, size, t));
     },
     decreaseQuantity: (item, addToast, t) => {
       dispatch(decreaseQuantity(item, addToast, t));

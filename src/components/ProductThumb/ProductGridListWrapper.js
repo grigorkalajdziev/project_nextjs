@@ -46,7 +46,11 @@ const ProductGridWrapper = ({
           )[0];
           const compareItem = compareItems.filter(
             (compareItem) => compareItem.id === product.id
-          )[0];          
+          )[0];
+          
+          const handleAddToCart = (item, addToast, quantityCount, selectedColor, selectedSize) => {
+            addToCart(item, addToast, quantityCount, selectedColor, selectedSize, t);
+          };
 
           const handleAddToWishlist = () => {
             addToWishlist(product, addToast, t); 
@@ -72,7 +76,7 @@ const ProductGridWrapper = ({
               wishlistItem={wishlistItem}
               compareItem={compareItem}
               bottomSpace={bottomSpace}
-              addToCart={addToCart}
+              addToCart={handleAddToCart}
               addToWishlist={handleAddToWishlist}
               deleteFromWishlist={handleDeleteToWishlist}
               addToCompare={handleAddToCompare}
@@ -101,7 +105,8 @@ const mapDispatchToProps = (dispatch) => {
       addToast,
       quantityCount,
       selectedProductColor,
-      selectedProductSize      
+      selectedProductSize,
+      t
     ) => {      
       dispatch(
         addToCart(
@@ -109,7 +114,8 @@ const mapDispatchToProps = (dispatch) => {
           addToast,
           quantityCount,
           selectedProductColor,
-          selectedProductSize          
+          selectedProductSize,
+          t
         )
       );
     },

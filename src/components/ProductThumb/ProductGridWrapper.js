@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-
 import { connect } from "react-redux";
 import { useToasts } from "react-toast-notifications";
 import { getDiscountPrice } from "../../lib/product";
@@ -50,6 +49,10 @@ const ProductGridWrapper = ({
             (compareItem) => compareItem.id === product.id
           )[0];
         
+          const handleAddToCart = (item, addToast, quantityCount, selectedColor, selectedSize) => {
+            addToCart(item, addToast, quantityCount, selectedColor, selectedSize, t);
+          };
+
 
           const handleAddToWishlist = () => {
             addToWishlist(product, addToast, t); 
@@ -76,7 +79,7 @@ const ProductGridWrapper = ({
               wishlistItem={wishlistItem}
               compareItem={compareItem}
               bottomSpace={bottomSpace}
-              addToCart={addToCart}
+              addToCart={handleAddToCart}
               addToWishlist={handleAddToWishlist}
               deleteFromWishlist={handleDeleteToWishlist}
               addToCompare={handleAddToCompare}
@@ -106,7 +109,8 @@ const mapDispatchToProps = (dispatch) => {
       addToast,
       quantityCount,
       selectedProductColor,
-      selectedProductSize      
+      selectedProductSize,
+      t
     ) => {
       dispatch(
         addToCart(
@@ -114,7 +118,8 @@ const mapDispatchToProps = (dispatch) => {
           addToast,
           quantityCount,
           selectedProductColor,
-          selectedProductSize          
+          selectedProductSize,
+          t
         )
       );
     },

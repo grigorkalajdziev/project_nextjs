@@ -9,11 +9,13 @@ export const addToCart = (
   addToast,
   quantityCount,
   selectedProductColor,
-  selectedProductSize
-) => {
+  selectedProductSize,
+  t
+) => { 
+
   return dispatch => {
     if (addToast) {
-      addToast("Added To Cart", { appearance: "success", autoDismiss: true });
+      addToast(t("added_to_cart"), { appearance: "success", autoDismiss: true });
     }
     dispatch({
       type: ADD_TO_CART,
@@ -35,10 +37,10 @@ export const addToCart = (
   };
 };
 //decrease from cart
-export const decreaseQuantity = (item, addToast) => {
+export const decreaseQuantity = (item, addToast, t) => {
   return dispatch => {
     if (addToast) {
-      addToast("Item Decremented From Cart", {
+      addToast(t("item_decremented_from_cart"), {
         appearance: "warning",
         autoDismiss: true
       });
@@ -47,19 +49,19 @@ export const decreaseQuantity = (item, addToast) => {
   };
 };
 //delete from cart
-export const deleteFromCart = (item, addToast) => {
+export const deleteFromCart = (item, addToast, t) => {
   return dispatch => {
     if (addToast) {
-      addToast("Removed From Cart", { appearance: "error", autoDismiss: true });
+      addToast(t("removed_from_cart"), { appearance: "error", autoDismiss: true });
     }
     dispatch({ type: DELETE_FROM_CART, payload: item });
   };
 };
 //delete all from cart
-export const deleteAllFromCart = addToast => {
+export const deleteAllFromCart = (addToast, t) => {
   return dispatch => {
     if (addToast) {
-      addToast("Removed All From Cart", {
+      addToast(t("removed_all_from_cart"), {
         appearance: "error",
         autoDismiss: true
       });
