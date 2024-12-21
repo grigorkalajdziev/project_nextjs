@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { IoIosArrowRoundUp } from "react-icons/io";
 import { animateScroll } from "react-scroll";
 import { SubscribeEmailTwo } from "../Newsletter";
@@ -104,8 +105,8 @@ const FooterTwo = ({ footerBgClass }) => {
             <nav className="footer-single-widget__nav footer-single-widget__nav--social">
               <ul>
                 <li>
-                  <a href="https://www.twitter.com">
-                    <FaTwitter /> Twitter
+                  <a href="https://www.x.com">
+                    <FaXTwitter /> X
                   </a>
                 </li>
                 <li>

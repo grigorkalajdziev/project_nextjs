@@ -1,6 +1,7 @@
 import { Tooltip } from "react-tippy";
 import { IoIosClose } from "react-icons/io";
-import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { useLocalization } from "../../../context/LocalizationContext"; 
 
 const AboutOverlay = ({ activeStatus, getActiveStatus }) => {
@@ -43,15 +44,15 @@ const AboutOverlay = ({ activeStatus, getActiveStatus }) => {
               <ul>
                 <li>
                   <Tooltip
-                    title="Twitter"
+                    title="X"
                     position="top"
                     trigger="mouseenter"
                     animation="shift"
                     arrow={true}
                     duration={200}
                   >
-                    <a href="https://www.twitter.com" target="_blank">
-                      <FaTwitter />
+                    <a href="https://www.x.com" target="_blank">
+                      <FaXTwitter />
                     </a>
                   </Tooltip>
                 </li>

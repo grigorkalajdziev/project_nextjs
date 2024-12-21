@@ -1,4 +1,5 @@
-import { IoIosArrowDown, IoLogoFacebook, IoLogoTwitter, IoLogoInstagram, IoLogoYoutube } from "react-icons/io";
+import { IoIosArrowDown, IoLogoFacebook, IoLogoInstagram, IoLogoYoutube } from "react-icons/io";
+import { FaXTwitter } from "react-icons/fa6";
 import { useLocalization } from "../../context/LocalizationContext";
 import { Container } from "react-bootstrap";
 import Link from "next/link";
@@ -49,7 +50,7 @@ const HeaderTop = () => {
             <span className="header-separator">|</span>
             <div className="top-social-icons">
               <ul>
-                <li><a href="https://www.twitter.com" target="_blank"><IoLogoTwitter /></a></li>
+                <li><a href="https://x.com" target="_blank"><FaXTwitter /></a></li>
                 <li><a href="https://www.facebook.com" target="_blank"><IoLogoFacebook /></a></li>
                 <li><a href="https://www.instagram.com" target="_blank"><IoLogoInstagram /></a></li>
                 <li><a href="https://www.youtube.com" target="_blank"><IoLogoYoutube /></a></li>
