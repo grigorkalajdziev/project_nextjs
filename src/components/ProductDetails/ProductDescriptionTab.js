@@ -191,7 +191,7 @@ const ProductDescriptionTab = ({ product }) => {
                       <textarea
                         cols={30}
                         rows={10}
-                        placeholder="Your review *"
+                        placeholder={`${t("your_review")} *`}
                         defaultValue={""}
                       />
                     </div>

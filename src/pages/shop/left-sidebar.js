@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
@@ -17,6 +18,8 @@ import {
 
 const LeftSidebar = ({ products }) => {
   const { t } = useLocalization();
+  const router = useRouter();
+  const { search } = router.query;
 
   const [layout, setLayout] = useState("grid four-column");
   const [sortType, setSortType] = useState("");
@@ -26,7 +29,7 @@ const LeftSidebar = ({ products }) => {
   const [offset, setOffset] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentData, setCurrentData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(search || "");
   const [sortedProducts, setSortedProducts] = useState([]);
   const [shopTopFilterStatus, setShopTopFilterStatus] = useState(false);
 
@@ -45,6 +48,14 @@ const LeftSidebar = ({ products }) => {
     setFilterSortType(sortType);
     setFilterSortValue(sortValue);
   };
+
+  useEffect(() => {
+    if (router.query.search) {
+      setSearchTerm(router.query.search);
+    } else {
+      setSearchTerm("");
+    }
+  }, [router.query.search]);
 
   useEffect(() => {
     let sortedProducts = getSortedProducts(products, sortType, sortValue);
