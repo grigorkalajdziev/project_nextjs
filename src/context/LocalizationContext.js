@@ -332,7 +332,20 @@ const translations = {
     share: "Share",
     new: "new",
     out: "out",
-    sku: "SKU"
+    sku: "SKU",
+    click_to_enlarge: "Click to enlarge",
+    additional_information: "Additional Information",
+    reviews: "Reviews",
+    reviews_on: "reviews on",
+    add_review: "Add Review",
+    email_privacy_notice: "Your email address will not be published. Required fields are marked *",
+    name: "Name",
+    email: "Email",
+    your_rating: "YOUR RATING",
+    your_review: "Your Review",
+    submit: "Submit",
+    size: "Size",
+    color: "Color"
   },
   mk: {
     english: "Англиски",
@@ -661,7 +674,20 @@ const translations = {
     share: "Сподели",
     new: "ново",
     out: "нема",
-    sku: "Код"
+    sku: "Код",
+    click_to_enlarge: "Кликни за зголемување",
+    additional_information: "Дополнителни информации",
+    reviews: "Осврти",
+    reviews_on: "осврти за",
+    add_review: "Додади осврт",
+    email_privacy_notice: "Вашата email адреса нема да биде објавена. Потребните полиња се означени со *",
+    name: "Име",
+    email: "Email",
+    your_rating: "ВАШАТА ОЦЕНА",
+    your_review: "Ваш осврт",
+    submit: "Испрати",
+    size: "Големина",
+    color: "Боја"
   }
 };
 

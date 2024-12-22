@@ -1,8 +1,12 @@
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
+import RatingStars from "./RatingStars";
+import { useLocalization } from "../../context/LocalizationContext";
 
 const ProductDescriptionTab = ({ product }) => {
+  const { t } = useLocalization();
+
   return (
     <div className="product-description-tab space-pt--r100 space-mt--r100 border-top--grey">
       <Tab.Container defaultActiveKey="description">
@@ -11,16 +15,16 @@ const ProductDescriptionTab = ({ product }) => {
           className="product-description-tab__navigation text-center justify-content-center space-mb--50"
         >
           <Nav.Item>
-            <Nav.Link eventKey="description">Description</Nav.Link>
+            <Nav.Link eventKey="description">{t("description")}</Nav.Link>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="additionalInfo">
-              Additional Information
+            {t("additional_information")}
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="reviews">
-              Reviews {product.ratingCount ? `(${product.ratingCount})` : ""}
+            {t("reviews")} {product.ratingCount ? `(${product.ratingCount})` : ""}
             </Nav.Link>
           </Nav.Item>
         </Nav>
@@ -35,13 +39,13 @@ const ProductDescriptionTab = ({ product }) => {
               <table className="shop-attributes">
                 <tbody>
                   <tr>
-                    <th>Size</th>
+                    <th>{t("size")}</th>
                     <td>
                       <p>L, M, S, XS</p>
                     </td>
                   </tr>
                   <tr>
-                    <th>Color</th>
+                    <th>{t("color")}</th>
                     <td>
                       <p>Black, Blue, Brown</p>
                     </td>
@@ -53,7 +57,7 @@ const ProductDescriptionTab = ({ product }) => {
           <Tab.Pane eventKey="reviews">
             <div className="product-description-tab__review">
               <h2 className="review-title space-mb--20">
-                {product.ratingCount ? product.ratingCount : ""} reviews on{" "}
+                {product.ratingCount ? product.ratingCount : ""} {t("reviews_on")}{" "}
                 {product.name}
               </h2>
               {/*=======  single review  =======*/}
@@ -161,31 +165,26 @@ const ProductDescriptionTab = ({ product }) => {
                 </div>
               </div>
               {/*=======  End of single review  =======*/}
-              <h2 className="review-title space-mb--20">Add a review</h2>
+              <h2 className="review-title space-mb--20">{t("add_review")}</h2>
               <p className="text-center">
-                Your email address will not be published. Required fields are
-                marked *
+              {t("email_privacy_notice")}
               </p>
               {/*=======  review form  =======*/}
               <div className="lezada-form lezada-form--review">
                 <form>
                   <div className="row">
                     <div className="col-lg-6 space-mb--20">
-                      <input type="text" placeholder="Name *" required />
+                      <input type="text" placeholder={`${t("name")} *`} required />
                     </div>
                     <div className="col-lg-6 space-mb--20">
-                      <input type="email" placeholder="Email *" required />
+                      <input type="email" placeholder={`${t("email")} *`} required />
                     </div>
                     <div className="col-lg-12 space-mb--20">
                       <span className="rating-title space-mr--20">
-                        YOUR RATING
+                      {t("your_rating")}
                       </span>
                       <span className="product-rating">
-                        <IoIosStarOutline />
-                        <IoIosStarOutline />
-                        <IoIosStarOutline />
-                        <IoIosStarOutline />
-                        <IoIosStarOutline />
+                        <RatingStars />
                       </span>
                     </div>
                     <div className="col-lg-12 space-mb--20">
@@ -201,7 +200,7 @@ const ProductDescriptionTab = ({ product }) => {
                         type="submit"
                         className="lezada-button lezada-button--medium"
                       >
-                        submit
+                        {t("submit")}
                       </button>
                     </div>
                   </div>

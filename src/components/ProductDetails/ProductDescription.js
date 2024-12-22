@@ -1,6 +1,7 @@
 import { useState, Fragment } from "react";
 import { IoIosHeartEmpty, IoIosShuffle } from "react-icons/io";
-import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import Link from "next/link";
 import { ProductRating } from "../Product";
 import { getProductCartQuantity } from "../../lib/product";
@@ -298,8 +299,8 @@ const ProductDescription = ({
                   <td className="value">
                     <ul className="social-icons">
                       <li>
-                        <a href="https://www.twitter.com">
-                          <FaTwitter />
+                        <a href="https://www.x.com">
+                          <FaXTwitter />
                         </a>
                       </li>
                       <li>

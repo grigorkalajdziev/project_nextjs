@@ -8,6 +8,7 @@ import {
   IoIosHeartEmpty
 } from "react-icons/io";
 import { Tooltip } from "react-tippy";
+import { useLocalization } from "../../context/LocalizationContext";
 
 const ImageGalleryBottomThumb = ({
   product,
@@ -16,6 +17,7 @@ const ImageGalleryBottomThumb = ({
   addToWishlist,
   deleteFromWishlist
 }) => {
+  const { t } = useLocalization(); 
   const [gallerySwiper, getGallerySwiper] = useState(null);
   const [thumbnailSwiper, getThumbnailSwiper] = useState(null);
 
@@ -80,8 +82,8 @@ const ImageGalleryBottomThumb = ({
           ) : (
             ""
           )}
-          {product.new ? <span className="hot">New</span> : ""}
-          {product.stock === 0 ? <span className="out-of-stock">out</span> : ""}
+          {product.new ? <span className="hot">{t("new")}</span> : ""}
+          {product.stock === 0 ? <span className="out-of-stock">{t("out")}</span> : ""}
         </div>
 
         {/* wishlist button */}
@@ -89,8 +91,8 @@ const ImageGalleryBottomThumb = ({
           <Tooltip
             title={
               wishlistItem !== undefined
-                ? "Added to wishlist"
-                : "Add to wishlist"
+                ? t("added_to_wishlist")
+                : t("add_to_wishlist")
             }
             position="left"
             trigger="mouseenter"
@@ -98,8 +100,7 @@ const ImageGalleryBottomThumb = ({
             arrow={true}
             duration={200}
           >
-            <button
-              className=""
+            <button             
               onClick={
                 wishlistItem !== undefined
                   ? () => deleteFromWishlist(product, addToast)
@@ -124,7 +125,7 @@ const ImageGalleryBottomThumb = ({
                       src={process.env.PUBLIC_URL + image}
                     >
                       <Tooltip
-                        title="Click to enlarge"
+                        title={t("click_to_enlarge")}
                         position="left"
                         trigger="mouseenter"
                         animation="shift"
