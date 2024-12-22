@@ -1,12 +1,12 @@
 import {
   IoIosPhonePortrait,
-  IoMdMail,
-  IoLogoTwitter,
+  IoMdMail,  
   IoLogoFacebook,
   IoLogoInstagram,
   IoLogoPinterest,
   IoMdPerson
 } from "react-icons/io";
+import { FaXTwitter } from "react-icons/fa6";
 import { useLocalization } from "../../../context/LocalizationContext";
 
 import Link from "next/link";
@@ -39,7 +39,7 @@ const MobileMenuWidgets = () => {
 
       <div className="social-widget">
         <a href="https://www.twitter.com" target="_blank">
-          <IoLogoTwitter />
+          <FaXTwitter />
         </a>
         <a href="https://www.instagram.com" target="_blank">
           <IoLogoInstagram />
