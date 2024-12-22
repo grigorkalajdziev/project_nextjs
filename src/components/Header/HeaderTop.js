@@ -3,9 +3,15 @@ import { FaXTwitter } from "react-icons/fa6";
 import { useLocalization } from "../../context/LocalizationContext";
 import { Container } from "react-bootstrap";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 const HeaderTop = () => {
   const { t, currentLanguage, changeLanguage } = useLocalization();
+  const [currency, setCurrency] = useState("EUR");
+
+  useEffect(() => {
+    setCurrency(currentLanguage === 'en' ? 'EUR' : 'MKD');
+  }, [currentLanguage]);
 
   return (
     <div className="header-top-area border-bottom--grey space-pt--10 space-pb--10 d-none d-lg-block">
@@ -25,13 +31,13 @@ const HeaderTop = () => {
             </div>
             <span className="header-separator">|</span>
             <div className="currency-change change-dropdown">
-              <span>EUR</span> <IoIosArrowDown />
+              <span>{currency}</span> <IoIosArrowDown />
               <ul>
                 <li>
-                  <button>MKD</button>
+                  <button onClick={() => setCurrency('MKD')}>MKD</button>
                 </li>
                 <li>
-                  <button>EUR</button>
+                  <button onClick={() => setCurrency('EUR')}>EUR</button>
                 </li>
               </ul>
             </div>

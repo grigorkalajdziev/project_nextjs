@@ -3,9 +3,15 @@ import MobileMenuSearch from "./MobileMenuSearch";
 import MobileMenuNav from "./MobileMenuNav";
 import MobileMenuWidgets from "./MobileMenuWidgets";
 import { useLocalization } from "../../../context/LocalizationContext";
+import { useState, useEffect } from "react";
 
 const MobileMenu = ({ activeStatus, getActiveStatus }) => {
   const { changeLanguage, currentLanguage, t } = useLocalization();
+  const [currency, setCurrency] = useState("MKD");
+
+  useEffect(() => {
+    setCurrency(currentLanguage === 'en' ? 'MKD' : 'EUR');
+  }, [currentLanguage]);
 
   return (
     <div className={`offcanvas-mobile-menu ${activeStatus ? "active" : ""}`}>
@@ -39,7 +45,7 @@ const MobileMenu = ({ activeStatus, getActiveStatus }) => {
               </div>
               <div className="lang-curr-style">
                 <span className="title">{t("choose_currency")}</span>
-                <select>
+                <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
                   <option value="USD">EUR</option>
                   <option value="EUR">MKD</option>                  
                 </select>
