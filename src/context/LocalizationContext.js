@@ -30,7 +30,7 @@ const translations = {
     see_more: "SEE MORE ...",
     read_more: "Read more",
     free_shipping: "FREE SHIPPING",
-    free_shipping_description: "On all orders over $75.00",
+    free_shipping_description: "On all orders over € 50",
     free_returns: "FREE RETURNS",
     free_returns_description: "30 days money back guarantee",
     secure_payment: "SECURE PAYMENT",
@@ -289,7 +289,7 @@ const translations = {
     subtotal: "Subtotal:",
     view_cart: "View Cart",
     checkout: "Checkout",
-    free_shipping_text: "Free Shipping on All Orders Over $100!",
+    free_shipping_text: "Free Shipping on All Orders Over €50!",
     no_items_found_in_cart: "No items found in cart",
     wishlist_title: "Wishlist",
     view_wishlist: "View Wishlist",
@@ -341,7 +341,9 @@ const translations = {
     your_review: "Your Review",
     submit: "Submit",
     size: "Size",
-    color: "Color"
+    color: "Color",
+    customer_reviews: "Customer Reviews",
+    currency: "€ "
   },
   mk: {
     english: "Англиски",
@@ -367,7 +369,7 @@ const translations = {
     see_more: "Повеќе",
     read_more: "Прочитај повеќе",
     free_shipping: "БЕСПЛАТЕН ПРЕВОЗ",
-    free_shipping_description: "На сите нарачки над $75.00",
+    free_shipping_description: "На сите нарачки над 2999 ден.",
     free_returns: "БЕСПЛАТНИ ВРАЌАЊА",
     free_returns_description: "Гаранција за поврат на парите во рок од 30 дена",
     secure_payment: "БЕЗБЕДНО ПЛАЌАЊЕ",
@@ -627,7 +629,7 @@ const translations = {
     subtotal: "Вкупно:",
     view_cart: "Погледни кошничка",
     checkout: "Плаќање",
-    free_shipping_text: "Бесплатна испорака за нарачки над 100 долари!",
+    free_shipping_text: "Бесплатна испорака за нарачки над 2999 денари!",
     no_items_found_in_cart: "Нема производи во кошничката",
     wishlist_title: "Омилени",
     view_wishlist: "Преглед на омилени производи",
@@ -669,17 +671,19 @@ const translations = {
     sku: "Код",
     click_to_enlarge: "Кликни за зголемување",
     additional_information: "Дополнителни информации",
-    reviews: "Осврти",
-    reviews_on: "осврти за",
-    add_review: "Додади осврт",
+    reviews: "Рецензии",
+    reviews_on: "рецензии за",
+    add_review: "Додади рецензија",
     email_privacy_notice: "Вашата email адреса нема да биде објавена. Потребните полиња се означени со *",
     name: "Име",
     email: "Email",
     your_rating: "ВАШАТА ОЦЕНА",
-    your_review: "Ваш осврт",
+    your_review: "Ваша рецензија",
     submit: "Испрати",
     size: "Големина",
-    color: "Боја"
+    color: "Боја",
+    customer_reviews: "Рецензии од клиенти",
+    currency: "ден."
   }
 };
 

@@ -114,7 +114,7 @@ const Wishlist = ({
                           </td>
 
                           <td className="product-price">
-                            <span className="price">${discountedPrice}</span>
+                            <span className="price">{t("currency")}{discountedPrice}</span>
                           </td>
 
                           <td>

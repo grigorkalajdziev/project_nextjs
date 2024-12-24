@@ -120,21 +120,21 @@ const Checkout = ({ cartItems }) => {
                                   return (
                                     <li key={i}>
                                       {product.name} X {product.quantity}{" "}
-                                      <span>${discountedPrice}</span>
+                                      <span>{t("currency")}{discountedPrice}</span>
                                     </li>
                                   );
                                 })}
                               </ul>
                               <p>
                                 {t("subtotal_label")} {" "}
-                                <span>${cartTotalPrice.toFixed(2)}</span>
+                                <span>{t("currency")}{cartTotalPrice.toFixed(2)}</span>
                               </p>
                               <p>
-                                {t("shipping_fee_label")} <span>$00.00</span>
+                                {t("shipping_fee_label")} <span>{t("currency")}00.00</span>
                               </p>
                               <h4>
                                 {t("grand_total_label")} {" "}
-                                <span>${cartTotalPrice.toFixed(2)}</span>
+                                <span>{t("currency")}{cartTotalPrice.toFixed(2)}</span>
                               </h4>
                             </div>
                           </div>

@@ -129,7 +129,7 @@ const Cart = ({
                           </td>
 
                           <td className="product-price">
-                            <span className="price">${discountedPrice}</span>
+                            <span className="price">{t("currency")}{discountedPrice}</span>
                           </td>
 
                           <td className="product-quantity">
@@ -167,7 +167,7 @@ const Cart = ({
 
                           <td className="total-price">
                             <span className="price">
-                              ${(discountedPrice * product.quantity).toFixed(2)}
+                            {t("currency")}{(discountedPrice * product.quantity).toFixed(2)}
                             </span>
                           </td>
 
@@ -225,12 +225,12 @@ const Cart = ({
                       <tr>
                         <th>{t("subtotal")}</th> {/* Translated Subtotal */}
                         <td className="subtotal">
-                          ${cartTotalPrice.toFixed(2)}
+                        {t("currency")}{cartTotalPrice.toFixed(2)}
                         </td>
                       </tr>
                       <tr>
                         <th>{t("total")}</th> {/* Translated Total */}
-                        <td className="total">${cartTotalPrice.toFixed(2)}</td>
+                        <td className="total">{t("currency")}{cartTotalPrice.toFixed(2)}</td>
                       </tr>
                     </tbody>
                   </table>

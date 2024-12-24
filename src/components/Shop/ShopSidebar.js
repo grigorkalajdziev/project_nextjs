@@ -164,14 +164,14 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
                           {product.discount > 0 ? (
                             <Fragment>
                               <span className="main-price discounted">
-                                ${productPrice}
+                              {t("currency")}{productPrice}
                               </span>
                               <span className="discounted-price">
-                                ${discountedPrice}
+                              {t("currency")}{discountedPrice}
                               </span>
                             </Fragment>
                           ) : (
-                            <span className="main-price">${productPrice}</span>
+                            <span className="main-price">{t("currency")}{productPrice}</span>
                           )}
                         </div>
                         <div className="rating">

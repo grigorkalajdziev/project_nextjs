@@ -48,7 +48,7 @@ const ProductDescription = ({
             <ProductRating ratingValue={product.rating} />
           </div>
           <div className="product-content__rating-count">
-            <a href="#">( {product.ratingCount} customer reviews )</a>
+            <a href="#">( {product.ratingCount} {t("customer_reviews")} )</a>
           </div>
         </div>
       ) : (
@@ -58,11 +58,11 @@ const ProductDescription = ({
       <div className="product-content__price space-mb--20">
         {product.discount > 0 ? (
           <Fragment>
-            <span className="main-price discounted">${productPrice}</span>
-            <span className="main-price">${discountedPrice}</span>
+            <span className="main-price discounted">{t("currency")}{productPrice}</span>
+            <span className="main-price">{t("currency")}{discountedPrice}</span>
           </Fragment>
         ) : (
-          <span className="main-price">${productPrice} </span>
+          <span className="main-price">{t("currency")}{productPrice} </span>
         )}
       </div>
       <div className="product-content__description space-mb--30">
