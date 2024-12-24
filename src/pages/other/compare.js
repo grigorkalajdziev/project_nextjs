@@ -154,15 +154,15 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                                     {product.discount > 0 ? (
                                       <Fragment>
                                         <span className="main-price discounted">
-                                          ${productPrice}
+                                        {t("currency")}{productPrice}
                                         </span>
                                         <span className="main-price">
-                                          ${discountedPrice}
+                                        {t("currency")}{discountedPrice}
                                         </span>
                                       </Fragment>
                                     ) : (
                                       <span className="main-price">
-                                        ${productPrice}
+                                        {t("currency")}{productPrice}
                                       </span>
                                     )}
                                   </td>
