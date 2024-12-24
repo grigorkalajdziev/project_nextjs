@@ -34,10 +34,10 @@ const HeaderTop = () => {
               <span>{currency}</span> <IoIosArrowDown />
               <ul>
                 <li>
-                  <button onClick={() => setCurrency('MKD')}>MKD</button>
+                  <button onClick={() => setCurrency('MKD')} disabled={true}>MKD</button>
                 </li>
                 <li>
-                  <button onClick={() => setCurrency('EUR')}>EUR</button>
+                  <button onClick={() => setCurrency('EUR')} disabled={true}>EUR</button>
                 </li>
               </ul>
             </div>

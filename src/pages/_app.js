@@ -16,8 +16,8 @@ import HeaderTop from "../components/Header/HeaderTop"
 class MyApp extends App {
   constructor(props) {
     super(props);
-    this.persistor = persistStore(props.reduxStore);
-    props.reduxStore.dispatch(fetchProducts(products));
+    this.persistor = persistStore(props.reduxStore);    
+    props.reduxStore.dispatch(fetchProducts(products)); 
   }
 
   render() {

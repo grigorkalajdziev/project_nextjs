@@ -343,7 +343,19 @@ const translations = {
     size: "Size",
     color: "Color",
     customer_reviews: "Customer Reviews",
-    currency: "€ "
+    currency: "€ ",
+    products: {
+      decor_one: "Decor One",
+      decor_two: "Decor Two",
+      decor_three: "Decor Three",
+      decor_four: "Decor Four",
+      decor_five: "Decor Five",
+      decor_six: "Decor Six",
+      decor_seven: "Decor Seven",
+      decor_eight: "Decor Eight",
+      decor_nine: "Decor Nine",
+      decor_ten: "Decor Ten"
+  }
   },
   mk: {
     english: "Англиски",
@@ -683,7 +695,19 @@ const translations = {
     size: "Големина",
     color: "Боја",
     customer_reviews: "Рецензии од клиенти",
-    currency: "ден."
+    currency: "ден.",
+    products: {
+      decor_one: "Декор Еден",
+      decor_two: "Декор Два",
+      decor_three: "Декор Три",
+      decor_four: "Декор Четири",
+      decor_five: "Декор Пет",
+      decor_six: "Декор Шест",
+      decor_seven: "Декор Седум",
+      decor_eight: "Декор Осум",
+      decor_nine: "Декор Девет",
+      decor_ten: "Декор Десет"
+  }
   }
 };
 

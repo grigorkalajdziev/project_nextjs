@@ -22,8 +22,7 @@ const ProductGridList = ({
   addToast,
   cartItems
 }) => {
-  const { t } = useLocalization();
-
+  const { t } = useLocalization();  
   const [modalShow, setModalShow] = useState(false);
 
   return (
