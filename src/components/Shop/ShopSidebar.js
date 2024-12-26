@@ -14,7 +14,7 @@ import { ProductRating } from "../Product";
 import { useLocalization } from "../../context/LocalizationContext";
 
 const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => {
-  const { t } = useLocalization();
+  const { t, currentLanguage } = useLocalization();
 
   const categories = getIndividualCategories(products);
   const colors = getIndividualColors(products);
@@ -141,7 +141,7 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
                           <img
                             src={process.env.PUBLIC_URL + product.thumbImage[0]}
                             className="img-fluid"
-                            alt={product.name}
+                            alt={product.name[currentLanguage] || product.name["en"]}
                           />
                         </a>
                       </Link>
@@ -157,7 +157,7 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
                               product.slug
                             }
                           >
-                            <a>{product.name}</a>
+                            <a>{product.name[currentLanguage] || product.name["en"]}</a>
                           </Link>
                         </h3>
                         <div className="price space-mb--10">

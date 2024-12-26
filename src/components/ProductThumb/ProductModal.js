@@ -8,7 +8,7 @@ import { ProductRating } from "../Product";
 import { useLocalization } from "../../context/LocalizationContext";
 
 const ProductModal = (props) => {
-  const { t } = useLocalization();
+  const { t, currentLanguage } = useLocalization();
 
   const {
     product,
@@ -82,7 +82,7 @@ const ProductModal = (props) => {
             <CustomScroll allowOuterScroll={true}>
               <div className="product-quickview__content">
                 <h2 className="product-quickview__title space-mb--20">
-                  {product.name}
+                  {product.name[currentLanguage] || product.name["en"]}
                 </h2>
                 <div className="product-quickview__price space-mb--20">
                   {product.discount > 0 ? (

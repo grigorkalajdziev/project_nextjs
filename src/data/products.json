@@ -2,7 +2,10 @@
   {
     "id": "1",
     "sku": "asdf101",
-    "name": "Decor one",
+    "name": {
+        "en": "Decor one",
+        "mk": "Декор еден"
+      },   
     "slug": "decor-one",
     "price": 17,
     "discount": 10,
@@ -91,7 +94,10 @@
   {
     "id": "2",
     "sku": "asdf102",
-    "name": "Decor two",
+    "name": {
+        "en": "Decor two",
+        "mk": "Декор два"
+      },
     "slug": "decor-two",
     "price": 18,
     "discount": 12,
@@ -114,7 +120,10 @@
   {
     "id": "3",
     "sku": "asdf103",
-    "name": "Decor three",
+    "name": {
+        "en": "Decor three",
+        "mk": "Декор три"
+      },
     "slug": "decor-three",
     "price": 14,
     "discount": 0,
@@ -137,7 +146,10 @@
   {
     "id": "4",
     "sku": "asdf104",
-    "name": "Decor four",
+    "name": {
+        "en": "Decor four",
+        "mk": "Декор четири"
+      },
     "slug": "decor-four",
     "price": 12,
     "discount": 5,
@@ -161,7 +173,10 @@
   {
     "id": "5",
     "sku": "asdf105",
-    "name": "Decor five",
+    "name": {
+        "en": "Decor five",
+        "mk": "Декор пет"
+      },
     "slug": "decor-five",
     "price": 16,
     "discount": 0,
@@ -184,7 +199,10 @@
   {
     "id": "6",
     "sku": "asdf106",
-    "name": "Decor six",
+    "name": {
+        "en": "Decor six",
+        "mk": "Декор шест"
+      },
     "slug": "decor-six",
     "price": 12,
     "discount": 10,
@@ -207,7 +225,10 @@
   {
     "id": "7",
     "sku": "asdf107",
-    "name": "Decor seven",
+    "name": {
+      "en": "Decor seven",
+      "mk": "Декор седум"
+    },
     "slug": "decor-seven",
     "price": 17,
     "discount": 12,
@@ -230,7 +251,10 @@
   {
     "id": "8",
     "sku": "asdf108",
-    "name": "Decor eight",
+    "name": {
+      "en": "Decor eight",
+      "mk": "Декор осум"
+    },
     "slug": "decor-eight",
     "price": 15,
     "discount": 0,
@@ -253,7 +277,10 @@
   {
     "id": "9",
     "sku": "asdf109",
-    "name": "Decor nine",
+    "name": {
+      "en": "Decor nine",
+      "mk": "Декор девет"
+    },
     "slug": "decor-nine",
     "price": 20,
     "discount": 12,
@@ -276,7 +303,10 @@
   {
     "id": "10",
     "sku": "asdf110",
-    "name": "Decor ten",
+    "name": {
+      "en": "Decor ten",
+      "mk": "Декор десет"
+    },
     "slug": "decor-ten",
     "price": 30,
     "discount": 20,
@@ -299,7 +329,10 @@
   {
     "id": "11",
     "sku": "asdf111",
-    "name": "Fashion one",
+    "name": {
+      "en": "Fashion one",
+      "mk": "Мода еден"
+    },
     "slug": "fashion-one",
     "price": 17,
     "discount": 10,
@@ -388,7 +421,10 @@
   {
     "id": "12",
     "sku": "asdf112",
-    "name": "Fashion two",
+    "name": {
+      "en": "Fashion two",
+      "mk": "Мода два"
+    },
     "slug": "fashion-two",
     "price": 13,
     "discount": 14,
@@ -477,7 +513,10 @@
   {
     "id": "13",
     "sku": "asdf113",
-    "name": "Fashion three",
+    "name": {
+      "en": "Fashion three",
+      "mk": "Мода три"
+    },
     "slug": "fashion-three",
     "price": 16,
     "discount": 20,
@@ -566,7 +605,10 @@
   {
     "id": "14",
     "sku": "asdf114",
-    "name": "Fashion four",
+    "name": {
+      "en": "Fashion four",
+      "mk": "Мода четири"
+    },
     "slug": "fashion-four",
     "price": 10,
     "discount": 25,
@@ -655,7 +697,10 @@
   {
     "id": "15",
     "sku": "asdf115",
-    "name": "Fashion five",
+    "name": {
+      "en": "Fashion five",
+      "mk": "Мода пет"
+    },
     "slug": "fashion-five",
     "price": 15,
     "discount": 5,
@@ -744,7 +789,10 @@
   {
     "id": "16",
     "sku": "asdf116",
-    "name": "Fashion six",
+    "name": {
+      "en": "Fashion six",
+      "mk": "Мода шест"
+     },
     "slug": "fashion-six",
     "price": 17,
     "discount": 10,
@@ -833,7 +881,10 @@
   {
     "id": "17",
     "sku": "asdf117",
-    "name": "Fashion seven",
+    "name": {
+      "en": "Fashion seven",
+      "mk": "Мода седум"
+    },
     "slug": "fashion-seven",
     "price": 27,
     "discount": 20,
@@ -922,7 +973,10 @@
   {
     "id": "18",
     "sku": "asdf118",
-    "name": "Fashion eight",
+    "name": {
+      "en": "Fashion eight",
+      "mk": "Мода осум"
+    },
     "slug": "fashion-eight",
     "price": 25,
     "discount": 10,
@@ -1011,7 +1065,10 @@
   {
     "id": "19",
     "sku": "asdf119",
-    "name": "Fashion nine",
+    "name": {
+      "en": "Fashion nine",
+      "mk": "Мода девет"
+    },
     "slug": "fashion-nine",
     "price": 35,
     "discount": 20,
@@ -1100,7 +1157,10 @@
   {
     "id": "20",
     "sku": "asdf120",
-    "name": "Fashion ten",
+    "name": {
+      "en": "Fashion ten",
+      "mk": "Мода десет"
+    },
     "slug": "fashion-ten",
     "price": 45,
     "discount": 10,
@@ -1189,7 +1249,10 @@
   {
     "id": "21",
     "sku": "asdf121",
-    "name": "Cosmetics one",
+    "name": {
+      "en": "Cosmetics one",
+      "mk": "Козметика еден"
+    },
     "slug": "cosmetics-one",
     "price": 18,
     "discount": 12,
@@ -1217,7 +1280,10 @@
   {
     "id": "22",
     "sku": "asdf122",
-    "name": "Cosmetics two",
+    "name": {
+      "en": "Cosmetics two",
+      "mk": "Козметика два"
+    },
     "slug": "cosmetics-two",
     "price": 28,
     "discount": 10,
@@ -1245,7 +1311,10 @@
   {
     "id": "23",
     "sku": "asdf123",
-    "name": "Cosmetics three",
+    "name": {
+      "en": "Cosmetics three",
+      "mk": "Козметика три"
+    },
     "slug": "cosmetics-three",
     "price": 22,
     "discount": 15,
@@ -1273,7 +1342,10 @@
   {
     "id": "24",
     "sku": "asdf124",
-    "name": "Cosmetics four",
+    "name": {
+      "en": "Cosmetics four",
+      "mk": "Козметика четири"
+    },
     "slug": "cosmetics-four",
     "price": 30,
     "discount": 10,
@@ -1301,7 +1373,10 @@
   {
     "id": "25",
     "sku": "asdf125",
-    "name": "Cosmetics five",
+    "name": {
+      "en": "Cosmetics five",
+      "mk": "Козметика пет"
+    },
     "slug": "cosmetics-five",
     "price": 20,
     "discount": 20,
@@ -1329,7 +1404,10 @@
   {
     "id": "26",
     "sku": "asdf126",
-    "name": "Cosmetics six",
+    "name": {
+      "en": "Cosmetics six",
+      "mk": "Козметика шест"
+    },
     "slug": "cosmetics-six",
     "price": 30,
     "discount": 10,
@@ -1357,7 +1435,10 @@
   {
     "id": "27",
     "sku": "asdf127",
-    "name": "Cosmetics seven",
+    "name": {
+      "en": "Cosmetics seven",
+      "mk": "Козметика седум"
+    },
     "slug": "cosmetics-seven",
     "price": 20,
     "discount": 5,
@@ -1385,7 +1466,10 @@
   {
     "id": "28",
     "sku": "asdf128",
-    "name": "Cosmetics eight",
+    "name": {
+      "en": "Cosmetics eight",
+      "mk": "Козметика осум"
+    },
     "slug": "cosmetics-eight",
     "price": 10,
     "discount": 15,
@@ -1413,7 +1497,10 @@
   {
     "id": "29",
     "sku": "asdf129",
-    "name": "Cosmetics nine",
+    "name": {
+      "en": "Cosmetics nine",
+      "mk": "Козметика девет"
+    },
     "slug": "cosmetics-nine",
     "price": 20,
     "discount": 25,
@@ -1441,7 +1528,10 @@
   {
     "id": "30",
     "sku": "asdf130",
-    "name": "Cosmetics ten",
+    "name": {
+      "en": "Cosmetics ten",
+      "mk": "Козметика десет"
+    },
     "slug": "cosmetics-ten",
     "price": 30,
     "discount": 15,
@@ -1469,7 +1559,10 @@
   {
     "id": "31",
     "sku": "asdf131",
-    "name": "Furniture one",
+    "name": {
+      "en": "Furniture one",
+      "mk": "Мебел еден"
+    },
     "slug": "furniture-one",
     "price": 17,
     "discount": 10,
@@ -1563,7 +1656,10 @@
   {
     "id": "32",
     "sku": "asdf132",
-    "name": "Furniture two",
+    "name": {
+      "en": "Furniture two",
+      "mk": "Мебел два"
+    },
     "slug": "furniture-two",
     "price": 18,
     "discount": 12,
@@ -1591,7 +1687,10 @@
   {
     "id": "33",
     "sku": "asdf133",
-    "name": "Furniture three",
+    "name": {
+      "en": "Furniture three",
+      "mk": "Мебел три"
+    },
     "slug": "furniture-three",
     "price": 14,
     "discount": 0,
@@ -1619,7 +1718,10 @@
   {
     "id": "34",
     "sku": "asdf134",
-    "name": "Furniture four",
+    "name": {
+      "en": "Furniture four",
+      "mk": "Мебел четири"
+    },
     "slug": "furniture-four",
     "price": 12,
     "discount": 5,
@@ -1648,7 +1750,10 @@
   {
     "id": "35",
     "sku": "asdf135",
-    "name": "Furniture five",
+    "name": {
+      "en": "Furniture five",
+      "mk": "Мебел пет"
+    },
     "slug": "furniture-five",
     "price": 16,
     "discount": 0,
@@ -1676,7 +1781,10 @@
   {
     "id": "36",
     "sku": "asdf136",
-    "name": "Furniture six",
+    "name": {
+      "en": "Furniture six",
+      "mk": "Мебел шест"
+    },
     "slug": "furniture-six",
     "price": 12,
     "discount": 10,
@@ -1704,7 +1812,10 @@
   {
     "id": "37",
     "sku": "asdf137",
-    "name": "Furniture seven",
+    "name": {
+      "en": "Furniture seven",
+      "mk": "Мебел седум"
+    },
     "slug": "furniture-seven",
     "price": 17,
     "discount": 12,
@@ -1732,7 +1843,10 @@
   {
     "id": "38",
     "sku": "asdf138",
-    "name": "Furniture eight",
+    "name": {
+      "en": "Furniture eight",
+      "mk": "Мебел осум"
+    },
     "slug": "furniture-eight",
     "price": 15,
     "discount": 0,
@@ -1760,7 +1874,10 @@
   {
     "id": "39",
     "sku": "asdf139",
-    "name": "Furniture nine",
+    "name": {
+      "en": "Furniture nine",
+      "mk": "Мебел девет"
+    },
     "slug": "furniture-nine",
     "price": 20,
     "discount": 12,
@@ -1788,7 +1905,10 @@
   {
     "id": "40",
     "sku": "asdf140",
-    "name": "Furniture ten",
+    "name": {
+      "en": "Furniture ten",
+      "mk": "Мебел десет"
+    },
     "slug": "furniture-ten",
     "price": 30,
     "discount": 20,
@@ -1816,7 +1936,10 @@
   {
     "id": "41",
     "sku": "asdf141",
-    "name": "Perfumes one",
+    "name": {
+      "en": "Perfume one",
+      "mk": "Парфем еден"
+    },
     "slug": "perfumes-one",
     "price": 18,
     "discount": 12,
@@ -1844,7 +1967,10 @@
   {
     "id": "42",
     "sku": "asdf142",
-    "name": "Perfumes two",
+    "name": {
+      "en": "Perfume two",
+      "mk": "Парфем два"
+    },
     "slug": "perfumes-two",
     "price": 28,
     "discount": 10,
@@ -1872,7 +1998,10 @@
   {
     "id": "43",
     "sku": "asdf143",
-    "name": "Perfumes three",
+    "name": {
+      "en": "Perfume three",
+      "mk": "Парфем три"
+    },
     "slug": "perfumes-three",
     "price": 22,
     "discount": 15,
@@ -1900,7 +2029,10 @@
   {
     "id": "44",
     "sku": "asdf144",
-    "name": "Perfumes four",
+    "name": {
+      "en": "Perfume four",
+      "mk": "Парфем четири"
+    },
     "slug": "perfumes-four",
     "price": 30,
     "discount": 10,
@@ -1928,7 +2060,10 @@
   {
     "id": "45",
     "sku": "asdf145",
-    "name": "Perfumes five",
+    "name": {
+      "en": "Perfume five",
+      "mk": "Парфем пет"
+    },
     "slug": "perfumes-five",
     "price": 20,
     "discount": 20,
@@ -1956,7 +2091,10 @@
   {
     "id": "46",
     "sku": "asdf146",
-    "name": "Perfumes six",
+    "name": {
+      "en": "Perfume six",
+      "mk": "Парфем шест"
+    },
     "slug": "perfumes-six",
     "price": 30,
     "discount": 10,
@@ -1984,7 +2122,10 @@
   {
     "id": "47",
     "sku": "asdf147",
-    "name": "Perfumes seven",
+    "name": {
+      "en": "Perfume seven",
+      "mk": "Парфем седум"
+    },
     "slug": "perfumes-seven",
     "price": 20,
     "discount": 5,
@@ -2012,7 +2153,10 @@
   {
     "id": "48",
     "sku": "asdf148",
-    "name": "Perfumes eight",
+    "name": {
+      "en": "Perfume eight",
+      "mk": "Парфем осум"
+    },
     "slug": "perfumes-eight",
     "price": 10,
     "discount": 15,
@@ -2040,7 +2184,10 @@
   {
     "id": "49",
     "sku": "asdf149",
-    "name": "Perfumes nine",
+    "name": {
+      "en": "Perfume nine",
+      "mk": "Парфем девет"
+    },
     "slug": "perfumes-nine",
     "price": 20,
     "discount": 25,
@@ -2068,7 +2215,10 @@
   {
     "id": "50",
     "sku": "asdf150",
-    "name": "Perfumes ten",
+    "name": {
+      "en": "Perfume ten",
+      "mk": "Парфем десет"
+    },
     "slug": "perfumes-ten",
     "price": 30,
     "discount": 15,
@@ -2096,7 +2246,10 @@
   {
     "id": "51",
     "sku": "asdf151",
-    "name": "Wearables one",
+    "name": {
+      "en": "Wearable one",
+      "mk": "Носивно едно"
+    },
     "slug": "wearables-one",
     "price": 17,
     "discount": 10,
@@ -2190,7 +2343,10 @@
   {
     "id": "52",
     "sku": "asdf152",
-    "name": "Wearables two",
+    "name": {
+      "en": "Wearable two",
+      "mk": "Носивно две"
+    },
     "slug": "wearables-two",
     "price": 13,
     "discount": 14,
@@ -2284,7 +2440,10 @@
   {
     "id": "53",
     "sku": "asdf153",
-    "name": "Wearables three",
+    "name": {
+      "en": "Wearable three",
+      "mk": "Носивно три"
+    },
     "slug": "wearables-three",
     "price": 16,
     "discount": 20,
@@ -2378,7 +2537,10 @@
   {
     "id": "54",
     "sku": "asdf154",
-    "name": "Wearables four",
+    "name": {
+      "en": "Wearable four",
+      "mk": "Носивно четири"
+    },
     "slug": "wearables-four",
     "price": 10,
     "discount": 25,
@@ -2472,7 +2634,10 @@
   {
     "id": "55",
     "sku": "asdf155",
-    "name": "Wearables five",
+    "name": {
+      "en": "Wearable five",
+      "mk": "Носивно пет"
+    },
     "slug": "wearables-five",
     "price": 15,
     "discount": 5,
@@ -2566,7 +2731,10 @@
   {
     "id": "56",
     "sku": "asdf156",
-    "name": "Wearables six",
+    "name": {
+      "en": "Wearable six",
+      "mk": "Носивно шест"
+    },
     "slug": "wearables-six",
     "price": 17,
     "discount": 10,
@@ -2660,7 +2828,10 @@
   {
     "id": "57",
     "sku": "asdf157",
-    "name": "Wearables seven",
+    "name": {
+      "en": "Wearable seven",
+      "mk": "Носивно седум"
+    },
     "slug": "wearables-seven",
     "price": 27,
     "discount": 20,
@@ -2754,7 +2925,10 @@
   {
     "id": "58",
     "sku": "asdf158",
-    "name": "Wearables eight",
+    "name": {
+      "en": "Wearable eight",
+      "mk": "Носивно осум"
+    },
     "slug": "wearables-eight",
     "price": 25,
     "discount": 10,
@@ -2848,7 +3022,10 @@
   {
     "id": "59",
     "sku": "asdf159",
-    "name": "Wearables nine",
+    "name": {
+      "en": "Wearable nine",
+      "mk": "Носивно девет"
+    },
     "slug": "wearables-nine",
     "price": 35,
     "discount": 20,
@@ -2942,7 +3119,10 @@
   {
     "id": "60",
     "sku": "asdf160",
-    "name": "Wearables ten",
+    "name": {
+      "en": "Wearable ten",
+      "mk": "Носивно десет"
+    },
     "slug": "wearables-ten",
     "price": 45,
     "discount": 10,
@@ -3036,7 +3216,10 @@
   {
     "id": "61",
     "sku": "asdf161",
-    "name": "Jewelry one",
+    "name": {
+      "en": "Jewelry one",
+      "mk": "Накит едно"
+    },
     "slug": "jewelry-one",
     "price": 10,
     "discount": 10,
@@ -3064,7 +3247,10 @@
   {
     "id": "62",
     "sku": "asdf162",
-    "name": "Jewelry two",
+    "name": {
+      "en": "Jewelry two",
+      "mk": "Накит две"
+    },
     "slug": "jewelry-two",
     "price": 9,
     "discount": 5,
@@ -3092,7 +3278,10 @@
   {
     "id": "63",
     "sku": "asdf163",
-    "name": "Jewelry three",
+    "name": {
+      "en": "Jewelry three",
+      "mk": "Накит три"
+    },
     "slug": "jewelry-three",
     "price": 8,
     "discount": 6,
@@ -3120,7 +3309,10 @@
   {
     "id": "64",
     "sku": "asdf164",
-    "name": "Jewelry four",
+    "name": {
+      "en": "Jewelry four",
+      "mk": "Накит четири"
+    },
     "slug": "jewelry-four",
     "price": 7,
     "discount": 5,
@@ -3148,7 +3340,10 @@
   {
     "id": "65",
     "sku": "asdf165",
-    "name": "Jewelry five",
+    "name": {
+      "en": "Jewelry five",
+      "mk": "Накит пет"
+    },
     "slug": "jewelry-five",
     "price": 9,
     "discount": 9,
@@ -3176,7 +3371,10 @@
   {
     "id": "66",
     "sku": "asdf166",
-    "name": "Swimsuit one",
+    "name": {
+      "en": "Swimsuit one",
+      "mk": "Костим за капење едно"
+    },
     "slug": "swimsuit-one",
     "price": 5,
     "discount": 10,
@@ -3270,7 +3468,10 @@
   {
     "id": "67",
     "sku": "asdf167",
-    "name": "Swimsuit two",
+    "name": {
+      "en": "Swimsuit two",
+      "mk": "Костим за капење две"
+    },
     "slug": "swimsuit-two",
     "price": 12,
     "discount": 5,
@@ -3364,7 +3565,10 @@
   {
     "id": "68",
     "sku": "asdf168",
-    "name": "Swimsuit three",
+    "name": {
+      "en": "Swimsuit three",
+      "mk": "Костим за капење три"
+    },
     "slug": "swimsuit-three",
     "price": 18,
     "discount": 15,
@@ -3458,7 +3662,10 @@
   {
     "id": "69",
     "sku": "asdf169",
-    "name": "Swimsuit four",
+    "name": {
+      "en": "Swimsuit four",
+      "mk": "Костим за капење четири"
+    },
     "slug": "swimsuit-four",
     "price": 8,
     "discount": 15,
@@ -3552,7 +3759,10 @@
   {
     "id": "70",
     "sku": "asdf170",
-    "name": "Swimsuit five",
+    "name": {
+      "en": "Swimsuit five",
+      "mk": "Костим за капење пет"
+    },
     "slug": "swimsuit-five",
     "price": 13,
     "discount": 10,
@@ -3646,7 +3856,10 @@
   {
     "id": "71",
     "sku": "asdf171",
-    "name": "Swimsuit six",
+    "name": {
+      "en": "Swimsuit six",
+      "mk": "Костим за капење шест"
+    },
     "slug": "swimsuit-six",
     "price": 14,
     "discount": 10,
@@ -3740,7 +3953,10 @@
   {
     "id": "72",
     "sku": "asdf172",
-    "name": "Swimsuit seven",
+    "name": {
+      "en": "Swimsuit seven",
+      "mk": "Костим за капење седум"
+    },
     "slug": "swimsuit-seven",
     "price": 15,
     "discount": 9,
@@ -3834,7 +4050,10 @@
   {
     "id": "73",
     "sku": "asdf173",
-    "name": "Swimsuit eightteen",
+    "name": {
+      "en": "Swimsuit eighteen",
+      "mk": "Костим за капење осумнаесет"
+    },
     "slug": "swimsuit-eightteen",
     "price": 16,
     "discount": 10,

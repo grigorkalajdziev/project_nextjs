@@ -22,8 +22,9 @@ const ProductGridList = ({
   addToast,
   cartItems
 }) => {
-  const { t } = useLocalization();  
+  const { t, currentLanguage } = useLocalization();  
   const [modalShow, setModalShow] = useState(false);
+  
 
   return (
     <Fragment>
@@ -41,13 +42,13 @@ const ProductGridList = ({
                 <img
                   src={process.env.PUBLIC_URL + product.thumbImage[0]}
                   className="img-fluid"
-                  alt={product.name}
+                  alt={product.name[currentLanguage] || product.name["en"]}
                 />
                 {product.thumbImage.length > 1 ? (
                   <img
                     src={process.env.PUBLIC_URL + product.thumbImage[1]}
                     className="img-fluid"
-                    alt={product.name}
+                    alt={product.name[currentLanguage] || product.name["en"]}
                   />
                 ) : (
                   ""
@@ -149,7 +150,7 @@ const ProductGridList = ({
                     product.slug
                   }
                 >
-                  <a>{product.name}</a>
+                  <a>{product.name[currentLanguage] || product.name["en"]}</a>
                 </Link>
               </h3>
               {/* add to cart */}
@@ -208,13 +209,13 @@ const ProductGridList = ({
                 <img
                   src={process.env.PUBLIC_URL + product.thumbImage[0]}
                   className="img-fluid"
-                  alt={product.name}
+                  alt={product.name[currentLanguage] || product.name["en"]}
                 />
                 {product.thumbImage.length > 1 ? (
                   <img
                     src={process.env.PUBLIC_URL + product.thumbImage[1]}
                     className="img-fluid"
-                    alt={product.name}
+                    alt={product.name[currentLanguage] || product.name["en"]}
                   />
                 ) : (
                   ""
@@ -316,7 +317,7 @@ const ProductGridList = ({
                     product.slug
                   }
                 >
-                  <a>{product.name}</a>
+                  <a>{product.name[currentLanguage] || product.name["en"]}</a>
                 </Link>
               </h3>
             </div>

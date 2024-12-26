@@ -25,7 +25,7 @@ const Cart = ({
 }) => {
   const [quantityCount] = useState(1);
   const { addToast } = useToasts();
-  const { t } = useLocalization(); 
+  const { t, currentLanguage } = useLocalization(); 
   let cartTotalPrice = 0;
 
   useEffect(() => {
@@ -113,7 +113,7 @@ const Cart = ({
                               href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                               as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                             >
-                              <a>{product.name}</a>
+                              <a>{product.name[currentLanguage] || product.name["en"]}</a>
                             </Link>
                             {product.selectedProductColor &&
                             product.selectedProductSize ? (

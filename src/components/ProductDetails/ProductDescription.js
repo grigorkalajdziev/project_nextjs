@@ -38,7 +38,7 @@ const ProductDescription = ({
     selectedProductColor,
     selectedProductSize
   );
-  const { t } = useLocalization();
+  const { t, currentLanguage } = useLocalization();
 
   return (
     <div className="product-content">
@@ -54,7 +54,7 @@ const ProductDescription = ({
       ) : (
         ""
       )}
-      <h2 className="product-content__title space-mb--20">{product.name}</h2>
+      <h2 className="product-content__title space-mb--20">{product.name[currentLanguage] || product.name["en"]}</h2>
       <div className="product-content__price space-mb--20">
         {product.discount > 0 ? (
           <Fragment>

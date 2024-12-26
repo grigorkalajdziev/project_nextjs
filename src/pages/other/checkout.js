@@ -9,7 +9,7 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 
 const Checkout = ({ cartItems }) => {
-  const { t } = useLocalization();
+  const { t, currentLanguage } = useLocalization();
   let cartTotalPrice = 0;
 
   useEffect(() => {
@@ -119,7 +119,7 @@ const Checkout = ({ cartItems }) => {
                                     discountedPrice * product.quantity;
                                   return (
                                     <li key={i}>
-                                      {product.name} X {product.quantity}{" "}
+                                      {product.name[currentLanguage] || product.name["en"]} X {product.quantity}{" "}
                                       <span>{t("currency")}{discountedPrice}</span>
                                     </li>
                                   );

@@ -14,7 +14,7 @@ const WishlistOverlay = ({
   deleteFromWishlist
 }) => {
   const { addToast } = useToasts();
-  const { t } = useLocalization(); // Use localization hook
+  const { t, currentLanguage } = useLocalization(); // Use localization hook
   
   return (
     <div className={`wishlist-overlay ${activeStatus ? "active" : ""}`}>
@@ -81,7 +81,7 @@ const WishlistOverlay = ({
                               href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                               as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                             >
-                              <a>{product.name}</a>
+                              <a>{product.name[currentLanguage] || product.name["en"]}</a>
                             </Link>
                           </h5>
                           <p>

@@ -39,7 +39,7 @@ const ProductBasic = ({
   });
 
   const { addToast } = useToasts();
-  const { t } = useLocalization();
+  const { t, currentLanguage } = useLocalization();
   const discountedPrice = getDiscountPrice(
     product.price,
     product.discount
@@ -78,7 +78,7 @@ const ProductBasic = ({
     <LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
-        pageTitle={product.name}
+        pageTitle={product.name[currentLanguage] || product.name["en"]}
         backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.png"
       >
         <ul className="breadcrumb__list">
@@ -95,7 +95,7 @@ const ProductBasic = ({
               <a>{t("shop")}</a>
             </Link>
           </li>
-          <li>{product.name}</li>
+          <li>{product.name[currentLanguage] || product.name["en"]}</li>
         </ul>
       </BreadcrumbOne>
 

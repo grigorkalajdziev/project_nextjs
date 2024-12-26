@@ -23,11 +23,15 @@ const Wishlist = ({
   deleteAllFromWishlist
 }) => {
   const { addToast } = useToasts();
-  const { t } = useLocalization();
+  const { t, currentLanguage } = useLocalization();
 
   useEffect(() => {
     document.querySelector("body").classList.remove("overflow-hidden");
   });
+
+  const handleAddToCart = (item, addToast, quantityCount, selectedColor, selectedSize) => {
+    addToCart(item, addToast, quantityCount, selectedColor, selectedSize, t);
+  };
 
   return (
     <LayoutTwo>
@@ -100,7 +104,7 @@ const Wishlist = ({
                               href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                               as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                             >
-                              <a>{product.name}</a>
+                              <a>{product.name[currentLanguage] || product.name["en"]}</a>
                             </Link>
                             {product.selectedProductColor &&
                             product.selectedProductSize ? (
@@ -138,7 +142,9 @@ const Wishlist = ({
                               </Link>
                             ) : product.stock && product.stock > 0 ? (
                               <button
-                                onClick={() => addToCart(product, addToast)}
+                              onClick={() =>
+                                handleAddToCart(product, addToast, 1, product.selectedProductColor, product.selectedProductSize)
+                              }
                                 className={` lezada-button lezada-button--medium ${
                                   cartItem !== undefined &&
                                   cartItem.quantity > 0
@@ -236,8 +242,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addToCart: (item, addToast, quantityCount) => {
-      dispatch(addToCart(item, addToast, quantityCount));
+    addToCart: (item, addToast, quantityCount, selectedColor, selectedSize, t) => {
+      dispatch(addToCart(item, addToast, quantityCount, selectedColor, selectedSize, t));
     },
     addToWishlist: (item, addToast, t) => {
       dispatch(addToWishlist(item, addToast, t));

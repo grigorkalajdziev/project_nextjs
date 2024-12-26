@@ -5,7 +5,7 @@ import RatingStars from "./RatingStars";
 import { useLocalization } from "../../context/LocalizationContext";
 
 const ProductDescriptionTab = ({ product }) => {
-  const { t } = useLocalization();
+  const { t, currentLanguage } = useLocalization();
 
   return (
     <div className="product-description-tab space-pt--r100 space-mt--r100 border-top--grey">
@@ -58,7 +58,7 @@ const ProductDescriptionTab = ({ product }) => {
             <div className="product-description-tab__review">
               <h2 className="review-title space-mb--20">
                 {product.ratingCount ? product.ratingCount : ""} {t("reviews_on")}{" "}
-                {product.name}
+                {product.name[currentLanguage] || product.name["en"]}
               </h2>
               {/*=======  single review  =======*/}
               <div className="single-review">

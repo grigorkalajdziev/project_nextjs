@@ -14,7 +14,11 @@ import { useLocalization } from "../../context/LocalizationContext";
 
 const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
   const { addToast } = useToasts();
-  const { t } = useLocalization();
+  const { t, currentLanguage } = useLocalization();
+
+  const handleAddToCart = (item, addToast, quantityCount, selectedColor, selectedSize) => {
+    addToCart(item, addToast, quantityCount, selectedColor, selectedSize, t);
+  };
 
   return (
     <LayoutTwo>
@@ -82,7 +86,7 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                                         href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                                         as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                                       >
-                                        <a>{product.name}</a>
+                                        <a>{product.name[currentLanguage] || product.name["en"]}</a>
                                       </Link>
                                     </div>
                                     <div className="compare-btn">
@@ -106,9 +110,9 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                                         </Link>
                                       ) : product.stock && product.stock > 0 ? (
                                         <button
-                                          onClick={() =>
-                                            addToCart(product, addToast)
-                                          }
+                                        onClick={() =>
+                                          handleAddToCart(product, addToast, 1, product.selectedProductColor, product.selectedProductSize)
+                                        }
                                           className={`lezada-button lezada-button--primary
                                             ${
                                               cartItem !== undefined &&
@@ -242,8 +246,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addToCart: (item, addToast, quantityCount) => {
-      dispatch(addToCart(item, addToast, quantityCount));
+    addToCart: (item, addToast, quantityCount, selectedColor, selectedSize, t) => {
+      dispatch(addToCart(item, addToast, quantityCount, selectedColor, selectedSize, t));
     },
 
     deleteFromCompare: (item, addToast, t) => {
