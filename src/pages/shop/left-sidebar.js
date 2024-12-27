@@ -17,7 +17,7 @@ import {
 } from "../../components/Shop";
 
 const LeftSidebar = ({ products }) => {
-  const { t } = useLocalization();
+  const { t, currentLanguage } = useLocalization();
   const router = useRouter();
   const { search } = router.query;
 
@@ -67,7 +67,10 @@ const LeftSidebar = ({ products }) => {
     sortedProducts = filterSortedProducts;
     if (searchTerm) {
       sortedProducts = sortedProducts.filter((product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+        product.name[currentLanguage]
+              ?.toString()
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
       );
     }
 

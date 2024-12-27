@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect } from "react";
 import Link from "next/link";
 import { IoIosSearch } from "react-icons/io";
 import {
@@ -20,6 +20,10 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
   const colors = getIndividualColors(products);
   const tags = getIndividualTags(products);
   const popularProducts = getProducts(products, "decor", "popular", 3);
+
+  useEffect(() => {
+    setSearchTerm('');
+  }, [currentLanguage]);
 
   return (
     <div className="shop-sidebar">

@@ -1,10 +1,10 @@
 import { IoIosSearch } from "react-icons/io";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocalization } from "../../../context/LocalizationContext";
 
 const MobileMenuSearch = () => {
-  const { t } = useLocalization();  
+  const { t, currentLanguage } = useLocalization();  
   const router = useRouter();
   const [input, setInput] = useState("");
 
@@ -14,6 +14,10 @@ const MobileMenuSearch = () => {
       router.push(`/shop/left-sidebar?search=${input}`);      
     }
   };
+
+  useEffect(() => {
+    setInput("");
+  }, [currentLanguage]);
 
   return (
     <div className="offcanvas-mobile-menu__search">
