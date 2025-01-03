@@ -343,7 +343,9 @@ const translations = {
     size: "Size",
     color: "Color",
     customer_reviews: "Customer Reviews",
-    currency: "€ "
+    currency: "€ ",
+    registration_success: "Registration successful!",
+    registration_failed: "Registration failed. User already exists!"
   },
   mk: {
     english: "Англиски",
@@ -683,7 +685,9 @@ const translations = {
     size: "Големина",
     color: "Боја",
     customer_reviews: "Рецензии од клиенти",
-    currency: "ден."    
+    currency: "ден.",
+    registration_success: "Регистрацијата е успешна!",
+    registration_failed: "Регистрацијата не успеа. Корисникот веќе е регистриран!"    
   }
 };
 
