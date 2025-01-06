@@ -9,7 +9,7 @@ import { ProductWidgetWrapper } from "../../components/ProductThumb";
 
 const ProductWidgets = ({ newProducts, popularProducts, saleProducts }) => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Product Widgets"
@@ -18,7 +18,7 @@ const ProductWidgets = ({ newProducts, popularProducts, saleProducts }) => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -59,7 +59,7 @@ const ProductWidgets = ({ newProducts, popularProducts, saleProducts }) => {
           </Row>
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

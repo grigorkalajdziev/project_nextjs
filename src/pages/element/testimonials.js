@@ -7,7 +7,7 @@ import testimonialTwoData from "../../data/testimonials/testimonial-two.json";
 
 const Testimonials = () => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Testimonials"
@@ -16,7 +16,7 @@ const Testimonials = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -32,7 +32,7 @@ const Testimonials = () => {
           backgroundImage="/assets/images/backgrounds/testimonials-bg.png"
         />
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

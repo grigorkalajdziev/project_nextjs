@@ -9,10 +9,6 @@ const CategorySlider = ({ categoryData, spaceBottomClass }) => {
     slidesPerView: 3,
     spaceBetween: 50,
     grabCursor: true,
-    // autoplay: {
-    //   delay: 5000,
-    //   disableOnInteraction: false,
-    // },
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev"
@@ -42,8 +38,9 @@ const CategorySlider = ({ categoryData, spaceBottomClass }) => {
       }
     }
   };
+
   return (
-    <div
+    (<div
       className={`product-category-slider-container ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
@@ -55,7 +52,7 @@ const CategorySlider = ({ categoryData, spaceBottomClass }) => {
               {categoryData &&
                 categoryData.map((single, i) => {
                   return (
-                    <div
+                    (<div
                       className="single-category single-category--two"
                       key={i}
                     >
@@ -63,7 +60,7 @@ const CategorySlider = ({ categoryData, spaceBottomClass }) => {
                         <img
                           src={process.env.PUBLIC_URL + single.image}
                           className="img-fluid"
-                          alt=""
+                          alt={single.name}
                         />
                       </div>
                       <div className="single-category__content single-category__content--two space-mt--25">
@@ -71,8 +68,9 @@ const CategorySlider = ({ categoryData, spaceBottomClass }) => {
                           <Link
                             href="/shop/left-sidebar"
                             as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                          >
-                            <a>{single.name}</a>
+                            passHref
+                            legacyBehavior>
+                            <span>{single.name}</span>
                           </Link>
                         </div>
                         <p className="product-count">{single.count}</p>
@@ -80,17 +78,18 @@ const CategorySlider = ({ categoryData, spaceBottomClass }) => {
                       <Link
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                      >
-                        <a className="banner-link"></a>
+                        passHref
+                        legacyBehavior>
+                        <span className="banner-link"></span>
                       </Link>
-                    </div>
+                    </div>)
                   );
                 })}
             </Swiper>
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

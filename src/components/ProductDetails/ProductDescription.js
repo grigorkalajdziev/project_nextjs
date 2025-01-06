@@ -41,7 +41,7 @@ const ProductDescription = ({
   const { t, currentLanguage } = useLocalization();
 
   return (
-    <div className="product-content">
+    (<div className="product-content">
       {product.rating && product.rating > 0 ? (
         <div className="product-content__rating-wrap d-block d-sm-flex space-mb--20">
           <div className="product-content__rating space-mr--20">
@@ -68,7 +68,6 @@ const ProductDescription = ({
       <div className="product-content__description space-mb--30">
         <p>{product.shortDescription}</p>
       </div>
-
       {product.variation ? (
         <div className="product-content__size-color">
           <div className="product-content__size space-mb--20">
@@ -262,15 +261,15 @@ const ProductDescription = ({
                     {product.category &&
                       product.category.map((item, index, arr) => {
                         return (
-                          <Link
+                          (<Link
                             href="/shop/left-sidebar"
                             as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                             key={index}
                           >
-                            <a>
-                              {item + (index !== arr.length - 1 ? ", " : "")}
-                            </a>
-                          </Link>
+
+                            {item + (index !== arr.length - 1 ? ", " : "")}
+
+                          </Link>)
                         );
                       })}
                   </td>
@@ -281,15 +280,15 @@ const ProductDescription = ({
                     {product.tag &&
                       product.tag.map((item, index, arr) => {
                         return (
-                          <Link
+                          (<Link
                             href="/shop/left-sidebar"
                             as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                             key={index}
                           >
-                            <a>
-                              {item + (index !== arr.length - 1 ? ", " : "")}
-                            </a>
-                          </Link>
+
+                            {item + (index !== arr.length - 1 ? ", " : "")}
+
+                          </Link>)
                         );
                       })}
                   </td>
@@ -326,7 +325,7 @@ const ProductDescription = ({
           </div>
         </Fragment>
       )}
-    </div>
+    </div>)
   );
 };
 

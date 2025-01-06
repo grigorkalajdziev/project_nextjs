@@ -8,7 +8,7 @@ import { SubscribeEmail } from "../../components/Newsletter";
 
 const MailchimpForms = () => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Mailchimp Forms"
@@ -17,7 +17,7 @@ const MailchimpForms = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -150,7 +150,7 @@ const MailchimpForms = () => {
           </Container>
         </div>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

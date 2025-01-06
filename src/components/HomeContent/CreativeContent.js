@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const CreativeContent = () => {
   return (
-    <Container className="wide">
+    (<Container className="wide">
       <Row>
         <Col lg={6}>
           <Row>
@@ -26,22 +26,22 @@ const CreativeContent = () => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>New Arrivals</a>
+                        New Arrivals
                       </Link>
                     </p>
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
-                      <a>+ Shop Now</a>
+                      + Shop Now
                     </Link>
                   </div>
                 </div>
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="banner-link"></a>
+                  className="banner-link">
+
                 </Link>
               </div>
             </Col>
@@ -64,22 +64,22 @@ const CreativeContent = () => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>New Arrivals</a>
+                        New Arrivals
                       </Link>
                     </p>
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
-                      <a>+ Shop Now</a>
+                      + Shop Now
                     </Link>
                   </div>
                 </div>
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="banner-link"></a>
+                  className="banner-link">
+
                 </Link>
               </div>
             </Col>
@@ -106,22 +106,22 @@ const CreativeContent = () => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>New Arrivals</a>
+                        New Arrivals
                       </Link>
                     </p>
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
-                      <a>+ Shop Now</a>
+                      + Shop Now
                     </Link>
                   </div>
                 </div>
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="banner-link"></a>
+                  className="banner-link">
+
                 </Link>
               </div>
             </Col>
@@ -144,22 +144,22 @@ const CreativeContent = () => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>New Arrivals</a>
+                        New Arrivals
                       </Link>
                     </p>
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
-                      <a>+ Shop Now</a>
+                      + Shop Now
                     </Link>
                   </div>
                 </div>
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="banner-link"></a>
+                  className="banner-link">
+
                 </Link>
               </div>
             </Col>
@@ -182,22 +182,22 @@ const CreativeContent = () => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>New Arrivals</a>
+                        New Arrivals
                       </Link>
                     </p>
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
-                      <a>+ Shop Now</a>
+                      + Shop Now
                     </Link>
                   </div>
                 </div>
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="banner-link"></a>
+                  className="banner-link">
+
                 </Link>
               </div>
             </Col>
@@ -224,22 +224,22 @@ const CreativeContent = () => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>New Arrivals</a>
+                        New Arrivals
                       </Link>
                     </p>
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
-                      <a>+ Shop Now</a>
+                      + Shop Now
                     </Link>
                   </div>
                 </div>
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="banner-link"></a>
+                  className="banner-link">
+
                 </Link>
               </div>
             </Col>
@@ -262,22 +262,22 @@ const CreativeContent = () => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>New Arrivals</a>
+                        New Arrivals
                       </Link>
                     </p>
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
-                      <a>+ Shop Now</a>
+                      + Shop Now
                     </Link>
                   </div>
                 </div>
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="banner-link"></a>
+                  className="banner-link">
+
                 </Link>
               </div>
             </Col>
@@ -300,29 +300,29 @@ const CreativeContent = () => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>New Arrivals</a>
+                        New Arrivals
                       </Link>
                     </p>
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
-                      <a>+ Shop Now</a>
+                      + Shop Now
                     </Link>
                   </div>
                 </div>
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="banner-link"></a>
+                  className="banner-link">
+
                 </Link>
               </div>
             </Col>
           </Row>
         </Col>
       </Row>
-    </Container>
+    </Container>)
   );
 };
 

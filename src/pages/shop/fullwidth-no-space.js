@@ -53,7 +53,7 @@ const FullwidthNoSpace = ({ products }) => {
   }, [offset, products, sortType, sortValue, filterSortType, filterSortValue]);
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Shop Full Width No Space"
@@ -62,7 +62,7 @@ const FullwidthNoSpace = ({ products }) => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -108,7 +108,7 @@ const FullwidthNoSpace = ({ products }) => {
           </div>
         </div>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

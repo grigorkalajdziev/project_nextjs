@@ -4,7 +4,7 @@ import { Parallax } from "react-parallax";
 
 const LookbookContent = ({ spaceBottomClass }) => {
   return (
-    <div
+    (<div
       className={`lookbook-wrapper ${spaceBottomClass ? spaceBottomClass : ""}`}
     >
       <Parallax
@@ -26,10 +26,10 @@ const LookbookContent = ({ spaceBottomClass }) => {
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                    >
-                      <a className="lezada-button lezada-button--medium lookbook-btn">
+                      className="lezada-button lezada-button--medium lookbook-btn">
+                      
                         shop now
-                      </a>
+                      
                     </Link>
                   </div>
                 </div>
@@ -38,7 +38,6 @@ const LookbookContent = ({ spaceBottomClass }) => {
           </Container>
         </div>
       </Parallax>
-
       <Parallax
         bgImage={
           process.env.PUBLIC_URL +
@@ -58,10 +57,10 @@ const LookbookContent = ({ spaceBottomClass }) => {
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                    >
-                      <a className="lezada-button lezada-button--medium lookbook-btn">
+                      className="lezada-button lezada-button--medium lookbook-btn">
+                      
                         shop now
-                      </a>
+                      
                     </Link>
                   </div>
                 </div>
@@ -70,7 +69,6 @@ const LookbookContent = ({ spaceBottomClass }) => {
           </Container>
         </div>
       </Parallax>
-
       <Parallax
         bgImage={
           process.env.PUBLIC_URL +
@@ -90,10 +88,10 @@ const LookbookContent = ({ spaceBottomClass }) => {
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                    >
-                      <a className="lezada-button lezada-button--medium lookbook-btn">
+                      className="lezada-button lezada-button--medium lookbook-btn">
+                      
                         shop now
-                      </a>
+                      
                     </Link>
                   </div>
                 </div>
@@ -102,7 +100,6 @@ const LookbookContent = ({ spaceBottomClass }) => {
           </Container>
         </div>
       </Parallax>
-
       <Parallax
         bgImage={
           process.env.PUBLIC_URL +
@@ -122,10 +119,10 @@ const LookbookContent = ({ spaceBottomClass }) => {
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                    >
-                      <a className="lezada-button lezada-button--medium lookbook-btn">
+                      className="lezada-button lezada-button--medium lookbook-btn">
+                      
                         shop now
-                      </a>
+                      
                     </Link>
                   </div>
                 </div>
@@ -134,7 +131,7 @@ const LookbookContent = ({ spaceBottomClass }) => {
           </Container>
         </div>
       </Parallax>
-    </div>
+    </div>)
   );
 };
 

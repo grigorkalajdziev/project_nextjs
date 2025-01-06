@@ -50,7 +50,7 @@ const ProductFullwidth = ({
   )[0];
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={product.name}
@@ -59,7 +59,7 @@ const ProductFullwidth = ({
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
           <li>
@@ -67,13 +67,12 @@ const ProductFullwidth = ({
               href="/shop/left-sidebar"
               as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
             >
-              <a>Shop</a>
+              Shop
             </Link>
           </li>
           <li>{product.name}</li>
         </ul>
       </BreadcrumbOne>
-
       {/* product details */}
       <div className="product-details space-mt--r100 space-mb--r100">
         <Container className="wide">
@@ -116,7 +115,7 @@ const ProductFullwidth = ({
           </Row>
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

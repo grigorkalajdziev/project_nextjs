@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const HoverBannerTwo = ({ spaceBottomClass }) => {
   return (
-    <div
+    (<div
       className={`hover-banner-area ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
@@ -15,8 +15,8 @@ const HoverBannerTwo = ({ spaceBottomClass }) => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
               <img
                 src={
@@ -39,8 +39,8 @@ const HoverBannerTwo = ({ spaceBottomClass }) => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
               <img
                 src={
@@ -62,7 +62,7 @@ const HoverBannerTwo = ({ spaceBottomClass }) => {
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

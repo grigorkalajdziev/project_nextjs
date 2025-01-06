@@ -10,7 +10,7 @@ import {
 
 const CountdownTimers = () => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Countdown Timers"
@@ -19,7 +19,7 @@ const CountdownTimers = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -67,7 +67,7 @@ const CountdownTimers = () => {
           backgroundColorClass="bg-color--grey-two"
         />
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

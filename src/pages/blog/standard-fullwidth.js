@@ -6,7 +6,7 @@ import { BlogSidebar, BlogPostGridWrapper } from "../../components/Blog";
 
 const StandardFullwidth = () => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Blog Standard Full Width"
@@ -15,7 +15,7 @@ const StandardFullwidth = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -62,7 +62,7 @@ const StandardFullwidth = () => {
           </Row>
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

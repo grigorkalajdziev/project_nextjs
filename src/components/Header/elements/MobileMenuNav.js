@@ -41,14 +41,14 @@ const MobileMenuNav = ({ getActiveStatus }) => {
     e.currentTarget.parentElement.classList.toggle("active");
   };
   return (
-    <nav
+    (<nav
       className="offcanvas-mobile-menu__navigation"
       id="offcanvas-mobile-menu__navigation"
     >
       <ul>
         <li className="menu-item-has-children">
           <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-            <a>{t('home')}</a>
+            {t('home')}
           </Link>
         </li>
 
@@ -57,7 +57,7 @@ const MobileMenuNav = ({ getActiveStatus }) => {
             href="/shop/left-sidebar"
             as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
           >
-            <a>{t('shop')}</a>
+            {t('shop')}
           </Link>
           <ul className="mobile-sub-menu">
             <li>
@@ -65,7 +65,7 @@ const MobileMenuNav = ({ getActiveStatus }) => {
                 href="/other/checkout"
                 as={process.env.PUBLIC_URL + "/other/checkout"}
               >
-                <a>{t('checkout')}</a>
+                {t('checkout')}
               </Link>
             </li>
             <li>
@@ -73,7 +73,7 @@ const MobileMenuNav = ({ getActiveStatus }) => {
                 href="/other/compare"
                 as={process.env.PUBLIC_URL + "/other/compare"}
               >
-                <a>{t("compare")}</a>
+                {t("compare")}
               </Link>
             </li>
             <li>
@@ -81,7 +81,7 @@ const MobileMenuNav = ({ getActiveStatus }) => {
                 href="/other/my-account"
                 as={process.env.PUBLIC_URL + "/other/my-account"}
               >
-                <a>{t('my_account')}</a>
+                {t('my_account')}
               </Link>
             </li>
             <li>
@@ -89,21 +89,21 @@ const MobileMenuNav = ({ getActiveStatus }) => {
                 href="/other/login-register"
                 as={process.env.PUBLIC_URL + "/other/login-register"}
               >
-                <a>{t('login_register')}</a>
+                {t('login_register')}
               </Link>
             </li>
           </ul>
         </li>
         <li className="menu-item-has-children">
           <Link href="/other/about" as={process.env.PUBLIC_URL + "/other/about"}>
-            <a>{t('about_us')}</a>
+            {t('about_us')}
           </Link>
           <ul className="mobile-sub-menu">
             <li>
               <Link
                 href="/other/contact"
                 as={process.env.PUBLIC_URL + "/other/contact"} >
-                <a>{t('contact_us')}</a>
+                {t('contact_us')}
               </Link>
             </li>
             <li>
@@ -111,13 +111,13 @@ const MobileMenuNav = ({ getActiveStatus }) => {
                 href="/other/faq"
                 as={process.env.PUBLIC_URL + "/other/faq"}
               >
-                <a>{t('faq')}</a>
+                {t('faq')}
               </Link>
             </li>
           </ul>
         </li>
       </ul>
-    </nav>
+    </nav>)
   );
 };
 

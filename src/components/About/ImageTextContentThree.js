@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const ImageTextContentThree = () => {
   return (
-    <div className="image-text-banner-area">
+    (<div className="image-text-banner-area">
       <Row className="no-gutters h-100">
         <Col lg={6}>
           <div className="single-image-text-banner h-100">
@@ -34,8 +34,8 @@ const ImageTextContentThree = () => {
                   <Link
                     href="/blog/grid-left-sidebar"
                     as={process.env.PUBLIC_URL + "/blog/grid-left-sidebar"}
-                  >
-                    <a className="blog-readmore-btn">READ MORE</a>
+                    className="blog-readmore-btn">
+                    READ MORE
                   </Link>
                 </div>
               </Col>
@@ -71,8 +71,8 @@ const ImageTextContentThree = () => {
                   <Link
                     href="/blog/grid-left-sidebar"
                     as={process.env.PUBLIC_URL + "/blog/grid-left-sidebar"}
-                  >
-                    <a className="blog-readmore-btn">READ MORE</a>
+                    className="blog-readmore-btn">
+                    READ MORE
                   </Link>
                 </div>
               </Col>
@@ -80,7 +80,7 @@ const ImageTextContentThree = () => {
           </div>
         </Col>
       </Row>
-    </div>
+    </div>)
   );
 };
 

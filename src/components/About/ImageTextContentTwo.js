@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const ImageTextContentTwo = () => {
   return (
-    <div className="image-text-content-area space-mb--50">
+    (<div className="image-text-content-area space-mb--50">
       <Container>
         <Row className="align-items-center">
           <Col md={6}>
@@ -20,8 +20,8 @@ const ImageTextContentTwo = () => {
               <Link
                 href="/other/about"
                 as={process.env.PUBLIC_URL + "/other/about"}
-              >
-                <a className="lezada-shop-link">LEARN MORE</a>
+                className="lezada-shop-link">
+                LEARN MORE
               </Link>
             </div>
           </Col>
@@ -39,7 +39,7 @@ const ImageTextContentTwo = () => {
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

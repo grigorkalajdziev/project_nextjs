@@ -23,7 +23,7 @@ const HeroSliderTwelve = ({ sliderData, spaceBottomClass }) => {
     )
   };
   return (
-    <div
+    (<div
       className={`hero-slider-twelve ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
@@ -33,7 +33,7 @@ const HeroSliderTwelve = ({ sliderData, spaceBottomClass }) => {
           {sliderData &&
             sliderData.map((single, i) => {
               return (
-                <div
+                (<div
                   className="hero-slider-twelve__slide"
                   style={{ backgroundColor: single.bgColor }}
                   key={i}
@@ -56,22 +56,21 @@ const HeroSliderTwelve = ({ sliderData, spaceBottomClass }) => {
                         href={single.url}
                         as={process.env.PUBLIC_URL + single.url}
                       >
-                        <a>+ store</a>
+                        + store
                       </Link>
                     </div>
                   </div>
-
                   <div className="hero-slider-twelve__pagination">
                     <span className="current">{i + 1}</span>
                     <span className="border"></span>
                     <span className="total">{sliderData.length}</span>
                   </div>
-                </div>
+                </div>)
               );
             })}
         </Swiper>
       </div>
-    </div>
+    </div>)
   );
 };
 

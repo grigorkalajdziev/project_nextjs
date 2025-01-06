@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const CategoryGrid = ({ spaceBottomClass }) => {
   return (
-    <div
+    (<div
       className={`product-category-container ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
@@ -31,15 +31,15 @@ const CategoryGrid = ({ spaceBottomClass }) => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>+ Store</a>
+                        + Store
                       </Link>
                     </div>
                   </div>
                   <Link
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a className="banner-link" />
+                    className="banner-link">
+
                   </Link>
                 </div>
               </Col>
@@ -62,15 +62,15 @@ const CategoryGrid = ({ spaceBottomClass }) => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>+ Store</a>
+                        + Store
                       </Link>
                     </div>
                   </div>
                   <Link
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a className="banner-link" />
+                    className="banner-link">
+
                   </Link>
                 </div>
               </Col>
@@ -93,15 +93,15 @@ const CategoryGrid = ({ spaceBottomClass }) => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>+ Store</a>
+                        + Store
                       </Link>
                     </div>
                   </div>
                   <Link
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a className="banner-link" />
+                    className="banner-link">
+
                   </Link>
                 </div>
               </Col>
@@ -128,15 +128,15 @@ const CategoryGrid = ({ spaceBottomClass }) => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>+ Store</a>
+                        + Store
                       </Link>
                     </div>
                   </div>
                   <Link
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a className="banner-link" />
+                    className="banner-link">
+
                   </Link>
                 </div>
               </Col>
@@ -159,15 +159,15 @@ const CategoryGrid = ({ spaceBottomClass }) => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>+ Store</a>
+                        + Store
                       </Link>
                     </div>
                   </div>
                   <Link
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a className="banner-link" />
+                    className="banner-link">
+
                   </Link>
                 </div>
               </Col>
@@ -175,7 +175,7 @@ const CategoryGrid = ({ spaceBottomClass }) => {
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

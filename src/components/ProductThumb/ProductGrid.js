@@ -27,7 +27,7 @@ const ProductGrid = ({
   const { t, currentLanguage } = useLocalization();
 
   return (
-    <Fragment>
+    (<Fragment>
       <Col
         lg={column && column === 4 ? 3 : 4}
         md={6}
@@ -41,23 +41,23 @@ const ProductGrid = ({
               as={
                 process.env.PUBLIC_URL + "/shop/product-basic/" + product.slug
               }
-            >
-              <a className="image-wrap">
+              className="image-wrap">
+
+              <img
+                src={process.env.PUBLIC_URL + product.thumbImage[0]}
+                className="img-fluid"
+                alt={product.name[currentLanguage] || product.name["en"]}
+              />
+              {product.thumbImage.length > 1 ? (
                 <img
-                  src={process.env.PUBLIC_URL + product.thumbImage[0]}
+                  src={process.env.PUBLIC_URL + product.thumbImage[1]}
                   className="img-fluid"
                   alt={product.name[currentLanguage] || product.name["en"]}
                 />
-                {product.thumbImage.length > 1 ? (
-                  <img
-                    src={process.env.PUBLIC_URL + product.thumbImage[1]}
-                    className="img-fluid"
-                    alt={product.name[currentLanguage] || product.name["en"]}
-                  />
-                ) : (
-                  ""
-                )}
-              </a>
+              ) : (
+                ""
+              )}
+
             </Link>
             <div className="product-grid__floating-badges">
               {product.discount && product.discount > 0 ? (
@@ -154,7 +154,7 @@ const ProductGrid = ({
                     product.slug
                   }
                 >
-                  <a>{product.name[currentLanguage] || product.name["en"]}</a>
+                  {product.name[currentLanguage] || product.name["en"]}
                 </Link>
               </h3>
               {/* add to cart */}
@@ -171,7 +171,7 @@ const ProductGrid = ({
                     product.slug
                   }
                 >
-                  <a>{t("select_option")}</a>
+                  {t("select_option")}
                 </Link>
               ) : product.stock && product.stock > 0 ? (
                 <button
@@ -218,7 +218,7 @@ const ProductGrid = ({
         deletefromcompare={deleteFromCompare}
         addtoast={addToast}
       />
-    </Fragment>
+    </Fragment>)
   );
 };
 

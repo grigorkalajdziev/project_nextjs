@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const HoverBannerOne = ({ spaceBottomClass }) => {
   return (
-    <div
+    (<div
       className={`hover-banner-area ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
@@ -29,24 +29,23 @@ const HoverBannerOne = ({ spaceBottomClass }) => {
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
-                      <a>
-                        Wooden <span>Chair</span>
-                      </a>
+                      Wooden <span>Chair</span>
+
                     </Link>
                   </p>
                   <Link
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>Shop Now</a>
+                    Shop Now
                   </Link>
                 </div>
               </div>
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
             </div>
           </Col>
@@ -69,24 +68,23 @@ const HoverBannerOne = ({ spaceBottomClass }) => {
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
-                      <a>
-                        Thumbler <span>Alarm Clock</span>
-                      </a>
+                      Thumbler <span>Alarm Clock</span>
+
                     </Link>
                   </p>
                   <Link
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>Shop Now</a>
+                    Shop Now
                   </Link>
                 </div>
               </div>
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
             </div>
           </Col>
@@ -109,30 +107,29 @@ const HoverBannerOne = ({ spaceBottomClass }) => {
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
-                      <a>
-                        Home <span>Decoration</span>
-                      </a>
+                      Home <span>Decoration</span>
+
                     </Link>
                   </p>
                   <Link
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>Shop Now</a>
+                    Shop Now
                   </Link>
                 </div>
               </div>
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
             </div>
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

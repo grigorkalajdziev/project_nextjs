@@ -25,7 +25,7 @@ const HeaderTwo = () => {
   };
 
   return (
-    <Fragment>
+    (<Fragment>
       <header
         className={`topbar-shadow position-absolute ${
           scroll > headerTop ? "is-sticky" : ""
@@ -42,19 +42,19 @@ const HeaderTwo = () => {
             {/* logo */}
             <div className="header-content__logo d-flex align-items-center space-pr--15">
               <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-                <a>
-                  <img
-                    src={process.env.PUBLIC_URL + "/assets/images/logo.png"}
-                    className="img-fluid"
-                    alt=""
-                  />
-                </a>
+
+                <img
+                  src={process.env.PUBLIC_URL + "/assets/images/logo.png"}
+                  className="img-fluid"
+                  alt=""
+                />
+
               </Link>
             </div>
           </div>
         </Container>
       </header>
-    </Fragment>
+    </Fragment>)
   );
 };
 

@@ -14,7 +14,7 @@ import Link from "next/link";
 const MobileMenuWidgets = () => {
   const { t } = useLocalization();  
   return (
-    <div className="offcanvas-mobile-menu__widgets">
+    (<div className="offcanvas-mobile-menu__widgets">
       <div className="contact-widget space-mb--30">
         <ul>
           <li>
@@ -23,7 +23,7 @@ const MobileMenuWidgets = () => {
               href="/other/login-register"
               as={process.env.PUBLIC_URL + "/other/login-register"}
             >
-              <a>{t('signup_login')}</a>
+              {t('signup_login')}
             </Link>
           </li>
           <li>
@@ -36,7 +36,6 @@ const MobileMenuWidgets = () => {
           </li>
         </ul>
       </div>
-
       <div className="social-widget">
         <a href="https://www.twitter.com" target="_blank">
           <FaXTwitter />
@@ -51,7 +50,7 @@ const MobileMenuWidgets = () => {
           <IoLogoPinterest />
         </a>
       </div>
-    </div>
+    </div>)
   );
 };
 

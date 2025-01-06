@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import App from "next/app";
 import Head from "next/head";
 import withReduxStore from "../lib/with-redux-store";

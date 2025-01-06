@@ -7,7 +7,7 @@ import {
   IoMdPerson,
   IoIosHeartEmpty,
   IoIosCart,
-  IoIosMenu
+  IoIosMenu,
 } from "react-icons/io";
 import Navigation from "./elements/Navigation";
 import AboutOverlay from "./elements/AboutOverlay";
@@ -24,7 +24,8 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
   const [offCanvasSearchActive, setOffCanvasSearchActive] = useState(false);
   const [offCanvasCartActive, setOffCanvasCartActive] = useState(false);
   const [offCanvasWishlistActive, setOffCanvasWishlistActive] = useState(false);
-  const [offCanvasMobileMenuActive, setOffCanvasMobileMenuActive] = useState(false);  
+  const [offCanvasMobileMenuActive, setOffCanvasMobileMenuActive] =
+    useState(false);
 
   useEffect(() => {
     const header = document.querySelector("header");
@@ -37,7 +38,7 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [scroll, headerTop, headerHeight]);
 
   const handleScroll = () => {
     setScroll(window.scrollY);
@@ -48,20 +49,21 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
       <header
         className={`topbar-shadow ${scroll > headerTop ? "is-sticky" : ""}`}
       >
-        
         <div className="header-bottom-area">
           <Container className="wide">
             <div className="header-content d-flex align-items-center justify-content-between position-relative space-py-mobile-only--30">
               {/* logo */}
               <div className="header-content__logo space-pr--15">
-                <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-                  <a>
-                    <img
-                      src={process.env.PUBLIC_URL + "/assets/images/logo.png"}
-                      className="img-fluid"
-                      alt=""
-                    />
-                  </a>
+                <Link
+                  href="/home/trending"
+                  as={process.env.PUBLIC_URL + "/home/trending"}
+                  legacyBehavior
+                >
+                  <img
+                    src={process.env.PUBLIC_URL + "/assets/images/logo.png"}
+                    className="img-fluid"
+                    alt="Logo"
+                  />
                 </Link>
               </div>
 
@@ -87,10 +89,10 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
                     <Link
                       href="/other/login-register"
                       as={process.env.PUBLIC_URL + "/other/login-register"}
+                      className="icon-link"
+                      legacyBehavior
                     >
-                      <a>
-                        <IoMdPerson />
-                      </a>
+                      <IoMdPerson />
                     </Link>
                   </li>
                   <li>
@@ -103,12 +105,8 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
                       }}
                     >
                       <IoIosHeartEmpty />
-                      {wishlistItems.length >= 1 ? (
-                        <span className="count">
-                          {wishlistItems.length ? wishlistItems.length : ""}
-                        </span>
-                      ) : (
-                        ""
+                      {wishlistItems.length > 0 && (
+                        <span className="count">{wishlistItems.length}</span>
                       )}
                     </button>
                   </li>
@@ -122,12 +120,8 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
                       }}
                     >
                       <IoIosCart />
-                      {cartItems.length >= 1 ? (
-                        <span className="count">
-                          {cartItems.length ? cartItems.length : ""}
-                        </span>
-                      ) : (
-                        ""
+                      {cartItems.length > 0 && (
+                        <span className="count">{cartItems.length}</span>
                       )}
                     </button>
                   </li>
@@ -138,34 +132,30 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
                     <Link
                       href="/other/wishlist"
                       as={process.env.PUBLIC_URL + "/other/wishlist"}
+                      className="icon-link"
+                      legacyBehavior
                     >
-                      <a>
+                      <span>
                         <IoIosHeartEmpty />
-                        {wishlistItems.length >= 1 ? (
-                          <span className="count">
-                            {wishlistItems.length ? wishlistItems.length : ""}
-                          </span>
-                        ) : (
-                          ""
+                        {wishlistItems.length > 0 && (
+                          <span className="count">{wishlistItems.length}</span>
                         )}
-                      </a>
+                      </span>
                     </Link>
                   </li>
                   <li>
                     <Link
                       href="/other/cart"
                       as={process.env.PUBLIC_URL + "/other/cart"}
+                      className="icon-link"
+                      legacyBehavior
                     >
-                      <a>
+                      <span>
                         <IoIosCart />
-                        {cartItems.length >= 1 ? (
-                          <span className="count">
-                            {cartItems.length ? cartItems.length : ""}
-                          </span>
-                        ) : (
-                          ""
+                        {cartItems.length > 0 && (
+                          <span className="count">{cartItems.length}</span>
                         )}
-                      </a>
+                      </span>
                     </Link>
                   </li>
                   <li>
@@ -179,11 +169,8 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
           </Container>
         </div>
       </header>
-
       {/* about overlay */}
-      {aboutOverlay === false ? (
-        ""
-      ) : (
+      {aboutOverlay && (
         <AboutOverlay
           activeStatus={offCanvasAboutActive}
           getActiveStatus={setOffCanvasAboutActive}
@@ -192,15 +179,13 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
       {/* search overlay */}
       <SearchOverlay
         activeStatus={offCanvasSearchActive}
-        getActiveStatus={setOffCanvasSearchActive}        
-      />      
-
+        getActiveStatus={setOffCanvasSearchActive}
+      />
       {/* cart overlay */}
       <CartOverlay
         activeStatus={offCanvasCartActive}
         getActiveStatus={setOffCanvasCartActive}
       />
-
       {/* wishlist overlay */}
       <WishlistOverlay
         activeStatus={offCanvasWishlistActive}
@@ -218,7 +203,7 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
 const mapStateToProps = (state) => {
   return {
     cartItems: state.cartData,
-    wishlistItems: state.wishlistData
+    wishlistItems: state.wishlistData,
   };
 };
 

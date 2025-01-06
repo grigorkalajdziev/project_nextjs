@@ -13,7 +13,7 @@ const CountdownTimerSix = ({
   spaceBottomClass
 }) => {
   return (
-    <div
+    (<div
       className={`countdown-timer-wrapper ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
@@ -41,10 +41,13 @@ const CountdownTimerSix = ({
                         renderer={Renderer}
                       />
                     </div>
-                    <Link href={url} as={process.env.PUBLIC_URL + url}>
-                      <a className="lezada-button lezada-button--medium lezada-button--icon--left">
-                        <IoIosCart /> {buttonText}
-                      </a>
+                    <Link
+                      href={url}
+                      as={process.env.PUBLIC_URL + url}
+                      className="lezada-button lezada-button--medium lezada-button--icon--left">
+
+                      <IoIosCart /> {buttonText}
+
                     </Link>
                   </div>
                 </Col>
@@ -53,7 +56,7 @@ const CountdownTimerSix = ({
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

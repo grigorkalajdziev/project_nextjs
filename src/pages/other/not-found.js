@@ -5,7 +5,7 @@ import { HeaderTwo } from "../../components/Header";
 
 const NotFound = () => {
   return (
-    <Fragment>
+    (<Fragment>
       <HeaderTwo />
       <div
         className="nothing-found-area bg-404"
@@ -24,7 +24,7 @@ const NotFound = () => {
                 <p className="direction-page">
                   PLEASE GO BACK TO{" "}
                   <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-                    <a>homepage</a>
+                    homepage
                   </Link>
                 </p>
               </div>
@@ -32,7 +32,7 @@ const NotFound = () => {
           </Row>
         </Container>
       </div>
-    </Fragment>
+    </Fragment>)
   );
 };
 

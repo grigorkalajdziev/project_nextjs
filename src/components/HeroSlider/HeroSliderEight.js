@@ -4,7 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const HeroSliderEight = ({ sliderData, spaceBottomClass }) => {
   return (
-    <div
+    (<div
       className={`hero-slider-eight ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
@@ -14,7 +14,7 @@ const HeroSliderEight = ({ sliderData, spaceBottomClass }) => {
           {sliderData &&
             sliderData.map((single, i) => {
               return (
-                <div
+                (<div
                   className="hero-slider-eight__slide bg-img"
                   style={{ backgroundImage: `url(${single.bgImage})` }}
                   key={i}
@@ -32,22 +32,22 @@ const HeroSliderEight = ({ sliderData, spaceBottomClass }) => {
                             <Link
                               href={single.url}
                               as={process.env.PUBLIC_URL + single.url}
-                            >
-                              <a className="lezada-button lezada-button--medium lezada-button--transparent-white">
+                              className="lezada-button lezada-button--medium lezada-button--transparent-white">
+                              
                                 shop now
-                              </a>
+                              
                             </Link>
                           </div>
                         </div>
                       </Col>
                     </Row>
                   </Container>
-                </div>
+                </div>)
               );
             })}
         </Swiper>
       </div>
-    </div>
+    </div>)
   );
 };
 

@@ -23,7 +23,7 @@ const HeroSliderEleven = ({ sliderData, spaceBottomClass }) => {
     )
   };
   return (
-    <div
+    (<div
       className={`hero-slider-eleven ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
@@ -33,7 +33,7 @@ const HeroSliderEleven = ({ sliderData, spaceBottomClass }) => {
           {sliderData &&
             sliderData.map((single, i) => {
               return (
-                <div
+                (<div
                   className="hero-slider-eleven__slide"
                   style={{ backgroundColor: single.bgColor }}
                   key={i}
@@ -51,10 +51,10 @@ const HeroSliderEleven = ({ sliderData, spaceBottomClass }) => {
                             <Link
                               href={single.url}
                               as={process.env.PUBLIC_URL + single.url}
-                            >
-                              <a className="lezada-button lezada-button--medium">
+                              className="lezada-button lezada-button--medium">
+                              
                                 shop now
-                              </a>
+                              
                             </Link>
                           </div>
                         </div>
@@ -75,12 +75,12 @@ const HeroSliderEleven = ({ sliderData, spaceBottomClass }) => {
                     <span className="border"></span>
                     <span className="total">{sliderData.length}</span>
                   </div>
-                </div>
+                </div>)
               );
             })}
         </Swiper>
       </div>
-    </div>
+    </div>)
   );
 };
 

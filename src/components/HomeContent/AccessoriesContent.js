@@ -5,7 +5,7 @@ import { SectionTitleThree } from "../../components/SectionTitle";
 
 const AccessoriesContent = () => {
   return (
-    <div className="content-wrapper space-mb--r100 space-mt--r100">
+    (<div className="content-wrapper space-mb--r100 space-mt--r100">
       <Container className="wide">
         <Row>
           <Col lg={1} xl={3} className="d-none d-xl-block">
@@ -26,7 +26,6 @@ const AccessoriesContent = () => {
           </Col>
         </Row>
       </Container>
-
       <Container>
         <Row className="align-items-center">
           <Col
@@ -38,8 +37,8 @@ const AccessoriesContent = () => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-hover"></a>
+                className="banner-hover">
+
               </Link>
               <span className="number">01/</span>
               <img
@@ -64,8 +63,8 @@ const AccessoriesContent = () => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-hover"></a>
+                className="banner-hover">
+
               </Link>
               <span className="number">02/</span>
               <img
@@ -89,8 +88,8 @@ const AccessoriesContent = () => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-hover"></a>
+                className="banner-hover">
+
               </Link>
               <span className="number">03/</span>
               <img
@@ -115,8 +114,8 @@ const AccessoriesContent = () => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-hover"></a>
+                className="banner-hover">
+
               </Link>
               <span className="number">04/</span>
               <img
@@ -141,8 +140,8 @@ const AccessoriesContent = () => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-hover"></a>
+                className="banner-hover">
+
               </Link>
               <span className="number">05/</span>
               <img
@@ -167,8 +166,8 @@ const AccessoriesContent = () => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-hover"></a>
+                className="banner-hover">
+
               </Link>
               <span className="number">06/</span>
               <img
@@ -193,8 +192,8 @@ const AccessoriesContent = () => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-hover"></a>
+                className="banner-hover">
+
               </Link>
               <span className="number">07/</span>
               <img
@@ -219,8 +218,8 @@ const AccessoriesContent = () => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-hover"></a>
+                className="banner-hover">
+
               </Link>
               <span className="number">08/</span>
               <img
@@ -249,8 +248,8 @@ const AccessoriesContent = () => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-hover"></a>
+                className="banner-hover">
+
               </Link>
               <span className="number">09/</span>
               <img
@@ -275,8 +274,8 @@ const AccessoriesContent = () => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-hover"></a>
+                className="banner-hover">
+
               </Link>
               <span className="number">10/</span>
               <img
@@ -299,16 +298,15 @@ const AccessoriesContent = () => {
             <Link
               href="/shop/left-sidebar"
               as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-            >
-              <a className="lezada-button lezada-button--medium lezada-button--icon--left">
-                <IoIosAdd />
-                Online Store
-              </a>
+              className="lezada-button lezada-button--medium lezada-button--icon--left">
+
+              <IoIosAdd />Online Store
+                            
             </Link>
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

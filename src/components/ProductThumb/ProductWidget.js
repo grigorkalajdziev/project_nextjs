@@ -12,7 +12,7 @@ const ProductWidget = ({
   sliderClass
 }) => {
   return (
-    <div
+    (<div
       className={`single-widget-product-wrapper ${
         sliderClass ? sliderClass : ""
       }`}
@@ -22,14 +22,14 @@ const ProductWidget = ({
           <Link
             href={`/shop/product-basic/[slug]?slug=${product.slug}`}
             as={process.env.PUBLIC_URL + "/shop/product-basic/" + product.slug}
-          >
-            <a className="image-wrap">
-              <img
-                src={process.env.PUBLIC_URL + product.thumbImage[0]}
-                className="img-fluid"
-                alt={product.name}
-              />
-            </a>
+            className="image-wrap">
+
+            <img
+              src={process.env.PUBLIC_URL + product.thumbImage[0]}
+              className="img-fluid"
+              alt={product.name}
+            />
+
           </Link>
         </div>
         <div className="single-widget-product__content">
@@ -41,7 +41,7 @@ const ProductWidget = ({
                   process.env.PUBLIC_URL + "/shop/product-basic/" + product.slug
                 }
               >
-                <a>{product.name}</a>
+                {product.name}
               </Link>
             </h3>
             <div className="price space-mb--10">
@@ -74,8 +74,8 @@ const ProductWidget = ({
                 as={
                   process.env.PUBLIC_URL + "/shop/product-basic/" + product.slug
                 }
-              >
-                <a className="cart-btn">Select Option</a>
+                className="cart-btn">
+                Select Option
               </Link>
             ) : product.stock && product.stock > 0 ? (
               <button
@@ -95,7 +95,7 @@ const ProductWidget = ({
           </div>
         </div>
       </div>
-    </div>
+    </div>)
   );
 };
 

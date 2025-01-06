@@ -11,7 +11,7 @@ const MyAccount = () => {
   const { t } = useLocalization();
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("my_account")}
@@ -20,7 +20,7 @@ const MyAccount = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              <a>{t("home")}</a>
+              {t("home")}
             </Link>
           </li>
           <li>{t("my_account")}</li>
@@ -60,8 +60,8 @@ const MyAccount = () => {
                       <Link
                         href="/other/login-register"
                         as={process.env.PUBLIC_URL + "/other/login-register"}
-                      >
-                        <a className="logout">{t("logout")}</a>
+                        className="logout">
+                        {t("logout")}
                       </Link>
                       )
                     </p>
@@ -260,7 +260,7 @@ const MyAccount = () => {
           </Tab.Container>
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

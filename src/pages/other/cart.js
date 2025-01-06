@@ -45,7 +45,7 @@ const Cart = ({
  
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("cart_title")}
@@ -54,14 +54,13 @@ const Cart = ({
         <ul className="breadcrumb__list">
           <li>
             <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              <a>{t("home")}</a>
+              {t("home")}
             </Link>
           </li>
 
           <li>{t("cart")}</li>
         </ul>
       </BreadcrumbOne>
-
       {/* cart content */}
       <div className="cart-content space-mt--r130 space-mb--r130">
         <Container>
@@ -90,22 +89,22 @@ const Cart = ({
 
                       cartTotalPrice += discountedPrice * product.quantity;
                       return (
-                        <tr key={i}>
+                        (<tr key={i}>
                           <td className="product-thumbnail">
                             <Link
                               href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                               as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                             >
-                              <a>
-                                <img
-                                  src={
-                                    process.env.PUBLIC_URL +
-                                    product.thumbImage[0]
-                                  }
-                                  className="img-fluid"
-                                  alt=""
-                                />
-                              </a>
+
+                              <img
+                                src={
+                                  process.env.PUBLIC_URL +
+                                  product.thumbImage[0]
+                                }
+                                className="img-fluid"
+                                alt=""
+                              />
+
                             </Link>
                           </td>
                           <td className="product-name">
@@ -113,7 +112,7 @@ const Cart = ({
                               href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                               as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                             >
-                              <a>{product.name[currentLanguage] || product.name["en"]}</a>
+                              {product.name[currentLanguage] || product.name["en"]}
                             </Link>
                             {product.selectedProductColor &&
                             product.selectedProductSize ? (
@@ -127,11 +126,9 @@ const Cart = ({
                               ""
                             )}
                           </td>
-
                           <td className="product-price">
                             <span className="price">{t("currency")}{discountedPrice}</span>
                           </td>
-
                           <td className="product-quantity">
                             <div className="cart-plus-minus">
                               <button
@@ -164,13 +161,11 @@ const Cart = ({
                               </button>
                             </div>
                           </td>
-
                           <td className="total-price">
                             <span className="price">
                             {t("currency")}{(discountedPrice * product.quantity).toFixed(2)}
                             </span>
                           </td>
-
                           <td className="product-remove">
                             <button
                               onClick={() => deleteFromCart(product, addToast, t)}
@@ -178,7 +173,7 @@ const Cart = ({
                               <IoIosClose />
                             </button>
                           </td>
-                        </tr>
+                        </tr>)
                       );
                     })}
                   </tbody>
@@ -238,10 +233,10 @@ const Cart = ({
                     <Link
                       href="/other/checkout"
                       as={process.env.PUBLIC_URL + "/other/checkout"}
-                    >
-                      <a className="lezada-button lezada-button--medium">
-                        {t("proceed_to_checkout")} {/* Translated Proceed to Checkout */}
-                      </a>
+                      className="lezada-button lezada-button--medium">
+
+                      {t("proceed_to_checkout")} {/* Translated Proceed to Checkout */}
+
                     </Link>
                   </div>
                 </div>
@@ -259,10 +254,10 @@ const Cart = ({
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                    >
-                      <a className="lezada-button lezada-button--medium">
-                        {t("shop_now")} {/* Translated Shop Now */}
-                      </a>
+                      className="lezada-button lezada-button--medium">
+
+                      {t("shop_now")} {/* Translated Shop Now */}
+
                     </Link>
                   </div>
                 </div>
@@ -271,7 +266,7 @@ const Cart = ({
           )}
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

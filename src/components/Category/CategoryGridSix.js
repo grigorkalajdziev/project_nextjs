@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const CategoryGridSix = () => {
   return (
-    <div className="product-category-area">
+    (<div className="product-category-area">
       <Container>
         <Row>
           <Col lg={12}>
@@ -32,7 +32,7 @@ const CategoryGridSix = () => {
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                 >
-                  <a>SHOP NOW</a>
+                  SHOP NOW
                 </Link>
               </div>
             </div>
@@ -58,25 +58,24 @@ const CategoryGridSix = () => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>
-                      <img
-                        src={
-                          process.env.PUBLIC_URL +
-                          "/assets/images/category/swimsuit-1.png"
-                        }
-                        className="img-fluid"
-                        alt=""
-                      />
-                    </a>
+
+                    <img
+                      src={
+                        process.env.PUBLIC_URL +
+                        "/assets/images/category/swimsuit-1.png"
+                      }
+                      className="img-fluid"
+                      alt=""
+                    />
+
                   </Link>
                 </div>
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="single-product-category__title">
-                    Bikini <span>( 7 items )</span>
-                  </a>
+                  className="single-product-category__title">
+                  Bikini <span>( 7 items )</span>
+
                 </Link>
               </div>
               <div className="single-product-category text-center">
@@ -85,25 +84,24 @@ const CategoryGridSix = () => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>
-                      <img
-                        src={
-                          process.env.PUBLIC_URL +
-                          "/assets/images/category/swimsuit-2.png"
-                        }
-                        className="img-fluid"
-                        alt=""
-                      />
-                    </a>
+
+                    <img
+                      src={
+                        process.env.PUBLIC_URL +
+                        "/assets/images/category/swimsuit-2.png"
+                      }
+                      className="img-fluid"
+                      alt=""
+                    />
+
                   </Link>
                 </div>
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="single-product-category__title">
-                    Sport Suit <span>( 6 items )</span>
-                  </a>
+                  className="single-product-category__title">
+                  Sport Suit <span>( 6 items )</span>
+
                 </Link>
               </div>
               <div className="single-product-category text-center">
@@ -112,25 +110,24 @@ const CategoryGridSix = () => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>
-                      <img
-                        src={
-                          process.env.PUBLIC_URL +
-                          "/assets/images/category/swimsuit-3.png"
-                        }
-                        className="img-fluid"
-                        alt=""
-                      />
-                    </a>
+
+                    <img
+                      src={
+                        process.env.PUBLIC_URL +
+                        "/assets/images/category/swimsuit-3.png"
+                      }
+                      className="img-fluid"
+                      alt=""
+                    />
+
                   </Link>
                 </div>
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="single-product-category__title">
-                    One Piece <span>( 5 items )</span>
-                  </a>
+                  className="single-product-category__title">
+                  One Piece <span>( 5 items )</span>
+
                 </Link>
               </div>
               <div className="single-product-category text-center">
@@ -139,25 +136,24 @@ const CategoryGridSix = () => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>
-                      <img
-                        src={
-                          process.env.PUBLIC_URL +
-                          "/assets/images/category/swimsuit-4.png"
-                        }
-                        className="img-fluid"
-                        alt=""
-                      />
-                    </a>
+
+                    <img
+                      src={
+                        process.env.PUBLIC_URL +
+                        "/assets/images/category/swimsuit-4.png"
+                      }
+                      className="img-fluid"
+                      alt=""
+                    />
+
                   </Link>
                 </div>
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="single-product-category__title">
-                    Wet Suits <span>( 4 items )</span>
-                  </a>
+                  className="single-product-category__title">
+                  Wet Suits <span>( 4 items )</span>
+
                 </Link>
               </div>
               <div className="single-product-category text-center">
@@ -166,32 +162,31 @@ const CategoryGridSix = () => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>
-                      <img
-                        src={
-                          process.env.PUBLIC_URL +
-                          "/assets/images/category/swimsuit-5.png"
-                        }
-                        className="img-fluid"
-                        alt=""
-                      />
-                    </a>
+
+                    <img
+                      src={
+                        process.env.PUBLIC_URL +
+                        "/assets/images/category/swimsuit-5.png"
+                      }
+                      className="img-fluid"
+                      alt=""
+                    />
+
                   </Link>
                 </div>
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="single-product-category__title">
-                    Boyshort Bottoms <span>( 3 items )</span>
-                  </a>
+                  className="single-product-category__title">
+                  Boyshort Bottoms <span>( 3 items )</span>
+
                 </Link>
               </div>
             </div>
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

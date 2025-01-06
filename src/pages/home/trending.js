@@ -17,7 +17,7 @@ import blogData from "../../data/blog-posts/blog-post-one.json";
 import heroSliderData from "../../data/hero-sliders/hero-slider-two.json";
 
 const Trending = ({ products }) => {
-  const { t } = useLocalization(); 
+  const { t } = useLocalization();
   return (
     <LayoutFive>
       {/* hero slider */}
@@ -30,7 +30,6 @@ const Trending = ({ products }) => {
         categoryData={categoryData}
         spaceBottomClass="space-mb--r100"
       />
-
       {/* products */}
       <SectionTitleOne
         key={t("spring_summer")}
@@ -49,18 +48,19 @@ const Trending = ({ products }) => {
             <Link
               href="/shop/left-sidebar"
               as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
+              className="lezada-loadmore-button"
+              legacyBehavior
             >
-              <a className="lezada-loadmore-button">
-                <IoIosAdd />{t("see_more")}
-              </a>
+              <span>
+                <IoIosAdd />
+                {t("see_more")}
+              </span>
             </Link>
           </div>
         </Container>
       </div>
-
       {/* blog post slider */}
       <BlogPostSlider blogData={blogData} spaceBottomClass="space-mb--50" />
-
       {/*shop info*/}
       <ShopInfo />
     </LayoutFive>
@@ -70,7 +70,7 @@ const Trending = ({ products }) => {
 const mapStateToProps = (state) => {
   const products = state.productData;
   return {
-    products: getProducts(products, "fashion", "popular", 10)
+    products: getProducts(products, "fashion", "popular", 10),
   };
 };
 

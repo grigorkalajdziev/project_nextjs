@@ -6,7 +6,7 @@ import { BlogSidebar, BlogPostGridWrapper } from "../../components/Blog";
 
 const GridRightSidebar = () => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Blog Grid Right Sidebar"
@@ -15,7 +15,7 @@ const GridRightSidebar = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -67,7 +67,7 @@ const GridRightSidebar = () => {
           </Row>
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

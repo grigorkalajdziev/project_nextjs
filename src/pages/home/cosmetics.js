@@ -20,7 +20,7 @@ import imageSliderData from "../../data/image-sliders/image-slider-one.json";
 
 const Cosmetics = ({ products }) => {
   return (
-    <Fragment>
+    (<Fragment>
       <Head>
         <link
           href="https://fonts.googleapis.com/css2?family=Allura&display=swap"
@@ -53,10 +53,10 @@ const Cosmetics = ({ products }) => {
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="lezada-loadmore-button">
-                    <IoIosAdd /> SEE MORE ...
-                  </a>
+                  className="lezada-loadmore-button">
+
+                  <IoIosAdd />SEE MORE ...
+                                    
                 </Link>
               </Col>
             </Row>
@@ -65,7 +65,7 @@ const Cosmetics = ({ products }) => {
         {/* image slider */}
         <ImageSliderTwo imageSliderData={imageSliderData} />
       </LayoutTwo>
-    </Fragment>
+    </Fragment>)
   );
 };
 

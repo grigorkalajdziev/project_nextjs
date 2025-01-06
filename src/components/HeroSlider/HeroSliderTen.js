@@ -18,7 +18,7 @@ const HeroSliderTen = ({ sliderData }) => {
     }
   };
   return (
-    <div className="hero-slider-banner-area">
+    (<div className="hero-slider-banner-area">
       <Row className="no-gutters">
         <Col lg={6}>
           <div className="hero-slider-ten">
@@ -75,14 +75,14 @@ const HeroSliderTen = ({ sliderData }) => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="background-cta-content__btn">SHOP NOW</a>
+                className="background-cta-content__btn">
+                SHOP NOW
               </Link>
             </div>
           </div>
         </Col>
       </Row>
-    </div>
+    </div>)
   );
 };
 

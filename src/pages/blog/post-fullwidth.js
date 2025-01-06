@@ -17,7 +17,7 @@ import {
 
 const PostFullwidth = () => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Blog Post Full Width"
@@ -26,7 +26,7 @@ const PostFullwidth = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -56,7 +56,7 @@ const PostFullwidth = () => {
                         process.env.PUBLIC_URL + "/blog/standard-left-sidebar"
                       }
                     >
-                      <a>fashion</a>
+                      fashion
                     </Link>
                   </div>
                   <h2 className="post-title">Chic Fashion Phenomenon</h2>
@@ -70,7 +70,7 @@ const PostFullwidth = () => {
                           process.env.PUBLIC_URL + "/blog/standard-left-sidebar"
                         }
                       >
-                        <a> Owen Christ</a>
+                         Owen Christ
                       </Link>
                     </div>
                     <div className="post-date mb-0 space-pl--30">
@@ -81,7 +81,7 @@ const PostFullwidth = () => {
                           process.env.PUBLIC_URL + "/blog/standard-left-sidebar"
                         }
                       >
-                        <a>june 5, 2020</a>
+                        june 5, 2020
                       </Link>
                     </div>
                     <div className="post-category space-pl--30">
@@ -91,7 +91,7 @@ const PostFullwidth = () => {
                           process.env.PUBLIC_URL + "/blog/standard-left-sidebar"
                         }
                       >
-                        <a>fashion</a>
+                        fashion
                       </Link>
                     </div>
                     <div className="post-comment space-pl--30">
@@ -388,7 +388,7 @@ const PostFullwidth = () => {
           </Row>
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

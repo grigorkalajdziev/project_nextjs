@@ -23,7 +23,7 @@ const About = () => {
   }));
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("about_page_title")}
@@ -32,7 +32,7 @@ const About = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              <a>{t("home")}</a>
+              {t("home")}
             </Link>
           </li>
 
@@ -80,7 +80,7 @@ const About = () => {
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                     >
-                      <a>{t("store")}</a>
+                      {t("store")}
                     </Link>
                   </p>
 
@@ -110,7 +110,7 @@ const About = () => {
                       href="/other/about"
                       as={process.env.PUBLIC_URL + "/other/about"}
                     >
-                      <a>{t("our_story_link")}</a>
+                      {t("our_story_link")}
                     </Link>
                   </p>
                 </div>
@@ -144,10 +144,10 @@ const About = () => {
                       <Link
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                      >
-                        <a className="lezada-button lezada-button--medium lezada-button--icon--left">
-                          <IoMdAdd />  {t("online_store")}
-                        </a>
+                        className="lezada-button lezada-button--medium lezada-button--icon--left">
+
+                        <IoMdAdd />  {t("online_store")}
+
                       </Link>
                     </div>
                   </Col>
@@ -165,7 +165,7 @@ const About = () => {
         {/* brand logo */}
         <BrandLogoOne brandLogoData={brandLogoData} />
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

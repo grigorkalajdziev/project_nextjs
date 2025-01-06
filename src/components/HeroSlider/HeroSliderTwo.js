@@ -36,8 +36,9 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
       <button className="swiper-button-next ht-swiper-button-nav"></button>
     )
   };
+
   return (
-    <div
+    (<div
       className={`hero-slider-two ${spaceBottomClass ? spaceBottomClass : ""}`}
     >
       <div className="hero-slider-two__wrapper">
@@ -45,7 +46,7 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
           {sliderData &&
             sliderData.map((single, i) => {
               return (
-                <div
+                (<div
                   className="hero-slider-two__slide"
                   style={{ backgroundColor: single.bgColor }}
                   key={i}
@@ -67,10 +68,11 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
                       <Link
                         href={single.url}
                         as={process.env.PUBLIC_URL + single.url}
-                      >
-                        <a className="lezada-button lezada-button--medium">
-                        {t("shop_now")}
-                        </a>
+                        passHref
+                        legacyBehavior>
+                        <span className="lezada-button lezada-button--medium">
+                          {t("shop_now")}
+                        </span>
                       </Link>
                     </div>
                   </div>
@@ -79,12 +81,12 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
                     <span className="border"></span>
                     <span className="total">{sliderData.length}</span>
                   </div>
-                </div>
+                </div>)
               );
             })}
         </Swiper>
       </div>
-    </div>
+    </div>)
   );
 };
 

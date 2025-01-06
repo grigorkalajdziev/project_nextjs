@@ -10,7 +10,7 @@ const Faq = () => {
   const { t } = useLocalization();
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("faq")}
@@ -19,7 +19,7 @@ const Faq = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              <a>{t("home")}</a>
+              {t("home")}
             </Link>
           </li>
           <li>{t("faq")}</li>
@@ -208,7 +208,7 @@ const Faq = () => {
           </Row>
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

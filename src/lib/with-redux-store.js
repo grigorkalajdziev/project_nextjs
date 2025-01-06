@@ -1,3 +1,4 @@
+import React from "react";
 import { initializeStore } from "../redux/store";
 
 const isServer = typeof window === "undefined";

@@ -79,7 +79,7 @@ const LeftSidebar = ({ products }) => {
   }, [offset, products, sortType, sortValue, filterSortType, filterSortValue, searchTerm]);
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("shop")}
@@ -88,7 +88,7 @@ const LeftSidebar = ({ products }) => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              <a>{t("home")}</a>
+              {t("home")}
             </Link>
           </li>
 
@@ -151,7 +151,7 @@ const LeftSidebar = ({ products }) => {
           </Container>
         </div>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

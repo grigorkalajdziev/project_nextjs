@@ -34,7 +34,7 @@ const Wishlist = ({
   };
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("wishlist_title")}
@@ -43,14 +43,13 @@ const Wishlist = ({
         <ul className="breadcrumb__list">
           <li>
             <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              <a>{t("home")}</a>
+              {t("home")}
             </Link>
           </li>
 
           <li>{t("wishlist_title")}</li>
         </ul>
       </BreadcrumbOne>
-
       {/* wishlist content */}
       <div className="wishlist-content space-mt--r130 space-mb--r130">
         <Container>
@@ -81,22 +80,22 @@ const Wishlist = ({
                       )[0];
 
                       return (
-                        <tr key={i}>
+                        (<tr key={i}>
                           <td className="product-thumbnail">
                             <Link
                               href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                               as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                             >
-                              <a>
-                                <img
-                                  src={
-                                    process.env.PUBLIC_URL +
-                                    product.thumbImage[0]
-                                  }
-                                  className="img-fluid"
-                                  alt=""
-                                />
-                              </a>
+
+                              <img
+                                src={
+                                  process.env.PUBLIC_URL +
+                                  product.thumbImage[0]
+                                }
+                                className="img-fluid"
+                                alt=""
+                              />
+
                             </Link>
                           </td>
                           <td className="product-name">
@@ -104,7 +103,7 @@ const Wishlist = ({
                               href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                               as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                             >
-                              <a>{product.name[currentLanguage] || product.name["en"]}</a>
+                              {product.name[currentLanguage] || product.name["en"]}
                             </Link>
                             {product.selectedProductColor &&
                             product.selectedProductSize ? (
@@ -116,11 +115,9 @@ const Wishlist = ({
                               ""
                             )}
                           </td>
-
                           <td className="product-price">
                             <span className="price">{t("currency")}{discountedPrice}</span>
                           </td>
-
                           <td>
                             {product.affiliateLink ? (
                               <a
@@ -135,10 +132,10 @@ const Wishlist = ({
                               <Link
                                 href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                                 as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
-                              >
-                                <a className="lezada-button lezada-button--medium">
+                                className="lezada-button lezada-button--medium">
+
                                 {t("select_option")}
-                                </a>
+
                               </Link>
                             ) : product.stock && product.stock > 0 ? (
                               <button
@@ -174,7 +171,6 @@ const Wishlist = ({
                               </button>
                             )}
                           </td>
-
                           <td className="product-remove">
                             <button
                               onClick={() =>
@@ -184,7 +180,7 @@ const Wishlist = ({
                               <IoIosClose />
                             </button>
                           </td>
-                        </tr>
+                        </tr>)
                       );
                     })}
                   </tbody>
@@ -217,10 +213,10 @@ const Wishlist = ({
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                    >
-                      <a className="lezada-button lezada-button--medium">
+                      className="lezada-button lezada-button--medium">
+
                       {t("shop_now")}
-                      </a>
+
                     </Link>
                   </div>
                 </div>
@@ -229,7 +225,7 @@ const Wishlist = ({
           )}
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

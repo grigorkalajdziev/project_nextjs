@@ -24,14 +24,14 @@ const HeroSliderOne = ({ sliderData }) => {
     )
   };
   return (
-    <div className="hero-slider-one space-mb--r100">
+    (<div className="hero-slider-one space-mb--r100">
       <Container>
         <div className="hero-slider-one__wrapper">
           <Swiper {...params}>
             {sliderData &&
               sliderData.map((single) => {
                 return (
-                  <div
+                  (<div
                     className="hero-slider-one__slide swiper-slide"
                     key={single.id}
                   >
@@ -53,19 +53,19 @@ const HeroSliderOne = ({ sliderData }) => {
                       <Link
                         href={single.url}
                         as={process.env.PUBLIC_URL + single.url}
-                      >
-                        <a className="lezada-button lezada-button--medium">
+                        className="lezada-button lezada-button--medium">
+                        
                           shop now
-                        </a>
+                        
                       </Link>
                     </div>
-                  </div>
+                  </div>)
                 );
               })}
           </Swiper>
         </div>
       </Container>
-    </div>
+    </div>)
   );
 };
 
