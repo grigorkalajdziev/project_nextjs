@@ -16,14 +16,8 @@
     "express": "^4.21.2",
     "lightgallery.js": "^1.4.0",
     "mongodb": "^6.12.0",
-<<<<<<< HEAD
     "next": "^13.0.0",
     "react": "^18.3.1",
-=======
-    "mongoose": "^8.9.3",
-    "next": "^9.4.1",
-    "react": "^16.13.1",
->>>>>>> 2af2e6943bc6338e8815fd0e83eb9ee8ba1d0fab
     "react-bootstrap": "^1.0.0",
     "react-countdown": "^2.2.1",
     "react-custom-scroll": "^4.2.0",
