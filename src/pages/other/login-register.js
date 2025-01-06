@@ -5,9 +5,73 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useState } from "react";
 import axios from "axios";
+<<<<<<< HEAD
+=======
+import { useToasts } from "react-toast-notifications";
+>>>>>>> 2af2e6943bc6338e8815fd0e83eb9ee8ba1d0fab
 
 const LoginRegister = () => {
   const { t } = useLocalization();
+  const { addToast } = useToasts();
+
+  // State for login
+  const [loginData, setLoginData] = useState({
+    usernameOrEmail: "",
+    password: "",
+  });
+
+  // State for register
+  const [registerData, setRegisterData] = useState({
+    email: "",
+    password: "",
+  });
+
+  // Error and success states
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  // Handle input change for login
+  const handleLoginChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData({ ...loginData, [name]: value });
+    setError(""); // Clear error on new input
+  };
+
+  // Handle input change for register
+  const handleRegisterChange = (e) => {
+    const { name, value } = e.target;
+    setRegisterData({ ...registerData, [name]: value });
+    setError(""); // Clear error on new input
+  };
+
+  // Submit handlers
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    try {
+      const response = await axios.post("/api/login", loginData);
+      setSuccess(t("login_success"));
+    } catch (error) {
+      setError(t("login_failed"));
+    }
+  };
+
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+
+     try {
+      const response = await axios.post("/api/register", registerData);
+      addToast(t("registration_success"), { appearance: "success", autoDismiss: true });
+
+      if (response.data.redirect) {
+        window.location.href = response.data.redirect;
+      }
+    } catch (error) {
+      addToast(t("registration_failed"), { appearance: "error", autoDismiss: true });
+    }
+  };
 
   // State for login
   const [loginData, setLoginData] = useState({
@@ -67,7 +131,11 @@ const LoginRegister = () => {
   };
 
   return (
+<<<<<<< HEAD
     (<LayoutTwo>
+=======
+    <LayoutTwo>
+>>>>>>> 2af2e6943bc6338e8815fd0e83eb9ee8ba1d0fab
       <BreadcrumbOne
         pageTitle={t("customer_login")}
         backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.jpg"
@@ -75,12 +143,17 @@ const LoginRegister = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/home/trending">
+<<<<<<< HEAD
               {t("home")}
+=======
+              <a>{t("home")}</a>
+>>>>>>> 2af2e6943bc6338e8815fd0e83eb9ee8ba1d0fab
             </Link>
           </li>
           <li>{t("customer_login")}</li>
         </ul>
       </BreadcrumbOne>
+
       <div className="login-area space-mt--r130 space-mb--r130">
         <Container>
           <Row>
@@ -191,7 +264,11 @@ const LoginRegister = () => {
                       />
                     </Col>
                     <Col lg={12} className="text-center">
+<<<<<<< HEAD
                       <button className="lezada-button lezada-button--medium">
+=======
+                      <button type="submit" className="lezada-button lezada-button--medium">
+>>>>>>> 2af2e6943bc6338e8815fd0e83eb9ee8ba1d0fab
                         {t("register")}
                       </button>
                     </Col>
