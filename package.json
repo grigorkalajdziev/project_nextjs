@@ -47,5 +47,8 @@
     "@babel/preset-env": "^7.26.0",
     "redux-devtools-extension": "^2.13.8",
     "sass": "^1.26.3"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
