@@ -1,6 +1,6 @@
 /* third party styles */
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import "~bootstrap/scss/bootstrap";
 @import "~swiper/css/swiper.css";
 @import "~react-tippy/dist/tippy.css";
@@ -67,10 +67,13 @@
 @import "components/image-slider";
 
 html[lang='en'] {
-    font-family: 'Dancing Script', cursive; /* Use Dancing Script for English */
-  }
-  
-  html[lang='mk'] {
-    font-family: 'Caveat', cursive; /* Use Marck Script for Macedonian */    
-    font-size: 70px; 
-  }
+  font-family: 'Libre Baskerville', serif; /* Merriweather for English */
+  font-size: 16px; /* Base font size */
+  line-height: 1.5; /* Adjust for readability */
+}
+
+html[lang='mk'] {
+  font-family: 'PT Serif', serif; /* PT Serif for Macedonian */
+  font-size: 16px; /* Adjust as needed */
+  line-height: 1.5; /* Consistent line height */
+}
