@@ -120,21 +120,35 @@ const Checkout = ({ cartItems }) => {
                                   return (
                                     <li key={i}>
                                       {product.name[currentLanguage] || product.name["en"]} X {product.quantity}{" "}
-                                      <span>{t("currency")}{discountedPrice}</span>
+                                      <span>
+                                      {currentLanguage === 'mk' 
+                                          ? `${discountedPrice} ${t("currency")}` 
+                                          : `${t("currency")} ${discountedPrice}`}
+                                      </span>
                                     </li>
-                                  );
+                                  ); 
                                 })}
                               </ul>
                               <p>
                                 {t("subtotal_label")} {" "}
-                                <span>{t("currency")}{cartTotalPrice.toFixed(2)}</span>
+                                <span>
+                                {currentLanguage === 'mk' 
+                                          ? `${cartTotalPrice.toFixed(2)} ${t("currency")}` 
+                                          : `${t("currency")} ${cartTotalPrice.toFixed(2)}`}</span>
                               </p>
                               <p>
-                                {t("shipping_fee_label")} <span>{t("currency")}00.00</span>
+                                {t("shipping_fee_label")} <span>
+                                {currentLanguage === 'mk' 
+                                          ? `00.00 ${t("currency")}` 
+                                          : `${t("currency")} 00.00`}</span>
                               </p>
                               <h4>
                                 {t("grand_total_label")} {" "}
-                                <span>{t("currency")}{cartTotalPrice.toFixed(2)}</span>
+                                <span>
+                                {currentLanguage === 'mk' 
+                                          ? `${cartTotalPrice.toFixed(2)} ${t("currency")}` 
+                                          : `${t("currency")} ${cartTotalPrice.toFixed(2)}`}
+                                  </span>
                               </h4>
                             </div>
                           </div>

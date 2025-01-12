@@ -86,7 +86,9 @@ const WishlistOverlay = ({
                           </h5>
                           <p>
                             <span className="discounted-price">
-                            {t("currency")}{discountedPrice}
+                            {currentLanguage === 'mk' 
+                                          ? `${discountedPrice} ${t("currency")}` 
+                                          : `${t("currency")} ${discountedPrice}`}                             
                             </span>
                           </p>
                         </div>

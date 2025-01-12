@@ -158,15 +158,21 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                                     {product.discount > 0 ? (
                                       <Fragment>
                                         <span className="main-price discounted">
-                                        {t("currency")}{productPrice}
+                                        {currentLanguage === 'mk' 
+                                          ? `${productPrice} ${t("currency")}` 
+                                          : `${t("currency")} ${productPrice}`}                                        
                                         </span>
                                         <span className="main-price">
-                                        {t("currency")}{discountedPrice}
+                                        {currentLanguage === 'mk' 
+                                          ? `${discountedPrice} ${t("currency")}` 
+                                          : `${t("currency")} ${discountedPrice}`}                                         
                                         </span>
                                       </Fragment>
                                     ) : (
                                       <span className="main-price">
-                                        {t("currency")}{productPrice}
+                                        {currentLanguage === 'mk' 
+                                          ? `${productPrice} ${t("currency")}` 
+                                          : `${t("currency")} ${productPrice}`}                                        
                                       </span>
                                     )}
                                   </td>

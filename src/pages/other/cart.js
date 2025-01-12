@@ -129,7 +129,11 @@ const Cart = ({
                           </td>
 
                           <td className="product-price">
-                            <span className="price">{t("currency")}{discountedPrice}</span>
+                            <span className="price">
+                            {currentLanguage === 'mk' 
+                                          ? `${discountedPrice} ${t("currency")}` 
+                                          : `${t("currency")} ${discountedPrice}`}
+                              </span>
                           </td>
 
                           <td className="product-quantity">
@@ -167,7 +171,9 @@ const Cart = ({
 
                           <td className="total-price">
                             <span className="price">
-                            {t("currency")}{(discountedPrice * product.quantity).toFixed(2)}
+                            {currentLanguage === 'mk' 
+                                          ? `${(discountedPrice * product.quantity).toFixed(2)} ${t("currency")}` 
+                                          : `${t("currency")} ${(discountedPrice * product.quantity).toFixed(2)}`}                            
                             </span>
                           </td>
 
@@ -225,12 +231,18 @@ const Cart = ({
                       <tr>
                         <th>{t("subtotal")}</th> {/* Translated Subtotal */}
                         <td className="subtotal">
-                        {t("currency")}{cartTotalPrice.toFixed(2)}
+                        {currentLanguage === 'mk' 
+                                          ? `${cartTotalPrice.toFixed(2)} ${t("currency")}` 
+                                          : `${t("currency")} ${cartTotalPrice.toFixed(2)}`}                        
                         </td>
                       </tr>
                       <tr>
                         <th>{t("total")}</th> {/* Translated Total */}
-                        <td className="total">{t("currency")}{cartTotalPrice.toFixed(2)}</td>
+                        <td className="total">
+                        {currentLanguage === 'mk' 
+                                          ? `${cartTotalPrice.toFixed(2)} ${t("currency")}` 
+                                          : `${t("currency")} ${cartTotalPrice.toFixed(2)}`}
+                                          </td>
                       </tr>
                     </tbody>
                   </table>

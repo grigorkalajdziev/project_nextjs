@@ -118,7 +118,12 @@ const Wishlist = ({
                           </td>
 
                           <td className="product-price">
-                            <span className="price">{t("currency")}{discountedPrice}</span>
+                            <span className="price">
+                              
+                              {currentLanguage === 'mk' 
+                                ? `${discountedPrice} ${t("currency")}` 
+                                : `${t("currency")} ${discountedPrice}`}                              
+                              </span>
                           </td>
 
                           <td>

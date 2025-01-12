@@ -58,11 +58,23 @@ const ProductDescription = ({
       <div className="product-content__price space-mb--20">
         {product.discount > 0 ? (
           <Fragment>
-            <span className="main-price discounted">{t("currency")}{productPrice}</span>
-            <span className="main-price">{t("currency")}{discountedPrice}</span>
+            <span className="main-price discounted">
+              {currentLanguage === 'mk' 
+                ? `${productPrice} ${t("currency")}` 
+                : `${t("currency")} ${productPrice}`} 
+            </span>
+            <span className="main-price">
+            {currentLanguage === 'mk' 
+                ? `${discountedPrice} ${t("currency")}` 
+                : `${t("currency")} ${discountedPrice}`}
+            </span>
           </Fragment>
         ) : (
-          <span className="main-price">{t("currency")}{productPrice} </span>
+          <span className="main-price">
+            {currentLanguage === 'mk' 
+                ? `${productPrice} ${t("currency")}` 
+                : `${t("currency")} ${productPrice}`}
+          </span>
         )}
       </div>
       <div className="product-content__description space-mb--30">

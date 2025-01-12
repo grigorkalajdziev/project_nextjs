@@ -88,12 +88,22 @@ const ProductModal = (props) => {
                   {product.discount > 0 ? (
                     <Fragment>
                       <span className="main-price discounted">
-                      {t("currency")}{productprice}
+                      {currentLanguage === 'mk' 
+                                          ? `${productprice} ${t("currency")}` 
+                                          : `${t("currency")} ${productprice}`}                      
                       </span>
-                      <span className="main-price">{t("currency")}{discountedprice}</span>
+                      <span className="main-price">
+                      {currentLanguage === 'mk' 
+                                          ? `${discountedprice} ${t("currency")}` 
+                                          : `${t("currency")} ${discountedprice}`} 
+                      </span>
                     </Fragment>
                   ) : (
-                    <span className="main-price">{t("currency")}{productprice} </span>
+                    <span className="main-price">
+                      {currentLanguage === 'mk' 
+                                          ? `${productprice} ${t("currency")}` 
+                                          : `${t("currency")} ${productprice}`} 
+                    </span>
                   )}
                 </div>
                 {product.rating && product.rating > 0 ? (
