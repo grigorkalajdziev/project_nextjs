@@ -694,7 +694,7 @@ export const useLocalization = () => {
 };
 
 export const LocalizationProvider = ({ children }) => {
-  const [language, setLanguage] = useState('en');  // Tracks the current language
+  const [language, setLanguage] = useState('mk');  // Tracks the current language
 
   useEffect(() => {
     document.body.style.fontFamily = fonts[language] || fonts.en; 
