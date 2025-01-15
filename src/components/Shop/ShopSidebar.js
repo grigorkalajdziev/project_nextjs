@@ -124,11 +124,12 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
         {popularProducts.length > 0 ? (
           <div className="widget-product-wrapper">
             {popularProducts.map((product, i) => {
+              const productPrice = product.price[currentLanguage] || "00.00";
               const discountedPrice = getDiscountPrice(
-                product.price,
+                productPrice,
                 product.discount
               ).toFixed(2);
-              const productPrice = product.price.toFixed(2);
+              
               return (
                 <div className="single-widget-product-wrapper" key={i}>
                   <div className="single-widget-product">

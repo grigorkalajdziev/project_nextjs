@@ -110,8 +110,9 @@ const Checkout = ({ cartItems }) => {
                               </h4>
                               <ul>
                                 {cartItems.map((product, i) => {
+                                  const productPrice = product.price[currentLanguage] || "00.00";
                                   const discountedPrice = getDiscountPrice(
-                                    product.price,
+                                    productPrice,
                                     product.discount
                                   ).toFixed(2);
 

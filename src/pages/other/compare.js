@@ -147,12 +147,12 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                             <tr>
                               <th className="title-column">{t("price")}</th>
                               {compareItems.map((product, key) => {
+                                const productPrice = product.price[currentLanguage] || "00.00";
                                 const discountedPrice = getDiscountPrice(
-                                  product.price,
+                                  productPrice,
                                   product.discount
                                 ).toFixed(2);
-
-                                const productPrice = product.price.toFixed(2);
+                                
                                 return (
                                   <td className="product-price" key={key}>
                                     {product.discount > 0 ? (

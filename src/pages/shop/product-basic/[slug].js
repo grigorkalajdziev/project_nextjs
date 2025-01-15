@@ -40,12 +40,12 @@ const ProductBasic = ({
 
   const { addToast } = useToasts();
   const { t, currentLanguage } = useLocalization();
+  const productPrice = product.price[currentLanguage] || "00.00";
   const discountedPrice = getDiscountPrice(
-    product.price,
+    productPrice,
     product.discount
   ).toFixed(2);
 
-  const productPrice = product.price.toFixed(2);
   const cartItem = cartItems.filter(
     (cartItem) => cartItem.id === product.id
   )[0];

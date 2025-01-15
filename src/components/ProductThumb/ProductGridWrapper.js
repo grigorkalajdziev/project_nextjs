@@ -28,17 +28,17 @@ const ProductGridWrapper = ({
   column
 }) => {
   const { addToast } = useToasts();
-  const { t } = useLocalization();
+  const { t, currentLanguage } = useLocalization();
   
   return (
     <Fragment>
       {products &&
         products.map((product) => {
+          const productPrice = product.price[currentLanguage] || "00.00";
           const discountedPrice = getDiscountPrice(
-            product.price,
+            productPrice,
             product.discount
           ).toFixed(2);
-          const productPrice = product.price.toFixed(2);
           const cartItem = cartItems.filter(
             (cartItem) => cartItem.id === product.id
           )[0];

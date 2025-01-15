@@ -7,7 +7,10 @@
         "mk": "Декор еден"
       },   
     "slug": "decor-one",
-    "price": 17,
+    "price": {
+      "en": 17,
+      "mk": 1046
+    },
     "discount": 10,
     "new": true,
     "rating": 4,
@@ -99,7 +102,10 @@
         "mk": "Декор два"
       },
     "slug": "decor-two",
-    "price": 18,
+    "price": {
+      "en": 18,
+      "mk": 1107
+    },
     "discount": 12,
     "new": false,
     "rating": 5,
@@ -125,7 +131,10 @@
         "mk": "Декор три"
       },
     "slug": "decor-three",
-    "price": 14,
+    "price": {
+        "en": 14,
+        "mk": 861
+    },     
     "discount": 0,
     "new": true,
     "rating": 3,
@@ -151,7 +160,10 @@
         "mk": "Декор четири"
       },
     "slug": "decor-four",
-    "price": 12,
+    "price": {
+        "en": 12,
+        "mk": 738
+    },    
     "discount": 5,
     "new": false,
     "rating": 4,
@@ -178,7 +190,10 @@
         "mk": "Декор пет"
       },
     "slug": "decor-five",
-    "price": 16,
+    "price": {
+        "en": 16,
+        "mk": 984
+    },  
     "discount": 0,
     "new": true,
     "rating": 2,
@@ -204,7 +219,10 @@
         "mk": "Декор шест"
       },
     "slug": "decor-six",
-    "price": 12,
+    "price": {
+        "en": 12,
+        "mk": 738
+    },     
     "discount": 10,
     "new": false,
     "rating": 5,
@@ -230,7 +248,10 @@
       "mk": "Декор седум"
     },
     "slug": "decor-seven",
-    "price": 17,
+    "price": {
+        "en": 17,
+        "mk": 1046
+    },    
     "discount": 12,
     "new": true,
     "rating": 3,
@@ -256,7 +277,10 @@
       "mk": "Декор осум"
     },
     "slug": "decor-eight",
-    "price": 15,
+    "price": {
+        "en": 15,
+        "mk": 923
+    },    
     "discount": 0,
     "new": false,
     "rating": 5,
@@ -282,7 +306,10 @@
       "mk": "Декор девет"
     },
     "slug": "decor-nine",
-    "price": 20,
+    "price": {
+        "en": 20,
+        "mk": 1230
+    },
     "discount": 12,
     "new": true,
     "rating": 3,
@@ -308,7 +335,10 @@
       "mk": "Декор десет"
     },
     "slug": "decor-ten",
-    "price": 30,
+    "price": {
+        "en": 30,
+        "mk": 1846
+    },   
     "discount": 20,
     "new": false,
     "rating": 4,
@@ -334,7 +364,10 @@
       "mk": "Мода еден"
     },
     "slug": "fashion-one",
-    "price": 17,
+    "price": {
+        "en": 17,
+        "mk": 1046
+    },    
     "discount": 10,
     "new": true,
     "rating": 4,
@@ -426,7 +459,10 @@
       "mk": "Мода два"
     },
     "slug": "fashion-two",
-    "price": 13,
+    "price": {
+        "en": 13,
+        "mk": 799
+    },     
     "discount": 14,
     "new": false,
     "rating": 4,
@@ -518,7 +554,10 @@
       "mk": "Мода три"
     },
     "slug": "fashion-three",
-    "price": 16,
+    "price": {
+        "en": 16,
+        "mk": 984
+    },     
     "discount": 20,
     "new": true,
     "rating": 5,
@@ -610,7 +649,10 @@
       "mk": "Мода четири"
     },
     "slug": "fashion-four",
-    "price": 10,
+    "price": {
+        "en": 10,
+        "mk": 615
+    },     
     "discount": 25,
     "new": false,
     "rating": 4,
@@ -702,7 +744,10 @@
       "mk": "Мода пет"
     },
     "slug": "fashion-five",
-    "price": 15,
+    "price": {
+        "en": 15,
+        "mk": 923
+    },    
     "discount": 5,
     "new": true,
     "rating": 4,
@@ -794,7 +839,10 @@
       "mk": "Мода шест"
      },
     "slug": "fashion-six",
-    "price": 17,
+    "price": {
+        "en": 17,
+        "mk": 1046
+    },     
     "discount": 10,
     "new": false,
     "rating": 5,
@@ -886,7 +934,10 @@
       "mk": "Мода седум"
     },
     "slug": "fashion-seven",
-    "price": 27,
+    "price": {
+        "en": 27,
+        "mk": 1661
+    },    
     "discount": 20,
     "new": true,
     "rating": 4,
@@ -978,7 +1029,10 @@
       "mk": "Мода осум"
     },
     "slug": "fashion-eight",
-    "price": 25,
+    "price": {
+        "en": 25,
+        "mk": 1538
+    },     
     "discount": 10,
     "new": false,
     "rating": 5,
@@ -1070,7 +1124,10 @@
       "mk": "Мода девет"
     },
     "slug": "fashion-nine",
-    "price": 35,
+    "price": {
+      "en": 35,
+      "mk": 2153
+    },     
     "discount": 20,
     "new": true,
     "rating": 4,
@@ -1162,7 +1219,10 @@
       "mk": "Мода десет"
     },
     "slug": "fashion-ten",
-    "price": 45,
+    "price": {
+        "en": 45,
+        "mk": 2769
+    },   
     "discount": 10,
     "new": false,
     "rating": 5,
@@ -1254,7 +1314,10 @@
       "mk": "Козметика еден"
     },
     "slug": "cosmetics-one",
-    "price": 18,
+    "price": {
+        "en": 18,
+        "mk": 1107
+    },    
     "discount": 12,
     "new": false,
     "rating": 5,
@@ -1285,7 +1348,10 @@
       "mk": "Козметика два"
     },
     "slug": "cosmetics-two",
-    "price": 28,
+    "price": {
+      "en": 28,
+      "mk": 1722
+    },    
     "discount": 10,
     "new": true,
     "rating": 4,
@@ -1316,7 +1382,10 @@
       "mk": "Козметика три"
     },
     "slug": "cosmetics-three",
-    "price": 22,
+    "price": {
+      "en": 22,
+      "mk": 1353
+    },    
     "discount": 15,
     "new": false,
     "rating": 5,
@@ -1347,7 +1416,10 @@
       "mk": "Козметика четири"
     },
     "slug": "cosmetics-four",
-    "price": 30,
+    "price": {
+      "en": 30,
+      "mk": 1846
+    },      
     "discount": 10,
     "new": true,
     "rating": 5,
@@ -1378,7 +1450,10 @@
       "mk": "Козметика пет"
     },
     "slug": "cosmetics-five",
-    "price": 20,
+    "price": {
+      "en": 20,
+      "mk": 1230
+    },     
     "discount": 20,
     "new": false,
     "rating": 5,
@@ -1409,7 +1484,10 @@
       "mk": "Козметика шест"
     },
     "slug": "cosmetics-six",
-    "price": 30,
+    "price": {
+      "en": 30,
+      "mk": 1846
+    },     
     "discount": 10,
     "new": true,
     "rating": 5,
@@ -1440,7 +1518,10 @@
       "mk": "Козметика седум"
     },
     "slug": "cosmetics-seven",
-    "price": 20,
+    "price": {
+      "en": 20,
+      "mk": 1230
+    },      
     "discount": 5,
     "new": false,
     "rating": 5,
@@ -1471,7 +1552,10 @@
       "mk": "Козметика осум"
     },
     "slug": "cosmetics-eight",
-    "price": 10,
+    "price": {
+      "en": 10,
+      "mk": 615
+    },    
     "discount": 15,
     "new": true,
     "rating": 5,
@@ -1502,7 +1586,10 @@
       "mk": "Козметика девет"
     },
     "slug": "cosmetics-nine",
-    "price": 20,
+    "price": {
+      "en": 20,
+      "mk": 1230
+    },
     "discount": 25,
     "new": false,
     "rating": 4,
@@ -1533,7 +1620,10 @@
       "mk": "Козметика десет"
     },
     "slug": "cosmetics-ten",
-    "price": 30,
+    "price": {
+      "en": 30,
+      "mk": 1846
+    },
     "discount": 15,
     "new": true,
     "rating": 5,
@@ -1564,7 +1654,10 @@
       "mk": "Мебел еден"
     },
     "slug": "furniture-one",
-    "price": 17,
+    "price": {
+      "en": 17,
+      "mk": 1046
+    },    
     "discount": 10,
     "new": true,
     "rating": 4,
@@ -1661,7 +1754,10 @@
       "mk": "Мебел два"
     },
     "slug": "furniture-two",
-    "price": 18,
+    "price": {
+      "en": 18,
+      "mk": 1107
+    },    
     "discount": 12,
     "new": false,
     "rating": 5,
@@ -1692,7 +1788,10 @@
       "mk": "Мебел три"
     },
     "slug": "furniture-three",
-    "price": 14,
+    "price": {
+      "en": 14,
+      "mk": 861
+    },    
     "discount": 0,
     "new": true,
     "rating": 3,
@@ -1723,7 +1822,10 @@
       "mk": "Мебел четири"
     },
     "slug": "furniture-four",
-    "price": 12,
+    "price": {
+      "en": 12,
+      "mk": 738
+    },    
     "discount": 5,
     "new": false,
     "rating": 4,
@@ -1755,7 +1857,10 @@
       "mk": "Мебел пет"
     },
     "slug": "furniture-five",
-    "price": 16,
+    "price": {
+      "en": 16,
+      "mk": 984
+    },    
     "discount": 0,
     "new": true,
     "rating": 2,
@@ -1786,7 +1891,10 @@
       "mk": "Мебел шест"
     },
     "slug": "furniture-six",
-    "price": 12,
+    "price": {
+      "en": 12,
+      "mk": 738
+    },    
     "discount": 10,
     "new": false,
     "rating": 5,
@@ -1817,7 +1925,10 @@
       "mk": "Мебел седум"
     },
     "slug": "furniture-seven",
-    "price": 17,
+    "price": {
+      "en": 17,
+      "mk": 1046
+    },    
     "discount": 12,
     "new": true,
     "rating": 3,
@@ -1848,7 +1959,10 @@
       "mk": "Мебел осум"
     },
     "slug": "furniture-eight",
-    "price": 15,
+    "price": {
+      "en": 15,
+      "mk": 923
+    },
     "discount": 0,
     "new": false,
     "rating": 5,
@@ -1879,7 +1993,10 @@
       "mk": "Мебел девет"
     },
     "slug": "furniture-nine",
-    "price": 20,
+    "price": {
+      "en": 20,
+      "mk": 1230
+    },    
     "discount": 12,
     "new": true,
     "rating": 3,
@@ -1910,7 +2027,10 @@
       "mk": "Мебел десет"
     },
     "slug": "furniture-ten",
-    "price": 30,
+    "price": {
+      "en": 30,
+      "mk": 1846
+    },    
     "discount": 20,
     "new": false,
     "rating": 4,
@@ -1941,7 +2061,10 @@
       "mk": "Парфем еден"
     },
     "slug": "perfumes-one",
-    "price": 18,
+    "price": {
+      "en": 18,
+      "mk": 1107
+    },    
     "discount": 12,
     "new": false,
     "rating": 5,
@@ -1972,7 +2095,10 @@
       "mk": "Парфем два"
     },
     "slug": "perfumes-two",
-    "price": 28,
+    "price": {
+      "en": 28,
+      "mk": 1722
+    },    
     "discount": 10,
     "new": true,
     "rating": 4,
@@ -2003,7 +2129,10 @@
       "mk": "Парфем три"
     },
     "slug": "perfumes-three",
-    "price": 22,
+    "price": {
+      "en": 22,
+      "mk": 1353
+    },    
     "discount": 15,
     "new": false,
     "rating": 5,
@@ -2034,7 +2163,10 @@
       "mk": "Парфем четири"
     },
     "slug": "perfumes-four",
-    "price": 30,
+    "price": {
+      "en": 30,
+      "mk": 1846
+    },    
     "discount": 10,
     "new": true,
     "rating": 5,
@@ -2065,7 +2197,10 @@
       "mk": "Парфем пет"
     },
     "slug": "perfumes-five",
-    "price": 20,
+    "price": {
+      "en": 20,
+      "mk": 1230
+    },    
     "discount": 20,
     "new": false,
     "rating": 5,
@@ -2096,7 +2231,10 @@
       "mk": "Парфем шест"
     },
     "slug": "perfumes-six",
-    "price": 30,
+    "price": {
+      "en": 30,
+      "mk": 1846
+    },    
     "discount": 10,
     "new": true,
     "rating": 5,
@@ -2127,7 +2265,10 @@
       "mk": "Парфем седум"
     },
     "slug": "perfumes-seven",
-    "price": 20,
+    "price": {
+      "en": 20,
+      "mk": 1230
+    },        
     "discount": 5,
     "new": false,
     "rating": 5,
@@ -2158,7 +2299,10 @@
       "mk": "Парфем осум"
     },
     "slug": "perfumes-eight",
-    "price": 10,
+    "price": {
+      "en": 10,
+      "mk": 615
+    },    
     "discount": 15,
     "new": true,
     "rating": 5,
@@ -2189,7 +2333,10 @@
       "mk": "Парфем девет"
     },
     "slug": "perfumes-nine",
-    "price": 20,
+    "price": {
+      "en": 20,
+      "mk": 1230
+    },    
     "discount": 25,
     "new": false,
     "rating": 4,
@@ -2220,7 +2367,10 @@
       "mk": "Парфем десет"
     },
     "slug": "perfumes-ten",
-    "price": 30,
+    "price": {
+      "en": 30,
+      "mk": 1846
+    },    
     "discount": 15,
     "new": true,
     "rating": 5,
@@ -2251,7 +2401,10 @@
       "mk": "Носивно едно"
     },
     "slug": "wearables-one",
-    "price": 17,
+    "price": {
+      "en": 17,
+      "mk": 1046
+    },    
     "discount": 10,
     "new": true,
     "rating": 4,
@@ -2348,7 +2501,10 @@
       "mk": "Носивно две"
     },
     "slug": "wearables-two",
-    "price": 13,
+    "price": {
+      "en": 13,
+      "mk": 799
+    },    
     "discount": 14,
     "new": false,
     "rating": 4,
@@ -2445,7 +2601,10 @@
       "mk": "Носивно три"
     },
     "slug": "wearables-three",
-    "price": 16,
+    "price": {
+      "en": 16,
+      "mk": 984
+    },    
     "discount": 20,
     "new": true,
     "rating": 5,
@@ -2542,7 +2701,10 @@
       "mk": "Носивно четири"
     },
     "slug": "wearables-four",
-    "price": 10,
+    "price": {
+      "en": 10,
+      "mk": 615
+    },    
     "discount": 25,
     "new": false,
     "rating": 4,
@@ -2639,7 +2801,10 @@
       "mk": "Носивно пет"
     },
     "slug": "wearables-five",
-    "price": 15,
+    "price": {
+      "en": 15,
+      "mk": 923
+    },    
     "discount": 5,
     "new": true,
     "rating": 4,
@@ -2736,7 +2901,10 @@
       "mk": "Носивно шест"
     },
     "slug": "wearables-six",
-    "price": 17,
+    "price": {
+      "en": 17,
+      "mk": 1046
+    },    
     "discount": 10,
     "new": false,
     "rating": 5,
@@ -2833,7 +3001,10 @@
       "mk": "Носивно седум"
     },
     "slug": "wearables-seven",
-    "price": 27,
+    "price": {
+      "en": 27,
+      "mk": 1661
+    },    
     "discount": 20,
     "new": true,
     "rating": 4,
@@ -2930,7 +3101,10 @@
       "mk": "Носивно осум"
     },
     "slug": "wearables-eight",
-    "price": 25,
+    "price": {
+      "en": 25,
+      "mk": 1538
+    },    
     "discount": 10,
     "new": false,
     "rating": 5,
@@ -3027,7 +3201,10 @@
       "mk": "Носивно девет"
     },
     "slug": "wearables-nine",
-    "price": 35,
+    "price": {
+      "en": 35,
+      "mk": 2153
+    },    
     "discount": 20,
     "new": true,
     "rating": 4,
@@ -3124,7 +3301,10 @@
       "mk": "Носивно десет"
     },
     "slug": "wearables-ten",
-    "price": 45,
+    "price": {
+      "en": 45,
+      "mk": 2769
+    },    
     "discount": 10,
     "new": false,
     "rating": 5,
@@ -3221,7 +3401,10 @@
       "mk": "Накит едно"
     },
     "slug": "jewelry-one",
-    "price": 10,
+    "price": {
+      "en": 10,
+      "mk": 615
+    },    
     "discount": 10,
     "new": true,
     "rating": 5,
@@ -3252,7 +3435,10 @@
       "mk": "Накит две"
     },
     "slug": "jewelry-two",
-    "price": 9,
+    "price": {
+      "en": 9,
+      "mk": 553
+    },    
     "discount": 5,
     "new": false,
     "rating": 4,
@@ -3283,7 +3469,10 @@
       "mk": "Накит три"
     },
     "slug": "jewelry-three",
-    "price": 8,
+    "price": {
+      "en": 8,
+      "mk": 492
+    },    
     "discount": 6,
     "new": true,
     "rating": 4,
@@ -3314,7 +3503,10 @@
       "mk": "Накит четири"
     },
     "slug": "jewelry-four",
-    "price": 7,
+    "price": {
+      "en": 7,
+      "mk": 430
+    },    
     "discount": 5,
     "new": false,
     "rating": 5,
@@ -3345,7 +3537,10 @@
       "mk": "Накит пет"
     },
     "slug": "jewelry-five",
-    "price": 9,
+    "price": {
+      "en": 9,
+      "mk": 553
+    },    
     "discount": 9,
     "new": true,
     "rating": 3,
@@ -3376,7 +3571,10 @@
       "mk": "Костим за капење едно"
     },
     "slug": "swimsuit-one",
-    "price": 5,
+    "price": {
+      "en": 5,
+      "mk": 307
+    },    
     "discount": 10,
     "new": false,
     "rating": 5,
@@ -3473,7 +3671,10 @@
       "mk": "Костим за капење две"
     },
     "slug": "swimsuit-two",
-    "price": 12,
+    "price": {
+      "en": 12,
+      "mk": 738
+    },    
     "discount": 5,
     "new": true,
     "rating": 4,
@@ -3570,7 +3771,10 @@
       "mk": "Костим за капење три"
     },
     "slug": "swimsuit-three",
-    "price": 18,
+    "price": {
+      "en": 18,
+      "mk": 1107
+    },    
     "discount": 15,
     "new": false,
     "rating": 4,
@@ -3667,7 +3871,10 @@
       "mk": "Костим за капење четири"
     },
     "slug": "swimsuit-four",
-    "price": 8,
+    "price": {
+      "en": 8,
+      "mk": 492
+    },    
     "discount": 15,
     "new": false,
     "rating": 4,
@@ -3764,7 +3971,10 @@
       "mk": "Костим за капење пет"
     },
     "slug": "swimsuit-five",
-    "price": 13,
+    "price": {
+      "en": 13,
+      "mk": 799
+    },    
     "discount": 10,
     "new": true,
     "rating": 5,
@@ -3861,7 +4071,10 @@
       "mk": "Костим за капење шест"
     },
     "slug": "swimsuit-six",
-    "price": 14,
+    "price": {
+      "en": 14,
+      "mk": 861
+    },     
     "discount": 10,
     "new": false,
     "rating": 3,
@@ -3958,7 +4171,10 @@
       "mk": "Костим за капење седум"
     },
     "slug": "swimsuit-seven",
-    "price": 15,
+    "price": {
+      "en": 15,
+      "mk": 923
+    },    
     "discount": 9,
     "new": false,
     "rating": 4,
@@ -4055,7 +4271,10 @@
       "mk": "Костим за капење осумнаесет"
     },
     "slug": "swimsuit-eightteen",
-    "price": 16,
+    "price": {
+      "en": 16,
+      "mk": 984
+    },    
     "discount": 10,
     "new": true,
     "rating": 3,
