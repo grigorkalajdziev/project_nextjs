@@ -3,8 +3,8 @@
     "id": "1",
     "sku": "asdf101",
     "name": {
-        "en": "Decor one",
-        "mk": "Декор еден"
+        "en": "Professional makeup",
+        "mk": "Професионална шминка"
       },   
     "slug": "decor-one",
     "price": {
@@ -18,88 +18,22 @@
     "saleCount": 90,
     "category": ["decor"],
     "tag": ["decor"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/decor/1.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/decor/1.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/decor/1.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
+    "stock": 10,
     "thumbImage": [
       "/assets/images/product/decor/1.jpg"      
     ],
     "image": [
       "/assets/images/product/decor/1.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Enhance your look with expertly applied professional makeup.",
+    "fullDescription": "Whether for a special occasion or a photoshoot, professional makeup services ensure you look flawless. Using high-quality products and techniques, this service enhances your natural beauty while complementing your personal style."
   },
   {
     "id": "2",
     "sku": "asdf102",
     "name": {
-        "en": "Decor two",
-        "mk": "Декор два"
+        "en": "Prom makeup",
+        "mk": "Матурска шминка"
       },
     "slug": "decor-two",
     "price": {
@@ -120,15 +54,15 @@
     "image": [
       "/assets/images/product/decor/2.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Look stunning on your prom night with tailored makeup.",
+    "fullDescription": "Prom is a night to remember, and your makeup should be just as memorable. This service offers a personalized makeup application that matches your outfit and highlights your best features, ensuring you feel confident and radiant."
   },
   {
     "id": "3",
     "sku": "asdf103",
     "name": {
-        "en": "Decor three",
-        "mk": "Декор три"
+        "en": "Bridal makeup",
+        "mk": "Невестинска шминка"
       },
     "slug": "decor-three",
     "price": {
@@ -149,15 +83,15 @@
     "image": [
       "/assets/images/product/decor/3.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Perfect bridal makeup for your big day.",
+    "fullDescription": "Bridal makeup is designed to make you glow on your wedding day. With long-lasting and camera-ready products, this service provides a timeless and elegant look tailored to your preferences and the theme of your wedding."
   },
   {
     "id": "4",
     "sku": "asdf104",
     "name": {
-        "en": "Decor four",
-        "mk": "Декор четири"
+        "en": "Décolleté",
+        "mk": "Деколте"
       },
     "slug": "decor-four",
     "price": {
@@ -179,15 +113,15 @@
     "image": [
       "/assets/images/product/decor/4.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Highlight your décolleté area with expert techniques.",
+    "fullDescription": "Enhance the beauty of your décolleté with professional makeup techniques that add a touch of elegance. Perfect for weddings, photoshoots, or special events, this service ensures a smooth and radiant finish."
   },
   {
     "id": "5",
     "sku": "asdf105",
     "name": {
-        "en": "Decor five",
-        "mk": "Декор пет"
+        "en": "Makeup correction",
+        "mk": "Корекција на шминка"
       },
     "slug": "decor-five",
     "price": {
@@ -208,15 +142,15 @@
     "image": [
       "/assets/images/product/decor/5.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Quick touch-ups to perfect your look.",
+    "fullDescription": "This service is ideal for refreshing or correcting your makeup, whether to fix smudges, adjust the look for a different occasion, or simply ensure your makeup stays flawless throughout the day."
   },
   {
     "id": "6",
     "sku": "asdf106",
     "name": {
-        "en": "Decor six",
-        "mk": "Декор шест"
+        "en": "Russian apparatus pedicure",
+        "mk": "Руски апаративен педикир"
       },
     "slug": "decor-six",
     "price": {
@@ -237,15 +171,15 @@
     "image": [
       "/assets/images/product/decor/6.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Precision foot care with advanced techniques.",
+    "fullDescription": "The Russian apparatus pedicure offers meticulous foot care using specialized tools for flawless results. This service focuses on cuticle care, smoothing rough skin, and achieving perfectly groomed nails, leaving your feet soft and rejuvenated."
   },
   {
     "id": "7",
     "sku": "asdf107",
     "name": {
-      "en": "Decor seven",
-      "mk": "Декор седум"
+      "en": "Russian apparatus pedicure + polish",
+      "mk": "Руски апаративен педикир + лак"
     },
     "slug": "decor-seven",
     "price": {
@@ -266,15 +200,15 @@
     "image": [
       "/assets/images/product/decor/7.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Flawless pedicure with added nail polish.",
+    "fullDescription": "This service combines the precision of a Russian apparatus pedicure with the application of high-quality nail polish. Your feet will look and feel amazing, with a polished finish in your favorite color."
   },
   {
     "id": "8",
     "sku": "asdf108",
     "name": {
-      "en": "Decor eight",
-      "mk": "Декор осум"
+      "en": "Russian apparatus pedicure + gel polish",
+      "mk": "Руски апаративен педикир + ГЕЛ ЛАК"
     },
     "slug": "decor-eight",
     "price": {
@@ -295,15 +229,15 @@
     "image": [
       "/assets/images/product/decor/8.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Perfect pedicure with durable gel polish.",
+    "fullDescription": "Enjoy the benefits of a Russian apparatus pedicure paired with long-lasting gel polish. This service ensures smooth, well-groomed feet and beautifully coated nails that stay vibrant and chip-free for weeks."
   },
   {
     "id": "9",
     "sku": "asdf109",
     "name": {
-      "en": "Decor nine",
-      "mk": "Декор девет"
+      "en": "Full legs waxing",
+      "mk": "Цели нозе"
     },
     "slug": "decor-nine",
     "price": {
@@ -324,15 +258,15 @@
     "image": [
       "/assets/images/product/decor/9.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Smooth, hair-free legs with professional waxing.",
+    "fullDescription": "his service provides thorough hair removal for your entire legs, leaving your skin soft and smooth. Perfect for those looking for long-lasting results and a polished look without the hassle of shaving."
   },
   {
     "id": "10",
     "sku": "asdf110",
     "name": {
-      "en": "Decor ten",
-      "mk": "Декор десет"
+      "en": "Full legs and bikini waxing",
+      "mk": "Цели нозе со препони"
     },
     "slug": "decor-ten",
     "price": {
@@ -353,15 +287,15 @@
     "image": [
       "/assets/images/product/decor/10.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Complete leg waxing with bikini area included.",
+    "fullDescription": "A comprehensive waxing service that removes unwanted hair from your entire legs and bikini line, ensuring smooth, hair-free skin and a confident, flawless finish."
   },
   {
     "id": "11",
     "sku": "asdf111",
     "name": {
-      "en": "Fashion one",
-      "mk": "Мода еден"
+      "en": "Half legs",
+      "mk": "Пола нозе"
     },
     "slug": "fashion-one",
     "price": {
@@ -375,88 +309,22 @@
     "saleCount": 90,
     "category": ["fashion", "men"],
     "tag": ["fashion", "men"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/1.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/2.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/3.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
+    "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/1.jpg"
     ],
     "image": [
       "/assets/images/product/fashion/1.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Targeted waxing for either upper or lower legs.",
+    "fullDescription": "Choose between upper or lower leg waxing to achieve smooth, hair-free skin. This service is ideal for those looking for a quick and effective hair removal solution."
   },
   {
     "id": "12",
     "sku": "asdf112",
     "name": {
-      "en": "Fashion two",
-      "mk": "Мода два"
+      "en": "Full arms",
+      "mk": "Цели раце"
     },
     "slug": "fashion-two",
     "price": {
@@ -470,88 +338,22 @@
     "saleCount": 70,
     "category": ["fashion", "men"],
     "tag": ["fashion", "men"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/2.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/3.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/4.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
+    "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/2.jpg"
     ],
     "image": [
       "/assets/images/product/fashion/2.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Hair-free arms with professional waxing.",
+    "fullDescription": "This service removes unwanted hair from your entire arms, leaving your skin smooth and soft. It's perfect for maintaining a polished and clean look."
   },
   {
     "id": "13",
     "sku": "asdf113",
     "name": {
-      "en": "Fashion three",
-      "mk": "Мода три"
+      "en": "Half arms",
+      "mk": "Пола раце"
     },
     "slug": "fashion-three",
     "price": {
@@ -565,88 +367,22 @@
     "saleCount": 78,
     "category": ["fashion", "men"],
     "tag": ["fashion", "men"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/3.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/4.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/5.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
+    "stock": 10,	
     "thumbImage": [
       "/assets/images/product/fashion/3.jpg"
     ],
     "image": [
       "/assets/images/product/fashion/3.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Waxing for forearms or upper arms.",
+    "fullDescription": "A focused service that removes hair from either the forearms or upper arms, giving you smooth and sleek skin in no time."
   },
   {
     "id": "14",
     "sku": "asdf114",
     "name": {
-      "en": "Fashion four",
-      "mk": "Мода четири"
+      "en": "Bikini",
+      "mk": "Бикини"
     },
     "slug": "fashion-four",
     "price": {
@@ -660,88 +396,22 @@
     "saleCount": 70,
     "category": ["fashion", "men"],
     "tag": ["fashion", "men"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/4.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/5.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/6.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
+    "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/4.jpg"
     ],
     "image": [
       "/assets/images/product/fashion/4.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Smooth and clean bikini line with expert waxing.",
+    "fullDescription": "This service removes unwanted hair along the bikini line for a neat and polished appearance. It's perfect for maintaining confidence and comfort, especially for swimwear and intimate occasions."
   },
   {
     "id": "15",
     "sku": "asdf115",
     "name": {
-      "en": "Fashion five",
-      "mk": "Мода пет"
+      "en": "Half legs and intimate area",
+      "mk": "Пола нозе и интима"
     },
     "slug": "fashion-five",
     "price": {
@@ -755,88 +425,22 @@
     "saleCount": 63,
     "category": ["fashion", "men"],
     "tag": ["fashion", "men"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/5.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/6.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/7.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
+    "stock": 10,	
     "thumbImage": [
       "/assets/images/product/fashion/5.jpg"
     ],
     "image": [
       "/assets/images/product/fashion/5.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Combined waxing for half legs and intimate areas.",
+    "fullDescription": "This comprehensive service focuses on hair removal from half of your legs and intimate areas, ensuring smooth and silky skin for a flawless and confident look."
   },
   {
     "id": "16",
     "sku": "asdf116",
     "name": {
-      "en": "Fashion six",
-      "mk": "Мода шест"
+      "en": "Underarms Waxing",
+      "mk": "Пазуви"
      },
     "slug": "fashion-six",
     "price": {
@@ -850,88 +454,22 @@
     "saleCount": 60,
     "category": ["fashion", "women"],
     "tag": ["fashion", "women"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/6.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/7.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/8.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
+    "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/6.jpg"
     ],
     "image": [
       "/assets/images/product/fashion/6.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Quick and effective underarm hair removal.",
+    "fullDescription": "Enjoy smooth, hair-free underarms with this efficient waxing service. It's ideal for maintaining a clean and polished appearance with long-lasting results."
   },
   {
     "id": "17",
     "sku": "asdf117",
     "name": {
-      "en": "Fashion seven",
-      "mk": "Мода седум"
+      "en": "Stomach Waxing",
+      "mk": "Стомак"
     },
     "slug": "fashion-seven",
     "price": {
@@ -945,88 +483,22 @@
     "saleCount": 70,
     "category": ["fashion", "women"],
     "tag": ["fashion", "women"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/7.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/8.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/9.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
+    "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/7.jpg"
     ],
     "image": [
       "/assets/images/product/fashion/7.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Smooth and hair-free stomach area with waxing.",
+    "fullDescription": "This service removes unwanted hair from the stomach area, leaving your skin smooth and soft. It's perfect for a clean and confident look, especially during beach or pool seasons."
   },
   {
     "id": "18",
     "sku": "asdf118",
     "name": {
-      "en": "Fashion eight",
-      "mk": "Мода осум"
+      "en": "Full Face Waxing",
+      "mk": "Цело лице"
     },
     "slug": "fashion-eight",
     "price": {
@@ -1040,88 +512,22 @@
     "saleCount": 50,
     "category": ["fashion", "women"],
     "tag": ["fashion", "women"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/8.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/9.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/10.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
+    "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/8.jpg"
     ],
     "image": [
       "/assets/images/product/fashion/8.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Gentle and precise waxing for the entire face.",
+    "fullDescription": "This service removes unwanted hair from the entire face, including the forehead, cheeks, and chin. It's designed to leave your skin smooth and radiant while enhancing your natural beauty."
   },
   {
     "id": "19",
     "sku": "asdf119",
     "name": {
-      "en": "Fashion nine",
-      "mk": "Мода девет"
+      "en": "Full Face and Eyebrows Waxing",
+      "mk": "Цело лице и веѓи"
     },
     "slug": "fashion-nine",
     "price": {
@@ -1135,88 +541,22 @@
     "saleCount": 150,
     "category": ["fashion", "women"],
     "tag": ["fashion", "women"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/9.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/10.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/1.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
+    "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/9.jpg"
     ],
     "image": [
       "/assets/images/product/fashion/9.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Complete face waxing with eyebrow shaping.",
+    "fullDescription": "Get a perfectly groomed look with this service, which includes waxing for the entire face and expertly shaping your eyebrows for a polished and defined appearance."
   },
   {
     "id": "20",
     "sku": "asdf120",
     "name": {
-      "en": "Fashion ten",
-      "mk": "Мода десет"
+      "en": "Upper Lip Waxing",
+      "mk": "Надусници"
     },
     "slug": "fashion-ten",
     "price": {
@@ -1230,88 +570,22 @@
     "saleCount": 10,
     "category": ["fashion", "women"],
     "tag": ["fashion", "women"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/10.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/1.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/2.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
+    "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/10.jpg"
     ],
     "image": [
       "/assets/images/product/fashion/10.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Precise waxing for a smooth upper lip.",
+    "fullDescription": "This service removes unwanted hair from the upper lip, leaving your skin smooth and hair-free. It’s perfect for achieving a clean and confident look, with minimal discomfort and long-lasting results."
   },
   {
     "id": "21",
     "sku": "asdf121",
     "name": {
-      "en": "Cosmetics one",
-      "mk": "Козметика еден"
+      "en": "Buttocks",
+      "mk": "Задник"
     },
     "slug": "cosmetics-one",
     "price": {
@@ -1327,25 +601,20 @@
     "tag": ["cosmetics"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/cosmetics/1.jpg",
-      "/assets/images/product/cosmetics/2.jpg"
+      "/assets/images/product/cosmetics/1.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/1.jpg",
-      "/assets/images/product/cosmetics/2.jpg",
-      "/assets/images/product/cosmetics/3.jpg",
-      "/assets/images/product/cosmetics/4.jpg",
-      "/assets/images/product/cosmetics/5.jpg"
+      "/assets/images/product/cosmetics/1.jpg"     
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Smooth and neat waxing for the intimate area.",
+    "fullDescription": "This waxing service focuses on removing hair from the intimate areas, including the backside, to provide a clean and polished finish. Ideal for those who want a smooth look and feel with long-lasting results."
   },
   {
     "id": "22",
     "sku": "asdf122",
     "name": {
-      "en": "Cosmetics two",
-      "mk": "Козметика два"
+      "en": "Artificial eyelashes",
+      "mk": "Вештачки трепки"
     },
     "slug": "cosmetics-two",
     "price": {
@@ -1361,25 +630,20 @@
     "tag": ["cosmetics"],
     "stock": 20,
     "thumbImage": [
-      "/assets/images/product/cosmetics/2.jpg",
-      "/assets/images/product/cosmetics/3.jpg"
+      "/assets/images/product/cosmetics/2.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/2.jpg",
-      "/assets/images/product/cosmetics/3.jpg",
-      "/assets/images/product/cosmetics/4.jpg",
-      "/assets/images/product/cosmetics/5.jpg",
-      "/assets/images/product/cosmetics/6.jpg"
+      "/assets/images/product/cosmetics/2.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Enhance your eyes with beautifully applied artificial eyelashes.",
+    "fullDescription": "This service offers the application of high-quality artificial eyelashes that provide a voluminous, natural look. Perfect for special occasions or everyday glamour, these lashes give your eyes an enhanced and dramatic appearance."
   },
   {
     "id": "23",
     "sku": "asdf123",
     "name": {
-      "en": "Cosmetics three",
-      "mk": "Козметика три"
+      "en": "Individual eyelashes",
+      "mk": "Индивидуални трепки"
     },
     "slug": "cosmetics-three",
     "price": {
@@ -1395,25 +659,20 @@
     "tag": ["cosmetics"],
     "stock": 40,
     "thumbImage": [
-      "/assets/images/product/cosmetics/3.jpg",
-      "/assets/images/product/cosmetics/4.jpg"
+      "/assets/images/product/cosmetics/3.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/3.jpg",
-      "/assets/images/product/cosmetics/4.jpg",
-      "/assets/images/product/cosmetics/5.jpg",
-      "/assets/images/product/cosmetics/6.jpg",
-      "/assets/images/product/cosmetics/7.jpg"
+      "/assets/images/product/cosmetics/3.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Custom eyelash extensions for a fuller, natural look.",
+    "fullDescription": "Individual eyelash extensions are applied one by one, tailored to suit your eye shape and desired volume. This service gives you a personalized, long-lasting, and voluminous look, perfect for a more natural yet enhanced lash line."
   },
   {
     "id": "24",
     "sku": "asdf124",
     "name": {
-      "en": "Cosmetics four",
-      "mk": "Козметика четири"
+      "en": "Spray tan",
+      "mk": "Спреј тен"
     },
     "slug": "cosmetics-four",
     "price": {
@@ -1429,25 +688,20 @@
     "tag": ["cosmetics"],
     "stock": 50,
     "thumbImage": [
-      "/assets/images/product/cosmetics/4.jpg",
-      "/assets/images/product/cosmetics/5.jpg"
+      "/assets/images/product/cosmetics/4.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/4.jpg",
-      "/assets/images/product/cosmetics/5.jpg",
-      "/assets/images/product/cosmetics/6.jpg",
-      "/assets/images/product/cosmetics/7.jpg",
-      "/assets/images/product/cosmetics/8.jpg"
+      "/assets/images/product/cosmetics/4.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Get a natural, sun-kissed glow with spray tanning.",
+    "fullDescription": "Achieve a healthy, golden glow without the harmful effects of the sun. This service provides an even, streak-free tan that lasts for days, giving you a beautiful sun-kissed appearance."
   },
   {
     "id": "25",
     "sku": "asdf125",
     "name": {
-      "en": "Cosmetics five",
-      "mk": "Козметика пет"
+      "en": "Lash lamination",
+      "mk": "Ламинација на трепки"
     },
     "slug": "cosmetics-five",
     "price": {
@@ -1463,25 +717,20 @@
     "tag": ["cosmetics"],
     "stock": 40,
     "thumbImage": [
-      "/assets/images/product/cosmetics/5.jpg",
-      "/assets/images/product/cosmetics/6.jpg"
+      "/assets/images/product/cosmetics/5.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/5.jpg",
-      "/assets/images/product/cosmetics/6.jpg",
-      "/assets/images/product/cosmetics/7.jpg",
-      "/assets/images/product/cosmetics/8.jpg",
-      "/assets/images/product/cosmetics/9.jpg"
+      "/assets/images/product/cosmetics/5.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Lift and curl your natural lashes for a fuller, defined look.",
+    "fullDescription": "Eyelash lamination is a semi-permanent treatment that lifts, curls, and defines your natural lashes, making them appear longer and fuller. This service gives you perfectly styled lashes that last for weeks."
   },
   {
     "id": "26",
     "sku": "asdf126",
     "name": {
-      "en": "Cosmetics six",
-      "mk": "Козметика шест"
+      "en": "Microblading (with included correction)",
+      "mk": "Microblading (со вклучена корекција)"
     },
     "slug": "cosmetics-six",
     "price": {
@@ -1497,25 +746,20 @@
     "tag": ["cosmetics"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/cosmetics/6.jpg",
-      "/assets/images/product/cosmetics/7.jpg"
+      "/assets/images/product/cosmetics/6.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/6.jpg",
-      "/assets/images/product/cosmetics/7.jpg",
-      "/assets/images/product/cosmetics/8.jpg",
-      "/assets/images/product/cosmetics/9.jpg",
-      "/assets/images/product/cosmetics/10.jpg"
+      "/assets/images/product/cosmetics/6.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Perfectly shaped eyebrows with microblading and included correction.",
+    "fullDescription": "Microblading is a semi-permanent eyebrow tattoo technique that creates natural, hair-like strokes for fuller, defined eyebrows. This service includes an initial session and a follow-up correction to ensure your brows look perfect and last longer."
   },
   {
     "id": "27",
     "sku": "asdf127",
     "name": {
-      "en": "Cosmetics seven",
-      "mk": "Козметика седум"
+      "en": "Training for professional makeup",
+      "mk": "Обука за професионална шминка"
     },
     "slug": "cosmetics-seven",
     "price": {
@@ -1531,25 +775,20 @@
     "tag": ["cosmetics"],
     "stock": 20,
     "thumbImage": [
-      "/assets/images/product/cosmetics/7.jpg",
-      "/assets/images/product/cosmetics/8.jpg"
+      "/assets/images/product/cosmetics/7.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/7.jpg",
-      "/assets/images/product/cosmetics/8.jpg",
-      "/assets/images/product/cosmetics/9.jpg",
-      "/assets/images/product/cosmetics/10.jpg",
-      "/assets/images/product/cosmetics/1.jpg"
+      "/assets/images/product/cosmetics/7.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Master the art of professional makeup with expert training.",
+    "fullDescription": "This training course provides in-depth knowledge and hands-on experience in professional makeup application. Learn techniques for creating flawless looks for various occasions, including bridal, prom, and editorial makeup. This course is ideal for aspiring makeup artists or anyone wanting to enhance their skills and gain a deeper understanding of makeup artistry."
   },
   {
     "id": "28",
     "sku": "asdf128",
     "name": {
-      "en": "Cosmetics eight",
-      "mk": "Козметика осум"
+      "en": "Individual makeup training",
+      "mk": "Индивидуална обука за шминка"
     },
     "slug": "cosmetics-eight",
     "price": {
@@ -1565,25 +804,20 @@
     "tag": ["cosmetics"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/cosmetics/8.jpg",
-      "/assets/images/product/cosmetics/9.jpg"
+      "/assets/images/product/cosmetics/8.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/8.jpg",
-      "/assets/images/product/cosmetics/9.jpg",
-      "/assets/images/product/cosmetics/10.jpg",
-      "/assets/images/product/cosmetics/1.jpg",
-      "/assets/images/product/cosmetics/2.jpg"
+      "/assets/images/product/cosmetics/8.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "One-on-one makeup training for personalized learning.",
+    "fullDescription": "This personalized makeup training offers individual attention to help you master the techniques that suit your face shape, features, and style. The course is tailored to your needs, allowing you to learn at your own pace with hands-on demonstrations and practical sessions."
   },
   {
     "id": "29",
     "sku": "asdf129",
     "name": {
-      "en": "Cosmetics nine",
-      "mk": "Козметика девет"
+      "en": "Training for henna brows (coloring)",
+      "mk": "Обука за хена веѓи (боење)"
     },
     "slug": "cosmetics-nine",
     "price": {
@@ -1599,25 +833,20 @@
     "tag": ["cosmetics"],
     "stock": 20,
     "thumbImage": [
-      "/assets/images/product/cosmetics/9.jpg",
-      "/assets/images/product/cosmetics/10.jpg"
+      "/assets/images/product/cosmetics/9.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/9.jpg",
-      "/assets/images/product/cosmetics/10.jpg",
-      "/assets/images/product/cosmetics/1.jpg",
-      "/assets/images/product/cosmetics/2.jpg",
-      "/assets/images/product/cosmetics/3.jpg"
+      "/assets/images/product/cosmetics/9.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "Master the art of henna brow tinting for a natural, defined look.",
+    "fullDescription": "This course focuses on the technique of henna tinting for eyebrows, creating defined, fuller brows using natural henna dye. Learn how to shape, tint, and maintain eyebrows with this method, perfect for clients looking for a bold and long-lasting brow enhancement."
   },
   {
     "id": "30",
     "sku": "asdf130",
     "name": {
-      "en": "Cosmetics ten",
-      "mk": "Козметика десет"
+      "en": "Makeup training",
+      "mk": "Обука за шминка"
     },
     "slug": "cosmetics-ten",
     "price": {
@@ -1633,2729 +862,12 @@
     "tag": ["cosmetics"],
     "stock": 30,
     "thumbImage": [
-      "/assets/images/product/cosmetics/10.jpg",
-      "/assets/images/product/cosmetics/1.jpg"
+      "/assets/images/product/cosmetics/10.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/10.jpg",
-      "/assets/images/product/cosmetics/1.jpg",
-      "/assets/images/product/cosmetics/2.jpg",
-      "/assets/images/product/cosmetics/3.jpg",
-      "/assets/images/product/cosmetics/4.jpg"
+      "/assets/images/product/cosmetics/10.jpg"
     ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "31",
-    "sku": "asdf131",
-    "name": {
-      "en": "Furniture one",
-      "mk": "Мебел еден"
-    },
-    "slug": "furniture-one",
-    "price": {
-      "en": 17,
-      "mk": 1046
-    },    
-    "discount": 10,
-    "new": true,
-    "rating": 4,
-    "ratingCount": 5,
-    "saleCount": 90,
-    "category": ["furniture"],
-    "tag": ["furniture"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/furniture/1.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/furniture/2.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/furniture/3.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/furniture/1.jpg",
-      "/assets/images/product/furniture/2.jpg"
-    ],
-    "image": [
-      "/assets/images/product/furniture/1.jpg",
-      "/assets/images/product/furniture/2.jpg",
-      "/assets/images/product/furniture/3.jpg",
-      "/assets/images/product/furniture/4.jpg",
-      "/assets/images/product/furniture/5.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "32",
-    "sku": "asdf132",
-    "name": {
-      "en": "Furniture two",
-      "mk": "Мебел два"
-    },
-    "slug": "furniture-two",
-    "price": {
-      "en": 18,
-      "mk": 1107
-    },    
-    "discount": 12,
-    "new": false,
-    "rating": 5,
-    "ratingCount": 15,
-    "saleCount": 10,
-    "category": ["furniture"],
-    "tag": ["furniture"],
-    "stock": 10,
-    "thumbImage": [
-      "/assets/images/product/furniture/2.jpg",
-      "/assets/images/product/furniture/3.jpg"
-    ],
-    "image": [
-      "/assets/images/product/furniture/2.jpg",
-      "/assets/images/product/furniture/3.jpg",
-      "/assets/images/product/furniture/4.jpg",
-      "/assets/images/product/furniture/5.jpg",
-      "/assets/images/product/furniture/6.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "33",
-    "sku": "asdf133",
-    "name": {
-      "en": "Furniture three",
-      "mk": "Мебел три"
-    },
-    "slug": "furniture-three",
-    "price": {
-      "en": 14,
-      "mk": 861
-    },    
-    "discount": 0,
-    "new": true,
-    "rating": 3,
-    "ratingCount": 5,
-    "saleCount": 13,
-    "category": ["furniture"],
-    "tag": ["furniture"],
-    "stock": 10,
-    "thumbImage": [
-      "/assets/images/product/furniture/3.jpg",
-      "/assets/images/product/furniture/4.jpg"
-    ],
-    "image": [
-      "/assets/images/product/furniture/3.jpg",
-      "/assets/images/product/furniture/4.jpg",
-      "/assets/images/product/furniture/5.jpg",
-      "/assets/images/product/furniture/6.jpg",
-      "/assets/images/product/furniture/7.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "34",
-    "sku": "asdf134",
-    "name": {
-      "en": "Furniture four",
-      "mk": "Мебел четири"
-    },
-    "slug": "furniture-four",
-    "price": {
-      "en": 12,
-      "mk": 738
-    },    
-    "discount": 5,
-    "new": false,
-    "rating": 4,
-    "ratingCount": 15,
-    "saleCount": 19,
-    "category": ["furniture"],
-    "tag": ["furniture"],
-    "stock": 12,
-    "affiliateLink": "https://www.amazon.com",
-    "thumbImage": [
-      "/assets/images/product/furniture/4.jpg",
-      "/assets/images/product/furniture/5.jpg"
-    ],
-    "image": [
-      "/assets/images/product/furniture/4.jpg",
-      "/assets/images/product/furniture/5.jpg",
-      "/assets/images/product/furniture/6.jpg",
-      "/assets/images/product/furniture/7.jpg",
-      "/assets/images/product/furniture/8.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "35",
-    "sku": "asdf135",
-    "name": {
-      "en": "Furniture five",
-      "mk": "Мебел пет"
-    },
-    "slug": "furniture-five",
-    "price": {
-      "en": 16,
-      "mk": 984
-    },    
-    "discount": 0,
-    "new": true,
-    "rating": 2,
-    "ratingCount": 5,
-    "saleCount": 12,
-    "category": ["furniture"],
-    "tag": ["furniture"],
-    "stock": 14,
-    "thumbImage": [
-      "/assets/images/product/furniture/5.jpg",
-      "/assets/images/product/furniture/6.jpg"
-    ],
-    "image": [
-      "/assets/images/product/furniture/5.jpg",
-      "/assets/images/product/furniture/6.jpg",
-      "/assets/images/product/furniture/7.jpg",
-      "/assets/images/product/furniture/8.jpg",
-      "/assets/images/product/furniture/9.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "36",
-    "sku": "asdf136",
-    "name": {
-      "en": "Furniture six",
-      "mk": "Мебел шест"
-    },
-    "slug": "furniture-six",
-    "price": {
-      "en": 12,
-      "mk": 738
-    },    
-    "discount": 10,
-    "new": false,
-    "rating": 5,
-    "ratingCount": 4,
-    "saleCount": 16,
-    "category": ["furniture"],
-    "tag": ["furniture"],
-    "stock": 0,
-    "thumbImage": [
-      "/assets/images/product/furniture/6.jpg",
-      "/assets/images/product/furniture/7.jpg"
-    ],
-    "image": [
-      "/assets/images/product/furniture/6.jpg",
-      "/assets/images/product/furniture/7.jpg",
-      "/assets/images/product/furniture/8.jpg",
-      "/assets/images/product/furniture/9.jpg",
-      "/assets/images/product/furniture/10.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "37",
-    "sku": "asdf137",
-    "name": {
-      "en": "Furniture seven",
-      "mk": "Мебел седум"
-    },
-    "slug": "furniture-seven",
-    "price": {
-      "en": 17,
-      "mk": 1046
-    },    
-    "discount": 12,
-    "new": true,
-    "rating": 3,
-    "ratingCount": 7,
-    "saleCount": 13,
-    "category": ["furniture"],
-    "tag": ["furniture"],
-    "stock": 18,
-    "thumbImage": [
-      "/assets/images/product/furniture/7.jpg",
-      "/assets/images/product/furniture/8.jpg"
-    ],
-    "image": [
-      "/assets/images/product/furniture/7.jpg",
-      "/assets/images/product/furniture/8.jpg",
-      "/assets/images/product/furniture/9.jpg",
-      "/assets/images/product/furniture/10.jpg",
-      "/assets/images/product/furniture/1.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "38",
-    "sku": "asdf138",
-    "name": {
-      "en": "Furniture eight",
-      "mk": "Мебел осум"
-    },
-    "slug": "furniture-eight",
-    "price": {
-      "en": 15,
-      "mk": 923
-    },
-    "discount": 0,
-    "new": false,
-    "rating": 5,
-    "ratingCount": 15,
-    "saleCount": 30,
-    "category": ["furniture"],
-    "tag": ["furniture"],
-    "stock": 12,
-    "thumbImage": [
-      "/assets/images/product/furniture/8.jpg",
-      "/assets/images/product/furniture/9.jpg"
-    ],
-    "image": [
-      "/assets/images/product/furniture/8.jpg",
-      "/assets/images/product/furniture/9.jpg",
-      "/assets/images/product/furniture/10.jpg",
-      "/assets/images/product/furniture/1.jpg",
-      "/assets/images/product/furniture/2.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "39",
-    "sku": "asdf139",
-    "name": {
-      "en": "Furniture nine",
-      "mk": "Мебел девет"
-    },
-    "slug": "furniture-nine",
-    "price": {
-      "en": 20,
-      "mk": 1230
-    },    
-    "discount": 12,
-    "new": true,
-    "rating": 3,
-    "ratingCount": 5,
-    "saleCount": 20,
-    "category": ["furniture"],
-    "tag": ["furniture"],
-    "stock": 16,
-    "thumbImage": [
-      "/assets/images/product/furniture/9.jpg",
-      "/assets/images/product/furniture/10.jpg"
-    ],
-    "image": [
-      "/assets/images/product/furniture/9.jpg",
-      "/assets/images/product/furniture/10.jpg",
-      "/assets/images/product/furniture/1.jpg",
-      "/assets/images/product/furniture/2.jpg",
-      "/assets/images/product/furniture/3.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "40",
-    "sku": "asdf140",
-    "name": {
-      "en": "Furniture ten",
-      "mk": "Мебел десет"
-    },
-    "slug": "furniture-ten",
-    "price": {
-      "en": 30,
-      "mk": 1846
-    },    
-    "discount": 20,
-    "new": false,
-    "rating": 4,
-    "ratingCount": 10,
-    "saleCount": 30,
-    "category": ["furniture"],
-    "tag": ["furniture"],
-    "stock": 14,
-    "thumbImage": [
-      "/assets/images/product/furniture/10.jpg",
-      "/assets/images/product/furniture/1.jpg"
-    ],
-    "image": [
-      "/assets/images/product/furniture/10.jpg",
-      "/assets/images/product/furniture/1.jpg",
-      "/assets/images/product/furniture/2.jpg",
-      "/assets/images/product/furniture/3.jpg",
-      "/assets/images/product/furniture/4.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "41",
-    "sku": "asdf141",
-    "name": {
-      "en": "Perfume one",
-      "mk": "Парфем еден"
-    },
-    "slug": "perfumes-one",
-    "price": {
-      "en": 18,
-      "mk": 1107
-    },    
-    "discount": 12,
-    "new": false,
-    "rating": 5,
-    "ratingCount": 15,
-    "saleCount": 10,
-    "category": ["perfumes"],
-    "tag": ["perfumes"],
-    "stock": 10,
-    "thumbImage": [
-      "/assets/images/product/perfumes/1.jpg",
-      "/assets/images/product/perfumes/2.jpg"
-    ],
-    "image": [
-      "/assets/images/product/perfumes/1.jpg",
-      "/assets/images/product/perfumes/2.jpg",
-      "/assets/images/product/perfumes/3.jpg",
-      "/assets/images/product/perfumes/4.jpg",
-      "/assets/images/product/perfumes/5.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "42",
-    "sku": "asdf142",
-    "name": {
-      "en": "Perfume two",
-      "mk": "Парфем два"
-    },
-    "slug": "perfumes-two",
-    "price": {
-      "en": 28,
-      "mk": 1722
-    },    
-    "discount": 10,
-    "new": true,
-    "rating": 4,
-    "ratingCount": 5,
-    "saleCount": 12,
-    "category": ["perfumes"],
-    "tag": ["perfumes"],
-    "stock": 20,
-    "thumbImage": [
-      "/assets/images/product/perfumes/2.jpg",
-      "/assets/images/product/perfumes/3.jpg"
-    ],
-    "image": [
-      "/assets/images/product/perfumes/2.jpg",
-      "/assets/images/product/perfumes/3.jpg",
-      "/assets/images/product/perfumes/4.jpg",
-      "/assets/images/product/perfumes/5.jpg",
-      "/assets/images/product/perfumes/6.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "43",
-    "sku": "asdf143",
-    "name": {
-      "en": "Perfume three",
-      "mk": "Парфем три"
-    },
-    "slug": "perfumes-three",
-    "price": {
-      "en": 22,
-      "mk": 1353
-    },    
-    "discount": 15,
-    "new": false,
-    "rating": 5,
-    "ratingCount": 7,
-    "saleCount": 12,
-    "category": ["perfumes"],
-    "tag": ["perfumes"],
-    "stock": 40,
-    "thumbImage": [
-      "/assets/images/product/perfumes/3.jpg",
-      "/assets/images/product/perfumes/4.jpg"
-    ],
-    "image": [
-      "/assets/images/product/perfumes/3.jpg",
-      "/assets/images/product/perfumes/4.jpg",
-      "/assets/images/product/perfumes/5.jpg",
-      "/assets/images/product/perfumes/6.jpg",
-      "/assets/images/product/perfumes/7.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "44",
-    "sku": "asdf144",
-    "name": {
-      "en": "Perfume four",
-      "mk": "Парфем четири"
-    },
-    "slug": "perfumes-four",
-    "price": {
-      "en": 30,
-      "mk": 1846
-    },    
-    "discount": 10,
-    "new": true,
-    "rating": 5,
-    "ratingCount": 17,
-    "saleCount": 22,
-    "category": ["perfumes"],
-    "tag": ["perfumes"],
-    "stock": 50,
-    "thumbImage": [
-      "/assets/images/product/perfumes/4.jpg",
-      "/assets/images/product/perfumes/5.jpg"
-    ],
-    "image": [
-      "/assets/images/product/perfumes/4.jpg",
-      "/assets/images/product/perfumes/5.jpg",
-      "/assets/images/product/perfumes/6.jpg",
-      "/assets/images/product/perfumes/7.jpg",
-      "/assets/images/product/perfumes/8.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "45",
-    "sku": "asdf145",
-    "name": {
-      "en": "Perfume five",
-      "mk": "Парфем пет"
-    },
-    "slug": "perfumes-five",
-    "price": {
-      "en": 20,
-      "mk": 1230
-    },    
-    "discount": 20,
-    "new": false,
-    "rating": 5,
-    "ratingCount": 27,
-    "saleCount": 30,
-    "category": ["perfumes"],
-    "tag": ["perfumes"],
-    "stock": 40,
-    "thumbImage": [
-      "/assets/images/product/perfumes/5.jpg",
-      "/assets/images/product/perfumes/6.jpg"
-    ],
-    "image": [
-      "/assets/images/product/perfumes/5.jpg",
-      "/assets/images/product/perfumes/6.jpg",
-      "/assets/images/product/perfumes/7.jpg",
-      "/assets/images/product/perfumes/8.jpg",
-      "/assets/images/product/perfumes/9.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "46",
-    "sku": "asdf146",
-    "name": {
-      "en": "Perfume six",
-      "mk": "Парфем шест"
-    },
-    "slug": "perfumes-six",
-    "price": {
-      "en": 30,
-      "mk": 1846
-    },    
-    "discount": 10,
-    "new": true,
-    "rating": 5,
-    "ratingCount": 25,
-    "saleCount": 20,
-    "category": ["perfumes"],
-    "tag": ["perfumes"],
-    "stock": 10,
-    "thumbImage": [
-      "/assets/images/product/perfumes/6.jpg",
-      "/assets/images/product/perfumes/7.jpg"
-    ],
-    "image": [
-      "/assets/images/product/perfumes/6.jpg",
-      "/assets/images/product/perfumes/7.jpg",
-      "/assets/images/product/perfumes/8.jpg",
-      "/assets/images/product/perfumes/9.jpg",
-      "/assets/images/product/perfumes/10.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "47",
-    "sku": "asdf147",
-    "name": {
-      "en": "Perfume seven",
-      "mk": "Парфем седум"
-    },
-    "slug": "perfumes-seven",
-    "price": {
-      "en": 20,
-      "mk": 1230
-    },        
-    "discount": 5,
-    "new": false,
-    "rating": 5,
-    "ratingCount": 15,
-    "saleCount": 10,
-    "category": ["perfumes"],
-    "tag": ["perfumes"],
-    "stock": 20,
-    "thumbImage": [
-      "/assets/images/product/perfumes/7.jpg",
-      "/assets/images/product/perfumes/8.jpg"
-    ],
-    "image": [
-      "/assets/images/product/perfumes/7.jpg",
-      "/assets/images/product/perfumes/8.jpg",
-      "/assets/images/product/perfumes/9.jpg",
-      "/assets/images/product/perfumes/10.jpg",
-      "/assets/images/product/perfumes/1.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "48",
-    "sku": "asdf148",
-    "name": {
-      "en": "Perfume eight",
-      "mk": "Парфем осум"
-    },
-    "slug": "perfumes-eight",
-    "price": {
-      "en": 10,
-      "mk": 615
-    },    
-    "discount": 15,
-    "new": true,
-    "rating": 5,
-    "ratingCount": 25,
-    "saleCount": 20,
-    "category": ["perfumes"],
-    "tag": ["perfumes"],
-    "stock": 10,
-    "thumbImage": [
-      "/assets/images/product/perfumes/8.jpg",
-      "/assets/images/product/perfumes/9.jpg"
-    ],
-    "image": [
-      "/assets/images/product/perfumes/8.jpg",
-      "/assets/images/product/perfumes/9.jpg",
-      "/assets/images/product/perfumes/10.jpg",
-      "/assets/images/product/perfumes/1.jpg",
-      "/assets/images/product/perfumes/2.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "49",
-    "sku": "asdf149",
-    "name": {
-      "en": "Perfume nine",
-      "mk": "Парфем девет"
-    },
-    "slug": "perfumes-nine",
-    "price": {
-      "en": 20,
-      "mk": 1230
-    },    
-    "discount": 25,
-    "new": false,
-    "rating": 4,
-    "ratingCount": 20,
-    "saleCount": 30,
-    "category": ["perfumes"],
-    "tag": ["perfumes"],
-    "stock": 20,
-    "thumbImage": [
-      "/assets/images/product/perfumes/9.jpg",
-      "/assets/images/product/perfumes/10.jpg"
-    ],
-    "image": [
-      "/assets/images/product/perfumes/9.jpg",
-      "/assets/images/product/perfumes/10.jpg",
-      "/assets/images/product/perfumes/1.jpg",
-      "/assets/images/product/perfumes/2.jpg",
-      "/assets/images/product/perfumes/3.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "50",
-    "sku": "asdf150",
-    "name": {
-      "en": "Perfume ten",
-      "mk": "Парфем десет"
-    },
-    "slug": "perfumes-ten",
-    "price": {
-      "en": 30,
-      "mk": 1846
-    },    
-    "discount": 15,
-    "new": true,
-    "rating": 5,
-    "ratingCount": 10,
-    "saleCount": 20,
-    "category": ["perfumes"],
-    "tag": ["perfumes"],
-    "stock": 30,
-    "thumbImage": [
-      "/assets/images/product/perfumes/10.jpg",
-      "/assets/images/product/perfumes/1.jpg"
-    ],
-    "image": [
-      "/assets/images/product/perfumes/10.jpg",
-      "/assets/images/product/perfumes/1.jpg",
-      "/assets/images/product/perfumes/2.jpg",
-      "/assets/images/product/perfumes/3.jpg",
-      "/assets/images/product/perfumes/4.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "51",
-    "sku": "asdf151",
-    "name": {
-      "en": "Wearable one",
-      "mk": "Носивно едно"
-    },
-    "slug": "wearables-one",
-    "price": {
-      "en": 17,
-      "mk": 1046
-    },    
-    "discount": 10,
-    "new": true,
-    "rating": 4,
-    "ratingCount": 5,
-    "saleCount": 90,
-    "category": ["wearables", "men"],
-    "tag": ["wearables", "men"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/wearables/1.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/wearables/2.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/wearables/3.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/wearables/1.jpg",
-      "/assets/images/product/wearables/2.jpg"
-    ],
-    "image": [
-      "/assets/images/product/wearables/1.jpg",
-      "/assets/images/product/wearables/2.jpg",
-      "/assets/images/product/wearables/3.jpg",
-      "/assets/images/product/wearables/4.jpg",
-      "/assets/images/product/wearables/5.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "52",
-    "sku": "asdf152",
-    "name": {
-      "en": "Wearable two",
-      "mk": "Носивно две"
-    },
-    "slug": "wearables-two",
-    "price": {
-      "en": 13,
-      "mk": 799
-    },    
-    "discount": 14,
-    "new": false,
-    "rating": 4,
-    "ratingCount": 7,
-    "saleCount": 70,
-    "category": ["wearables", "men"],
-    "tag": ["wearables", "men"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/wearables/2.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/wearables/3.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/wearables/4.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/wearables/2.jpg",
-      "/assets/images/product/wearables/3.jpg"
-    ],
-    "image": [
-      "/assets/images/product/wearables/2.jpg",
-      "/assets/images/product/wearables/3.jpg",
-      "/assets/images/product/wearables/4.jpg",
-      "/assets/images/product/wearables/5.jpg",
-      "/assets/images/product/wearables/6.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "53",
-    "sku": "asdf153",
-    "name": {
-      "en": "Wearable three",
-      "mk": "Носивно три"
-    },
-    "slug": "wearables-three",
-    "price": {
-      "en": 16,
-      "mk": 984
-    },    
-    "discount": 20,
-    "new": true,
-    "rating": 5,
-    "ratingCount": 27,
-    "saleCount": 78,
-    "category": ["wearables", "men"],
-    "tag": ["wearables", "men"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/wearables/3.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/wearables/4.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/wearables/5.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/wearables/3.jpg",
-      "/assets/images/product/wearables/4.jpg"
-    ],
-    "image": [
-      "/assets/images/product/wearables/3.jpg",
-      "/assets/images/product/wearables/4.jpg",
-      "/assets/images/product/wearables/5.jpg",
-      "/assets/images/product/wearables/6.jpg",
-      "/assets/images/product/wearables/7.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "54",
-    "sku": "asdf154",
-    "name": {
-      "en": "Wearable four",
-      "mk": "Носивно четири"
-    },
-    "slug": "wearables-four",
-    "price": {
-      "en": 10,
-      "mk": 615
-    },    
-    "discount": 25,
-    "new": false,
-    "rating": 4,
-    "ratingCount": 20,
-    "saleCount": 70,
-    "category": ["wearables", "men"],
-    "tag": ["wearables", "men"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/wearables/4.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/wearables/5.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/wearables/6.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/wearables/4.jpg",
-      "/assets/images/product/wearables/5.jpg"
-    ],
-    "image": [
-      "/assets/images/product/wearables/4.jpg",
-      "/assets/images/product/wearables/5.jpg",
-      "/assets/images/product/wearables/6.jpg",
-      "/assets/images/product/wearables/7.jpg",
-      "/assets/images/product/wearables/8.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "55",
-    "sku": "asdf155",
-    "name": {
-      "en": "Wearable five",
-      "mk": "Носивно пет"
-    },
-    "slug": "wearables-five",
-    "price": {
-      "en": 15,
-      "mk": 923
-    },    
-    "discount": 5,
-    "new": true,
-    "rating": 4,
-    "ratingCount": 10,
-    "saleCount": 63,
-    "category": ["wearables", "men"],
-    "tag": ["wearables", "men"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/wearables/5.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/wearables/6.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/wearables/7.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/wearables/5.jpg",
-      "/assets/images/product/wearables/6.jpg"
-    ],
-    "image": [
-      "/assets/images/product/wearables/5.jpg",
-      "/assets/images/product/wearables/6.jpg",
-      "/assets/images/product/wearables/7.jpg",
-      "/assets/images/product/wearables/8.jpg",
-      "/assets/images/product/wearables/9.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "56",
-    "sku": "asdf156",
-    "name": {
-      "en": "Wearable six",
-      "mk": "Носивно шест"
-    },
-    "slug": "wearables-six",
-    "price": {
-      "en": 17,
-      "mk": 1046
-    },    
-    "discount": 10,
-    "new": false,
-    "rating": 5,
-    "ratingCount": 15,
-    "saleCount": 60,
-    "category": ["wearables", "women"],
-    "tag": ["wearables", "women"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/wearables/6.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/wearables/7.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/wearables/8.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/wearables/6.jpg",
-      "/assets/images/product/wearables/7.jpg"
-    ],
-    "image": [
-      "/assets/images/product/wearables/6.jpg",
-      "/assets/images/product/wearables/7.jpg",
-      "/assets/images/product/wearables/8.jpg",
-      "/assets/images/product/wearables/9.jpg",
-      "/assets/images/product/wearables/10.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "57",
-    "sku": "asdf157",
-    "name": {
-      "en": "Wearable seven",
-      "mk": "Носивно седум"
-    },
-    "slug": "wearables-seven",
-    "price": {
-      "en": 27,
-      "mk": 1661
-    },    
-    "discount": 20,
-    "new": true,
-    "rating": 4,
-    "ratingCount": 25,
-    "saleCount": 70,
-    "category": ["wearables", "women"],
-    "tag": ["wearables", "women"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/wearables/7.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/wearables/8.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/wearables/9.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/wearables/7.jpg",
-      "/assets/images/product/wearables/8.jpg"
-    ],
-    "image": [
-      "/assets/images/product/wearables/7.jpg",
-      "/assets/images/product/wearables/8.jpg",
-      "/assets/images/product/wearables/9.jpg",
-      "/assets/images/product/wearables/10.jpg",
-      "/assets/images/product/wearables/1.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "58",
-    "sku": "asdf158",
-    "name": {
-      "en": "Wearable eight",
-      "mk": "Носивно осум"
-    },
-    "slug": "wearables-eight",
-    "price": {
-      "en": 25,
-      "mk": 1538
-    },    
-    "discount": 10,
-    "new": false,
-    "rating": 5,
-    "ratingCount": 20,
-    "saleCount": 50,
-    "category": ["wearables", "women"],
-    "tag": ["wearables", "women"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/wearables/8.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/wearables/9.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/wearables/10.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/wearables/8.jpg",
-      "/assets/images/product/wearables/9.jpg"
-    ],
-    "image": [
-      "/assets/images/product/wearables/8.jpg",
-      "/assets/images/product/wearables/9.jpg",
-      "/assets/images/product/wearables/10.jpg",
-      "/assets/images/product/wearables/1.jpg",
-      "/assets/images/product/wearables/2.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "59",
-    "sku": "asdf159",
-    "name": {
-      "en": "Wearable nine",
-      "mk": "Носивно девет"
-    },
-    "slug": "wearables-nine",
-    "price": {
-      "en": 35,
-      "mk": 2153
-    },    
-    "discount": 20,
-    "new": true,
-    "rating": 4,
-    "ratingCount": 25,
-    "saleCount": 150,
-    "category": ["wearables", "women"],
-    "tag": ["wearables", "women"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/wearables/9.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/wearables/10.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/wearables/1.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/wearables/9.jpg",
-      "/assets/images/product/wearables/10.jpg"
-    ],
-    "image": [
-      "/assets/images/product/wearables/9.jpg",
-      "/assets/images/product/wearables/10.jpg",
-      "/assets/images/product/wearables/1.jpg",
-      "/assets/images/product/wearables/2.jpg",
-      "/assets/images/product/wearables/3.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "60",
-    "sku": "asdf160",
-    "name": {
-      "en": "Wearable ten",
-      "mk": "Носивно десет"
-    },
-    "slug": "wearables-ten",
-    "price": {
-      "en": 45,
-      "mk": 2769
-    },    
-    "discount": 10,
-    "new": false,
-    "rating": 5,
-    "ratingCount": 5,
-    "saleCount": 10,
-    "category": ["wearables", "women"],
-    "tag": ["wearables", "women"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/wearables/10.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/wearables/1.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/wearables/2.jpg",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/wearables/10.jpg",
-      "/assets/images/product/wearables/1.jpg"
-    ],
-    "image": [
-      "/assets/images/product/wearables/10.jpg",
-      "/assets/images/product/wearables/1.jpg",
-      "/assets/images/product/wearables/2.jpg",
-      "/assets/images/product/wearables/3.jpg",
-      "/assets/images/product/wearables/4.jpg"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "61",
-    "sku": "asdf161",
-    "name": {
-      "en": "Jewelry one",
-      "mk": "Накит едно"
-    },
-    "slug": "jewelry-one",
-    "price": {
-      "en": 10,
-      "mk": 615
-    },    
-    "discount": 10,
-    "new": true,
-    "rating": 5,
-    "ratingCount": 17,
-    "saleCount": 22,
-    "category": ["jewelry"],
-    "tag": ["jewelry"],
-    "stock": 50,
-    "thumbImage": [
-      "/assets/images/product/jewelry/1.png",
-      "/assets/images/product/jewelry/2.png"
-    ],
-    "image": [
-      "/assets/images/product/jewelry/1.png",
-      "/assets/images/product/jewelry/2.png",
-      "/assets/images/product/jewelry/3.png",
-      "/assets/images/product/jewelry/4.png",
-      "/assets/images/product/jewelry/5.png"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "62",
-    "sku": "asdf162",
-    "name": {
-      "en": "Jewelry two",
-      "mk": "Накит две"
-    },
-    "slug": "jewelry-two",
-    "price": {
-      "en": 9,
-      "mk": 553
-    },    
-    "discount": 5,
-    "new": false,
-    "rating": 4,
-    "ratingCount": 15,
-    "saleCount": 20,
-    "category": ["jewelry"],
-    "tag": ["jewelry"],
-    "stock": 30,
-    "thumbImage": [
-      "/assets/images/product/jewelry/2.png",
-      "/assets/images/product/jewelry/3.png"
-    ],
-    "image": [
-      "/assets/images/product/jewelry/2.png",
-      "/assets/images/product/jewelry/3.png",
-      "/assets/images/product/jewelry/4.png",
-      "/assets/images/product/jewelry/5.png",
-      "/assets/images/product/jewelry/1.png"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "63",
-    "sku": "asdf163",
-    "name": {
-      "en": "Jewelry three",
-      "mk": "Накит три"
-    },
-    "slug": "jewelry-three",
-    "price": {
-      "en": 8,
-      "mk": 492
-    },    
-    "discount": 6,
-    "new": true,
-    "rating": 4,
-    "ratingCount": 15,
-    "saleCount": 16,
-    "category": ["jewelry"],
-    "tag": ["jewelry"],
-    "stock": 28,
-    "thumbImage": [
-      "/assets/images/product/jewelry/3.png",
-      "/assets/images/product/jewelry/4.png"
-    ],
-    "image": [
-      "/assets/images/product/jewelry/3.png",
-      "/assets/images/product/jewelry/4.png",
-      "/assets/images/product/jewelry/5.png",
-      "/assets/images/product/jewelry/1.png",
-      "/assets/images/product/jewelry/2.png"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "64",
-    "sku": "asdf164",
-    "name": {
-      "en": "Jewelry four",
-      "mk": "Накит четири"
-    },
-    "slug": "jewelry-four",
-    "price": {
-      "en": 7,
-      "mk": 430
-    },    
-    "discount": 5,
-    "new": false,
-    "rating": 5,
-    "ratingCount": 5,
-    "saleCount": 6,
-    "category": ["jewelry"],
-    "tag": ["jewelry"],
-    "stock": 8,
-    "thumbImage": [
-      "/assets/images/product/jewelry/4.png",
-      "/assets/images/product/jewelry/5.png"
-    ],
-    "image": [
-      "/assets/images/product/jewelry/4.png",
-      "/assets/images/product/jewelry/5.png",
-      "/assets/images/product/jewelry/1.png",
-      "/assets/images/product/jewelry/2.png",
-      "/assets/images/product/jewelry/3.png"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "65",
-    "sku": "asdf165",
-    "name": {
-      "en": "Jewelry five",
-      "mk": "Накит пет"
-    },
-    "slug": "jewelry-five",
-    "price": {
-      "en": 9,
-      "mk": 553
-    },    
-    "discount": 9,
-    "new": true,
-    "rating": 3,
-    "ratingCount": 15,
-    "saleCount": 10,
-    "category": ["jewelry"],
-    "tag": ["jewelry"],
-    "stock": 19,
-    "thumbImage": [
-      "/assets/images/product/jewelry/5.png",
-      "/assets/images/product/jewelry/1.png"
-    ],
-    "image": [
-      "/assets/images/product/jewelry/5.png",
-      "/assets/images/product/jewelry/1.png",
-      "/assets/images/product/jewelry/2.png",
-      "/assets/images/product/jewelry/3.png",
-      "/assets/images/product/jewelry/4.png"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "66",
-    "sku": "asdf166",
-    "name": {
-      "en": "Swimsuit one",
-      "mk": "Костим за капење едно"
-    },
-    "slug": "swimsuit-one",
-    "price": {
-      "en": 5,
-      "mk": 307
-    },    
-    "discount": 10,
-    "new": false,
-    "rating": 5,
-    "ratingCount": 5,
-    "saleCount": 10,
-    "category": ["fashion", "women", "swimsuit"],
-    "tag": ["fashion", "women", "swimsuit"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/11.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/12.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/13.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/fashion/11.png",
-      "/assets/images/product/fashion/12.png"
-    ],
-    "image": [
-      "/assets/images/product/fashion/11.png",
-      "/assets/images/product/fashion/12.png",
-      "/assets/images/product/fashion/13.png",
-      "/assets/images/product/fashion/14.png",
-      "/assets/images/product/fashion/15.png"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "67",
-    "sku": "asdf167",
-    "name": {
-      "en": "Swimsuit two",
-      "mk": "Костим за капење две"
-    },
-    "slug": "swimsuit-two",
-    "price": {
-      "en": 12,
-      "mk": 738
-    },    
-    "discount": 5,
-    "new": true,
-    "rating": 4,
-    "ratingCount": 15,
-    "saleCount": 15,
-    "category": ["fashion", "women", "swimsuit"],
-    "tag": ["fashion", "women", "swimsuit"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/12.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/13.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/14.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/fashion/12.png",
-      "/assets/images/product/fashion/13.png"
-    ],
-    "image": [
-      "/assets/images/product/fashion/12.png",
-      "/assets/images/product/fashion/13.png",
-      "/assets/images/product/fashion/14.png",
-      "/assets/images/product/fashion/15.png",
-      "/assets/images/product/fashion/16.png"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "68",
-    "sku": "asdf168",
-    "name": {
-      "en": "Swimsuit three",
-      "mk": "Костим за капење три"
-    },
-    "slug": "swimsuit-three",
-    "price": {
-      "en": 18,
-      "mk": 1107
-    },    
-    "discount": 15,
-    "new": false,
-    "rating": 4,
-    "ratingCount": 15,
-    "saleCount": 10,
-    "category": ["fashion", "women", "swimsuit"],
-    "tag": ["fashion", "women", "swimsuit"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/13.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/14.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/15.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/fashion/13.png",
-      "/assets/images/product/fashion/14.png"
-    ],
-    "image": [
-      "/assets/images/product/fashion/13.png",
-      "/assets/images/product/fashion/14.png",
-      "/assets/images/product/fashion/15.png",
-      "/assets/images/product/fashion/16.png",
-      "/assets/images/product/fashion/17.png"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "69",
-    "sku": "asdf169",
-    "name": {
-      "en": "Swimsuit four",
-      "mk": "Костим за капење четири"
-    },
-    "slug": "swimsuit-four",
-    "price": {
-      "en": 8,
-      "mk": 492
-    },    
-    "discount": 15,
-    "new": false,
-    "rating": 4,
-    "ratingCount": 15,
-    "saleCount": 10,
-    "category": ["fashion", "women", "swimsuit"],
-    "tag": ["fashion", "women", "swimsuit"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/14.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/15.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/16.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/fashion/14.png",
-      "/assets/images/product/fashion/15.png"
-    ],
-    "image": [
-      "/assets/images/product/fashion/14.png",
-      "/assets/images/product/fashion/15.png",
-      "/assets/images/product/fashion/16.png",
-      "/assets/images/product/fashion/17.png",
-      "/assets/images/product/fashion/18.png"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "70",
-    "sku": "asdf170",
-    "name": {
-      "en": "Swimsuit five",
-      "mk": "Костим за капење пет"
-    },
-    "slug": "swimsuit-five",
-    "price": {
-      "en": 13,
-      "mk": 799
-    },    
-    "discount": 10,
-    "new": true,
-    "rating": 5,
-    "ratingCount": 20,
-    "saleCount": 19,
-    "category": ["fashion", "women", "swimsuit"],
-    "tag": ["fashion", "women", "swimsuit"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/15.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/16.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/17.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/fashion/15.png",
-      "/assets/images/product/fashion/16.png"
-    ],
-    "image": [
-      "/assets/images/product/fashion/15.png",
-      "/assets/images/product/fashion/16.png",
-      "/assets/images/product/fashion/17.png",
-      "/assets/images/product/fashion/18.png",
-      "/assets/images/product/fashion/11.png"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "71",
-    "sku": "asdf171",
-    "name": {
-      "en": "Swimsuit six",
-      "mk": "Костим за капење шест"
-    },
-    "slug": "swimsuit-six",
-    "price": {
-      "en": 14,
-      "mk": 861
-    },     
-    "discount": 10,
-    "new": false,
-    "rating": 3,
-    "ratingCount": 20,
-    "saleCount": 19,
-    "category": ["fashion", "women", "swimsuit"],
-    "tag": ["fashion", "women", "swimsuit"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/16.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/17.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/18.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/fashion/16.png",
-      "/assets/images/product/fashion/17.png"
-    ],
-    "image": [
-      "/assets/images/product/fashion/16.png",
-      "/assets/images/product/fashion/17.png",
-      "/assets/images/product/fashion/18.png",
-      "/assets/images/product/fashion/11.png",
-      "/assets/images/product/fashion/12.png"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "72",
-    "sku": "asdf172",
-    "name": {
-      "en": "Swimsuit seven",
-      "mk": "Костим за капење седум"
-    },
-    "slug": "swimsuit-seven",
-    "price": {
-      "en": 15,
-      "mk": 923
-    },    
-    "discount": 9,
-    "new": false,
-    "rating": 4,
-    "ratingCount": 21,
-    "saleCount": 20,
-    "category": ["fashion", "women", "swimsuit"],
-    "tag": ["fashion", "women", "swimsuit"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/17.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/18.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/11.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/fashion/17.png",
-      "/assets/images/product/fashion/18.png"
-    ],
-    "image": [
-      "/assets/images/product/fashion/17.png",
-      "/assets/images/product/fashion/18.png",
-      "/assets/images/product/fashion/11.png",
-      "/assets/images/product/fashion/12.png",
-      "/assets/images/product/fashion/13.png"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
-  },
-  {
-    "id": "73",
-    "sku": "asdf173",
-    "name": {
-      "en": "Swimsuit eighteen",
-      "mk": "Костим за капење осумнаесет"
-    },
-    "slug": "swimsuit-eightteen",
-    "price": {
-      "en": 16,
-      "mk": 984
-    },    
-    "discount": 10,
-    "new": true,
-    "rating": 3,
-    "ratingCount": 22,
-    "saleCount": 23,
-    "category": ["fashion", "women", "swimsuit"],
-    "tag": ["fashion", "women", "swimsuit"],
-    "variation": [
-      {
-        "color": "black",
-        "colorCode": "#333333",
-        "image": "/assets/images/product/fashion/18.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 3
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 5
-          }
-        ]
-      },
-      {
-        "color": "blue",
-        "colorCode": "#1e73be",
-        "image": "/assets/images/product/fashion/11.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 4
-          },
-          {
-            "name": "m",
-            "stock": 7
-          },
-          {
-            "name": "xl",
-            "stock": 9
-          },
-          {
-            "name": "xxl",
-            "stock": 1
-          }
-        ]
-      },
-      {
-        "color": "yellow",
-        "colorCode": "#dd9933",
-        "image": "/assets/images/product/fashion/12.png",
-        "size": [
-          {
-            "name": "x",
-            "stock": 1
-          },
-          {
-            "name": "m",
-            "stock": 2
-          },
-          {
-            "name": "xl",
-            "stock": 4
-          },
-          {
-            "name": "xxl",
-            "stock": 0
-          }
-        ]
-      }
-    ],
-    "thumbImage": [
-      "/assets/images/product/fashion/18.png"
-    ],
-    "image": [
-      "/assets/images/product/fashion/18.png"
-    ],
-    "shortDescription": "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.",
-    "fullDescription": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "shortDescription": "A comprehensive course to perfect your makeup skills.",
+    "fullDescription": "This makeup training course covers everything from basic makeup application to advanced techniques for different looks. Ideal for beginners or those wanting to refine their skills, this course teaches you the essentials of makeup artistry, including product knowledge, color theory, skin preparation, and creating various looks."
   }
 ]

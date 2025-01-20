@@ -119,7 +119,7 @@ const ProductModal = (props) => {
                   <p>{product.shortDescription}</p>
                 </div>
 
-                {product.variation ? (
+                {/* {product.variation ? (
                   <div className="product-quickview__size-color">
                     <div className="product-quickview__size space-mb--20">
                       <div className="product-quickview__size__title">{t("size")}</div>
@@ -195,7 +195,7 @@ const ProductModal = (props) => {
                   </div>
                 ) : (
                   ""
-                )}
+                )} */}
                 {product.affiliateLink ? (
                   <div className="product-quickview__quality">
                     <div className="product-quickview__cart btn-hover">

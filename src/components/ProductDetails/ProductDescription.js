@@ -83,8 +83,8 @@ const ProductDescription = ({
 
       {product.variation ? (
         <div className="product-content__size-color">
-          <div className="product-content__size space-mb--20">
-            <div className="product-content__size__title">{t("size")}</div>
+            {/*<div className="product-content__size space-mb--20">
+           <div className="product-content__size__title">{t("size")}</div>
             <div className="product-content__size__content">
               {product.variation &&
                 product.variation.map((single) => {
@@ -115,11 +115,11 @@ const ProductDescription = ({
                       })
                     : "";
                 })}
-            </div>
+            </div> 
           </div>
           <div className="product-content__color space-mb--20">
-            <div className="product-content__color__title">{t("color")}</div>
-            <div className="product-content__color__content">
+           {/* <div className="product-content__color__title">{t("color")}</div>
+             <div className="product-content__color__content">
               {product.variation.map((single, i) => {
                 return (
                   <Fragment key={i}>
@@ -145,8 +145,8 @@ const ProductDescription = ({
                   </Fragment>
                 );
               })}
-            </div>
-          </div>
+            </div> 
+          </div>*/}
         </div>
       ) : (
         ""

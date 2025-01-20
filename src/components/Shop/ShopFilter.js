@@ -56,9 +56,9 @@ const ShopFilter = ({ products, getSortParams }) => {
               )}
             </div>
           </Col>
-          <Col lg={3} md={6} className="space-mb-mobile-only--30">
+          {/* <Col lg={3} md={6} className="space-mb-mobile-only--30">
             <div className="single-filter-widget">
-              <h2 className="single-filter-widget__title">{t("colors")}</h2>
+              <h2 className="single-filter-widget__title">{t("colors")}</h2> 
               {colors.length > 0 ? (
                 <ul className="single-filter-widget__list single-filter-widget__list--color">
                   {colors.map((color, i) => {
@@ -89,8 +89,8 @@ const ShopFilter = ({ products, getSortParams }) => {
                 t("no_colors_found")
               )}
             </div>
-          </Col>
-          <Col lg={3} md={6} className="space-mb-mobile-only--30">
+          </Col> 
+           <Col lg={3} md={6} className="space-mb-mobile-only--30">
             <div className="single-filter-widget">
               <h2 className="single-filter-widget__title">{t("sizes")}</h2>
               {sizes.length > 0 ? (
@@ -124,7 +124,7 @@ const ShopFilter = ({ products, getSortParams }) => {
                 t("no_sizes_found")
               )}
             </div>
-          </Col>
+          </Col> */}
           <Col lg={3} md={6} className="space-mb-mobile-only--30">
             <div className="single-filter-widget">
               <h2 className="single-filter-widget__title">{t("tags")}</h2>

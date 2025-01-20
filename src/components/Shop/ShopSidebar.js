@@ -83,7 +83,7 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
       </div>
 
       {/* color list */}
-      <div className="single-sidebar-widget space-mb--40">
+      {/* <div className="single-sidebar-widget space-mb--40">
         <h2 className="single-sidebar-widget__title space-mb--30">{t("colors")}</h2>
         {colors.length > 0 ? (
           <ul className="single-sidebar-widget__list single-sidebar-widget__list--color">
@@ -114,7 +114,7 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
         ) : (
           t("noColors")
         )}
-      </div>
+      </div> */}
 
       {/* popular products */}
       <div className="single-sidebar-widget space-mb--40">
