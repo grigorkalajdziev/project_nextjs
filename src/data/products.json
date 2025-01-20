@@ -3,10 +3,10 @@
     "id": "1",
     "sku": "asdf101",
     "name": {
-        "en": "Professional makeup",
-        "mk": "Професионална шминка"
-      },   
-    "slug": "decor-one",
+      "en": "Professional makeup",
+      "mk": "Професионална шминка"
+    },
+    "slug": "makeup-one",
     "price": {
       "en": 17,
       "mk": 1046
@@ -16,26 +16,32 @@
     "rating": 4,
     "ratingCount": 5,
     "saleCount": 90,
-    "category": ["decor"],
-    "tag": ["decor"],
+    "category": ["makeup"],
+    "tag": ["makeup"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/decor/1.jpg"      
+      "/assets/images/product/decor/1.jpg"
     ],
     "image": [
       "/assets/images/product/decor/1.jpg"
     ],
-    "shortDescription": "Enhance your look with expertly applied professional makeup.",
-    "fullDescription": "Whether for a special occasion or a photoshoot, professional makeup services ensure you look flawless. Using high-quality products and techniques, this service enhances your natural beauty while complementing your personal style."
+    "shortDescription": {
+      "en": "Enhance your look with expertly applied professional makeup.",
+      "mk": "Зголемете го вашиот изглед со професионално применета шминка."
+    },
+    "fullDescription": {
+      "en": "Whether for a special occasion or a photoshoot, professional makeup services ensure you look flawless. Using high-quality products and techniques, this service enhances your natural beauty while complementing your personal style.",
+      "mk": "Без разлика дали е за посебна прилика или фотосесија, професионалната шминка ќе ве направи да изгледате беспрекорно. Користејќи висококвалитетни производи и техники, оваа услуга ја подобрува вашата природна убавина и ја надополнува вашиот личен стил."
+    }
   },
   {
     "id": "2",
     "sku": "asdf102",
     "name": {
-        "en": "Prom makeup",
-        "mk": "Матурска шминка"
-      },
-    "slug": "decor-two",
+      "en": "Prom makeup",
+      "mk": "Матурска шминка"
+    },
+    "slug": "makeup-two",
     "price": {
       "en": 18,
       "mk": 1107
@@ -45,8 +51,8 @@
     "rating": 5,
     "ratingCount": 15,
     "saleCount": 10,
-    "category": ["decor"],
-    "tag": ["decor"],
+    "category": ["makeup"],
+    "tag": ["makeup"],
     "stock": 10,
     "thumbImage": [
       "/assets/images/product/decor/2.jpg"
@@ -54,28 +60,34 @@
     "image": [
       "/assets/images/product/decor/2.jpg"
     ],
-    "shortDescription": "Look stunning on your prom night with tailored makeup.",
-    "fullDescription": "Prom is a night to remember, and your makeup should be just as memorable. This service offers a personalized makeup application that matches your outfit and highlights your best features, ensuring you feel confident and radiant."
+    "shortDescription": {
+      "en": "Look stunning on your prom night with tailored makeup.",
+      "mk": "Изгледајте неверојатно на вашата матурска вечер со шминка по ваш избор."
+    },
+    "fullDescription": {
+      "en": "Prom is a night to remember, and your makeup should be just as memorable. This service offers a personalized makeup application that matches your outfit and highlights your best features, ensuring you feel confident and radiant.",
+      "mk": "Матурата е вечер која ќе се памети, а вашата шминка треба да биде исто така незаборавна. Оваа услуга нуди персонализирана шминка која ќе го усогласи вашиот изглед и ќе ги истакне вашите најдобри карактеристики, осигурувајќи дека ќе се чувствувате уверено и зрачење."
+    }
   },
   {
     "id": "3",
     "sku": "asdf103",
     "name": {
-        "en": "Bridal makeup",
-        "mk": "Невестинска шминка"
-      },
-    "slug": "decor-three",
+      "en": "Bridal makeup",
+      "mk": "Невестинска шминка"
+    },
+    "slug": "makeup-three",
     "price": {
-        "en": 14,
-        "mk": 861
-    },     
+      "en": 14,
+      "mk": 861
+    },
     "discount": 0,
     "new": true,
     "rating": 3,
     "ratingCount": 5,
     "saleCount": 13,
-    "category": ["decor"],
-    "tag": ["decor"],
+    "category": ["makeup"],
+    "tag": ["makeup"],
     "stock": 10,
     "thumbImage": [
       "/assets/images/product/decor/3.jpg"
@@ -83,28 +95,34 @@
     "image": [
       "/assets/images/product/decor/3.jpg"
     ],
-    "shortDescription": "Perfect bridal makeup for your big day.",
-    "fullDescription": "Bridal makeup is designed to make you glow on your wedding day. With long-lasting and camera-ready products, this service provides a timeless and elegant look tailored to your preferences and the theme of your wedding."
+    "shortDescription": {
+      "en": "Perfect bridal makeup for your big day.",
+      "mk": "Совршена невестинска шминка за вашиот голем ден."
+    },
+    "fullDescription": {
+      "en": "Bridal makeup is designed to make you glow on your wedding day. With long-lasting and camera-ready products, this service provides a timeless and elegant look tailored to your preferences and the theme of your wedding.",
+      "mk": "Невестинската шминка е дизајнирана да ве направи да заблескате на вашиот свадбен ден. Со долготрвни и камера-готови производи, оваа услуга нуди безвременски и елегантен изглед кој се прилагодува на вашите преференции и темата на вашата свадба."
+    }
   },
   {
     "id": "4",
     "sku": "asdf104",
     "name": {
-        "en": "Décolleté",
-        "mk": "Деколте"
-      },
-    "slug": "decor-four",
+      "en": "Décolleté",
+      "mk": "Деколте"
+    },
+    "slug": "makeup-four",
     "price": {
-        "en": 12,
-        "mk": 738
-    },    
+      "en": 12,
+      "mk": 738
+    },
     "discount": 5,
     "new": false,
     "rating": 4,
     "ratingCount": 15,
     "saleCount": 19,
-    "category": ["decor"],
-    "tag": ["decor"],
+    "category": ["makeup"],
+    "tag": ["makeup"],
     "stock": 12,
     "affiliateLink": "https://www.amazon.com",
     "thumbImage": [
@@ -113,28 +131,34 @@
     "image": [
       "/assets/images/product/decor/4.jpg"
     ],
-    "shortDescription": "Highlight your décolleté area with expert techniques.",
-    "fullDescription": "Enhance the beauty of your décolleté with professional makeup techniques that add a touch of elegance. Perfect for weddings, photoshoots, or special events, this service ensures a smooth and radiant finish."
+    "shortDescription": {
+      "en": "Highlight your décolleté area with expert techniques.",
+      "mk": "Истакнете го деколтето со експертски техники."
+    },
+    "fullDescription": {
+      "en": "Enhance the beauty of your décolleté with professional makeup techniques that add a touch of elegance. Perfect for weddings, photoshoots, or special events, this service ensures a smooth and radiant finish.",
+      "mk": "Зголемете ја убавината на вашето деколте со професионални техники на шминка кои додаваат елеганција. Совршено за свадби, фотосесии или специјални настани, оваа услуга осигурува глатка и сјајна завршница."
+    }
   },
   {
     "id": "5",
     "sku": "asdf105",
     "name": {
-        "en": "Makeup correction",
-        "mk": "Корекција на шминка"
-      },
-    "slug": "decor-five",
+      "en": "Makeup correction",
+      "mk": "Корекција на шминка"
+    },
+    "slug": "makeup-five",
     "price": {
-        "en": 16,
-        "mk": 984
-    },  
+      "en": 16,
+      "mk": 984
+    },
     "discount": 0,
     "new": true,
     "rating": 2,
     "ratingCount": 5,
     "saleCount": 12,
-    "category": ["decor"],
-    "tag": ["decor"],
+    "category": ["makeup"],
+    "tag": ["makeup"],
     "stock": 14,
     "thumbImage": [
       "/assets/images/product/decor/5.jpg"
@@ -142,8 +166,14 @@
     "image": [
       "/assets/images/product/decor/5.jpg"
     ],
-    "shortDescription": "Quick touch-ups to perfect your look.",
-    "fullDescription": "This service is ideal for refreshing or correcting your makeup, whether to fix smudges, adjust the look for a different occasion, or simply ensure your makeup stays flawless throughout the day."
+    "shortDescription": {
+      "en": "Quick touch-ups to perfect your look.",
+      "mk": "Брзи корекции за да го усовршите вашиот изглед."
+    },
+    "fullDescription": {
+      "en": "This service is ideal for refreshing or correcting your makeup, whether to fix smudges, adjust the look for a different occasion, or simply ensure your makeup stays flawless throughout the day.",
+      "mk": "Оваа услуга е идеална за освежување или коригирање на вашата шминка, без разлика дали е за поправка на размачкани делови, прилагодување на изгледот за различна прилика или едноставно да осигурате дека вашата шминка ќе остане безпрекорна во текот на целиот ден."
+    }
   },
   {
     "id": "6",
@@ -152,7 +182,7 @@
         "en": "Russian apparatus pedicure",
         "mk": "Руски апаративен педикир"
       },
-    "slug": "decor-six",
+    "slug": "pedicure-one",
     "price": {
         "en": 12,
         "mk": 738
@@ -162,8 +192,8 @@
     "rating": 5,
     "ratingCount": 4,
     "saleCount": 16,
-    "category": ["decor"],
-    "tag": ["decor"],
+    "category": ["pedicure"],
+    "tag": ["pedicure"],
     "stock": 0,
     "thumbImage": [
       "/assets/images/product/decor/6.jpg"
@@ -171,8 +201,14 @@
     "image": [
       "/assets/images/product/decor/6.jpg"
     ],
-    "shortDescription": "Precision foot care with advanced techniques.",
-    "fullDescription": "The Russian apparatus pedicure offers meticulous foot care using specialized tools for flawless results. This service focuses on cuticle care, smoothing rough skin, and achieving perfectly groomed nails, leaving your feet soft and rejuvenated."
+    "shortDescription": {
+      "en": "Precision foot care with advanced techniques.",
+      "mk": "Прецизна нега на стапалата со напредни техники."
+  },
+  "fullDescription": {
+      "en": "The Russian apparatus pedicure offers meticulous foot care using specialized tools for flawless results. This service focuses on cuticle care, smoothing rough skin, and achieving perfectly groomed nails, leaving your feet soft and rejuvenated.",
+      "mk": "Рускиот апаративен педикир нуди внимателна нега на стапалата со користење на специјализирани алатки за совршени резултати. Услугата се фокусира на нега на кутикулите, измазнување на груба кожа и постигнување на совршено негувани нокти, оставајќи ги вашите стапала меки и освежени."
+  }
   },
   {
     "id": "7",
@@ -181,7 +217,7 @@
       "en": "Russian apparatus pedicure + polish",
       "mk": "Руски апаративен педикир + лак"
     },
-    "slug": "decor-seven",
+    "slug": "pedicure-seven",
     "price": {
         "en": 17,
         "mk": 1046
@@ -191,8 +227,8 @@
     "rating": 3,
     "ratingCount": 7,
     "saleCount": 13,
-    "category": ["decor"],
-    "tag": ["decor"],
+    "category": ["pedicure"],
+    "tag": ["pedicure"],
     "stock": 18,
     "thumbImage": [
       "/assets/images/product/decor/7.jpg"
@@ -200,17 +236,23 @@
     "image": [
       "/assets/images/product/decor/7.jpg"
     ],
-    "shortDescription": "Flawless pedicure with added nail polish.",
-    "fullDescription": "This service combines the precision of a Russian apparatus pedicure with the application of high-quality nail polish. Your feet will look and feel amazing, with a polished finish in your favorite color."
+    "shortDescription": {
+            "en": "Flawless pedicure with added nail polish.",
+            "mk": "Совршен педикир со додаток на лак за нокти."
+        },
+        "fullDescription": {
+            "en": "This service combines the precision of a Russian apparatus pedicure with the application of high-quality nail polish. Your feet will look and feel amazing, with a polished finish in your favorite color.",
+            "mk": "Оваа услуга ја комбинира прецизноста на рускиот апаративен педикир со нанесување на висококвалитетен лак за нокти. Вашите стапала ќе изгледаат и ќе се чувствуваат неверојатно со сјаен финиш во вашата омилена боја."
+        }
   },
   {
     "id": "8",
     "sku": "asdf108",
     "name": {
       "en": "Russian apparatus pedicure + gel polish",
-      "mk": "Руски апаративен педикир + ГЕЛ ЛАК"
+      "mk": "Руски апаративен педикир + гел лак"
     },
-    "slug": "decor-eight",
+    "slug": "pedicure-eight",
     "price": {
         "en": 15,
         "mk": 923
@@ -220,8 +262,8 @@
     "rating": 5,
     "ratingCount": 15,
     "saleCount": 30,
-    "category": ["decor"],
-    "tag": ["decor"],
+    "category": ["pedicure"],
+    "tag": ["pedicure"],
     "stock": 12,
     "thumbImage": [
       "/assets/images/product/decor/8.jpg"
@@ -229,8 +271,14 @@
     "image": [
       "/assets/images/product/decor/8.jpg"
     ],
-    "shortDescription": "Perfect pedicure with durable gel polish.",
-    "fullDescription": "Enjoy the benefits of a Russian apparatus pedicure paired with long-lasting gel polish. This service ensures smooth, well-groomed feet and beautifully coated nails that stay vibrant and chip-free for weeks."
+   "shortDescription": {
+            "en": "Perfect pedicure with durable gel polish.",
+            "mk": "Совршен педикир со траен гел лак."
+        },
+        "fullDescription": {
+            "en": "Enjoy the benefits of a Russian apparatus pedicure paired with long-lasting gel polish. This service ensures smooth, well-groomed feet and beautifully coated nails that stay vibrant and chip-free for weeks.",
+            "mk": "Уживајте во придобивките на рускиот апаративен педикир заедно со трајниот гел лак. Оваа услуга обезбедува мазни и негувани стапала и убаво лакирани нокти кои остануваат живописни и без оштетувања со недели."
+        }
   },
   {
     "id": "9",
@@ -239,7 +287,7 @@
       "en": "Full legs waxing",
       "mk": "Цели нозе"
     },
-    "slug": "decor-nine",
+    "slug": "waxing-nine",
     "price": {
         "en": 20,
         "mk": 1230
@@ -249,8 +297,8 @@
     "rating": 3,
     "ratingCount": 5,
     "saleCount": 20,
-    "category": ["decor"],
-    "tag": ["decor"],
+    "category": ["waxing"],
+    "tag": ["waxing"],
     "stock": 16,
     "thumbImage": [
       "/assets/images/product/decor/9.jpg"
@@ -258,8 +306,14 @@
     "image": [
       "/assets/images/product/decor/9.jpg"
     ],
-    "shortDescription": "Smooth, hair-free legs with professional waxing.",
-    "fullDescription": "his service provides thorough hair removal for your entire legs, leaving your skin soft and smooth. Perfect for those looking for long-lasting results and a polished look without the hassle of shaving."
+    "shortDescription": {
+            "en": "Smooth, hair-free legs with professional waxing.",
+            "mk": "Мазни, безвлакнести нозе со професионално восок."
+        },
+        "fullDescription": {
+            "en": "This service provides thorough hair removal for your entire legs, leaving your skin soft and smooth. Perfect for those looking for long-lasting results and a polished look without the hassle of shaving.",
+            "mk": "Оваа услуга обезбедува целосно отстранување на влакната од вашите нозе, оставајќи ја вашата кожа мека и мазна. Совршено за оние кои сакаат трајни резултати и уреден изглед без напор на бричење."
+        }
   },
   {
     "id": "10",
@@ -268,18 +322,18 @@
       "en": "Full legs and bikini waxing",
       "mk": "Цели нозе со препони"
     },
-    "slug": "decor-ten",
+    "slug": "waxing-ten",
     "price": {
-        "en": 30,
-        "mk": 1846
-    },   
+      "en": 30,
+      "mk": 1846
+    },
     "discount": 20,
     "new": false,
     "rating": 4,
     "ratingCount": 10,
     "saleCount": 30,
-    "category": ["decor"],
-    "tag": ["decor"],
+    "category": ["waxing"],
+    "tag": ["waxing"],
     "stock": 14,
     "thumbImage": [
       "/assets/images/product/decor/10.jpg"
@@ -287,8 +341,14 @@
     "image": [
       "/assets/images/product/decor/10.jpg"
     ],
-    "shortDescription": "Complete leg waxing with bikini area included.",
-    "fullDescription": "A comprehensive waxing service that removes unwanted hair from your entire legs and bikini line, ensuring smooth, hair-free skin and a confident, flawless finish."
+    "shortDescription": {
+      "en": "Complete leg waxing with bikini area included.",
+      "mk": "Комплетно депилирање на нозете со вклучена бикини зона."
+    },
+    "fullDescription": {
+      "en": "A comprehensive waxing service that removes unwanted hair from your entire legs and bikini line, ensuring smooth, hair-free skin and a confident, flawless finish.",
+      "mk": "Сеопфатна услуга за депилација која отстранува несакана коса од целите нозе и бикини зоната, обезбедувајќи мазна, без влакна кожа и самоуверен, совршен изглед."
+    }
   },
   {
     "id": "11",
@@ -297,18 +357,18 @@
       "en": "Half legs",
       "mk": "Пола нозе"
     },
-    "slug": "fashion-one",
+    "slug": "waxing-one",
     "price": {
-        "en": 17,
-        "mk": 1046
-    },    
+      "en": 17,
+      "mk": 1046
+    },
     "discount": 10,
     "new": true,
     "rating": 4,
     "ratingCount": 5,
     "saleCount": 90,
-    "category": ["fashion", "men"],
-    "tag": ["fashion", "men"],
+    "category": ["waxing"],
+    "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/1.jpg"
@@ -316,8 +376,14 @@
     "image": [
       "/assets/images/product/fashion/1.jpg"
     ],
-    "shortDescription": "Targeted waxing for either upper or lower legs.",
-    "fullDescription": "Choose between upper or lower leg waxing to achieve smooth, hair-free skin. This service is ideal for those looking for a quick and effective hair removal solution."
+    "shortDescription": {
+      "en": "Targeted waxing for either upper or lower legs.",
+      "mk": "Целна депилација за горните или долните делови на нозете."
+    },
+    "fullDescription": {
+      "en": "Choose between upper or lower leg waxing to achieve smooth, hair-free skin. This service is ideal for those looking for a quick and effective hair removal solution.",
+      "mk": "Изберете депилација на горниот или долниот дел од нозете за да добиете мазна кожа без влакна. Оваа услуга е идеална за оние кои бараат брзо и ефикасно решение за отстранување на влакна."
+    }
   },
   {
     "id": "12",
@@ -326,18 +392,18 @@
       "en": "Full arms",
       "mk": "Цели раце"
     },
-    "slug": "fashion-two",
+    "slug": "waxing-two",
     "price": {
-        "en": 13,
-        "mk": 799
-    },     
+      "en": 13,
+      "mk": 799
+    },
     "discount": 14,
     "new": false,
     "rating": 4,
     "ratingCount": 7,
     "saleCount": 70,
-    "category": ["fashion", "men"],
-    "tag": ["fashion", "men"],
+    "category": ["waxing"],
+    "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/2.jpg"
@@ -345,8 +411,14 @@
     "image": [
       "/assets/images/product/fashion/2.jpg"
     ],
-    "shortDescription": "Hair-free arms with professional waxing.",
-    "fullDescription": "This service removes unwanted hair from your entire arms, leaving your skin smooth and soft. It's perfect for maintaining a polished and clean look."
+    "shortDescription": {
+      "en": "Hair-free arms with professional waxing.",
+      "mk": "Рацете без влакна со професионална депилација."
+    },
+    "fullDescription": {
+      "en": "This service removes unwanted hair from your entire arms, leaving your skin smooth and soft. It's perfect for maintaining a polished and clean look.",
+      "mk": "Оваа услуга отстранува несакана коса од целите раце, оставајќи ја вашата кожа мазна и мека. Совршена е за одржување на уреден и чист изглед."
+    }
   },
   {
     "id": "13",
@@ -355,27 +427,33 @@
       "en": "Half arms",
       "mk": "Пола раце"
     },
-    "slug": "fashion-three",
+    "slug": "waxing-three",
     "price": {
-        "en": 16,
-        "mk": 984
-    },     
+      "en": 16,
+      "mk": 984
+    },
     "discount": 20,
     "new": true,
     "rating": 5,
     "ratingCount": 27,
     "saleCount": 78,
-    "category": ["fashion", "men"],
-    "tag": ["fashion", "men"],
-    "stock": 10,	
+    "category": ["waxing"],
+    "tag": ["waxing"],
+    "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/3.jpg"
     ],
     "image": [
       "/assets/images/product/fashion/3.jpg"
     ],
-    "shortDescription": "Waxing for forearms or upper arms.",
-    "fullDescription": "A focused service that removes hair from either the forearms or upper arms, giving you smooth and sleek skin in no time."
+    "shortDescription": {
+      "en": "Waxing for forearms or upper arms.",
+      "mk": "Депилација на подлактиците или горните делови на рацете."
+    },
+    "fullDescription": {
+      "en": "A focused service that removes hair from either the forearms or upper arms, giving you smooth and sleek skin in no time.",
+      "mk": "Целна услуга која отстранува коса од подлактиците или горните делови на рацете, обезбедувајќи мазна и елегантна кожа за кратко време."
+    }
   },
   {
     "id": "14",
@@ -384,18 +462,18 @@
       "en": "Bikini",
       "mk": "Бикини"
     },
-    "slug": "fashion-four",
+    "slug": "waxing-four",
     "price": {
-        "en": 10,
-        "mk": 615
-    },     
+      "en": 10,
+      "mk": 615
+    },
     "discount": 25,
     "new": false,
     "rating": 4,
     "ratingCount": 20,
     "saleCount": 70,
-    "category": ["fashion", "men"],
-    "tag": ["fashion", "men"],
+    "category": ["waxing"],
+    "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/4.jpg"
@@ -403,8 +481,14 @@
     "image": [
       "/assets/images/product/fashion/4.jpg"
     ],
-    "shortDescription": "Smooth and clean bikini line with expert waxing.",
-    "fullDescription": "This service removes unwanted hair along the bikini line for a neat and polished appearance. It's perfect for maintaining confidence and comfort, especially for swimwear and intimate occasions."
+    "shortDescription": {
+      "en": "Smooth and clean bikini line with expert waxing.",
+      "mk": "Мазна и чиста бикини зона со експертска депилација."
+    },
+    "fullDescription": {
+      "en": "This service removes unwanted hair along the bikini line for a neat and polished appearance. It's perfect for maintaining confidence and comfort, especially for swimwear and intimate occasions.",
+      "mk": "Оваа услуга отстранува несакана коса долж бикини зоната за уреден и полирано изглед. Совршена е за одржување на самодоверба и удобност, особено за костими за капење и интимни прилики."
+    }
   },
   {
     "id": "15",
@@ -413,27 +497,33 @@
       "en": "Half legs and intimate area",
       "mk": "Пола нозе и интима"
     },
-    "slug": "fashion-five",
+    "slug": "waxing-five",
     "price": {
-        "en": 15,
-        "mk": 923
-    },    
+      "en": 15,
+      "mk": 923
+    },
     "discount": 5,
     "new": true,
     "rating": 4,
     "ratingCount": 10,
     "saleCount": 63,
-    "category": ["fashion", "men"],
-    "tag": ["fashion", "men"],
-    "stock": 10,	
+    "category": ["waxing"],
+    "tag": ["waxing"],
+    "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/5.jpg"
     ],
     "image": [
       "/assets/images/product/fashion/5.jpg"
     ],
-    "shortDescription": "Combined waxing for half legs and intimate areas.",
-    "fullDescription": "This comprehensive service focuses on hair removal from half of your legs and intimate areas, ensuring smooth and silky skin for a flawless and confident look."
+    "shortDescription": {
+      "en": "Combined waxing for half legs and intimate areas.",
+      "mk": "Комбинирана депилација на пола нозе и интимни зони."
+    },
+    "fullDescription": {
+      "en": "This comprehensive service focuses on hair removal from half of your legs and intimate areas, ensuring smooth and silky skin for a flawless and confident look.",
+      "mk": "Оваа сеопфатна услуга се фокусира на отстранување на коса од половина од вашите нозе и интимни зони, обезбедувајќи мазна и свилена кожа за совршен и самоуверен изглед."
+    }
   },
   {
     "id": "16",
@@ -442,7 +532,7 @@
       "en": "Underarms Waxing",
       "mk": "Пазуви"
      },
-    "slug": "fashion-six",
+    "slug": "waxing-six",
     "price": {
         "en": 17,
         "mk": 1046
@@ -452,8 +542,8 @@
     "rating": 5,
     "ratingCount": 15,
     "saleCount": 60,
-    "category": ["fashion", "women"],
-    "tag": ["fashion", "women"],
+    "category": ["waxing"],
+    "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/6.jpg"
@@ -461,8 +551,14 @@
     "image": [
       "/assets/images/product/fashion/6.jpg"
     ],
-    "shortDescription": "Quick and effective underarm hair removal.",
-    "fullDescription": "Enjoy smooth, hair-free underarms with this efficient waxing service. It's ideal for maintaining a clean and polished appearance with long-lasting results."
+    "shortDescription": {
+      "en": "Quick and effective underarm hair removal.",
+      "mk": "Брзо и ефикасно отстранување на влакна од пазувите."
+    },
+    "fullDescription": {
+      "en": "Enjoy smooth, hair-free underarms with this efficient waxing service. It's ideal for maintaining a clean and polished appearance with long-lasting results.",
+      "mk": "Уживајте во мазни пазуви без влакна со оваа ефикасна услуга за депилација. Идеално за одржување на чист и уреден изглед со долготрајни резултати."
+    }
   },
   {
     "id": "17",
@@ -471,7 +567,7 @@
       "en": "Stomach Waxing",
       "mk": "Стомак"
     },
-    "slug": "fashion-seven",
+    "slug": "waxing-seven",
     "price": {
         "en": 27,
         "mk": 1661
@@ -481,8 +577,8 @@
     "rating": 4,
     "ratingCount": 25,
     "saleCount": 70,
-    "category": ["fashion", "women"],
-    "tag": ["fashion", "women"],
+    "category": ["waxing"],
+    "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/7.jpg"
@@ -490,8 +586,14 @@
     "image": [
       "/assets/images/product/fashion/7.jpg"
     ],
-    "shortDescription": "Smooth and hair-free stomach area with waxing.",
-    "fullDescription": "This service removes unwanted hair from the stomach area, leaving your skin smooth and soft. It's perfect for a clean and confident look, especially during beach or pool seasons."
+    "shortDescription": {
+      "en": "Smooth and hair-free stomach area with waxing.",
+      "mk": "Мазен и без влакна стомак со депилација."
+    },
+    "fullDescription": {
+      "en": "This service removes unwanted hair from the stomach area, leaving your skin smooth and soft. It's perfect for a clean and confident look, especially during beach or pool seasons.",
+      "mk": "Оваа услуга отстранува несакани влакна од стомакот, оставајќи ја кожата мазна и мека. Совршено за чист и самоуверен изглед, особено за време на сезона на плажа или базен."
+    }
   },
   {
     "id": "18",
@@ -500,7 +602,7 @@
       "en": "Full Face Waxing",
       "mk": "Цело лице"
     },
-    "slug": "fashion-eight",
+    "slug": "waxing-eight",
     "price": {
         "en": 25,
         "mk": 1538
@@ -510,8 +612,8 @@
     "rating": 5,
     "ratingCount": 20,
     "saleCount": 50,
-    "category": ["fashion", "women"],
-    "tag": ["fashion", "women"],
+    "category": ["waxing"],
+    "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/8.jpg"
@@ -519,8 +621,14 @@
     "image": [
       "/assets/images/product/fashion/8.jpg"
     ],
-    "shortDescription": "Gentle and precise waxing for the entire face.",
-    "fullDescription": "This service removes unwanted hair from the entire face, including the forehead, cheeks, and chin. It's designed to leave your skin smooth and radiant while enhancing your natural beauty."
+    "shortDescription": {
+      "en": "Gentle and precise waxing for the entire face.",
+      "mk": "Нежна и прецизна депилација на целото лице."
+    },
+    "fullDescription": {
+      "en": "This service removes unwanted hair from the entire face, including the forehead, cheeks, and chin. It's designed to leave your skin smooth and radiant while enhancing your natural beauty.",
+      "mk": "Оваа услуга отстранува несакани влакна од целото лице, вклучувајќи ги челото, образите и брадата. Таа е дизајнирана да ја направи вашата кожа мазна и сјајна, нагласувајќи ја вашата природна убавина."
+    }
   },
   {
     "id": "19",
@@ -529,7 +637,7 @@
       "en": "Full Face and Eyebrows Waxing",
       "mk": "Цело лице и веѓи"
     },
-    "slug": "fashion-nine",
+    "slug": "waxing-nine",
     "price": {
       "en": 35,
       "mk": 2153
@@ -539,8 +647,8 @@
     "rating": 4,
     "ratingCount": 25,
     "saleCount": 150,
-    "category": ["fashion", "women"],
-    "tag": ["fashion", "women"],
+    "category": ["waxing"],
+    "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/9.jpg"
@@ -548,8 +656,14 @@
     "image": [
       "/assets/images/product/fashion/9.jpg"
     ],
-    "shortDescription": "Complete face waxing with eyebrow shaping.",
-    "fullDescription": "Get a perfectly groomed look with this service, which includes waxing for the entire face and expertly shaping your eyebrows for a polished and defined appearance."
+    "shortDescription": {
+      "en": "Complete face waxing with eyebrow shaping.",
+      "mk": "Целосна депилација на лицето со обликување на веѓите."
+    },
+    "fullDescription": {
+      "en": "Get a perfectly groomed look with this service, which includes waxing for the entire face and expertly shaping your eyebrows for a polished and defined appearance.",
+      "mk": "Добијте совршено негуван изглед со оваа услуга, која вклучува депилација на целото лице и стручно обликување на веѓите за уреден и дефиниран изглед."
+    }
   },
   {
     "id": "20",
@@ -558,7 +672,7 @@
       "en": "Upper Lip Waxing",
       "mk": "Надусници"
     },
-    "slug": "fashion-ten",
+    "slug": "waxing-ten",
     "price": {
         "en": 45,
         "mk": 2769
@@ -568,8 +682,8 @@
     "rating": 5,
     "ratingCount": 5,
     "saleCount": 10,
-    "category": ["fashion", "women"],
-    "tag": ["fashion", "women"],
+    "category": ["waxing"],
+    "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
       "/assets/images/product/fashion/10.jpg"
@@ -577,8 +691,14 @@
     "image": [
       "/assets/images/product/fashion/10.jpg"
     ],
-    "shortDescription": "Precise waxing for a smooth upper lip.",
-    "fullDescription": "This service removes unwanted hair from the upper lip, leaving your skin smooth and hair-free. It’s perfect for achieving a clean and confident look, with minimal discomfort and long-lasting results."
+    "shortDescription": {
+      "en": "Precise waxing for a smooth upper lip.",
+      "mk": "Прецизна депилација за мазна горна усна."
+    },
+    "fullDescription": {
+      "en": "This service removes unwanted hair from the upper lip, leaving your skin smooth and hair-free. It’s perfect for achieving a clean and confident look, with minimal discomfort and long-lasting results.",
+      "mk": "Оваа услуга отстранува несакани влакна од горната усна, оставајќи ја кожата мазна и без влакна. Совршено за постигнување чист и самоуверен изглед, со минимална непријатност и долготрајни резултати."
+    }
   },
   {
     "id": "21",
@@ -587,7 +707,7 @@
       "en": "Buttocks",
       "mk": "Задник"
     },
-    "slug": "cosmetics-one",
+    "slug": "waxing-one",
     "price": {
         "en": 18,
         "mk": 1107
@@ -597,8 +717,8 @@
     "rating": 5,
     "ratingCount": 15,
     "saleCount": 10,
-    "category": ["cosmetics"],
-    "tag": ["cosmetics"],
+    "category": ["waxing"],
+    "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
       "/assets/images/product/cosmetics/1.jpg"
@@ -606,8 +726,14 @@
     "image": [
       "/assets/images/product/cosmetics/1.jpg"     
     ],
-    "shortDescription": "Smooth and neat waxing for the intimate area.",
-    "fullDescription": "This waxing service focuses on removing hair from the intimate areas, including the backside, to provide a clean and polished finish. Ideal for those who want a smooth look and feel with long-lasting results."
+    "shortDescription": {
+      "en": "Smooth and neat waxing for the intimate area.",
+      "mk": "Мазна и уредна депилација за интимната област."
+    },
+    "fullDescription": {
+      "en": "This waxing service focuses on removing hair from the intimate areas, including the backside, to provide a clean and polished finish. Ideal for those who want a smooth look and feel with long-lasting results.",
+      "mk": "Оваа услуга за депилација се фокусира на отстранување на влакна од интимните области, вклучувајќи го и задниот дел, за да се обезбеди чист и уреден изглед. Совршено за оние кои сакаат мазен изглед со долготрајни резултати."
+    }
   },
   {
     "id": "22",
@@ -616,7 +742,7 @@
       "en": "Artificial eyelashes",
       "mk": "Вештачки трепки"
     },
-    "slug": "cosmetics-two",
+    "slug": "extras-two",
     "price": {
       "en": 28,
       "mk": 1722
@@ -626,8 +752,8 @@
     "rating": 4,
     "ratingCount": 5,
     "saleCount": 12,
-    "category": ["cosmetics"],
-    "tag": ["cosmetics"],
+    "category": ["extras","makeup"],
+    "tag": ["extras","makeup"],
     "stock": 20,
     "thumbImage": [
       "/assets/images/product/cosmetics/2.jpg"
@@ -635,8 +761,14 @@
     "image": [
       "/assets/images/product/cosmetics/2.jpg"
     ],
-    "shortDescription": "Enhance your eyes with beautifully applied artificial eyelashes.",
-    "fullDescription": "This service offers the application of high-quality artificial eyelashes that provide a voluminous, natural look. Perfect for special occasions or everyday glamour, these lashes give your eyes an enhanced and dramatic appearance."
+    "shortDescription": {
+      "en": "Enhance your eyes with beautifully applied artificial eyelashes.",
+      "mk": "Нагласете ги очите со убаво нанесени вештачки трепки."
+    },
+    "fullDescription": {
+      "en": "This service offers the application of high-quality artificial eyelashes that provide a voluminous, natural look. Perfect for special occasions or everyday glamour, these lashes give your eyes an enhanced and dramatic appearance.",
+      "mk": "Оваа услуга нуди нанесување на висококвалитетни вештачки трепки кои обезбедуваат волуменозен и природен изглед. Совршено за специјални прилики или секојдневен гламур, овие трепки им даваат на очите нагласен и драматичен изглед."
+    }
   },
   {
     "id": "23",
@@ -645,7 +777,7 @@
       "en": "Individual eyelashes",
       "mk": "Индивидуални трепки"
     },
-    "slug": "cosmetics-three",
+    "slug": "extras-three",
     "price": {
       "en": 22,
       "mk": 1353
@@ -655,8 +787,8 @@
     "rating": 5,
     "ratingCount": 7,
     "saleCount": 12,
-    "category": ["cosmetics"],
-    "tag": ["cosmetics"],
+    "category": ["extras","makeup"],
+    "tag": ["extras","makeup"],
     "stock": 40,
     "thumbImage": [
       "/assets/images/product/cosmetics/3.jpg"
@@ -664,8 +796,14 @@
     "image": [
       "/assets/images/product/cosmetics/3.jpg"
     ],
-    "shortDescription": "Custom eyelash extensions for a fuller, natural look.",
-    "fullDescription": "Individual eyelash extensions are applied one by one, tailored to suit your eye shape and desired volume. This service gives you a personalized, long-lasting, and voluminous look, perfect for a more natural yet enhanced lash line."
+    "shortDescription": {
+      "en": "Custom eyelash extensions for a fuller, natural look.",
+      "mk": "Прилагодени екстензии за трепки за полн и природен изглед."
+    },
+    "fullDescription": {
+      "en": "Individual eyelash extensions are applied one by one, tailored to suit your eye shape and desired volume. This service gives you a personalized, long-lasting, and voluminous look, perfect for a more natural yet enhanced lash line.",
+      "mk": "Индивидуалните екстензии за трепки се нанесуваат една по една, прилагодени на формата на вашите очи и саканиот волумен. Оваа услуга ви обезбедува персонализиран, долготраен и волуменозен изглед, совршен за природна, но нагласена линија на трепките."
+    }
   },
   {
     "id": "24",
@@ -674,7 +812,7 @@
       "en": "Spray tan",
       "mk": "Спреј тен"
     },
-    "slug": "cosmetics-four",
+    "slug": "extras-four",
     "price": {
       "en": 30,
       "mk": 1846
@@ -684,8 +822,8 @@
     "rating": 5,
     "ratingCount": 17,
     "saleCount": 22,
-    "category": ["cosmetics"],
-    "tag": ["cosmetics"],
+    "category": ["extras","makeup"],
+    "tag": ["extras","makeup"],
     "stock": 50,
     "thumbImage": [
       "/assets/images/product/cosmetics/4.jpg"
@@ -693,8 +831,14 @@
     "image": [
       "/assets/images/product/cosmetics/4.jpg"
     ],
-    "shortDescription": "Get a natural, sun-kissed glow with spray tanning.",
-    "fullDescription": "Achieve a healthy, golden glow without the harmful effects of the sun. This service provides an even, streak-free tan that lasts for days, giving you a beautiful sun-kissed appearance."
+    "shortDescription": {
+      "en": "Get a natural, sun-kissed glow with spray tanning.",
+      "mk": "Добијте природен, сончев сјај со спреј тен."
+    },
+    "fullDescription": {
+      "en": "Achieve a healthy, golden glow without the harmful effects of the sun. This service provides an even, streak-free tan that lasts for days, giving you a beautiful sun-kissed appearance.",
+      "mk": "Постигнете здрав, златен сјај без штетните ефекти на сонцето. Оваа услуга обезбедува рамномерен, безтраги тен кој трае неколку дена, давајќи ви прекрасен сончев изглед."
+    }
   },
   {
     "id": "25",
@@ -703,7 +847,7 @@
       "en": "Lash lamination",
       "mk": "Ламинација на трепки"
     },
-    "slug": "cosmetics-five",
+    "slug": "extras-five",
     "price": {
       "en": 20,
       "mk": 1230
@@ -713,8 +857,8 @@
     "rating": 5,
     "ratingCount": 27,
     "saleCount": 30,
-    "category": ["cosmetics"],
-    "tag": ["cosmetics"],
+    "category": ["extras","makeup"],
+    "tag": ["extras","makeup"],
     "stock": 40,
     "thumbImage": [
       "/assets/images/product/cosmetics/5.jpg"
@@ -722,28 +866,34 @@
     "image": [
       "/assets/images/product/cosmetics/5.jpg"
     ],
-    "shortDescription": "Lift and curl your natural lashes for a fuller, defined look.",
-    "fullDescription": "Eyelash lamination is a semi-permanent treatment that lifts, curls, and defines your natural lashes, making them appear longer and fuller. This service gives you perfectly styled lashes that last for weeks."
+    "shortDescription": {
+      "en": "Lift and curl your natural lashes for a fuller, defined look.",
+      "mk": "Подигнете и виткајте ги вашите природни трепки за полн и дефиниран изглед."
+    },
+    "fullDescription": {
+      "en": "Eyelash lamination is a semi-permanent treatment that lifts, curls, and defines your natural lashes, making them appear longer and fuller. This service gives you perfectly styled lashes that last for weeks.",
+      "mk": "Ламинацијата на трепките е полутраен третман што ги подигнува, витка и дефинира вашите природни трепки, правејќи ги да изгледаат подолги и погусти. Оваа услуга ви обезбедува совршено стилизирани трепки што траат со недели."
+    }
   },
   {
     "id": "26",
     "sku": "asdf126",
     "name": {
       "en": "Microblading (with included correction)",
-      "mk": "Microblading (со вклучена корекција)"
+      "mk": "Микроблејдинг (со вклучена корекција)"
     },
-    "slug": "cosmetics-six",
+    "slug": "extras-six",
     "price": {
       "en": 30,
       "mk": 1846
-    },     
+    },
     "discount": 10,
     "new": true,
     "rating": 5,
     "ratingCount": 25,
     "saleCount": 20,
-    "category": ["cosmetics"],
-    "tag": ["cosmetics"],
+    "category": ["extras", "makeup"],
+    "tag": ["extras", "makeup"],
     "stock": 10,
     "thumbImage": [
       "/assets/images/product/cosmetics/6.jpg"
@@ -751,8 +901,14 @@
     "image": [
       "/assets/images/product/cosmetics/6.jpg"
     ],
-    "shortDescription": "Perfectly shaped eyebrows with microblading and included correction.",
-    "fullDescription": "Microblading is a semi-permanent eyebrow tattoo technique that creates natural, hair-like strokes for fuller, defined eyebrows. This service includes an initial session and a follow-up correction to ensure your brows look perfect and last longer."
+    "shortDescription": {
+      "en": "Perfectly shaped eyebrows with microblading and included correction.",
+      "mk": "Совршено оформени веѓи со микроблејдинг и вклучена корекција."
+    },
+    "fullDescription": {
+      "en": "Microblading is a semi-permanent eyebrow tattoo technique that creates natural, hair-like strokes for fuller, defined eyebrows. This service includes an initial session and a follow-up correction to ensure your brows look perfect and last longer.",
+      "mk": "Микроблејдинг е полутрајна техника на тетовирање веѓи што создава природни, влакнести линии за пополни и дефинирани веѓи. Оваа услуга вклучува почетна сесија и следна корекција за да се осигури дека вашите веѓи изгледаат совршено и траат подолго."
+    }
   },
   {
     "id": "27",
@@ -761,18 +917,18 @@
       "en": "Training for professional makeup",
       "mk": "Обука за професионална шминка"
     },
-    "slug": "cosmetics-seven",
+    "slug": "training-seven",
     "price": {
       "en": 20,
       "mk": 1230
-    },      
+    },
     "discount": 5,
     "new": false,
     "rating": 5,
     "ratingCount": 15,
     "saleCount": 10,
-    "category": ["cosmetics"],
-    "tag": ["cosmetics"],
+    "category": ["training"],
+    "tag": ["training"],
     "stock": 20,
     "thumbImage": [
       "/assets/images/product/cosmetics/7.jpg"
@@ -780,8 +936,14 @@
     "image": [
       "/assets/images/product/cosmetics/7.jpg"
     ],
-    "shortDescription": "Master the art of professional makeup with expert training.",
-    "fullDescription": "This training course provides in-depth knowledge and hands-on experience in professional makeup application. Learn techniques for creating flawless looks for various occasions, including bridal, prom, and editorial makeup. This course is ideal for aspiring makeup artists or anyone wanting to enhance their skills and gain a deeper understanding of makeup artistry."
+    "shortDescription": {
+      "en": "Master the art of professional makeup with expert training.",
+      "mk": "Совладајте ја уметноста на професионалната шминка со експертска обука."
+    },
+    "fullDescription": {
+      "en": "This training course provides in-depth knowledge and hands-on experience in professional makeup application. Learn techniques for creating flawless looks for various occasions, including bridal, prom, and editorial makeup. This course is ideal for aspiring makeup artists or anyone wanting to enhance their skills and gain a deeper understanding of makeup artistry.",
+      "mk": "Овој курс за обука нуди длабинско знаење и практично искуство во нанесувањето на професионална шминка. Научете техники за создавање беспрекорен изглед за различни пригоди, вклучувајќи свадби, матурски забави и едиторијални шминки. Овој курс е идеален за почетници шминкери или за секој што сака да ги подобри своите вештини и да стекне подлабоко разбирање за уметноста на шминкањето."
+    }
   },
   {
     "id": "28",
@@ -790,18 +952,18 @@
       "en": "Individual makeup training",
       "mk": "Индивидуална обука за шминка"
     },
-    "slug": "cosmetics-eight",
+    "slug": "training-eight",
     "price": {
       "en": 10,
       "mk": 615
-    },    
+    },
     "discount": 15,
     "new": true,
     "rating": 5,
     "ratingCount": 25,
     "saleCount": 20,
-    "category": ["cosmetics"],
-    "tag": ["cosmetics"],
+    "category": ["training"],
+    "tag": ["training"],
     "stock": 10,
     "thumbImage": [
       "/assets/images/product/cosmetics/8.jpg"
@@ -809,8 +971,14 @@
     "image": [
       "/assets/images/product/cosmetics/8.jpg"
     ],
-    "shortDescription": "One-on-one makeup training for personalized learning.",
-    "fullDescription": "This personalized makeup training offers individual attention to help you master the techniques that suit your face shape, features, and style. The course is tailored to your needs, allowing you to learn at your own pace with hands-on demonstrations and practical sessions."
+    "shortDescription": {
+      "en": "One-on-one makeup training for personalized learning.",
+      "mk": "Индивидуална обука за шминка за персонализирано учење."
+    },
+    "fullDescription": {
+      "en": "This personalized makeup training offers individual attention to help you master the techniques that suit your face shape, features, and style. The course is tailored to your needs, allowing you to learn at your own pace with hands-on demonstrations and practical sessions.",
+      "mk": "Оваа персонализирана обука за шминка нуди индивидуално внимание за да ви помогне да ги совладате техниките што одговараат на формата на вашето лице, карактеристики и стил. Курсот е приспособен на вашите потреби, дозволувајќи ви да учите со свое темпо со практични демонстрации и сесии."
+    }
   },
   {
     "id": "29",
@@ -819,7 +987,7 @@
       "en": "Training for henna brows (coloring)",
       "mk": "Обука за хена веѓи (боење)"
     },
-    "slug": "cosmetics-nine",
+    "slug": "training-nine",
     "price": {
       "en": 20,
       "mk": 1230
@@ -829,8 +997,8 @@
     "rating": 4,
     "ratingCount": 20,
     "saleCount": 30,
-    "category": ["cosmetics"],
-    "tag": ["cosmetics"],
+    "category": ["training"],
+    "tag": ["training"],
     "stock": 20,
     "thumbImage": [
       "/assets/images/product/cosmetics/9.jpg"
@@ -838,8 +1006,14 @@
     "image": [
       "/assets/images/product/cosmetics/9.jpg"
     ],
-    "shortDescription": "Master the art of henna brow tinting for a natural, defined look.",
-    "fullDescription": "This course focuses on the technique of henna tinting for eyebrows, creating defined, fuller brows using natural henna dye. Learn how to shape, tint, and maintain eyebrows with this method, perfect for clients looking for a bold and long-lasting brow enhancement."
+    "shortDescription": {
+      "en": "Master the art of henna brow tinting for a natural, defined look.",
+      "mk": "Совладајте ја уметноста на хена боење на веѓи за природен и дефиниран изглед."
+    },
+    "fullDescription": {
+      "en": "This course focuses on the technique of henna tinting for eyebrows, creating defined, fuller brows using natural henna dye. Learn how to shape, tint, and maintain eyebrows with this method, perfect for clients looking for a bold and long-lasting brow enhancement.",
+      "mk": "Овој курс се фокусира на техниката на хена боење на веѓи, создавајќи дефинирани и пополни веѓи користејќи природна хена боја. Научете како да ги обликувате, боите и одржувате веѓите со овој метод, совршен за клиенти што сакаат храбро и долготрајно подобрување на веѓите."
+    }
   },
   {
     "id": "30",
@@ -848,7 +1022,7 @@
       "en": "Makeup training",
       "mk": "Обука за шминка"
     },
-    "slug": "cosmetics-ten",
+    "slug": "training-ten",
     "price": {
       "en": 30,
       "mk": 1846
@@ -858,8 +1032,8 @@
     "rating": 5,
     "ratingCount": 10,
     "saleCount": 20,
-    "category": ["cosmetics"],
-    "tag": ["cosmetics"],
+    "category": ["training"],
+    "tag": ["training"],
     "stock": 30,
     "thumbImage": [
       "/assets/images/product/cosmetics/10.jpg"
@@ -867,7 +1041,49 @@
     "image": [
       "/assets/images/product/cosmetics/10.jpg"
     ],
-    "shortDescription": "A comprehensive course to perfect your makeup skills.",
-    "fullDescription": "This makeup training course covers everything from basic makeup application to advanced techniques for different looks. Ideal for beginners or those wanting to refine their skills, this course teaches you the essentials of makeup artistry, including product knowledge, color theory, skin preparation, and creating various looks."
+    "shortDescription": {
+      "en": "A comprehensive course to perfect your makeup skills.",
+      "mk": "Сеопфатен курс за усовршување на вашите вештини за шминкање."
+    },
+    "fullDescription": {
+      "en": "This makeup training course covers everything from basic makeup application to advanced techniques for different looks. Ideal for beginners or those wanting to refine their skills, this course teaches you the essentials of makeup artistry, including product knowledge, color theory, skin preparation, and creating various looks.",
+      "mk": "Овој курс за шминка вклучува сè, од основно нанесување шминка до напредни техники за различни изгледи. Идеален за почетници или за оние што сакаат да ги усовршат своите вештини, овој курс ве учи на основите на уметноста на шминкањето, вклучувајќи познавање на производи, теорија на бои, подготовка на кожата и создавање на различни изгледи."
+    }
+  },
+  {
+    "id": "31",
+    "sku": "asdf131",
+    "name": {
+      "en": "Training for Brow and Lash Lamination",
+      "mk": "Обука за ламинација на веѓи и трепки"
+    },
+    "slug": "training-ten",
+    "price": {
+      "en": 30,
+      "mk": 1846
+    },
+    "discount": 15,
+    "new": true,
+    "rating": 5,
+    "ratingCount": 10,
+    "saleCount": 20,
+    "category": ["training"],
+    "tag": ["training"],
+    "stock": 30,
+    "thumbImage": [
+      "/assets/images/product/cosmetics/10.jpg"
+    ],
+    "image": [
+      "/assets/images/product/cosmetics/10.jpg"
+    ],
+    "shortDescription": {
+      "en": "Master the art of brow and lash lamination.",
+      "mk": "Совладајте го уметноста на ламинирање на веѓи и трепки."
+    },
+    "fullDescription": {
+      "en": "This course provides in-depth knowledge and hands-on practice for achieving perfectly laminated brows and lashes, including shaping and styling techniques.",
+      "mk": "Оваа обука обезбедува длабинско знаење и практична обука за постигнување на совршено ламинирани веѓи и трепки, вклучувајќи техники за обликување и стилизирање."
+    }
   }
+  
 ]

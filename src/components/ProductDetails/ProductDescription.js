@@ -78,7 +78,7 @@ const ProductDescription = ({
         )}
       </div>
       <div className="product-content__description space-mb--30">
-        <p>{product.shortDescription}</p>
+        <p>{product.shortDescription[currentLanguage]}</p>
       </div>
 
       {product.variation ? (

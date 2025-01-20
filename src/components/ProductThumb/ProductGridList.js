@@ -356,7 +356,7 @@ const ProductGridList = ({
               )}
             </div>
 
-            <div className="short-description">{product.shortDescription}</div>
+            <div className="short-description">{product.shortDescription[currentLanguage]}</div>
             <div className="add-to-cart">
               {/* add to cart */}
               {product.affiliateLink ? (

@@ -116,7 +116,7 @@ const ProductModal = (props) => {
                   ""
                 )}
                 <div className="product-quickview__description space-mb--30">
-                  <p>{product.shortDescription}</p>
+                  <p>{product.shortDescription[currentLanguage]}</p>
                 </div>
 
                 {/* {product.variation ? (

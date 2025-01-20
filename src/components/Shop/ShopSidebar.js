@@ -19,7 +19,7 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
   const categories = getIndividualCategories(products);
   const colors = getIndividualColors(products);
   const tags = getIndividualTags(products);
-  const popularProducts = getProducts(products, "decor", "popular", 3);
+  const popularProducts = getProducts(products, "makeup", "popular", 3);
 
   useEffect(() => {
     setSearchTerm('');

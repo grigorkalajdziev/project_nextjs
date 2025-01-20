@@ -70,7 +70,7 @@ const Trending = ({ products }) => {
 const mapStateToProps = (state) => {
   const products = state.productData;
   return {
-    products: getProducts(products, "fashion", "popular", 10)
+    products: getProducts(products, "makeup", "extras", 10)
   };
 };
 

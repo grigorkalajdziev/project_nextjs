@@ -31,7 +31,7 @@ const ProductDescriptionTab = ({ product }) => {
         <Tab.Content>
           <Tab.Pane eventKey="description">
             <div className="product-description-tab__details">
-              {product.fullDescription}
+              {product.fullDescription[currentLanguage]}
             </div>
           </Tab.Pane>
           <Tab.Pane eventKey="additionalInfo">
@@ -39,15 +39,15 @@ const ProductDescriptionTab = ({ product }) => {
               <table className="shop-attributes">
                 <tbody>
                   <tr>
-                    <th>{t("size")}</th>
+                    {/* <th>{t("size")}</th> */}
                     <td>
-                      <p>L, M, S, XS</p>
+                      {/* <p>L, M, S, XS</p> */}
                     </td>
                   </tr>
                   <tr>
-                    <th>{t("color")}</th>
+                    {/* <th>{t("color")}</th> */}
                     <td>
-                      <p>Black, Blue, Brown</p>
+                      {/* <p>Black, Blue, Brown</p> */}
                     </td>
                   </tr>
                 </tbody>
