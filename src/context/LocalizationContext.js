@@ -98,7 +98,7 @@ const translations = {
     price_high_to_low: "Price - High to Low",
     price_low_to_high: "Price - Low to High",
     filter: "Filter",
-    categories: "Categories",
+    categories: "Services",
     all_categories: "All services",
     no_categories_found: "No categories found",
     colors: "Colors",

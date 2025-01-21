@@ -217,7 +217,7 @@
       "en": "Russian apparatus pedicure + polish",
       "mk": "Руски апаративен педикир + лак"
     },
-    "slug": "pedicure-seven",
+    "slug": "pedicure-two",
     "price": {
         "en": 17,
         "mk": 1046
@@ -252,7 +252,7 @@
       "en": "Russian apparatus pedicure + gel polish",
       "mk": "Руски апаративен педикир + гел лак"
     },
-    "slug": "pedicure-eight",
+    "slug": "pedicure-three",
     "price": {
         "en": 15,
         "mk": 923
@@ -287,7 +287,7 @@
       "en": "Full legs waxing",
       "mk": "Цели нозе"
     },
-    "slug": "waxing-nine",
+    "slug": "waxing-one",
     "price": {
         "en": 20,
         "mk": 1230
@@ -322,7 +322,7 @@
       "en": "Full legs and bikini waxing",
       "mk": "Цели нозе со препони"
     },
-    "slug": "waxing-ten",
+    "slug": "waxing-two",
     "price": {
       "en": 30,
       "mk": 1846
@@ -357,7 +357,7 @@
       "en": "Half legs",
       "mk": "Пола нозе"
     },
-    "slug": "waxing-one",
+    "slug": "waxing-three",
     "price": {
       "en": 17,
       "mk": 1046
@@ -392,7 +392,7 @@
       "en": "Full arms",
       "mk": "Цели раце"
     },
-    "slug": "waxing-two",
+    "slug": "waxing-four",
     "price": {
       "en": 13,
       "mk": 799
@@ -427,7 +427,7 @@
       "en": "Half arms",
       "mk": "Пола раце"
     },
-    "slug": "waxing-three",
+    "slug": "waxing-five",
     "price": {
       "en": 16,
       "mk": 984
@@ -462,7 +462,7 @@
       "en": "Bikini",
       "mk": "Бикини"
     },
-    "slug": "waxing-four",
+    "slug": "waxing-six",
     "price": {
       "en": 10,
       "mk": 615
@@ -497,7 +497,7 @@
       "en": "Half legs and intimate area",
       "mk": "Пола нозе и интима"
     },
-    "slug": "waxing-five",
+    "slug": "waxing-seven",
     "price": {
       "en": 15,
       "mk": 923
@@ -532,7 +532,7 @@
       "en": "Underarms Waxing",
       "mk": "Пазуви"
      },
-    "slug": "waxing-six",
+    "slug": "waxing-eight",
     "price": {
         "en": 17,
         "mk": 1046
@@ -567,7 +567,7 @@
       "en": "Stomach Waxing",
       "mk": "Стомак"
     },
-    "slug": "waxing-seven",
+    "slug": "waxing-nine",
     "price": {
         "en": 27,
         "mk": 1661
@@ -602,7 +602,7 @@
       "en": "Full Face Waxing",
       "mk": "Цело лице"
     },
-    "slug": "waxing-eight",
+    "slug": "waxing-ten",
     "price": {
         "en": 25,
         "mk": 1538
@@ -637,7 +637,7 @@
       "en": "Full Face and Eyebrows Waxing",
       "mk": "Цело лице и веѓи"
     },
-    "slug": "waxing-nine",
+    "slug": "waxing-eleven",
     "price": {
       "en": 35,
       "mk": 2153
@@ -672,7 +672,7 @@
       "en": "Upper Lip Waxing",
       "mk": "Надусници"
     },
-    "slug": "waxing-ten",
+    "slug": "waxing-twelve",
     "price": {
         "en": 45,
         "mk": 2769
@@ -707,7 +707,7 @@
       "en": "Buttocks",
       "mk": "Задник"
     },
-    "slug": "waxing-one",
+    "slug": "waxing-thirteen",
     "price": {
         "en": 18,
         "mk": 1107
@@ -742,7 +742,7 @@
       "en": "Artificial eyelashes",
       "mk": "Вештачки трепки"
     },
-    "slug": "extras-two",
+    "slug": "extras-one",
     "price": {
       "en": 28,
       "mk": 1722
@@ -777,7 +777,7 @@
       "en": "Individual eyelashes",
       "mk": "Индивидуални трепки"
     },
-    "slug": "extras-three",
+    "slug": "extras-two",
     "price": {
       "en": 22,
       "mk": 1353
@@ -812,7 +812,7 @@
       "en": "Spray tan",
       "mk": "Спреј тен"
     },
-    "slug": "extras-four",
+    "slug": "extras-three",
     "price": {
       "en": 30,
       "mk": 1846
@@ -847,7 +847,7 @@
       "en": "Lash lamination",
       "mk": "Ламинација на трепки"
     },
-    "slug": "extras-five",
+    "slug": "extras-four",
     "price": {
       "en": 20,
       "mk": 1230
@@ -882,7 +882,7 @@
       "en": "Microblading (with included correction)",
       "mk": "Микроблејдинг (со вклучена корекција)"
     },
-    "slug": "extras-six",
+    "slug": "extras-five",
     "price": {
       "en": 30,
       "mk": 1846
@@ -917,7 +917,7 @@
       "en": "Training for professional makeup",
       "mk": "Обука за професионална шминка"
     },
-    "slug": "training-seven",
+    "slug": "training-one",
     "price": {
       "en": 20,
       "mk": 1230
@@ -952,7 +952,7 @@
       "en": "Individual makeup training",
       "mk": "Индивидуална обука за шминка"
     },
-    "slug": "training-eight",
+    "slug": "training-two",
     "price": {
       "en": 10,
       "mk": 615
@@ -987,7 +987,7 @@
       "en": "Training for henna brows (coloring)",
       "mk": "Обука за хена веѓи (боење)"
     },
-    "slug": "training-nine",
+    "slug": "training-three",
     "price": {
       "en": 20,
       "mk": 1230
@@ -1022,7 +1022,7 @@
       "en": "Makeup training",
       "mk": "Обука за шминка"
     },
-    "slug": "training-ten",
+    "slug": "training-four",
     "price": {
       "en": 30,
       "mk": 1846
@@ -1057,7 +1057,7 @@
       "en": "Training for Brow and Lash Lamination",
       "mk": "Обука за ламинација на веѓи и трепки"
     },
-    "slug": "training-ten",
+    "slug": "training-five",
     "price": {
       "en": 30,
       "mk": 1846

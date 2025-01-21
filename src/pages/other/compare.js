@@ -186,8 +186,8 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                                 return (
                                   <td className="product-desc" key={i}>
                                     <p>
-                                      {product.shortDescription
-                                        ? product.shortDescription
+                                      {product.shortDescription[currentLanguage]
+                                        ? product.shortDescription[currentLanguage]
                                         : t("not_available")}
                                     </p>
                                   </td>
