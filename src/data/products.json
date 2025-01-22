@@ -8,8 +8,8 @@
     },
     "slug": "makeup-one",
     "price": {
-      "en": 17,
-      "mk": 1046
+      "en": 32.51,
+      "mk": 2000
     },
     "discount": 10,
     "new": true,
@@ -43,8 +43,8 @@
     },
     "slug": "makeup-two",
     "price": {
-      "en": 18,
-      "mk": 1107
+      "en": 24.38,
+      "mk": 1500
     },
     "discount": 12,
     "new": false,
@@ -78,8 +78,8 @@
     },
     "slug": "makeup-three",
     "price": {
-      "en": 14,
-      "mk": 861
+      "en": 89.39,
+      "mk": 5500
     },
     "discount": 0,
     "new": true,
@@ -113,8 +113,8 @@
     },
     "slug": "makeup-four",
     "price": {
-      "en": 12,
-      "mk": 738
+      "en": 8.13,
+      "mk": 500
     },
     "discount": 5,
     "new": false,
@@ -149,8 +149,8 @@
     },
     "slug": "makeup-five",
     "price": {
-      "en": 16,
-      "mk": 984
+      "en": 16.25,
+      "mk": 1000
     },
     "discount": 0,
     "new": true,
@@ -184,8 +184,8 @@
       },
     "slug": "pedicure-one",
     "price": {
-        "en": 12,
-        "mk": 738
+        "en": 16.25,
+        "mk": 1000
     },     
     "discount": 10,
     "new": false,
@@ -219,8 +219,8 @@
     },
     "slug": "pedicure-two",
     "price": {
-        "en": 17,
-        "mk": 1046
+        "en": 19.5,
+        "mk": 1200
     },    
     "discount": 12,
     "new": true,
@@ -254,8 +254,8 @@
     },
     "slug": "pedicure-three",
     "price": {
-        "en": 15,
-        "mk": 923
+        "en": 24.38,
+        "mk": 1500
     },    
     "discount": 0,
     "new": false,
@@ -289,8 +289,8 @@
     },
     "slug": "waxing-one",
     "price": {
-        "en": 20,
-        "mk": 1230
+        "en": 11.38,
+        "mk": 700
     },
     "discount": 12,
     "new": true,
@@ -324,8 +324,8 @@
     },
     "slug": "waxing-two",
     "price": {
-      "en": 30,
-      "mk": 1846
+      "en": 16.25,
+      "mk": 1000
     },
     "discount": 20,
     "new": false,
@@ -359,8 +359,8 @@
     },
     "slug": "waxing-three",
     "price": {
-      "en": 17,
-      "mk": 1046
+      "en": 8.13,
+      "mk": 500
     },
     "discount": 10,
     "new": true,
@@ -394,8 +394,8 @@
     },
     "slug": "waxing-four",
     "price": {
-      "en": 13,
-      "mk": 799
+      "en": 4.88,
+      "mk": 300
     },
     "discount": 14,
     "new": false,
@@ -429,8 +429,8 @@
     },
     "slug": "waxing-five",
     "price": {
-      "en": 16,
-      "mk": 984
+      "en": 3.25,
+      "mk": 200
     },
     "discount": 20,
     "new": true,
@@ -464,8 +464,8 @@
     },
     "slug": "waxing-six",
     "price": {
-      "en": 10,
-      "mk": 615
+      "en": 8.13,
+      "mk": 500
     },
     "discount": 25,
     "new": false,
@@ -499,8 +499,8 @@
     },
     "slug": "waxing-seven",
     "price": {
-      "en": 15,
-      "mk": 923
+      "en": 16.25,
+      "mk": 1000
     },
     "discount": 5,
     "new": true,
@@ -534,8 +534,8 @@
      },
     "slug": "waxing-eight",
     "price": {
-        "en": 17,
-        "mk": 1046
+        "en": 3.25,
+        "mk": 200
     },     
     "discount": 10,
     "new": false,
@@ -569,8 +569,8 @@
     },
     "slug": "waxing-nine",
     "price": {
-        "en": 27,
-        "mk": 1661
+        "en": 3.25,
+        "mk": 200
     },    
     "discount": 20,
     "new": true,
@@ -604,8 +604,8 @@
     },
     "slug": "waxing-ten",
     "price": {
-        "en": 25,
-        "mk": 1538
+        "en": 6.5,
+        "mk": 400
     },     
     "discount": 10,
     "new": false,
@@ -639,8 +639,8 @@
     },
     "slug": "waxing-eleven",
     "price": {
-      "en": 35,
-      "mk": 2153
+      "en": 8.13,
+      "mk": 500
     },     
     "discount": 20,
     "new": true,
@@ -674,8 +674,8 @@
     },
     "slug": "waxing-twelve",
     "price": {
-        "en": 45,
-        "mk": 2769
+        "en": 2.44,
+        "mk": 150
     },   
     "discount": 10,
     "new": false,
@@ -709,8 +709,8 @@
     },
     "slug": "waxing-thirteen",
     "price": {
-        "en": 18,
-        "mk": 1107
+        "en": 3.25,
+        "mk": 200
     },    
     "discount": 12,
     "new": false,
@@ -744,8 +744,8 @@
     },
     "slug": "extras-one",
     "price": {
-      "en": 28,
-      "mk": 1722
+      "en": 8.13,
+      "mk": 500
     },    
     "discount": 10,
     "new": true,
@@ -779,8 +779,8 @@
     },
     "slug": "extras-two",
     "price": {
-      "en": 22,
-      "mk": 1353
+      "en": 16.25,
+      "mk": 1000
     },    
     "discount": 15,
     "new": false,
@@ -814,8 +814,8 @@
     },
     "slug": "extras-three",
     "price": {
-      "en": 30,
-      "mk": 1846
+      "en": 24.38,
+      "mk": 1500
     },      
     "discount": 10,
     "new": true,
@@ -849,8 +849,8 @@
     },
     "slug": "extras-four",
     "price": {
-      "en": 20,
-      "mk": 1230
+      "en": 19.5,
+      "mk": 1200
     },     
     "discount": 20,
     "new": false,
@@ -879,13 +879,48 @@
     "id": "26",
     "sku": "asdf126",
     "name": {
+      "en": "Brow lamination",
+      "mk": "Ламинација на веѓи"
+    },
+    "slug": "extras-four",
+    "price": {
+      "en": 19.5,
+      "mk": 1200
+    },     
+    "discount": 20,
+    "new": false,
+    "rating": 5,
+    "ratingCount": 27,
+    "saleCount": 30,
+    "category": ["extras","makeup"],
+    "tag": ["extras","makeup"],
+    "stock": 40,
+    "thumbImage": [
+      "/assets/images/product/cosmetics/5.jpg"
+    ],
+    "image": [
+      "/assets/images/product/cosmetics/5.jpg"
+    ],
+   "shortDescription": {
+        "en": "Shape and style your brows for a natural, fuller appearance.",
+        "mk": "Обликувајте и стилизирајте ги вашите веѓи за природен и полн изглед."
+    },
+    "fullDescription": {
+        "en": "Brow lamination is a semi-permanent treatment that enhances the shape, volume, and symmetry of your brows. It smooths and sets brow hairs in place, creating a fuller and more polished look that lasts for weeks.",
+        "mk": "Ламинацијата на веѓите е полутраен третман што ја нагласува формата, волуменот и симетријата на вашите веѓи. Ги измазнува и фиксира влакната на веѓите, создавајќи пополн и поуреден изглед што трае со недели."
+    }
+  },
+  {
+    "id": "27",
+    "sku": "asdf127",
+    "name": {
       "en": "Microblading (with included correction)",
       "mk": "Микроблејдинг (со вклучена корекција)"
     },
     "slug": "extras-five",
     "price": {
-      "en": 30,
-      "mk": 1846
+      "en": 121.9,
+      "mk": 7500
     },
     "discount": 10,
     "new": true,
@@ -911,16 +946,16 @@
     }
   },
   {
-    "id": "27",
-    "sku": "asdf127",
+    "id": "28",
+    "sku": "asdf128",
     "name": {
       "en": "Training for professional makeup",
       "mk": "Обука за професионална шминка"
     },
     "slug": "training-one",
     "price": {
-      "en": 20,
-      "mk": 1230
+      "en": 455.1,
+      "mk": 28000
     },
     "discount": 5,
     "new": false,
@@ -946,16 +981,16 @@
     }
   },
   {
-    "id": "28",
-    "sku": "asdf128",
+    "id": "29",
+    "sku": "asdf129",
     "name": {
       "en": "Individual makeup training",
       "mk": "Индивидуална обука за шминка"
     },
     "slug": "training-two",
     "price": {
-      "en": 10,
-      "mk": 615
+      "en": 146.28,
+      "mk": 9000
     },
     "discount": 15,
     "new": true,
@@ -981,16 +1016,16 @@
     }
   },
   {
-    "id": "29",
-    "sku": "asdf129",
+    "id": "30",
+    "sku": "asdf130",
     "name": {
       "en": "Training for henna brows (coloring)",
       "mk": "Обука за хена веѓи (боење)"
     },
     "slug": "training-three",
     "price": {
-      "en": 20,
-      "mk": 1230
+      "en": 97.52,
+      "mk": 6000
     },
     "discount": 25,
     "new": false,
@@ -1016,16 +1051,16 @@
     }
   },
   {
-    "id": "30",
-    "sku": "asdf130",
+    "id": "31",
+    "sku": "asdf131",
     "name": {
       "en": "Makeup training",
       "mk": "Обука за шминка"
     },
     "slug": "training-four",
     "price": {
-      "en": 30,
-      "mk": 1846
+      "en": 121.9,
+      "mk": 7500
     },
     "discount": 15,
     "new": true,
@@ -1051,16 +1086,16 @@
     }
   },
   {
-    "id": "31",
-    "sku": "asdf131",
+    "id": "32",
+    "sku": "asdf132",
     "name": {
       "en": "Training for Brow and Lash Lamination",
       "mk": "Обука за ламинација на веѓи и трепки"
     },
     "slug": "training-five",
     "price": {
-      "en": 30,
-      "mk": 1846
+      "en": 243.8,
+      "mk": 15000
     },
     "discount": 15,
     "new": true,
@@ -1084,6 +1119,5 @@
       "en": "This course provides in-depth knowledge and hands-on practice for achieving perfectly laminated brows and lashes, including shaping and styling techniques.",
       "mk": "Оваа обука обезбедува длабинско знаење и практична обука за постигнување на совршено ламинирани веѓи и трепки, вклучувајќи техники за обликување и стилизирање."
     }
-  }
-  
+  }  
 ]
