@@ -58,11 +58,12 @@ const LeftSidebar = ({ products }) => {
   }, [router.query.search]);
 
   useEffect(() => {
-    let sortedProducts = getSortedProducts(products, sortType, sortValue);
+    let sortedProducts = getSortedProducts(products, sortType, sortValue, currentLanguage);
     const filterSortedProducts = getSortedProducts(
       sortedProducts,
       filterSortType,
-      filterSortValue
+      filterSortValue,
+      currentLanguage
     );
     sortedProducts = filterSortedProducts;
     if (searchTerm) {
@@ -76,7 +77,7 @@ const LeftSidebar = ({ products }) => {
 
     setSortedProducts(sortedProducts);
     setCurrentData(sortedProducts.slice(offset, offset + pageLimit));
-  }, [offset, products, sortType, sortValue, filterSortType, filterSortValue, searchTerm]);
+  }, [offset, products, sortType, sortValue, filterSortType, filterSortValue, searchTerm, currentLanguage]);
 
   return (
     <LayoutTwo>

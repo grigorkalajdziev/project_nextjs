@@ -11,8 +11,8 @@
       "en": 32.51,
       "mk": 2000
     },
-    "discount": 10,
-    "new": true,
+    "discount": 0,
+    "new": false,
     "rating": 4,
     "ratingCount": 5,
     "saleCount": 90,
@@ -46,7 +46,7 @@
       "en": 24.38,
       "mk": 1500
     },
-    "discount": 12,
+    "discount": 0,
     "new": false,
     "rating": 5,
     "ratingCount": 15,
@@ -82,7 +82,7 @@
       "mk": 5500
     },
     "discount": 0,
-    "new": true,
+    "new": false,
     "rating": 3,
     "ratingCount": 5,
     "saleCount": 13,
@@ -116,15 +116,14 @@
       "en": 8.13,
       "mk": 500
     },
-    "discount": 5,
+    "discount": 0,
     "new": false,
     "rating": 4,
     "ratingCount": 15,
     "saleCount": 19,
     "category": ["makeup"],
     "tag": ["makeup"],
-    "stock": 12,
-    "affiliateLink": "https://www.amazon.com",
+    "stock": 12,    
     "thumbImage": [
       "/assets/images/product/decor/4.jpg"
     ],
@@ -153,7 +152,7 @@
       "mk": 1000
     },
     "discount": 0,
-    "new": true,
+    "new": false,
     "rating": 2,
     "ratingCount": 5,
     "saleCount": 12,
@@ -187,14 +186,14 @@
         "en": 16.25,
         "mk": 1000
     },     
-    "discount": 10,
+    "discount": 0,
     "new": false,
     "rating": 5,
     "ratingCount": 4,
     "saleCount": 16,
     "category": ["pedicure"],
     "tag": ["pedicure"],
-    "stock": 0,
+    "stock": 10,
     "thumbImage": [
       "/assets/images/product/decor/6.jpg"
     ],
@@ -222,8 +221,8 @@
         "en": 19.5,
         "mk": 1200
     },    
-    "discount": 12,
-    "new": true,
+    "discount": 0,
+    "new": false,
     "rating": 3,
     "ratingCount": 7,
     "saleCount": 13,
@@ -292,8 +291,8 @@
         "en": 11.38,
         "mk": 700
     },
-    "discount": 12,
-    "new": true,
+    "discount": 0,
+    "new": false,
     "rating": 3,
     "ratingCount": 5,
     "saleCount": 20,
@@ -327,7 +326,7 @@
       "en": 16.25,
       "mk": 1000
     },
-    "discount": 20,
+    "discount": 0,
     "new": false,
     "rating": 4,
     "ratingCount": 10,
@@ -362,8 +361,8 @@
       "en": 8.13,
       "mk": 500
     },
-    "discount": 10,
-    "new": true,
+    "discount": 0,
+    "new": false,
     "rating": 4,
     "ratingCount": 5,
     "saleCount": 90,
@@ -397,7 +396,7 @@
       "en": 4.88,
       "mk": 300
     },
-    "discount": 14,
+    "discount": 0,
     "new": false,
     "rating": 4,
     "ratingCount": 7,
@@ -432,8 +431,8 @@
       "en": 3.25,
       "mk": 200
     },
-    "discount": 20,
-    "new": true,
+    "discount": 0,
+    "new": false,
     "rating": 5,
     "ratingCount": 27,
     "saleCount": 78,
@@ -467,7 +466,7 @@
       "en": 8.13,
       "mk": 500
     },
-    "discount": 25,
+    "discount": 0,
     "new": false,
     "rating": 4,
     "ratingCount": 20,
@@ -502,8 +501,8 @@
       "en": 16.25,
       "mk": 1000
     },
-    "discount": 5,
-    "new": true,
+    "discount": 0,
+    "new": false,
     "rating": 4,
     "ratingCount": 10,
     "saleCount": 63,
@@ -537,7 +536,7 @@
         "en": 3.25,
         "mk": 200
     },     
-    "discount": 10,
+    "discount": 0,
     "new": false,
     "rating": 5,
     "ratingCount": 15,
@@ -572,8 +571,8 @@
         "en": 3.25,
         "mk": 200
     },    
-    "discount": 20,
-    "new": true,
+    "discount": 0,
+    "new": false,
     "rating": 4,
     "ratingCount": 25,
     "saleCount": 70,
@@ -607,7 +606,7 @@
         "en": 6.5,
         "mk": 400
     },     
-    "discount": 10,
+    "discount": 0,
     "new": false,
     "rating": 5,
     "ratingCount": 20,
@@ -642,8 +641,8 @@
       "en": 8.13,
       "mk": 500
     },     
-    "discount": 20,
-    "new": true,
+    "discount": 0,
+    "new": false,
     "rating": 4,
     "ratingCount": 25,
     "saleCount": 150,
@@ -677,7 +676,7 @@
         "en": 2.44,
         "mk": 150
     },   
-    "discount": 10,
+    "discount": 0,
     "new": false,
     "rating": 5,
     "ratingCount": 5,
@@ -712,7 +711,7 @@
         "en": 3.25,
         "mk": 200
     },    
-    "discount": 12,
+    "discount": 0,
     "new": false,
     "rating": 5,
     "ratingCount": 15,
@@ -747,8 +746,8 @@
       "en": 8.13,
       "mk": 500
     },    
-    "discount": 10,
-    "new": true,
+    "discount": 0,
+    "new": false,
     "rating": 4,
     "ratingCount": 5,
     "saleCount": 12,
@@ -782,7 +781,7 @@
       "en": 16.25,
       "mk": 1000
     },    
-    "discount": 15,
+    "discount": 0,
     "new": false,
     "rating": 5,
     "ratingCount": 7,
@@ -817,8 +816,8 @@
       "en": 24.38,
       "mk": 1500
     },      
-    "discount": 10,
-    "new": true,
+    "discount": 0,
+    "new": false,
     "rating": 5,
     "ratingCount": 17,
     "saleCount": 22,
@@ -852,7 +851,7 @@
       "en": 19.5,
       "mk": 1200
     },     
-    "discount": 20,
+    "discount": 0,
     "new": false,
     "rating": 5,
     "ratingCount": 27,
@@ -887,7 +886,7 @@
       "en": 19.5,
       "mk": 1200
     },     
-    "discount": 20,
+    "discount": 0,
     "new": false,
     "rating": 5,
     "ratingCount": 27,
@@ -922,8 +921,8 @@
       "en": 121.9,
       "mk": 7500
     },
-    "discount": 10,
-    "new": true,
+    "discount": 0,
+    "new": false,
     "rating": 5,
     "ratingCount": 25,
     "saleCount": 20,
@@ -957,7 +956,7 @@
       "en": 455.1,
       "mk": 28000
     },
-    "discount": 5,
+    "discount": 0,
     "new": false,
     "rating": 5,
     "ratingCount": 15,
@@ -992,8 +991,8 @@
       "en": 146.28,
       "mk": 9000
     },
-    "discount": 15,
-    "new": true,
+    "discount": 0,
+    "new": false,
     "rating": 5,
     "ratingCount": 25,
     "saleCount": 20,
@@ -1027,7 +1026,7 @@
       "en": 97.52,
       "mk": 6000
     },
-    "discount": 25,
+    "discount": 0,
     "new": false,
     "rating": 4,
     "ratingCount": 20,
@@ -1062,8 +1061,8 @@
       "en": 121.9,
       "mk": 7500
     },
-    "discount": 15,
-    "new": true,
+    "discount": 0,
+    "new": false,
     "rating": 5,
     "ratingCount": 10,
     "saleCount": 20,
@@ -1097,8 +1096,8 @@
       "en": 243.8,
       "mk": 15000
     },
-    "discount": 15,
-    "new": true,
+    "discount": 0,
+    "new": false,
     "rating": 5,
     "ratingCount": 10,
     "saleCount": 20,

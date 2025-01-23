@@ -74,7 +74,7 @@ export const getProductCartQuantity = (cartItems, product, color, size) => {
 };
 
 //get products based on category
-export const getSortedProducts = (products, sortType, sortValue) => {
+export const getSortedProducts = (products, sortType, sortValue, currentLanguage) => {
   if (products && sortType && sortValue) {
     if (sortType === "category") {
       return products.filter(
@@ -111,12 +111,12 @@ export const getSortedProducts = (products, sortType, sortValue) => {
       }
       if (sortValue === "priceHighToLow") {
         return sortProducts.sort((a, b) => {
-          return b.price - a.price;
+          return b.price[currentLanguage] - a.price[currentLanguage];
         });
       }
       if (sortValue === "priceLowToHigh") {
         return sortProducts.sort((a, b) => {
-          return a.price - b.price;
+          return a.price[currentLanguage] - b.price[currentLanguage];
         });
       }
     }
