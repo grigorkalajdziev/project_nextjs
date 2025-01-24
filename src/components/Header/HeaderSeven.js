@@ -74,7 +74,7 @@ const HeaderSeven = ({ aboutOverlay, cartItems, wishlistItems }) => {
               <Link href="/" as={process.env.PUBLIC_URL + "/"}>
                 <a>
                   <img
-                    src={process.env.PUBLIC_URL + "/assets/images/logo.png"}
+                    src={process.env.PUBLIC_URL + "/assets/images/logo.svg"}
                     className="img-fluid dark-logo"
                     alt=""
                   />
