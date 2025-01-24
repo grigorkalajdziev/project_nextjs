@@ -559,7 +559,7 @@ const translations = {
     state_placeholder: "Внесете ја вашата држава/област",
     zip_label: "Поштенски код",
     zip_placeholder: "Внесете го вашиот поштенски код",
-    country_bangladesh: "Бангладеш",
+    country_bangladesh: "Македонија",
     country_china: "Кина",
     country_australia: "Австралија",
     country_india: "Индија",

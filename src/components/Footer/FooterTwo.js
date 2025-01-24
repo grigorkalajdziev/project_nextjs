@@ -43,7 +43,7 @@ const FooterTwo = ({ footerBgClass }) => {
                   process.env.PUBLIC_URL + footerBgClass ===
                   "bg-color--blue-two"
                     ? "/assets/images/logo-alt.png"
-                    : "/assets/images/logo.png"
+                    : "/assets/images/logo.svg"
                 }
                 className="img-fluid"
                 alt=""

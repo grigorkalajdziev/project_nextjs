@@ -57,7 +57,7 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
                 <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
                   <a>
                     <img
-                      src={process.env.PUBLIC_URL + "/assets/images/logo.png"}
+                      src={process.env.PUBLIC_URL + "/assets/images/logo.svg"}
                       className="img-fluid"
                       alt=""
                     />
