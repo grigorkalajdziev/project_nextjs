@@ -6,13 +6,13 @@
       "mk": "Сали Рамзи"
     },
     "designation": {
-      "en": "Reporter",
-      "mk": "Новинар"
+      "en": "Beauty Blogger",
+      "mk": "Бјути блогер"
     },
     "image": "/assets/images/testimonial/testimonial-1-80x80.png",
     "content": {
-      "en": "I can say your dedication is second to none. I like the fact that you are strongly proud of your work in every way.",
-      "mk": "Можам да кажам дека вашата посветеност е несоразмерна. Ми се допаѓа фактот дека сте многу горди на вашата работа во секој поглед."
+      "en": "The quality of their makeup products is unmatched. My skin has never looked so radiant and flawless!",
+      "mk": "Квалитетот на нивните шминкерски производи е ненадминлив. Мојата кожа никогаш не изгледала толку блескаво и беспрекорно!"
     }
   },
   {
@@ -22,13 +22,13 @@
       "mk": "Лоис Томпсон"
     },
     "designation": {
-      "en": "Actor",
-      "mk": "Актер"
+      "en": "Makeup Artist",
+      "mk": "Шминкер"
     },
     "image": "/assets/images/testimonial/testimonial-2-80x80.jpg",
     "content": {
-      "en": "This has already been my fifth time purchasing their theme. I have been highly satisfied with their work.",
-      "mk": "Ова веќе е моето петто купување на нивниот темплат. Јас сум многу задоволен од нивната работа."
+      "en": "I’ve been using their makeup for my clients, and the results are always stunning. Highly recommend!",
+      "mk": "Го користам нивниот шминкерски производ за моите клиенти, и резултатите секогаш се неверојатни. Силно препорачувам!"
     }
   },
   {
@@ -43,8 +43,8 @@
     },
     "image": "/assets/images/testimonial/testimonial-3-80x80.jpg",
     "content": {
-      "en": "There's nothing that would satisfy me much more than a worry-free clean and responsive theme for my high-traffic site.",
-      "mk": "Ништо не би ме задоволило повеќе од безгрижен, чист и одговорен темплат за мојата страница со висок сообраќај."
+      "en": "Their long-lasting lipsticks and glowing foundations are a game changer for photoshoots.",
+      "mk": "Нивните долготрајни кармини и блескави пудри се револуционерни за фотосесии."
     }
   },
   {
@@ -54,13 +54,13 @@
       "mk": "Анаис Кулон"
     },
     "designation": {
-      "en": "Model",
-      "mk": "Модел"
+      "en": "Influencer",
+      "mk": "Инфлуенсер"
     },
     "image": "/assets/images/testimonial/testimonial-4-80x80.jpg",
     "content": {
-      "en": "Five-star for good customer support. They have the ability to resolve any issue in less than the time for a coffee cup.",
-      "mk": "Пет ѕвездички за добар кориснички поддршка. Тие имаат способност да решат секое прашање за помалку време од што е потребно за една шолја кафе."
+      "en": "Five-star products and amazing customer service! They always ensure I get the best advice for my look.",
+      "mk": "Пет ѕвездички за производите и неверојатна корисничка поддршка! Секогаш се грижат да добијам најдобар совет за мојот изглед."
     }
   }
 ]

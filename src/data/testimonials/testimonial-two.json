@@ -1,30 +1,66 @@
 [
   {
     "id": "1",
-    "name": "Sally Ramsey",
-    "designation": "Reporter",
+    "name": {
+      "en": "Sally Ramsey",
+      "mk": "Сали Рамзи"
+    },
+    "designation": {
+      "en": "Beauty Blogger",
+      "mk": "Бјути блогер"
+    },
     "image": "/assets/images/testimonial/testimonial-1.png",
-    "content": "I can say your dedication is second to none. I like the fact that you are strongly proud of your work in every way."
+    "content": {
+      "en": "I can honestly say that the quality of their makeup products is unmatched. My skin looks flawless and radiant every time I use them.",
+      "mk": "Искрено можам да кажам дека квалитетот на нивните шминкерски производи е ненадминлив. Мојата кожа изгледа беспрекорно и блескаво секој пат кога ги користам."
+    }
   },
   {
     "id": "2",
-    "name": "Lois Thompson",
-    "designation": "Actor",
+    "name": {
+      "en": "Lois Thompson",
+      "mk": "Лоис Томпсон"
+    },
+    "designation": {
+      "en": "Makeup Artist",
+      "mk": "Шминкер"
+    },
     "image": "/assets/images/testimonial/testimonial-2.jpg",
-    "content": "This has already been my fifth-time purchasing their theme. I have been highly satisfied with their work."
+    "content": {
+      "en": "This is my fifth time using their products for my clients, and I'm always amazed by the results. I highly recommend them!",
+      "mk": "Ова е моето петто користење на нивните производи за моите клиенти и секогаш сум воодушевен од резултатите. Силно ги препорачувам!"
+    }
   },
   {
     "id": "3",
-    "name": "Florence Pittman",
-    "designation": "Model",
+    "name": {
+      "en": "Florence Pittman",
+      "mk": "Флоренс Питман"
+    },
+    "designation": {
+      "en": "Model",
+      "mk": "Модел"
+    },
     "image": "/assets/images/testimonial/testimonial-3.jpg",
-    "content": "There's nothing would satisfy me much more than a worry-free clean and responsive theme for my high-traffic site."
+    "content": {
+      "en": "There's nothing better than using a makeup line that keeps me looking flawless all day, whether it's for a photoshoot or everyday wear.",
+      "mk": "Ништо не е подобро од користењето на шминкерска линија која ме прави да изгледам беспрекорно цел ден, било за фотосесија или за секојдневно носење."
+    }
   },
   {
     "id": "4",
-    "name": "Anais Coulon",
-    "designation": "Model",
+    "name": {
+      "en": "Anais Coulon",
+      "mk": "Анаис Кулон"
+    },
+    "designation": {
+      "en": "Influencer",
+      "mk": "Инфлуенсер"
+    },
     "image": "/assets/images/testimonial/testimonial-4.jpg",
-    "content": "Five-star for good customer support. They have the ability to resolve any issue in less than the time for a coffee cup."
+    "content": {
+      "en": "Five stars for amazing products and excellent customer service! They always help me choose the perfect products for my looks.",
+      "mk": "Пет ѕвездички за неверојатни производи и одлична корисничка поддршка! Секогаш ми помагаат да го изберам совршениот производ за мојот изглед."
+    }
   }
 ]
