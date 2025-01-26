@@ -1,11 +1,10 @@
-import { useContext } from "react";
 import Swiper from "react-id-swiper";
 import { Container, Row, Col } from "react-bootstrap";
 import { SectionTitleOne } from "../SectionTitle";
-import LocalizationContext from "../../context/LocalizationContext"; 
+import { useLocalization } from "../../context/LocalizationContext"; 
 
 const TestimonialOne = ({ testimonialData, backgroundImage, spaceBottom }) => {
-  const { t } = useContext(LocalizationContext);
+   const { t, currentLanguage } = useLocalization();
 
   const params = {
     loop: true,
@@ -55,20 +54,20 @@ const TestimonialOne = ({ testimonialData, backgroundImage, spaceBottom }) => {
                     return (
                       <div className="multi-testimonial-single-item" key={i}>
                         <div className="multi-testimonial-single-item__text">
-                          {single.content}
+                          {single.content[currentLanguage]}
                         </div>
                         <div className="multi-testimonial-single-item__author-info">
                           <div className="image">
                             <img
                               src={process.env.PUBLIC_URL + single.image}
                               className="img-fluid"
-                              alt=""
+                              alt="{single.name[currentLanguage]}"
                             />
                           </div>
                           <div className="content">
-                            <p className="name">{single.name}</p>
+                            <p className="name">{single.name[currentLanguage]}</p>
                             <span className="designation">
-                              / {single.designation}
+                              / {single.designation[currentLanguage]}
                             </span>
                           </div>
                         </div>

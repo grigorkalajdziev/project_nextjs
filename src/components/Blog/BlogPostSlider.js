@@ -16,10 +16,10 @@ const BlogPostSlider = ({ blogData, spaceBottomClass }) => {
     slidesPerView: 2,
     spaceBetween: 30,
     grabCursor: true,
-    // autoplay: {
-    //   delay: 5000,
-    //   disableOnInteraction: false,
-    // },
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+    },
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
@@ -105,12 +105,20 @@ const BlogPostSlider = ({ blogData, spaceBottomClass }) => {
                             </Link>
                           </h2>
                           <p className="post-excerpt">
-                            {single.text[currentLanguage]}</p>
+                            {single.text[currentLanguage]}
+                          </p>
                           <Link
                             href={single.url}
                             as={process.env.PUBLIC_URL + single.url}
                           >
-                            <a className="blog-readmore-btn">{t("read_more")}</a>
+                            <a
+                              className="blog-readmore-btn"
+                              onClick={(e) => {
+                                e.preventDefault(); // Prevent the default navigation
+                              }}
+                            >
+                              {t("read_more")}
+                            </a>
                           </Link>
                         </div>
                       </div>

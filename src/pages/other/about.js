@@ -12,15 +12,9 @@ import brandLogoData from "../../data/brand-logos/brand-logo-one.json";
 import { useLocalization } from "../../context/LocalizationContext";
 
 const About = () => {
-  const { t, currentLanguage } = useLocalization();
+  const { t } = useLocalization();
   const [modalStatus, isOpen] = useState(false);
-
-  const translatedTestimonialData = testimonialData.map((testimonial) => ({
-    ...testimonial,
-    name: testimonial.name[currentLanguage], 
-    designation: testimonial.designation[currentLanguage], 
-    content: testimonial.content[currentLanguage], 
-  }));
+ 
 
   return (
     <LayoutTwo>
@@ -158,7 +152,7 @@ const About = () => {
         </div>
         {/* testimonial */}
         <TestimonialOne
-          testimonialData={translatedTestimonialData}
+          testimonialData={testimonialData}
           backgroundImage="/assets/images/backgrounds/testimonials-bg.png"
         />
         <div className="space-mb--r100"></div>

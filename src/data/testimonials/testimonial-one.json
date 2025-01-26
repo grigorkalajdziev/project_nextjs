@@ -3,7 +3,7 @@
     "id": "1",
     "name": {
       "en": "Sally Ramsey",
-      "mk": "Сали Рамзи"
+      "mk": "Славица Ристовска"
     },
     "designation": {
       "en": "Beauty Blogger",
@@ -19,13 +19,13 @@
     "id": "2",
     "name": {
       "en": "Lois Thompson",
-      "mk": "Лоис Томпсон"
+      "mk": "Лидија Томовска"
     },
     "designation": {
       "en": "Makeup Artist",
       "mk": "Шминкер"
     },
-    "image": "/assets/images/testimonial/testimonial-2-80x80.jpg",
+    "image": "/assets/images/testimonial/testimonial-2-80x80.png",
     "content": {
       "en": "I’ve been using their makeup for my clients, and the results are always stunning. Highly recommend!",
       "mk": "Го користам нивниот шминкерски производ за моите клиенти, и резултатите секогаш се неверојатни. Силно препорачувам!"
@@ -35,13 +35,13 @@
     "id": "3",
     "name": {
       "en": "Florence Pittman",
-      "mk": "Флоренс Питман"
+      "mk": "Фросина Петровска"
     },
     "designation": {
       "en": "Model",
       "mk": "Модел"
     },
-    "image": "/assets/images/testimonial/testimonial-3-80x80.jpg",
+    "image": "/assets/images/testimonial/testimonial-3-80x80.png",
     "content": {
       "en": "Their long-lasting lipsticks and glowing foundations are a game changer for photoshoots.",
       "mk": "Нивните долготрајни кармини и блескави пудри се револуционерни за фотосесии."
@@ -51,13 +51,13 @@
     "id": "4",
     "name": {
       "en": "Anais Coulon",
-      "mk": "Анаис Кулон"
+      "mk": "Ана Кулевска"
     },
     "designation": {
       "en": "Influencer",
       "mk": "Инфлуенсер"
     },
-    "image": "/assets/images/testimonial/testimonial-4-80x80.jpg",
+    "image": "/assets/images/testimonial/testimonial-4-80x80.png",
     "content": {
       "en": "Five-star products and amazing customer service! They always ensure I get the best advice for my look.",
       "mk": "Пет ѕвездички за производите и неверојатна корисничка поддршка! Секогаш се грижат да добијам најдобар совет за мојот изглед."
