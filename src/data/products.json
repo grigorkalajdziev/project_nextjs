@@ -881,7 +881,7 @@
       "en": "Brow lamination",
       "mk": "Ламинација на веѓи"
     },
-    "slug": "extras-four",
+    "slug": "extras-five",
     "price": {
       "en": 19.5,
       "mk": 1200
@@ -895,10 +895,10 @@
     "tag": ["extras","makeup"],
     "stock": 40,
     "thumbImage": [
-      "/assets/images/product/cosmetics/5.jpg"
+      "/assets/images/product/cosmetics/6.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/5.jpg"
+      "/assets/images/product/cosmetics/6.jpg"
     ],
    "shortDescription": {
         "en": "Shape and style your brows for a natural, fuller appearance.",
@@ -916,7 +916,7 @@
       "en": "Microblading (with included correction)",
       "mk": "Микроблејдинг (со вклучена корекција)"
     },
-    "slug": "extras-five",
+    "slug": "extras-six",
     "price": {
       "en": 121.9,
       "mk": 7500
