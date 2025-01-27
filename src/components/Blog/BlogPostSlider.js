@@ -97,12 +97,12 @@ const BlogPostSlider = ({ blogData, spaceBottomClass }) => {
                             {single.date[currentLanguage]}
                           </div>
                           <h2 className="post-title">
-                            <Link
+                            {/* <Link
                               href={single.url}
                               as={process.env.PUBLIC_URL + single.url}
-                            >
+                            > */}
                               <a>{single.title[currentLanguage]}</a>
-                            </Link>
+                            {/* </Link> */}
                           </h2>
                           <p className="post-excerpt">
                             {single.text[currentLanguage]}
