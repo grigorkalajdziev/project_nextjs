@@ -12,6 +12,7 @@ import "../assets/scss/styles.scss";
 import Preloader from "../components/Preloader";
 import { LocalizationProvider, useLocalization } from "../context/LocalizationContext";
 import HeaderTop from "../components/Header/HeaderTop"
+import CookieConsentToast from "../components/Cookies/CookieConsent";
 
 class MyApp extends App {
   constructor(props) {
@@ -32,6 +33,7 @@ class MyApp extends App {
               <LocalizationProvider>
               <LocalizedHead />
                <HeaderTop />
+               <CookieConsentToast />
                 <Component {...pageProps} /> 
               </LocalizationProvider>
             </PersistGate>
