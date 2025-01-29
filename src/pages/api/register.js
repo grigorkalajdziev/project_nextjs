@@ -19,9 +19,7 @@ export default async function handler(req, res) {
     }
 
     if (!client) {
-      client = await MongoClient.connect(uri, {       
-        tls: true,
-        tlsAllowInvalidCertificates: false,
+      client = await MongoClient.connect(uri, {     
         serverSelectionTimeoutMS: 5000,
       });
     }
