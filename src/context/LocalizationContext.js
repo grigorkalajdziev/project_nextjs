@@ -332,7 +332,9 @@ const translations = {
     customer_reviews: "Customer Reviews",
     currency: "€ ",
     cookies: "We use cookies to improve your experience on our site. By accepting, you agree to our use of cookies. For more information, read our Terms of Service and Privacy Policy.",
-    accept: "Accept"
+    accept: "Accept",
+    continue_with_google: "Continue with Google",
+    or: "or"
   },
   mk: {
     english: "Англиски",
@@ -660,7 +662,9 @@ const translations = {
     customer_reviews: "Рецензии од клиенти",
     currency: "ден.",
     cookies: "Користиме колачиња за да го подобриме вашето искуство на нашата веб-страница. Со прифаќањето, се согласувате со нашата употреба на колачиња. За повеќе информации, прочитајте ги нашите Услови за користење и Политика за приватност.",
-    accept: "Прифати"
+    accept: "Прифати",
+    continue_with_google: "Продолжете со Google",
+    or: "или"
   }
 };
 

@@ -1,17 +1,23 @@
+// login-register.js
+
 import Link from "next/link";
 import { Container, Row, Col } from "react-bootstrap";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useState } from "react";
-import axios from "axios";
+import { FcGoogle } from "react-icons/fc";
+import { auth } from "../api/register";  // Import auth from register.js
+import firebase from "firebase/app";
+import { useToasts } from 'react-toast-notifications';
 
 const LoginRegister = () => {
   const { t } = useLocalization();
+  const { addToast } = useToasts();
 
   // State for login
   const [loginData, setLoginData] = useState({
-    usernameOrEmail: "",
+    email: "",
     password: "",
   });
 
@@ -39,30 +45,45 @@ const LoginRegister = () => {
     setError(""); // Clear error on new input
   };
 
-  // Submit handlers
+  // Login with email and password
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
-
     try {
-      const response = await axios.post("/api/login", loginData);
-      setSuccess(t("login_success"));
+      await auth.signInWithEmailAndPassword(loginData.email, loginData.password);
+      addToast(t("login_success"), { appearance: 'success', autoDismiss: true });  // Show success toast
+      setTimeout(() => {
+        window.location.href = "/other/my-account";  // Redirect after toast
+      }, 2000);  // Wait for 2 seconds before redirecting
     } catch (error) {
-      setError(t("login_failed"));
+      addToast(error.message, { appearance: 'error', autoDismiss: true });  // Show error toast
     }
   };
 
+  // Register with email and password
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
-
     try {
-      const response = await axios.post("/api/register", registerData);
-      setSuccess(t("registration_success"));
+      await auth.createUserWithEmailAndPassword(registerData.email, registerData.password);
+      addToast(t("registration_success"), { appearance: 'success', autoDismiss: true });  // Show success toast
+      setTimeout(() => {
+        window.location.href = "/other/my-account";  // Redirect after toast
+      }, 2000);  // Wait for 2 seconds before redirecting
     } catch (error) {
-      setError(t("registration_failed"));
+      addToast(error.message, { appearance: 'error', autoDismiss: true });  // Show error toast
+    }
+  };
+
+  // Google Sign-In
+  const handleGoogleSignIn = async () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    try {
+      await auth.signInWithPopup(provider);
+      addToast("Successfully signed in with Google", { appearance: 'success', autoDismiss: true });  // Show success toast
+      setTimeout(() => {
+        window.location.href = "/other/my-account";  // Redirect after toast
+      }, 2000);  // Wait for 2 seconds before redirecting
+    } catch (err) {
+      addToast(err.message, { appearance: 'error', autoDismiss: true });  // Show error toast
     }
   };
 
@@ -96,7 +117,7 @@ const LoginRegister = () => {
                         <p>{t("welcome_back")}</p>
                       </div>
                     </Col>
-                    
+
                     {/* Error and Success Messages */}
                     {error && (
                       <Col lg={12}>
@@ -111,10 +132,10 @@ const LoginRegister = () => {
 
                     <Col lg={12} className="space-mb--60">
                       <input
-                        type="text"
-                        name="usernameOrEmail"
-                        placeholder={t("username_or_email")}
-                        value={loginData.usernameOrEmail}
+                        type="email"
+                        name="email"
+                        placeholder={t("email_address")}
+                        value={loginData.email}
                         onChange={handleLoginChange}
                         required
                       />
@@ -164,12 +185,8 @@ const LoginRegister = () => {
                     )}
 
                     <Col lg={12} className="space-mb--30">
-                      <label htmlFor="regEmail">
-                        {t("email_address")} <span className="required">*</span>{" "}
-                      </label>
                       <input
-                        type="text"
-                        id="regEmail"
+                        type="email"
                         name="email"
                         placeholder={t("email_placeholder")}
                         value={registerData.email}
@@ -178,12 +195,8 @@ const LoginRegister = () => {
                       />
                     </Col>
                     <Col lg={12} className="space-mb--50">
-                      <label htmlFor="regPassword">
-                        {t("password")} <span className="required">*</span>{" "}
-                      </label>
                       <input
                         type="password"
-                        id="regPassword"
                         name="password"
                         placeholder={t("password_placeholder")}
                         value={registerData.password}
@@ -198,6 +211,18 @@ const LoginRegister = () => {
                     </Col>
                   </Row>
                 </form>
+
+                <div className="text-center space-mt--30">
+                  <span>{t("or")}</span>
+                </div>
+
+                {/* Google Sign-In Button */}
+                <Col lg={12} className="text-center space-mt--30">
+                  <button onClick={handleGoogleSignIn} className="lezada-button lezada-button--medium google-signin-btn">
+                    <FcGoogle size={24} style={{ marginRight: "10px" }} /> 
+                    {t("continue_with_google")} 
+                  </button>
+                </Col>                
               </div>
             </Col>
           </Row>
