@@ -19,9 +19,14 @@ export default async function handler(req, res) {
     }
 
     if (!client) {
-      client = await MongoClient.connect(uri, {     
+      client = new MongoClient(uri, {
+        tls: true, // Ensure TLS is enabled
+        tlsAllowInvalidCertificates: false, // Prevent invalid certificates
+        minDHSize: 2048, // Ensure secure TLS connections
         serverSelectionTimeoutMS: 5000,
       });
+
+      await client.connect();
     }
 
     const db = client.db("kikamakeup");
