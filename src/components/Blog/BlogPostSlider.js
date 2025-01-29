@@ -78,10 +78,10 @@ const BlogPostSlider = ({ blogData, spaceBottomClass }) => {
                     return (
                       <div className="blog-grid-post" key={i}>
                         <div className="blog-grid-post__image space-mb--30">
-                          <Link
+                          {/* <Link
                             href={single.url}
                             as={process.env.PUBLIC_URL + single.url}
-                          >
+                          > */}
                             <a>
                               <img
                                 src={process.env.PUBLIC_URL + single.image}
@@ -89,7 +89,7 @@ const BlogPostSlider = ({ blogData, spaceBottomClass }) => {
                                 alt=""
                               />
                             </a>
-                          </Link>
+                          {/* </Link> */}
                         </div>
                         <div className="blog-grid-post__content">
                           <div className="post-date">
