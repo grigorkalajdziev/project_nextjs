@@ -6,13 +6,15 @@ import { useLocalization } from "../../context/LocalizationContext";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { auth } from "../api/register";
-import { 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  GoogleAuthProvider, 
-  signInWithPopup 
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendEmailVerification,
 } from "firebase/auth";
-import { useToasts } from 'react-toast-notifications';
+import { useToasts } from "react-toast-notifications";
+import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 const LoginRegister = () => {
   const { t } = useLocalization();
@@ -24,11 +26,15 @@ const LoginRegister = () => {
     password: "",
   });
 
+  const [loginPasswordVisible, setLoginPasswordVisible] = useState(false);
+
   // State for register
   const [registerData, setRegisterData] = useState({
     email: "",
     password: "",
   });
+
+  const [registerPasswordVisible, setRegisterPasswordVisible] = useState(false);
 
   // Handle input change for login
   const handleLoginChange = (e) => {
@@ -42,17 +48,46 @@ const LoginRegister = () => {
     setRegisterData({ ...registerData, [name]: value });
   };
 
+  
+
+  // Toggle password visibility for login
+  const toggleLoginPasswordVisibility = () => {
+    setLoginPasswordVisible(!loginPasswordVisible);
+  };
+
+  // Toggle password visibility for register
+  const toggleRegisterPasswordVisibility = () => {
+    setRegisterPasswordVisible(!registerPasswordVisible);
+  };
+
   // Login with email and password
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
-      addToast(t("login_success"), { appearance: 'success', autoDismiss: true });
-      setTimeout(() => {
-        window.location.href = "/other/my-account";
-      }, 2000);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        loginData.email,
+        loginData.password
+      );
+      const user = userCredential.user;
+
+      // Check if the email is verified
+      if (user.emailVerified) {
+        addToast(t("login_success"), {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setTimeout(() => {
+          window.location.href = "/other/my-account"; // Redirect after successful login
+        }, 2000);
+      } else {
+        addToast(t("please_verify_email"), {
+          appearance: "warning",
+          autoDismiss: true,
+        });
+      }
     } catch (error) {
-      addToast(error.message, { appearance: 'error', autoDismiss: true });
+      addToast(error.message, { appearance: "error", autoDismiss: true });
     }
   };
 
@@ -60,13 +95,25 @@ const LoginRegister = () => {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, registerData.email, registerData.password);
-      addToast(t("registration_success"), { appearance: 'success', autoDismiss: true });
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        registerData.email,
+        registerData.password
+      );
+      const user = userCredential.user;
+
+      // Send email verification
+      await sendEmailVerification(user);
+
+      addToast(t("registration_success"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
       setTimeout(() => {
         window.location.href = "/other/my-account";
       }, 2000);
     } catch (error) {
-      addToast(error.message, { appearance: 'error', autoDismiss: true });
+      addToast(error.message, { appearance: "error", autoDismiss: true });
     }
   };
 
@@ -75,12 +122,15 @@ const LoginRegister = () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      addToast("Successfully signed in with Google", { appearance: 'success', autoDismiss: true });
+      addToast(t("registration_success"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
       setTimeout(() => {
         window.location.href = "/other/my-account";
       }, 2000);
     } catch (err) {
-      addToast(err.message, { appearance: 'error', autoDismiss: true });
+      addToast(err.message, { appearance: "error", autoDismiss: true });
     }
   };
 
@@ -127,13 +177,19 @@ const LoginRegister = () => {
                     </Col>
                     <Col lg={12} className="space-mb--60">
                       <input
-                        type="password"
+                        type={loginPasswordVisible ? "text" : "password"}
                         name="password"
                         placeholder={t("password")}
                         value={loginData.password}
                         onChange={handleLoginChange}
                         required
                       />
+                      <span
+                        onClick={toggleLoginPasswordVisibility}
+                        className="password-visibility-toggle"
+                      >
+                        {loginPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                      </span>
                     </Col>
                     <Col lg={12} className="space-mb--30">
                       <button className="lezada-button lezada-button--medium">
@@ -169,13 +225,19 @@ const LoginRegister = () => {
                     </Col>
                     <Col lg={12} className="space-mb--50">
                       <input
-                        type="password"
+                        type={registerPasswordVisible ? "text" : "password"}
                         name="password"
                         placeholder={t("password_placeholder")}
                         value={registerData.password}
                         onChange={handleRegisterChange}
                         required
                       />
+                      <span
+                          onClick={toggleRegisterPasswordVisibility}
+                          className="password-visibility-toggle"
+                        >
+                          {registerPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                        </span>
                     </Col>
                     <Col lg={12} className="text-center">
                       <button className="lezada-button lezada-button--medium">
@@ -191,11 +253,14 @@ const LoginRegister = () => {
 
                 {/* Google Sign-In Button */}
                 <Col lg={12} className="text-center space-mt--30">
-                  <button onClick={handleGoogleSignIn} className="lezada-button lezada-button--medium google-signin-btn">
-                    <FcGoogle size={24} style={{ marginRight: "10px" }} /> 
-                    {t("continue_with_google")} 
+                  <button
+                    onClick={handleGoogleSignIn}
+                    className="lezada-button lezada-button--medium google-signin-btn"
+                  >
+                    <FcGoogle size={24} style={{ marginRight: "10px" }} />
+                    {t("continue_with_google")}
                   </button>
-                </Col>                
+                </Col>
               </div>
             </Col>
           </Row>

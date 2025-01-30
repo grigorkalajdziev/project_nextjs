@@ -335,7 +335,9 @@ const translations = {
     accept: "Accept",
     continue_with_google: "Continue with Google",
     or: "or",
-    login_success: "Registered successfully"
+    registration_success: "Registered successfully",
+    login_success: "Login successfully",
+    please_verify_email: "Please verify your email address"
   },
   mk: {
     english: "Англиски",
@@ -666,7 +668,9 @@ const translations = {
     accept: "Прифати",
     continue_with_google: "Продолжете со Google",
     or: "или",
-    login_success: "Регистрацијата е успешна"
+    registration_success: "Регистрацијата е успешна",
+    login_success: "Успешно најавување",
+    please_verify_email: "Ве молиме, проверете ја вашата е-пошта за да ја потврдите."	
   }
 };
 
