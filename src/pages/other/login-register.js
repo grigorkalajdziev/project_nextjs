@@ -1,5 +1,3 @@
-// login-register.js
-
 import Link from "next/link";
 import { Container, Row, Col } from "react-bootstrap";
 import { LayoutTwo } from "../../components/Layout";
@@ -7,8 +5,13 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { auth } from "../api/register";  // Import auth from register.js
-import firebase from "firebase/app";
+import { auth } from "../api/register";
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  GoogleAuthProvider, 
+  signInWithPopup 
+} from "firebase/auth";
 import { useToasts } from 'react-toast-notifications';
 
 const LoginRegister = () => {
@@ -27,35 +30,29 @@ const LoginRegister = () => {
     password: "",
   });
 
-  // Error and success states
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-
   // Handle input change for login
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
-    setError(""); // Clear error on new input
   };
 
   // Handle input change for register
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
     setRegisterData({ ...registerData, [name]: value });
-    setError(""); // Clear error on new input
   };
 
   // Login with email and password
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      await auth.signInWithEmailAndPassword(loginData.email, loginData.password);
-      addToast(t("login_success"), { appearance: 'success', autoDismiss: true });  // Show success toast
+      await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
+      addToast(t("login_success"), { appearance: 'success', autoDismiss: true });
       setTimeout(() => {
-        window.location.href = "/other/my-account";  // Redirect after toast
-      }, 2000);  // Wait for 2 seconds before redirecting
+        window.location.href = "/other/my-account";
+      }, 2000);
     } catch (error) {
-      addToast(error.message, { appearance: 'error', autoDismiss: true });  // Show error toast
+      addToast(error.message, { appearance: 'error', autoDismiss: true });
     }
   };
 
@@ -63,27 +60,27 @@ const LoginRegister = () => {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
-      await auth.createUserWithEmailAndPassword(registerData.email, registerData.password);
-      addToast(t("registration_success"), { appearance: 'success', autoDismiss: true });  // Show success toast
+      await createUserWithEmailAndPassword(auth, registerData.email, registerData.password);
+      addToast(t("registration_success"), { appearance: 'success', autoDismiss: true });
       setTimeout(() => {
-        window.location.href = "/other/my-account";  // Redirect after toast
-      }, 2000);  // Wait for 2 seconds before redirecting
+        window.location.href = "/other/my-account";
+      }, 2000);
     } catch (error) {
-      addToast(error.message, { appearance: 'error', autoDismiss: true });  // Show error toast
+      addToast(error.message, { appearance: 'error', autoDismiss: true });
     }
   };
 
   // Google Sign-In
   const handleGoogleSignIn = async () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
+    const provider = new GoogleAuthProvider();
     try {
-      await auth.signInWithPopup(provider);
-      addToast("Successfully signed in with Google", { appearance: 'success', autoDismiss: true });  // Show success toast
+      await signInWithPopup(auth, provider);
+      addToast("Successfully signed in with Google", { appearance: 'success', autoDismiss: true });
       setTimeout(() => {
-        window.location.href = "/other/my-account";  // Redirect after toast
-      }, 2000);  // Wait for 2 seconds before redirecting
+        window.location.href = "/other/my-account";
+      }, 2000);
     } catch (err) {
-      addToast(err.message, { appearance: 'error', autoDismiss: true });  // Show error toast
+      addToast(err.message, { appearance: 'error', autoDismiss: true });
     }
   };
 
@@ -117,18 +114,6 @@ const LoginRegister = () => {
                         <p>{t("welcome_back")}</p>
                       </div>
                     </Col>
-
-                    {/* Error and Success Messages */}
-                    {error && (
-                      <Col lg={12}>
-                        <p className="error-text">{error}</p>
-                      </Col>
-                    )}
-                    {success && (
-                      <Col lg={12}>
-                        <p className="success-text">{success}</p>
-                      </Col>
-                    )}
 
                     <Col lg={12} className="space-mb--60">
                       <input
@@ -171,18 +156,6 @@ const LoginRegister = () => {
                         <p>{t("no_account_register")}</p>
                       </div>
                     </Col>
-
-                    {/* Error and Success Messages */}
-                    {error && (
-                      <Col lg={12}>
-                        <p className="error-text">{error}</p>
-                      </Col>
-                    )}
-                    {success && (
-                      <Col lg={12}>
-                        <p className="success-text">{success}</p>
-                      </Col>
-                    )}
 
                     <Col lg={12} className="space-mb--30">
                       <input

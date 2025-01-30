@@ -1,5 +1,5 @@
-import firebase from "firebase/app";
-import "firebase/auth";  // Import Firebase Authentication module
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";  // Import only required modules
 
 const firebaseConfig = {
   apiKey: "AIzaSyAI4eJ4KU7tfrsv1WLlT7nUWmqFSX2wxj8",
@@ -12,14 +12,10 @@ const firebaseConfig = {
   measurementId: "G-ZL2EBV00H7"
 };
 
-// Initialize Firebase (Check if Firebase app already exists)
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-} else {
-  firebase.app(); // Use the existing app
-}
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
-// Firebase authentication
-const auth = firebase.auth(); // Firebase authentication instance
+// Firebase authentication instance
+const auth = getAuth(app);
 
 export { auth };

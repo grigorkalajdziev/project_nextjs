@@ -334,7 +334,8 @@ const translations = {
     cookies: "We use cookies to improve your experience on our site. By accepting, you agree to our use of cookies. For more information, read our Terms of Service and Privacy Policy.",
     accept: "Accept",
     continue_with_google: "Continue with Google",
-    or: "or"
+    or: "or",
+    login_success: "Registered successfully"
   },
   mk: {
     english: "Англиски",
@@ -664,7 +665,8 @@ const translations = {
     cookies: "Користиме колачиња за да го подобриме вашето искуство на нашата веб-страница. Со прифаќањето, се согласувате со нашата употреба на колачиња. За повеќе информации, прочитајте ги нашите Услови за користење и Политика за приватност.",
     accept: "Прифати",
     continue_with_google: "Продолжете со Google",
-    or: "или"
+    or: "или",
+    login_success: "Регистрацијата е успешна"
   }
 };
 
