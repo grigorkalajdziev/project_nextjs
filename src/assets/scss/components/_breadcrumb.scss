@@ -17,6 +17,7 @@
       display: inline-block;
 
       margin-right: 30px;
+      color: white;
       &:after {
         position: absolute;
         right: -15px;
@@ -27,7 +28,7 @@
       &:last-child {
         margin-right: 0;
 
-        color: $black--two;
+        color: $white;
         &::after {
           display: none;
         }
@@ -41,7 +42,7 @@
 
     margin-bottom: 20px;
 
-    color: $black--two;
+    color: $white;
 
 @include respond(extra-large-mobile) {
       font-size: 35px;
