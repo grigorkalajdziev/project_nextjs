@@ -9,6 +9,7 @@ import {
 import { FaXTwitter } from "react-icons/fa6";
 import { useLocalization } from "../../../context/LocalizationContext";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { auth } from "../../../pages/api/register"; // Import Firebase authentication
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -16,6 +17,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 const MobileMenuWidgets = () => {
   const { t } = useLocalization();  
   const [user, setUser] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     // Listen for authentication state changes
@@ -29,7 +31,8 @@ const MobileMenuWidgets = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      setUser(null); // Update state to reflect logout
+      setUser(null);
+      router.push("/other/login-register");
     } catch (error) {
       console.error("Error signing out:", error);
     }
