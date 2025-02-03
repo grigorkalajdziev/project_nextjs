@@ -100,7 +100,7 @@ const HeaderFour = ({ cartItems, wishlistItems }) => {
                       <IoIosSearch />
                     </button>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link
                       href="/other/login-register"
                       as={process.env.PUBLIC_URL + "/other/login-register"}
@@ -109,7 +109,7 @@ const HeaderFour = ({ cartItems, wishlistItems }) => {
                         <IoMdPerson />
                       </a>
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <button
                       onClick={() => {

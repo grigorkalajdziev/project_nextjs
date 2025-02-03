@@ -7,9 +7,11 @@ import { useState, useEffect } from "react";
 import { auth } from "../../pages/api/register"; // Import Firebase auth
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/router";
+import { useToasts } from "react-toast-notifications";
 
 const HeaderTop = () => {
   const { t, currentLanguage, changeLanguage } = useLocalization();
+  const { addToast } = useToasts();
   const [currency, setCurrency] = useState("EUR");
   const [user, setUser] = useState(null);
   const router = useRouter();
@@ -34,9 +36,19 @@ const HeaderTop = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      setUser(null);
-      router.push("/other/login-register"); // Redirect to login page
+      setUser(null);      
+      
+      addToast(t("logout_success"), {
+        appearance: "info",
+        autoDismiss: true,
+      });
+  
+      // Delay the redirect
+      setTimeout(() => {
+        router.push("/other/login-register");
+      }, 2000);
     } catch (error) {
+      addToast(error.message, { appearance: "error", autoDismiss: true });
       console.error("Logout Error:", error);
     }
   };

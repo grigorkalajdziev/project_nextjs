@@ -10,9 +10,12 @@ import { FaCloudDownloadAlt, FaRegEdit } from "react-icons/fa";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
+import { useToasts } from "react-toast-notifications";
 
 const MyAccount = () => {
   const { t } = useLocalization();
+  const { addToast } = useToasts();
+
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [displayName, setDisplayName] = useState(user?.displayName || "");
@@ -37,9 +40,19 @@ const MyAccount = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      setUser(null);
-      router.push("/other/login-register"); // Redirect to login page after logout
+      setUser(null);      
+      
+      addToast(t("logout_success"), {
+        appearance: "info",
+        autoDismiss: true,
+      });
+  
+      // Delay the redirect
+      setTimeout(() => {
+        router.push("/other/login-register");
+      }, 2000);
     } catch (error) {
+      addToast(error.message, { appearance: "error", autoDismiss: true });
       console.error("Logout Error:", error);
     }
   };
@@ -127,10 +140,10 @@ const MyAccount = () => {
                   <div className="welcome">
                     <p>
                       {t("hello")},{" "}
-                      <strong>{user ? user.email || " " : " "}</strong> (
+                      <strong>{user ? user.displayName || " " : " "}</strong> (
                       {t("if_not")}{" "}
                       <strong>
-                        {user?.email ? user.email.split("@")[0] : "User"}!
+                        {user?.email ? user?.displayName || " " : " "}!
                       </strong>
                       )
                     </p>
@@ -139,7 +152,7 @@ const MyAccount = () => {
                       {t("logout")}
                     </button>
                   </div>
-                  <p>{t("dashboard_welcome")}</p>
+                  <p className="mt-2">{t("dashboard_welcome")}</p>
                 </div>
               </Tab.Pane>
               <Tab.Pane eventKey="orders">

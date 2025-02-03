@@ -13,9 +13,11 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { auth } from "../../../pages/api/register"; // Import Firebase authentication
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useToasts } from "react-toast-notifications";
 
 const MobileMenuWidgets = () => {
   const { t } = useLocalization();  
+  const { addToast } = useToasts();
   const [user, setUser] = useState(null);
   const router = useRouter();
 
@@ -31,10 +33,20 @@ const MobileMenuWidgets = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      setUser(null);
-      router.push("/other/login-register");
+      setUser(null);      
+      
+      addToast(t("logout_success"), {
+        appearance: "info",
+        autoDismiss: true,
+      });
+  
+      // Delay the redirect
+      setTimeout(() => {
+        router.push("/other/login-register");
+      }, 2000);
     } catch (error) {
-      console.error("Error signing out:", error);
+      addToast(error.message, { appearance: "error", autoDismiss: true });
+      console.error("Logout Error:", error);
     }
   };
 

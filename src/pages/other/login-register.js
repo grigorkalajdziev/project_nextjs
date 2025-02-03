@@ -120,7 +120,7 @@ const LoginRegister = () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      addToast(t("registration_success"), {
+      addToast(t("login_success"), {
         appearance: "success",
         autoDismiss: true,
       });
@@ -198,7 +198,7 @@ const LoginRegister = () => {
                     </Col>
 
                     {/* Google Sign-In Button - Centered */}
-                    <Col lg={12} className="text-center space-mt--30">
+                    <Col lg={12} className="text-center">
                       <span>{t("or")}</span>
                     </Col>
 

@@ -83,16 +83,13 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
                       <IoIosSearch />
                     </button>
                   </li>
-                  <li>
-                    <Link
-                      href="/other/login-register"
-                      as={process.env.PUBLIC_URL + "/other/login-register"}
-                    >
+                  {/* <li>
+                    <Link href="#" onClick={(e) => e.preventDefault()} >
                       <a>
                         <IoMdPerson />
                       </a>
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <button
                       onClick={() => {

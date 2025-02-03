@@ -120,14 +120,14 @@ const HeaderEight = ({ aboutOverlay, cartItems, wishlistItems }) => {
                       </button>
                     </li>
                     <li>
-                      <Link
+                      {/* <Link
                         href="/other/login-register"
                         as={process.env.PUBLIC_URL + "/other/login-register"}
                       >
                         <a>
                           <IoMdPerson />
                         </a>
-                      </Link>
+                      </Link> */}
                     </li>
                     <li>
                       <button
