@@ -1,9 +1,21 @@
 import Link from "next/link";
-import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
+import { useState, useEffect } from "react";
+import { IoIosArrowDown } from "react-icons/io";
 import { useLocalization } from "../../../context/LocalizationContext";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../../pages/api/register";
 
 const Navigation = () => {
   const { t } = useLocalization();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {    
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <nav className="header-content__navigation space-pr--15 space-pl--15 d-none d-lg-block">
@@ -14,10 +26,7 @@ const Navigation = () => {
           </Link>
         </li>
         <li>
-          <Link
-            href="/shop/left-sidebar"
-            as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-          >
+          <Link href="/shop/left-sidebar" as={process.env.PUBLIC_URL + "/shop/left-sidebar"}>
             <a>{t("shop")}</a>
           </Link>
           <IoIosArrowDown />
@@ -25,37 +34,31 @@ const Navigation = () => {
             <li className="sub-menu--mega__title">
               <ul className="sub-menu--mega__list">
                 <li>
-                  <Link
-                    href="/other/checkout"
-                    as={process.env.PUBLIC_URL + "/other/checkout"}
-                  >
+                  <Link href="/other/checkout" as={process.env.PUBLIC_URL + "/other/checkout"}>
                     <a>{t("checkout")}</a>
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href="/other/compare"
-                    as={process.env.PUBLIC_URL + "/other/compare"}
-                  >
+                  <Link href="/other/compare" as={process.env.PUBLIC_URL + "/other/compare"}>
                     <a>{t("compare")}</a>
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href="/other/my-account"
-                    as={process.env.PUBLIC_URL + "/other/my-account"}
-                  >
-                    <a>{t("my_account")}</a>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/other/login-register"
-                    as={process.env.PUBLIC_URL + "/other/login-register"}
-                  >
-                    <a>{t("login_register")}</a>
-                  </Link>
-                </li>
+                {/* Show 'My Account' only if the user is logged in */}
+                {user && (
+                  <li>
+                    <Link href="/other/my-account" as={process.env.PUBLIC_URL + "/other/my-account"}>
+                      <a>{t("my_account")}</a>
+                    </Link>
+                  </li>
+                )}
+                {/* Show 'Login/Register' only if the user is NOT logged in */}
+                {!user && (
+                  <li>
+                    <Link href="/other/login-register" as={process.env.PUBLIC_URL + "/other/login-register"}>
+                      <a>{t("login_register")}</a>
+                    </Link>
+                  </li>
+                )}
               </ul>
             </li>
           </ul>
@@ -67,18 +70,12 @@ const Navigation = () => {
           <IoIosArrowDown />
           <ul className="sub-menu sub-menu--one-column">
             <li>
-              <Link
-                href="/other/contact"
-                as={process.env.PUBLIC_URL + "/other/contact"}
-              >
+              <Link href="/other/contact" as={process.env.PUBLIC_URL + "/other/contact"}>
                 <a>{t("contact_us")}</a>
               </Link>
             </li>
             <li>
-              <Link
-                href="/other/faq"
-                as={process.env.PUBLIC_URL + "/other/faq"}
-              >
+              <Link href="/other/faq" as={process.env.PUBLIC_URL + "/other/faq"}>
                 <a>{t("faq")}</a>
               </Link>
             </li>

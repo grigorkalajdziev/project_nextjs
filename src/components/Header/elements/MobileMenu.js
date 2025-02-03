@@ -3,15 +3,12 @@ import MobileMenuSearch from "./MobileMenuSearch";
 import MobileMenuNav from "./MobileMenuNav";
 import MobileMenuWidgets from "./MobileMenuWidgets";
 import { useLocalization } from "../../../context/LocalizationContext";
-import { useState, useEffect } from "react";
 
 const MobileMenu = ({ activeStatus, getActiveStatus }) => {
   const { changeLanguage, currentLanguage, t } = useLocalization();
-  const [currency, setCurrency] = useState("MKD");
-
-  useEffect(() => {
-    setCurrency(currentLanguage === 'en' ? 'MKD' : 'EUR');
-  }, [currentLanguage]);
+  
+  // Determine currency based on language
+  const currency = currentLanguage === "mk" ? "MKD" : "EUR";
 
   return (
     <div className={`offcanvas-mobile-menu ${activeStatus ? "active" : ""}`}>
@@ -37,17 +34,18 @@ const MobileMenu = ({ activeStatus, getActiveStatus }) => {
             <div className="offcanvas-mobile-menu__middle">
               <div className="lang-curr-style space-mb--20">
                 <span className="title">{t("choose_language")}</span>
-                <select value={currentLanguage}
-                  onChange={(e) => changeLanguage(e.target.value)}>
+                <select
+                  value={currentLanguage}
+                  onChange={(e) => changeLanguage(e.target.value)}
+                >
+                  <option value="mk">{t("macedonian")}</option>
                   <option value="en">{t("english")}</option>
-                  <option value="mk">{t("macedonian")}</option>                  
                 </select>
               </div>
               <div className="lang-curr-style">
                 <span className="title">{t("choose_currency")}</span>
                 <select value={currency} disabled>
-                  <option value="USD">EUR</option>
-                  <option value="EUR">MKD</option>                  
+                  <option value={currency}>{currency}</option>
                 </select>
               </div>
             </div>

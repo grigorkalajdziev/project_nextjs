@@ -48,8 +48,6 @@ const LoginRegister = () => {
     setRegisterData({ ...registerData, [name]: value });
   };
 
-  
-
   // Toggle password visibility for login
   const toggleLoginPasswordVisibility = () => {
     setLoginPasswordVisible(!loginPasswordVisible);
@@ -191,9 +189,26 @@ const LoginRegister = () => {
                         {loginPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
                       </span>
                     </Col>
-                    <Col lg={12} className="space-mb--30">
+
+                    {/* Centering the Login button */}
+                    <Col lg={12} className="text-center space-mb--30">
                       <button className="lezada-button lezada-button--medium">
                         {t("login")}
+                      </button>
+                    </Col>
+
+                    {/* Google Sign-In Button - Centered */}
+                    <Col lg={12} className="text-center space-mt--30">
+                      <span>{t("or")}</span>
+                    </Col>
+
+                    <Col lg={12} className="text-center space-mt--30">
+                      <button
+                        onClick={handleGoogleSignIn}
+                        className="lezada-button lezada-button--medium google-signin-btn"
+                      >
+                        <FcGoogle size={24} style={{ marginRight: "10px" }} />
+                        {t("continue_with_google")}
                       </button>
                     </Col>
                   </Row>
@@ -223,6 +238,7 @@ const LoginRegister = () => {
                         required
                       />
                     </Col>
+
                     <Col lg={12} className="space-mb--50">
                       <input
                         type={registerPasswordVisible ? "text" : "password"}
@@ -233,34 +249,21 @@ const LoginRegister = () => {
                         required
                       />
                       <span
-                          onClick={toggleRegisterPasswordVisibility}
-                          className="password-visibility-toggle"
-                        >
-                          {registerPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-                        </span>
+                        onClick={toggleRegisterPasswordVisibility}
+                        className="password-visibility-toggle"
+                      >
+                        {registerPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                      </span>
                     </Col>
-                    <Col lg={12} className="text-center">
+
+                    {/* Centering the Register button */}
+                    <Col lg={12} className="text-center space-mb--30">
                       <button className="lezada-button lezada-button--medium">
                         {t("register")}
                       </button>
                     </Col>
                   </Row>
                 </form>
-
-                <div className="text-center space-mt--30">
-                  <span>{t("or")}</span>
-                </div>
-
-                {/* Google Sign-In Button */}
-                <Col lg={12} className="text-center space-mt--30">
-                  <button
-                    onClick={handleGoogleSignIn}
-                    className="lezada-button lezada-button--medium google-signin-btn"
-                  >
-                    <FcGoogle size={24} style={{ marginRight: "10px" }} />
-                    {t("continue_with_google")}
-                  </button>
-                </Col>
               </div>
             </Col>
           </Row>

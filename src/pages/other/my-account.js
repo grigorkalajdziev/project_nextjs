@@ -1,3 +1,7 @@
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { auth } from "../api/register"; // Import Firebase auth
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import Link from "next/link";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
@@ -9,6 +13,65 @@ import { useLocalization } from "../../context/LocalizationContext";
 
 const MyAccount = () => {
   const { t } = useLocalization();
+  const router = useRouter();
+  const [user, setUser] = useState(null);
+  const [displayName, setDisplayName] = useState(user?.displayName || "");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [phone, setPhone] = useState("");
+
+  // Check for user authentication status
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+      router.push("/other/login-register"); // Redirect to login page after logout
+    } catch (error) {
+      console.error("Logout Error:", error);
+    }
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+
+    // Update Firebase Auth user info (like displayName)
+    try {
+      if (user) {
+        // Update Firebase Auth with new displayName
+        await user.updateProfile({
+          displayName: displayName,
+        });
+
+        // Now you can also update Firestore for address details if needed
+        // Assuming you have Firestore setup for storing address details
+
+        const userRef = firestore.collection("users").doc(user.uid);
+        await userRef.update({
+          address: address,
+          city: city,
+          zipCode: zipCode,
+          phone: phone,
+        });
+
+        alert(t("address_updated"));
+      }
+    } catch (error) {
+      console.error("Error updating address", error);
+    }
+  };
 
   return (
     <LayoutTwo>
@@ -19,7 +82,10 @@ const MyAccount = () => {
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
+            <Link
+              href="/home/trending"
+              as={process.env.PUBLIC_URL + "/home/trending"}
+            >
               <a>{t("home")}</a>
             </Link>
           </li>
@@ -29,7 +95,10 @@ const MyAccount = () => {
       <div className="my-account-area space-mt--r130 space-mb--r130">
         <Container>
           <Tab.Container defaultActiveKey="dashboard">
-            <Nav variant="pills" className="my-account-area__navigation space-mb--r60">
+            <Nav
+              variant="pills"
+              className="my-account-area__navigation space-mb--r60"
+            >
               <Nav.Item>
                 <Nav.Link eventKey="dashboard">{t("dashboard")}</Nav.Link>
               </Nav.Item>
@@ -42,11 +111,13 @@ const MyAccount = () => {
               <Nav.Item>
                 <Nav.Link eventKey="payment">{t("payment")}</Nav.Link>
               </Nav.Item>
-              <Nav.Item>
+              {/* <Nav.Item>
                 <Nav.Link eventKey="address">{t("address")}</Nav.Link>
-              </Nav.Item>
+              </Nav.Item> */}
               <Nav.Item>
-                <Nav.Link eventKey="accountDetails">{t("account_details")}</Nav.Link>
+                <Nav.Link eventKey="accountDetails">
+                  {t("account_details")}
+                </Nav.Link>
               </Nav.Item>
             </Nav>
             <Tab.Content>
@@ -55,16 +126,18 @@ const MyAccount = () => {
                   <h3>{t("dashboard")}</h3>
                   <div className="welcome">
                     <p>
-                      {t("hello")}, <strong>John Doe</strong> ({t("if_not")}{" "}
-                      <strong>John !</strong>{" "}
-                      <Link
-                        href="/other/login-register"
-                        as={process.env.PUBLIC_URL + "/other/login-register"}
-                      >
-                        <a className="logout">{t("logout")}</a>
-                      </Link>
+                      {t("hello")},{" "}
+                      <strong>{user ? user.email || " " : " "}</strong> (
+                      {t("if_not")}{" "}
+                      <strong>
+                        {user?.email ? user.email.split("@")[0] : "User"}!
+                      </strong>
                       )
                     </p>
+                    {/* Logout Button */}
+                    <button onClick={handleLogout} className="btn btn-danger">
+                      {t("logout")}
+                    </button>
                   </div>
                   <p>{t("dashboard_welcome")}</p>
                 </div>
@@ -167,26 +240,10 @@ const MyAccount = () => {
                   <p className="saved-message">{t("no_payment_saved")}</p>
                 </div>
               </Tab.Pane>
-              <Tab.Pane eventKey="address">
-                <div className="my-account-area__content">
-                  <h3>{t("billing_address")}</h3>
-                  <address>
-                    <p>
-                      <strong>John Doe</strong>
-                    </p>
-                    <p>
-                      1355 Market St, Suite 900 <br />
-                      San Francisco, CA 94103
-                    </p>
-                    <p>
-                      {t("mobile")}: (123) 456-7890
-                    </p>
-                  </address>
-                  <a href="#" className="check-btn sqr-btn">
-                    <FaRegEdit /> {t("edit_address")}
-                  </a>
-                </div>
-              </Tab.Pane>
+              {/* <Tab.Pane eventKey="address">
+                
+              </Tab.Pane> */}
+
               <Tab.Pane eventKey="accountDetails">
                 <div className="my-account-area__content">
                   <h3>{t("account_details")}</h3>
@@ -198,7 +255,13 @@ const MyAccount = () => {
                             <label htmlFor="first-name" className="required">
                               {t("first_name")}
                             </label>
-                            <input type="text" id="first-name" />
+                            <input
+                              type="text"
+                              id="first-name"
+                              defaultValue={
+                                user?.displayName?.split(" ")[0] || ""
+                              }
+                            />
                           </div>
                         </Col>
                         <Col lg={6}>
@@ -206,7 +269,13 @@ const MyAccount = () => {
                             <label htmlFor="last-name" className="required">
                               {t("last_name")}
                             </label>
-                            <input type="text" id="last-name" />
+                            <input
+                              type="text"
+                              id="last-name"
+                              defaultValue={
+                                user?.displayName?.split(" ")[1] || ""
+                              }
+                            />
                           </div>
                         </Col>
                       </Row>
@@ -214,14 +283,88 @@ const MyAccount = () => {
                         <label htmlFor="display-name" className="required">
                           {t("display_name")}
                         </label>
-                        <input type="text" id="display-name" />
+                        <input
+                          type="text"
+                          id="display-name"
+                          defaultValue={user?.displayName || ""}
+                        />
                       </div>
                       <div className="single-input-item">
                         <label htmlFor="email" className="required">
                           {t("email_address")}
                         </label>
-                        <input type="email" id="email" />
+                        <input
+                          type="email"
+                          id="email"
+                          defaultValue={user?.email || ""}
+                          readOnly
+                        />
                       </div>
+
+                      <div className="my-account-area__content">
+                  <h3>{t("billing_address")}</h3>
+                  <div className="account-details-form">                    
+                      <Row>
+                        <Col lg={6}>
+                          <div className="single-input-item">
+                            <label htmlFor="address" className="required">
+                              {t("address")}
+                            </label>
+                            <input
+                              type="text"
+                              id="address"
+                              className="form-control"
+                              value={address}
+                              onChange={(e) => setAddress(e.target.value)}
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+
+                      <Row>
+                        <Col lg={6}>
+                          <div className="single-input-item">
+                            <label htmlFor="city" className="required">
+                              {t("city_label")}
+                            </label>
+                            <input
+                              type="text"
+                              id="city"
+                              className="form-control"
+                              value={city}
+                              onChange={(e) => setCity(e.target.value)}
+                            />
+                          </div>
+                        </Col>
+
+                        <Col lg={6}>
+                          <div className="single-input-item">
+                            <label htmlFor="zip-code" className="required">
+                              {t("zip_label")}
+                            </label>
+                            <input
+                              type="text"
+                              id="zip-code"
+                              className="form-control"
+                              value={zipCode}
+                              onChange={(e) => setZipCode(e.target.value)}
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+
+                      <div className="single-input-item">
+                        <label htmlFor="phone">{t("mobile")}</label>
+                        <input
+                          type="text"
+                          id="phone"
+                          className="form-control"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                        />
+                      </div>                   
+                  </div>
+                </div>
                       <fieldset>
                         <legend>{t("password_change")}</legend>
                         <div className="single-input-item">

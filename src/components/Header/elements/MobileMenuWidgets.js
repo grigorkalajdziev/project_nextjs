@@ -8,23 +8,49 @@ import {
 } from "react-icons/io";
 import { FaXTwitter } from "react-icons/fa6";
 import { useLocalization } from "../../../context/LocalizationContext";
-
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { auth } from "../../../pages/api/register"; // Import Firebase authentication
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 const MobileMenuWidgets = () => {
   const { t } = useLocalization();  
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Listen for authentication state changes
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe(); // Cleanup on unmount
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null); // Update state to reflect logout
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
   return (
     <div className="offcanvas-mobile-menu__widgets">
       <div className="contact-widget space-mb--30">
         <ul>
           <li>
             <IoMdPerson />
-            <Link
-              href="/other/login-register"
-              as={process.env.PUBLIC_URL + "/other/login-register"}
-            >
-              <a>{t('signup_login')}</a>
-            </Link>
+            {!user ? (
+              <Link
+                href="/other/login-register"
+                as={process.env.PUBLIC_URL + "/other/login-register"}
+              >
+                <a>{t("signup_login")}</a>
+              </Link>
+            ) : (
+              <a href="#" onClick={handleLogout}>{t("logout")}</a>
+            )}
           </li>
           <li>
             <IoIosPhonePortrait />

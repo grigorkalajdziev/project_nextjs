@@ -1,17 +1,25 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLocalization } from "../../../context/LocalizationContext";
+import { auth } from "../../../pages/api/register"; // Import Firebase authentication
+import { onAuthStateChanged } from "firebase/auth";
 
 const MobileMenuNav = ({ getActiveStatus }) => {
   const { t } = useLocalization();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const offCanvasNav = document.querySelector(
-      "#offcanvas-mobile-menu__navigation"
-    );
-    const offCanvasNavSubMenu = offCanvasNav.querySelectorAll(
-      ".mobile-sub-menu"
-    );
+    // Listen for authentication state changes
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe(); // Cleanup on unmount
+  }, []);
+
+  useEffect(() => {
+    const offCanvasNav = document.querySelector("#offcanvas-mobile-menu__navigation");
+    const offCanvasNavSubMenu = offCanvasNav.querySelectorAll(".mobile-sub-menu");
     const anchorLinks = offCanvasNav.querySelectorAll("a");
 
     for (let i = 0; i < offCanvasNavSubMenu.length; i++) {
@@ -22,9 +30,8 @@ const MobileMenuNav = ({ getActiveStatus }) => {
     }
 
     const menuExpand = offCanvasNav.querySelectorAll(".menu-expand");
-    const numMenuExpand = menuExpand.length;
 
-    for (let i = 0; i < numMenuExpand; i++) {
+    for (let i = 0; i < menuExpand.length; i++) {
       menuExpand[i].addEventListener("click", (e) => {
         sideMenuExpand(e);
       });
@@ -35,83 +42,68 @@ const MobileMenuNav = ({ getActiveStatus }) => {
         getActiveStatus(false);
       });
     }
-  });
+  }, []);
 
   const sideMenuExpand = (e) => {
     e.currentTarget.parentElement.classList.toggle("active");
   };
+
   return (
-    <nav
-      className="offcanvas-mobile-menu__navigation"
-      id="offcanvas-mobile-menu__navigation"
-    >
+    <nav className="offcanvas-mobile-menu__navigation" id="offcanvas-mobile-menu__navigation">
       <ul>
         <li className="menu-item-has-children">
           <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-            <a>{t('home')}</a>
+            <a>{t("home")}</a>
           </Link>
         </li>
 
         <li className="menu-item-has-children">
-          <Link
-            href="/shop/left-sidebar"
-            as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-          >
-            <a>{t('shop')}</a>
+          <Link href="/shop/left-sidebar" as={process.env.PUBLIC_URL + "/shop/left-sidebar"}>
+            <a>{t("shop")}</a>
           </Link>
           <ul className="mobile-sub-menu">
             <li>
-              <Link
-                href="/other/checkout"
-                as={process.env.PUBLIC_URL + "/other/checkout"}
-              >
-                <a>{t('checkout')}</a>
+              <Link href="/other/checkout" as={process.env.PUBLIC_URL + "/other/checkout"}>
+                <a>{t("checkout")}</a>
               </Link>
             </li>
             <li>
-              <Link
-                href="/other/compare"
-                as={process.env.PUBLIC_URL + "/other/compare"}
-              >
+              <Link href="/other/compare" as={process.env.PUBLIC_URL + "/other/compare"}>
                 <a>{t("compare")}</a>
               </Link>
             </li>
-            <li>
-              <Link
-                href="/other/my-account"
-                as={process.env.PUBLIC_URL + "/other/my-account"}
-              >
-                <a>{t('my_account')}</a>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/other/login-register"
-                as={process.env.PUBLIC_URL + "/other/login-register"}
-              >
-                <a>{t('login_register')}</a>
-              </Link>
-            </li>
+            {/* Show "My Account" only if user is logged in */}
+            {user && (
+              <li>
+                <Link href="/other/my-account" as={process.env.PUBLIC_URL + "/other/my-account"}>
+                  <a>{t("my_account")}</a>
+                </Link>
+              </li>
+            )}
+            {/* Show "Login/Register" only if user is NOT logged in */}
+            {!user && (
+              <li>
+                <Link href="/other/login-register" as={process.env.PUBLIC_URL + "/other/login-register"}>
+                  <a>{t("login_register")}</a>
+                </Link>
+              </li>
+            )}
           </ul>
         </li>
+
         <li className="menu-item-has-children">
           <Link href="/other/about" as={process.env.PUBLIC_URL + "/other/about"}>
-            <a>{t('about_us')}</a>
+            <a>{t("about_us")}</a>
           </Link>
           <ul className="mobile-sub-menu">
             <li>
-              <Link
-                href="/other/contact"
-                as={process.env.PUBLIC_URL + "/other/contact"} >
-                <a>{t('contact_us')}</a>
+              <Link href="/other/contact" as={process.env.PUBLIC_URL + "/other/contact"}>
+                <a>{t("contact_us")}</a>
               </Link>
             </li>
             <li>
-              <Link
-                href="/other/faq"
-                as={process.env.PUBLIC_URL + "/other/faq"}
-              >
-                <a>{t('faq')}</a>
+              <Link href="/other/faq" as={process.env.PUBLIC_URL + "/other/faq"}>
+                <a>{t("faq")}</a>
               </Link>
             </li>
           </ul>
