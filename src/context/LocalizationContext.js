@@ -338,7 +338,8 @@ const translations = {
     registration_success: "Registered successfully",
     login_success: "Login successfully",
     please_verify_email: "Please verify your email address",
-    logout_success: "You have successfully logged out."
+    logout_success: "You have successfully logged out.",
+    profile_updated: "Profile updated successfully"
   },
   mk: {
     english: "Англиски",
@@ -672,7 +673,8 @@ const translations = {
     registration_success: "Регистрацијата е успешна",
     login_success: "Успешно најавување",
     please_verify_email: "Ве молиме, проверете ја вашата е-пошта за да ја потврдите.",
-    logout_success: "Успешно се одјавивте."
+    logout_success: "Успешно се одјавивте.",
+    profile_updated: "Профилот е успешно ажуриран."
   }
 };
 

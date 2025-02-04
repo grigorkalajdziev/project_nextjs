@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { auth } from "../api/register"; // Import Firebase auth
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { getDatabase, ref, set, get } from "firebase/database";
 import Link from "next/link";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
@@ -15,10 +16,12 @@ import { useToasts } from "react-toast-notifications";
 const MyAccount = () => {
   const { t } = useLocalization();
   const { addToast } = useToasts();
-
   const router = useRouter();
   const [user, setUser] = useState(null);
-  const [displayName, setDisplayName] = useState(user?.displayName || "");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [zipCode, setZipCode] = useState("");
@@ -26,9 +29,35 @@ const MyAccount = () => {
 
   // Check for user authentication status
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUser(user);
+        setDisplayName(user.displayName || "");
+        setEmail(user.email || "");
+        if (user.displayName) {
+          const nameParts = user.displayName.split(" ");
+          setFirstName(nameParts[0] || "");
+          setLastName(nameParts[1] || "");
+        }
+
+      const db = getDatabase();
+      const userRef = ref(db, `users/${user.uid}`);
+
+      try {
+        const snapshot = await get(userRef);
+        if (snapshot.exists()) {
+          const userData = snapshot.val();
+          setAddress(userData.billingInfo?.address || "");
+          setCity(userData.billingInfo?.city || "");
+          setZipCode(userData.billingInfo?.zipCode || "");
+          setPhone(userData.billingInfo?.phone || "");
+        } else {
+          console.log("No additional user data found in database.");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+
       } else {
         setUser(null);
       }
@@ -40,13 +69,13 @@ const MyAccount = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      setUser(null);      
-      
+      setUser(null);
+
       addToast(t("logout_success"), {
         appearance: "info",
         autoDismiss: true,
       });
-  
+
       // Delay the redirect
       setTimeout(() => {
         router.push("/other/login-register");
@@ -59,30 +88,32 @@ const MyAccount = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
+    if (!user) return;
 
-    // Update Firebase Auth user info (like displayName)
     try {
-      if (user) {
-        // Update Firebase Auth with new displayName
-        await user.updateProfile({
-          displayName: displayName,
-        });
+      const db = getDatabase();
+      const userRef = ref(db, `users/${user.uid}`);
 
-        // Now you can also update Firestore for address details if needed
-        // Assuming you have Firestore setup for storing address details
+      await set(userRef, {
+        firstName,
+        lastName,
+        displayName,
+        email,
+        billingInfo: {
+          address,
+          city,
+          zipCode,
+          phone,
+        },
+      });
 
-        const userRef = firestore.collection("users").doc(user.uid);
-        await userRef.update({
-          address: address,
-          city: city,
-          zipCode: zipCode,
-          phone: phone,
-        });
-
-        alert(t("address_updated"));
-      }
+      addToast(t("profile_updated"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
     } catch (error) {
-      console.error("Error updating address", error);
+      addToast(error.message, { appearance: "error", autoDismiss: true });
+      console.error("Error updating profile:", error);
     }
   };
 
@@ -261,7 +292,7 @@ const MyAccount = () => {
                 <div className="my-account-area__content">
                   <h3>{t("account_details")}</h3>
                   <div className="account-details-form">
-                    <form>
+                    <form onSubmit={handleSave}>
                       <Row>
                         <Col lg={6}>
                           <div className="single-input-item">
@@ -271,9 +302,8 @@ const MyAccount = () => {
                             <input
                               type="text"
                               id="first-name"
-                              defaultValue={
-                                user?.displayName?.split(" ")[0] || ""
-                              }
+                              value={firstName}
+                              onChange={(e) => setFirstName(e.target.value)}
                             />
                           </div>
                         </Col>
@@ -285,9 +315,8 @@ const MyAccount = () => {
                             <input
                               type="text"
                               id="last-name"
-                              defaultValue={
-                                user?.displayName?.split(" ")[1] || ""
-                              }
+                              value={lastName}
+                              onChange={(e) => setLastName(e.target.value)}
                             />
                           </div>
                         </Col>
@@ -299,85 +328,81 @@ const MyAccount = () => {
                         <input
                           type="text"
                           id="display-name"
-                          defaultValue={user?.displayName || ""}
+                          value={displayName}
+                          onChange={(e) => setDisplayName(e.target.value)}
                         />
                       </div>
                       <div className="single-input-item">
                         <label htmlFor="email" className="required">
                           {t("email_address")}
                         </label>
-                        <input
-                          type="email"
-                          id="email"
-                          defaultValue={user?.email || ""}
-                          readOnly
-                        />
+                        <input type="email" id="email" value={email} readOnly />
                       </div>
 
                       <div className="my-account-area__content">
-                  <h3>{t("billing_address")}</h3>
-                  <div className="account-details-form">                    
-                      <Row>
-                        <Col lg={6}>
+                        <h3>{t("billing_address")}</h3>
+                        <div className="account-details-form">
+                          <Row>
+                            <Col lg={6}>
+                              <div className="single-input-item">
+                                <label htmlFor="address" className="required">
+                                  {t("address")}
+                                </label>
+                                <input
+                                  type="text"
+                                  id="address"
+                                  className="form-control"
+                                  value={address}
+                                  onChange={(e) => setAddress(e.target.value)}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+
+                          <Row>
+                            <Col lg={6}>
+                              <div className="single-input-item">
+                                <label htmlFor="city" className="required">
+                                  {t("city_label")}
+                                </label>
+                                <input
+                                  type="text"
+                                  id="city"
+                                  className="form-control"
+                                  value={city}
+                                  onChange={(e) => setCity(e.target.value)}
+                                />
+                              </div>
+                            </Col>
+
+                            <Col lg={6}>
+                              <div className="single-input-item">
+                                <label htmlFor="zip-code" className="required">
+                                  {t("zip_label")}
+                                </label>
+                                <input
+                                  type="text"
+                                  id="zip-code"
+                                  className="form-control"
+                                  value={zipCode}
+                                  onChange={(e) => setZipCode(e.target.value)}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+
                           <div className="single-input-item">
-                            <label htmlFor="address" className="required">
-                              {t("address")}
-                            </label>
+                            <label htmlFor="phone">{t("mobile")}</label>
                             <input
                               type="text"
-                              id="address"
+                              id="phone"
                               className="form-control"
-                              value={address}
-                              onChange={(e) => setAddress(e.target.value)}
+                              value={phone}
+                              onChange={(e) => setPhone(e.target.value)}
                             />
                           </div>
-                        </Col>
-                      </Row>
-
-                      <Row>
-                        <Col lg={6}>
-                          <div className="single-input-item">
-                            <label htmlFor="city" className="required">
-                              {t("city_label")}
-                            </label>
-                            <input
-                              type="text"
-                              id="city"
-                              className="form-control"
-                              value={city}
-                              onChange={(e) => setCity(e.target.value)}
-                            />
-                          </div>
-                        </Col>
-
-                        <Col lg={6}>
-                          <div className="single-input-item">
-                            <label htmlFor="zip-code" className="required">
-                              {t("zip_label")}
-                            </label>
-                            <input
-                              type="text"
-                              id="zip-code"
-                              className="form-control"
-                              value={zipCode}
-                              onChange={(e) => setZipCode(e.target.value)}
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-
-                      <div className="single-input-item">
-                        <label htmlFor="phone">{t("mobile")}</label>
-                        <input
-                          type="text"
-                          id="phone"
-                          className="form-control"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                        />
-                      </div>                   
-                  </div>
-                </div>
+                        </div>
+                      </div>
                       <fieldset>
                         <legend>{t("password_change")}</legend>
                         <div className="single-input-item">
