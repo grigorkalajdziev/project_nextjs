@@ -163,7 +163,7 @@ const LoginRegister = () => {
                       </div>
                     </Col>
 
-                    <Col lg={12} className="space-mb--60">
+                    <Col lg={12} className="space-mb--30">
                       <input
                         type="email"
                         name="email"
@@ -173,7 +173,7 @@ const LoginRegister = () => {
                         required
                       />
                     </Col>
-                    <Col lg={12} className="space-mb--60">
+                    <Col lg={12} className="space-mb--50">
                       <input
                         type={loginPasswordVisible ? "text" : "password"}
                         name="password"
