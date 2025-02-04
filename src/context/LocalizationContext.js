@@ -233,7 +233,7 @@ const translations = {
     state_placeholder: "Enter your state",
     zip_label: "Zip Code",
     zip_placeholder: "Enter your zip code",
-    country_bangladesh: "Bangladesh",
+    country_bangladesh: "Macedonia",
     country_china: "China",
     country_australia: "Australia",
     country_india: "India",
@@ -339,7 +339,10 @@ const translations = {
     login_success: "Login successfully",
     please_verify_email: "Please verify your email address",
     logout_success: "You have successfully logged out.",
-    profile_updated: "Profile updated successfully"
+    profile_updated: "Profile updated successfully",
+    password_note: "**You can change only your password if you are logged in with user/pass. If you are logged in with other providers such as Google, Apple, or Facebook, your password must be changed in their respective account settings.",
+    password_mismatch: "The passwords do not match. Please try again.",
+    password_strength: "The password must be at least 6 characters long."
   },
   mk: {
     english: "Англиски",
@@ -671,10 +674,13 @@ const translations = {
     continue_with_google: "Продолжете со Google",
     or: "или",
     registration_success: "Регистрацијата е успешна",
-    login_success: "Успешно најавување",
+    login_success: "Успешно се најавивте",
     please_verify_email: "Ве молиме, проверете ја вашата е-пошта за да ја потврдите.",
     logout_success: "Успешно се одјавивте.",
-    profile_updated: "Профилот е успешно ажуриран."
+    profile_updated: "Профилот е успешно ажуриран.",
+    password_note: "**Можете да ја промените лозинката ако сте најавени со корисничко име и лозинка. Ако сте најавени со други провајдери како што се Google, Apple или Facebook, вашата лозинка мора да се промени во нивните соодветни поставки за сметка.",
+    password_mismatch: "Лозинките не се совпаѓаат. Обидете се повторно.",
+    password_strength: "Лозинката мора да содржи најмалку 6 знаци."
   }
 };
 

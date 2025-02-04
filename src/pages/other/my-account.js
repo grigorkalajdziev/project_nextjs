@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { auth } from "../api/register"; // Import Firebase auth
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  signOut,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updatePassword,
+} from "firebase/auth";
 import { getDatabase, ref, set, get } from "firebase/database";
 import Link from "next/link";
 import Tab from "react-bootstrap/Tab";
@@ -17,7 +23,7 @@ const MyAccount = () => {
   const { t } = useLocalization();
   const { addToast } = useToasts();
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -26,6 +32,9 @@ const MyAccount = () => {
   const [city, setCity] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [phone, setPhone] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   // Check for user authentication status
   useEffect(() => {
@@ -33,31 +42,31 @@ const MyAccount = () => {
       if (user) {
         setUser(user);
         setDisplayName(user.displayName || "");
-        setEmail(user.email || "");
+        setEmail(user.email || "");        
+
         if (user.displayName) {
           const nameParts = user.displayName.split(" ");
           setFirstName(nameParts[0] || "");
           setLastName(nameParts[1] || "");
         }
 
-      const db = getDatabase();
-      const userRef = ref(db, `users/${user.uid}`);
+        const db = getDatabase();
+        const userRef = ref(db, `users/${user.uid}`);
 
-      try {
-        const snapshot = await get(userRef);
-        if (snapshot.exists()) {
-          const userData = snapshot.val();
-          setAddress(userData.billingInfo?.address || "");
-          setCity(userData.billingInfo?.city || "");
-          setZipCode(userData.billingInfo?.zipCode || "");
-          setPhone(userData.billingInfo?.phone || "");
-        } else {
-          console.log("No additional user data found in database.");
+        try {
+          const snapshot = await get(userRef);
+          if (snapshot.exists()) {
+            const userData = snapshot.val();
+            setAddress(userData.billingInfo?.address || "");
+            setCity(userData.billingInfo?.city || "");
+            setZipCode(userData.billingInfo?.zipCode || "");
+            setPhone(userData.billingInfo?.phone || "");
+          } else {
+            console.log("No additional user data found in database.");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
         }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-
       } else {
         setUser(null);
       }
@@ -105,12 +114,43 @@ const MyAccount = () => {
           zipCode,
           phone,
         },
-      });
+      });     
+
+      if (newPassword && confirmPassword) {
+        if (newPassword !== confirmPassword) {
+          addToast(t("password_mismatch"), { appearance: "error", autoDismiss: true });
+          return;
+        }
+
+        if (newPassword.length < 6) {
+          addToast(t("password_strength"), { appearance: "error", autoDismiss: true });
+          return;
+        }
+
+        try {
+          const credential = EmailAuthProvider.credential(user.email, currentPassword);
+          await reauthenticateWithCredential(user, credential);
+          await updatePassword(user, newPassword);
+
+          addToast(t("password_changed_success"), { appearance: "success", autoDismiss: true });
+
+          setCurrentPassword("");
+          setNewPassword("");
+          setConfirmPassword("");
+        } catch (error) {
+          addToast(error.message, { appearance: "error", autoDismiss: true });
+          console.error("Password change error:", error);
+        }
+      }
 
       addToast(t("profile_updated"), {
         appearance: "success",
         autoDismiss: true,
       });
+
+      setTimeout(() => {
+        router.reload();
+      }, 1500);
     } catch (error) {
       addToast(error.message, { appearance: "error", autoDismiss: true });
       console.error("Error updating profile:", error);
@@ -403,13 +443,19 @@ const MyAccount = () => {
                           </div>
                         </div>
                       </div>
+                      
                       <fieldset>
                         <legend>{t("password_change")}</legend>
                         <div className="single-input-item">
                           <label htmlFor="current-pwd" className="required">
                             {t("current_password")}
                           </label>
-                          <input type="password" id="current-pwd" />
+                          <input
+                            type="password"
+                            id="current-pwd"
+                            value={currentPassword}
+                            onChange={(e) => setCurrentPassword(e.target.value)}
+                          />
                         </div>
                         <div className="row">
                           <div className="col-lg-6">
@@ -417,7 +463,12 @@ const MyAccount = () => {
                               <label htmlFor="new-pwd" className="required">
                                 {t("new_password")}
                               </label>
-                              <input type="password" id="new-pwd" />
+                              <input
+                                type="password"
+                                id="new-pwd"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                              />
                             </div>
                           </div>
                           <div className="col-lg-6">
@@ -425,11 +476,20 @@ const MyAccount = () => {
                               <label htmlFor="confirm-pwd" className="required">
                                 {t("confirm_password")}
                               </label>
-                              <input type="password" id="confirm-pwd" />
+                              <input
+                                type="password"
+                                id="confirm-pwd"
+                                value={confirmPassword}
+                                onChange={(e) =>
+                                  setConfirmPassword(e.target.value)
+                                }
+                              />
                             </div>
                           </div>
                         </div>
-                      </fieldset>
+                      </fieldset>  
+                      <p>{t("password_note")}</p>
+
                       <div className="single-input-item">
                         <button>{t("save_changes")}</button>
                       </div>
