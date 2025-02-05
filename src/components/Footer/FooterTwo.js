@@ -106,7 +106,7 @@ const FooterTwo = ({ footerBgClass }) => {
               <ul>
                 <li>
                   <a href="https://www.x.com">
-                    <FaXTwitter /> X
+                    <FaXTwitter /> X (Twitter)
                   </a>
                 </li>
                 <li>
@@ -135,7 +135,7 @@ const FooterTwo = ({ footerBgClass }) => {
               {t("subscribe_message")}
               </p>
               {/* email subscription */}
-              <SubscribeEmailTwo mailchimpUrl="https://devitems.us11.list-manage.com/subscribe/post?u=6bbb9b6f5827bd842d9640c82&amp;id=05d85f18ef" />
+              <SubscribeEmailTwo mailchimpUrl="https://kikamakeupandbeautyacademy.us16.list-manage.com/subscribe/post?u=28d8488f5b8e2382946ca9989&amp;id=98a58955d0" />
             </div>
           </Col>
         </Row>
