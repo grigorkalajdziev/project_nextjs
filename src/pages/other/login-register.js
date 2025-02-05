@@ -5,6 +5,7 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
 import { auth } from "../api/register";
 import {
   signInWithEmailAndPassword,
@@ -12,6 +13,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendEmailVerification,
+  FacebookAuthProvider,
 } from "firebase/auth";
 import { useToasts } from "react-toast-notifications";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
@@ -132,6 +134,22 @@ const LoginRegister = () => {
     }
   };
 
+  const handleFacebookSignIn = async () => {
+    const provider = new FacebookAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      addToast(t("login_success"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      setTimeout(() => {
+        window.location.href = "/other/my-account";
+      }, 2000);
+    } catch (err) {
+      addToast(err.message, { appearance: "error", autoDismiss: true });
+    }
+  };
+
   return (
     <LayoutTwo>
       <BreadcrumbOne
@@ -186,7 +204,11 @@ const LoginRegister = () => {
                         onClick={toggleLoginPasswordVisibility}
                         className="password-visibility-toggle"
                       >
-                        {loginPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                        {loginPasswordVisible ? (
+                          <AiOutlineEyeInvisible />
+                        ) : (
+                          <AiOutlineEye />
+                        )}
                       </span>
                     </Col>
 
@@ -205,10 +227,20 @@ const LoginRegister = () => {
                     <Col lg={12} className="text-center space-mt--30">
                       <button
                         onClick={handleGoogleSignIn}
-                        className="lezada-button lezada-button--medium google-signin-btn"
+                        className="lezada-button lezada-button--medium"                        
                       >
                         <FcGoogle size={24} style={{ marginRight: "10px" }} />
                         {t("continue_with_google")}
+                      </button>
+                    </Col>
+
+                    <Col lg={12} className="text-center space-mt--30">
+                      <button
+                        onClick={handleFacebookSignIn}
+                        className="lezada-button lezada-button--medium"                        
+                      >
+                        <FaFacebook size={24} style={{ marginRight: "10px" }} />
+                        {t("continue_with_facebook")}
                       </button>
                     </Col>
                   </Row>
@@ -252,7 +284,11 @@ const LoginRegister = () => {
                         onClick={toggleRegisterPasswordVisibility}
                         className="password-visibility-toggle"
                       >
-                        {registerPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                        {registerPasswordVisible ? (
+                          <AiOutlineEyeInvisible />
+                        ) : (
+                          <AiOutlineEye />
+                        )}
                       </span>
                     </Col>
 
