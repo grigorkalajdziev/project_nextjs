@@ -4,14 +4,14 @@ import { getFirestore } from "firebase/firestore";
 import { getDatabase, ref, set, push } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  databaseURL: "https://kikamakeupandbeautyacademy-default-rtdb.firebaseio.com",  
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+  apiKey: "AIzaSyAI4eJ4KU7tfrsv1WLlT7nUWmqFSX2wxj8",
+  authDomain: "kikamakeupandbeautyacademy.firebaseapp.com",
+  databaseURL: "https://kikamakeupandbeautyacademy-default-rtdb.firebaseio.com",
+  projectId: "kikamakeupandbeautyacademy",
+  storageBucket: "kikamakeupandbeautyacademy.firebasestorage.app",
+  messagingSenderId: "182562636039",
+  appId: "1:182562636039:web:ef9692a202af3fbe4345a2",
+  measurementId: "G-ZL2EBV00H7"
 };
 
 // Initialize Firebase
