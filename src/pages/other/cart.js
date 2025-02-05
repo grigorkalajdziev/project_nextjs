@@ -78,7 +78,7 @@ const Cart = ({
                       <th className="product-price">{t("price")}</th> {/* Translated Price */}
                       <th className="product-quantity">{t("quantity")}</th> {/* Translated Quantity */}
                       <th className="product-subtotal">{t("total")}</th> {/* Translated Total */}
-                      <th className="product-remove">&nbsp;</th>
+                      <th className="product-remove"><span></span></th>
                     </tr>
                   </thead>
                   <tbody>

@@ -212,6 +212,7 @@ header {
 
 .header-top {
   display: flex;
+  font-size: 14px;
   &__left {    
     display: flex;
     flex-basis: 50%;
@@ -329,7 +330,7 @@ header {
 }
 
 .header-content {  
-  font-size: x-large;
+  font-size: large;
   &__logo {
     button {
       font-size: 30px;
@@ -529,7 +530,7 @@ header {
 
         transition: $transition--default;
         a {          
-          font-size: 20px;
+          font-size: 16px;
           line-height: 1.4;
 
           position: relative;
@@ -677,7 +678,7 @@ header {
         fill: $grey--eight;
       }
       a {        
-        font-size: 20px;
+        font-size: 16px;
         line-height: 22px;
 
         position: relative;
