@@ -234,7 +234,7 @@ const LoginRegister = () => {
                       </button>
                     </Col>
 
-                    <Col lg={12} className="text-center space-mt--30">
+                    {/* <Col lg={12} className="text-center space-mt--30">
                       <button
                         onClick={handleFacebookSignIn}
                         className="lezada-button lezada-button--medium"                        
@@ -242,7 +242,7 @@ const LoginRegister = () => {
                         <FaFacebook size={24} style={{ marginRight: "10px" }} />
                         {t("continue_with_facebook")}
                       </button>
-                    </Col>
+                    </Col> */}
                   </Row>
                 </form>
               </div>
