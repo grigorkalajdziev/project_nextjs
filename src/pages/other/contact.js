@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
 import { Container, Row, Col } from "react-bootstrap";
 import { IoIosPin, IoIosCall, IoIosMail, IoIosClock } from "react-icons/io";
@@ -12,6 +12,46 @@ import LocalizationContext from "../../context/LocalizationContext";
 
 const Contact = () => {
   const { t } = useContext(LocalizationContext);
+
+  const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [contactSubject, setContactSubject] = useState("");
+  const [contactMessage, setContactMessage] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch(
+        "https://us-central1-kikamakeupandbeautyacademy.cloudfunctions.net/sendContactEmail",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: customerName,
+            email: customerEmail,
+            subject: contactSubject,
+            message: contactMessage,
+          }),
+        }
+      );
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        alert("Email sent successfully!");
+      } else {
+        const data = await response.text();
+        alert(`Failed to send email: ${data.error}`);
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      alert("An error occurred while sending the email.");
+    }
+  };
+  
 
   return (
     <LayoutTwo>
@@ -123,7 +163,7 @@ const Contact = () => {
             <Row>
               <Col lg={8} className="ml-auto mr-auto">
                 <div className="lezada-form contact-form">
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <Row>
                       <Col md={6} className="space-mb--40">
                         <input
@@ -131,6 +171,8 @@ const Contact = () => {
                           placeholder={t("first_name")}
                           name="customerName"
                           id="customerName"
+                          value={customerName}
+                          onChange={(e) => setCustomerName(e.target.value)}
                           required
                         />
                       </Col>
@@ -140,6 +182,8 @@ const Contact = () => {
                           placeholder={t("email")}
                           name="customerEmail"
                           id="customerEmail"
+                          value={customerEmail}
+                          onChange={(e) => setCustomerEmail(e.target.value)}
                           required
                         />
                       </Col>
@@ -149,6 +193,8 @@ const Contact = () => {
                           placeholder={t("subject")}
                           name="contactSubject"
                           id="contactSubject"
+                          value={contactSubject}
+                          onChange={(e) => setContactSubject(e.target.value)}
                         />
                       </Col>
                       <Col md={12} className="space-mb--40">
@@ -158,7 +204,8 @@ const Contact = () => {
                           placeholder={t("message")}
                           name="contactMessage"
                           id="contactMessage"
-                          defaultValue={""}
+                          value={contactMessage}
+                          onChange={(e) => setContactMessage(e.target.value)}
                         />
                       </Col>
                       <Col md={12} className="text-center">
