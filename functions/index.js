@@ -35,14 +35,20 @@ exports.sendContactEmail = onRequest(async (req, res) => {
     // Send the email
     await transporter.sendMail(mailOptions);
     logger.info("Email sent successfully.");
+
+    // Send the response after email is sent successfully
     return res.status(200).json({
       status: "success",
       message: "Email sent successfully!",
     });
   } catch (error) {
     logger.error("Error sending email:", error);
-    return res.status(500).json({
-      error: "Error sending email. Please try again later.",
-    });
+
+    // Return a 500 error response in case of failure
+    if (!res.headersSent) {
+      return res.status(500).json({
+        error: "Error sending email. Please try again later.",
+      });
+    }
   }
 });
