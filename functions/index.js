@@ -1,54 +1,48 @@
+const {onRequest} = require("firebase-functions/v2/https");
 const functions = require("firebase-functions");
-const cors = require("cors");
 const nodemailer = require("nodemailer");
+const logger = require("firebase-functions/logger");
 
-const corsHandler = cors({origin: "https://www.kikamakeupandbeautyacademy.com"});
+exports.sendContactEmail = onRequest(async (req, res) => {
+  logger.info("Received contact form request", {structuredData: true});
+  const {name, email, subject, message} = req.body;
 
-exports.sendContactEmail = functions.https.onRequest((req, res) => {
-  corsHandler(req, res, async () => {
-    if (req.method === "OPTIONS") {
-      res.set("Access-Control-Allow-Origin", "https://www.kikamakeupandbeautyacademy.com");
-      res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
-      res.set("Access-Control-Allow-Headers", "Content-Type");
-      return res.status(204).send("");
-    }
+  // Check if any required fields are missing
+  if (!name || !email || !subject || !message) {
+    return res.status(400).json({
+      error: "Missing fields: name, email, subject, or message.",
+    });
+  }
 
-    console.log("Received request body:", req.body);
+  try {
+    // Create a nodemailer transporter
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: functions.config().gmail.user,
+        pass: functions.config().gmail.password,
+      },
+    });
 
-    const {name, email, message} = req.body;
+    // Create the mail options, including the subject
+    const mailOptions = {
+      from: `"${name}" <${email}>`,
+      to: "grigorkalajdziev@gmail.com",
+      subject: subject,
+      text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+    };
 
-    if (!name || !email || !message) {
-      res.set("Access-Control-Allow-Origin", "https://www.kikamakeupandbeautyacademy.com");
-      return res.status(400).send("Missing fields: name, email, or message.");
-    }
-
-    try {
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.GMAIL_USER,
-          pass: process.env.GMAIL_PASSWORD,
-        },
-      });
-
-      const mailOptions = {
-        from: email,
-        to: "grigorkalajdziev@gmail.com",
-        subject: "New Contact Form Message",
-        text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
-      };
-
-      console.log("Mail options:", mailOptions);
-
-      const info = await transporter.sendMail(mailOptions);
-      console.log("Email sent successfully:", info.response);
-
-      res.set("Access-Control-Allow-Origin", "https://www.kikamakeupandbeautyacademy.com");
-      return res.status(200).send("Email sent successfully!");
-    } catch (error) {
-      console.error("Error sending email:", error);
-      res.set("Access-Control-Allow-Origin", "https://www.kikamakeupandbeautyacademy.com");
-      return res.status(500).send("Error sending email.");
-    }
-  });
+    // Send the email
+    await transporter.sendMail(mailOptions);
+    logger.info("Email sent successfully.");
+    return res.status(200).json({
+      status: "success",
+      message: "Email sent successfully!",
+    });
+  } catch (error) {
+    logger.error("Error sending email:", error);
+    return res.status(500).json({
+      error: "Error sending email. Please try again later.",
+    });
+  }
 });
