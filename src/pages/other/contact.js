@@ -37,15 +37,23 @@ const Contact = () => {
       }),
     });
   
-    const data = await response.json();
-    if (response.ok) {
-      alert("Email sent successfully!");
-    } else {
-      alert(`Failed to send email: ${data.error || "Unknown error"}`);
-    }
-  };
+    const textResponse = await response.text(); // Get response as text (not JSON)
+    console.log("Raw response:", textResponse);
   
-   
+    // Try to parse it if it's JSON, otherwise handle it as plain text
+    try {
+      const data = JSON.parse(textResponse); // Parse only if the response is JSON
+      if (response.ok) {
+        alert("Email sent successfully!");
+      } else {
+        alert(`Failed to send email: ${data.error || "Unknown error"}`);
+      }
+    } catch (error) {
+      // If parsing fails, treat it as a plain text response
+      console.error("Error parsing JSON:", error, textResponse);
+      alert("An error occurred while sending the email.");
+    }
+  };   
 
   return (
     <LayoutTwo>
