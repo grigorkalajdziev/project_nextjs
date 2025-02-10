@@ -23,7 +23,7 @@ const Contact = () => {
   
     try {
       const response = await fetch(
-        "https://us-central1-kikamakeupandbeautyacademy.cloudfunctions.net/sendContactEmail",
+        "https://sendcontactemail-fg5hq53rya-uc.a.run.app",
         {
           method: "POST",
           headers: {

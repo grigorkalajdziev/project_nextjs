@@ -1,54 +1,40 @@
-const {onRequest} = require("firebase-functions/v2/https");
 const functions = require("firebase-functions");
 const nodemailer = require("nodemailer");
-const logger = require("firebase-functions/logger");
+const cors = require("cors")({origin: true});
 
-exports.sendContactEmail = onRequest(async (req, res) => {
-  logger.info("Received contact form request", {structuredData: true});
-  const {name, email, subject, message} = req.body;
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "grigorkalajdziev@gmail.com",
+    pass: "fxhhwlovliqlkgsl",
+  },
+});
 
-  // Check if any required fields are missing
-  if (!name || !email || !subject || !message) {
-    return res.status(400).json({
-      error: "Missing fields: name, email, subject, or message.",
-    });
-  }
+exports.sendContactEmail = functions.https.onRequest((req, res) => {
+  cors(req, res, async () => {
+    if (req.method !== "POST") {
+      return res.status(405).json({error: "Only POST requests allowed!"});
+    }
 
-  try {
-    // Create a nodemailer transporter
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: functions.config().gmail.user,
-        pass: functions.config().gmail.password,
-      },
-    });
+    const {name, email, subject, message} = req.body;
+    if (!name || !email || !subject || !message) {
+      return res.status(400).json({error: "All fields are required!"});
+    }
 
-    // Create the mail options, including the subject
     const mailOptions = {
       from: `"${name}" <${email}>`,
       to: "grigorkalajdziev@gmail.com",
       subject: subject,
-      text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+      text: `From: ${name} <${email}>\n\nMessage:\n${message}`,
     };
 
-    // Send the email
-    await transporter.sendMail(mailOptions);
-    logger.info("Email sent successfully.");
-
-    // Send the response after email is sent successfully
-    return res.status(200).json({
-      status: "success",
-      message: "Email sent successfully!",
-    });
-  } catch (error) {
-    logger.error("Error sending email:", error);
-
-    // Return a 500 error response in case of failure
-    if (!res.headersSent) {
-      return res.status(500).json({
-        error: "Error sending email. Please try again later.",
-      });
+    try {
+      await transporter.sendMail(mailOptions);
+      return res.status(200).json({
+        status: "success", message: "Email sent successfully!"});
+    } catch (error) {
+      console.error("Error sending email:", error);
+      return res.status(500).json({error: "Failed to send email."});
     }
-  }
+  });
 });
