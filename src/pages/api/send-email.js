@@ -20,14 +20,12 @@ export default async function handler(req, res) {
       html: html,
     });
 
-    // If the response is not JSON, handle it as text
+    // Log the response to help with debugging
+    console.log("Resend API Response:", response);
+
     if (response.status === 'success') {
       return res.status(200).json({ message: "Email sent successfully!" });
     } else {
-      // Log the raw response for debugging purposes
-      console.log("Resend API Response:", response);
-
-      // Assuming response is plain text or something else, return it as is
       return res.status(500).json({ error: "Failed to send email", details: response });
     }
   } catch (error) {
