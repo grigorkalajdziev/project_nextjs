@@ -28,7 +28,7 @@ const Contact = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          to: ["grigorkalajdziev@gmail.com"], // recipient email
+          to: [customerEmail], // recipient email
           from: "contact@kikamakeupandbeautyacademy.com", // sender email
           subject: `New Contact Form Submission from ${customerName}`,
           text: `Email: ${customerEmail}\n\nMessage:\n${contactMessage}`,

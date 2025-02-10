@@ -5,6 +5,10 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async (req, res) => {
   if (req.method === "POST") {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
     const { to, from, subject, text, html } = req.body;
     
     try {
