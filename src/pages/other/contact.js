@@ -20,7 +20,7 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+  
     try {
       const response = await fetch("/api/send-mail/send-mail", {
         method: "POST",
@@ -28,8 +28,8 @@ const Contact = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          to: [customerEmail], // recipient email
-          from: "contact@kikamakeupandbeautyacademy.com", // sender email
+          to: [customerEmail],  // Customer's email as recipient
+          from: "contact@kikamakeupandbeautyacademy.com",
           subject: `New Contact Form Submission from ${customerName}`,
           text: `Email: ${customerEmail}\n\nMessage:\n${contactMessage}`,
           html: `<p><strong>Name:</strong> ${customerName}</p>
@@ -37,9 +37,9 @@ const Contact = () => {
                  <p><strong>Message:</strong> ${contactMessage}</p>`,
         }),
       });
-      
+  
       const data = await response.json();
-      
+  
       if (response.ok) {
         alert("Email sent successfully!");
       } else {
