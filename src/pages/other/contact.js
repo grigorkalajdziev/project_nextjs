@@ -20,7 +20,7 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    //setLoading(true);
 
     try {
       const response = await fetch("/api/send-email", {
@@ -49,7 +49,7 @@ const Contact = () => {
       console.error("Error sending email:", error);
       alert("An error occurred while sending the email.");
     } finally {
-      setLoading(false);
+      //setLoading(false);
     }
   };  
 
