@@ -21,14 +21,14 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    const response = await fetch("/api/send-mail/send-mail", {
+    const response = await fetch("/api/send-mail", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         to: [customerEmail],  // Customer's email
-        from: "contact@kikamakeupandbeautyacademy.com",
+        from: "contact@kikamakeupandbeautyacademy.com",  // Your email address
         subject: `New Contact Form Submission from ${customerName}`,
         text: `Email: ${customerEmail}\n\nMessage:\n${contactMessage}`,
         html: `<p><strong>Name:</strong> ${customerName}</p>
@@ -36,24 +36,15 @@ const Contact = () => {
                <p><strong>Message:</strong> ${contactMessage}</p>`,
       }),
     });
-    
-    const textResponse = await response.text(); // Read response as text
-    console.log("Raw response:", textResponse);
-    
-    try {
-      const data = JSON.parse(textResponse);
-      console.log("Parsed JSON:", data);
-    
-      if (response.ok) {
-        alert("Email sent successfully!");
-      } else {
-        alert(`Failed to send email: ${data.error || "Unknown error"}`);
-      }
-    } catch (error) {
-      console.error("Error parsing JSON:", error, textResponse);
-      alert("An error occurred while sending the email.");
+  
+    const data = await response.json();
+    if (response.ok) {
+      alert("Email sent successfully!");
+    } else {
+      alert(`Failed to send email: ${data.error || "Unknown error"}`);
     }
   };
+  
    
 
   return (
