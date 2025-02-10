@@ -18,7 +18,7 @@ const CartOverlay = ({
   const { t, currentLanguage } = useLocalization();
 
   return (
-    <div className={`cart-overlay ${activeStatus ? "active" : ""}`}>
+    (<div className={`cart-overlay ${activeStatus ? "active" : ""}`}>
       <div
         className="cart-overlay__close"
         onClick={() => {
@@ -55,7 +55,7 @@ const CartOverlay = ({
                     cartTotalPrice += discountedPrice * product.quantity;
 
                     return (
-                      <div className="single-cart-product" key={i}>
+                      (<div className="single-cart-product" key={i}>
                         <span className="cart-close-icon">
                           <button
                             onClick={() => deleteFromCart(product, addToast, t)}
@@ -68,15 +68,15 @@ const CartOverlay = ({
                             href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                             as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                           >
-                            <a>
-                              <img
-                                src={
-                                  process.env.PUBLIC_URL + product.thumbImage[0]
-                                }
-                                className="img-fluid"
-                                alt=""
-                              />
-                            </a>
+
+                            <img
+                              src={
+                                process.env.PUBLIC_URL + product.thumbImage[0]
+                              }
+                              className="img-fluid"
+                              alt=""
+                            />
+
                           </Link>
                         </div>
                         <div className="content">
@@ -85,7 +85,7 @@ const CartOverlay = ({
                               href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                               as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                             >
-                              <a>{product.name[currentLanguage] || product.name["en"]}</a>
+                              {product.name[currentLanguage] || product.name["en"]}
                             </Link>
                           </h5>
                           {product.selectedProductColor &&
@@ -112,7 +112,7 @@ const CartOverlay = ({
                             </span>
                           </p>
                         </div>
-                      </div>
+                      </div>)
                     );
                   })}
                 </CustomScroll>
@@ -132,13 +132,13 @@ const CartOverlay = ({
                   href="/other/cart"
                   as={process.env.PUBLIC_URL + "/other/cart"}
                 >
-                  <a>{t("view_cart")}</a>
+                  {t("view_cart")}
                 </Link>
                 <Link
                   href="/other/checkout"
                   as={process.env.PUBLIC_URL + "/other/checkout"}
                 >
-                  <a>{t("checkout")}</a>
+                  {t("checkout")}
                 </Link>
               </div>
               {/* Free shipping text */}
@@ -149,7 +149,7 @@ const CartOverlay = ({
           )}
         </div>
       </div>
-    </div>
+    </div>)
   );
 };
 

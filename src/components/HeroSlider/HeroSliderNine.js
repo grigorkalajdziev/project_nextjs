@@ -23,13 +23,13 @@ const HeroSliderNine = ({ sliderData }) => {
     )
   };
   return (
-    <div className="hero-slider-nine">
+    (<div className="hero-slider-nine">
       <div className="hero-slider-nine__wrapper">
         <Swiper {...params}>
           {sliderData &&
             sliderData.map((single, i) => {
               return (
-                <div className="hero-slider-nine__slide" key={i}>
+                (<div className="hero-slider-nine__slide" key={i}>
                   <Container className="h-100">
                     <Row className="align-items-center flex-column flex-lg-row justify-content-center justify-content-lg-start h-100">
                       <Col lg={7}>
@@ -53,19 +53,19 @@ const HeroSliderNine = ({ sliderData }) => {
                               href={single.url}
                               as={process.env.PUBLIC_URL + single.url}
                             >
-                              <a>shop now</a>
+                              shop now
                             </Link>
                           </div>
                         </div>
                       </Col>
                     </Row>
                   </Container>
-                </div>
+                </div>)
               );
             })}
         </Swiper>
       </div>
-    </div>
+    </div>)
   );
 };
 

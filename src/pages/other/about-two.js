@@ -11,7 +11,7 @@ import testimonialTwoData from "../../data/testimonials/testimonial-two.json";
 const AboutTwo = () => {
   const [modalStatus, isOpen] = useState(false);
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="About Two"
@@ -20,7 +20,7 @@ const AboutTwo = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -142,7 +142,7 @@ const AboutTwo = () => {
                     href="/other/about"
                     as={process.env.PUBLIC_URL + "/other/about"}
                   >
-                    <a>LEARN MORE</a>
+                    LEARN MORE
                   </Link>
                 </div>
               </Col>
@@ -160,7 +160,7 @@ const AboutTwo = () => {
                     href="/other/about"
                     as={process.env.PUBLIC_URL + "/other/about"}
                   >
-                    <a>LEARN MORE</a>
+                    LEARN MORE
                   </Link>
                 </div>
               </Col>
@@ -168,7 +168,7 @@ const AboutTwo = () => {
           </Container>
         </div>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

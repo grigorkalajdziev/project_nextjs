@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const CategoryGridThree = ({ spaceBottomClass }) => {
   return (
-    <div
+    (<div
       className={`product-category-container ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
@@ -29,7 +29,7 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>+ Online store</a>
+                    + Online store
                   </Link>
                 </div>
                 <p className="product-count">999</p>
@@ -37,8 +37,8 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
             </div>
           </Col>
@@ -51,7 +51,7 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>+ Online store</a>
+                    + Online store
                   </Link>
                 </div>
                 <p className="product-count">222</p>
@@ -71,8 +71,8 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
             </div>
           </Col>
@@ -95,7 +95,7 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>+ Online store</a>
+                    + Online store
                   </Link>
                 </div>
                 <p className="product-count">4</p>
@@ -103,8 +103,8 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
             </div>
           </Col>
@@ -117,7 +117,7 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>+ Online store</a>
+                    + Online store
                   </Link>
                 </div>
                 <p className="product-count">4</p>
@@ -137,8 +137,8 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
             </div>
           </Col>
@@ -161,7 +161,7 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>+ Online store</a>
+                    + Online store
                   </Link>
                 </div>
                 <p className="product-count">999</p>
@@ -169,8 +169,8 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
             </div>
           </Col>
@@ -183,7 +183,7 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>+ Online store</a>
+                    + Online store
                   </Link>
                 </div>
                 <p className="product-count">222</p>
@@ -203,8 +203,8 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
             </div>
           </Col>
@@ -214,7 +214,7 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
               >
-                <a>+ store</a>
+                + store
               </Link>
               <p className="text">
                 <span>brand</span>
@@ -226,8 +226,8 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
             </div>
           </Col>
@@ -240,7 +240,7 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>+ Online store</a>
+                    + Online store
                   </Link>
                 </div>
                 <p className="product-count">4</p>
@@ -260,14 +260,14 @@ const CategoryGridThree = ({ spaceBottomClass }) => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
             </div>
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

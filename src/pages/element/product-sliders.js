@@ -7,7 +7,7 @@ import { ProductSliderTwo } from "../../components/ProductSlider";
 
 const ProductSliders = ({ products }) => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Product Sliders"
@@ -16,7 +16,7 @@ const ProductSliders = ({ products }) => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -27,7 +27,7 @@ const ProductSliders = ({ products }) => {
         {/* product slider */}
         <ProductSliderTwo products={products} />
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

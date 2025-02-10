@@ -7,7 +7,7 @@ import { ProductGridWrapper } from "../ProductThumb";
 
 const ProductTabTwo = ({ newProducts, popularProducts, saleProducts }) => {
   return (
-    <div className="product-tab product-tab--style2 space-mb--r100">
+    (<div className="product-tab product-tab--style2 space-mb--r100">
       <Container>
         <Tab.Container defaultActiveKey="popular">
           <Nav
@@ -59,16 +59,15 @@ const ProductTabTwo = ({ newProducts, popularProducts, saleProducts }) => {
             <Link
               href="/shop/left-sidebar"
               as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-            >
-              <a className="lezada-button lezada-button--medium lezada-button--icon--left">
-                <IoIosAdd />
-                Online Store
-              </a>
+              className="lezada-button lezada-button--medium lezada-button--icon--left">
+
+              <IoIosAdd />Online Store
+                            
             </Link>
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

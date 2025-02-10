@@ -43,7 +43,7 @@ const CategorySlider = ({ categoryData, spaceBottomClass }) => {
     }
   };
   return (
-    <div
+    (<div
       className={`product-category-slider-container ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
@@ -55,7 +55,7 @@ const CategorySlider = ({ categoryData, spaceBottomClass }) => {
               {categoryData &&
                 categoryData.map((single, i) => {
                   return (
-                    <div
+                    (<div
                       className="single-category single-category--two"
                       key={i}
                     >
@@ -72,7 +72,7 @@ const CategorySlider = ({ categoryData, spaceBottomClass }) => {
                             href="/shop/left-sidebar"
                             as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                           >
-                            <a>{single.name}</a>
+                            {single.name}
                           </Link>
                         </div>
                         <p className="product-count">{single.count}</p>
@@ -80,17 +80,17 @@ const CategorySlider = ({ categoryData, spaceBottomClass }) => {
                       <Link
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                      >
-                        <a className="banner-link"></a>
+                        className="banner-link">
+
                       </Link>
-                    </div>
+                    </div>)
                   );
                 })}
             </Swiper>
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

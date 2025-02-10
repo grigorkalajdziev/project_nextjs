@@ -13,7 +13,7 @@ const CountdownTimerFive = ({
   spaceBottomClass
 }) => {
   return (
-    <div
+    (<div
       className={`countdown-timer-wrapper ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
@@ -32,17 +32,20 @@ const CountdownTimerFive = ({
                 <div className="deal-countdown">
                   <Countdown date={new Date(dateTime)} renderer={Renderer} />
                 </div>
-                <Link href={url} as={process.env.PUBLIC_URL + url}>
-                  <a className="lezada-button lezada-button--medium lezada-button--icon--left">
-                    <IoIosCart /> {buttonText}
-                  </a>
+                <Link
+                  href={url}
+                  as={process.env.PUBLIC_URL + url}
+                  className="lezada-button lezada-button--medium lezada-button--icon--left">
+
+                  <IoIosCart /> {buttonText}
+
                 </Link>
               </div>
             </Col>
           </Row>
         </Container>
       </div>
-    </div>
+    </div>)
   );
 };
 

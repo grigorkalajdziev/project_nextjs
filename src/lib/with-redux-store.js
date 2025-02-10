@@ -1,3 +1,4 @@
+import React, { Component } from "react";
 import { initializeStore } from "../redux/store";
 
 const isServer = typeof window === "undefined";
@@ -17,7 +18,7 @@ function getOrCreateStore(initialState) {
 }
 
 export default (App) => {
-  return class AppWithRedux extends React.Component {
+  return class AppWithRedux extends Component {
     static async getInitialProps(appContext) {
       // Get or Create the store with `undefined` as initialState
       // This allows you to set a custom default initialState

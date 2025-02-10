@@ -158,7 +158,7 @@ const MyAccount = () => {
   };
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("my_account")}
@@ -170,7 +170,7 @@ const MyAccount = () => {
               href="/home/trending"
               as={process.env.PUBLIC_URL + "/home/trending"}
             >
-              <a>{t("home")}</a>
+              {t("home")}
             </Link>
           </li>
           <li>{t("my_account")}</li>
@@ -501,7 +501,7 @@ const MyAccount = () => {
           </Tab.Container>
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const BlogSidebar = () => {
   return (
-    <div className="blog-sidebar">
+    (<div className="blog-sidebar">
       <div className="single-sidebar-widget space-mb--40">
         <div className="search-widget">
           <form>
@@ -24,7 +24,7 @@ const BlogSidebar = () => {
               href="/blog/standard-left-sidebar"
               as={process.env.PUBLIC_URL + "/blog/standard-left-sidebar"}
             >
-              <a>Fashion</a>
+              Fashion
             </Link>
           </li>
           <li>
@@ -32,7 +32,7 @@ const BlogSidebar = () => {
               href="/blog/standard-left-sidebar"
               as={process.env.PUBLIC_URL + "/blog/standard-left-sidebar"}
             >
-              <a>Furniture</a>
+              Furniture
             </Link>
           </li>
           <li>
@@ -40,7 +40,7 @@ const BlogSidebar = () => {
               href="/blog/standard-left-sidebar"
               as={process.env.PUBLIC_URL + "/blog/standard-left-sidebar"}
             >
-              <a>Accessories</a>
+              Accessories
             </Link>
           </li>
           <li>
@@ -48,7 +48,7 @@ const BlogSidebar = () => {
               href="/blog/standard-left-sidebar"
               as={process.env.PUBLIC_URL + "/blog/standard-left-sidebar"}
             >
-              <a>Wearables</a>
+              Wearables
             </Link>
           </li>
           <li>
@@ -56,12 +56,11 @@ const BlogSidebar = () => {
               href="/blog/standard-left-sidebar"
               as={process.env.PUBLIC_URL + "/blog/standard-left-sidebar"}
             >
-              <a>Decor</a>
+              Decor
             </Link>
           </li>
         </ul>
       </div>
-
       <div className="single-sidebar-widget space-mb--40">
         <div className="widget-post-wrapper">
           <div className="single-widget-post">
@@ -70,16 +69,16 @@ const BlogSidebar = () => {
                 href="/blog/post-left-sidebar"
                 as={process.env.PUBLIC_URL + "/blog/post-left-sidebar"}
               >
-                <a>
-                  <img
-                    src={
-                      process.env.PUBLIC_URL +
-                      "/assets/images/blog/post-thumbnail-100x120.png"
-                    }
-                    className="img-fluid"
-                    alt=""
-                  />
-                </a>
+
+                <img
+                  src={
+                    process.env.PUBLIC_URL +
+                    "/assets/images/blog/post-thumbnail-100x120.png"
+                  }
+                  className="img-fluid"
+                  alt=""
+                />
+
               </Link>
             </div>
             <div className="content">
@@ -88,7 +87,7 @@ const BlogSidebar = () => {
                   href="/blog/post-left-sidebar"
                   as={process.env.PUBLIC_URL + "/blog/post-left-sidebar"}
                 >
-                  <a>Chic Fashion Phenomenon</a>
+                  Chic Fashion Phenomenon
                 </Link>
               </h3>
               <p className="widget-post-date">June 5, 2020</p>
@@ -101,16 +100,16 @@ const BlogSidebar = () => {
                 href="/blog/post-left-sidebar"
                 as={process.env.PUBLIC_URL + "/blog/post-left-sidebar"}
               >
-                <a>
-                  <img
-                    src={
-                      process.env.PUBLIC_URL +
-                      "/assets/images/blog/post-thumbnail-6-100x120.png"
-                    }
-                    className="img-fluid"
-                    alt=""
-                  />
-                </a>
+
+                <img
+                  src={
+                    process.env.PUBLIC_URL +
+                    "/assets/images/blog/post-thumbnail-6-100x120.png"
+                  }
+                  className="img-fluid"
+                  alt=""
+                />
+
               </Link>
             </div>
             <div className="content">
@@ -119,7 +118,7 @@ const BlogSidebar = () => {
                   href="/blog/post-left-sidebar"
                   as={process.env.PUBLIC_URL + "/blog/post-left-sidebar"}
                 >
-                  <a>Go Your Own Way</a>
+                  Go Your Own Way
                 </Link>
               </h3>
               <p className="widget-post-date">June 5, 2020</p>
@@ -132,16 +131,16 @@ const BlogSidebar = () => {
                 href="/blog/post-left-sidebar"
                 as={process.env.PUBLIC_URL + "/blog/post-left-sidebar"}
               >
-                <a>
-                  <img
-                    src={
-                      process.env.PUBLIC_URL +
-                      "/assets/images/blog/post-thumbnail-9-100x120.png"
-                    }
-                    className="img-fluid"
-                    alt=""
-                  />
-                </a>
+
+                <img
+                  src={
+                    process.env.PUBLIC_URL +
+                    "/assets/images/blog/post-thumbnail-9-100x120.png"
+                  }
+                  className="img-fluid"
+                  alt=""
+                />
+
               </Link>
             </div>
             <div className="content">
@@ -150,7 +149,7 @@ const BlogSidebar = () => {
                   href="/blog/post-left-sidebar"
                   as={process.env.PUBLIC_URL + "/blog/post-left-sidebar"}
                 >
-                  <a>Home-made Body Lotion</a>
+                  Home-made Body Lotion
                 </Link>
               </h3>
               <p className="widget-post-date">June 5, 2020</p>
@@ -158,27 +157,25 @@ const BlogSidebar = () => {
           </div>
         </div>
       </div>
-
       <div className="single-sidebar-widget space-mb--40">
         <div className="blog-sidebar-banner">
           <Link
             href="/shop/left-sidebar"
             as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
           >
-            <a>
-              <img
-                src={
-                  process.env.PUBLIC_URL +
-                  "/assets/images/banners/blog-sidebar.png"
-                }
-                className="img-fluid"
-                alt=""
-              />
-            </a>
+
+            <img
+              src={
+                process.env.PUBLIC_URL +
+                "/assets/images/banners/blog-sidebar.png"
+              }
+              className="img-fluid"
+              alt=""
+            />
+
           </Link>
         </div>
       </div>
-
       <div className="single-sidebar-widget">
         <h2 className="single-sidebar-widget__title space-mb--30">
           {" "}
@@ -189,59 +186,59 @@ const BlogSidebar = () => {
             href="/blog/standard-left-sidebar"
             as={process.env.PUBLIC_URL + "/blog/standard-left-sidebar"}
           >
-            <a>bags</a>
+            bags
           </Link>
           <Link
             href="/blog/standard-left-sidebar"
             as={process.env.PUBLIC_URL + "/blog/standard-left-sidebar"}
           >
-            <a>chair</a>
+            chair
           </Link>
           <Link
             href="/blog/standard-left-sidebar"
             as={process.env.PUBLIC_URL + "/blog/standard-left-sidebar"}
           >
-            <a>clock</a>
+            clock
           </Link>
           <Link
             href="/blog/standard-left-sidebar"
             as={process.env.PUBLIC_URL + "/blog/standard-left-sidebar"}
           >
-            <a>cosmetic</a>
+            cosmetic
           </Link>
           <Link
             href="/blog/standard-left-sidebar"
             as={process.env.PUBLIC_URL + "/blog/standard-left-sidebar"}
           >
-            <a>fashion</a>
+            fashion
           </Link>
           <Link
             href="/blog/standard-left-sidebar"
             as={process.env.PUBLIC_URL + "/blog/standard-left-sidebar"}
           >
-            <a>furniture</a>
+            furniture
           </Link>
           <Link
             href="/blog/standard-left-sidebar"
             as={process.env.PUBLIC_URL + "/blog/standard-left-sidebar"}
           >
-            <a>holder</a>
+            holder
           </Link>
           <Link
             href="/blog/standard-left-sidebar"
             as={process.env.PUBLIC_URL + "/blog/standard-left-sidebar"}
           >
-            <a>mask</a>
+            mask
           </Link>
           <Link
             href="/blog/standard-left-sidebar"
             as={process.env.PUBLIC_URL + "/blog/standard-left-sidebar"}
           >
-            <a>men</a>
+            men
           </Link>
         </div>
       </div>
-    </div>
+    </div>)
   );
 };
 

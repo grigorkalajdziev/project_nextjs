@@ -4,7 +4,7 @@ import { IoIosCart } from "react-icons/io";
 
 const ImageCtaThree = ({ spaceBottomClass }) => {
   return (
-    <div
+    (<div
       className={`image-cta-two overflow-hidden ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
@@ -23,10 +23,10 @@ const ImageCtaThree = ({ spaceBottomClass }) => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="lezada-button lezada-button--medium lezada-button--icon--left">
-                  <IoIosCart /> Only $39
-                </a>
+                className="lezada-button lezada-button--medium lezada-button--icon--left">
+
+                <IoIosCart />Only $39
+                                
               </Link>
             </div>
           </Col>
@@ -40,7 +40,7 @@ const ImageCtaThree = ({ spaceBottomClass }) => {
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

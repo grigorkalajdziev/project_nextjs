@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const CategoryGridFive = () => {
   return (
-    <div className="category-area space-mb--r100">
+    (<div className="category-area space-mb--r100">
       <Container>
         <Row className="align-items-center">
           <Col lg={4} md={6} className="offset-lg-1 space-mb--30">
@@ -25,7 +25,7 @@ const CategoryGridFive = () => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>+ Online store</a>
+                    + Online store
                   </Link>
                 </div>
                 <p className="product-count">999</p>
@@ -33,8 +33,8 @@ const CategoryGridFive = () => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
             </div>
           </Col>
@@ -56,8 +56,8 @@ const CategoryGridFive = () => {
                 <Link
                   href="/shop/left-sidebar"
                   as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                >
-                  <a className="link">Shop Now</a>
+                  className="link">
+                  Shop Now
                 </Link>
               </div>
             </div>
@@ -81,7 +81,7 @@ const CategoryGridFive = () => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>+ Online store</a>
+                    + Online store
                   </Link>
                 </div>
                 <p className="product-count">999</p>
@@ -89,8 +89,8 @@ const CategoryGridFive = () => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
             </div>
           </Col>
@@ -113,7 +113,7 @@ const CategoryGridFive = () => {
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                   >
-                    <a>+ Online store</a>
+                    + Online store
                   </Link>
                 </div>
                 <p className="product-count">999</p>
@@ -121,14 +121,14 @@ const CategoryGridFive = () => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-link" />
+                className="banner-link">
+
               </Link>
             </div>
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

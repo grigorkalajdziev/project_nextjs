@@ -6,7 +6,7 @@ import { BlogSidebar, BlogPostListWrapper } from "../../components/Blog";
 
 const ListRightSidebar = () => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Blog List Right Sidebar"
@@ -15,7 +15,7 @@ const ListRightSidebar = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -67,7 +67,7 @@ const ListRightSidebar = () => {
           </Row>
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

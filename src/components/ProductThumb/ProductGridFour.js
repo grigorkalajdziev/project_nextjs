@@ -25,7 +25,7 @@ const ProductGridFour = ({
   const [modalShow, setModalShow] = useState(false);
 
   return (
-    <Fragment>
+    (<Fragment>
       <div
         className={`${bottomSpace ? bottomSpace : ""} ${
           sliderClass ? sliderClass : ""
@@ -39,23 +39,23 @@ const ProductGridFour = ({
               as={
                 process.env.PUBLIC_URL + "/shop/product-basic/" + product.slug
               }
-            >
-              <a className="image-wrap">
+              className="image-wrap">
+
+              <img
+                src={process.env.PUBLIC_URL + product.thumbImage[0]}
+                className="img-fluid"
+                alt={product.name}
+              />
+              {product.thumbImage.length > 1 ? (
                 <img
-                  src={process.env.PUBLIC_URL + product.thumbImage[0]}
+                  src={process.env.PUBLIC_URL + product.thumbImage[1]}
                   className="img-fluid"
                   alt={product.name}
                 />
-                {product.thumbImage.length > 1 ? (
-                  <img
-                    src={process.env.PUBLIC_URL + product.thumbImage[1]}
-                    className="img-fluid"
-                    alt={product.name}
-                  />
-                ) : (
-                  ""
-                )}
-              </a>
+              ) : (
+                ""
+              )}
+
             </Link>
             <div className="product-grid__floating-badges">
               {product.discount && product.discount > 0 ? (
@@ -152,7 +152,7 @@ const ProductGridFour = ({
                     product.slug
                   }
                 >
-                  <a>{product.name}</a>
+                  {product.name}
                 </Link>
               </h3>
               {/* add to cart */}
@@ -169,7 +169,7 @@ const ProductGridFour = ({
                     product.slug
                   }
                 >
-                  <a>Select Option</a>
+                  Select Option
                 </Link>
               ) : product.stock && product.stock > 0 ? (
                 <button
@@ -216,7 +216,7 @@ const ProductGridFour = ({
         deletefromcompare={deleteFromCompare}
         addtoast={addToast}
       />
-    </Fragment>
+    </Fragment>)
   );
 };
 

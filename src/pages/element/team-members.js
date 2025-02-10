@@ -8,7 +8,7 @@ import teamData from "../../data/team-members/team-one.json";
 
 const TeamMembers = () => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Team Members"
@@ -17,7 +17,7 @@ const TeamMembers = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
           <li>Team Members</li>
@@ -117,7 +117,7 @@ const TeamMembers = () => {
           </Container>
         </div>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

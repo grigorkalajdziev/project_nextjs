@@ -44,7 +44,7 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
   };
 
   return (
-    <Fragment>
+    (<Fragment>
       <header
         className={`topbar-shadow ${scroll > headerTop ? "is-sticky" : ""}`}
       >
@@ -55,13 +55,13 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
               {/* logo */}
               <div className="header-content__logo space-pr--15">
                 <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-                  <a>
-                    <img
-                      src={process.env.PUBLIC_URL + "/assets/images/logo.svg"}
-                      className="img-fluid"
-                      alt=""
-                    />
-                  </a>
+
+                  <img
+                    src={process.env.PUBLIC_URL + "/assets/images/logo.svg"}
+                    className="img-fluid"
+                    alt=""
+                  />
+
                 </Link>
               </div>
 
@@ -136,16 +136,16 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
                       href="/other/wishlist"
                       as={process.env.PUBLIC_URL + "/other/wishlist"}
                     >
-                      <a>
-                        <IoIosHeartEmpty />
-                        {wishlistItems.length >= 1 ? (
-                          <span className="count">
-                            {wishlistItems.length ? wishlistItems.length : ""}
-                          </span>
-                        ) : (
-                          ""
-                        )}
-                      </a>
+
+                      <IoIosHeartEmpty />
+                      {wishlistItems.length >= 1 ? (
+                        <span className="count">
+                          {wishlistItems.length ? wishlistItems.length : ""}
+                        </span>
+                      ) : (
+                        ""
+                      )}
+
                     </Link>
                   </li>
                   <li>
@@ -153,16 +153,16 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
                       href="/other/cart"
                       as={process.env.PUBLIC_URL + "/other/cart"}
                     >
-                      <a>
-                        <IoIosCart />
-                        {cartItems.length >= 1 ? (
-                          <span className="count">
-                            {cartItems.length ? cartItems.length : ""}
-                          </span>
-                        ) : (
-                          ""
-                        )}
-                      </a>
+
+                      <IoIosCart />
+                      {cartItems.length >= 1 ? (
+                        <span className="count">
+                          {cartItems.length ? cartItems.length : ""}
+                        </span>
+                      ) : (
+                        ""
+                      )}
+
                     </Link>
                   </li>
                   <li>
@@ -176,7 +176,6 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
           </Container>
         </div>
       </header>
-
       {/* about overlay */}
       {aboutOverlay === false ? (
         ""
@@ -190,14 +189,12 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
       <SearchOverlay
         activeStatus={offCanvasSearchActive}
         getActiveStatus={setOffCanvasSearchActive}        
-      />      
-
+      />
       {/* cart overlay */}
       <CartOverlay
         activeStatus={offCanvasCartActive}
         getActiveStatus={setOffCanvasCartActive}
       />
-
       {/* wishlist overlay */}
       <WishlistOverlay
         activeStatus={offCanvasWishlistActive}
@@ -208,7 +205,7 @@ const HeaderFive = ({ aboutOverlay, cartItems, wishlistItems }) => {
         activeStatus={offCanvasMobileMenuActive}
         getActiveStatus={setOffCanvasMobileMenuActive}
       />
-    </Fragment>
+    </Fragment>)
   );
 };
 

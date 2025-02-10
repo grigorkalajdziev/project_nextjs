@@ -56,7 +56,7 @@ const Contact = () => {
   };   
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("contact_title")}
@@ -65,13 +65,12 @@ const Contact = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              <a>{t("home")}</a>
+              {t("home")}
             </Link>
           </li>
           <li>{t("contact")}</li>
         </ul>
       </BreadcrumbOne>
-
       <div className="contact-page-content-wrapper space-mt--r130 space-mb--r130">
         <div className="contact-page-top-info space-mb--r100">
           <Container>
@@ -228,7 +227,7 @@ const Contact = () => {
           </Container>
         </div>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

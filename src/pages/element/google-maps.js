@@ -6,7 +6,7 @@ import { SectionTitleOne } from "../../components/SectionTitle";
 
 const GoogleMaps = () => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Google maps"
@@ -15,7 +15,7 @@ const GoogleMaps = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -100,7 +100,7 @@ const GoogleMaps = () => {
           </div>
         </div>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

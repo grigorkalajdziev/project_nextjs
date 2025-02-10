@@ -11,7 +11,7 @@ import categoryData from "../../data/categories/category-one.json";
 
 const ProductCategories = () => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Product Categories"
@@ -20,7 +20,7 @@ const ProductCategories = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -52,7 +52,7 @@ const ProductCategories = () => {
         />
         <CategoryGrid />
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

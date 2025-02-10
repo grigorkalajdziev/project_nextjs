@@ -55,7 +55,7 @@ const FullwidthRightSidebar = ({ products }) => {
   }, [offset, products, sortType, sortValue, filterSortType, filterSortValue]);
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Shop Full Width Right Sidebar"
@@ -64,7 +64,7 @@ const FullwidthRightSidebar = ({ products }) => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -123,7 +123,7 @@ const FullwidthRightSidebar = ({ products }) => {
           </Container>
         </div>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

@@ -17,13 +17,13 @@ const HeroSliderFour = ({ sliderData }) => {
     },
   };
   return (
-    <div className="hero-slider-four">
+    (<div className="hero-slider-four">
       <div className="hero-slider-four__wrapper">
         <Swiper {...params}>
           {sliderData &&
             sliderData.map((single, i) => {
               return (
-                <div
+                (<div
                   className="hero-slider-four__slide bg-img"
                   style={{ backgroundImage: `url(${single.bgImage})` }}
                   key={i}
@@ -39,16 +39,16 @@ const HeroSliderFour = ({ sliderData }) => {
                         href={single.url}
                         as={process.env.PUBLIC_URL + single.url}
                       >
-                        <a>shop collection</a>
+                        shop collection
                       </Link>
                     </div>
                   </div>
-                </div>
+                </div>)
               );
             })}
         </Swiper>
       </div>
-    </div>
+    </div>)
   );
 };
 

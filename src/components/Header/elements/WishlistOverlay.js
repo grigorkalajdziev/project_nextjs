@@ -17,7 +17,7 @@ const WishlistOverlay = ({
   const { t, currentLanguage } = useLocalization(); // Use localization hook
   
   return (
-    <div className={`wishlist-overlay ${activeStatus ? "active" : ""}`}>
+    (<div className={`wishlist-overlay ${activeStatus ? "active" : ""}`}>
       <div
         className="wishlist-overlay__close"
         onClick={() => {
@@ -50,7 +50,7 @@ const WishlistOverlay = ({
                       product.discount
                     ).toFixed(2);
                     return (
-                      <div className="single-wishlist-product" key={i}>
+                      (<div className="single-wishlist-product" key={i}>
                         <span className="wishlist-close-icon">
                           <button
                             onClick={() =>
@@ -65,15 +65,15 @@ const WishlistOverlay = ({
                             href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                             as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                           >
-                            <a>
-                              <img
-                                src={
-                                  process.env.PUBLIC_URL + product.thumbImage[0]
-                                }
-                                className="img-fluid"
-                                alt=""
-                              />
-                            </a>
+
+                            <img
+                              src={
+                                process.env.PUBLIC_URL + product.thumbImage[0]
+                              }
+                              className="img-fluid"
+                              alt=""
+                            />
+
                           </Link>
                         </div>
                         <div className="content">
@@ -82,7 +82,7 @@ const WishlistOverlay = ({
                               href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                               as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                             >
-                              <a>{product.name[currentLanguage] || product.name["en"]}</a>
+                              {product.name[currentLanguage] || product.name["en"]}
                             </Link>
                           </h5>
                           <p>
@@ -93,7 +93,7 @@ const WishlistOverlay = ({
                             </span>
                           </p>
                         </div>
-                      </div>
+                      </div>)
                     );
                   })}
                 </CustomScroll>
@@ -104,7 +104,7 @@ const WishlistOverlay = ({
                   href="/other/wishlist"
                   as={process.env.PUBLIC_URL + "/other/wishlist"}
                 >
-                  <a>{t("view_wishlist")}</a>
+                  {t("view_wishlist")}
                 </Link>
               </div>
             </div>
@@ -113,7 +113,7 @@ const WishlistOverlay = ({
           )}
         </div>
       </div>
-    </div>
+    </div>)
   );
 };
 

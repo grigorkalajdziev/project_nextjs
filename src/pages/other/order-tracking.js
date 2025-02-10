@@ -5,7 +5,7 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 
 const OrderTracking = () => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Order Tracking"
@@ -14,7 +14,7 @@ const OrderTracking = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -67,7 +67,7 @@ const OrderTracking = () => {
           </Row>
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

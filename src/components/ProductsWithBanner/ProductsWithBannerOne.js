@@ -10,7 +10,7 @@ const ProductsWithBannerOne = ({
   bannerPosition
 }) => {
   return (
-    <div className="banner-with-product-area space-mb--r130">
+    (<div className="banner-with-product-area space-mb--r130">
       <Container className="wide">
         <Row>
           <Col
@@ -33,23 +33,29 @@ const ProductsWithBannerOne = ({
             }
           >
             <div className="product-side-banner space-mb-mobile-only--30">
-              <Link href={bannerUrl} as={process.env.PUBLIC_URL + bannerUrl}>
-                <a className="space-mb--40">
-                  <img
-                    src={process.env.PUBLIC_URL + bannerImage}
-                    className="img-fluid"
-                    alt=""
-                  />
-                </a>
+              <Link
+                href={bannerUrl}
+                as={process.env.PUBLIC_URL + bannerUrl}
+                className="space-mb--40">
+
+                <img
+                  src={process.env.PUBLIC_URL + bannerImage}
+                  className="img-fluid"
+                  alt=""
+                />
+
               </Link>
-              <Link href={bannerUrl} as={process.env.PUBLIC_URL + bannerUrl}>
-                <a className="product-side-banner--link">{bannerTitle}</a>
+              <Link
+                href={bannerUrl}
+                as={process.env.PUBLIC_URL + bannerUrl}
+                className="product-side-banner--link">
+                {bannerTitle}
               </Link>
             </div>
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

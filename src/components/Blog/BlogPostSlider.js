@@ -50,7 +50,7 @@ const BlogPostSlider = ({ blogData, spaceBottomClass }) => {
     },
   };
   return (
-    <div
+    (<div
       className={`blog-post-slider ${spaceBottomClass ? spaceBottomClass : ""}`}
     >
       <Container>
@@ -76,7 +76,7 @@ const BlogPostSlider = ({ blogData, spaceBottomClass }) => {
                 {blogData &&
                   blogData.map((single, i) => {
                     return (
-                      <div className="blog-grid-post" key={i}>
+                      (<div className="blog-grid-post" key={i}>
                         <div className="blog-grid-post__image space-mb--30">
                           {/* <Link
                             href={single.url}
@@ -110,18 +110,16 @@ const BlogPostSlider = ({ blogData, spaceBottomClass }) => {
                           <Link
                             href={single.url}
                             as={process.env.PUBLIC_URL + single.url}
-                          >
-                            <a
-                              className="blog-readmore-btn"
-                              onClick={(e) => {
-                                e.preventDefault(); // Prevent the default navigation
-                              }}
-                            >
-                              {t("read_more")}
-                            </a>
+                            className="blog-readmore-btn"
+                            onClick={(e) => {
+                              e.preventDefault(); // Prevent the default navigation
+                            }}>
+
+                            {t("read_more")}
+
                           </Link>
                         </div>
-                      </div>
+                      </div>)
                     );
                   })}
               </Swiper>
@@ -129,7 +127,7 @@ const BlogPostSlider = ({ blogData, spaceBottomClass }) => {
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

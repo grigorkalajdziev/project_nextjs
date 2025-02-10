@@ -27,7 +27,7 @@ const HeroSliderThree = ({ sliderData, spaceBottomClass }) => {
     )
   };
   return (
-    <div
+    (<div
       className={`hero-slider-three ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
@@ -37,7 +37,7 @@ const HeroSliderThree = ({ sliderData, spaceBottomClass }) => {
           {sliderData &&
             sliderData.map((single, i) => {
               return (
-                <div
+                (<div
                   className="hero-slider-three__slide bg-img"
                   style={{ backgroundImage: `url(${single.bgImage})` }}
                   key={i}
@@ -56,7 +56,7 @@ const HeroSliderThree = ({ sliderData, spaceBottomClass }) => {
                               href={single.url}
                               as={process.env.PUBLIC_URL + single.url}
                             >
-                              <a>shop collection</a>
+                              shop collection
                             </Link>
                           </div>
                         </div>
@@ -76,12 +76,12 @@ const HeroSliderThree = ({ sliderData, spaceBottomClass }) => {
                       )}
                     </Row>
                   </Container>
-                </div>
+                </div>)
               );
             })}
         </Swiper>
       </div>
-    </div>
+    </div>)
   );
 };
 

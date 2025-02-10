@@ -75,7 +75,7 @@ const ProductBasic = ({
   }
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={product.name[currentLanguage] || product.name["en"]}
@@ -84,7 +84,7 @@ const ProductBasic = ({
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>{t("home")}</a>
+              {t("home")}
             </Link>
           </li>
           <li>
@@ -92,13 +92,12 @@ const ProductBasic = ({
               href="/shop/left-sidebar"
               as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
             >
-              <a>{t("shop")}</a>
+              {t("shop")}
             </Link>
           </li>
           <li>{product.name[currentLanguage] || product.name["en"]}</li>
         </ul>
       </BreadcrumbOne>
-
       {/* product details */}
       <div className="product-details space-mt--r100 space-mb--r100">
         <Container>
@@ -141,7 +140,7 @@ const ProductBasic = ({
           </Row>
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

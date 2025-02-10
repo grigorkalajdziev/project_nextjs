@@ -19,7 +19,7 @@ import heroSliderData from "../../data/hero-sliders/hero-slider-two.json";
 const Trending = ({ products }) => {
   const { t } = useLocalization(); 
   return (
-    <LayoutFive>
+    (<LayoutFive>
       {/* hero slider */}
       <HeroSliderTwo
         sliderData={heroSliderData}
@@ -30,7 +30,6 @@ const Trending = ({ products }) => {
         categoryData={categoryData}
         spaceBottomClass="space-mb--r100"
       />
-
       {/* products */}
       <SectionTitleOne
         key={t("spring_summer")}
@@ -49,21 +48,19 @@ const Trending = ({ products }) => {
             <Link
               href="/shop/left-sidebar"
               as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-            >
-              <a className="lezada-loadmore-button">
-                <IoIosAdd />{t("see_more")}
-              </a>
+              className="lezada-loadmore-button">
+
+              <IoIosAdd />{t("see_more")}
+
             </Link>
           </div>
         </Container>
       </div>
-
       {/* blog post slider */}
       <BlogPostSlider blogData={blogData} spaceBottomClass="space-mb--50" />
-
       {/*shop info*/}
       <ShopInfo />
-    </LayoutFive>
+    </LayoutFive>)
   );
 };
 

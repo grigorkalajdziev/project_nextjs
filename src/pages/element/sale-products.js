@@ -10,7 +10,7 @@ import { ProductGridWrapper } from "../../components/ProductThumb";
 
 const SaleProducts = ({ products }) => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Sale products"
@@ -19,7 +19,7 @@ const SaleProducts = ({ products }) => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -42,16 +42,16 @@ const SaleProducts = ({ products }) => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="lezada-loadmore-button">
-                  <IoIosAdd /> SEE MORE ...
-                </a>
+                className="lezada-loadmore-button">
+
+                <IoIosAdd />SEE MORE ...
+                                
               </Link>
             </Col>
           </Row>
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 const mapStateToProps = (state) => {

@@ -21,7 +21,7 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
   };
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("compare_page_title")}
@@ -30,7 +30,7 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>{t("home")}</a>
+              {t("home")}
             </Link>
           </li>
 
@@ -55,7 +55,7 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                                   (item) => item.id === product.id
                                 )[0];
                                 return (
-                                  <td className="product-image-title" key={i}>
+                                  (<td className="product-image-title" key={i}>
                                     <div className="compare-remove">
                                       <button
                                         onClick={() =>
@@ -69,24 +69,24 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                                     <Link
                                       href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                                       as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
-                                    >
-                                      <a className="image">
-                                        <img
-                                          className="img-fluid"
-                                          src={
-                                            process.env.PUBLIC_URL +
-                                            product.thumbImage[0]
-                                          }
-                                          alt=""
-                                        />
-                                      </a>
+                                      className="image">
+
+                                      <img
+                                        className="img-fluid"
+                                        src={
+                                          process.env.PUBLIC_URL +
+                                          product.thumbImage[0]
+                                        }
+                                        alt=""
+                                      />
+
                                     </Link>
                                     <div className="product-title">
                                       <Link
                                         href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                                         as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                                       >
-                                        <a>{product.name[currentLanguage] || product.name["en"]}</a>
+                                        {product.name[currentLanguage] || product.name["en"]}
                                       </Link>
                                     </div>
                                     <div className="compare-btn">
@@ -103,10 +103,10 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                                         <Link
                                           href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                                           as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
-                                        >
-                                          <a className="lezada-button lezada-button--primary">
-                                            {t("select_option")}
-                                          </a>
+                                          className="lezada-button lezada-button--primary">
+
+                                          {t("select_option")}
+
                                         </Link>
                                       ) : product.stock && product.stock > 0 ? (
                                         <button
@@ -140,7 +140,7 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                                         </button>
                                       )}
                                     </div>
-                                  </td>
+                                  </td>)
                                 );
                               })}
                             </tr>
@@ -225,10 +225,10 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
                         <Link
                           href="/shop/left-sidebar"
                           as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                        >
-                          <a className="lezada-button lezada-button--medium">
-                            {t("add_items")}
-                          </a>
+                          className="lezada-button lezada-button--medium">
+
+                          {t("add_items")}
+
                         </Link>
                       </div>
                     </div>
@@ -239,7 +239,7 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
           </Row>
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

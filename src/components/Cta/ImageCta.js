@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const ImageCta = ({ image, tags, title, url }) => {
   return (
-    <div className="image-cta text-center space-mb--r100">
+    (<div className="image-cta text-center space-mb--r100">
       <Container>
         <Row>
           <Col lg={8} className="ml-auto mr-auto">
@@ -21,11 +21,11 @@ const ImageCta = ({ image, tags, title, url }) => {
                 {tags &&
                   tags.map((tag, i) => {
                     return (
-                      <li key={i}>
+                      (<li key={i}>
                         <Link href={url} as={process.env.PUBLIC_URL + url}>
-                          <a>#{tag}</a>
+                          #{tag}
                         </Link>
-                      </li>
+                      </li>)
                     );
                   })}
               </ul>
@@ -37,14 +37,17 @@ const ImageCta = ({ image, tags, title, url }) => {
                 className="space-mb--30"
                 dangerouslySetInnerHTML={{ __html: title }}
               />
-              <Link href={url} as={process.env.PUBLIC_URL + url}>
-                <a className="lezada-button lezada-button--medium">shop now</a>
+              <Link
+                href={url}
+                as={process.env.PUBLIC_URL + url}
+                className="lezada-button lezada-button--medium">
+                shop now
               </Link>
             </div>
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

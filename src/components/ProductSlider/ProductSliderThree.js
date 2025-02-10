@@ -30,7 +30,7 @@ const ProductSliderThree = ({ products }) => {
     }
   };
   return (
-    <div className="space-mb--r100">
+    (<div className="space-mb--r100">
       <SectionTitleFour title="Trending Now" />
       <Container className="wide">
         <Row>
@@ -48,13 +48,13 @@ const ProductSliderThree = ({ products }) => {
             <Link
               href="/shop/left-sidebar"
               as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-            >
-              <a className="lezada-loadmore-button">+ Load More..</a>
+              className="lezada-loadmore-button">
+              + Load More..
             </Link>
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

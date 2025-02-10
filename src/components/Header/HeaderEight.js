@@ -47,7 +47,7 @@ const HeaderEight = ({ aboutOverlay, cartItems, wishlistItems }) => {
   };
 
   return (
-    <Fragment>
+    (<Fragment>
       <header
         className={`topbar-shadow transparent-style white-content ${
           scroll > headerTop ? "is-sticky" : ""
@@ -87,20 +87,20 @@ const HeaderEight = ({ aboutOverlay, cartItems, wishlistItems }) => {
                 {/* logo */}
                 <div className="header-content__logo">
                   <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-                    <a>
-                      <img
-                        src={process.env.PUBLIC_URL + "/assets/images/logo.svg"}
-                        className="img-fluid dark-logo"
-                        alt=""
-                      />
-                      <img
-                        src={
-                          process.env.PUBLIC_URL + "/assets/images/logo-alt.png"
-                        }
-                        className="img-fluid white-logo"
-                        alt=""
-                      />
-                    </a>
+
+                    <img
+                      src={process.env.PUBLIC_URL + "/assets/images/logo.svg"}
+                      className="img-fluid dark-logo"
+                      alt=""
+                    />
+                    <img
+                      src={
+                        process.env.PUBLIC_URL + "/assets/images/logo-alt.png"
+                      }
+                      className="img-fluid white-logo"
+                      alt=""
+                    />
+
                   </Link>
                 </div>
               </Col>
@@ -175,16 +175,16 @@ const HeaderEight = ({ aboutOverlay, cartItems, wishlistItems }) => {
                         href="/other/wishlist"
                         as={process.env.PUBLIC_URL + "/other/wishlist"}
                       >
-                        <a>
-                          <IoIosHeartEmpty />
-                          {wishlistItems.length >= 1 ? (
-                            <span className="count">
-                              {wishlistItems.length ? wishlistItems.length : ""}
-                            </span>
-                          ) : (
-                            ""
-                          )}
-                        </a>
+
+                        <IoIosHeartEmpty />
+                        {wishlistItems.length >= 1 ? (
+                          <span className="count">
+                            {wishlistItems.length ? wishlistItems.length : ""}
+                          </span>
+                        ) : (
+                          ""
+                        )}
+
                       </Link>
                     </li>
                     <li>
@@ -192,16 +192,16 @@ const HeaderEight = ({ aboutOverlay, cartItems, wishlistItems }) => {
                         href="/other/cart"
                         as={process.env.PUBLIC_URL + "/other/cart"}
                       >
-                        <a>
-                          <IoIosCart />
-                          {cartItems.length >= 1 ? (
-                            <span className="count">
-                              {cartItems.length ? cartItems.length : ""}
-                            </span>
-                          ) : (
-                            ""
-                          )}
-                        </a>
+
+                        <IoIosCart />
+                        {cartItems.length >= 1 ? (
+                          <span className="count">
+                            {cartItems.length ? cartItems.length : ""}
+                          </span>
+                        ) : (
+                          ""
+                        )}
+
                       </Link>
                     </li>
                     <li>
@@ -227,7 +227,6 @@ const HeaderEight = ({ aboutOverlay, cartItems, wishlistItems }) => {
           </Container>
         </div>
       </header>
-
       {/* about overlay */}
       {aboutOverlay === false ? (
         ""
@@ -242,13 +241,11 @@ const HeaderEight = ({ aboutOverlay, cartItems, wishlistItems }) => {
         activeStatus={offCanvasSearchActive}
         getActiveStatus={setOffCanvasSearchActive}
       />
-
       {/* cart overlay */}
       <CartOverlay
         activeStatus={offCanvasCartActive}
         getActiveStatus={setOffCanvasCartActive}
       />
-
       {/* wishlist overlay */}
       <WishlistOverlay
         activeStatus={offCanvasWishlistActive}
@@ -259,7 +256,7 @@ const HeaderEight = ({ aboutOverlay, cartItems, wishlistItems }) => {
         activeStatus={offCanvasMobileMenuActive}
         getActiveStatus={setOffCanvasMobileMenuActive}
       />
-    </Fragment>
+    </Fragment>)
   );
 };
 

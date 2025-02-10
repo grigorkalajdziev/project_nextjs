@@ -54,7 +54,7 @@ const HeaderTop = () => {
   };
 
   return (
-    <div className="header-top-area border-bottom--grey space-pt--10 space-pb--10 d-none d-lg-block">
+    (<div className="header-top-area border-bottom--grey space-pt--10 space-pb--10 d-none d-lg-block">
       <Container className="wide">
         <div className="header-top">
           <div className="header-top__left">
@@ -102,7 +102,7 @@ const HeaderTop = () => {
               <>
                 <div className="signup-link">
                   <Link href="/other/login-register" as={process.env.PUBLIC_URL + "/other/login-register"}>
-                    <a>{t("signup_login")}</a>
+                    {t("signup_login")}
                   </Link>
                 </div>
               </>
@@ -120,7 +120,7 @@ const HeaderTop = () => {
           </div>
         </div>
       </Container>
-    </div>
+    </div>)
   );
 };
 

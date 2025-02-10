@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const ConceptContent = () => {
   return (
-    <div className="home-content-concept space-mb--r130">
+    (<div className="home-content-concept space-mb--r130">
       <Container className="wide">
         <Row>
           <Col lg={6}>
@@ -20,8 +20,8 @@ const ConceptContent = () => {
                   <Link
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a className="lezada-button-2">shop collection</a>
+                    className="lezada-button-2">
+                    shop collection
                   </Link>
                 </div>
               </Col>
@@ -44,7 +44,7 @@ const ConceptContent = () => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>+ Online store</a>
+                        + Online store
                       </Link>
                     </div>
                     <p className="product-count">4</p>
@@ -52,8 +52,8 @@ const ConceptContent = () => {
                   <Link
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a className="banner-link" />
+                    className="banner-link">
+
                   </Link>
                 </div>
               </Col>
@@ -76,7 +76,7 @@ const ConceptContent = () => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>+ Online store</a>
+                        + Online store
                       </Link>
                     </div>
                     <p className="product-count">4</p>
@@ -84,8 +84,8 @@ const ConceptContent = () => {
                   <Link
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a className="banner-link" />
+                    className="banner-link">
+
                   </Link>
                 </div>
               </Col>
@@ -108,7 +108,7 @@ const ConceptContent = () => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>+ Online store</a>
+                        + Online store
                       </Link>
                     </div>
                     <p className="product-count">4</p>
@@ -116,8 +116,8 @@ const ConceptContent = () => {
                   <Link
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a className="banner-link" />
+                    className="banner-link">
+
                   </Link>
                 </div>
               </Col>
@@ -144,7 +144,7 @@ const ConceptContent = () => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>+ Online store</a>
+                        + Online store
                       </Link>
                     </div>
                     <p className="product-count">4</p>
@@ -152,8 +152,8 @@ const ConceptContent = () => {
                   <Link
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a className="banner-link" />
+                    className="banner-link">
+
                   </Link>
                 </div>
               </Col>
@@ -197,7 +197,7 @@ const ConceptContent = () => {
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                       >
-                        <a>+ Online store</a>
+                        + Online store
                       </Link>
                     </div>
                     <p className="product-count">4</p>
@@ -205,8 +205,8 @@ const ConceptContent = () => {
                   <Link
                     href="/shop/left-sidebar"
                     as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                  >
-                    <a className="banner-link" />
+                    className="banner-link">
+
                   </Link>
                 </div>
               </Col>
@@ -214,7 +214,7 @@ const ConceptContent = () => {
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

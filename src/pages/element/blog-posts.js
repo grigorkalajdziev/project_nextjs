@@ -9,7 +9,7 @@ import blogData from "../../data/blog-posts/blog-post-one.json";
 
 const BlogPosts = () => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Blog Posts"
@@ -18,7 +18,7 @@ const BlogPosts = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -41,7 +41,7 @@ const BlogPosts = () => {
               {blogData &&
                 blogData.map((single, i) => {
                   return (
-                    <Col
+                    (<Col
                       lg={3}
                       md={6}
                       className="space-mb-mobile-only--30"
@@ -53,13 +53,13 @@ const BlogPosts = () => {
                             href={single.url}
                             as={process.env.PUBLIC_URL + single.url}
                           >
-                            <a>
-                              <img
-                                src={process.env.PUBLIC_URL + single.image}
-                                className="img-fluid"
-                                alt=""
-                              />
-                            </a>
+
+                            <img
+                              src={process.env.PUBLIC_URL + single.image}
+                              className="img-fluid"
+                              alt=""
+                            />
+
                           </Link>
                         </div>
                         <div className="blog-grid-post__content">
@@ -72,26 +72,26 @@ const BlogPosts = () => {
                               href={single.url}
                               as={process.env.PUBLIC_URL + single.url}
                             >
-                              <a>{single.title}</a>
+                              {single.title}
                             </Link>
                           </h2>
                           <p className="post-excerpt">{single.text}</p>
                           <Link
                             href={single.url}
                             as={process.env.PUBLIC_URL + single.url}
-                          >
-                            <a className="blog-readmore-btn">read more</a>
+                            className="blog-readmore-btn">
+                            read more
                           </Link>
                         </div>
                       </div>
-                    </Col>
+                    </Col>)
                   );
                 })}
             </Row>
           </Container>
         </div>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

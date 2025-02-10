@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const CategoryGridFour = ({ spaceBottomClass }) => {
   return (
-    <div
+    (<div
       className={`banner-category-area ${
         spaceBottomClass ? spaceBottomClass : ""
       }`}
@@ -16,20 +16,20 @@ const CategoryGridFour = ({ spaceBottomClass }) => {
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
               >
-                <a>
-                  <img
-                    src={
-                      process.env.PUBLIC_URL +
-                      "/assets/images/banners/category-smart-3.jpg"
-                    }
-                    className="img-fluid"
-                    alt=""
-                  />
-                  <span className="banner-content banner-content--product-type">
-                    <span className="name">Tumbler Alarm Clock</span>
-                    <span className="price">$19.00</span>
-                  </span>
-                </a>
+
+                <img
+                  src={
+                    process.env.PUBLIC_URL +
+                    "/assets/images/banners/category-smart-3.jpg"
+                  }
+                  className="img-fluid"
+                  alt=""
+                />
+                <span className="banner-content banner-content--product-type">
+                  <span className="name">Tumbler Alarm Clock</span>
+                  <span className="price">$19.00</span>
+                </span>
+
               </Link>
             </div>
           </Col>
@@ -39,22 +39,22 @@ const CategoryGridFour = ({ spaceBottomClass }) => {
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
               >
-                <a>
-                  <img
-                    src={
-                      process.env.PUBLIC_URL +
-                      "/assets/images/banners/category-smart-1.jpg"
-                    }
-                    className="img-fluid"
-                    alt=""
-                  />
-                  <span className="banner-content banner-content--banner-type banner-content--banner-type--top-right">
-                    <span className="name">
-                      Prismatic <span>Table</span>
-                    </span>
-                    <span className="lezada-button-link">SHOP NOW</span>
+
+                <img
+                  src={
+                    process.env.PUBLIC_URL +
+                    "/assets/images/banners/category-smart-1.jpg"
+                  }
+                  className="img-fluid"
+                  alt=""
+                />
+                <span className="banner-content banner-content--banner-type banner-content--banner-type--top-right">
+                  <span className="name">
+                    Prismatic <span>Table</span>
                   </span>
-                </a>
+                  <span className="lezada-button-link">SHOP NOW</span>
+                </span>
+
               </Link>
             </div>
           </Col>
@@ -64,22 +64,22 @@ const CategoryGridFour = ({ spaceBottomClass }) => {
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
               >
-                <a>
-                  <img
-                    src={
-                      process.env.PUBLIC_URL +
-                      "/assets/images/banners/category-smart-2.jpg"
-                    }
-                    className="img-fluid"
-                    alt=""
-                  />
-                  <span className="banner-content banner-content--banner-type banner-content--banner-type--top-left">
-                    <span className="name">
-                      Wooden <span>birds decor</span>{" "}
-                    </span>
-                    <span className="lezada-button-link">SHOP NOW</span>
+
+                <img
+                  src={
+                    process.env.PUBLIC_URL +
+                    "/assets/images/banners/category-smart-2.jpg"
+                  }
+                  className="img-fluid"
+                  alt=""
+                />
+                <span className="banner-content banner-content--banner-type banner-content--banner-type--top-left">
+                  <span className="name">
+                    Wooden <span>birds decor</span>{" "}
                   </span>
-                </a>
+                  <span className="lezada-button-link">SHOP NOW</span>
+                </span>
+
               </Link>
             </div>
           </Col>
@@ -89,26 +89,26 @@ const CategoryGridFour = ({ spaceBottomClass }) => {
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
               >
-                <a>
-                  <img
-                    src={
-                      process.env.PUBLIC_URL +
-                      "/assets/images/banners/category-smart-4.jpg"
-                    }
-                    className="img-fluid"
-                    alt=""
-                  />
-                  <span className="banner-content banner-content--product-type">
-                    <span className="name">Rocking chair</span>
-                    <span className="price">$19.00</span>
-                  </span>
-                </a>
+
+                <img
+                  src={
+                    process.env.PUBLIC_URL +
+                    "/assets/images/banners/category-smart-4.jpg"
+                  }
+                  className="img-fluid"
+                  alt=""
+                />
+                <span className="banner-content banner-content--product-type">
+                  <span className="name">Rocking chair</span>
+                  <span className="price">$19.00</span>
+                </span>
+
               </Link>
             </div>
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

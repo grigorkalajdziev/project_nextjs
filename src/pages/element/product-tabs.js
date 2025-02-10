@@ -8,7 +8,7 @@ import { SectionTitleThree } from "../../components/SectionTitle";
 
 const ProductTabs = ({ newProducts, popularProducts, saleProducts }) => {
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Product Tabs"
@@ -17,7 +17,7 @@ const ProductTabs = ({ newProducts, popularProducts, saleProducts }) => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              <a>Home</a>
+              Home
             </Link>
           </li>
 
@@ -36,7 +36,7 @@ const ProductTabs = ({ newProducts, popularProducts, saleProducts }) => {
           saleProducts={saleProducts}
         />
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

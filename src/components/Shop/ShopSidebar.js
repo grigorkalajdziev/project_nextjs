@@ -26,7 +26,7 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
   }, [currentLanguage]);
 
   return (
-    <div className="shop-sidebar">
+    (<div className="shop-sidebar">
       <div className="single-sidebar-widget space-mb--40">
         {/* search widget */}
         <div className="search-widget">
@@ -43,7 +43,6 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
           </form>
         </div>
       </div>
-
       {/* category list */}
       <div className="single-sidebar-widget space-mb--40">
         <h2 className="single-sidebar-widget__title space-mb--30">
@@ -81,7 +80,6 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
           t("noCategories")
         )}
       </div>
-
       {/* color list */}
       {/* <div className="single-sidebar-widget space-mb--40">
         <h2 className="single-sidebar-widget__title space-mb--30">{t("colors")}</h2>
@@ -115,7 +113,6 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
           t("noColors")
         )}
       </div> */}
-
       {/* popular products */}
       <div className="single-sidebar-widget space-mb--40">
         <h2 className="single-sidebar-widget__title space-mb--30">
@@ -131,7 +128,7 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
               ).toFixed(2);
               
               return (
-                <div className="single-widget-product-wrapper" key={i}>
+                (<div className="single-widget-product-wrapper" key={i}>
                   <div className="single-widget-product">
                     <div className="single-widget-product__image">
                       <Link
@@ -141,14 +138,14 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
                           "/shop/product-basic/" +
                           product.slug
                         }
-                      >
-                        <a className="image-wrap">
-                          <img
-                            src={process.env.PUBLIC_URL + product.thumbImage[0]}
-                            className="img-fluid"
-                            alt={product.name[currentLanguage] || product.name["en"]}
-                          />
-                        </a>
+                        className="image-wrap">
+
+                        <img
+                          src={process.env.PUBLIC_URL + product.thumbImage[0]}
+                          className="img-fluid"
+                          alt={product.name[currentLanguage] || product.name["en"]}
+                        />
+
                       </Link>
                     </div>
                     <div className="single-widget-product__content">
@@ -162,7 +159,7 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
                               product.slug
                             }
                           >
-                            <a>{product.name[currentLanguage] || product.name["en"]}</a>
+                            {product.name[currentLanguage] || product.name["en"]}
                           </Link>
                         </h3>
                         <div className="price space-mb--10">
@@ -193,7 +190,7 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
                       </div>
                     </div>
                   </div>
-                </div>
+                </div>)
               );
             })}
           </div>
@@ -201,7 +198,6 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
           t("noPopularProducts")
         )}
       </div>
-
       {/* tag list */}
       <div className="single-sidebar-widget">
         <h2 className="single-sidebar-widget__title space-mb--30">{t("tags")}</h2>
@@ -225,7 +221,7 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
           t("noTags")
         )}
       </div>
-    </div>
+    </div>)
   );
 };
 

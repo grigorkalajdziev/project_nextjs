@@ -4,7 +4,7 @@ import Accordion from "react-bootstrap/Accordion";
 
 const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
   return (
-    <div className={`navigation-overlay ${activeStatus ? "active" : ""}`}>
+    (<div className={`navigation-overlay ${activeStatus ? "active" : ""}`}>
       <div className="navigation-overlay__content">
         <button
           className="navigation-overlay__close-icon"
@@ -61,7 +61,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                   href="/home/trending"
                                   as={process.env.PUBLIC_URL + "/home/trending"}
                                 >
-                                  <a>Trending</a>
+                                  Trending
                                 </Link>
                               </li>
                             </ul>
@@ -228,7 +228,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/shop/left-sidebar"
                                   }
                                 >
-                                  <a>Left Sidebar</a>
+                                  Left Sidebar
                                 </Link>
                               </li>
                               {/* <li>
@@ -315,7 +315,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/shop/product-basic/lorem-ipsum-decor-one"
                                   }
                                 >
-                                  <a>Basic</a>
+                                  Basic
                                 </Link>
                               </li>
                               <li>
@@ -326,7 +326,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/shop/product-fullwidth/lorem-ipsum-decor-one"
                                   }
                                 >
-                                  <a>Full Width</a>
+                                  Full Width
                                 </Link>
                               </li>
 
@@ -338,7 +338,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/shop/product-fullwidth-right-thumb/lorem-ipsum-decor-one"
                                   }
                                 >
-                                  <a>Full Width Right Thumb</a>
+                                  Full Width Right Thumb
                                 </Link>
                               </li>
 
@@ -350,7 +350,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/shop/product-sticky/lorem-ipsum-decor-one"
                                   }
                                 >
-                                  <a>Sticky Details</a>
+                                  Sticky Details
                                 </Link>
                               </li>
                               <li>
@@ -358,7 +358,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                   href="/other/cart"
                                   as={process.env.PUBLIC_URL + "/other/cart"}
                                 >
-                                  <a>Shopping Cart</a>
+                                  Shopping Cart
                                 </Link>
                               </li>
                               <li>
@@ -368,7 +368,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     process.env.PUBLIC_URL + "/other/wishlist"
                                   }
                                 >
-                                  <a>Wishlist</a>
+                                  Wishlist
                                 </Link>
                               </li>
                               <li>
@@ -376,7 +376,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                   href="/other/compare"
                                   as={process.env.PUBLIC_URL + "/other/compare"}
                                 >
-                                  <a>Compare</a>
+                                  Compare
                                 </Link>
                               </li>
                             </ul>
@@ -397,7 +397,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     process.env.PUBLIC_URL + "/other/checkout"
                                   }
                                 >
-                                  <a>Checkout</a>
+                                  Checkout
                                 </Link>
                               </li>
                               <li>
@@ -408,7 +408,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/other/order-tracking"
                                   }
                                 >
-                                  <a>Order Tracking</a>
+                                  Order Tracking
                                 </Link>
                               </li>
                               <li>
@@ -418,7 +418,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     process.env.PUBLIC_URL + "/other/my-account"
                                   }
                                 >
-                                  <a>My Account</a>
+                                  My Account
                                 </Link>
                               </li>
                               <li>
@@ -429,7 +429,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/other/login-register"
                                   }
                                 >
-                                  <a>Login Register</a>
+                                  Login Register
                                 </Link>
                               </li>
                             </ul>
@@ -462,7 +462,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/product-categories"
                                   }
                                 >
-                                  <a>Product Categories</a>
+                                  Product Categories
                                 </Link>
                               </li>
                               <li>
@@ -473,7 +473,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/product-sliders"
                                   }
                                 >
-                                  <a>Product Sliders</a>
+                                  Product Sliders
                                 </Link>
                               </li>
                               <li>
@@ -484,7 +484,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/product-tabs"
                                   }
                                 >
-                                  <a>Product Tabs</a>
+                                  Product Tabs
                                 </Link>
                               </li>
                               <li>
@@ -495,7 +495,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/product-widgets"
                                   }
                                 >
-                                  <a>Product Widget</a>
+                                  Product Widget
                                 </Link>
                               </li>
                               <li>
@@ -506,7 +506,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/recent-products"
                                   }
                                 >
-                                  <a>Recent Products</a>
+                                  Recent Products
                                 </Link>
                               </li>
                             </ul>
@@ -528,7 +528,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/sale-products"
                                   }
                                 >
-                                  <a>Sale Products</a>
+                                  Sale Products
                                 </Link>
                               </li>
                               <li>
@@ -539,7 +539,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/featured-products"
                                   }
                                 >
-                                  <a>Featured products</a>
+                                  Featured products
                                 </Link>
                               </li>
                               <li>
@@ -550,7 +550,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/top-rated-products"
                                   }
                                 >
-                                  <a>Top Rated products</a>
+                                  Top Rated products
                                 </Link>
                               </li>
                               <li>
@@ -561,7 +561,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/best-selling-products"
                                   }
                                 >
-                                  <a>Best Selling</a>
+                                  Best Selling
                                 </Link>
                               </li>
                               <li>
@@ -572,7 +572,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/product-attributes"
                                   }
                                 >
-                                  <a>Product Attributes</a>
+                                  Product Attributes
                                 </Link>
                               </li>
                             </ul>
@@ -594,7 +594,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/blog-posts"
                                   }
                                 >
-                                  <a>Blog Posts</a>
+                                  Blog Posts
                                 </Link>
                               </li>
                               <li>
@@ -605,7 +605,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/mailchimp-forms"
                                   }
                                 >
-                                  <a>Mailchimp Form</a>
+                                  Mailchimp Form
                                 </Link>
                               </li>
                               <li>
@@ -616,7 +616,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/icon-boxes"
                                   }
                                 >
-                                  <a>Icon Box</a>
+                                  Icon Box
                                 </Link>
                               </li>
                               <li>
@@ -627,7 +627,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/team-members"
                                   }
                                 >
-                                  <a>Team Member</a>
+                                  Team Member
                                 </Link>
                               </li>
                               <li>
@@ -635,7 +635,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                   href="/element/faqs"
                                   as={process.env.PUBLIC_URL + "/element/faqs"}
                                 >
-                                  <a>FAQs / Toggles</a>
+                                  FAQs / Toggles
                                 </Link>
                               </li>
                             </ul>
@@ -657,7 +657,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/countdown-timers"
                                   }
                                 >
-                                  <a>Countdown Timer</a>
+                                  Countdown Timer
                                 </Link>
                               </li>
                               <li>
@@ -667,7 +667,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     process.env.PUBLIC_URL + "/element/buttons"
                                   }
                                 >
-                                  <a>Buttons</a>
+                                  Buttons
                                 </Link>
                               </li>
                               <li>
@@ -678,7 +678,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/testimonials"
                                   }
                                 >
-                                  <a>Testimonials</a>
+                                  Testimonials
                                 </Link>
                               </li>
                               <li>
@@ -689,7 +689,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/element/google-maps"
                                   }
                                 >
-                                  <a>Google Maps</a>
+                                  Google Maps
                                 </Link>
                               </li>
                             </ul>
@@ -712,7 +712,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                           href="/other/about"
                           as={process.env.PUBLIC_URL + "/other/about"}
                         >
-                          <a>About Us</a>
+                          About Us
                         </Link>
                       </li>
                       <li>
@@ -728,7 +728,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                           href="/other/contact"
                           as={process.env.PUBLIC_URL + "/other/contact"}
                         >
-                          <a>Contact Us</a>
+                          Contact Us
                         </Link>
                       </li>
                       <li>
@@ -736,7 +736,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                           href="/other/faq"
                           as={process.env.PUBLIC_URL + "/other/faq"}
                         >
-                          <a>F.A.Q</a>
+                          F.A.Q
                         </Link>
                       </li>
                       <li>
@@ -744,7 +744,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                           href="/other/coming-soon"
                           as={process.env.PUBLIC_URL + "/other/coming-soon"}
                         >
-                          <a>Coming Soon</a>
+                          Coming Soon
                         </Link>
                       </li>
                       <li>
@@ -781,7 +781,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/blog/standard-left-sidebar"
                                   }
                                 >
-                                  <a>Left Sidebar</a>
+                                  Left Sidebar
                                 </Link>
                               </li>
                               <li>
@@ -792,7 +792,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/blog/standard-right-sidebar"
                                   }
                                 >
-                                  <a>Right Sidebar</a>
+                                  Right Sidebar
                                 </Link>
                               </li>
                               <li>
@@ -803,7 +803,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/blog/standard-fullwidth"
                                   }
                                 >
-                                  <a>Full Width</a>
+                                  Full Width
                                 </Link>
                               </li>
                             </ul>
@@ -825,7 +825,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/blog/grid-left-sidebar"
                                   }
                                 >
-                                  <a>Left Sidebar</a>
+                                  Left Sidebar
                                 </Link>
                               </li>
                               <li>
@@ -836,7 +836,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/blog/grid-right-sidebar"
                                   }
                                 >
-                                  <a>Right Sidebar</a>
+                                  Right Sidebar
                                 </Link>
                               </li>
                               <li>
@@ -847,7 +847,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/blog/grid-fullwidth"
                                   }
                                 >
-                                  <a>Full Width</a>
+                                  Full Width
                                 </Link>
                               </li>
                             </ul>
@@ -869,7 +869,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/blog/list-left-sidebar"
                                   }
                                 >
-                                  <a>Left Sidebar</a>
+                                  Left Sidebar
                                 </Link>
                               </li>
                               <li>
@@ -880,7 +880,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/blog/list-right-sidebar"
                                   }
                                 >
-                                  <a>Right Sidebar</a>
+                                  Right Sidebar
                                 </Link>
                               </li>
                               <li>
@@ -891,7 +891,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/blog/list-fullwidth"
                                   }
                                 >
-                                  <a>Full Width</a>
+                                  Full Width
                                 </Link>
                               </li>
                             </ul>
@@ -913,7 +913,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/blog/post-left-sidebar"
                                   }
                                 >
-                                  <a>Left Sidebar</a>
+                                  Left Sidebar
                                 </Link>
                               </li>
                               <li>
@@ -924,7 +924,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/blog/post-right-sidebar"
                                   }
                                 >
-                                  <a>Right Sidebar</a>
+                                  Right Sidebar
                                 </Link>
                               </li>
                               <li>
@@ -935,7 +935,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
                                     "/blog/post-fullwidth"
                                   }
                                 >
-                                  <a>Full Width</a>
+                                  Full Width
                                 </Link>
                               </li>
                             </ul>
@@ -950,7 +950,7 @@ const NavigationOverlay = ({ activeStatus, getActiveStatus }) => {
           </nav>
         </div>
       </div>
-    </div>
+    </div>)
   );
 };
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const ImageTextContent = () => {
   return (
-    <div className="about-text-bg-area space-mb--r130">
+    (<div className="about-text-bg-area space-mb--r130">
       <Container className="wide">
         <Row className="no-gutters">
           <Col lg={6}>
@@ -19,8 +19,8 @@ const ImageTextContent = () => {
               <Link
                 href="/other/about"
                 as={process.env.PUBLIC_URL + "/other/about"}
-              >
-                <a className="about-bg-content__link">MORE ABOUT US</a>
+                className="about-bg-content__link">
+                MORE ABOUT US
               </Link>
             </div>
           </Col>
@@ -37,7 +37,7 @@ const ImageTextContent = () => {
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

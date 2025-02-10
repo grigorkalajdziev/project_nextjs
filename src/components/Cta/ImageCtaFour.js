@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const ImageCtaFour = () => {
   return (
-    <div
+    (<div
       className="banner-cta space-mb--r130 bg-img"
       style={{
         backgroundImage: `url("${
@@ -22,14 +22,14 @@ const ImageCtaFour = () => {
               <Link
                 href="/shop/left-sidebar"
                 as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              >
-                <a className="banner-cta-content__button">SHOP NOW </a>
+                className="banner-cta-content__button">
+                SHOP NOW 
               </Link>
             </div>
           </Col>
         </Row>
       </Container>
-    </div>
+    </div>)
   );
 };
 

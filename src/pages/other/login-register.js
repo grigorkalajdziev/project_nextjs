@@ -151,7 +151,7 @@ const LoginRegister = () => {
   };
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       <BreadcrumbOne
         pageTitle={t("customer_login")}
         backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.jpg"
@@ -159,13 +159,12 @@ const LoginRegister = () => {
         <ul className="breadcrumb__list">
           <li>
             <Link href="/home/trending">
-              <a>{t("home")}</a>
+              {t("home")}
             </Link>
           </li>
           <li>{t("customer_login")}</li>
         </ul>
       </BreadcrumbOne>
-
       <div className="login-area space-mt--r130 space-mb--r130">
         <Container>
           <Row>
@@ -305,7 +304,7 @@ const LoginRegister = () => {
           </Row>
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 

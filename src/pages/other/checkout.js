@@ -60,7 +60,7 @@ const Checkout = ({ cartItems }) => {
   }, []);
 
   return (
-    <LayoutTwo>
+    (<LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("checkout_title")}
@@ -72,7 +72,7 @@ const Checkout = ({ cartItems }) => {
               href="/home/trending"
               as={process.env.PUBLIC_URL + "/home/trending"}
             >
-              <a>{t("home")}</a>
+              {t("home")}
             </Link>
           </li>
 
@@ -384,10 +384,10 @@ const Checkout = ({ cartItems }) => {
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                    >
-                      <a className="lezada-button lezada-button--medium">
-                        {t("shop_now")}
-                      </a>
+                      className="lezada-button lezada-button--medium">
+
+                      {t("shop_now")}
+
                     </Link>
                   </div>
                 </div>
@@ -396,7 +396,7 @@ const Checkout = ({ cartItems }) => {
           )}
         </Container>
       </div>
-    </LayoutTwo>
+    </LayoutTwo>)
   );
 };
 
