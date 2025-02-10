@@ -20,46 +20,37 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    
     try {
-      const response = await fetch(
-        "https://sendcontactemail-fg5hq53rya-uc.a.run.app",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: customerName,
-            email: customerEmail,
-            subject: contactSubject,
-            message: contactMessage,
-          }),
-        }
-      );
-
-      // Get the raw response text first for debugging
-      const data = await response.text(); 
-      console.log(data); // Log the response content to see what's coming back
-
-      // Attempt to parse the response as JSON
-      try {
-        const jsonData = JSON.parse(data); // Parse response as JSON
-        if (response.ok) {
-          alert("Email sent successfully!");
-        } else {
-          alert(`Failed to send email: ${jsonData.error || 'Unknown error'}`);
-        }
-      } catch (error) {
-        console.error("Error parsing response as JSON:", error);
-        alert("An unexpected response was received. Please check the server.");
+      const response = await fetch("/api/send-mail/send-mail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          to: ["grigorkalajdziev@gmail.com"], // recipient email
+          from: "contact@kikamakeupandbeautyacademy.com", // sender email
+          subject: `New Contact Form Submission from ${customerName}`,
+          text: `Email: ${customerEmail}\n\nMessage:\n${contactMessage}`,
+          html: `<p><strong>Name:</strong> ${customerName}</p>
+                 <p><strong>Email:</strong> ${customerEmail}</p>
+                 <p><strong>Message:</strong> ${contactMessage}</p>`,
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        alert("Email sent successfully!");
+      } else {
+        alert(`Failed to send email: ${data.error || "Unknown error"}`);
       }
-
     } catch (error) {
       console.error("Error sending email:", error);
       alert("An error occurred while sending the email.");
     }
-  }; 
+  };
+   
 
   return (
     <LayoutTwo>

@@ -1,22 +1,27 @@
+// pages/api/send-email.js
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function POST(req) {
-  try {
-    const { name, email, subject, message } = await req.json();
+export default async (req, res) => {
+  if (req.method === "POST") {
+    const { to, from, subject, text, html } = req.body;
+    
+    try {
+      const emailResponse = await resend.emails.send({
+        from,
+        to,
+        subject,
+        text,
+        html,
+      });
 
-    const response = await resend.emails.send({
-      from: "contact@kikamakeupandbeautyacademy.com",
-      to: "grigorkalajdziev@gmail.com",
-      subject: `New Contact Form Submission: ${subject || "No Subject"}`,
-      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
-    });
-
-    if (response.error) throw new Error(response.error);
-
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+      return res.status(200).json(emailResponse);
+    } catch (error) {
+      console.error("Error sending email:", error);
+      return res.status(500).json({ error: error.message });
+    }
+  } else {
+    return res.status(405).json({ error: "Method Not Allowed" });
   }
-}
+};
