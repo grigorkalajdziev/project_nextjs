@@ -20,38 +20,46 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //setLoading(true);
-
+  
     try {
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: customerName,
-          email: customerEmail,
-          subject: contactSubject,
-          message: contactMessage,
-        }),
-      });
+      const response = await fetch(
+        "https://sendcontactemail-fg5hq53rya-uc.a.run.app",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: customerName,
+            email: customerEmail,
+            subject: contactSubject,
+            message: contactMessage,
+          }),
+        }
+      );
 
-      const result = await response.json();
+      // Get the raw response text first for debugging
+      const data = await response.text(); 
+      console.log(data); // Log the response content to see what's coming back
 
-      if (response.ok) {
-        alert("Email sent successfully!");
-        setCustomerName("");
-        setCustomerEmail("");
-        setContactSubject("");
-        setContactMessage("");
-      } else {
-        alert(`Failed to send email: ${result.error}`);
+      // Attempt to parse the response as JSON
+      try {
+        const jsonData = JSON.parse(data); // Parse response as JSON
+        if (response.ok) {
+          alert("Email sent successfully!");
+        } else {
+          alert(`Failed to send email: ${jsonData.error || 'Unknown error'}`);
+        }
+      } catch (error) {
+        console.error("Error parsing response as JSON:", error);
+        alert("An unexpected response was received. Please check the server.");
       }
+
     } catch (error) {
       console.error("Error sending email:", error);
       alert("An error occurred while sending the email.");
-    } finally {
-      //setLoading(false);
     }
-  };  
+  }; 
 
   return (
     <LayoutTwo>
