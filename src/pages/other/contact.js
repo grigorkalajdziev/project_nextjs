@@ -20,38 +20,38 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    setLoading(true);
+
     try {
-      const response = await fetch(
-        "https://sendcontactemail-fg5hq53rya-uc.a.run.app",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: customerName,
-            email: customerEmail,
-            subject: contactSubject,
-            message: contactMessage,
-          }),
-        }
-      );
-  
-      const data = await response.json();
-  
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: customerName,
+          email: customerEmail,
+          subject: contactSubject,
+          message: contactMessage,
+        }),
+      });
+
+      const result = await response.json();
+
       if (response.ok) {
         alert("Email sent successfully!");
+        setCustomerName("");
+        setCustomerEmail("");
+        setContactSubject("");
+        setContactMessage("");
       } else {
-        const data = await response.text();
-        alert(`Failed to send email: ${data.error}`);
+        alert(`Failed to send email: ${result.error}`);
       }
     } catch (error) {
       console.error("Error sending email:", error);
       alert("An error occurred while sending the email.");
+    } finally {
+      setLoading(false);
     }
-  };
-  
+  };  
 
   return (
     <LayoutTwo>
