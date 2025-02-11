@@ -8,8 +8,7 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    if (currentLanguage) {
-      console.log('Slider Data:', sliderData);
+    if (currentLanguage) {      
       setIsReady(true);  // Set isReady to true when the language is set
     }
   }, [currentLanguage]);
