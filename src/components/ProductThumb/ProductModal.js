@@ -22,9 +22,12 @@ const ProductModal = (props) => {
     deletefromwishlist,
     addtocompare,
     deletefromcompare,
-    addtoast
+    addtoast,
+    show,
+    onHide,
   } = props;
 
+  // Initialize variation selections if applicable
   const [selectedProductColor, setSelectedProductColor] = useState(
     product.variation ? product.variation[0].color : ""
   );
@@ -46,156 +49,97 @@ const ProductModal = (props) => {
   const gallerySwiperParams = {
     pagination: {
       el: ".swiper-pagination",
-      clickable: true
-    }
+      clickable: true,
+    },
   };
 
   return (
-    <Modal
-      show={props.show}
-      onHide={props.onHide}
-      className="product-quickview"
-      centered
-    >
+    <Modal show={show} onHide={onHide} className="product-quickview" centered>
+      {/* Modal Header */}
+      <Modal.Header closeButton />
+
+      {/* Modal Body */}
       <Modal.Body>
-        <Modal.Header closeButton></Modal.Header>
-        <div className="product-quickview__image-wrapper">
-          <Swiper {...gallerySwiperParams}>
-            {product.image &&
-              product.image.map((single, key) => {
-                return (
-                  <div key={key}>
-                    <div className="single-image">
-                      <img
-                        src={process.env.PUBLIC_URL + single}
-                        className="img-fluid"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-          </Swiper>
-        </div>
         <Row>
-          <Col md={7} sm={12} className="ml-auto">
+          {/* Left Column: Product Images */}
+          <Col md={5} sm={12}>
+            <div className="product-quickview__image-wrapper">
+              <Swiper {...gallerySwiperParams}>
+                {product.image &&
+                  product.image.map((single, key) => (
+                    <div key={key}>
+                      <div className="single-image">
+                        <img
+                          src={process.env.PUBLIC_URL + single}
+                          className="img-fluid"
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                  ))}
+              </Swiper>
+            </div>
+          </Col>
+
+          {/* Right Column: Product Content */}
+          <Col md={7} sm={12}>
             <CustomScroll allowOuterScroll={true}>
               <div className="product-quickview__content">
+                {/* Product Title */}
                 <h2 className="product-quickview__title space-mb--20">
                   {product.name[currentLanguage] || product.name["en"]}
                 </h2>
+
+                {/* Price Section */}
                 <div className="product-quickview__price space-mb--20">
                   {product.discount > 0 ? (
                     <Fragment>
                       <span className="main-price discounted">
-                      {currentLanguage === 'mk' 
-                                          ? `${productprice} ${t("currency")}` 
-                                          : `${t("currency")} ${productprice}`}                      
+                        {currentLanguage === "mk"
+                          ? `${productprice} ${t("currency")}`
+                          : `${t("currency")} ${productprice}`}
                       </span>
                       <span className="main-price">
-                      {currentLanguage === 'mk' 
-                                          ? `${discountedprice} ${t("currency")}` 
-                                          : `${t("currency")} ${discountedprice}`} 
+                        {currentLanguage === "mk"
+                          ? `${discountedprice} ${t("currency")}`
+                          : `${t("currency")} ${discountedprice}`}
                       </span>
                     </Fragment>
                   ) : (
                     <span className="main-price">
-                      {currentLanguage === 'mk' 
-                                          ? `${productprice} ${t("currency")}` 
-                                          : `${t("currency")} ${productprice}`} 
+                      {currentLanguage === "mk"
+                        ? `${productprice} ${t("currency")}`
+                        : `${t("currency")} ${productprice}`}
                     </span>
                   )}
                 </div>
-                {product.rating && product.rating > 0 ? (
+
+                {/* Rating Section */}
+                {product.rating && product.rating > 0 && (
                   <div className="product-quickview__rating-wrap space-mb--20">
                     <div className="product-quickview__rating">
                       <ProductRating ratingValue={product.rating} />
                     </div>
                   </div>
-                ) : (
-                  ""
                 )}
+
+                {/* Product Description */}
                 <div className="product-quickview__description space-mb--30">
                   <p>{product.shortDescription[currentLanguage]}</p>
                 </div>
 
-                {/* {product.variation ? (
+                {/* Variation Options (Commented Out) */}
+                {/*
+                {product.variation ? (
                   <div className="product-quickview__size-color">
-                    <div className="product-quickview__size space-mb--20">
-                      <div className="product-quickview__size__title">{t("size")}</div>
-                      <div className="product-quickview__size__content">
-                        {product.variation &&
-                          product.variation.map((single) => {
-                            return single.color === selectedProductColor
-                              ? single.size.map((singleSize, i) => {
-                                  return (
-                                    <Fragment key={i}>
-                                      <input
-                                        type="radio"
-                                        value={singleSize.name}
-                                        checked={
-                                          singleSize.name ===
-                                          selectedProductSize
-                                            ? "checked"
-                                            : ""
-                                        }
-                                        id={singleSize.name}
-                                        onChange={() => {
-                                          setSelectedProductSize(
-                                            singleSize.name
-                                          );
-                                          setProductStock(singleSize.stock);
-                                          setQuantityCount(1);
-                                        }}
-                                      />
-                                      <label htmlFor={singleSize.name}>
-                                        {singleSize.name}
-                                      </label>
-                                    </Fragment>
-                                  );
-                                })
-                              : "";
-                          })}
-                      </div>
-                    </div>
-                    <div className="product-quickview__color space-mb--20">
-                      <div className="product-quickview__color__title">
-                        {t("color")}
-                      </div>
-                      <div className="product-quickview__color__content">
-                        {product.variation.map((single, i) => {
-                          return (
-                            <Fragment key={i}>
-                              <input
-                                type="radio"
-                                value={single.color}
-                                name="product-color"
-                                id={single.color}
-                                checked={
-                                  single.color === selectedProductColor
-                                    ? "checked"
-                                    : ""
-                                }
-                                onChange={() => {
-                                  setSelectedProductColor(single.color);
-                                  setSelectedProductSize(single.size[0].name);
-                                  setProductStock(single.size[0].stock);
-                                  setQuantityCount(1);
-                                }}
-                              />
-                              <label
-                                htmlFor={single.color}
-                                style={{ backgroundColor: single.colorCode }}
-                              ></label>
-                            </Fragment>
-                          );
-                        })}
-                      </div>
-                    </div>
+                    // Variation selection code...
                   </div>
                 ) : (
                   ""
-                )} */}
+                )}
+                */}
+
+                {/* Affiliate Link or Purchase Options */}
                 {product.affiliateLink ? (
                   <div className="product-quickview__quality">
                     <div className="product-quickview__cart btn-hover">
@@ -211,9 +155,10 @@ const ProductModal = (props) => {
                   </div>
                 ) : (
                   <Fragment>
+                    {/* Quantity Selector */}
                     <div className="product-quickview__quantity space-mb--20">
                       <div className="product-quickview__quantity__title">
-                      {t("quantity")}
+                        {t("quantity")}
                       </div>
                       <div className="cart-plus-minus">
                         <button
@@ -247,6 +192,7 @@ const ProductModal = (props) => {
                       </div>
                     </div>
 
+                    {/* Action Buttons */}
                     <div className="product-quickview__button-wrapper d-flex align-items-center">
                       {productStock && productStock > 0 ? (
                         <button
@@ -256,7 +202,7 @@ const ProductModal = (props) => {
                               addtoast,
                               quantityCount,
                               selectedProductColor,
-                              selectedProductSize                              
+                              selectedProductSize
                             )
                           }
                           disabled={productCartQty >= productStock}
@@ -279,8 +225,8 @@ const ProductModal = (props) => {
                         }`}
                         title={
                           wishlistitem !== undefined
-                          ? t("added_to_wishlist")
-                          : t("add_to_wishlist")
+                            ? t("added_to_wishlist")
+                            : t("add_to_wishlist")
                         }
                         onClick={
                           wishlistitem !== undefined
@@ -297,8 +243,8 @@ const ProductModal = (props) => {
                         }`}
                         title={
                           compareitem !== undefined
-                          ? t("added_to_compare")
-                          : t("add_to_compare")
+                            ? t("added_to_compare")
+                            : t("add_to_compare")
                         }
                         onClick={
                           compareitem !== undefined

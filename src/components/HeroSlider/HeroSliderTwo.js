@@ -9,6 +9,7 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
 
   useEffect(() => {
     if (currentLanguage) {
+      console.log('Slider Data:', sliderData);
       setIsReady(true);  // Set isReady to true when the language is set
     }
   }, [currentLanguage]);
@@ -47,7 +48,7 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
               return (
                 (<div
                   className="hero-slider-two__slide"
-                  style={{ backgroundColor: single.bgColor }}
+                  style={{ backgroundColor: single.bgcolor }}
                   key={i}
                 >
                   <div className="hero-slider-two__image">

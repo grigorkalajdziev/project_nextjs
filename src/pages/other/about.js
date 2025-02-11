@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Container, Row, Col } from "react-bootstrap";
 import { IoMdAdd } from "react-icons/io";
@@ -14,10 +14,9 @@ import { useLocalization } from "../../context/LocalizationContext";
 const About = () => {
   const { t } = useLocalization();
   const [modalStatus, isOpen] = useState(false);
-  const [additionalModalStatus, setAdditionalModalStatus] = useState(false);
 
   return (
-    (<LayoutTwo>
+    <LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("about_page_title")}
@@ -32,16 +31,16 @@ const About = () => {
               {t("home")}
             </Link>
           </li>
-
           <li>{t("about")}</li>
         </ul>
       </BreadcrumbOne>
+
       {/* about content */}
       <div className="about-content space-mt--r130 space-mb--r130">
         <div className="section-title-container space-mb--40">
           <Container>
             <Row>
-              <Col lg={8} className="ml-auto mr-auto">
+              <Col lg={8} className="mx-auto">
                 {/* section title */}
                 <div className="about-title-container text-center">
                   <p className="dark-title space-mb--35">
@@ -61,8 +60,8 @@ const About = () => {
         <div className="about-video-content space-mb--r100">
           <Container>
             <Row>
-              <Col lg={10} className="ml-auto mr-auto">
-                {/*=======  about video area  =======*/}
+              <Col lg={10} className="mx-auto">
+                {/* about video area */}
                 <div
                   className="about-video-bg space-mb--60"
                   style={{
@@ -72,16 +71,10 @@ const About = () => {
                     })`,
                   }}
                 >
-                  <p className="video-text video-text-left">
-                    <Link
-                      href="/shop/left-sidebar"
-                      as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                    >
-                      {t("store")}
-                    </Link>
-                  </p>
-
-                  <div className="about-video-content__text-icon d-flex flex-column h-100 justify-content-center">
+                  <div
+                    className="about-video-content__text-icon d-flex flex-column h-100 justify-content-center align-items-center"
+                    style={{ textAlign: "center" }}
+                  >
                     <div className="play-icon text-center space-mb--40">
                       <ModalVideo
                         channel="youtube"
@@ -100,21 +93,13 @@ const About = () => {
                         />
                       </button>
                     </div>
-                    <h1>{t("our_story")}</h1>
+                    <h1 className="text-right">{t("our_story")}</h1>
                   </div>
-                  <p className="video-text video-text-right">
-                    <Link
-                      href="/other/about"
-                      as={process.env.PUBLIC_URL + "/other/about"}
-                    >
-                      {t("our_story_link")}
-                    </Link>
-                  </p>
                 </div>
               </Col>
             </Row>
             <Row>
-              <Col lg={10} className="ml-auto mr-auto">
+              <Col lg={10} className="mx-auto">
                 <Row>
                   <Col md={6}>
                     <div className="about-widget space-mb--35">
@@ -138,43 +123,18 @@ const About = () => {
                       </h2>
                       <p className="widget-content">{t("email_value")}</p>
                     </div>
-                    {/* <div className="additional-video-section space-mb--35">
-                      <h2 className="widget-title space-mb--25">
-                        {t("watch_our_video")}
-                      </h2>
-                      <ModalVideo
-                        channel="youtube"
-                        isOpen={additionalModalStatus}
-                        videoId="SD9ZmfM9exM" 
-                        onClose={() => setAdditionalModalStatus(false)}
-                      />
-                      <button
-                        onClick={() => setAdditionalModalStatus(true)}
-                        className="btn-play-video"
-                      >
-                        <img
-                          src={
-                            process.env.PUBLIC_URL +
-                            "/assets/images/icon/icon-play-100x100.png"
-                          }
-                          className="img-fluid"
-                          alt="Play Video"
-                        />
-                      </button>
-                    </div> */}
                   </Col>
                   <Col md={6}>
-                    <div className="about-page-text">
+                    <div className="about-page-text text-center">
                       <p className="space-mb--35">
                         {t("about_page_extra_description")}
                       </p>
                       <Link
                         href="/shop/left-sidebar"
                         as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                        className="lezada-button lezada-button--medium lezada-button--icon--left">
-
+                        className="lezada-button lezada-button--medium lezada-button--icon--left"
+                      >
                         <IoMdAdd /> {t("online_store")}
-
                       </Link>
                     </div>
                   </Col>
@@ -183,6 +143,7 @@ const About = () => {
             </Row>
           </Container>
         </div>
+
         {/* testimonial */}
         <TestimonialOne
           testimonialData={testimonialData}
@@ -192,7 +153,7 @@ const About = () => {
         {/* brand logo */}
         <BrandLogoOne brandLogoData={brandLogoData} />
       </div>
-    </LayoutTwo>)
+    </LayoutTwo>
   );
 };
 

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Container, Row, Col } from "react-bootstrap";
-import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
@@ -10,7 +9,7 @@ const Faq = () => {
   const { t } = useLocalization();
 
   return (
-    (<LayoutTwo>
+    <LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("faq")}
@@ -25,182 +24,123 @@ const Faq = () => {
           <li>{t("faq")}</li>
         </ul>
       </BreadcrumbOne>
+
       <div className="element-wrapper space-mt--r130 space-mb--r130">
         <Container>
           <Row>
             <Col lg={12}>
-              <div className="faq-wrapper">
+              <div className="faq-wrapper text-center">
                 {/* Shipping Information */}
                 <div className="single-faq space-mb--r100">
-                  <h2 className="faq-title space-mb--20">
+                  <h2 className="faq-title space-mb--20 text-center">
                     {t("shipping_information_title")}
                   </h2>
-                  <Accordion defaultActiveKey="0">
-                    <Card className="single-my-account space-mb--20">
-                      <Card.Header className="panel-heading">
-                        <Accordion.Toggle variant="link" eventKey="0">
-                          <h3 className="panel-title">
-                            {t("shipping_question_1")}
-                          </h3>
-                        </Accordion.Toggle>
-                      </Card.Header>
-                      <Accordion.Collapse eventKey="0">
-                        <Card.Body>
-                          <p>{t("shipping_answer_1")}</p>
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
+                  <Accordion defaultActiveKey="0" className="mx-auto" style={{ maxWidth: "800px" }}>
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>
+                        {t("shipping_question_1")}
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <p className="text-center">{t("shipping_answer_1")}</p>
+                      </Accordion.Body>
+                    </Accordion.Item>
 
-                    <Card className="single-my-account space-mb--20">
-                      <Card.Header className="panel-heading">
-                        <Accordion.Toggle variant="link" eventKey="1">
-                          <h3 className="panel-title">
-                            {t("shipping_question_2")}
-                          </h3>
-                        </Accordion.Toggle>
-                      </Card.Header>
-                      <Accordion.Collapse eventKey="1">
-                        <Card.Body>
-                          <p>{t("shipping_answer_2")}</p>
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
+                    <Accordion.Item eventKey="1">
+                      <Accordion.Header>
+                        {t("shipping_question_2")}
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <p className="text-center">{t("shipping_answer_2")}</p>
+                      </Accordion.Body>
+                    </Accordion.Item>
 
-                    <Card className="single-my-account space-mb--20">
-                      <Card.Header className="panel-heading">
-                        <Accordion.Toggle variant="link" eventKey="2">
-                          <h3 className="panel-title">
-                            {t("shipping_question_3")}
-                          </h3>
-                        </Accordion.Toggle>
-                      </Card.Header>
-                      <Accordion.Collapse eventKey="2">
-                        <Card.Body>
-                          <p>{t("shipping_answer_3")}</p>
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
+                    <Accordion.Item eventKey="2">
+                      <Accordion.Header>
+                        {t("shipping_question_3")}
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <p className="text-center">{t("shipping_answer_3")}</p>
+                      </Accordion.Body>
+                    </Accordion.Item>
 
-                    <Card className="single-my-account space-mb--20">
-                      <Card.Header className="panel-heading">
-                        <Accordion.Toggle variant="link" eventKey="3">
-                          <h3 className="panel-title">
-                            {t("shipping_question_4")}
-                          </h3>
-                        </Accordion.Toggle>
-                      </Card.Header>
-                      <Accordion.Collapse eventKey="3">
-                        <Card.Body>
-                          <p>{t("shipping_answer_4")}</p>
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
+                    <Accordion.Item eventKey="3">
+                      <Accordion.Header>
+                        {t("shipping_question_4")}
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <p className="text-center">{t("shipping_answer_4")}</p>
+                      </Accordion.Body>
+                    </Accordion.Item>
                   </Accordion>
                 </div>
 
                 {/* Payment Information */}
                 <div className="single-faq space-mb--r100">
-                  <h2 className="faq-title space-mb--20">
+                  <h2 className="faq-title space-mb--20 text-center">
                     {t("payment_information_title")}
                   </h2>
-                  <Accordion defaultActiveKey="0">
-                    <Card className="single-my-account space-mb--20">
-                      <Card.Header className="panel-heading">
-                        <Accordion.Toggle variant="link" eventKey="0">
-                          <h3 className="panel-title">
-                            {t("payment_question_1")}
-                          </h3>
-                        </Accordion.Toggle>
-                      </Card.Header>
-                      <Accordion.Collapse eventKey="0">
-                        <Card.Body>
-                          <p>{t("payment_answer_1")}</p>
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
+                  <Accordion defaultActiveKey="0" className="mx-auto" style={{ maxWidth: "800px" }}>
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>
+                        {t("payment_question_1")}
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <p className="text-center">{t("payment_answer_1")}</p>
+                      </Accordion.Body>
+                    </Accordion.Item>
 
-                    <Card className="single-my-account space-mb--20">
-                      <Card.Header className="panel-heading">
-                        <Accordion.Toggle variant="link" eventKey="1">
-                          <h3 className="panel-title">
-                            {t("payment_question_2")}
-                          </h3>
-                        </Accordion.Toggle>
-                      </Card.Header>
-                      <Accordion.Collapse eventKey="1">
-                        <Card.Body>
-                          <p>{t("payment_answer_2")}</p>
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
+                    <Accordion.Item eventKey="1">
+                      <Accordion.Header>
+                        {t("payment_question_2")}
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <p className="text-center">{t("payment_answer_2")}</p>
+                      </Accordion.Body>
+                    </Accordion.Item>
 
-                    <Card className="single-my-account space-mb--20">
-                      <Card.Header className="panel-heading">
-                        <Accordion.Toggle variant="link" eventKey="2">
-                          <h3 className="panel-title">
-                            {t("payment_question_3")}
-                          </h3>
-                        </Accordion.Toggle>
-                      </Card.Header>
-                      <Accordion.Collapse eventKey="2">
-                        <Card.Body>
-                          <p>{t("payment_answer_3")}</p>
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
+                    <Accordion.Item eventKey="2">
+                      <Accordion.Header>
+                        {t("payment_question_3")}
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <p className="text-center">{t("payment_answer_3")}</p>
+                      </Accordion.Body>
+                    </Accordion.Item>
                   </Accordion>
                 </div>
 
                 {/* Orders and Returns */}
                 <div className="single-faq">
-                  <h2 className="faq-title space-mb--20">
+                  <h2 className="faq-title space-mb--20 text-center">
                     {t("orders_and_returns_title")}
                   </h2>
-                  <Accordion defaultActiveKey="0">
-                    <Card className="single-my-account space-mb--20">
-                      <Card.Header className="panel-heading">
-                        <Accordion.Toggle variant="link" eventKey="0">
-                          <h3 className="panel-title">
-                            {t("orders_question_1")}
-                          </h3>
-                        </Accordion.Toggle>
-                      </Card.Header>
-                      <Accordion.Collapse eventKey="0">
-                        <Card.Body>
-                          <p>{t("orders_answer_1")}</p>
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
+                  <Accordion defaultActiveKey="0" className="mx-auto" style={{ maxWidth: "800px" }}>
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>
+                        {t("orders_question_1")}
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <p className="text-center">{t("orders_answer_1")}</p>
+                      </Accordion.Body>
+                    </Accordion.Item>
 
-                    <Card className="single-my-account space-mb--20">
-                      <Card.Header className="panel-heading">
-                        <Accordion.Toggle variant="link" eventKey="1">
-                          <h3 className="panel-title">
-                            {t("orders_question_2")}
-                          </h3>
-                        </Accordion.Toggle>
-                      </Card.Header>
-                      <Accordion.Collapse eventKey="1">
-                        <Card.Body>
-                          <p>{t("orders_answer_2")}</p>
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
+                    <Accordion.Item eventKey="1">
+                      <Accordion.Header>
+                        {t("orders_question_2")}
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <p className="text-center">{t("orders_answer_2")}</p>
+                      </Accordion.Body>
+                    </Accordion.Item>
 
-                    <Card className="single-my-account space-mb--20">
-                      <Card.Header className="panel-heading">
-                        <Accordion.Toggle variant="link" eventKey="2">
-                          <h3 className="panel-title">
-                            {t("orders_question_3")}
-                          </h3>
-                        </Accordion.Toggle>
-                      </Card.Header>
-                      <Accordion.Collapse eventKey="2">
-                        <Card.Body>
-                          <p>{t("orders_answer_3")}</p>
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
+                    <Accordion.Item eventKey="2">
+                      <Accordion.Header>
+                        {t("orders_question_3")}
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <p className="text-center">{t("orders_answer_3")}</p>
+                      </Accordion.Body>
+                    </Accordion.Item>
                   </Accordion>
                 </div>
               </div>
@@ -208,7 +148,7 @@ const Faq = () => {
           </Row>
         </Container>
       </div>
-    </LayoutTwo>)
+    </LayoutTwo>
   );
 };
 

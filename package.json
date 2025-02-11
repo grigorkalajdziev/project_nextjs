@@ -3,18 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "set NODE_OPTIONS=--openssl-legacy-provider && next dev",
-    "build": "set NODE_OPTIONS=--openssl-legacy-provider && next build",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "export": "next export"
   },
   "dependencies": {
-    "bootstrap": "4.5.0",
+    "bootstrap": "5.3.0",
     "firebase": "^9.23.0",
     "next": "^13.5.8",
     "nodemailer": "^6.10.0",
     "react": "^18.3.1",
-    "react-bootstrap": "^1.0.0",
+    "react-bootstrap": "^2.7.4",
     "react-countdown": "^2.2.1",
     "react-custom-scroll": "^4.2.0",
     "react-dom": "^18.3.1",

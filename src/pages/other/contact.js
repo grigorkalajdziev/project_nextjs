@@ -161,8 +161,8 @@ const Contact = () => {
                 <SectionTitleOne title={t("get_in_touch")} />
               </Col>
             </Row>
-            <Row>
-              <Col lg={8} className="ml-auto mr-auto">
+            <Row className="justify-content-center">
+              <Col lg={8} className="mx-auto">
                 <div className="lezada-form contact-form">
                   <form onSubmit={handleSubmit}>
                     <Row>
