@@ -40,20 +40,20 @@ class MyApp extends App {
       <Fragment>
         <Head>         
         </Head>
+        <div className={`${libreBaskerville.className} ${ptSerif.className}`}>
         <ToastProvider placement="bottom-left">
           <Provider store={reduxStore}>
             <PersistGate loading={<Preloader />} persistor={this.persistor}>
-              <LocalizationProvider>
+              <LocalizationProvider>             
               <LocalizedHead />
                <HeaderTop />
-               <CookieConsentToast />
-                <div className={`${libreBaskerville.className} ${ptSerif.className}`}>
-                  <Component {...pageProps} /> 
-                </div>
+               <CookieConsentToast />                
+                  <Component {...pageProps} />                
               </LocalizationProvider>
             </PersistGate>
           </Provider>
         </ToastProvider>
+        </div>
       </Fragment>
     );
   }
