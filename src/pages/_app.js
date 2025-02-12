@@ -1,3 +1,4 @@
+import { Libre_Baskerville, PT_Serif } from "next/font/google";
 import { Fragment } from "react";
 import App from "next/app";
 import Head from "next/head";
@@ -13,6 +14,18 @@ import Preloader from "../components/Preloader";
 import { LocalizationProvider, useLocalization } from "../context/LocalizationContext";
 import HeaderTop from "../components/Header/HeaderTop"
 import CookieConsentToast from "../components/Cookies/CookieConsent";
+
+const libreBaskerville = Libre_Baskerville({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
+
+const ptSerif = PT_Serif({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
 
 class MyApp extends App {
   constructor(props) {
@@ -34,7 +47,9 @@ class MyApp extends App {
               <LocalizedHead />
                <HeaderTop />
                <CookieConsentToast />
-                <Component {...pageProps} /> 
+                <div className={`${libreBaskerville.className} ${ptSerif.className}`}>
+                  <Component {...pageProps} /> 
+                </div>
               </LocalizationProvider>
             </PersistGate>
           </Provider>
