@@ -6,10 +6,12 @@ import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import {
   SectionTitleOne,
-  SectionTitleTwo
+  SectionTitleTwo,
 } from "../../components/SectionTitle";
 import { useToasts } from "react-toast-notifications";
 import LocalizationContext from "../../context/LocalizationContext";
+import { renderToStaticMarkup } from "react-dom/server";
+import { NewsletterEmail } from "../../components/Newsletter/NewsletterEmail";
 
 const Contact = () => {
   const { t } = useContext(LocalizationContext);
@@ -22,32 +24,32 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
+    const emailHtml = renderToStaticMarkup(<NewsletterEmail />);
+
     const response = await fetch("/api/send-email", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        to: [customerEmail],  // Customer's email
-        from: 'contact@kikamakeupandbeautyacademy.com',  // Your email address
+        to: [customerEmail], // Customer's email
+        from: "contact@kikamakeupandbeautyacademy.com", // Your email address
         subject: `New mail form ${customerName}`,
         text: `Email: ${customerEmail}\n\nMessage:\n${contactMessage}`,
-        html: `<p><strong>Name:</strong> ${customerName}</p>
-               <p><strong>Email:</strong> ${customerEmail}</p>
-               <p><strong>Message:</strong> ${contactMessage}</p>`,
+        html: emailHtml,
       }),
     });
-    
+
     const textResponse = await response.text();
-    
+
     try {
       const data = JSON.parse(textResponse); // Parse only if the response is JSON
       if (response.ok) {
         addToast(t("email_sending"), {
           appearance: "success",
           autoDismiss: true,
-        });       
+        });
 
         setCustomerName("");
         setCustomerEmail("");
@@ -57,18 +59,18 @@ const Contact = () => {
         addToast(t(`Failed to send email: ${data.error || "Unknown error"}`), {
           appearance: "error",
           autoDismiss: true,
-        });         
+        });
       }
-    } catch (error) {     
+    } catch (error) {
       addToast(t("An error occurred while sending the email."), {
         appearance: "error",
         autoDismiss: true,
       });
     }
-  };   
+  };
 
   return (
-    (<LayoutTwo>
+    <LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("contact_title")}
@@ -76,7 +78,10 @@ const Contact = () => {
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
+            <Link
+              href="/home/trending"
+              as={process.env.PUBLIC_URL + "/home/trending"}
+            >
               {t("home")}
             </Link>
           </li>
@@ -102,9 +107,7 @@ const Contact = () => {
                   </div>
                   <div className="icon-box__content">
                     <h3 className="title">{t("address")}</h3>
-                    <p className="content">
-                      {t("address_details")}
-                    </p>
+                    <p className="content">{t("address_details")}</p>
                   </div>
                 </div>
               </Col>
@@ -126,7 +129,9 @@ const Contact = () => {
                     <IoIosMail />
                   </div>
                   <div className="icon-box__content">
-                    <p className="content">{t("mail")}: makeupbykika@hotmail.com</p>
+                    <p className="content">
+                      {t("mail")}: makeupbykika@hotmail.com
+                    </p>
                   </div>
                 </div>
               </Col>
@@ -239,7 +244,7 @@ const Contact = () => {
           </Container>
         </div>
       </div>
-    </LayoutTwo>)
+    </LayoutTwo>
   );
 };
 
