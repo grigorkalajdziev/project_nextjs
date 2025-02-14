@@ -69,11 +69,11 @@ const MobileMenuWidgets = () => {
           </li>
           <li>
             <IoIosPhonePortrait />
-            <a href="tel://12452456012">(+389) 78/343-377 </a>
+            <a href="tel://+389 78 734 021">(+389) 78/343-377 </a>
           </li>
           <li>
             <IoMdMail />
-            <a href="mailto:info@makeupbykika.com">info@makeupbykika.com</a>
+            <a href="mailto:makeupbykika@hotmail.com" style={{ fontSize: '12px' }}>makeupbykika@hotmail.com</a>
           </li>
         </ul>
       </div>

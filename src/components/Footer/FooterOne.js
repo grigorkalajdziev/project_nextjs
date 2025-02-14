@@ -57,11 +57,11 @@ const FooterOne = () => {
             {/*=======  copyright text  =======*/}
             <div className="footer-copyright-text">
               &copy; {new Date().getFullYear() + " "}
-              <a href="https://www.makeupbykika.com" target="_blank">
-              makeupbykika
+              <a href="https://www.kikamakeupandbeautyacademy.com" target="_blank">
+              kikamakeupandbeautyacademy
               </a>
               . All Rights Reserved | <span>(+389) 78 / 343 – 377</span> |
-              contact@makeupbykika.com
+              makeupbykika@hotmail.com
             </div>
           </Col>
           <Col lg={3} md={12} className="text-left text-lg-right">

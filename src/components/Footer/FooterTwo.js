@@ -53,7 +53,7 @@ const FooterTwo = ({ footerBgClass }) => {
             {/*=======  copyright text  =======*/}
             <div className="footer-single-widget__copyright">
               &copy; {new Date().getFullYear() + " "}
-              <a href="https://www.makeupbykika.com" target="_blank">
+              <a href="https://www.kikamakeupandbeautyacademy.com" target="_blank">
               {t("brand_name")}
               </a>
               <span>{t("all_rights_reserved")}</span>

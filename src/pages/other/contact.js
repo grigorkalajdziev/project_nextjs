@@ -8,10 +8,12 @@ import {
   SectionTitleOne,
   SectionTitleTwo
 } from "../../components/SectionTitle";
+import { useToasts } from "react-toast-notifications";
 import LocalizationContext from "../../context/LocalizationContext";
 
 const Contact = () => {
   const { t } = useContext(LocalizationContext);
+  const { addToast } = useToasts();
 
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
@@ -21,37 +23,47 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    const response = await fetch("/api/send-mail", {
+    const response = await fetch("/api/send-email", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         to: [customerEmail],  // Customer's email
-        from: "contact@kikamakeupandbeautyacademy.com",  // Your email address
-        subject: `New Contact Form Submission from ${customerName}`,
+        from: 'contact@kikamakeupandbeautyacademy.com',  // Your email address
+        subject: `New mail form ${customerName}`,
         text: `Email: ${customerEmail}\n\nMessage:\n${contactMessage}`,
         html: `<p><strong>Name:</strong> ${customerName}</p>
                <p><strong>Email:</strong> ${customerEmail}</p>
                <p><strong>Message:</strong> ${contactMessage}</p>`,
       }),
     });
-  
-    const textResponse = await response.text(); // Get response as text (not JSON)
-    console.log("Raw response:", textResponse);
-  
-    // Try to parse it if it's JSON, otherwise handle it as plain text
+    
+    const textResponse = await response.text();
+    
     try {
       const data = JSON.parse(textResponse); // Parse only if the response is JSON
       if (response.ok) {
-        alert("Email sent successfully!");
+        addToast(t("email_sending"), {
+          appearance: "success",
+          autoDismiss: true,
+        });       
+
+        setCustomerName("");
+        setCustomerEmail("");
+        setContactSubject("");
+        setContactMessage("");
       } else {
-        alert(`Failed to send email: ${data.error || "Unknown error"}`);
+        addToast(t(`Failed to send email: ${data.error || "Unknown error"}`), {
+          appearance: "error",
+          autoDismiss: true,
+        });         
       }
-    } catch (error) {
-      // If parsing fails, treat it as a plain text response
-      console.error("Error parsing JSON:", error, textResponse);
-      alert("An error occurred while sending the email.");
+    } catch (error) {     
+      addToast(t("An error occurred while sending the email."), {
+        appearance: "error",
+        autoDismiss: true,
+      });
     }
   };   
 
@@ -114,7 +126,7 @@ const Contact = () => {
                     <IoIosMail />
                   </div>
                   <div className="icon-box__content">
-                    <p className="content">{t("mail")}: contact@makeupbykika.com</p>
+                    <p className="content">{t("mail")}: makeupbykika@hotmail.com</p>
                   </div>
                 </div>
               </Col>

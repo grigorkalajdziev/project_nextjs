@@ -37,7 +37,7 @@ const AboutOverlay = ({ activeStatus, getActiveStatus }) => {
           </div>
           <div className="about-overlay__contact-widget">
             <p className="email">
-              <a href="mailto:contact@makeupbykika.com">contact@makeupbykika.com</a>
+              <a href="mailto:makeupbykika@hotmail.com">makeupbykika@hotmail.com</a>
             </p>
             <p className="phone">(+389) 78 / 343 - 377</p>
             <div className="social-icons">

@@ -119,11 +119,11 @@ const FooterThree = () => {
             {/*=======  copyright text  =======*/}
             <div className="footer-copyright-text">
               &copy; {new Date().getFullYear() + " "}
-              <a href="https://www.makeupbykika.com" target="_blank">
-              makeupbykika
+              <a href="https://www.kikamakeupandbeautyacademy.com" target="_blank">
+              kikamakeupandbeautyacademy
               </a>
               . All Rights Reserved | <span>(+00) 123 567990</span> |
-              contact@makeupbykika.com
+              makeupbykika@hotmail.com
             </div>
           </Col>
         </Row>

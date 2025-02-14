@@ -41,8 +41,8 @@ const FooterFive = () => {
             {/*=======  copyright text  =======*/}
             <div className="footer-single-widget__copyright">
               &copy; {new Date().getFullYear() + " "}
-              <a href="https://www.makeupbykika.com" target="_blank">
-              makeupbykika
+              <a href="https://www.kikamakeupandbeautyacademy.com" target="_blank">
+              kikamakeupandbeautyacademy
               </a>
               <span>All Rights Reserved</span>
             </div>

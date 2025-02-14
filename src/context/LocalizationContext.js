@@ -34,7 +34,7 @@ const translations = {
     free_returns: "FREE RETURNS",
     free_returns_description: "30 days money back guarantee",
     secure_payment: "SECURE PAYMENT",
-    brand_name: "makeupbykika",
+    brand_name: "kikamakeupandbeautyacademy",
     all_rights_reserved: "All Rights Reserved",
     about: "ABOUT",
     about_us: "About us",
@@ -84,7 +84,7 @@ const translations = {
     phone: "Phone",
     mobile: "Mobile",
     email: "Email",
-    email_value: "contact@makeupbykika.com",
+    email_value: "makeupbykika@hotmail.com",
     about_page_extra_description: "Welcome to Kika Makeup and Beauty Academy, a place where creativity, innovation, and professionalism come together to prepare the future experts in the beauty industry. Our mission is to provide our students with the best training and practical skills to set them on the path to success. As an academy dedicated to makeup and beauty, we offer comprehensive courses that cover not only the basics of makeup but also advanced techniques that are current in the global market. Our program is designed to inspire the creative potential of our students and develop them into highly qualified professionals capable of tackling any challenge in the industry. At Kika Makeup and Beauty Academy, we value an individualized approach and strive to create a motivating and inspiring environment for every student. Our courses focus on the development of makeup techniques as well as the importance of confidence and creativity, which are crucial for building successful careers in this dynamic industry. Whether you aspire to become a professional makeup artist, a beautician, or to refine your skills in the latest beauty trends, our academy is here to guide you on that journey and provide you with the highest training standards.",
     online_store: "online store",
     testimonial_title: "Testimonial",
@@ -343,7 +343,8 @@ const translations = {
     profile_updated: "Profile updated successfully",
     password_note: "**You can change only your password if you are logged in with user/pass. If you are logged in with other providers such as Google, Apple, or Facebook, your password must be changed in their respective account settings.",
     password_mismatch: "The passwords do not match. Please try again.",
-    password_strength: "The password must be at least 6 characters long."
+    password_strength: "The password must be at least 6 characters long.",
+    email_sending: "Email sent successfully!"
   },
   mk: {
     english: "Англиски",
@@ -373,7 +374,7 @@ const translations = {
     free_returns: "Бесплатно враќање",
     free_returns_description: "Гаранција за поврат на парите во рок од 30 дена",
     secure_payment: "Безбедно плаќање",
-    brand_name: "makeupbykika",
+    brand_name: "kikamakeupandbeautyacademy",
     all_rights_reserved: "Сите права се задржани",
     about: "ЗА НАС",
     about_us: "За нас",
@@ -423,7 +424,7 @@ const translations = {
     phone: "Телефон",
     mobile: "Мобилен",
     email: "Е-пошта",
-    email_value: "contact@makeupbykika.com",
+    email_value: "makeupbykika@hotmail.com",
     about_page_extra_description: "Добредојдовте во Кика Makeup and Beauty Academy, место каде што креативноста, иновацијата и професионализмот се комбинираат за да ги подготвиме идните експерти во индустријата за убавина. Наша мисија е да им овозможиме на нашите студенти најдобра обука и практични вештини кои ќе ги постават на патот кон успехот. Како академија посветена на шминкањето и убавината, нудиме сеопфатни курсеви кои опфаќаат не само основите на шминкањето, туку и напредни техники кои се актуелни на глобалниот пазар. Нашата програма е дизајнирана да ги поттикне креативните потенцијали на нашите студенти и да ги развие во високо квалификувани професионалци кои можат да се справат со секој предизвик во индустријата. Во Кика Makeup and Beauty Academy, го цениме индивидуалниот пристап и се стремиме да создадеме поттикнувачка и инспиративна средина за секој студент. Нашите курсеви се фокусирани на развојот на техниките за шминкање, како и на важноста на самодовербата и креативноста, што е клучно за градење успешни кариера во оваа динамична индустрија. Без разлика дали сакате да станете професионален шминкер, козметичар или да се усовршите во најновите трендови на убавина, нашата академија е тука за да ве води на тој пат и да ви овозможи највисоките стандарди на обука.",
     online_store: "онлајн продавница",
     testimonial_title: "Лични искуства",
@@ -682,7 +683,8 @@ const translations = {
     profile_updated: "Профилот е успешно ажуриран.",
     password_note: "**Можете да ја промените лозинката ако сте најавени со корисничко име и лозинка. Ако сте најавени со други провајдери како што се Google, Apple или Facebook, вашата лозинка мора да се промени во нивните соодветни поставки за сметка.",
     password_mismatch: "Лозинките не се совпаѓаат. Обидете се повторно.",
-    password_strength: "Лозинката мора да содржи најмалку 6 знаци."
+    password_strength: "Лозинката мора да содржи најмалку 6 знаци.",
+    email_sending: "Email-от е успешно испратен!"
   }
 };
 
