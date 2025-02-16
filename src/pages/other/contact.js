@@ -181,7 +181,7 @@ const Contact = () => {
             <Row className="justify-content-center">
               <Col lg={8} className="mx-auto">
                 <div className="lezada-form contact-form">
-                  <form onSubmit={handleSubmit}>
+                  <form >
                     <Row>
                       <Col md={6} className="space-mb--40">
                         <input

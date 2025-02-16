@@ -344,7 +344,9 @@ const translations = {
     password_note: "**You can change only your password if you are logged in with user/pass. If you are logged in with other providers such as Google, Apple, or Facebook, your password must be changed in their respective account settings.",
     password_mismatch: "The passwords do not match. Please try again.",
     password_strength: "The password must be at least 6 characters long.",
-    email_sending: "Email sent successfully!"
+    email_sending: "Email sent successfully!",
+    thank_you_for_subscribing: "Thank you for subscribing!",
+    email_subject: 'Welcome to Kika Makeup and Beauty Academy!'
   },
   mk: {
     english: "Англиски",
@@ -684,7 +686,9 @@ const translations = {
     password_note: "**Можете да ја промените лозинката ако сте најавени со корисничко име и лозинка. Ако сте најавени со други провајдери како што се Google, Apple или Facebook, вашата лозинка мора да се промени во нивните соодветни поставки за сметка.",
     password_mismatch: "Лозинките не се совпаѓаат. Обидете се повторно.",
     password_strength: "Лозинката мора да содржи најмалку 6 знаци.",
-    email_sending: "Email-от е успешно испратен!"
+    email_sending: "Email-от е успешно испратен!",
+    thank_you_for_subscribing: "Ви благодарам што се претплативте!",
+    email_subject: 'Добредојдовте во Kika Makeup and Beauty Academy!'
   }
 };
 
