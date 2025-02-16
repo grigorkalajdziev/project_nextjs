@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     const emailHtml = ReactDOMServer.renderToStaticMarkup(<SubscribeResendEmail />);
 
     const data = await resend.emails.send({
-      from: 'newsletters@kikamakeupandbeautyacademy.com',
+      from: 'newsletter@kikamakeupandbeautyacademy.com',
       to: email,
       subject: 'Welcome to Kika Makeup and Beauty Academy!',
       html: emailHtml,

@@ -226,7 +226,7 @@ const LoginRegister = () => {
                     <Col lg={12} className="text-center space-mt--30">
                       <button
                         onClick={handleGoogleSignIn}
-                        className="lezada-button lezada-button--medium"                        
+                        className="lezada-button lezada-button--small"                        
                       >
                         <FcGoogle size={24} style={{ marginRight: "10px" }} />
                         {t("continue_with_google")}

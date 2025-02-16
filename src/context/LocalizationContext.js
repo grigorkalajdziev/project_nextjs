@@ -346,7 +346,14 @@ const translations = {
     password_strength: "The password must be at least 6 characters long.",
     email_sending: "Email sent successfully!",
     thank_you_for_subscribing: "Thank you for subscribing!",
-    email_subject: 'Welcome to Kika Makeup and Beauty Academy!'
+    email_subject: 'Welcome to Kika Makeup and Beauty Academy!',
+    preview: "Welcome to Kika Makeup and Beauty Academy!",
+    greeting: "Hi,",
+    welcomeMessage: "Thank you for subscribing to Kika Makeup and Beauty Academy. We are excited to help you explore the world of makeup and beauty. Stay tuned for exclusive tips, tutorials, and offers!",
+    getStarted: "Get started",
+    bestRegards: "Best,",
+    team: "The Kika Makeup and Beauty Academy Team",
+    footer: "@ Kika Makeup and Beauty Academy, Ohrid 6000, Macedonia"
   },
   mk: {
     english: "Англиски",
@@ -688,7 +695,14 @@ const translations = {
     password_strength: "Лозинката мора да содржи најмалку 6 знаци.",
     email_sending: "Email-от е успешно испратен!",
     thank_you_for_subscribing: "Ви благодарам што се претплативте!",
-    email_subject: 'Добредојдовте во Kika Makeup and Beauty Academy!'
+    email_subject: 'Добредојдовте во Kika Makeup and Beauty Academy!',
+    preview: "Добредојдовте во Кика Makeup and Beauty Academy!",
+    greeting: "Здраво,",
+    welcomeMessage: "Ви благодариме што се претплативте на Кика Makeup and Beauty Academy. Возбудени сме што ќе ви помогнеме да го истражите светот на шминкањето и убавината. Следете нè за ексклузивни совети, туторијали и понуди!",
+    getStarted: "Започни",
+    bestRegards: "Со почит,",
+    team: "Тимот на Кика Makeup and Beauty Academy",
+    footer: "@ Кика Makeup and Beauty Academy, Охрид 6000, Македонија"
   }
 };
 
