@@ -12,7 +12,7 @@ import {
   Text,
 } from '@react-email/components';
 
-const KikaWelcomeEmail = () => {  
+const SubscribeResendEmail = () => {  
   return React.createElement(
     Html,
     null,
@@ -68,14 +68,14 @@ const KikaWelcomeEmail = () => {
         React.createElement(
           Text,
           { style: footer },
-          '@ Kika Makeup and Beauty Academy, Ohrid 6000, Macedonia'
+          '2025 © Kika Makeup and Beauty Academy, Ohrid 6000, Macedonia'
         )
       )
     )
   );
 };
 
-export default KikaWelcomeEmail;
+export default SubscribeResendEmail;
 
 // Styles
 const main = {
