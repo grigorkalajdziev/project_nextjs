@@ -11,63 +11,77 @@ import {
 import { useToasts } from "react-toast-notifications";
 import LocalizationContext from "../../context/LocalizationContext";
 import { renderToStaticMarkup } from "react-dom/server";
-import { NewsletterEmail } from "../../components/Newsletter/NewsletterEmail";
+import EmailTemplate from "../../components/Newsletter/EmailTemplate";
 
 const Contact = () => {
   const { t } = useContext(LocalizationContext);
   const { addToast } = useToasts();
 
-  const [customerName, setCustomerName] = useState("");
-  const [customerEmail, setCustomerEmail] = useState("");
-  const [contactSubject, setContactSubject] = useState("");
-  const [contactMessage, setContactMessage] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const emailHtml = renderToStaticMarkup(<NewsletterEmail />);
-
+  
+    const emailHtml = renderToStaticMarkup(
+      <EmailTemplate
+        name={formData.name}
+        email={formData.email}
+        subject={formData.subject}
+        message={formData.message}
+      />
+    );
+  
     const response = await fetch("/api/send-email", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        to: [customerEmail], // Customer's email
-        from: "contact@kikamakeupandbeautyacademy.com", // Your email address
-        subject: `New mail form ${customerName}`,
-        text: `Email: ${customerEmail}\n\nMessage:\n${contactMessage}`,
-        html: emailHtml,
+        to: ["grigorkalajdziev@gmail.com", "makeupbykika@hotmail.com"],
+        from: "contact@kikamakeupandbeautyacademy.com",
+        subject: formData.subject,
+        message: formData.message,
+        name: formData.name,
+        email: formData.email, 
       }),
     });
-
+  
     const textResponse = await response.text();
-
+  
     try {
-      const data = JSON.parse(textResponse); // Parse only if the response is JSON
+      const result = JSON.parse(textResponse);
       if (response.ok) {
         addToast(t("email_sending"), {
           appearance: "success",
           autoDismiss: true,
         });
-
-        setCustomerName("");
-        setCustomerEmail("");
-        setContactSubject("");
-        setContactMessage("");
+        setFormData({ name: "", email: "", subject: "", message: "" });
       } else {
-        addToast(t(`Failed to send email: ${data.error || "Unknown error"}`), {
-          appearance: "error",
-          autoDismiss: true,
-        });
+        addToast(
+          t(`Failed to send email: ${result.error || "Unknown error"}`),
+          {
+            appearance: "error",
+            autoDismiss: true,
+          }
+        );
       }
-    } catch (error) {
-      addToast(t("An error occurred while sending the email."), {
+    } catch (err) {
+      addToast(t("Failed to parse the server response."), {
         appearance: "error",
         autoDismiss: true,
       });
     }
   };
+  
 
   return (
     <LayoutTwo>
@@ -181,16 +195,16 @@ const Contact = () => {
             <Row className="justify-content-center">
               <Col lg={8} className="mx-auto">
                 <div className="lezada-form contact-form">
-                  <form >
+                  <form onSubmit={handleSubmit}>
                     <Row>
                       <Col md={6} className="space-mb--40">
                         <input
                           type="text"
                           placeholder={t("first_name")}
-                          name="customerName"
+                          name="name"
                           id="customerName"
-                          value={customerName}
-                          onChange={(e) => setCustomerName(e.target.value)}
+                          value={formData.name}
+                          onChange={handleChange}
                           required
                         />
                       </Col>
@@ -198,10 +212,10 @@ const Contact = () => {
                         <input
                           type="email"
                           placeholder={t("email")}
-                          name="customerEmail"
+                          name="email"
                           id="customerEmail"
-                          value={customerEmail}
-                          onChange={(e) => setCustomerEmail(e.target.value)}
+                          value={formData.email}
+                          onChange={handleChange}
                           required
                         />
                       </Col>
@@ -209,10 +223,10 @@ const Contact = () => {
                         <input
                           type="text"
                           placeholder={t("subject")}
-                          name="contactSubject"
+                          name="subject"
                           id="contactSubject"
-                          value={contactSubject}
-                          onChange={(e) => setContactSubject(e.target.value)}
+                          value={formData.subject}
+                          onChange={handleChange}
                         />
                       </Col>
                       <Col md={12} className="space-mb--40">
@@ -220,10 +234,10 @@ const Contact = () => {
                           cols={30}
                           rows={10}
                           placeholder={t("message")}
-                          name="contactMessage"
+                          name="message"
                           id="contactMessage"
-                          value={contactMessage}
-                          onChange={(e) => setContactMessage(e.target.value)}
+                          value={formData.message}
+                          onChange={handleChange}
                         />
                       </Col>
                       <Col md={12} className="text-center">

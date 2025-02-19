@@ -1,5 +1,7 @@
-// pages/api/send-mail.js
 import { Resend } from "resend";
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+import EmailTemplate from "../../components/Newsletter/EmailTemplate";
 
 // Initialize Resend with your API key
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -9,15 +11,19 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { to, from, subject, text, html } = req.body;
+  const { to, from, subject, message, name, email } = req.body;
+
+  const emailHtml = ReactDOMServer.renderToStaticMarkup(
+    <EmailTemplate name={name} email={email} subject={subject} message={message} />
+  );
 
   try {
     const data = await resend.emails.send({
-      from,
       to,
+      cc: email,
+      from,
       subject,
-      text,
-      html,
+      html: emailHtml,
     });
     console.log("Email sent:", data);
     return res.status(200).json({ message: "Email sent successfully", data });

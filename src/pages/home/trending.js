@@ -17,7 +17,7 @@ import blogData from "../../data/blog-posts/blog-post-one.json";
 import heroSliderData from "../../data/hero-sliders/hero-slider-two.json";
 
 const Trending = ({ products }) => {
-  const { t } = useLocalization(); 
+  const { t } = useLocalization();
   return (
     (<LayoutFive>
       {/* hero slider */}

@@ -353,7 +353,8 @@ const translations = {
     getStarted: "Get started",
     bestRegards: "Best,",
     team: "The Kika Makeup and Beauty Academy Team",
-    footer: "@ Kika Makeup and Beauty Academy, Ohrid 6000, Macedonia"
+    footer: "@ Kika Makeup and Beauty Academy, Ohrid 6000, Macedonia",
+    sending: "Sending..."
   },
   mk: {
     english: "Англиски",
@@ -702,7 +703,8 @@ const translations = {
     getStarted: "Започни",
     bestRegards: "Со почит,",
     team: "Тимот на Кика Makeup and Beauty Academy",
-    footer: "@ Кика Makeup and Beauty Academy, Охрид 6000, Македонија"
+    footer: "@ Кика Makeup and Beauty Academy, Охрид 6000, Македонија",
+    sending: "Испраќање..."
   }
 };
 

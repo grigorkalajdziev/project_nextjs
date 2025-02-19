@@ -1,7 +1,10 @@
 import MailchimpSubscribe from "react-mailchimp-subscribe";
+import { useLocalization } from "../../context/LocalizationContext";
 
 const CustomForm = ({ status, message, onValidated, alertColor }) => {
+  const { t } = useLocalization();  
   let email;
+
   const submit = () => {
     email &&
       email.value.indexOf("@") > -1 &&
@@ -37,7 +40,7 @@ const CustomForm = ({ status, message, onValidated, alertColor }) => {
             lineHeight: "1.3"
           }}
         >
-          sending...
+          {t("sending")}         
         </div>
       )}
       {status === "error" && (
