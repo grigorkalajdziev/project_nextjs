@@ -105,12 +105,20 @@ const LoginRegister = () => {
       // Send email verification
       await sendEmailVerification(user);
 
+      await fetch("/api/sendRegistrationEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: registerData.email }),
+      });
+
       addToast(t("registration_success"), {
         appearance: "success",
         autoDismiss: true,
       });
       setTimeout(() => {
-        window.location.href = "/other/my-account";
+        window.location.href = "/other/login-register";
       }, 2000);
     } catch (error) {
       addToast(error.message, { appearance: "error", autoDismiss: true });
@@ -151,16 +159,14 @@ const LoginRegister = () => {
   };
 
   return (
-    (<LayoutTwo>
+    <LayoutTwo>
       <BreadcrumbOne
         pageTitle={t("customer_login")}
         backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.jpg"
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link href="/home/trending">
-              {t("home")}
-            </Link>
+            <Link href="/home/trending">{t("home")}</Link>
           </li>
           <li>{t("customer_login")}</li>
         </ul>
@@ -191,24 +197,33 @@ const LoginRegister = () => {
                       />
                     </Col>
                     <Col lg={12} className="space-mb--50">
-                      <input
-                        type={loginPasswordVisible ? "text" : "password"}
-                        name="password"
-                        placeholder={t("password")}
-                        value={loginData.password}
-                        onChange={handleLoginChange}
-                        required
-                      />
-                      <span
-                        onClick={toggleLoginPasswordVisibility}
-                        className="password-visibility-toggle"
-                      >
-                        {loginPasswordVisible ? (
-                          <AiOutlineEyeInvisible />
-                        ) : (
-                          <AiOutlineEye />
-                        )}
-                      </span>
+                      <div style={{ position: "relative" }}>
+                        <input
+                          type={loginPasswordVisible ? "text" : "password"}
+                          name="password"
+                          placeholder={t("password")}
+                          value={loginData.password}
+                          onChange={handleLoginChange}
+                          required
+                          style={{ width: "100%", paddingRight: "70px" }} // Adjust padding to prevent text overlap
+                        />
+                        <span
+                          onClick={toggleLoginPasswordVisibility}
+                          style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            cursor: "pointer",
+                          }}
+                        >
+                          {loginPasswordVisible ? (
+                            <AiOutlineEyeInvisible />
+                          ) : (
+                            <AiOutlineEye />
+                          )}
+                        </span>
+                      </div>
                     </Col>
 
                     {/* Centering the Login button */}
@@ -226,7 +241,7 @@ const LoginRegister = () => {
                     <Col lg={12} className="text-center space-mt--30">
                       <button
                         onClick={handleGoogleSignIn}
-                        className="lezada-button lezada-button--small"                        
+                        className="lezada-button lezada-button--small"
                       >
                         <FcGoogle size={24} style={{ marginRight: "10px" }} />
                         {t("continue_with_google")}
@@ -271,24 +286,33 @@ const LoginRegister = () => {
                     </Col>
 
                     <Col lg={12} className="space-mb--50">
-                      <input
-                        type={registerPasswordVisible ? "text" : "password"}
-                        name="password"
-                        placeholder={t("password_placeholder")}
-                        value={registerData.password}
-                        onChange={handleRegisterChange}
-                        required
-                      />
-                      <span
-                        onClick={toggleRegisterPasswordVisibility}
-                        className="password-visibility-toggle"
-                      >
-                        {registerPasswordVisible ? (
-                          <AiOutlineEyeInvisible />
-                        ) : (
-                          <AiOutlineEye />
-                        )}
-                      </span>
+                      <div style={{ position: "relative" }}>
+                        <input
+                          type={registerPasswordVisible ? "text" : "password"}
+                          name="password"
+                          placeholder={t("password_placeholder")}
+                          value={registerData.password}
+                          onChange={handleRegisterChange}
+                          required
+                          style={{ width: "100%", paddingRight: "50px" }} // Adjust padding to prevent text overlap
+                        />
+                        <span
+                          onClick={toggleRegisterPasswordVisibility}
+                          style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            cursor: "pointer",
+                          }}
+                        >
+                          {registerPasswordVisible ? (
+                            <AiOutlineEyeInvisible />
+                          ) : (
+                            <AiOutlineEye />
+                          )}
+                        </span>
+                      </div>
                     </Col>
 
                     {/* Centering the Register button */}
@@ -304,7 +328,7 @@ const LoginRegister = () => {
           </Row>
         </Container>
       </div>
-    </LayoutTwo>)
+    </LayoutTwo>
   );
 };
 
