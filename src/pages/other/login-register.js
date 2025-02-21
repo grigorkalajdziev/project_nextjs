@@ -5,14 +5,13 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
 import { auth } from "../api/register";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  // Removed: sendEmailVerification,
+  sendPasswordResetEmail, // <-- Import sendPasswordResetEmail
   FacebookAuthProvider,
 } from "firebase/auth";
 import { useToasts } from "react-toast-notifications";
@@ -59,19 +58,17 @@ const LoginRegister = () => {
   };
 
   // Login with email and password
-  // Login with email and password
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+    
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
         loginData.email,
         loginData.password
       );
-      // Declare the user variable immediately after successful sign in
       const user = userCredential.user;
 
-      // Now use the user variable safely (its uid is available)
       if (!localStorage.getItem("loginSuccessEmailSent_" + user.uid)) {
         await fetch("/api/sendLoginSuccessEmail", {
           method: "POST",
@@ -99,7 +96,6 @@ const LoginRegister = () => {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Create user account without sending verification email
       await createUserWithEmailAndPassword(
         auth,
         registerData.email,
@@ -157,6 +153,26 @@ const LoginRegister = () => {
       }, 2000);
     } catch (err) {
       addToast(err.message, { appearance: "error", autoDismiss: true });
+    }
+  };
+
+  // Forgot Password Handler
+  const handleForgotPassword = async () => {
+    if (!loginData.email) {
+      addToast(t("please_enter_your_email_first"), {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, loginData.email);
+      addToast(t("reset_email_sent"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
+    } catch (error) {
+      addToast(error.message, { appearance: "error", autoDismiss: true });
     }
   };
 
@@ -226,6 +242,23 @@ const LoginRegister = () => {
                         </span>
                       </div>
                     </Col>
+                    <Col lg={12} className="text-right space-mb--30">
+                      {/* "Forgot Password?" link */}
+                      <button
+                        type="button"
+                        onClick={handleForgotPassword}
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: "blue",                          
+                          padding: 0,
+                          cursor: "pointer",
+                          fontSize: "12px"
+                        }}
+                      >
+                        {t("forgot_password")}
+                      </button>
+                    </Col>
                     <Col lg={12} className="text-center space-mb--30">
                       <button className="lezada-button lezada-button--medium">
                         {t("login")}
@@ -243,17 +276,6 @@ const LoginRegister = () => {
                         {t("continue_with_google")}
                       </button>
                     </Col>
-                    {/*
-                    <Col lg={12} className="text-center space-mt--30">
-                      <button
-                        onClick={handleFacebookSignIn}
-                        className="lezada-button lezada-button--medium"
-                      >
-                        <FaFacebook size={24} style={{ marginRight: "10px" }} />
-                        {t("continue_with_facebook")}
-                      </button>
-                    </Col>
-                    */}
                   </Row>
                 </form>
               </div>

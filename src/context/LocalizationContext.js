@@ -354,7 +354,10 @@ const translations = {
     bestRegards: "Best,",
     team: "The Kika Makeup and Beauty Academy Team",
     footer: "@ Kika Makeup and Beauty Academy, Ohrid 6000, Macedonia",
-    sending: "Sending..."
+    sending: "Sending...",
+    forgot_password: "Forgot Password",
+    reset_email_sent: "Reset email sent successfully!",
+    please_enter_your_email_first: "Please enter your email address first."
   },
   mk: {
     english: "Англиски",
@@ -704,7 +707,10 @@ const translations = {
     bestRegards: "Со почит,",
     team: "Тимот на Кика Makeup and Beauty Academy",
     footer: "@ Кика Makeup and Beauty Academy, Охрид 6000, Македонија",
-    sending: "Испраќање..."
+    sending: "Испраќање...",
+    forgot_password: "Ја заборавивте лозинката?",
+    reset_email_sent: "Email-от за промена на лозинката е успешно испратен!",
+    please_enter_your_email_first: "Ве молиме, прво внесете ја вашата е-пошта.",
   }
 };
 
