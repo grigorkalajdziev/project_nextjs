@@ -20,11 +20,11 @@ const HeaderTop = () => {
     setCurrency(currentLanguage === "en" ? "EUR" : "MKD");
   }, [currentLanguage]);
 
-  // Track login state
+  // Track authentication state
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        setUser(firebaseUser);
       } else {
         setUser(null);
       }
@@ -32,18 +32,15 @@ const HeaderTop = () => {
     return () => unsubscribe();
   }, []);
 
-  // Handle logout
+  // Logout handler remains unchanged
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      setUser(null);      
-      
+      setUser(null);
       addToast(t("logout_success"), {
         appearance: "info",
         autoDismiss: true,
       });
-  
-      // Delay the redirect
       setTimeout(() => {
         router.push("/other/login-register");
       }, 2000);
@@ -53,19 +50,31 @@ const HeaderTop = () => {
     }
   };
 
+  // Determine if we should show the user's email.
+  // If the user is fully logged in, then lastSignInTime should differ from creationTime.
+  const showUserInfo =
+    user &&
+    user.metadata &&
+    user.metadata.lastSignInTime !== user.metadata.creationTime;
+
   return (
-    (<div className="header-top-area border-bottom--grey space-pt--10 space-pb--10 d-none d-lg-block">
+    <div className="header-top-area border-bottom--grey space-pt--10 space-pb--10 d-none d-lg-block">
       <Container className="wide">
         <div className="header-top">
           <div className="header-top__left">
             <div className="language-change change-dropdown">
-              <span>{currentLanguage === "en" ? t("english") : t("macedonian")}</span> <IoIosArrowDown />
+              <span>{currentLanguage === "en" ? t("english") : t("macedonian")}</span>{" "}
+              <IoIosArrowDown />
               <ul>
                 <li>
-                  <button onClick={() => changeLanguage("mk")}>{t("macedonian")}</button>
+                  <button onClick={() => changeLanguage("mk")}>
+                    {t("macedonian")}
+                  </button>
                 </li>
                 <li>
-                  <button onClick={() => changeLanguage("en")}>{t("english")}</button>
+                  <button onClick={() => changeLanguage("en")}>
+                    {t("english")}
+                  </button>
                 </li>
               </ul>
             </div>
@@ -74,10 +83,14 @@ const HeaderTop = () => {
               <span>{currency}</span> <IoIosArrowDown />
               <ul>
                 <li>
-                  <button onClick={() => setCurrency("MKD")} disabled={true}>MKD</button>
+                  <button onClick={() => setCurrency("MKD")} disabled={true}>
+                    MKD
+                  </button>
                 </li>
                 <li>
-                  <button onClick={() => setCurrency("EUR")} disabled={true}>EUR</button>
+                  <button onClick={() => setCurrency("EUR")} disabled={true}>
+                    EUR
+                  </button>
                 </li>
               </ul>
             </div>
@@ -89,38 +102,59 @@ const HeaderTop = () => {
           </div>
 
           <div className="header-top__right">
-            {/* Check if user is logged in */}
-            {user ? (
+            {/* Only show user's email & logout if user is fully logged in */}
+            {showUserInfo ? (
               <>
                 <span className="user-email">{user.email}</span>
                 <span className="header-separator">|</span>
-                <a href="#" className="signout-link" onClick={handleLogout}>
-                {t("logout")}
-              </a>
+                <a
+                  href="#"
+                  className="signout-link"
+                  onClick={handleLogout}
+                >
+                  {t("logout")}
+                </a>
               </>
             ) : (
-              <>
-                <div className="signup-link">
-                  <Link href="/other/login-register" as={process.env.PUBLIC_URL + "/other/login-register"}>
-                    {t("signup_login")}
-                  </Link>
-                </div>
-              </>
+              <div className="signup-link">
+                <Link
+                  href="/other/login-register"
+                  as={process.env.PUBLIC_URL + "/other/login-register"}
+                >
+                  {t("signup_login")}
+                </Link>
+              </div>
             )}
 
             <span className="header-separator">|</span>
             <div className="top-social-icons">
               <ul>
-                <li><a href="https://x.com" target="_blank"><FaXTwitter /></a></li>
-                <li><a href="https://www.facebook.com" target="_blank"><IoLogoFacebook /></a></li>
-                <li><a href="https://www.instagram.com" target="_blank"><IoLogoInstagram /></a></li>
-                <li><a href="https://www.youtube.com" target="_blank"><IoLogoYoutube /></a></li>
+                <li>
+                  <a href="https://x.com" target="_blank">
+                    <FaXTwitter />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.facebook.com" target="_blank">
+                    <IoLogoFacebook />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.instagram.com" target="_blank">
+                    <IoLogoInstagram />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.youtube.com" target="_blank">
+                    <IoLogoYoutube />
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
         </div>
       </Container>
-    </div>)
+    </div>
   );
 };
 

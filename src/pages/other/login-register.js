@@ -12,7 +12,7 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  sendEmailVerification,
+  // Removed: sendEmailVerification,
   FacebookAuthProvider,
 } from "firebase/auth";
 import { useToasts } from "react-toast-notifications";
@@ -27,7 +27,6 @@ const LoginRegister = () => {
     email: "",
     password: "",
   });
-
   const [loginPasswordVisible, setLoginPasswordVisible] = useState(false);
 
   // State for register
@@ -35,7 +34,6 @@ const LoginRegister = () => {
     email: "",
     password: "",
   });
-
   const [registerPasswordVisible, setRegisterPasswordVisible] = useState(false);
 
   // Handle input change for login
@@ -61,6 +59,7 @@ const LoginRegister = () => {
   };
 
   // Login with email and password
+  // Login with email and password
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -69,23 +68,28 @@ const LoginRegister = () => {
         loginData.email,
         loginData.password
       );
+      // Declare the user variable immediately after successful sign in
       const user = userCredential.user;
 
-      // Check if the email is verified
-      if (user.emailVerified) {
-        addToast(t("login_success"), {
-          appearance: "success",
-          autoDismiss: true,
+      // Now use the user variable safely (its uid is available)
+      if (!localStorage.getItem("loginSuccessEmailSent_" + user.uid)) {
+        await fetch("/api/sendLoginSuccessEmail", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: loginData.email }),
         });
-        setTimeout(() => {
-          window.location.href = "/other/my-account"; // Redirect after successful login
-        }, 2000);
-      } else {
-        addToast(t("please_verify_email"), {
-          appearance: "warning",
-          autoDismiss: true,
-        });
+        localStorage.setItem("loginSuccessEmailSent_" + user.uid, "true");
       }
+
+      addToast(t("login_success"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      setTimeout(() => {
+        window.location.href = "/other/my-account";
+      }, 2000);
     } catch (error) {
       addToast(error.message, { appearance: "error", autoDismiss: true });
     }
@@ -95,15 +99,12 @@ const LoginRegister = () => {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userCredential = await createUserWithEmailAndPassword(
+      // Create user account without sending verification email
+      await createUserWithEmailAndPassword(
         auth,
         registerData.email,
         registerData.password
       );
-      const user = userCredential.user;
-
-      // Send email verification
-      await sendEmailVerification(user);
 
       await fetch("/api/sendRegistrationEmail", {
         method: "POST",
@@ -142,6 +143,7 @@ const LoginRegister = () => {
     }
   };
 
+  // Facebook Sign-In
   const handleFacebookSignIn = async () => {
     const provider = new FacebookAuthProvider();
     try {
@@ -185,7 +187,6 @@ const LoginRegister = () => {
                         <p>{t("welcome_back")}</p>
                       </div>
                     </Col>
-
                     <Col lg={12} className="space-mb--30">
                       <input
                         type="email"
@@ -205,7 +206,7 @@ const LoginRegister = () => {
                           value={loginData.password}
                           onChange={handleLoginChange}
                           required
-                          style={{ width: "100%", paddingRight: "70px" }} // Adjust padding to prevent text overlap
+                          style={{ width: "100%", paddingRight: "70px" }}
                         />
                         <span
                           onClick={toggleLoginPasswordVisibility}
@@ -225,19 +226,14 @@ const LoginRegister = () => {
                         </span>
                       </div>
                     </Col>
-
-                    {/* Centering the Login button */}
                     <Col lg={12} className="text-center space-mb--30">
                       <button className="lezada-button lezada-button--medium">
                         {t("login")}
                       </button>
                     </Col>
-
-                    {/* Google Sign-In Button - Centered */}
                     <Col lg={12} className="text-center">
                       <span>{t("or")}</span>
                     </Col>
-
                     <Col lg={12} className="text-center space-mt--30">
                       <button
                         onClick={handleGoogleSignIn}
@@ -247,16 +243,17 @@ const LoginRegister = () => {
                         {t("continue_with_google")}
                       </button>
                     </Col>
-
-                    {/* <Col lg={12} className="text-center space-mt--30">
+                    {/*
+                    <Col lg={12} className="text-center space-mt--30">
                       <button
                         onClick={handleFacebookSignIn}
-                        className="lezada-button lezada-button--medium"                        
+                        className="lezada-button lezada-button--medium"
                       >
                         <FaFacebook size={24} style={{ marginRight: "10px" }} />
                         {t("continue_with_facebook")}
                       </button>
-                    </Col> */}
+                    </Col>
+                    */}
                   </Row>
                 </form>
               </div>
@@ -273,7 +270,6 @@ const LoginRegister = () => {
                         <p>{t("no_account_register")}</p>
                       </div>
                     </Col>
-
                     <Col lg={12} className="space-mb--30">
                       <input
                         type="email"
@@ -284,7 +280,6 @@ const LoginRegister = () => {
                         required
                       />
                     </Col>
-
                     <Col lg={12} className="space-mb--50">
                       <div style={{ position: "relative" }}>
                         <input
@@ -294,7 +289,7 @@ const LoginRegister = () => {
                           value={registerData.password}
                           onChange={handleRegisterChange}
                           required
-                          style={{ width: "100%", paddingRight: "50px" }} // Adjust padding to prevent text overlap
+                          style={{ width: "100%", paddingRight: "50px" }}
                         />
                         <span
                           onClick={toggleRegisterPasswordVisibility}
@@ -314,8 +309,6 @@ const LoginRegister = () => {
                         </span>
                       </div>
                     </Col>
-
-                    {/* Centering the Register button */}
                     <Col lg={12} className="text-center space-mb--30">
                       <button className="lezada-button lezada-button--medium">
                         {t("register")}

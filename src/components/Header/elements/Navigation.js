@@ -9,7 +9,7 @@ const Navigation = () => {
   const { t } = useLocalization();
   const [user, setUser] = useState(null);
 
-  useEffect(() => {    
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
     });
@@ -18,7 +18,7 @@ const Navigation = () => {
   }, []);
 
   return (
-    (<nav className="header-content__navigation space-pr--15 space-pl--15 d-none d-lg-block">
+    <nav className="header-content__navigation space-pr--15 space-pl--15 d-none d-lg-block">
       <ul>
         <li>
           <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
@@ -44,15 +44,13 @@ const Navigation = () => {
                   </Link>
                 </li>
                 {/* Show 'My Account' only if the user is logged in */}
-                {user && (
+                {user ? (
                   <li>
                     <Link href="/other/my-account" as={process.env.PUBLIC_URL + "/other/my-account"}>
                       {t("my_account")}
                     </Link>
                   </li>
-                )}
-                {/* Show 'Login/Register' only if the user is NOT logged in */}
-                {!user && (
+                ) : (
                   <li>
                     <Link href="/other/login-register" as={process.env.PUBLIC_URL + "/other/login-register"}>
                       {t("login_register")}
@@ -82,7 +80,7 @@ const Navigation = () => {
           </ul>
         </li>
       </ul>
-    </nav>)
+    </nav>
   );
 };
 
