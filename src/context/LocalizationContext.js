@@ -355,7 +355,7 @@ const translations = {
     team: "The Kika Makeup and Beauty Academy Team",
     footer: "@ Kika Makeup and Beauty Academy, Ohrid 6000, Macedonia",
     sending: "Sending...",
-    forgot_password: "Forgot Password",
+    forgot_password: "Forgot Password?",
     reset_email_sent: "Reset email sent successfully!",
     please_enter_your_email_first: "Please enter your email address first."
   },

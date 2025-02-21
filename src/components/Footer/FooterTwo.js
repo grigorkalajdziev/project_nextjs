@@ -65,16 +65,15 @@ const FooterTwo = ({ footerBgClass }) => {
             <nav className="footer-single-widget__nav">
               <ul>
                 <li>
-                  <a href="#">{t("about_us")}</a>
+                  <a href="/other/about">{t("about_us")}</a>
                 </li>
+                
                 <li>
-                  <a href="#">{t("store_location")}</a>
+                  <a href="/other/contact">{t("contact")}</a>
                 </li>
+               
                 <li>
-                  <a href="#">{t("contact")}</a>
-                </li>
-                <li>
-                  <a href="#">{t("orders_tracking")}</a>
+                  <a href="/other/faq">{t("faqs")}</a>
                 </li>
               </ul>
             </nav>
@@ -84,18 +83,16 @@ const FooterTwo = ({ footerBgClass }) => {
             <h5 className="footer-single-widget__title">{t("useful_links")}</h5>
             <nav className="footer-single-widget__nav">
               <ul>
-                <li>
-                  <a href="#">{t("returns")}</a>
+              <li>
+                  <a href="/other/login-register">{t("signup_login")}</a>
                 </li>
                 <li>
-                  <a href="#">{t("support_policy")}</a>
+                  <a href="/shop/left-sidebar">{t("shop")}</a>
                 </li>
                 <li>
-                  <a href="#">{t("size_guide")}</a>
+                  <a href="/other/checkout">{t("checkout")}</a>
                 </li>
-                <li>
-                  <a href="#">{t("faqs")}</a>
-                </li>
+                
               </ul>
             </nav>
           </Col>
