@@ -52,7 +52,7 @@ const LoginSuccessEmail = () => {
             Button,
             {
               style: button,
-              href: 'https://www.kikamakeupandbeautyacademy.com/other/my-account',
+              href: 'https://www.kikamakeupandbeautyacademy.com/',
             },
             'Go to Your Account'
           )

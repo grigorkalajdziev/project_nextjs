@@ -1,7 +1,8 @@
 import { Libre_Baskerville, PT_Serif } from "next/font/google";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import App from "next/app";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import withReduxStore from "../lib/with-redux-store";
 import { Provider } from "react-redux";
 import { ToastProvider } from "react-toast-notifications";
@@ -14,6 +15,8 @@ import Preloader from "../components/Preloader";
 import { LocalizationProvider, useLocalization } from "../context/LocalizationContext";
 import HeaderTop from "../components/Header/HeaderTop"
 import CookieConsentToast from "../components/Cookies/CookieConsent";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../pages/api/register";
 
 const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
@@ -46,6 +49,7 @@ class MyApp extends App {
             <PersistGate loading={<Preloader />} persistor={this.persistor}>
               <LocalizationProvider>             
               <LocalizedHead />
+              <SessionHandler />
                <HeaderTop />
                <CookieConsentToast />                
                   <Component {...pageProps} />                
@@ -58,6 +62,22 @@ class MyApp extends App {
     );
   }
 }
+
+const SessionHandler = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {        
+        router.push("/other/login-register"); // Redirect to login
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup
+  }, []);
+
+  return null;
+};
 
 const LocalizedHead = () => {
   const { t } = useLocalization();

@@ -7,6 +7,9 @@ import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { auth } from "../api/register";
 import {
+  setPersistence, 
+  browserLocalPersistence, 
+  browserSessionPersistence,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -62,6 +65,8 @@ const LoginRegister = () => {
     e.preventDefault();
 
     try {
+      await setPersistence(auth, browserSessionPersistence);
+
       const userCredential = await signInWithEmailAndPassword(
         auth,
         loginData.email,
