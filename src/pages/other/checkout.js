@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { getDatabase, ref, get } from "firebase/database";
 import Link from "next/link";
@@ -25,22 +27,26 @@ const Checkout = ({ cartItems }) => {
 
   let cartTotalPrice = 0;
 
+  // Remove overflow-hidden class on mount
   useEffect(() => {
     document.querySelector("body").classList.remove("overflow-hidden");
-  });
+  }, []);
 
+  // Fetch billing info only if the user is authenticated
   useEffect(() => {
     const fetchBillingInfo = async () => {
+      if (!auth.currentUser) {
+        console.error("User is not authenticated");
+        return;
+      }
       const db = getDatabase();
-      const userId = auth.currentUser?.uid; // Replace with the actual authenticated user ID
+      const userId = auth.currentUser.uid;
       const userRef = ref(db, `users/${userId}`);
   
       try {
         const snapshot = await get(userRef);
         if (snapshot.exists()) {
           const userData = snapshot.val();
-          
-          // Set all the necessary information to the state
           setBillingInfo({
             firstName: userData.firstName || "",
             lastName: userData.lastName || "",
@@ -60,8 +66,7 @@ const Checkout = ({ cartItems }) => {
   }, []);
 
   return (
-    (<LayoutTwo>
-      {/* breadcrumb */}
+    <LayoutTwo>
       <BreadcrumbOne
         pageTitle={t("checkout_title")}
         backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.png"
@@ -75,7 +80,6 @@ const Checkout = ({ cartItems }) => {
               {t("home")}
             </Link>
           </li>
-
           <li>{t("checkout_title")}</li>
         </ul>
       </BreadcrumbOne>
@@ -238,7 +242,6 @@ const Checkout = ({ cartItems }) => {
                                     productPrice,
                                     product.discount
                                   ).toFixed(2);
-
                                   cartTotalPrice +=
                                     discountedPrice * product.quantity;
                                   return (
@@ -266,9 +269,9 @@ const Checkout = ({ cartItems }) => {
                                     ? `${cartTotalPrice.toFixed(2)} ${t(
                                         "currency"
                                       )}`
-                                    : `${t(
-                                        "currency"
-                                      )} ${cartTotalPrice.toFixed(2)}`}
+                                    : `${t("currency")} ${cartTotalPrice.toFixed(
+                                        2
+                                      )}`}
                                 </span>
                               </p>
                               <p>
@@ -286,9 +289,9 @@ const Checkout = ({ cartItems }) => {
                                     ? `${cartTotalPrice.toFixed(2)} ${t(
                                         "currency"
                                       )}`
-                                    : `${t(
-                                        "currency"
-                                      )} ${cartTotalPrice.toFixed(2)}`}
+                                    : `${t("currency")} ${cartTotalPrice.toFixed(
+                                        2
+                                      )}`}
                                 </span>
                               </h4>
                             </div>
@@ -384,10 +387,9 @@ const Checkout = ({ cartItems }) => {
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                      className="lezada-button lezada-button--medium">
-
+                      className="lezada-button lezada-button--medium"
+                    >
                       {t("shop_now")}
-
                     </Link>
                   </div>
                 </div>
@@ -396,7 +398,7 @@ const Checkout = ({ cartItems }) => {
           )}
         </Container>
       </div>
-    </LayoutTwo>)
+    </LayoutTwo>
   );
 };
 
