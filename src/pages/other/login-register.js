@@ -60,7 +60,7 @@ const LoginRegister = () => {
   // Login with email and password
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -241,24 +241,25 @@ const LoginRegister = () => {
                           )}
                         </span>
                       </div>
+                      <div className="text-right">
+                        <button
+                          type="button"
+                          onClick={handleForgotPassword}
+                          style={{
+                            background: "none",
+                            border: "none",
+                            color: "blue",
+                            padding: 0,
+                            cursor: "pointer",
+                            fontSize: "12px",
+                            marginTop: "5px",
+                          }}
+                        >
+                          {t("forgot_password")}
+                        </button>
+                      </div>
                     </Col>
-                    <Col lg={12} className="text-right space-mb--30">
-                      {/* "Forgot Password?" link */}
-                      <button
-                        type="button"
-                        onClick={handleForgotPassword}
-                        style={{
-                          background: "none",
-                          border: "none",
-                          color: "blue",                          
-                          padding: 0,
-                          cursor: "pointer",
-                          fontSize: "12px"
-                        }}
-                      >
-                        {t("forgot_password")}
-                      </button>
-                    </Col>
+
                     <Col lg={12} className="text-center space-mb--30">
                       <button className="lezada-button lezada-button--medium">
                         {t("login")}
