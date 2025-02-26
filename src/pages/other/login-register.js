@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
@@ -14,7 +14,7 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  sendPasswordResetEmail, // <-- Import sendPasswordResetEmail
+  sendPasswordResetEmail,
   FacebookAuthProvider,
 } from "firebase/auth";
 import { useToasts } from "react-toast-notifications";
@@ -30,6 +30,7 @@ const LoginRegister = () => {
     password: "",
   });
   const [loginPasswordVisible, setLoginPasswordVisible] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
 
   // State for register
   const [registerData, setRegisterData] = useState({
@@ -37,6 +38,11 @@ const LoginRegister = () => {
     password: "",
   });
   const [registerPasswordVisible, setRegisterPasswordVisible] = useState(false);
+  const [registerLoading, setRegisterLoading] = useState(false);
+
+  // State for social login buttons
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const [facebookLoading, setFacebookLoading] = useState(false);
 
   // Handle input change for login
   const handleLoginChange = (e) => {
@@ -63,10 +69,9 @@ const LoginRegister = () => {
   // Login with email and password
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
+    setLoginLoading(true);
     try {
       await setPersistence(auth, browserSessionPersistence);
-
       const userCredential = await signInWithEmailAndPassword(
         auth,
         loginData.email,
@@ -94,12 +99,15 @@ const LoginRegister = () => {
       }, 2000);
     } catch (error) {
       addToast(error.message, { appearance: "error", autoDismiss: true });
+    } finally {
+      setLoginLoading(false);
     }
   };
 
   // Register with email and password
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
+    setRegisterLoading(true);
     try {
       await createUserWithEmailAndPassword(
         auth,
@@ -119,16 +127,22 @@ const LoginRegister = () => {
         appearance: "success",
         autoDismiss: true,
       });
-      setTimeout(() => {
-        window.location.href = "/other/login-register";
-      }, 2000);
+
+      setRegisterData({ email: "", password: "" });
+
+      // setTimeout(() => {
+      //   window.location.href = "/other/login-register";
+      // }, 2000);
     } catch (error) {
       addToast(error.message, { appearance: "error", autoDismiss: true });
+    } finally {
+      setRegisterLoading(false);
     }
   };
 
   // Google Sign-In
   const handleGoogleSignIn = async () => {
+    setGoogleLoading(true);
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
@@ -141,11 +155,14 @@ const LoginRegister = () => {
       }, 2000);
     } catch (err) {
       addToast(err.message, { appearance: "error", autoDismiss: true });
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
   // Facebook Sign-In
   const handleFacebookSignIn = async () => {
+    setFacebookLoading(true);
     const provider = new FacebookAuthProvider();
     try {
       await signInWithPopup(auth, provider);
@@ -158,6 +175,8 @@ const LoginRegister = () => {
       }, 2000);
     } catch (err) {
       addToast(err.message, { appearance: "error", autoDismiss: true });
+    } finally {
+      setFacebookLoading(false);
     }
   };
 
@@ -266,8 +285,22 @@ const LoginRegister = () => {
                     </Col>
 
                     <Col lg={12} className="text-center space-mb--30">
-                      <button className="lezada-button lezada-button--medium">
-                        {t("login")}
+                      <button
+                        type="submit"
+                        className="lezada-button lezada-button--medium"
+                        disabled={loginLoading}
+                      >
+                        {loginLoading ? (
+                          <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          t("login")
+                        )}
                       </button>
                     </Col>
                     <Col lg={12} className="text-center">
@@ -277,9 +310,22 @@ const LoginRegister = () => {
                       <button
                         onClick={handleGoogleSignIn}
                         className="lezada-button lezada-button--small"
+                        disabled={googleLoading}
                       >
-                        <FcGoogle size={24} style={{ marginRight: "10px" }} />
-                        {t("continue_with_google")}
+                        {googleLoading ? (
+                          <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <>
+                            <FcGoogle size={24} style={{ marginRight: "10px" }} />
+                            {t("continue_with_google")}
+                          </>
+                        )}
                       </button>
                     </Col>
                   </Row>
@@ -338,8 +384,22 @@ const LoginRegister = () => {
                       </div>
                     </Col>
                     <Col lg={12} className="text-center space-mb--30">
-                      <button className="lezada-button lezada-button--medium">
-                        {t("register")}
+                      <button
+                        type="submit"
+                        className="lezada-button lezada-button--medium"
+                        disabled={registerLoading}
+                      >
+                        {registerLoading ? (
+                          <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          t("register")
+                        )}
                       </button>
                     </Col>
                   </Row>
