@@ -1,19 +1,19 @@
+// components/Navigation/index.js
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useLocalization } from "../../../context/LocalizationContext";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../../pages/api/register";
+import { auth } from "../../../pages/api/register"; // adjust the path if needed
 
 const Navigation = () => {
   const { t } = useLocalization();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -43,16 +43,22 @@ const Navigation = () => {
                     {t("compare")}
                   </Link>
                 </li>
-                {/* Show 'My Account' only if the user is logged in */}
+                {/* Show "My Account" only if logged in; otherwise show Login/Register */}
                 {user ? (
                   <li>
-                    <Link href="/other/my-account" as={process.env.PUBLIC_URL + "/other/my-account"}>
+                    <Link
+                      href="/other/my-account"
+                      as={process.env.PUBLIC_URL + "/other/my-account"}
+                    >
                       {t("my_account")}
                     </Link>
                   </li>
                 ) : (
                   <li>
-                    <Link href="/other/login-register" as={process.env.PUBLIC_URL + "/other/login-register"}>
+                    <Link
+                      href="/other/login-register"
+                      as={process.env.PUBLIC_URL + "/other/login-register"}
+                    >
                       {t("login_register")}
                     </Link>
                   </li>

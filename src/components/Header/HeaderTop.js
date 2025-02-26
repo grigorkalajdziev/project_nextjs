@@ -4,7 +4,7 @@ import { useLocalization } from "../../context/LocalizationContext";
 import { Container } from "react-bootstrap";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { auth } from "../../pages/api/register"; // Import Firebase auth
+import { auth } from "../../pages/api/register"; // Adjust path if necessary
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useToasts } from "react-toast-notifications";
@@ -20,19 +20,17 @@ const HeaderTop = () => {
     setCurrency(currentLanguage === "en" ? "EUR" : "MKD");
   }, [currentLanguage]);
 
-  // Track authentication state
+  // Track authentication state.
+  // Since our registration function signs the user out immediately,
+  // a non-null "user" here indicates the user has explicitly logged in.
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        setUser(firebaseUser);
-      } else {
-        setUser(null);
-      }
+      setUser(firebaseUser);
     });
     return () => unsubscribe();
   }, []);
 
-  // Logout handler remains unchanged
+  // Logout handler remains unchanged.
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -50,20 +48,13 @@ const HeaderTop = () => {
     }
   };
 
-  // Determine if we should show the user's email.
-  // If the user is fully logged in, then lastSignInTime should differ from creationTime.
-  const showUserInfo =
-    user &&
-    user.metadata &&
-    user.metadata.lastSignInTime !== user.metadata.creationTime;
-
   return (
     <div className="header-top-area border-bottom--grey space-pt--10 space-pb--10 d-none d-lg-block">
       <Container className="wide">
         <div className="header-top">
           <div className="header-top__left">
             <div className="language-change change-dropdown">
-              <span>{currentLanguage === "en" ? t("english") : t("macedonian")}</span>{" "}
+              <span>{currentLanguage === "en" ? t("english") : t("macedonian")}</span>
               <IoIosArrowDown />
               <ul>
                 <li>
@@ -102,16 +93,14 @@ const HeaderTop = () => {
           </div>
 
           <div className="header-top__right">
-            {/* Only show user's email & logout if user is fully logged in */}
-            {showUserInfo ? (
+            {/* Only show user's email & logout if user is logged in.
+                Since our registration flow signs out new users,
+                a non-null "user" here means the user is properly logged in. */}
+            {user ? (
               <>
                 <span className="user-email">{user.email}</span>
                 <span className="header-separator">|</span>
-                <a
-                  href="#"
-                  className="signout-link"
-                  onClick={handleLogout}
-                >
+                <a href="#" className="signout-link" onClick={handleLogout}>
                   {t("logout")}
                 </a>
               </>
@@ -130,22 +119,22 @@ const HeaderTop = () => {
             <div className="top-social-icons">
               <ul>
                 <li>
-                  <a href="https://x.com" target="_blank">
+                  <a href="https://x.com" target="_blank" rel="noreferrer">
                     <FaXTwitter />
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.facebook.com" target="_blank">
+                  <a href="https://www.facebook.com" target="_blank" rel="noreferrer">
                     <IoLogoFacebook />
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.instagram.com" target="_blank">
+                  <a href="https://www.instagram.com" target="_blank" rel="noreferrer">
                     <IoLogoInstagram />
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.youtube.com" target="_blank">
+                  <a href="https://www.youtube.com" target="_blank" rel="noreferrer">
                     <IoLogoYoutube />
                   </a>
                 </li>

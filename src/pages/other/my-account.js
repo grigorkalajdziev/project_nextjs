@@ -12,7 +12,7 @@ import { getDatabase, ref, set, get } from "firebase/database";
 import Link from "next/link";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { FaCloudDownloadAlt, FaRegEdit } from "react-icons/fa";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
@@ -23,7 +23,7 @@ const MyAccount = () => {
   const { t } = useLocalization();
   const { addToast } = useToasts();
   const router = useRouter();
-  const [user, setUser] = useState(null);  
+  const [user, setUser] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -35,6 +35,8 @@ const MyAccount = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false); 
+
 
   // Check for user authentication status
   useEffect(() => {
@@ -42,7 +44,7 @@ const MyAccount = () => {
       if (user) {
         setUser(user);
         setDisplayName(user.displayName || "");
-        setEmail(user.email || "");        
+        setEmail(user.email || "");
 
         if (user.displayName) {
           const nameParts = user.displayName.split(" ");
@@ -57,6 +59,10 @@ const MyAccount = () => {
           const snapshot = await get(userRef);
           if (snapshot.exists()) {
             const userData = snapshot.val();
+
+            setFirstName(userData.firstName || "");
+            setLastName(userData.lastName || "");
+            setDisplayName(userData.displayName || "");
             setAddress(userData.billingInfo?.address || "");
             setCity(userData.billingInfo?.city || "");
             setZipCode(userData.billingInfo?.zipCode || "");
@@ -76,6 +82,7 @@ const MyAccount = () => {
   }, []);
 
   const handleLogout = async () => {
+    setIsLoading(true);
     try {
       await signOut(auth);
       setUser(null);
@@ -84,20 +91,23 @@ const MyAccount = () => {
         appearance: "info",
         autoDismiss: true,
       });
-
-      // Delay the redirect
+     
       setTimeout(() => {
         router.push("/other/login-register");
       }, 2000);
     } catch (error) {
       addToast(error.message, { appearance: "error", autoDismiss: true });
       console.error("Logout Error:", error);
+    } finally {
+      setIsLoading(false); 
     }
   };
 
   const handleSave = async (e) => {
     e.preventDefault();
     if (!user) return;
+
+    setIsLoading(true);
 
     try {
       const db = getDatabase();
@@ -114,7 +124,7 @@ const MyAccount = () => {
           zipCode,
           phone,
         },
-      });     
+      });
 
       if (newPassword && confirmPassword) {
         if (newPassword !== confirmPassword) {
@@ -154,11 +164,13 @@ const MyAccount = () => {
     } catch (error) {
       addToast(error.message, { appearance: "error", autoDismiss: true });
       console.error("Error updating profile:", error);
+    } finally {
+      setIsLoading(false); // Stop spinner regardless of outcome
     }
   };
 
   return (
-    (<LayoutTwo>
+    <LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("my_account")}
@@ -166,10 +178,7 @@ const MyAccount = () => {
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link
-              href="/home/trending"
-              as={process.env.PUBLIC_URL + "/home/trending"}
-            >
+            <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
               {t("home")}
             </Link>
           </li>
@@ -179,10 +188,7 @@ const MyAccount = () => {
       <div className="my-account-area space-mt--r130 space-mb--r130">
         <Container>
           <Tab.Container defaultActiveKey="dashboard">
-            <Nav
-              variant="pills"
-              className="my-account-area__navigation space-mb--r60"
-            >
+            <Nav variant="pills" className="my-account-area__navigation space-mb--r60">
               <Nav.Item>
                 <Nav.Link eventKey="dashboard">{t("dashboard")}</Nav.Link>
               </Nav.Item>
@@ -195,13 +201,8 @@ const MyAccount = () => {
               <Nav.Item>
                 <Nav.Link eventKey="payment">{t("payment")}</Nav.Link>
               </Nav.Item>
-              {/* <Nav.Item>
-                <Nav.Link eventKey="address">{t("address")}</Nav.Link>
-              </Nav.Item> */}
               <Nav.Item>
-                <Nav.Link eventKey="accountDetails">
-                  {t("account_details")}
-                </Nav.Link>
+                <Nav.Link eventKey="accountDetails">{t("account_details")}</Nav.Link>
               </Nav.Item>
             </Nav>
             <Tab.Content>
@@ -211,16 +212,27 @@ const MyAccount = () => {
                   <div className="welcome">
                     <p>
                       {t("hello")},{" "}
-                      <strong>{user ? user.displayName || " " : " "}</strong> (
+                      <strong>{displayName || user?.email || ""}</strong> (
                       {t("if_not")}{" "}
-                      <strong>
-                        {user?.email ? user?.displayName || " " : " "}!
-                      </strong>
-                      )
+                      <strong>{displayName || user?.email || ""}!</strong>)
                     </p>
                     {/* Logout Button */}
-                    <button onClick={handleLogout} className="btn btn-danger">
-                      {t("logout")}
+                    <button onClick={handleLogout} 
+                            className="btn btn-danger"
+                            disabled={isLoading}>
+                      {isLoading ? (
+                            <>
+                              <Spinner
+                                as="span"
+                                animation="border"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                              />{" "}                              
+                            </>
+                          ) : (
+                            t("logout")
+                          )}
                     </button>
                   </div>
                   <p className="mt-2">{t("dashboard_welcome")}</p>
@@ -324,10 +336,6 @@ const MyAccount = () => {
                   <p className="saved-message">{t("no_payment_saved")}</p>
                 </div>
               </Tab.Pane>
-              {/* <Tab.Pane eventKey="address">
-                
-              </Tab.Pane> */}
-
               <Tab.Pane eventKey="accountDetails">
                 <div className="my-account-area__content">
                   <h3>{t("account_details")}</h3>
@@ -378,7 +386,6 @@ const MyAccount = () => {
                         </label>
                         <input type="email" id="email" value={email} readOnly />
                       </div>
-
                       <div className="my-account-area__content">
                         <h3>{t("billing_address")}</h3>
                         <div className="account-details-form">
@@ -398,7 +405,6 @@ const MyAccount = () => {
                               </div>
                             </Col>
                           </Row>
-
                           <Row>
                             <Col lg={6}>
                               <div className="single-input-item">
@@ -414,7 +420,6 @@ const MyAccount = () => {
                                 />
                               </div>
                             </Col>
-
                             <Col lg={6}>
                               <div className="single-input-item">
                                 <label htmlFor="zip-code" className="required">
@@ -430,7 +435,6 @@ const MyAccount = () => {
                               </div>
                             </Col>
                           </Row>
-
                           <div className="single-input-item">
                             <label htmlFor="phone">{t("mobile")}</label>
                             <input
@@ -443,7 +447,6 @@ const MyAccount = () => {
                           </div>
                         </div>
                       </div>
-                      
                       <fieldset>
                         <legend>{t("password_change")}</legend>
                         <div className="single-input-item">
@@ -480,18 +483,29 @@ const MyAccount = () => {
                                 type="password"
                                 id="confirm-pwd"
                                 value={confirmPassword}
-                                onChange={(e) =>
-                                  setConfirmPassword(e.target.value)
-                                }
+                                onChange={(e) => setConfirmPassword(e.target.value)}
                               />
                             </div>
                           </div>
                         </div>
-                      </fieldset>  
+                      </fieldset>
                       <p>{t("password_note")}</p>
-
                       <div className="single-input-item">
-                        <button>{t("save_changes")}</button>
+                        <button type="submit" disabled={isLoading}>
+                          {isLoading ? (
+                            <>
+                              <Spinner
+                                as="span"
+                                animation="border"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                              />{" "}                              
+                            </>
+                          ) : (
+                            t("save_changes")
+                          )}
+                        </button>
                       </div>
                     </form>
                   </div>
@@ -501,7 +515,7 @@ const MyAccount = () => {
           </Tab.Container>
         </Container>
       </div>
-    </LayoutTwo>)
+    </LayoutTwo>
   );
 };
 

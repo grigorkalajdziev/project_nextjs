@@ -5,7 +5,7 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { auth } from "../api/register";
+import { auth, registerUser } from "../api/register";
 import {
   setPersistence, 
   browserLocalPersistence, 
@@ -109,30 +109,19 @@ const LoginRegister = () => {
     e.preventDefault();
     setRegisterLoading(true);
     try {
-      await createUserWithEmailAndPassword(
-        auth,
-        registerData.email,
-        registerData.password
-      );
-
-      await fetch("/api/sendRegistrationEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: registerData.email }),
-      });
-
-      addToast(t("registration_success"), {
-        appearance: "success",
-        autoDismiss: true,
-      });
-
-      setRegisterData({ email: "", password: "" });
-
-      // setTimeout(() => {
-      //   window.location.href = "/other/login-register";
-      // }, 2000);
+      const result = await registerUser(registerData.email, registerData.password);
+      if (result.success) {
+        // Optionally send a registration email via your API
+        await fetch("/api/sendRegistrationEmail", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: registerData.email }),
+        });
+        addToast(t("registration_success"), { appearance: "success", autoDismiss: true });
+        setRegisterData({ email: "", password: "" });
+      } else {
+        addToast(result.error, { appearance: "error", autoDismiss: true });
+      }
     } catch (error) {
       addToast(error.message, { appearance: "error", autoDismiss: true });
     } finally {
