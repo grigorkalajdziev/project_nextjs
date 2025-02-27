@@ -5,7 +5,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import withReduxStore from "../lib/with-redux-store";
 import { Provider } from "react-redux";
-import { ToastProvider, useToasts } from "react-toast-notifications";
+import { ToastProvider } from "react-toast-notifications";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { fetchProducts } from "../redux/actions/productActions";
@@ -41,7 +41,54 @@ class MyApp extends App {
     const { Component, pageProps, reduxStore } = this.props;
     return (
       <Fragment>
-        <Head />
+        <Head>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Кика - Академија за шминка и убавина",
+                    "item": "https://www.kikamakeupandbeautyacademy.com/",
+                    "description": "Кика - Академија за шминка и убавина © 2025 kikamakeupandbeautyacademy.com | Сите права се задржани.",
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Најчесто поставувани прашања",
+                    "item": "https://www.kikamakeupandbeautyacademy.com/faq",
+                    "description": "Одговори на најчесто поставувани прашања за академијата и услугите.",
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "За нас",
+                    "item": "https://www.kikamakeupandbeautyacademy.com/other/about",
+                    "description": "Дознајте повеќе за нашата историја, тим и мисија.",
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 4,
+                    "name": "Продавница",
+                    "item": "https://www.kikamakeupandbeautyacademy.com/shop/left-sidebar",
+                    "description": "Разгледајте ги нашите производи и понуди во продавницата.",
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 5,
+                    "name": "Омилени",
+                    "item": "https://www.kikamakeupandbeautyacademy.com/other/wishlist",
+                    "description": "Вашата листа со омилени производи и услуги.",
+                  },
+                ],
+              }),
+            }}
+          />
+        </Head>
         <div className={`${libreBaskerville.className} ${ptSerif.className}`}>
           <ToastProvider placement="bottom-left">
             <Provider store={reduxStore}>
@@ -67,14 +114,15 @@ const SessionHandler = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {      
+      if (!user) {
+        // Handle user state change
       }
     });
     return () => unsubscribe();
   }, [router]);
 
   return null;
-}
+};
 
 const LocalizedHead = () => {
   const { t } = useLocalization();
