@@ -3,7 +3,7 @@ import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { auth, registerUser } from "../api/register";
 import {
@@ -258,6 +258,11 @@ const LoginRegister = () => {
     }
   };
 
+  useEffect(() => {
+    setLoginErrors({ email: "", password: "" });
+    setRegisterErrors({ email: "", password: "" });
+  }, [t]);
+  
   return (
     <LayoutTwo>
       <BreadcrumbOne
@@ -292,8 +297,7 @@ const LoginRegister = () => {
                         placeholder={t("email_address")}
                         value={loginData.email}
                         onChange={handleLoginChange}
-                        onBlur={handleLoginEmailBlur}
-                        required
+                        onBlur={handleLoginEmailBlur}                        
                       />
                       {loginErrors.email && (
                         <div style={{ color: "red", fontSize: "0.9rem", marginTop: "4px" }}>
@@ -309,8 +313,7 @@ const LoginRegister = () => {
                           placeholder={t("password")}
                           value={loginData.password}
                           onChange={handleLoginChange}
-                          onBlur={handleLoginPasswordBlur}
-                          required
+                          onBlur={handleLoginPasswordBlur}                          
                           style={{ width: "100%", paddingRight: "70px" }}
                         />
                         <span
@@ -420,8 +423,7 @@ const LoginRegister = () => {
                         placeholder={t("email_placeholder")}
                         value={registerData.email}
                         onChange={handleRegisterChange}
-                        onBlur={handleRegisterEmailBlur}
-                        required
+                        onBlur={handleRegisterEmailBlur}                        
                       />
                       {registerErrors.email && (
                         <div style={{ color: "red", fontSize: "0.9rem", marginTop: "4px" }}>
@@ -437,8 +439,7 @@ const LoginRegister = () => {
                           placeholder={t("password_placeholder")}
                           value={registerData.password}
                           onChange={handleRegisterChange}
-                          onBlur={handleRegisterPasswordBlur}
-                          required
+                          onBlur={handleRegisterPasswordBlur}                          
                           style={{ width: "100%", paddingRight: "50px" }}
                         />
                         <span

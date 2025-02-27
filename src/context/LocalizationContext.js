@@ -357,7 +357,7 @@ const translations = {
     sending: "Sending...",
     forgot_password: "Forgot Password?",
     reset_email_sent: "Reset email sent successfully!",
-    please_enter_your_email_first: "Please enter your email address first.",
+    please_enter_your_email_first: "Please enter your email address first",
     password_too_short: "Password is too short",
     please_enter_your_password: "Please enter your password",
     invalid_email_format: "Invalid email format",
