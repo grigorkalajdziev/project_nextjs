@@ -36,7 +36,8 @@ const MyAccount = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false); 
-
+  const [orders, setOrders] = useState([]);
+  const [downloads, setDownloads] = useState([]);
 
   // Check for user authentication status
   useEffect(() => {
@@ -73,6 +74,9 @@ const MyAccount = () => {
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
+
+        setOrders([]); // or setOrders(fetchedOrders)
+        setDownloads([]); // or setDownloads(fetchedDownloads)
       } else {
         setUser(null);
       }
@@ -165,7 +169,7 @@ const MyAccount = () => {
       addToast(error.message, { appearance: "error", autoDismiss: true });
       console.error("Error updating profile:", error);
     } finally {
-      setIsLoading(false); // Stop spinner regardless of outcome
+      setIsLoading(false);
     }
   };
 
@@ -241,6 +245,11 @@ const MyAccount = () => {
               <Tab.Pane eventKey="orders">
                 <div className="my-account-area__content">
                   <h3>{t("orders")}</h3>
+                  {orders.length === 0 ? (
+                    <div className="saved-message">                    
+                      <p>{t("you_have_not_made_any_order_yet")}</p>
+                    </div>
+                  ) : (
                   <div className="myaccount-table table-responsive text-center">
                     <table className="table table-bordered">
                       <thead className="thead-light">
@@ -253,47 +262,33 @@ const MyAccount = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Aug 22, 2018</td>
-                          <td>Pending</td>
-                          <td>$3000</td>
-                          <td>
-                            <a href="#" className="check-btn sqr-btn">
-                              {t("view")}
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>July 22, 2018</td>
-                          <td>Approved</td>
-                          <td>$200</td>
-                          <td>
-                            <a href="#" className="check-btn sqr-btn">
-                              {t("view")}
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>June 12, 2017</td>
-                          <td>On Hold</td>
-                          <td>$990</td>
-                          <td>
-                            <a href="#" className="check-btn sqr-btn">
-                              {t("view")}
-                            </a>
-                          </td>
-                        </tr>
+                      {orders.map((order, index) => (
+                            <tr key={index}>
+                              <td>{order.id}</td>
+                              <td>{order.date}</td>
+                              <td>{order.status}</td>
+                              <td>{order.total}</td>
+                              <td>
+                                <a href="#" className="check-btn sqr-btn">
+                                  {t("view")}
+                                </a>
+                              </td>
+                            </tr>
+                          ))}
                       </tbody>
                     </table>
                   </div>
+                  )}
                 </div>
               </Tab.Pane>
               <Tab.Pane eventKey="download">
                 <div className="my-account-area__content">
-                  <h3>{t("download")}</h3>
+                  <h3>{t("download")}</h3>                  
+                  {downloads.length === 0 ? (
+                    <div className="saved-message">                    
+                    <p>{t("you_have_not_downloaded_any_file_yet")}</p>
+                  </div>
+                  ) : (
                   <div className="myaccount-table table-responsive text-center">
                     <table className="table table-bordered">
                       <thead className="thead-light">
@@ -305,29 +300,22 @@ const MyAccount = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Haven - Free Real Estate PSD Template</td>
-                          <td>Aug 22, 2020</td>
-                          <td>Yes</td>
-                          <td>
-                            <a href="#" className="check-btn sqr-btn">
-                              <FaCloudDownloadAlt /> {t("download_file")}
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>HasTech - Portfolio Business Template</td>
-                          <td>Sep 12, 2020</td>
-                          <td>Never</td>
-                          <td>
-                            <a href="#" className="check-btn sqr-btn">
-                              <FaCloudDownloadAlt /> {t("download_file")}
-                            </a>
-                          </td>
-                        </tr>
+                      {downloads.map((download, index) => (
+                            <tr key={index}>
+                              <td>{download.product}</td>
+                              <td>{download.date}</td>
+                              <td>{download.expire}</td>
+                              <td>
+                                <a href="#" className="check-btn sqr-btn">
+                                  <FaCloudDownloadAlt /> {t("download_file")}
+                                </a>
+                              </td>
+                            </tr>
+                          ))}
                       </tbody>
                     </table>
                   </div>
+                  )}
                 </div>
               </Tab.Pane>
               <Tab.Pane eventKey="payment">

@@ -183,7 +183,7 @@ const translations = {
     current_password: "Current password",
     new_password: "New password",
     confirm_password: "Confirm password",
-    save_changes: "Save changes",
+    save_changes: "Save",
 
     shipping_information_title: "Shipping Information",
     shipping_question_1: "What Shipping Methods are Available?",
@@ -357,7 +357,12 @@ const translations = {
     sending: "Sending...",
     forgot_password: "Forgot Password?",
     reset_email_sent: "Reset email sent successfully!",
-    please_enter_your_email_first: "Please enter your email address first."
+    please_enter_your_email_first: "Please enter your email address first.",
+    password_too_short: "Password is too short",
+    please_enter_your_password: "Please enter your password",
+    invalid_email_format: "Invalid email format",
+    you_have_not_made_any_order_yet: "You have not made any order yet.",
+    you_have_not_downloaded_any_file_yet: "You have not downloaded any file yet."
   },
   mk: {
     english: "Англиски",
@@ -522,7 +527,7 @@ const translations = {
     current_password: "Тековна лозинка",
     new_password: "Нова лозинка",
     confirm_password: "Потврди лозинка",
-    save_changes: "Зачувај промени",
+    save_changes: "Зачувај",
     customer_login: "Најава на корисник",
     home: "Дома",
     login: "Најава",
@@ -711,6 +716,11 @@ const translations = {
     forgot_password: "Ја заборавивте лозинката?",
     reset_email_sent: "Email-от за промена на лозинката е успешно испратен!",
     please_enter_your_email_first: "Ве молиме, прво внесете ја вашата е-пошта.",
+    password_too_short: "Лозинката мора да содржи најмалку 6 знаци.",
+    please_enter_your_password: "Ве молиме, внесете ја вашата лозинка.",
+    invalid_email_format: "Внесете валидна е-пошта.",
+    you_have_not_made_any_order_yet: "Сè уште немате направено нарачка.",
+    you_have_not_downloaded_any_file_yet: "Сè уште немате преземено датотека."
   }
 };
 

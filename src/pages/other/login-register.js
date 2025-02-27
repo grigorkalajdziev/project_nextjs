@@ -29,11 +29,19 @@ const LoginRegister = () => {
     email: "",
     password: "",
   });
+  const [loginErrors, setLoginErrors] = useState({
+    email: "",
+    password: "",
+  });
   const [loginPasswordVisible, setLoginPasswordVisible] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
 
   // State for register
   const [registerData, setRegisterData] = useState({
+    email: "",
+    password: "",
+  });
+  const [registerErrors, setRegisterErrors] = useState({
     email: "",
     password: "",
   });
@@ -44,31 +52,88 @@ const LoginRegister = () => {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [facebookLoading, setFacebookLoading] = useState(false);
 
-  // Handle input change for login
+  // --- Validation Functions ---
+  // Login validations
+  const validateLoginEmail = (email) => {
+    if (!email) return t("please_enter_your_email_first");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return t("invalid_email_format");
+    return "";
+  };
+
+  const validateLoginPassword = (password) => {
+    if (!password) return t("please_enter_your_password");
+    if (password.length < 6) return t("password_too_short");
+    return "";
+  };
+
+  // Register validations
+  const validateRegisterEmail = (email) => {
+    if (!email) return t("please_enter_your_email_first");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return t("invalid_email_format");
+    return "";
+  };
+
+  const validateRegisterPassword = (password) => {
+    if (!password) return t("please_enter_your_password");
+    if (password.length < 6) return t("password_too_short");
+    return "";
+  };
+
+  // --- onBlur Handlers ---
+  // Login
+  const handleLoginEmailBlur = (e) => {
+    const errorMsg = validateLoginEmail(e.target.value);
+    setLoginErrors((prev) => ({ ...prev, email: errorMsg }));
+  };
+
+  const handleLoginPasswordBlur = (e) => {
+    const errorMsg = validateLoginPassword(e.target.value);
+    setLoginErrors((prev) => ({ ...prev, password: errorMsg }));
+  };
+
+  // Register
+  const handleRegisterEmailBlur = (e) => {
+    const errorMsg = validateRegisterEmail(e.target.value);
+    setRegisterErrors((prev) => ({ ...prev, email: errorMsg }));
+  };
+
+  const handleRegisterPasswordBlur = (e) => {
+    const errorMsg = validateRegisterPassword(e.target.value);
+    setRegisterErrors((prev) => ({ ...prev, password: errorMsg }));
+  };
+
+  // --- Input Change Handlers ---
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
   };
 
-  // Handle input change for register
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
     setRegisterData({ ...registerData, [name]: value });
   };
 
-  // Toggle password visibility for login
+  // --- Toggle Password Visibility ---
   const toggleLoginPasswordVisibility = () => {
     setLoginPasswordVisible(!loginPasswordVisible);
   };
 
-  // Toggle password visibility for register
   const toggleRegisterPasswordVisibility = () => {
     setRegisterPasswordVisible(!registerPasswordVisible);
   };
 
-  // Login with email and password
+  // --- Submission Handlers ---
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate before submit
+    const emailError = validateLoginEmail(loginData.email);
+    const passwordError = validateLoginPassword(loginData.password);
+    setLoginErrors({ email: emailError, password: passwordError });
+    if (emailError || passwordError) return;
+
     setLoginLoading(true);
     try {
       await setPersistence(auth, browserSessionPersistence);
@@ -104,14 +169,19 @@ const LoginRegister = () => {
     }
   };
 
-  // Register with email and password
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate before submit
+    const emailError = validateRegisterEmail(registerData.email);
+    const passwordError = validateRegisterPassword(registerData.password);
+    setRegisterErrors({ email: emailError, password: passwordError });
+    if (emailError || passwordError) return;
+
     setRegisterLoading(true);
     try {
       const result = await registerUser(registerData.email, registerData.password);
       if (result.success) {
-        // Optionally send a registration email via your API
         await fetch("/api/sendRegistrationEmail", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -129,7 +199,7 @@ const LoginRegister = () => {
     }
   };
 
-  // Google Sign-In
+  // --- Social Login Handlers ---
   const handleGoogleSignIn = async () => {
     setGoogleLoading(true);
     const provider = new GoogleAuthProvider();
@@ -149,7 +219,6 @@ const LoginRegister = () => {
     }
   };
 
-  // Facebook Sign-In
   const handleFacebookSignIn = async () => {
     setFacebookLoading(true);
     const provider = new FacebookAuthProvider();
@@ -169,7 +238,7 @@ const LoginRegister = () => {
     }
   };
 
-  // Forgot Password Handler
+  // --- Forgot Password Handler ---
   const handleForgotPassword = async () => {
     if (!loginData.email) {
       addToast(t("please_enter_your_email_first"), {
@@ -223,8 +292,14 @@ const LoginRegister = () => {
                         placeholder={t("email_address")}
                         value={loginData.email}
                         onChange={handleLoginChange}
+                        onBlur={handleLoginEmailBlur}
                         required
                       />
+                      {loginErrors.email && (
+                        <div style={{ color: "red", fontSize: "0.9rem", marginTop: "4px" }}>
+                          {loginErrors.email}
+                        </div>
+                      )}
                     </Col>
                     <Col lg={12} className="space-mb--50">
                       <div style={{ position: "relative" }}>
@@ -234,6 +309,7 @@ const LoginRegister = () => {
                           placeholder={t("password")}
                           value={loginData.password}
                           onChange={handleLoginChange}
+                          onBlur={handleLoginPasswordBlur}
                           required
                           style={{ width: "100%", paddingRight: "70px" }}
                         />
@@ -271,8 +347,12 @@ const LoginRegister = () => {
                           {t("forgot_password")}
                         </button>
                       </div>
+                      {loginErrors.password && (
+                        <div style={{ color: "red", fontSize: "0.9rem", marginTop: "4px" }}>
+                          {loginErrors.password}
+                        </div>
+                      )}
                     </Col>
-
                     <Col lg={12} className="text-center space-mb--30">
                       <button
                         type="submit"
@@ -340,8 +420,14 @@ const LoginRegister = () => {
                         placeholder={t("email_placeholder")}
                         value={registerData.email}
                         onChange={handleRegisterChange}
+                        onBlur={handleRegisterEmailBlur}
                         required
                       />
+                      {registerErrors.email && (
+                        <div style={{ color: "red", fontSize: "0.9rem", marginTop: "4px" }}>
+                          {registerErrors.email}
+                        </div>
+                      )}
                     </Col>
                     <Col lg={12} className="space-mb--50">
                       <div style={{ position: "relative" }}>
@@ -351,6 +437,7 @@ const LoginRegister = () => {
                           placeholder={t("password_placeholder")}
                           value={registerData.password}
                           onChange={handleRegisterChange}
+                          onBlur={handleRegisterPasswordBlur}
                           required
                           style={{ width: "100%", paddingRight: "50px" }}
                         />
@@ -371,6 +458,11 @@ const LoginRegister = () => {
                           )}
                         </span>
                       </div>
+                      {registerErrors.password && (
+                        <div style={{ color: "red", fontSize: "0.9rem", marginTop: "4px" }}>
+                          {registerErrors.password}
+                        </div>
+                      )}
                     </Col>
                     <Col lg={12} className="text-center space-mb--30">
                       <button
