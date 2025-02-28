@@ -130,7 +130,7 @@ const LocalizedHead = () => {
   return (
     <Head>
       <title>{t("title")}</title>
-      <link rel="icon" href={process.env.PUBLIC_URL + "/favicon.ico"} />
+      <link rel="icon" href={process.env.PUBLIC_URL + "/favicon(1).ico"} />
     </Head>
   );
 };
