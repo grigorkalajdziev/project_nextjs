@@ -150,7 +150,7 @@ const MyAccount = () => {
         try {
           // const credential = EmailAuthProvider.credential(user.email, currentPassword);
           // await reauthenticateWithCredential(user, credential);
-          // await updatePassword(user, newPassword);
+          await updatePassword(user, newPassword);
           // Save the new password in Realtime Database
           await set(userRef, {
             firstName,
