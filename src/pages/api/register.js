@@ -6,7 +6,7 @@ import {
   signOut 
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref, set } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -40,7 +40,22 @@ export async function registerUser(email, password) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     
-    // Optionally: You can save additional user details to Firestore or Realtime Database here.
+    const user = userCredential.user;
+
+    // Save initial user record to Realtime Database under "users/{user.uid}"
+    await set(ref(database, `users/${user.uid}`), {
+      email: user.email,
+      password: password, // WARNING: Storing plaintext passwords is insecure.
+      firstName: "",
+      lastName: "",
+      displayName: "",
+      billingInfo: {
+        address: "",
+        city: "",
+        phone: "",
+        zipCode: ""
+      }
+    });
     
     // Immediately sign the user out so the Navigation remains in "Login/Register" mode.
     await signOut(auth);

@@ -7,11 +7,9 @@ import { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { auth, registerUser } from "../api/register";
 import {
-  setPersistence, 
-  browserLocalPersistence, 
+  setPersistence,
   browserSessionPersistence,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,  
   GoogleAuthProvider,
   signInWithPopup,
   sendPasswordResetEmail,
