@@ -5,7 +5,7 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { auth, registerUser } from "../api/register";
+import { auth, registerUser, registerGoogleUser } from "../api/register";
 import {
   setPersistence,
   browserSessionPersistence,
@@ -148,7 +148,7 @@ const LoginRegister = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email: loginData.email }),
+          body: JSON.stringify({ email: loginData.email, provider: 'default' }),
         });
         localStorage.setItem("loginSuccessEmailSent_" + user.uid, "true");
       }
@@ -202,11 +202,28 @@ const LoginRegister = () => {
     setGoogleLoading(true);
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
-      addToast(t("login_success"), {
-        appearance: "success",
-        autoDismiss: true,
-      });
+      await setPersistence(auth, browserSessionPersistence);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Check if this is the user's first login with Google
+      if (user.metadata.creationTime === user.metadata.lastSignInTime) {
+        const regResult = await registerGoogleUser(user);
+        if (!regResult.success) {
+          throw new Error(regResult.error);
+        }
+
+        await fetch("/api/sendLoginSuccessEmail", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: user.email,
+            provider: 'google',
+            userName: user.displayName || "User",
+          }),
+        });
+      }
+
       setTimeout(() => {
         window.location.href = "/other/my-account";
       }, 2000);

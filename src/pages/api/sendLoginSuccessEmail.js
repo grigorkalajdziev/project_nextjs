@@ -1,15 +1,22 @@
 import { render } from '@react-email/render';
 import LoginSuccessEmail from '../../components/Newsletter/LoginSuccessEmail';
+import GoogleLoginSuccessEmail from '../../components/Newsletter/GoogleLoginSuccessEmail';
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { email } = req.body;
+    const { email, provider, userName } = req.body;
 
     try {
-      const emailHtml = await render(<LoginSuccessEmail />);      
+      let emailHtml;
+      
+      if (provider === 'google') {
+        emailHtml = await render(<GoogleLoginSuccessEmail userName={userName} />);
+      } else {
+        emailHtml = await render(<LoginSuccessEmail />);
+      }
 
       await resend.emails.send({
         from: 'login@kikamakeupandbeautyacademy.com',

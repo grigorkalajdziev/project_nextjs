@@ -66,4 +66,30 @@ export async function registerUser(email, password) {
   }
 }
 
+/**
+ * registerGoogleUser - Creates a user record for a Google sign‑in.
+ * This should be called when a user logs in with Google for the first time.
+ */
+export async function registerGoogleUser(user) {
+  try {
+    // Save user record in the Realtime Database. You might want to extract parts of displayName if needed.
+    await set(ref(database, `users/${user.uid}`), {
+      email: user.email,
+      password: "", // No password for Google sign
+      firstName: "",
+      lastName: "",
+      displayName: user.displayName || "",
+      billingInfo: {
+        address: "",
+        city: "",
+        phone: "",
+        zipCode: ""
+      }
+    });
+    return { success: true, user };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
 export { auth, db, database };

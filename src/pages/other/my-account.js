@@ -3,9 +3,7 @@ import { useRouter } from "next/router";
 import { auth } from "../api/register"; // Import Firebase auth
 import {
   onAuthStateChanged,
-  signOut,
-  reauthenticateWithCredential,
-  EmailAuthProvider,
+  signOut,  
   updatePassword,
 } from "firebase/auth";
 import { getDatabase, ref, set, get } from "firebase/database";
