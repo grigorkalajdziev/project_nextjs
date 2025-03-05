@@ -11,8 +11,7 @@ import {
   browserSessionPersistence,
   signInWithEmailAndPassword,  
   GoogleAuthProvider,
-  signInWithPopup,
-  sendPasswordResetEmail,
+  signInWithPopup,  
   FacebookAuthProvider,
 } from "firebase/auth";
 import { useToasts } from "react-toast-notifications";
@@ -263,7 +262,16 @@ const LoginRegister = () => {
       return;
     }
     try {
-      await sendPasswordResetEmail(auth, loginData.email);
+      // await sendPasswordResetEmail(auth, loginData.email);
+      const res = await fetch("/api/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: loginData.email }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to send reset email");
+      }
       addToast(t("reset_email_sent"), {
         appearance: "success",
         autoDismiss: true,
