@@ -130,23 +130,23 @@ const ResetPasswordPage = ({ tokenData, error }) => {
 };
 
 export async function getServerSideProps({ query }) {
-  console.log("Query parameters:", query);
+//   console.log("Query parameters:", query);
 
   const { token } = query;
 
   if (!token) {
-    console.error("No token found in query parameters");
+    // console.error("No token found in query parameters");
     return { props: { error: "No token provided" } };
   }
 
   try {
-    console.log("JWT_SECRET from env:", process.env.JWT_SECRET);
+    // console.log("JWT_SECRET from env:", process.env.JWT_SECRET);
 
     const tokenData = verify(token, process.env.JWT_SECRET);
-    console.log("Decoded token data:", tokenData);
+    // console.log("Decoded token data:", tokenData);
     return { props: { tokenData } };
   } catch (error) {
-    console.error("Token verification error:", error);
+    // console.error("Token verification error:", error);
     return { props: { error: "Invalid or expired token" } };
   }
 }
