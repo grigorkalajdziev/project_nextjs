@@ -18,6 +18,7 @@ import CookieConsentToast from "../components/Cookies/CookieConsent";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../pages/api/register";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
@@ -101,6 +102,7 @@ class MyApp extends App {
                   <CookieConsentToast />
                   <Component {...pageProps} />
                   <Analytics />
+                  <SpeedInsights />
                 </LocalizationProvider>
               </PersistGate>
             </Provider>
