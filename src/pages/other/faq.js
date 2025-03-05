@@ -75,7 +75,7 @@ const Faq = () => {
 
                 {/* Payment Information */}
                 <div className="single-faq space-mb--r100">
-                  <h2 className="faq-title space-mb--20 text-center">
+                  <h2 className="faq-title space-mb--20 text-left">
                     {t("payment_information_title")}
                   </h2>
                   <Accordion defaultActiveKey="0">
@@ -110,7 +110,7 @@ const Faq = () => {
 
                 {/* Orders and Returns */}
                 <div className="single-faq">
-                  <h2 className="faq-title space-mb--20 text-center">
+                  <h2 className="faq-title space-mb--20 text-left">
                     {t("orders_and_returns_title")}
                   </h2>
                   <Accordion defaultActiveKey="0">
