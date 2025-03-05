@@ -277,6 +277,24 @@ const LoginRegister = () => {
     setLoginErrors({ email: "", password: "" });
     setRegisterErrors({ email: "", password: "" });
   }, [t]);
+
+  useEffect(() => {
+    if (loginErrors.email || loginErrors.password) {
+      const timer = setTimeout(() => {
+        setLoginErrors({ email: "", password: "" });
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [loginErrors]);
+
+  useEffect(() => {
+    if (registerErrors.email || registerErrors.password) {
+      const timer = setTimeout(() => {
+        setRegisterErrors({ email: "", password: "" });
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [registerErrors]);
   
   return (
     <LayoutTwo>
@@ -342,9 +360,9 @@ const LoginRegister = () => {
                           }}
                         >
                           {loginPasswordVisible ? (
-                            <AiOutlineEyeInvisible />
+                            <AiOutlineEyeInvisible size={20} color="#000"/>
                           ) : (
-                            <AiOutlineEye />
+                            <AiOutlineEye size={20} color="#000"/>
                           )}
                         </span>
                       </div>
@@ -468,9 +486,9 @@ const LoginRegister = () => {
                           }}
                         >
                           {registerPasswordVisible ? (
-                            <AiOutlineEyeInvisible />
+                            <AiOutlineEyeInvisible size={20} color="#000"/>
                           ) : (
-                            <AiOutlineEye />
+                            <AiOutlineEye size={20} color="#000"/>
                           )}
                         </span>
                       </div>
