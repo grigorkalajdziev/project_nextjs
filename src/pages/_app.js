@@ -17,6 +17,7 @@ import HeaderTop from "../components/Header/HeaderTop";
 import CookieConsentToast from "../components/Cookies/CookieConsent";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../pages/api/register";
+import { Analytics } from "@vercel/analytics/react";
 
 const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
@@ -99,6 +100,7 @@ class MyApp extends App {
                   <HeaderTop />
                   <CookieConsentToast />
                   <Component {...pageProps} />
+                  <Analytics />
                 </LocalizationProvider>
               </PersistGate>
             </Provider>
