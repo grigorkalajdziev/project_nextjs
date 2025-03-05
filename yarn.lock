@@ -3190,7 +3190,7 @@ react-mailchimp-subscribe@^2.1.0:
     prop-types "^15.5.10"
     to-querystring "^1.0.4"
 
-react-modal-video@^1.2.3:
+react-modal-video@^1.2.10:
   version "1.2.10"
   resolved "https://registry.npmjs.org/react-modal-video/-/react-modal-video-1.2.10.tgz"
   integrity sha512-NIg7B3wbYTHKv28SgW+hoOeMsEcQrMSEjDBL89rXEL9x3yLDhhCkU4vq6uVwBJ3tUK1YeOQyWFn2jy8zK2KMrw==

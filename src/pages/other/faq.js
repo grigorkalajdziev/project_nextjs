@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { Container, Row, Col } from "react-bootstrap";
-import Accordion from "react-bootstrap/Accordion";
+import { Container, Row, Col, Card, Accordion } from "react-bootstrap";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
@@ -29,19 +28,19 @@ const Faq = () => {
         <Container>
           <Row>
             <Col lg={12}>
-              <div className="faq-wrapper text-center">
+              <div className="faq-wrapper">
                 {/* Shipping Information */}
                 <div className="single-faq space-mb--r100">
-                  <h2 className="faq-title space-mb--20 text-center">
+                  <h2 className="faq-title space-mb--20">
                     {t("shipping_information_title")}
                   </h2>
-                  <Accordion defaultActiveKey="0" className="mx-auto" style={{ maxWidth: "800px" }}>
+                  <Accordion defaultActiveKey="0">
                     <Accordion.Item eventKey="0">
                       <Accordion.Header>
                         {t("shipping_question_1")}
                       </Accordion.Header>
                       <Accordion.Body>
-                        <p className="text-center">{t("shipping_answer_1")}</p>
+                        <p className="text-left">{t("shipping_answer_1")}</p>
                       </Accordion.Body>
                     </Accordion.Item>
 
@@ -50,7 +49,7 @@ const Faq = () => {
                         {t("shipping_question_2")}
                       </Accordion.Header>
                       <Accordion.Body>
-                        <p className="text-center">{t("shipping_answer_2")}</p>
+                        <p className="text-left">{t("shipping_answer_2")}</p>
                       </Accordion.Body>
                     </Accordion.Item>
 
@@ -59,7 +58,7 @@ const Faq = () => {
                         {t("shipping_question_3")}
                       </Accordion.Header>
                       <Accordion.Body>
-                        <p className="text-center">{t("shipping_answer_3")}</p>
+                        <p className="text-left">{t("shipping_answer_3")}</p>
                       </Accordion.Body>
                     </Accordion.Item>
 
@@ -68,7 +67,7 @@ const Faq = () => {
                         {t("shipping_question_4")}
                       </Accordion.Header>
                       <Accordion.Body>
-                        <p className="text-center">{t("shipping_answer_4")}</p>
+                        <p className="text-left">{t("shipping_answer_4")}</p>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
@@ -79,13 +78,13 @@ const Faq = () => {
                   <h2 className="faq-title space-mb--20 text-center">
                     {t("payment_information_title")}
                   </h2>
-                  <Accordion defaultActiveKey="0" className="mx-auto" style={{ maxWidth: "800px" }}>
+                  <Accordion defaultActiveKey="0">
                     <Accordion.Item eventKey="0">
                       <Accordion.Header>
                         {t("payment_question_1")}
                       </Accordion.Header>
                       <Accordion.Body>
-                        <p className="text-center">{t("payment_answer_1")}</p>
+                        <p className="text-left">{t("payment_answer_1")}</p>
                       </Accordion.Body>
                     </Accordion.Item>
 
@@ -94,7 +93,7 @@ const Faq = () => {
                         {t("payment_question_2")}
                       </Accordion.Header>
                       <Accordion.Body>
-                        <p className="text-center">{t("payment_answer_2")}</p>
+                        <p className="text-left">{t("payment_answer_2")}</p>
                       </Accordion.Body>
                     </Accordion.Item>
 
@@ -103,7 +102,7 @@ const Faq = () => {
                         {t("payment_question_3")}
                       </Accordion.Header>
                       <Accordion.Body>
-                        <p className="text-center">{t("payment_answer_3")}</p>
+                        <p className="text-left">{t("payment_answer_3")}</p>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
@@ -114,13 +113,13 @@ const Faq = () => {
                   <h2 className="faq-title space-mb--20 text-center">
                     {t("orders_and_returns_title")}
                   </h2>
-                  <Accordion defaultActiveKey="0" className="mx-auto" style={{ maxWidth: "800px" }}>
+                  <Accordion defaultActiveKey="0">
                     <Accordion.Item eventKey="0">
                       <Accordion.Header>
                         {t("orders_question_1")}
                       </Accordion.Header>
                       <Accordion.Body>
-                        <p className="text-center">{t("orders_answer_1")}</p>
+                        <p className="text-left">{t("orders_answer_1")}</p>
                       </Accordion.Body>
                     </Accordion.Item>
 
@@ -129,7 +128,7 @@ const Faq = () => {
                         {t("orders_question_2")}
                       </Accordion.Header>
                       <Accordion.Body>
-                        <p className="text-center">{t("orders_answer_2")}</p>
+                        <p className="text-left">{t("orders_answer_2")}</p>
                       </Accordion.Body>
                     </Accordion.Item>
 
@@ -138,7 +137,7 @@ const Faq = () => {
                         {t("orders_question_3")}
                       </Accordion.Header>
                       <Accordion.Body>
-                        <p className="text-center">{t("orders_answer_3")}</p>
+                        <p className="text-left">{t("orders_answer_3")}</p>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
