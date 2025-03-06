@@ -4,6 +4,10 @@ import PasswordResetEmail from "../../components/Newsletter/PasswordResetEmail";
 import { Resend } from "resend";
 import { sign } from "jsonwebtoken";
 
+const privateKey = process.env.FIREBASE_PRIVATE_KEY
+  .replace(/^"|"$/g, "") // Remove leading and trailing quotes, if any
+  .replace(/\\n/g, "\n");
+
 // Initialize Admin SDK if not already initialized
 if (!admin.apps.length) {
   console.log("Initializing Firebase Admin SDK...");
@@ -11,7 +15,7 @@ if (!admin.apps.length) {
     credential: admin.credential.cert({
       projectId: process.env.FIREBASE_PROJECT_ID,
       clientEmail: process.env.FIREBASE_CLIENT_EMAIL,        
-      privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+      privateKey,
     }),
     databaseURL: process.env.FIREBASE_DATABASE_URL,
   });
