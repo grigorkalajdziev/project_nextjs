@@ -2,7 +2,7 @@ import admin from "firebase-admin";
 import { verify } from "jsonwebtoken";
 
 const privateKey = process.env.FIREBASE_PRIVATE_KEY
-  .replace(/^"|"$/g, "") // Remove leading and trailing quotes, if any
+  .replace(/^"|"$/g, "") 
   .replace(/\\n/g, "\n");
 
 if (!admin.apps.length) {
@@ -43,8 +43,7 @@ export default async function handler(req, res) {
     await userRef.update({ password: newPassword });
     
     return res.status(200).json({ message: "Password updated successfully" });
-  } catch (error) {
-    console.error("Error updating password:", error);
+  } catch (error) {    
     return res.status(500).json({ error: error.message });
   }
 }
