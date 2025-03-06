@@ -276,6 +276,7 @@ const LoginRegister = () => {
         appearance: "success",
         autoDismiss: true,
       });
+      setLoginData((prev) => ({ ...prev, email: "" }));
     } catch (error) {
       addToast(error.message, { appearance: "error", autoDismiss: true });
     }

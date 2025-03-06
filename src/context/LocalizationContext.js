@@ -362,7 +362,11 @@ const translations = {
     please_enter_your_password: "Please enter your password",
     invalid_email_format: "Invalid email format",
     you_have_not_made_any_order_yet: "You have not made any order yet.",
-    you_have_not_downloaded_any_file_yet: "You have not downloaded any file yet."
+    you_have_not_downloaded_any_file_yet: "You have not downloaded any file yet.",
+    reset_password_for: "Reset Password for ",
+    reset_password: "Reset Password",
+    password_reset_success: "Password reset successful!",
+    passwords_do_not_match: "Passwords do not match"
   },
   mk: {
     english: "Англиски",
@@ -720,7 +724,11 @@ const translations = {
     please_enter_your_password: "Ве молиме, внесете ја вашата лозинка.",
     invalid_email_format: "Внесете валидна е-пошта.",
     you_have_not_made_any_order_yet: "Сè уште немате направено нарачка.",
-    you_have_not_downloaded_any_file_yet: "Сè уште немате преземено датотека."
+    you_have_not_downloaded_any_file_yet: "Сè уште немате преземено датотека.",
+    reset_password_for: "Промена на лозинка за ",
+    reset_password: "Промени лозинка",
+    password_reset_success: "Лозинката е успешно променета!",
+    passwords_do_not_match: "Лозинките не се совпаѓаат. Обидете се повторно."
   }
 };
 
