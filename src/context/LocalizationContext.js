@@ -366,7 +366,12 @@ const translations = {
     reset_password_for: "Reset Password for ",
     reset_password: "Reset Password",
     password_reset_success: "Password reset successful!",
-    passwords_do_not_match: "Passwords do not match"
+    passwords_do_not_match: "Passwords do not match",
+    please_enter_your_name: "Please enter your name.",
+    please_enter_your_email: "Please enter your email.",
+    please_enter_a_subject: "Please enter a subject.",
+    please_enter_a_message: "Please enter a message.",
+    message_too_short: "Message is too short.",
   },
   mk: {
     english: "Англиски",
@@ -728,7 +733,12 @@ const translations = {
     reset_password_for: "Промена на лозинка за ",
     reset_password: "Промени лозинка",
     password_reset_success: "Лозинката е успешно променета!",
-    passwords_do_not_match: "Лозинките не се совпаѓаат. Обидете се повторно."
+    passwords_do_not_match: "Лозинките не се совпаѓаат. Обидете се повторно.",
+    please_enter_your_name: "Ве молиме, внесете го вашето име.",
+    please_enter_your_email: "Ве молиме, внесете ја вашата е-пошта.",
+    please_enter_a_subject: "Ве молиме, внесете предмет.",
+    please_enter_a_message: "Ве молиме, внесете порака.",
+    message_too_short: "Пораката е прекратка. Ве молиме, внесете подолга порака.",	
   }
 };
 

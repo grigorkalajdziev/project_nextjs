@@ -24,12 +24,79 @@ const Contact = () => {
     message: "",
   });
 
+  // State for validation errors
+  const [contactErrors, setContactErrors] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  // --- Validation Functions ---
+  const validateName = (name) => {
+    if (!name) return t("please_enter_your_name");
+    return "";
+  };
+
+  const validateEmail = (email) => {
+    if (!email) return t("please_enter_your_email");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return t("invalid_email_format");
+    return "";
+  };
+
+  const validateSubject = (subject) => {
+    if (!subject) return t("please_enter_a_subject");
+    return "";
+  };
+
+  const validateMessage = (message) => {
+    if (!message) return t("please_enter_a_message");
+    if (message.length < 10) return t("message_too_short");
+    return "";
+  };
+
+  // --- Input Change Handler ---
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // --- onBlur Handlers for Validation ---
+  const handleNameBlur = (e) => {
+    const errorMsg = validateName(e.target.value);
+    setContactErrors((prev) => ({ ...prev, name: errorMsg }));
+  };
+
+  const handleEmailBlur = (e) => {
+    const errorMsg = validateEmail(e.target.value);
+    setContactErrors((prev) => ({ ...prev, email: errorMsg }));
+  };
+
+  const handleSubjectBlur = (e) => {
+    const errorMsg = validateSubject(e.target.value);
+    setContactErrors((prev) => ({ ...prev, subject: errorMsg }));
+  };
+
+  const handleMessageBlur = (e) => {
+    const errorMsg = validateMessage(e.target.value);
+    setContactErrors((prev) => ({ ...prev, message: errorMsg }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+     // Validate all fields on submit
+     const nameError = validateName(formData.name);
+     const emailError = validateEmail(formData.email);
+     const subjectError = validateSubject(formData.subject);
+     const messageError = validateMessage(formData.message);
+     setContactErrors({
+       name: nameError,
+       email: emailError,
+       subject: subjectError,
+       message: messageError,
+     });
+     if (nameError || emailError || subjectError || messageError) return;
   
     const emailHtml = renderToStaticMarkup(
       <EmailTemplate
@@ -205,8 +272,13 @@ const Contact = () => {
                           id="customerName"
                           value={formData.name}
                           onChange={handleChange}
-                          required
+                          onBlur={handleNameBlur}                          
                         />
+                        {contactErrors.name && (
+                          <div style={{ color: "red", fontSize: "0.9rem", marginTop: "4px" }}>
+                            {contactErrors.name}
+                          </div>
+                        )}
                       </Col>
                       <Col md={6} className="space-mb--40">
                         <input
@@ -216,8 +288,13 @@ const Contact = () => {
                           id="customerEmail"
                           value={formData.email}
                           onChange={handleChange}
-                          required
+                          onBlur={handleEmailBlur}                          
                         />
+                        {contactErrors.email && (
+                          <div style={{ color: "red", fontSize: "0.9rem", marginTop: "4px" }}>
+                            {contactErrors.email}
+                          </div>
+                        )}
                       </Col>
                       <Col md={12} className="space-mb--40">
                         <input
@@ -227,7 +304,13 @@ const Contact = () => {
                           id="contactSubject"
                           value={formData.subject}
                           onChange={handleChange}
+                          onBlur={handleSubjectBlur}                          
                         />
+                        {contactErrors.subject && (
+                          <div style={{ color: "red", fontSize: "0.9rem", marginTop: "4px" }}>
+                            {contactErrors.subject}
+                          </div>
+                        )}
                       </Col>
                       <Col md={12} className="space-mb--40">
                         <textarea
@@ -238,7 +321,13 @@ const Contact = () => {
                           id="contactMessage"
                           value={formData.message}
                           onChange={handleChange}
+                          onBlur={handleMessageBlur}
                         />
+                        {contactErrors.message && (
+                          <div style={{ color: "red", fontSize: "0.9rem", marginTop: "4px" }}>
+                            {contactErrors.message}
+                          </div>
+                        )}
                       </Col>
                       <Col md={12} className="text-center">
                         <button

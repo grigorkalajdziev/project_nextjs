@@ -6,6 +6,7 @@ import { useLocalization } from "../../context/LocalizationContext";
 const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
   const { t, currentLanguage } = useLocalization(); 
   const [isReady, setIsReady] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state for button
 
   useEffect(() => {
     if (currentLanguage) {      
@@ -16,6 +17,11 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
   if (!isReady) {
     return <div>Loading...</div>;  // Show loading state until localization is ready
   }
+
+  const handleButtonClick = () => {
+    setLoading(true);
+    setTimeout(() => setLoading(false), 2000); // Simulate loading for 2 seconds
+  };
 
   const params = {
     loop: true,
@@ -36,16 +42,15 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
       <button className="swiper-button-next ht-swiper-button-nav"></button>
     )
   };
+
   return (
-    (<div
-      className={`hero-slider-two ${spaceBottomClass ? spaceBottomClass : ""}`}
-    >
+    <div className={`hero-slider-two ${spaceBottomClass ? spaceBottomClass : ""}`}>
       <div className="hero-slider-two__wrapper">
         <Swiper {...params} key={currentLanguage}>
           {sliderData &&
             sliderData.map((single, i) => {
               return (
-                (<div
+                <div
                   className="hero-slider-two__slide"
                   style={{ backgroundColor: single.bgcolor }}
                   key={i}
@@ -67,10 +72,14 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
                       <Link
                         href={single.url}
                         as={process.env.PUBLIC_URL + single.url}
-                        className="lezada-button lezada-button--medium">
-
-                        {t("shop_now")}
-
+                        className="lezada-button lezada-button--medium"
+                        onClick={handleButtonClick}
+                      >
+                        {loading ? (
+                          <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        ) : (
+                          t("shop_now")
+                        )}
                       </Link>
                     </div>
                   </div>
@@ -79,12 +88,12 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
                     <span className="border"></span>
                     <span className="total">{sliderData.length}</span>
                   </div>
-                </div>)
+                </div>
               );
             })}
         </Swiper>
       </div>
-    </div>)
+    </div>
   );
 };
 
