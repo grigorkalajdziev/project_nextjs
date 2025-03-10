@@ -37,13 +37,13 @@ const ContactEmailTemplate = ({ name, email, subject, message }) => {
         }),
         React.createElement(
           Text,
-          { style: header },
-          'New Message Received'
+          { style: heading },
+          'You Have a New Message!'
         ),
         React.createElement(
           Text,
-          { style: subheader },
-          'You have received a new message via the contact form.'
+          { style: paragraph },
+          'You have received a new message via the contact form. Here are the details:'
         ),
         React.createElement(
           Section,
@@ -84,17 +84,15 @@ export default ContactEmailTemplate;
 
 // Styles
 const main = {
-  backgroundColor: '#ffffff', // dark background
-  color: '#ffffff',
+  backgroundColor: '#ffffff', // white background for the entire email
   fontFamily:
     '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif',
-  padding: '20px',
 };
 
 const container = {
   margin: '0 auto',
-  padding: '20px',
-  backgroundColor: '#fad5ce', // button color background
+  padding: '20px 0 48px',
+  backgroundColor: '#ffffff', // White background for the container
   borderRadius: '8px',
 };
 
@@ -104,17 +102,22 @@ const logo = {
   marginBottom: '20px',
 };
 
-const header = {
+const heading = {
   fontSize: '24px',
   fontWeight: 'bold',
-  marginBottom: '10px',
-  color: '#222222', // dark text inside container
+  textAlign: 'center',
+  color: '#333333', // Dark text
+  marginBottom: '15px', // Add margin at the bottom for spacing
+  padding: '0 10px', // Add padding inside
 };
 
-const subheader = {
+const paragraph = {
   fontSize: '16px',
+  lineHeight: '26px',
   marginBottom: '20px',
-  color: '#222222', // dark text inside container
+  textAlign: 'center',
+  color: '#555555',
+  padding: '0 10px', // Add padding inside for spacing
 };
 
 const detailsSection = {
@@ -124,23 +127,26 @@ const detailsSection = {
 const label = {
   fontSize: '14px',
   fontWeight: 'bold',
-  color: '#222222',
+  color: '#333333',
+  marginBottom: '5px', // Add margin below the label
 };
 
 const value = {
   fontSize: '14px',
-  color: '#222222',
+  color: '#555555',
   marginLeft: '5px',
+  marginBottom: '10px', // Add margin below the value
 };
 
 const hr = {
   border: 'none',
-  borderTop: '1px solid #444444',
+  borderTop: '1px solid #eaeaea',
   margin: '20px 0',
 };
 
 const footer = {
   fontSize: '12px',
-  color: '#aaaaaa',
+  color: '#8898aa',
   textAlign: 'center',
+  padding: '10px 0', // Add padding at the top and bottom
 };

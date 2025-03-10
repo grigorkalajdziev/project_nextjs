@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import Link from "next/link";
 import { Container, Row, Col } from "react-bootstrap";
 import { IoIosPin, IoIosCall, IoIosMail, IoIosClock } from "react-icons/io";
@@ -81,6 +81,21 @@ const Contact = () => {
     const errorMsg = validateMessage(e.target.value);
     setContactErrors((prev) => ({ ...prev, message: errorMsg }));
   };
+
+  useEffect(() => {
+    if(contactErrors.name || contactErrors.email || contactErrors.subject || contactErrors.message) {
+      const timer = setTimeout(() => {
+        setContactErrors({
+          name: "",
+          email: "", 
+          subject: "",
+          message: "",
+        });
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [contactErrors]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -6,7 +6,7 @@ import {
   signOut 
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, push, get } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -92,4 +92,4 @@ export async function registerGoogleUser(user) {
   }
 }
 
-export { auth, db, database };
+export { auth, db, database, push, ref, set, get };

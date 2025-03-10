@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
 
-const RatingStars = () => {
-  const [rating, setRating] = useState(0);
-
+const RatingStars = ({ setRating, rating }) => {
   const handleRating = (rate) => {
-    setRating(rate);
+    setRating(rate); // Set the rating in the parent component's state
   };
 
   return (
@@ -17,7 +15,7 @@ const RatingStars = () => {
           style={{
             cursor: "pointer",
             fontSize: "2rem",
-            color: star <= rating ? "#FFD700" : "#C0C0C0", 
+            color: star <= rating ? "#FFD700" : "#C0C0C0",
           }}
         >
           {star <= rating ? <IoIosStar /> : <IoIosStarOutline />}

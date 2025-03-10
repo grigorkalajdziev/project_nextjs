@@ -372,6 +372,9 @@ const translations = {
     please_enter_a_subject: "Please enter a subject.",
     please_enter_a_message: "Please enter a message.",
     message_too_short: "Message is too short.",
+    you_must_be_logged_in: "You must be logged in to perform this action.",
+    review_submitted_successfully: "Review submitted successfully!",
+    please_give_a_rating: "Please give a rating.",
   },
   mk: {
     english: "Англиски",
@@ -480,7 +483,7 @@ const translations = {
     pedicure: "Педикир",    
     extras: "Дополнителни услуги",
     searchPlaceholder: "Пребарување на услуги ...",
-    categories: "Козметички услуги",
+    categories: "Услуга",
     allCategories: "Сите услуги",
     noCategories: "Нема услуги",
     colors: "Бои",
@@ -739,7 +742,10 @@ const translations = {
     please_enter_a_subject: "Ве молиме, внесете предмет.",
     please_enter_a_message: "Ве молиме, внесете порака.",
     message_too_short: "Пораката е прекратка. Ве молиме, внесете подолга порака.",	
-  }
+    you_must_be_logged_in: "Мора да сте најавени за да објавете рецензија.",
+    review_submitted_successfully: "Рецензијата е успешно испратена!",
+    please_give_a_rating: "Ве молиме, доделете оценка.",
+    }
 };
 
 const LocalizationContext = createContext();
