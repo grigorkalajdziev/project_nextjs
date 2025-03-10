@@ -6,6 +6,7 @@ import { useLocalization } from "../../context/LocalizationContext";
 import { database, ref, push, set, get, auth } from "../../pages/api/register";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
 import { onAuthStateChanged } from "firebase/auth";
+import { FaUserCircle } from "react-icons/fa";
 import { useToasts } from "react-toast-notifications";
 
 const ProductDescriptionTab = ({ product }) => {
@@ -18,6 +19,11 @@ const ProductDescriptionTab = ({ product }) => {
   const [reviewMessage, setReviewMessage] = useState("");
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState({});
+
+  const formatDate = () => {
+    const now = new Date();
+    return now.toISOString().split("T")[0];
+  };
   
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -89,7 +95,7 @@ const ProductDescriptionTab = ({ product }) => {
       reviewerEmail,
       message: reviewMessage,
       rating: finalRating,
-      date: new Date().toLocaleDateString(),
+      date: formatDate(),
     };
 
     try {
@@ -203,13 +209,9 @@ const ProductDescriptionTab = ({ product }) => {
                 return (
                   <div key={key} className="single-review">
                     <div className="single-review__image">
-                      <img
-                        src={review.userImage || "/assets/images/user/default.jpg"}
-                        className="img-fluid"
-                        alt={review.reviewerName}
-                      />
+                        <FaUserCircle size={50} className="user-icon" color="#6c757d" />
                     </div>
-                    <div className="single-review__content">
+                    <div className="single-review__content text-left">
                       <div className="single-review__rating">
                         {[...Array(review.rating)].map((_, i) => (
                           <IoIosStar key={i} />
@@ -218,10 +220,8 @@ const ProductDescriptionTab = ({ product }) => {
                           <IoIosStarOutline key={i} />
                         ))}
                       </div>
-                      <p className="username">
-                        {review.reviewerName}{" "}
-                        <span className="date">{review.date}</span>
-                      </p>
+                      <p className="username">{review.reviewerName}</p>
+                      <p className="date">{review.date}</p>
                       <p className="message">{review.message}</p>
                     </div>
                   </div>
