@@ -20,9 +20,14 @@ const ProductDescriptionTab = ({ product }) => {
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState({});
 
-  const formatDate = () => {
-    const now = new Date();
-    return now.toISOString().split("T")[0];
+  const getIsoDate = () => new Date().toISOString();
+
+  const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
   };
   
   useEffect(() => {
@@ -89,13 +94,14 @@ const ProductDescriptionTab = ({ product }) => {
 
     // Ensure the rating is set to 5 if it's 0
     const finalRating = rating === 0 ? 5 : rating;
+    const isoDate = getIsoDate();
 
     const newReview = {
       reviewerName,
       reviewerEmail,
       message: reviewMessage,
       rating: finalRating,
-      date: formatDate(),
+      date: isoDate,
     };
 
     try {
@@ -134,6 +140,7 @@ const ProductDescriptionTab = ({ product }) => {
       if (!response.ok) {
         throw new Error('Failed to send review email');
       }
+      window.location.reload();
     } catch (error) {      
       addToast(t("review_submission_failed"), { appearance: "error", autoDismiss: true });
     }
@@ -221,7 +228,7 @@ const ProductDescriptionTab = ({ product }) => {
                         ))}
                       </div>
                       <p className="username">{review.reviewerName}</p>
-                      <p className="date">{review.date}</p>
+                      <p className="date">{formatDate(review.date)}</p>
                       <p className="message">{review.message}</p>
                     </div>
                   </div>

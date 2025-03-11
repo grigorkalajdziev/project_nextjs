@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { IoIosHeartEmpty, IoIosShuffle } from "react-icons/io";
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -6,6 +6,8 @@ import Link from "next/link";
 import { ProductRating } from "../Product";
 import { getProductCartQuantity } from "../../lib/product";
 import { useLocalization } from "../../context/LocalizationContext";
+import { database, ref, get, auth } from "../../pages/api/register";
+import { onAuthStateChanged } from "firebase/auth";
 
 const ProductDescription = ({
   product,
@@ -19,7 +21,7 @@ const ProductDescription = ({
   addToWishlist,
   deleteFromWishlist,
   addToCompare,
-  deleteFromCompare
+  deleteFromCompare,
 }) => {
   const [selectedProductColor, setSelectedProductColor] = useState(
     product.variation ? product.variation[0].color : ""
@@ -32,6 +34,9 @@ const ProductDescription = ({
   );
   const [quantityCount, setQuantityCount] = useState(1);
 
+  const [averageRating, setAverageRating] = useState(product.rating || 0);
+  const [reviewCount, setReviewCount] = useState(product.ratingCount || 0);
+
   const productCartQty = getProductCartQuantity(
     cartItems,
     product,
@@ -40,40 +45,84 @@ const ProductDescription = ({
   );
   const { t, currentLanguage } = useLocalization();
 
+  const calculateAverageRating = (reviews) => {
+    const keys = Object.keys(reviews);
+    if (keys.length === 0) return 0;
+    const total = keys.reduce((acc, key) => acc + reviews[key].rating, 0);
+    return total / keys.length;
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const fetchReviews = async () => {
+          try {
+            const reviewsRef = ref(
+              database,
+              "productReviews/" + product.id + "/reviews"
+            );
+            const snapshot = await get(reviewsRef);
+            if (snapshot.exists()) {
+              const reviewsData = snapshot.val();
+              const avg = calculateAverageRating(reviewsData);
+              setAverageRating(avg);
+              setReviewCount(Object.keys(reviewsData).length);
+            } else {
+              setAverageRating(0);
+              setReviewCount(0);
+            }
+          } catch (error) {
+            console.error("Error fetching reviews:", error);
+          }
+        };
+
+        fetchReviews();
+      } else {
+        // Not logged in, do not fetch reviews (or clear them)
+        setAverageRating(0);
+        setReviewCount(0);
+      }
+    });
+  }, [product.id]);
+
   return (
-    (<div className="product-content">
-      {product.rating && product.rating > 0 ? (
+    <div className="product-content">
+      {averageRating > 0 ? (
         <div className="product-content__rating-wrap d-block d-sm-flex space-mb--20">
           <div className="product-content__rating space-mr--20">
-            <ProductRating ratingValue={product.rating} />
+            <ProductRating ratingValue={averageRating} />
           </div>
           <div className="product-content__rating-count">
-            <a href="#">( {product.ratingCount} {t("customer_reviews")} )</a>
+            <a href="#">
+              ( {reviewCount} {t("customer_reviews")} )
+            </a>
           </div>
         </div>
       ) : (
         ""
       )}
-      <h2 className="product-content__title space-mb--20">{product.name[currentLanguage] || product.name["en"]}</h2>
+      <h2 className="product-content__title space-mb--20">
+        {product.name[currentLanguage] || product.name["en"]}
+      </h2>
       <div className="product-content__price space-mb--20">
         {product.discount > 0 ? (
           <Fragment>
             <span className="main-price discounted">
-              {currentLanguage === 'mk' 
-                ? `${productPrice} ${t("currency")}` 
-                : `${t("currency")} ${productPrice}`} 
+              {currentLanguage === "mk"
+                ? `${productPrice} ${t("currency")}`
+                : `${t("currency")} ${productPrice}`}
             </span>
             <span className="main-price">
-            {currentLanguage === 'mk' 
-                ? `${discountedPrice} ${t("currency")}` 
+              {currentLanguage === "mk"
+                ? `${discountedPrice} ${t("currency")}`
                 : `${t("currency")} ${discountedPrice}`}
             </span>
           </Fragment>
         ) : (
           <span className="main-price">
-            {currentLanguage === 'mk' 
-                ? `${productPrice} ${t("currency")}` 
-                : `${t("currency")} ${productPrice}`}
+            {currentLanguage === "mk"
+              ? `${productPrice} ${t("currency")}`
+              : `${t("currency")} ${productPrice}`}
           </span>
         )}
       </div>
@@ -82,7 +131,7 @@ const ProductDescription = ({
       </div>
       {product.variation ? (
         <div className="product-content__size-color">
-            {/*<div className="product-content__size space-mb--20">
+          {/*<div className="product-content__size space-mb--20">
            <div className="product-content__size__title">{t("size")}</div>
             <div className="product-content__size__content">
               {product.variation &&
@@ -166,7 +215,9 @@ const ProductDescription = ({
       ) : (
         <Fragment>
           <div className="product-content__quantity space-mb--40">
-            <div className="product-content__quantity__title">{t("quantity")}</div>
+            <div className="product-content__quantity__title">
+              {t("quantity")}
+            </div>
             <div className="cart-plus-minus">
               <button
                 onClick={() =>
@@ -206,13 +257,13 @@ const ProductDescription = ({
                     addToast,
                     quantityCount,
                     selectedProductColor,
-                    selectedProductSize                    
+                    selectedProductSize
                   )
                 }
                 disabled={productCartQty >= productStock}
                 className="lezada-button lezada-button--medium product-content__cart space-mr--10"
               >
-               {t("add_to_cart")}
+                {t("add_to_cart")}
               </button>
             ) : (
               <button
@@ -229,8 +280,8 @@ const ProductDescription = ({
               }`}
               title={
                 wishlistItem !== undefined
-                ? t("added_to_wishlist")
-                : t("add_to_wishlist")
+                  ? t("added_to_wishlist")
+                  : t("add_to_wishlist")
               }
               onClick={
                 wishlistItem !== undefined
@@ -273,15 +324,13 @@ const ProductDescription = ({
                     {product.category &&
                       product.category.map((item, index, arr) => {
                         return (
-                          (<Link
+                          <Link
                             href="/shop/left-sidebar"
                             as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                             key={index}
                           >
-
                             {item + (index !== arr.length - 1 ? ", " : "")}
-
-                          </Link>)
+                          </Link>
                         );
                       })}
                   </td>
@@ -292,15 +341,13 @@ const ProductDescription = ({
                     {product.tag &&
                       product.tag.map((item, index, arr) => {
                         return (
-                          (<Link
+                          <Link
                             href="/shop/left-sidebar"
                             as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
                             key={index}
                           >
-
                             {item + (index !== arr.length - 1 ? ", " : "")}
-
-                          </Link>)
+                          </Link>
                         );
                       })}
                   </td>
@@ -337,7 +384,7 @@ const ProductDescription = ({
           </div>
         </Fragment>
       )}
-    </div>)
+    </div>
   );
 };
 
