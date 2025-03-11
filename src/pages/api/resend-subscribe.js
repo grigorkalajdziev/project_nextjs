@@ -24,6 +24,9 @@ export default async function handler(req, res) {
       to: email,
       subject: 'Welcome to Kika Makeup and Beauty Academy!',
       html: emailHtml,
+      headers: {
+        'List-Unsubscribe': '<mailto:unsubscribe@kikamakeupandbeautyacademy.com>, <https://www.kikamakeupandbeautyacademy.com/unsubscribe>'
+      }
     });
 
     res.status(200).json({ message: 'Email sent successfully', data });
