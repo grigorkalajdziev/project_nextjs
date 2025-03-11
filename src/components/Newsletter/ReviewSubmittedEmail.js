@@ -13,6 +13,8 @@ import {
 } from '@react-email/components';
 
 const ReviewSubmittedEmail = ({ reviewerName, productName, rating, message }) => {
+  const starUrl = "https://fonts.gstatic.com/s/e/notoemoji/16.0/2b50/32.png"; // Star emoji URL+
+
   return React.createElement(
     Html,
     null,
@@ -48,7 +50,17 @@ const ReviewSubmittedEmail = ({ reviewerName, productName, rating, message }) =>
         React.createElement(
           Text,
           { style: paragraph },
-          `Rating: ${'★'.repeat(rating)}${'☆'.repeat(5 - rating)}`
+          'Rating: ',
+          [...Array(rating)].map((_, i) => (
+            React.createElement(Img, {
+              key: i,
+              src: starUrl,
+              width: '16',
+              height: '16',
+              alt: 'star',
+              style: { marginRight: '5px', display: 'inline-block' },
+            })
+          ))
         ),
         React.createElement(
           Text,
