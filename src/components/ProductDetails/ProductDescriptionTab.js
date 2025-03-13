@@ -20,13 +20,27 @@ const ProductDescriptionTab = ({ product }) => {
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState({});  
 
+  const getIsoDate = () => new Date().toISOString().split("T")[0];
+
+  // Format dates correctly for display (DD-MM-YYYY)
   const formatDate = (dateString) => {
-    if (!dateString) return "Date not available";
-    const parts = dateString.split("/"); // Split DD/MM/YYYY
-    if (parts.length !== 3) return "Invalid Date";
-    const [day, month, year] = parts.map((part) => parseInt(part, 10));
-    const date = new Date(year, month - 1, day);
-    return isNaN(date.getTime()) ? "Invalid Date" : date.toLocaleDateString("en-GB");
+    if (!dateString) return "Invalid Date";
+
+    let dateParts;
+
+    if (dateString.includes("/")) {
+      dateParts = dateString.split("/");
+      if (dateParts[2].length === 4) {
+        const [month, day, year] = dateParts.map(Number);
+        return `${day}-${month}-${year}`;
+      }
+    }
+
+    if (dateString.includes("-")) {
+      return dateString.split("-").reverse().join("-");
+    }
+
+    return "Invalid Date";
   };
   
   useEffect(() => {
@@ -93,25 +107,20 @@ const ProductDescriptionTab = ({ product }) => {
 
     // Ensure the rating is set to 5 if it's 0
     const finalRating = rating === 0 ? 5 : rating;    
+    const isoDate = getIsoDate();
 
     const newReview = {
       reviewerName,
       reviewerEmail,
       message: reviewMessage,
       rating: finalRating,
-      date: new Date().toLocaleDateString("en-GB"),
+      date: isoDate,
     };
 
     try {
       const reviewsRef = ref(database, 'productReviews/' + product.id + '/reviews');
       const newReviewRef = push(reviewsRef);
-      await set(newReviewRef, {
-        reviewerName,
-        reviewerEmail,
-        message: reviewMessage,
-        rating: finalRating,
-        date: new Date().toLocaleDateString(),
-      });
+      await set(newReviewRef, newReview);
       
       setReviewerName("");      
       setReviewMessage("");
