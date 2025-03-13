@@ -4,7 +4,7 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import { useLocalization } from "../../context/LocalizationContext";
 
 const SubscribeEmailTwo = () => {
-  const { t } = useLocalization();
+  const { t, currentLanguage } = useLocalization();
   const [email, setEmail] = useState("");  
   const [status, setStatus] = useState(""); // "", "sending", "success", "error"
   const [message, setMessage] = useState("");
@@ -19,7 +19,7 @@ const SubscribeEmailTwo = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email }),
+          body: JSON.stringify({ email, currentLanguage }),
         });
         const data = await response.json();
         if (response.ok) {
