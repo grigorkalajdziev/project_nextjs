@@ -23,7 +23,11 @@ const ProductDescriptionTab = ({ product }) => {
   const getIsoDate = () => new Date().toISOString();
 
   const formatDate = (isoDate) => {
+    if (!isoDate) return "Invalid Date";
+    
     const date = new Date(isoDate);
+    if (isNaN(date.getTime())) return "Invalid Date";
+
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
