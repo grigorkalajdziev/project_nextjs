@@ -18,20 +18,15 @@ const ProductDescriptionTab = ({ product }) => {
   const [reviewerEmail, setReviewerEmail] = useState("");
   const [reviewMessage, setReviewMessage] = useState("");
   const [rating, setRating] = useState(0);
-  const [reviews, setReviews] = useState({});
+  const [reviews, setReviews] = useState({});  
 
-  const getIsoDate = () => new Date().toISOString();
-
-  const formatDate = (isoDate) => {
-    if (!isoDate) return "Invalid Date";
-    
-    const date = new Date(isoDate);
-    if (isNaN(date.getTime())) return "Invalid Date";
-
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
+  const formatDate = (dateString) => {
+    if (!dateString) return "Date not available";
+    const parts = dateString.split("/"); // Split DD/MM/YYYY
+    if (parts.length !== 3) return "Invalid Date";
+    const [day, month, year] = parts.map((part) => parseInt(part, 10));
+    const date = new Date(year, month - 1, day);
+    return isNaN(date.getTime()) ? "Invalid Date" : date.toLocaleDateString("en-GB");
   };
   
   useEffect(() => {
@@ -97,15 +92,14 @@ const ProductDescriptionTab = ({ product }) => {
     }   
 
     // Ensure the rating is set to 5 if it's 0
-    const finalRating = rating === 0 ? 5 : rating;
-    const isoDate = getIsoDate();
+    const finalRating = rating === 0 ? 5 : rating;    
 
     const newReview = {
       reviewerName,
       reviewerEmail,
       message: reviewMessage,
       rating: finalRating,
-      date: isoDate,
+      date: new Date().toLocaleDateString("en-GB"),
     };
 
     try {
