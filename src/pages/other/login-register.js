@@ -18,7 +18,7 @@ import { useToasts } from "react-toast-notifications";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 
 const LoginRegister = () => {
-  const { t } = useLocalization();
+  const { t, currentLanguage } = useLocalization();
   const { addToast } = useToasts();
 
   // State for login
@@ -147,7 +147,7 @@ const LoginRegister = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email: loginData.email, provider: 'default' }),
+          body: JSON.stringify({ email: loginData.email, provider: 'default', language: currentLanguage }),
         });
         localStorage.setItem("loginSuccessEmailSent_" + user.uid, "true");
       }
@@ -219,6 +219,7 @@ const LoginRegister = () => {
             email: user.email,
             provider: 'google',
             userName: user.displayName || "User",
+            language: currentLanguage
           }),
         });
       }
