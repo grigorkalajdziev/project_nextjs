@@ -1,6 +1,7 @@
 import admin from "firebase-admin";
-import { render } from "@react-email/render";
+import ReactDOMServer from "react-dom/server";
 import PasswordResetEmail from "../../components/Newsletter/PasswordResetEmail";
+import PasswordResetEmail_MK from "../../components/Newsletter/PasswordResetEmail_MK";
 import { Resend } from "resend";
 import { sign } from "jsonwebtoken";
 
@@ -29,7 +30,7 @@ export default async function handler(req, res) {
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
   
-  const { email } = req.body;
+  const { email, language } = req.body;
   
   if (!email) {    
     return res.status(400).json({ error: "Email is required" });
@@ -47,12 +48,15 @@ export default async function handler(req, res) {
     const token = sign({ email, uid }, process.env.JWT_SECRET, { expiresIn: "1h" });
     const resetUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/other/reset-password?token=${token}`;    
    
-    const emailHtml = await render(<PasswordResetEmail resetUrl={resetUrl} />);    
+    const isMacedonian = language === "mk";
+    const emailHtml = ReactDOMServer.renderToStaticMarkup(
+      isMacedonian ? <PasswordResetEmail_MK resetUrl={resetUrl} /> : <PasswordResetEmail resetUrl={resetUrl} />
+    );  
     
     await resend.emails.send({
       from: "no-reply@kikamakeupandbeautyacademy.com",
       to: email,
-      subject: "Password Reset Request",
+      subject: isMacedonian ? "Барање за ресетирање на лозинка" : "Password Reset Request",
       html: emailHtml,
     });   
     

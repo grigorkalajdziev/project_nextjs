@@ -182,7 +182,7 @@ const LoginRegister = () => {
         await fetch("/api/sendRegistrationEmail", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: registerData.email }),
+          body: JSON.stringify({ email: registerData.email, language: currentLanguage }),
         });
         addToast(t("registration_success"), { appearance: "success", autoDismiss: true });
         setRegisterData({ email: "", password: "" });
@@ -267,7 +267,7 @@ const LoginRegister = () => {
       const res = await fetch("/api/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: loginData.email }),
+        body: JSON.stringify({ email: loginData.email, language: currentLanguage }),
       });
       const data = await res.json();
       if (!res.ok) {

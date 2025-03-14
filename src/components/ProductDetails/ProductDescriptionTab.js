@@ -141,6 +141,7 @@ const ProductDescriptionTab = ({ product }) => {
           productName: product.name[currentLanguage],
           rating: finalRating,
           message: reviewMessage,
+          language: currentLanguage,
         }),
       });
   

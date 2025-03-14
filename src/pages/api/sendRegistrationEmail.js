@@ -1,21 +1,24 @@
 import { Resend } from 'resend';
 import RegistrationEmail from '../../components/Newsletter/RegistrationEmail';
+import RegistrationEmail_MK from '../../components/Newsletter/RegistrationEmail_MK';
 import React from 'react';
-import { render } from '@react-email/render';
+import ReactDOMServer from 'react-dom/server';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { email } = req.body;
+    const { email, language } = req.body;
 
     try {
-      const emailHtml = await render(<RegistrationEmail />);      
+      const emailHtml = ReactDOMServer.renderToStaticMarkup(
+        language === 'mk' ? <RegistrationEmail_MK /> : <RegistrationEmail />
+      ); 
 
       await resend.emails.send({
         from: 'register@kikamakeupandbeautyacademy.com',
         to: email,
-        subject: 'Welcome to Kika Makeup and Beauty Academy!',
+        subject: language === 'mk' ? 'Добредојдовте во Kika Makeup and Beauty Academy!' : 'Welcome to Kika Makeup and Beauty Academy!',
         html: emailHtml,
       });
 

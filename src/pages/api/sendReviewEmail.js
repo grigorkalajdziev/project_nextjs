@@ -1,17 +1,21 @@
-import { render } from '@react-email/render';
+import ReactDOMServer from 'react-dom/server';
 import ReviewSubmittedEmail from '../../components/Newsletter/ReviewSubmittedEmail';
+import ReviewSubmittedEmail_MK from '../../components/Newsletter/ReviewSubmittedEmail_MK';
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { email, reviewerName, productName, rating, message } = req.body;
+    const { email, reviewerName, productName, rating, message, language } = req.body;
 
     try {
+
+      const EmailTemplate = language === 'mk' ? ReviewSubmittedEmail_MK : ReviewSubmittedEmail;
+
       // Render the review email template
-      const emailHtml = await render(
-        <ReviewSubmittedEmail
+      const emailHtml = ReactDOMServer.renderToStaticMarkup(
+        <EmailTemplate
           reviewerName={reviewerName}
           productName={productName}
           rating={rating}
@@ -23,7 +27,7 @@ export default async function handler(req, res) {
       await resend.emails.send({
         from: 'reviews@kikamakeupandbeautyacademy.com',
         to: email, // Or any other email you want to receive review notifications
-        subject: 'New Review Submitted!',
+        subject: language === 'mk' ? 'Нова рецензија е поднесена!' : 'New Review Submitted!',
         html: emailHtml,
       });
 
