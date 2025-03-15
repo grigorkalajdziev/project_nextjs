@@ -1,16 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useToasts } from "react-toast-notifications";
 import { useLocalization } from "../../context/LocalizationContext";
 
 const CookieConsentToast = () => {
   const { addToast, removeAllToasts } = useToasts();
   const { t, currentLanguage } = useLocalization(); 
+  const [hasShownToast, setHasShownToast] = useState(false);
 
   useEffect(() => {
     const consent = localStorage.getItem("cookieConsent");
     if (!consent) {
     
       removeAllToasts();
+      setHasShownToast(true);
      
       addToast(
         <div className="flex flex-col">
@@ -31,7 +33,7 @@ const CookieConsentToast = () => {
         }
       );
     }
-  }, [addToast, removeAllToasts, t, currentLanguage]);
+  }, [addToast, removeAllToasts, t, currentLanguage, hasShownToast]);
 
   return null;
 };
