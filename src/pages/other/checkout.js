@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getDatabase, ref, get } from "firebase/database";
+import { getDatabase, push, ref, get, set } from "firebase/database";
 import Link from "next/link";
 import { auth } from "../api/register";
+import { useToasts } from "react-toast-notifications";
 import { Container, Row, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import { getDiscountPrice } from "../../lib/product";
@@ -11,9 +12,13 @@ import { IoMdCash } from "react-icons/io";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
+import { useRouter } from "next/router"; 
 
 const Checkout = ({ cartItems }) => {
   const { t, currentLanguage } = useLocalization();
+  const { addToast } = useToasts();
+  const router = useRouter();
+
   const [billingInfo, setBillingInfo] = useState({
     firstName: "",
     lastName: "",
@@ -26,6 +31,64 @@ const Checkout = ({ cartItems }) => {
   });
 
   let cartTotalPrice = 0;
+
+  const generateOrderNumber = (length = 8) => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let orderNumber = "";
+    for (let i = 0; i < length; i++) {
+      orderNumber += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return orderNumber;
+  };
+
+  const handlePlaceOrder = async () => {
+    // Ensure the user is logged in before placing an order
+    if (!auth.currentUser) {
+      addToast(t("please_log_in_to_place_order"), {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      return;
+    }
+
+    const orderData = {
+      orderNumber: generateOrderNumber(8),
+      date: new Date().toISOString(),
+      status: "pending",
+      total: cartItems.reduce((total, product) => {
+        const productPrice = product.price[currentLanguage] || "00.00";
+        const discountedPrice = getDiscountPrice(productPrice, product.discount);
+        return total + discountedPrice * product.quantity;
+      }, 0).toFixed(2),
+      products: cartItems.map((product) => ({
+        id: product.id,
+        name: product.name[currentLanguage] || product.name["en"],
+        quantity: product.quantity,
+        price: product.price[currentLanguage],
+        discount: product.discount,
+      })),
+    };
+
+    try {
+      const db = getDatabase();
+      // Create a reference under orders/{userId}
+      const ordersRef = ref(db, `orders/${auth.currentUser.uid}`);
+      // Use push to add a new order (push generates a unique key)
+      const newOrderRef = push(ordersRef);
+      await set(newOrderRef, orderData);
+
+      addToast(t("order_placed_successfully"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
+
+      router.push("/other/my-account");
+      // Optionally, you could redirect or clear the cart after placing the order.
+    } catch (error) {
+      console.error("Error placing order:", error);
+      addToast(error.message, { appearance: "error", autoDismiss: true });
+    }
+  };
 
   // Remove overflow-hidden class on mount
   useEffect(() => {
@@ -364,7 +427,7 @@ const Checkout = ({ cartItems }) => {
                                 </label>
                               </div>
                             </div>
-                            <button className="lezada-button lezada-button--medium space-mt--20">
+                            <button type="button" onClick={handlePlaceOrder} className="lezada-button lezada-button--medium space-mt--20">
                               {t("place_order")}
                             </button>
                           </div>

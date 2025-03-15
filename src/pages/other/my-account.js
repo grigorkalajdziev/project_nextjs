@@ -6,7 +6,7 @@ import {
   signOut,  
   updatePassword,
 } from "firebase/auth";
-import { getDatabase, ref, set, get } from "firebase/database";
+import { getDatabase, ref, set, get, update, remove } from "firebase/database";
 import Link from "next/link";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
@@ -43,6 +43,8 @@ const MyAccount = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const db = getDatabase();
+
   // --- Toggle Functions for Each Password Field ---
   const toggleCurrentPasswordVisibility = () => {
     setShowCurrentPassword(!showCurrentPassword);
@@ -54,6 +56,16 @@ const MyAccount = () => {
 
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  const deleteOrder = async (userId, orderId) => {
+    await remove(ref(db, `orders/${userId}/${orderId}`));
+    setOrders(orders.filter(order => order.id !== orderId));
+  };
+
+  const updateOrder = async (orderId, userId, newStatus) => {
+    await update(ref(db, `orders/${userId}/${orderId}`), { status: newStatus });
+    setOrders(orders.map(order => order.id === orderId ? { ...order, status: newStatus } : order));
   };
 
   // --- Fetch User Data on Auth State Change ---
@@ -69,8 +81,7 @@ const MyAccount = () => {
           setFirstName(nameParts[0] || "");
           setLastName(nameParts[1] || "");
         }
-
-        const db = getDatabase();
+        
         const userRef = ref(db, `users/${user.uid}`);
 
         try {
@@ -92,7 +103,28 @@ const MyAccount = () => {
           console.error("Error fetching user data:", error);
         }
 
-        setOrders([]); // or setOrders(fetchedOrders)
+        const fetchOrders = async () => {
+          const db = getDatabase();
+          const ordersRef = ref(db, `orders/${user.uid}`);
+          try {
+            const snapshot = await get(ordersRef);
+            if (snapshot.exists()) {
+              const ordersData = snapshot.val();
+              // Convert orders object into an array
+              const ordersArray = Object.keys(ordersData).map((key) => ({
+                id: key,
+                ...ordersData[key],
+              }));
+              setOrders(ordersArray);
+            } else {
+              setOrders([]);
+            }
+          } catch (error) {
+            console.error("Error fetching orders:", error);
+          }
+        };
+
+        fetchOrders();
         setDownloads([]); // or setDownloads(fetchedDownloads)
       } else {
         setUser(null);
@@ -286,15 +318,26 @@ const MyAccount = () => {
                         <tbody>
                           {orders.map((order, index) => (
                             <tr key={index}>
-                              <td>{order.id}</td>
+                              <td>{order.orderNumber}</td>
                               <td>{order.date}</td>
-                              <td>{order.status}</td>
+                              <td>{order.status === "pending" ? (
+                                <select value={order.status} onChange={(e) => updateOrder( order.id, user.uid, e.target.value)}>
+                                  <option value="pending">Pending</option>
+                                  <option value="shipped">Shipped</option>
+                                  <option value="delivered">Delivered</option>
+                                </select>
+                              ) : (
+                                order.status
+                              )}</td>
                               <td>{order.total}</td>
                               <td>
                                 <a href="#" className="check-btn sqr-btn">
                                   {t("view")}
-                                </a>
-                              </td>
+                                </a><br />
+                                <button onClick={() => deleteOrder(user.uid, order.id)} 
+                                        style={{ backgroundColor: 'white', color: 'red' }}
+                                        className="btn">{t("delete")}</button>
+                              </td>                            
                             </tr>
                           ))}
                         </tbody>

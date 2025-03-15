@@ -375,6 +375,8 @@ const translations = {
     you_must_be_logged_in: "You must be logged in to perform this action.",
     review_submitted_successfully: "Review submitted successfully!",
     please_give_a_rating: "Please give a rating.",
+    please_log_in_to_place_order: "Please log in to place an order.",
+    delete: "Delete",
   },
   mk: {
     english: "Англиски",
@@ -745,6 +747,8 @@ const translations = {
     you_must_be_logged_in: "Мора да сте најавени за да објавете рецензија.",
     review_submitted_successfully: "Рецензијата е успешно испратена!",
     please_give_a_rating: "Ве молиме, доделете оценка.",
+    please_log_in_to_place_order: "Ве молиме, најавете се за да направите нарачка.",
+    delete: "Избриши"
     }
 };
 
