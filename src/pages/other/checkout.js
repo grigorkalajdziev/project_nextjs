@@ -14,10 +14,19 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useRouter } from "next/router"; 
 
+const formatDate = (date) => {
+  const year = date.getFullYear();
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
+  const day = ("0" + date.getDate()).slice(-2);
+  return `${day}-${month}-${year}`;
+};
+
 const Checkout = ({ cartItems }) => {
   const { t, currentLanguage } = useLocalization();
   const { addToast } = useToasts();
   const router = useRouter();
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const [billingInfo, setBillingInfo] = useState({
     firstName: "",
@@ -41,8 +50,7 @@ const Checkout = ({ cartItems }) => {
     return orderNumber;
   };
 
-  const handlePlaceOrder = async () => {
-    // Ensure the user is logged in before placing an order
+  const handlePlaceOrder = async () => {    
     if (!auth.currentUser) {
       addToast(t("please_log_in_to_place_order"), {
         appearance: "error",
@@ -51,10 +59,28 @@ const Checkout = ({ cartItems }) => {
       return;
     }
 
+    if (!selectedPaymentMethod) {
+      addToast(t("please_select_payment_method"), {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      return;
+    }
+    
+    // Validate acceptance of terms and conditions
+    if (!acceptedTerms) {
+      addToast(t("please_accept_terms"), {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      return;
+    }
+
     const orderData = {
       orderNumber: generateOrderNumber(8),
-      date: new Date().toISOString(),
+      date: formatDate(new Date()),
       status: "pending",
+      paymentMethod: selectedPaymentMethod,
       total: cartItems.reduce((total, product) => {
         const productPrice = product.price[currentLanguage] || "00.00";
         const discountedPrice = getDiscountPrice(productPrice, product.discount);
@@ -70,10 +96,9 @@ const Checkout = ({ cartItems }) => {
     };
 
     try {
-      const db = getDatabase();
-      // Create a reference under orders/{userId}
+      const db = getDatabase();      
       const ordersRef = ref(db, `orders/${auth.currentUser.uid}`);
-      // Use push to add a new order (push generates a unique key)
+      
       const newOrderRef = push(ordersRef);
       await set(newOrderRef, orderData);
 
@@ -82,20 +107,17 @@ const Checkout = ({ cartItems }) => {
         autoDismiss: true,
       });
 
-      router.push("/other/my-account");
-      // Optionally, you could redirect or clear the cart after placing the order.
+      router.push("/other/my-account");      
     } catch (error) {
       console.error("Error placing order:", error);
       addToast(error.message, { appearance: "error", autoDismiss: true });
     }
   };
-
-  // Remove overflow-hidden class on mount
+  
   useEffect(() => {
     document.querySelector("body").classList.remove("overflow-hidden");
   }, []);
-
-  // Fetch billing info only if the user is authenticated
+  
   useEffect(() => {
     const fetchBillingInfo = async () => {
       if (!auth.currentUser) {
@@ -369,8 +391,11 @@ const Checkout = ({ cartItems }) => {
                                 <input
                                   type="radio"
                                   id="payment_check"
-                                  name="payment-method"
-                                  defaultValue="check"
+                                  name="payment-method"                                  
+                                  value="payment_check"
+                                  onChange={(e) =>
+                                    setSelectedPaymentMethod(e.target.value)
+                                  }
                                 />
                                 <label htmlFor="payment_check">
                                   {t("payment_check")}
@@ -381,7 +406,10 @@ const Checkout = ({ cartItems }) => {
                                   type="radio"
                                   id="payment_bank"
                                   name="payment-method"
-                                  defaultValue="bank"
+                                  value="payment_bank"
+                                  onChange={(e) =>
+                                    setSelectedPaymentMethod(e.target.value)
+                                  }
                                 />
                                 <label htmlFor="payment_bank">
                                   {t("payment_bank")}
@@ -392,7 +420,10 @@ const Checkout = ({ cartItems }) => {
                                   type="radio"
                                   id="payment_cash"
                                   name="payment-method"
-                                  defaultValue="cash"
+                                  value="payment_cash"
+                                  onChange={(e) =>
+                                    setSelectedPaymentMethod(e.target.value)
+                                  }
                                 />
                                 <label htmlFor="payment_cash">
                                   {t("payment_cash")}
@@ -403,7 +434,10 @@ const Checkout = ({ cartItems }) => {
                                   type="radio"
                                   id="payment_paypal"
                                   name="payment-method"
-                                  defaultValue="paypal"
+                                  value="payment_paypal"
+                                  onChange={(e) =>
+                                    setSelectedPaymentMethod(e.target.value)
+                                  }
                                 />
                                 <label htmlFor="payment_paypal">
                                   {t("payment_paypal")}
@@ -414,14 +448,24 @@ const Checkout = ({ cartItems }) => {
                                   type="radio"
                                   id="payment_payoneer"
                                   name="payment-method"
-                                  defaultValue="payoneer"
+                                  value="payment_payoneer"
+                                  onChange={(e) =>
+                                    setSelectedPaymentMethod(e.target.value)
+                                  }
                                 />
                                 <label htmlFor="payment_payoneer">
                                   {t("payment_payoneer")}
                                 </label>
                               </div>
                               <div className="single-method">
-                                <input type="checkbox" id="accept_terms" />
+                                <input 
+                                  type="checkbox" 
+                                  id="accept_terms" 
+                                  checked={acceptedTerms}
+                                  onChange={(e) =>
+                                    setAcceptedTerms(e.target.checked)
+                                  }
+                                  />
                                 <label htmlFor="accept_terms">
                                   {t("accept_terms_label")}
                                 </label>

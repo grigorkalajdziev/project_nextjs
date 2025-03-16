@@ -377,6 +377,9 @@ const translations = {
     please_give_a_rating: "Please give a rating.",
     please_log_in_to_place_order: "Please log in to place an order.",
     delete: "Delete",
+    please_select_payment_method: "Please select a payment method.",
+    please_accept_terms: "Please accept terms and conditions.",
+    order_placed_successfully: "Order placed successfully!",
   },
   mk: {
     english: "Англиски",
@@ -748,7 +751,10 @@ const translations = {
     review_submitted_successfully: "Рецензијата е успешно испратена!",
     please_give_a_rating: "Ве молиме, доделете оценка.",
     please_log_in_to_place_order: "Ве молиме, најавете се за да направите нарачка.",
-    delete: "Избриши"
+    delete: "Избриши",
+    please_select_payment_method: "Ве молиме, изберете начин на плаќање.",
+    please_accept_terms: "Ве молиме, прифатете ги условите и правилата.",
+    order_placed_successfully: "Нарачката е успешно направена!",
     }
 };
 

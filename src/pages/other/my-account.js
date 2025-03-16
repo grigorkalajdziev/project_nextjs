@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { auth } from "../api/register"; // Import Firebase auth
-import {
-  onAuthStateChanged,
-  signOut,  
-  updatePassword,
-} from "firebase/auth";
+import { onAuthStateChanged, signOut, updatePassword } from "firebase/auth";
 import { getDatabase, ref, set, get, update, remove } from "firebase/database";
 import Link from "next/link";
 import Tab from "react-bootstrap/Tab";
@@ -36,7 +32,7 @@ const MyAccount = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false); 
   const [orders, setOrders] = useState([]);
-  const [downloads, setDownloads] = useState([]);
+  const [downloads, setDownloads] = useState([]);  
 
   // --- Password Visibility Toggle States ---
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -95,7 +91,7 @@ const MyAccount = () => {
             setCity(userData.billingInfo?.city || "");
             setZipCode(userData.billingInfo?.zipCode || "");
             setPhone(userData.billingInfo?.phone || "");
-            setCurrentPassword(userData.password || "");
+            setCurrentPassword(userData.password || "");            
           } else {
             console.log("No additional user data found in database.");
           }
@@ -386,7 +382,28 @@ const MyAccount = () => {
               <Tab.Pane eventKey="payment">
                 <div className="my-account-area__content">
                   <h3>{t("payment_method")}</h3>
-                  <p className="saved-message">{t("no_payment_saved")}</p>
+                  {orders.length > 0 ? (
+                    <div className="myaccount-table table-responsive text-center">
+                      <table className="table table-bordered">
+                        <thead className="thead-light">
+                          <tr>
+                            <th>{t("order")}</th>
+                            <th>{t("payment_method")}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {orders.map((order, index) => (
+                            <tr key={index}>
+                              <td>{order.orderNumber}</td>
+                              <td>{order.paymentMethod}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <p className="saved-message">{t("no_payment_saved")}</p>
+                  )}
                 </div>
               </Tab.Pane>
               <Tab.Pane eventKey="accountDetails">
