@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { Modal, Row, Col } from "react-bootstrap";
 import { IoIosHeartEmpty, IoIosShuffle } from "react-icons/io";
 import Swiper from "react-id-swiper";
@@ -6,6 +6,8 @@ import CustomScroll from "react-custom-scroll";
 import { getProductCartQuantity } from "../../lib/product";
 import { ProductRating } from "../Product";
 import { useLocalization } from "../../context/LocalizationContext";
+import { database, ref, get, auth } from "../../pages/api/register";
+import { onAuthStateChanged } from "firebase/auth";
 
 const ProductModal = (props) => {
   const { t, currentLanguage } = useLocalization();
@@ -52,6 +54,55 @@ const ProductModal = (props) => {
       clickable: true,
     },
   };
+
+  // State to hold Firebase reviews and the computed average rating
+  const [productReviews, setProductReviews] = useState([]);
+  const [averageRating, setAverageRating] = useState(0);
+
+  // Function to calculate average rating from a reviews object
+  const calculateAverageRating = (reviews) => {
+    const keys = Object.keys(reviews);
+    if (keys.length === 0) return 0;
+    const total = keys.reduce((acc, key) => acc + reviews[key].rating, 0);
+    return total / keys.length;
+  };
+
+  // Fetch reviews from Firebase (Realtime Database) when product modal opens
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const fetchReviews = async () => {
+          try {
+            // Reference to the product's reviews in the Realtime Database
+            const reviewsRef = ref(
+              database,
+              "productReviews/" + product.id + "/reviews"
+            );
+            const snapshot = await get(reviewsRef);
+            if (snapshot.exists()) {
+              const reviewsData = snapshot.val();
+              // Calculate the average rating using our helper function
+              const avg = calculateAverageRating(reviewsData);
+              setAverageRating(avg);
+              // Save review keys (or IDs) to display review count if needed
+              setProductReviews(Object.keys(reviewsData));
+            } else {
+              setAverageRating(0);
+              setProductReviews([]);
+            }
+          } catch (error) {
+            console.error("Error fetching reviews:", error);
+          }
+        };
+        fetchReviews();
+      } else {
+        // If the user is not logged in, clear the ratings and reviews
+        setAverageRating(0);
+        setProductReviews([]);
+      }
+    });
+    return () => unsubscribe();
+  }, [product.id]);
 
   return (
     <Modal show={show} onHide={onHide} className="product-quickview" centered>
@@ -114,11 +165,11 @@ const ProductModal = (props) => {
                   )}
                 </div>
 
-                {/* Rating Section */}
-                {product.rating && product.rating > 0 && (
+                {/* Rating Section using the computed averageRating from Firebase */}
+                {averageRating > 0 && (
                   <div className="product-quickview__rating-wrap space-mb--20">
                     <div className="product-quickview__rating">
-                      <ProductRating ratingValue={product.rating} />
+                      <ProductRating ratingValue={averageRating} />
                     </div>
                   </div>
                 )}
@@ -128,16 +179,7 @@ const ProductModal = (props) => {
                   <p>{product.shortDescription[currentLanguage]}</p>
                 </div>
 
-                {/* Variation Options (Commented Out) */}
-                {/*
-                {product.variation ? (
-                  <div className="product-quickview__size-color">
-                    // Variation selection code...
-                  </div>
-                ) : (
-                  ""
-                )}
-                */}
+                {/* Variation Options (if any) can be added here */}
 
                 {/* Affiliate Link or Purchase Options */}
                 {product.affiliateLink ? (
