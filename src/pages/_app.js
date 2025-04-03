@@ -133,7 +133,11 @@ const LocalizedHead = () => {
 
   return (
     <Head>
-      <title>{t("title")}</title>
+      <title>Кика - Академија за шминка и убавина</title>
+      <meta
+        name="description"
+        content="Кика - Академија за шминка и убавина © 2025. Најчесто поставувани прашања, за нас, контакти, продавница и повеќе."
+      />
       <link rel="icon" href={process.env.PUBLIC_URL + "/favicon(1).ico"} />
     </Head>
   );
