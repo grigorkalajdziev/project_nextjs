@@ -13,6 +13,8 @@ import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useRouter } from "next/router"; 
+import { deleteAllFromCart } from "../../redux/actions/cartActions";
+import PayPalPayment from "../../components/Payments/PayPalPayment";
 
 const formatDate = (date) => {
   const year = date.getFullYear();
@@ -21,12 +23,17 @@ const formatDate = (date) => {
   return `${day}-${month}-${year}`;
 };
 
-const Checkout = ({ cartItems }) => {
+const Checkout = ({ cartItems, deleteAllFromCart }) => {
   const { t, currentLanguage } = useLocalization();
   const { addToast } = useToasts();
   const router = useRouter();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [showPayPalModal, setShowPayPalModal] = useState(false);  
+
+  const conversionRateMKDToEUR = 61.5;
+
+  const currency = "EUR";
 
   const [billingInfo, setBillingInfo] = useState({
     firstName: "",
@@ -37,7 +44,7 @@ const Checkout = ({ cartItems }) => {
     address2: "",
     city: "",
     zip: "",
-  });
+  });  
 
   let cartTotalPrice = 0;
 
@@ -76,6 +83,11 @@ const Checkout = ({ cartItems }) => {
       return;
     }
 
+    if (selectedPaymentMethod === "payment_paypal") {
+      setShowPayPalModal(true);
+      return;
+    }
+
     const orderData = {
       orderNumber: generateOrderNumber(8),
       date: formatDate(new Date()),
@@ -107,11 +119,27 @@ const Checkout = ({ cartItems }) => {
         autoDismiss: true,
       });
 
+      deleteAllFromCart(addToast, t);
+
       router.push("/other/my-account");      
     } catch (error) {
       console.error("Error placing order:", error);
       addToast(error.message, { appearance: "error", autoDismiss: true });
     }
+  };
+
+  const handlePayPalSuccess = async (details) => {
+    // You can process the order data here with PayPal details
+    // For example, you could store the transaction ID and order details in your database
+    addToast(t("order_placed_successfully"), {
+      appearance: "success",
+      autoDismiss: true,
+    });
+
+    // Now clear the cart and redirect
+    deleteAllFromCart(addToast, t);
+    setShowPayPalModal(false);
+    router.push("/other/my-account");
   };
   
   useEffect(() => {
@@ -149,6 +177,10 @@ const Checkout = ({ cartItems }) => {
   
     fetchBillingInfo();
   }, []);
+
+  const handleClose = () => {    
+    setShowPayPalModal(false);
+  };
 
   return (
     <LayoutTwo>
@@ -448,10 +480,7 @@ const Checkout = ({ cartItems }) => {
                                   type="radio"
                                   id="payment_payoneer"
                                   name="payment-method"
-                                  value="payment_payoneer"
-                                  onChange={(e) =>
-                                    setSelectedPaymentMethod(e.target.value)
-                                  }
+                                  value="payment_payoneer"                                 
                                 />
                                 <label htmlFor="payment_payoneer">
                                   {t("payment_payoneer")}
@@ -505,6 +534,18 @@ const Checkout = ({ cartItems }) => {
           )}
         </Container>
       </div>
+      {showPayPalModal && (
+        <div className="paypal-modal-overlay">
+          <div className="paypal-modal-content">            
+            <PayPalPayment  amount={
+          currentLanguage === "mk"
+            ? (cartTotalPrice / conversionRateMKDToEUR).toFixed(2) // convert MKD to EUR
+            : cartTotalPrice.toFixed(2) // already in EUR
+          }  
+        currency={currency} onSuccess={handlePayPalSuccess} onClose={handleClose} />            
+          </div>
+        </div>
+      )}
     </LayoutTwo>
   );
 };
@@ -515,4 +556,13 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Checkout);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteAllFromCart: (addToast, t) => {
+      dispatch(deleteAllFromCart(addToast, t));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

@@ -11,7 +11,6 @@ import {
 } from "../../lib/product";
 import { ProductRating } from "../Product";
 import { useLocalization } from "../../context/LocalizationContext";
-// Import Firebase functions (adjust the path as needed)
 import { database, ref, get } from "../../pages/api/register";
 
 const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => {

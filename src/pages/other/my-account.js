@@ -30,14 +30,20 @@ const MyAccount = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
   const [orders, setOrders] = useState([]);
-  const [downloads, setDownloads] = useState([]);  
+  const [downloads, setDownloads] = useState([]);
+  const [errors, setErrors] = useState({});
 
   // --- Password Visibility Toggle States ---
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [nameOnCard, setNameOnCard] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiration, setExpiration] = useState("");
+  const [cvc, setCvc] = useState("");  
 
   const db = getDatabase();
 
@@ -56,12 +62,16 @@ const MyAccount = () => {
 
   const deleteOrder = async (userId, orderId) => {
     await remove(ref(db, `orders/${userId}/${orderId}`));
-    setOrders(orders.filter(order => order.id !== orderId));
+    setOrders(orders.filter((order) => order.id !== orderId));
   };
 
   const updateOrder = async (orderId, userId, newStatus) => {
     await update(ref(db, `orders/${userId}/${orderId}`), { status: newStatus });
-    setOrders(orders.map(order => order.id === orderId ? { ...order, status: newStatus } : order));
+    setOrders(
+      orders.map((order) =>
+        order.id === orderId ? { ...order, status: newStatus } : order
+      )
+    );
   };
 
   // --- Fetch User Data on Auth State Change ---
@@ -77,7 +87,7 @@ const MyAccount = () => {
           setFirstName(nameParts[0] || "");
           setLastName(nameParts[1] || "");
         }
-        
+
         const userRef = ref(db, `users/${user.uid}`);
 
         try {
@@ -91,7 +101,11 @@ const MyAccount = () => {
             setCity(userData.billingInfo?.city || "");
             setZipCode(userData.billingInfo?.zipCode || "");
             setPhone(userData.billingInfo?.phone || "");
-            setCurrentPassword(userData.password || "");            
+            setCurrentPassword(userData.password || "");
+            setNameOnCard(userData.billingInfo?.nameOnCard || "");
+            setCardNumber(userData.billingInfo?.cardNumber || "");
+            setExpiration(userData.billingInfo?.expiration || "");
+            setCvc(userData.billingInfo?.cvc || "");            
           } else {
             console.log("No additional user data found in database.");
           }
@@ -151,25 +165,118 @@ const MyAccount = () => {
     }
   };
 
+  const isValidNameOnCard = (name) => {
+    const trimmed = name.trim();
+    return trimmed.length >= 2 && trimmed.length <= 30 && /^[a-zA-Z\s]+$/.test(trimmed);
+  };
+
+  const isValidCardNumber = (cardNum) => {
+    const cleaned = cardNum.replace(/\D/g, '');
+    if (cleaned.length < 13 || cleaned.length > 19) return false;
+    let sum = 0;
+    let shouldDouble = false;
+    for (let i = cleaned.length - 1; i >= 0; i--) {
+      let digit = parseInt(cleaned.charAt(i), 10);
+      if (shouldDouble) {
+        digit *= 2;
+        if (digit > 9) {
+          digit -= 9;
+        }
+      }
+      sum += digit;
+      shouldDouble = !shouldDouble;
+    }
+    return sum % 10 === 0;
+  };
+
+  const formatCardNumber = (value) => { 
+    const cleaned = value.replace(/\D/g, "");  
+    return cleaned.replace(/(.{4})/g, "$1 ").trim();
+  };
+
+  const isValidExpiration = (exp) => {
+    if (exp.length !== 5 || !/^(0[1-9]|1[0-2])\/\d{2}$/.test(exp)) {
+      return false;
+    }
+    const [monthStr, yearStr] = exp.split("/");
+    const month = parseInt(monthStr, 10);
+    const year = parseInt(yearStr, 10);
+    const now = new Date();
+    const currentYear = now.getFullYear() % 100; // two-digit year
+    const currentMonth = now.getMonth() + 1; // JavaScript months are 0-indexed
+    if (year < currentYear || (year === currentYear && month < currentMonth)) {
+      return false;
+    }
+    return true;
+  };
+
+  const formatExpiration = (value) => {   
+    const cleaned = value.replace(/\D/g, "");    
+    if (cleaned.length === 0) return "";    
+    if (cleaned.length < 2) return cleaned;   
+    if (cleaned.length === 2) return cleaned + "/";  
+    return cleaned.slice(0, 2) + "/" + cleaned.slice(2, 4);
+  };
+
+  // Validate CVC: must be 3 or 4 digits.
+  const isValidCVC = (value) => {
+    return value.length >= 3 && value.length <= 4 && /^\d{3,4}$/.test(value);
+  };
+
+  const validatePaymentFields = () => {
+    const newErrors = {};
+
+    if (!isValidNameOnCard(nameOnCard)) {
+      newErrors.nameOnCard = t("nameOnCard") ;
+    }
+    if (!isValidCardNumber(cardNumber)) {
+      newErrors.cardNumber = t("cardNumber");
+    }
+    if (!isValidExpiration(expiration)) {
+      newErrors.expiration = t("invalid_expiration");
+    }
+    if (!isValidCVC(cvc)) {
+      newErrors.cvc = t("invalid_cvc");
+    }
+
+    // Display each error message as a toast
+    if (Object.keys(newErrors).length > 0) {
+      Object.values(newErrors).forEach((msg) => {
+        addToast(msg, { appearance: "error", autoDismiss: true });
+      });
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   // --- Save Profile Handler ---
   const handleSave = async (e) => {
     e.preventDefault();
     if (!user) return;
 
-    setIsLoading(true);
-    const db = getDatabase();
-    const userRef = ref(db, `users/${user.uid}`);
+    if (!validatePaymentFields()) {
+      return;
+    }
+
+    setIsLoading(true);    
+    const userRef = ref(db, `users/${user.uid}`);    
 
     try {
       // If new password is provided, update it in Auth and then save in the Realtime Database
       if (newPassword && confirmPassword) {
         if (newPassword !== confirmPassword) {
-          addToast(t("password_mismatch"), { appearance: "error", autoDismiss: true });
+          addToast(t("password_mismatch"), {
+            appearance: "error",
+            autoDismiss: true,
+          });
           setIsLoading(false);
           return;
         }
         if (newPassword.length < 6) {
-          addToast(t("password_strength"), { appearance: "error", autoDismiss: true });
+          addToast(t("password_strength"), {
+            appearance: "error",
+            autoDismiss: true,
+          });
           setIsLoading(false);
           return;
         }
@@ -189,9 +296,16 @@ const MyAccount = () => {
               city,
               zipCode,
               phone,
+              nameOnCard,
+              cardNumber,
+              expiration,
+              cvc,
             },
           });
-          addToast(t("password_changed_success"), { appearance: "success", autoDismiss: true });
+          addToast(t("password_changed_success"), {
+            appearance: "success",
+            autoDismiss: true,
+          });
           // Clear password fields
           setCurrentPassword("");
           setNewPassword("");
@@ -215,6 +329,10 @@ const MyAccount = () => {
             city,
             zipCode,
             phone,
+            nameOnCard,
+            cardNumber,
+            expiration,
+            cvc,
           },
         });
       }
@@ -243,7 +361,10 @@ const MyAccount = () => {
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
+            <Link
+              href="/home/trending"
+              as={process.env.PUBLIC_URL + "/home/trending"}
+            >
               {t("home")}
             </Link>
           </li>
@@ -253,7 +374,10 @@ const MyAccount = () => {
       <div className="my-account-area space-mt--r130 space-mb--r130">
         <Container>
           <Tab.Container defaultActiveKey="dashboard">
-            <Nav variant="pills" className="my-account-area__navigation space-mb--r60">
+            <Nav
+              variant="pills"
+              className="my-account-area__navigation space-mb--r60"
+            >
               <Nav.Item>
                 <Nav.Link eventKey="dashboard">{t("dashboard")}</Nav.Link>
               </Nav.Item>
@@ -267,7 +391,9 @@ const MyAccount = () => {
                 <Nav.Link eventKey="payment">{t("payment")}</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="accountDetails">{t("account_details")}</Nav.Link>
+                <Nav.Link eventKey="accountDetails">
+                  {t("account_details")}
+                </Nav.Link>
               </Nav.Item>
             </Nav>
             <Tab.Content>
@@ -281,9 +407,19 @@ const MyAccount = () => {
                       {t("if_not")}{" "}
                       <strong>{displayName || user?.email || ""}!</strong>)
                     </p>
-                    <button onClick={handleLogout} className="btn btn-danger" disabled={isLoading}>
+                    <button
+                      onClick={handleLogout}
+                      className="btn btn-danger"
+                      disabled={isLoading}
+                    >
                       {isLoading ? (
-                        <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+                        <Spinner
+                          as="span"
+                          animation="border"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                        />
                       ) : (
                         t("logout")
                       )}
@@ -316,24 +452,45 @@ const MyAccount = () => {
                             <tr key={index}>
                               <td>{order.orderNumber}</td>
                               <td>{order.date}</td>
-                              <td>{order.status === "pending" ? (
-                                <select value={order.status} onChange={(e) => updateOrder( order.id, user.uid, e.target.value)}>
-                                  <option value="pending">Pending</option>
-                                  <option value="shipped">Shipped</option>
-                                  <option value="delivered">Delivered</option>
-                                </select>
-                              ) : (
-                                order.status
-                              )}</td>
+                              <td>
+                                {order.status === "pending" ? (
+                                  <select
+                                    value={order.status}
+                                    onChange={(e) =>
+                                      updateOrder(
+                                        order.id,
+                                        user.uid,
+                                        e.target.value
+                                      )
+                                    }
+                                  >
+                                    <option value="pending">Pending</option>
+                                    <option value="shipped">Shipped</option>
+                                    <option value="delivered">Delivered</option>
+                                  </select>
+                                ) : (
+                                  order.status
+                                )}
+                              </td>
                               <td>{order.total}</td>
                               <td>
                                 <a href="#" className="check-btn sqr-btn">
                                   {t("view")}
-                                </a><br />
-                                <button onClick={() => deleteOrder(user.uid, order.id)} 
-                                        style={{ backgroundColor: 'white', color: 'red' }}
-                                        className="btn">{t("delete")}</button>
-                              </td>                            
+                                </a>
+                                <br />
+                                <button
+                                  onClick={() =>
+                                    deleteOrder(user.uid, order.id)
+                                  }
+                                  style={{
+                                    backgroundColor: "white",
+                                    color: "red",
+                                  }}
+                                  className="btn"
+                                >
+                                  {t("delete")}
+                                </button>
+                              </td>
                             </tr>
                           ))}
                         </tbody>
@@ -515,12 +672,67 @@ const MyAccount = () => {
                               onChange={(e) => setPhone(e.target.value)}
                             />
                           </div>
+                          <div className="single-input-item">
+                            <h3>{t("payment_information")}</h3>
+                            <label>{t("name_on_card")}</label>
+                            <input
+                              type="text"
+                              value={nameOnCard}
+                              onChange={(e) => setNameOnCard(e.target.value)}
+                              placeholder={t("enter_name_on_card")}
+                            />
+                          </div>
+                          <div className="single-input-item">
+                            <label>{t("card_number")}</label>
+                            <input
+                              type="text"
+                              value={cardNumber}
+                              onChange={(e) => {
+                                const formatted = formatCardNumber(e.target.value);
+                                setCardNumber(formatted);
+                              }}
+                              placeholder="**** **** **** ****"
+                              maxLength="19"
+                            />
+                          </div>
+                          <Row>
+                            <Col md={6}>
+                              <div className="single-input-item">
+                                <label>{t("expiration")}</label>
+                                <input
+                                  type="text"
+                                  value={expiration}
+                                  onChange={(e) => {
+                                    const formatted = formatExpiration(e.target.value);
+                                    setExpiration(formatted);
+                                  }}
+                                  placeholder={t("MM_YY")}
+                                  maxLength="5"
+                                />
+                              </div>
+                            </Col>
+                            <Col md={6}>
+                              <div className="single-input-item">
+                                <label>{t("cvc").toUpperCase()}</label>
+                                <input
+                                  type="text"
+                                  value={cvc}
+                                  onChange={(e) => setCvc(e.target.value)}
+                                  placeholder={t("enter_cvc")}
+                                  maxLength="3"
+                                />
+                              </div>
+                            </Col>
+                          </Row>
                         </div>
                       </div>
                       <fieldset>
                         <legend>{t("password_change")}</legend>
                         {/* Current Password Field with Toggle */}
-                        <div className="single-input-item" style={{ position: "relative" }}>
+                        <div
+                          className="single-input-item"
+                          style={{ position: "relative" }}
+                        >
                           <label htmlFor="current-pwd" className="required">
                             {t("current_password")}
                           </label>
@@ -549,7 +761,10 @@ const MyAccount = () => {
                         <div className="row">
                           <div className="col-lg-6">
                             {/* New Password Field with Toggle */}
-                            <div className="single-input-item" style={{ position: "relative" }}>
+                            <div
+                              className="single-input-item"
+                              style={{ position: "relative" }}
+                            >
                               <label htmlFor="new-pwd" className="required">
                                 {t("new_password")}
                               </label>
@@ -571,14 +786,20 @@ const MyAccount = () => {
                                 {showNewPassword ? (
                                   <AiOutlineEye size={20} color="#000" />
                                 ) : (
-                                  <AiOutlineEyeInvisible size={20} color="#000" />
+                                  <AiOutlineEyeInvisible
+                                    size={20}
+                                    color="#000"
+                                  />
                                 )}
                               </span>
                             </div>
                           </div>
                           <div className="col-lg-6">
                             {/* Confirm Password Field with Toggle */}
-                            <div className="single-input-item" style={{ position: "relative" }}>
+                            <div
+                              className="single-input-item"
+                              style={{ position: "relative" }}
+                            >
                               <label htmlFor="confirm-pwd" className="required">
                                 {t("confirm_password")}
                               </label>
@@ -586,7 +807,9 @@ const MyAccount = () => {
                                 type={showConfirmPassword ? "text" : "password"}
                                 id="confirm-pwd"
                                 value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                onChange={(e) =>
+                                  setConfirmPassword(e.target.value)
+                                }
                               />
                               <span
                                 onClick={toggleConfirmPasswordVisibility}
@@ -600,7 +823,10 @@ const MyAccount = () => {
                                 {showConfirmPassword ? (
                                   <AiOutlineEye size={20} color="#000" />
                                 ) : (
-                                  <AiOutlineEyeInvisible size={20} color="#000" />
+                                  <AiOutlineEyeInvisible
+                                    size={20}
+                                    color="#000"
+                                  />
                                 )}
                               </span>
                             </div>

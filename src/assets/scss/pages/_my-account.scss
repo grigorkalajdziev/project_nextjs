@@ -169,3 +169,39 @@
 
 /*=====  End of my account  ======*/
 
+.payment-information {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .nav-pills .nav-link {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+  }
+}

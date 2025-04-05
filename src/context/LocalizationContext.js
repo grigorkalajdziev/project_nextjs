@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { Card } from 'react-bootstrap';
 
 const fonts = {
   en: "'Libre Baskerville', cursive", 
@@ -380,6 +381,19 @@ const translations = {
     please_select_payment_method: "Please select a payment method.",
     please_accept_terms: "Please accept terms and conditions.",
     order_placed_successfully: "Order placed successfully!",
+    name_on_card: "Name on Card",
+    enter_name_on_card: "Enter name on card",
+    card_number: "Card Number",
+    enter_card_number: "Enter card number",
+    expiration: "Expiration",
+    MM_YY: "MM/YY",
+    CVC: "CVC",
+    enter_cvc: "Enter CVC",
+    payment_information: "Payment Information",
+    nameOnCard: "Name on Card is required.",
+    cardNumber: "Invalid card number.",
+    invalid_expiration: "Invalid expiration date. Use MM/YY format and ensure the card is not expired.",
+    invalid_cvc: "Invalid CVC. It should be 3 or 4 digits.",
   },
   mk: {
     english: "Англиски",
@@ -755,6 +769,19 @@ const translations = {
     please_select_payment_method: "Ве молиме, изберете начин на плаќање.",
     please_accept_terms: "Ве молиме, прифатете ги условите и правилата.",
     order_placed_successfully: "Нарачката е успешно направена!",
+    name_on_card: "Име на картичка",
+    enter_name_on_card: "Внесете го името на картичката",
+    card_number: "Број на картичка",
+    enter_card_number: "Внесете го бројот на картичката",
+    expiration: "Истекување",
+    MM_YY: "ММ/ГГ",
+    CVC: "CVC",
+    enter_cvc: "Внесете го CVC",
+    payment_information: "Информации за плаќање",
+    nameOnCard: "Потребно е името на картичката.",
+    cardNumber: "Невалиден број на картичка.",
+    invalid_expiration: "Невалиден датум на истекување. Користете формат ММ/ГГ и осигурајте се дека картичката не е истечена.",
+    invalid_cvc: "Невалиден CVC. Треба да биде 3 или 4 цифри.",
     }
 };
 
