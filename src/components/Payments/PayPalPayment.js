@@ -11,7 +11,7 @@ const PayPalPayment = ({ amount, currency, onSuccess, onClose }) => {
   return (
     <PayPalScriptProvider
       options={{
-        "client-id": "AZANiUYepuj_-9bH87F3e55BPzs03ZUyAtY_tn5F0coPNfxG5VjqUD8Uvoz79X-X1t8tvVIUpbBHIDLC",        
+        "client-id": "AbUZoDFroE31T_VURYDQZ9pMC8wH-E4ANdQQsBJZxwMpC_-bVN-x9L3rJ1GnnsCwp7oq3phElpaWU7Oo",        
         intent: "capture",
         currency: currency,
       }}
