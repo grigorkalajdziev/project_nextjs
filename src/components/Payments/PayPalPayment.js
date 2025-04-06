@@ -1,4 +1,3 @@
-// components/PayPalPayment.js
 "use client";
 import React from 'react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
@@ -11,7 +10,7 @@ const PayPalPayment = ({ amount, currency, onSuccess, onClose }) => {
   return (
     <PayPalScriptProvider
       options={{
-        "client-id": "AbUZoDFroE31T_VURYDQZ9pMC8wH-E4ANdQQsBJZxwMpC_-bVN-x9L3rJ1GnnsCwp7oq3phElpaWU7Oo",        
+        "client-id": "Aa87UBjK2PsU0le7KRd-rrzLTQnM_fjVtqo3EnKM_BDo_0GJ2ulY-Yx4VPyZCDwCjxybtlfM8eYduDMy",        
         intent: "capture",
         currency: currency,
       }}

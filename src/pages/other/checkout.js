@@ -419,7 +419,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                               {t("payment_method")}
                             </h4>
                             <div className="checkout-payment-method">
-                              <div className="single-method">
+                              {/* <div className="single-method">
                                 <input
                                   type="radio"
                                   id="payment_check"
@@ -432,7 +432,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                 <label htmlFor="payment_check">
                                   {t("payment_check")}
                                 </label>
-                              </div>
+                              </div> */}
                               <div className="single-method">
                                 <input
                                   type="radio"
@@ -475,7 +475,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                   {t("payment_paypal")}
                                 </label>
                               </div>
-                              <div className="single-method">
+                              {/* <div className="single-method">
                                 <input
                                   type="radio"
                                   id="payment_payoneer"
@@ -485,7 +485,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                 <label htmlFor="payment_payoneer">
                                   {t("payment_payoneer")}
                                 </label>
-                              </div>
+                              </div> */}
                               <div className="single-method">
                                 <input 
                                   type="checkbox" 
