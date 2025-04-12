@@ -5,13 +5,14 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { FaFacebookF } from "react-icons/fa";
 import { auth, registerUser, registerGoogleUser } from "../api/register";
 import {
   setPersistence,
   browserSessionPersistence,
-  signInWithEmailAndPassword,  
+  signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup,  
+  signInWithPopup,
   FacebookAuthProvider,
 } from "firebase/auth";
 import { useToasts } from "react-toast-notifications";
@@ -147,7 +148,11 @@ const LoginRegister = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email: loginData.email, provider: 'default', language: currentLanguage }),
+          body: JSON.stringify({
+            email: loginData.email,
+            provider: "default",
+            language: currentLanguage,
+          }),
         });
         localStorage.setItem("loginSuccessEmailSent_" + user.uid, "true");
       }
@@ -177,14 +182,23 @@ const LoginRegister = () => {
 
     setRegisterLoading(true);
     try {
-      const result = await registerUser(registerData.email, registerData.password);
+      const result = await registerUser(
+        registerData.email,
+        registerData.password
+      );
       if (result.success) {
         await fetch("/api/sendRegistrationEmail", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: registerData.email, language: currentLanguage }),
+          body: JSON.stringify({
+            email: registerData.email,
+            language: currentLanguage,
+          }),
         });
-        addToast(t("registration_success"), { appearance: "success", autoDismiss: true });
+        addToast(t("registration_success"), {
+          appearance: "success",
+          autoDismiss: true,
+        });
         setRegisterData({ email: "", password: "" });
       } else {
         addToast(result.error, { appearance: "error", autoDismiss: true });
@@ -217,9 +231,9 @@ const LoginRegister = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             email: user.email,
-            provider: 'google',
+            provider: "google",
             userName: user.displayName || "User",
-            language: currentLanguage
+            language: currentLanguage,
           }),
         });
       }
@@ -267,7 +281,10 @@ const LoginRegister = () => {
       const res = await fetch("/api/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: loginData.email, language: currentLanguage }),
+        body: JSON.stringify({
+          email: loginData.email,
+          language: currentLanguage,
+        }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -305,7 +322,7 @@ const LoginRegister = () => {
       return () => clearTimeout(timer);
     }
   }, [registerErrors]);
-  
+
   return (
     <LayoutTwo>
       <BreadcrumbOne
@@ -340,10 +357,16 @@ const LoginRegister = () => {
                         placeholder={t("email_address")}
                         value={loginData.email}
                         onChange={handleLoginChange}
-                        onBlur={handleLoginEmailBlur}                        
+                        onBlur={handleLoginEmailBlur}
                       />
                       {loginErrors.email && (
-                        <div style={{ color: "red", fontSize: "0.9rem", marginTop: "4px" }}>
+                        <div
+                          style={{
+                            color: "red",
+                            fontSize: "0.9rem",
+                            marginTop: "4px",
+                          }}
+                        >
                           {loginErrors.email}
                         </div>
                       )}
@@ -356,7 +379,7 @@ const LoginRegister = () => {
                           placeholder={t("password")}
                           value={loginData.password}
                           onChange={handleLoginChange}
-                          onBlur={handleLoginPasswordBlur}                          
+                          onBlur={handleLoginPasswordBlur}
                           style={{ width: "100%", paddingRight: "70px" }}
                         />
                         <span
@@ -370,9 +393,9 @@ const LoginRegister = () => {
                           }}
                         >
                           {loginPasswordVisible ? (
-                            <AiOutlineEyeInvisible size={20} color="#000"/>
+                            <AiOutlineEyeInvisible size={20} color="#000" />
                           ) : (
-                            <AiOutlineEye size={20} color="#000"/>
+                            <AiOutlineEye size={20} color="#000" />
                           )}
                         </span>
                       </div>
@@ -394,7 +417,13 @@ const LoginRegister = () => {
                         </button>
                       </div>
                       {loginErrors.password && (
-                        <div style={{ color: "red", fontSize: "0.9rem", marginTop: "4px" }}>
+                        <div
+                          style={{
+                            color: "red",
+                            fontSize: "0.9rem",
+                            marginTop: "4px",
+                          }}
+                        >
                           {loginErrors.password}
                         </div>
                       )}
@@ -421,28 +450,60 @@ const LoginRegister = () => {
                     <Col lg={12} className="text-center">
                       <span>{t("or")}</span>
                     </Col>
-                    <Col lg={12} className="text-center space-mt--30">
-                      <button
-                        onClick={handleGoogleSignIn}
-                        className="lezada-button lezada-button--small"
-                        disabled={googleLoading}
+                    <Row className="justify-content-center space-mt--30">
+                      <Col
+                        lg={12}
+                        className="d-flex flex-column gap-3 align-items-center"
                       >
-                        {googleLoading ? (
-                          <Spinner
-                            as="span"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                          />
-                        ) : (
-                          <>
-                            <FcGoogle size={24} style={{ marginRight: "10px" }} />
-                            {t("continue_with_google")}
-                          </>
-                        )}
-                      </button>
-                    </Col>
+                        <button
+                          onClick={handleGoogleSignIn}
+                          className="lezada-button lezada-button--small w-100 d-flex align-items-center justify-content-center"
+                          disabled={googleLoading}
+                        >
+                          {googleLoading ? (
+                            <Spinner
+                              as="span"
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <>
+                              <FcGoogle
+                                size={24}
+                                style={{ marginRight: "10px" }}
+                              />
+                              {t("continue_with_google")}
+                            </>
+                          )}
+                        </button>
+
+                        <button
+                          onClick={handleFacebookSignIn}
+                          className="lezada-button lezada-button--small w-100 d-flex align-items-center justify-content-center"
+                          disabled={facebookLoading}
+                        >
+                          {facebookLoading ? (
+                            <Spinner
+                              as="span"
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <>
+                              <FaFacebookF
+                                size={24}
+                                style={{ marginRight: "10px" }}
+                              />
+                              {t("continue_with_facebook")}
+                            </>
+                          )}
+                        </button>
+                      </Col>
+                    </Row>
                   </Row>
                 </form>
               </div>
@@ -466,10 +527,16 @@ const LoginRegister = () => {
                         placeholder={t("email_placeholder")}
                         value={registerData.email}
                         onChange={handleRegisterChange}
-                        onBlur={handleRegisterEmailBlur}                        
+                        onBlur={handleRegisterEmailBlur}
                       />
                       {registerErrors.email && (
-                        <div style={{ color: "red", fontSize: "0.9rem", marginTop: "4px" }}>
+                        <div
+                          style={{
+                            color: "red",
+                            fontSize: "0.9rem",
+                            marginTop: "4px",
+                          }}
+                        >
                           {registerErrors.email}
                         </div>
                       )}
@@ -482,7 +549,7 @@ const LoginRegister = () => {
                           placeholder={t("password_placeholder")}
                           value={registerData.password}
                           onChange={handleRegisterChange}
-                          onBlur={handleRegisterPasswordBlur}                          
+                          onBlur={handleRegisterPasswordBlur}
                           style={{ width: "100%", paddingRight: "50px" }}
                         />
                         <span
@@ -496,14 +563,20 @@ const LoginRegister = () => {
                           }}
                         >
                           {registerPasswordVisible ? (
-                            <AiOutlineEyeInvisible size={20} color="#000"/>
+                            <AiOutlineEyeInvisible size={20} color="#000" />
                           ) : (
-                            <AiOutlineEye size={20} color="#000"/>
+                            <AiOutlineEye size={20} color="#000" />
                           )}
                         </span>
                       </div>
                       {registerErrors.password && (
-                        <div style={{ color: "red", fontSize: "0.9rem", marginTop: "4px" }}>
+                        <div
+                          style={{
+                            color: "red",
+                            fontSize: "0.9rem",
+                            marginTop: "4px",
+                          }}
+                        >
                           {registerErrors.password}
                         </div>
                       )}

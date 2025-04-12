@@ -1,13 +1,16 @@
-// firebaseRegister.js
 import { initializeApp } from "firebase/app";
-import { 
-  getAuth, 
-  createUserWithEmailAndPassword, 
-  signOut 
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signOut,
+  FacebookAuthProvider,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getDatabase, ref, set, push, get } from "firebase/database";
 
+// Firebase config (uses .env values)
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -16,36 +19,27 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: "G-ZL2EBV00H7"
+  measurementId: "G-ZL2EBV00H7",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Firebase authentication instance
+// Firebase services
 const auth = getAuth(app);
 const db = getFirestore(app);
 const database = getDatabase(app);
 
-/**
- * registerUser - Creates a new user and then immediately signs them out.
- * This ensures that the Navigation component does not show "My Account"
- * until the user explicitly logs in.
- *
- * @param {string} email - The user's email address.
- * @param {string} password - The user's password.
- * @returns {Promise<Object>} - Returns an object with success status and user data or error.
- */
+// Email + Password Registration
 export async function registerUser(email, password) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    
     const user = userCredential.user;
 
-    // Save initial user record to Realtime Database under "users/{user.uid}"
+    // Save user info to Realtime Database
     await set(ref(database, `users/${user.uid}`), {
       email: user.email,
-      password: password, // WARNING: Storing plaintext passwords is insecure.
+      // Do NOT store plain text passwords
       firstName: "",
       lastName: "",
       displayName: "",
@@ -56,29 +50,24 @@ export async function registerUser(email, password) {
         zipCode: ""
       }
     });
-    
-    // Immediately sign the user out so the Navigation remains in "Login/Register" mode.
+
+    // Sign out after registration
     await signOut(auth);
-    
-    return { success: true, user: userCredential.user };
+
+    return { success: true, user };
   } catch (error) {
     return { success: false, error: error.message };
   }
 }
 
-/**
- * registerGoogleUser - Creates a user record for a Google sign‑in.
- * This should be called when a user logs in with Google for the first time.
- */
+// Google Sign-In registration
 export async function registerGoogleUser(user) {
   try {
-    // Save user record in the Realtime Database. You might want to extract parts of displayName if needed.
     await set(ref(database, `users/${user.uid}`), {
       email: user.email,
-      password: "", // No password for Google sign
+      displayName: user.displayName || "",
       firstName: "",
       lastName: "",
-      displayName: user.displayName || "",
       billingInfo: {
         address: "",
         city: "",
@@ -92,4 +81,41 @@ export async function registerGoogleUser(user) {
   }
 }
 
-export { auth, db, database, push, ref, set, get };
+// Facebook Sign-In registration
+export async function registerFacebookUser(user) {
+  try {
+    await set(ref(database, `users/${user.uid}`), {
+      email: user.email,
+      displayName: user.displayName || "",
+      firstName: "",
+      lastName: "",
+      billingInfo: {
+        address: "",
+        city: "",
+        phone: "",
+        zipCode: ""
+      }
+    });
+    return { success: true, user };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+// Facebook & Google providers
+const facebookProvider = new FacebookAuthProvider();
+facebookProvider.addScope("email");
+
+const googleProvider = new GoogleAuthProvider();
+
+export {
+  auth,
+  db,
+  database,
+  push,
+  ref,
+  set,
+  get,
+  facebookProvider,
+  googleProvider,
+};
