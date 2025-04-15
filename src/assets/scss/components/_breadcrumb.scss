@@ -58,5 +58,52 @@
   }
 }
 
+.breadcrumb-area {
+  position: relative;
+  width: 100%;
+  min-height: 250px;
+
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  color: $white;
+ 
+  @include respond(extra-large-mobile) {
+    min-height: 200px;
+  }
+
+  @include respond(large-mobile) {
+    min-height: 160px;
+  }
+
+  @include respond(extra-small-mobile) {
+    min-height: 130px;
+  }
+
+  // Optional dark overlay for better readability
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;    
+    z-index: 1;
+  }
+
+  // Push container content above the overlay
+  .container {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+
 /*=====  End of breadcrumb  ======*/
 
