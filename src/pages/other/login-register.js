@@ -479,7 +479,7 @@ const LoginRegister = () => {
                           )}
                         </button>
 
-                        <button
+                        {/* <button
                           onClick={handleFacebookSignIn}
                           className="lezada-button lezada-button--small w-100 d-flex align-items-center justify-content-center"
                           disabled={facebookLoading}
@@ -501,7 +501,7 @@ const LoginRegister = () => {
                               {t("continue_with_facebook")}
                             </>
                           )}
-                        </button>
+                        </button> */}
                       </Col>
                     </Row>
                   </Row>
