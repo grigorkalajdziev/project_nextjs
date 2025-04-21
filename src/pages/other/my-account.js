@@ -224,6 +224,11 @@ const MyAccount = () => {
   };
 
   const validatePaymentFields = () => {
+    if (!nameOnCard && !cardNumber && !expiration && !cvc) {
+      setErrors({});
+      return true;
+    }
+
     const newErrors = {};
 
     if (!isValidNameOnCard(nameOnCard)) {
@@ -442,6 +447,8 @@ const MyAccount = () => {
                           <tr>
                             <th>{t("order")}</th>
                             <th>{t("date")}</th>
+                            <th>{t("date_of_reservation")}</th> 
+                            <th>{t("time_of_reservation")}</th> 
                             <th>{t("status")}</th>
                             <th>{t("total")}</th>
                             <th>{t("action")}</th>
@@ -452,6 +459,8 @@ const MyAccount = () => {
                             <tr key={index}>
                               <td>{order.orderNumber}</td>
                               <td>{order.date}</td>
+                              <td>{order.reservationDate}</td>
+                              <td>{order.reservationTime}</td>
                               <td>
                                 {order.status === "pending" ? (
                                   <select

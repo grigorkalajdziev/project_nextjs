@@ -12,7 +12,7 @@ import { IoMdCash } from "react-icons/io";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
-import { useRouter } from "next/router"; 
+import { useRouter } from "next/router";
 import { deleteAllFromCart } from "../../redux/actions/cartActions";
 import PayPalPayment from "../../components/Payments/PayPalPayment";
 
@@ -23,16 +23,20 @@ const formatDate = (date) => {
   return `${day}-${month}-${year}`;
 };
 
+const today = new Date().toISOString().split("T")[0];
+
 const Checkout = ({ cartItems, deleteAllFromCart }) => {
   const { t, currentLanguage } = useLocalization();
   const { addToast } = useToasts();
   const router = useRouter();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [showPayPalModal, setShowPayPalModal] = useState(false);  
+  const [showPayPalModal, setShowPayPalModal] = useState(false);
+
+  const [reservationDate, setReservationDate] = useState(today);
+  const [reservationTime, setReservationTime] = useState("09:00");
 
   const conversionRateMKDToEUR = 61.5;
-
   const currency = "EUR";
 
   const [billingInfo, setBillingInfo] = useState({
@@ -44,7 +48,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
     address2: "",
     city: "",
     zip: "",
-  });  
+  });
 
   let cartTotalPrice = 0;
 
@@ -57,7 +61,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
     return orderNumber;
   };
 
-  const handlePlaceOrder = async () => {    
+  const handlePlaceOrder = async () => {
     if (!auth.currentUser) {
       addToast(t("please_log_in_to_place_order"), {
         appearance: "error",
@@ -73,7 +77,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       });
       return;
     }
-    
+
     // Validate acceptance of terms and conditions
     if (!acceptedTerms) {
       addToast(t("please_accept_terms"), {
@@ -93,11 +97,16 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       date: formatDate(new Date()),
       status: "pending",
       paymentMethod: selectedPaymentMethod,
-      total: cartItems.reduce((total, product) => {
-        const productPrice = product.price[currentLanguage] || "00.00";
-        const discountedPrice = getDiscountPrice(productPrice, product.discount);
-        return total + discountedPrice * product.quantity;
-      }, 0).toFixed(2),
+      total: cartItems
+        .reduce((total, product) => {
+          const productPrice = product.price[currentLanguage] || "00.00";
+          const discountedPrice = getDiscountPrice(
+            productPrice,
+            product.discount
+          );
+          return total + discountedPrice * product.quantity;
+        }, 0)
+        .toFixed(2),
       products: cartItems.map((product) => ({
         id: product.id,
         name: product.name[currentLanguage] || product.name["en"],
@@ -105,14 +114,72 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         price: product.price[currentLanguage],
         discount: product.discount,
       })),
+      reservationDate: reservationDate,
+      reservationTime: reservationTime,
     };
 
     try {
-      const db = getDatabase();      
+      const db = getDatabase();
       const ordersRef = ref(db, `orders/${auth.currentUser.uid}`);
-      
+
       const newOrderRef = push(ordersRef);
       await set(newOrderRef, orderData);
+
+      const emailData = {
+        to: auth.currentUser.email,
+        from: "reservation@kikamakeupandbeautyacademy.com",
+        orderID: orderData.orderNumber,
+        reservationDate: orderData.reservationDate,
+        reservationTime: orderData.reservationTime,
+        customerName: auth.currentUser.displayName || "Customer", // fetch customer's name
+      };
+  
+      // Send the email
+      const response = await fetch("/api/sendReservation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailData),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to send reservation email to customer");
+      } else {
+        console.log("Reservation email sent to customer");
+      }
+
+      const emailToKikaData = {
+        to: ["grigorkalajdziev@gmail.com", "makeupbykika@hotmail.com"], // Kika's email addresses
+        from: "reservation@kikamakeupandbeautyacademy.com", // Your company email
+        subject: `New Reservation: Order ${orderData.orderNumber}`,
+        orderID: orderData.orderNumber,
+        reservationDate: orderData.reservationDate,
+        reservationTime: orderData.reservationTime,
+        customerName: (billingInfo.firstName && billingInfo.lastName) 
+        ? `${billingInfo.firstName} ${billingInfo.lastName}` 
+        : auth.currentUser.email, 
+        customerEmail: auth.currentUser.email,
+        paymentMethod: orderData.paymentMethod,
+        total: orderData.total,
+        products: orderData.products, // The list of products from the order
+      };
+      
+      const responseKika = await fetch("/api/send-reservation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailToKikaData),
+      });
+
+      console.log("Sending email to Kika:", emailToKikaData); // Log the data being sent to Kika
+      
+      if (!responseKika.ok) {
+        console.error("Failed to send email to Kika");
+      } else {
+        console.log("Email sent to Kika");
+      }
 
       addToast(t("order_placed_successfully"), {
         appearance: "success",
@@ -121,7 +188,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
 
       deleteAllFromCart(addToast, t);
 
-      router.push("/other/my-account");      
+      router.push("/other/my-account");
     } catch (error) {
       console.error("Error placing order:", error);
       addToast(error.message, { appearance: "error", autoDismiss: true });
@@ -141,11 +208,11 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
     setShowPayPalModal(false);
     router.push("/other/my-account");
   };
-  
+
   useEffect(() => {
     document.querySelector("body").classList.remove("overflow-hidden");
   }, []);
-  
+
   useEffect(() => {
     const fetchBillingInfo = async () => {
       if (!auth.currentUser) {
@@ -155,7 +222,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       const db = getDatabase();
       const userId = auth.currentUser.uid;
       const userRef = ref(db, `users/${userId}`);
-  
+
       try {
         const snapshot = await get(userRef);
         if (snapshot.exists()) {
@@ -174,11 +241,11 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         console.error("Error fetching user data:", error);
       }
     };
-  
+
     fetchBillingInfo();
   }, []);
 
-  const handleClose = () => {    
+  const handleClose = () => {
     setShowPayPalModal(false);
   };
 
@@ -267,13 +334,6 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                               />
                             </div>
                             <div className="col-12 space-mb--20">
-                              <label>{t("company_label")}</label>
-                              <input
-                                type="text"
-                                placeholder={t("company_placeholder")}
-                              />
-                            </div>
-                            <div className="col-12 space-mb--20">
                               <label>{t("address_label")}*</label>
                               <input
                                 type="text"
@@ -285,10 +345,6 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                   })
                                 }
                                 placeholder={t("address_line1_placeholder")}
-                              />
-                              <input
-                                type="text"
-                                placeholder={t("address_line2_placeholder")}
                               />
                             </div>
                             <div className="col-md-6 col-12 space-mb--20">
@@ -316,13 +372,6 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                               />
                             </div>
                             <div className="col-md-6 col-12 space-mb--20">
-                              <label>{t("state_label")}*</label>
-                              <input
-                                type="text"
-                                placeholder={t("state_placeholder")}
-                              />
-                            </div>
-                            <div className="col-md-6 col-12 space-mb--20">
                               <label>{t("zip_label")}*</label>
                               <input
                                 type="text"
@@ -336,6 +385,53 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                 placeholder={t("zip_placeholder")}
                               />
                             </div>
+                            <h4 className="checkout-title">
+                              {t("reservation_datetime_title")}
+                            </h4>
+                            <p className="checkout-description small">
+                              {t("reservation_datetime_description")}
+                            </p>
+                            <Col md={6} className="space-mb--20">
+                              <label>{t("reservation_date_label")}*</label>
+                              <input
+                                type="date"
+                                value={reservationDate}
+                                onChange={(e) =>
+                                  setReservationDate(e.target.value)
+                                }
+                                min={new Date().toISOString().split("T")[0]}
+                              />
+                            </Col>
+                            {/* Reservation Time */}
+                            <Col md={6} className="space-mb--20">
+                              <label>{t("reservation_time_label")}*</label>
+                              <select
+                                className="form-control"
+                                style={{
+                                  border: "1px solid rgb(145, 145, 145)",                                  
+                                  height: "45px", // to match typical input height
+                                  padding: "0.375rem 0.75rem",
+                                }}
+                                value={reservationTime}
+                                onChange={(e) =>
+                                  setReservationTime(e.target.value)
+                                }
+                              >
+                                {Array.from(
+                                  { length: 11 },
+                                  (_, i) => 9 + i
+                                ).map((hour) =>
+                                  ["00", "15", "30", "45"].map((min) => {
+                                    const time = `${hour.toString().padStart(2, "0")}:${min}`;
+                                    return (
+                                      <option key={time} value={time}>
+                                        {time}
+                                      </option>
+                                    );
+                                  })
+                                )}
+                              </select>
+                            </Col>
                           </div>
                         </div>
                       </div>
@@ -418,21 +514,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                             <h4 className="checkout-title">
                               {t("payment_method")}
                             </h4>
-                            <div className="checkout-payment-method">
-                              {/* <div className="single-method">
-                                <input
-                                  type="radio"
-                                  id="payment_check"
-                                  name="payment-method"                                  
-                                  value="payment_check"
-                                  onChange={(e) =>
-                                    setSelectedPaymentMethod(e.target.value)
-                                  }
-                                />
-                                <label htmlFor="payment_check">
-                                  {t("payment_check")}
-                                </label>
-                              </div> */}
+                            <div className="checkout-payment-method">                              
                               <div className="single-method">
                                 <input
                                   type="radio"
@@ -474,33 +556,26 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                 <label htmlFor="payment_paypal">
                                   {t("payment_paypal")}
                                 </label>
-                              </div>
-                              {/* <div className="single-method">
-                                <input
-                                  type="radio"
-                                  id="payment_payoneer"
-                                  name="payment-method"
-                                  value="payment_payoneer"                                 
-                                />
-                                <label htmlFor="payment_payoneer">
-                                  {t("payment_payoneer")}
-                                </label>
-                              </div> */}
+                              </div>                             
                               <div className="single-method">
-                                <input 
-                                  type="checkbox" 
-                                  id="accept_terms" 
+                                <input
+                                  type="checkbox"
+                                  id="accept_terms"
                                   checked={acceptedTerms}
                                   onChange={(e) =>
                                     setAcceptedTerms(e.target.checked)
                                   }
-                                  />
+                                />
                                 <label htmlFor="accept_terms">
                                   {t("accept_terms_label")}
                                 </label>
                               </div>
                             </div>
-                            <button type="button" onClick={handlePlaceOrder} className="lezada-button lezada-button--medium space-mt--20">
+                            <button
+                              type="button"
+                              onClick={handlePlaceOrder}
+                              className="lezada-button lezada-button--medium space-mt--20"
+                            >
                               {t("place_order")}
                             </button>
                           </div>
@@ -536,13 +611,17 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       </div>
       {showPayPalModal && (
         <div className="paypal-modal-overlay">
-          <div className="paypal-modal-content">            
-            <PayPalPayment  amount={
-          currentLanguage === "mk"
-            ? (cartTotalPrice / conversionRateMKDToEUR).toFixed(2) // convert MKD to EUR
-            : cartTotalPrice.toFixed(2) // already in EUR
-          }  
-        currency={currency} onSuccess={handlePayPalSuccess} onClose={handleClose} />            
+          <div className="paypal-modal-content">
+            <PayPalPayment
+              amount={
+                currentLanguage === "mk"
+                  ? (cartTotalPrice / conversionRateMKDToEUR).toFixed(2) // convert MKD to EUR
+                  : cartTotalPrice.toFixed(2) // already in EUR
+              }
+              currency={currency}
+              onSuccess={handlePayPalSuccess}
+              onClose={handleClose}
+            />
           </div>
         </div>
       )}
@@ -556,12 +635,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteAllFromCart: (addToast, t) => {
       dispatch(deleteAllFromCart(addToast, t));
-    }
+    },
   };
 };
 

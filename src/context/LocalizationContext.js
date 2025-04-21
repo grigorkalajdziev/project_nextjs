@@ -394,6 +394,12 @@ const translations = {
     cardNumber: "Invalid card number.",
     invalid_expiration: "Invalid expiration date. Use MM/YY format and ensure the card is not expired.",
     invalid_cvc: "Invalid CVC. It should be 3 or 4 digits.",
+    reservation_datetime_title: "Reservation",
+    reservation_datetime_description: "Please book an appointment for your service. We will contact you to confirm your reservation.",
+    reservation_date_label: "Date",
+    reservation_time_label: "Time",
+    date_of_reservation: "Reservation",
+    time_of_reservation: "Time",
   },
   mk: {
     english: "Англиски",
@@ -782,6 +788,12 @@ const translations = {
     cardNumber: "Невалиден број на картичка.",
     invalid_expiration: "Невалиден датум на истекување. Користете формат ММ/ГГ и осигурајте се дека картичката не е истечена.",
     invalid_cvc: "Невалиден CVC. Треба да биде 3 или 4 цифри.",
+    reservation_datetime_title: "Резервирајте термин",
+    reservation_date_label: "Датум",
+    reservation_time_label: "Време",
+    reservation_datetime_description: "Ве молиме, резервирајте термин за вашата услуга. Ние ќе ве контактираме за да ја потврдиме вашата резервација.",
+    date_of_reservation: "Резервација",
+    time_of_reservation: "Време",
     }
 };
 
