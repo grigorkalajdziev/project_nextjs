@@ -5,15 +5,13 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebookF } from "react-icons/fa";
 import { auth, registerUser, registerGoogleUser } from "../api/register";
 import {
   setPersistence,
   browserSessionPersistence,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup,
-  FacebookAuthProvider,
+  signInWithPopup,  
 } from "firebase/auth";
 import { useToasts } from "react-toast-notifications";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
@@ -48,7 +46,6 @@ const LoginRegister = () => {
 
   // State for social login buttons
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [facebookLoading, setFacebookLoading] = useState(false);
 
   // --- Validation Functions ---
   // Login validations
@@ -238,6 +235,11 @@ const LoginRegister = () => {
         });
       }
 
+      addToast(t("login_success"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
+
       setTimeout(() => {
         window.location.href = "/other/my-account";
       }, 2000);
@@ -246,26 +248,7 @@ const LoginRegister = () => {
     } finally {
       setGoogleLoading(false);
     }
-  };
-
-  const handleFacebookSignIn = async () => {
-    setFacebookLoading(true);
-    const provider = new FacebookAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-      addToast(t("login_success"), {
-        appearance: "success",
-        autoDismiss: true,
-      });
-      setTimeout(() => {
-        window.location.href = "/other/my-account";
-      }, 2000);
-    } catch (err) {
-      addToast(err.message, { appearance: "error", autoDismiss: true });
-    } finally {
-      setFacebookLoading(false);
-    }
-  };
+  };  
 
   // --- Forgot Password Handler ---
   const handleForgotPassword = async () => {
@@ -477,31 +460,7 @@ const LoginRegister = () => {
                               {t("continue_with_google")}
                             </>
                           )}
-                        </button>
-
-                        {/* <button
-                          onClick={handleFacebookSignIn}
-                          className="lezada-button lezada-button--small w-100 d-flex align-items-center justify-content-center"
-                          disabled={facebookLoading}
-                        >
-                          {facebookLoading ? (
-                            <Spinner
-                              as="span"
-                              animation="border"
-                              size="sm"
-                              role="status"
-                              aria-hidden="true"
-                            />
-                          ) : (
-                            <>
-                              <FaFacebookF
-                                size={24}
-                                style={{ marginRight: "10px" }}
-                              />
-                              {t("continue_with_facebook")}
-                            </>
-                          )}
-                        </button> */}
+                        </button>                       
                       </Col>
                     </Row>
                   </Row>

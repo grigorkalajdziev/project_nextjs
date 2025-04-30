@@ -52,7 +52,7 @@ const ReservationEmailInternal = ({
             <Text>${parseFloat(total).toFixed(2)}</Text>
           </Section>
 
-          <Text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '20px' }}>Products:</Text>
+          <Text style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '20px' }}>Services:</Text>
           <Section>
             {products.map((product, index) => (
               <Text key={index} style={{ fontSize: '14px' }}>

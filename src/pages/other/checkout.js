@@ -14,7 +14,6 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useRouter } from "next/router";
 import { deleteAllFromCart } from "../../redux/actions/cartActions";
-import PayPalPayment from "../../components/Payments/PayPalPayment";
 
 const formatDate = (date) => {
   const year = date.getFullYear();
@@ -31,8 +30,6 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
   const router = useRouter();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [showPayPalModal, setShowPayPalModal] = useState(false);
-
   const [reservationDate, setReservationDate] = useState(today);
   const [reservationTime, setReservationTime] = useState("09:00");
 
@@ -85,12 +82,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         autoDismiss: true,
       });
       return;
-    }
-
-    if (selectedPaymentMethod === "payment_paypal") {
-      setShowPayPalModal(true);
-      return;
-    }
+    }   
 
     const orderData = {
       orderNumber: generateOrderNumber(8),
@@ -131,7 +123,10 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         orderID: orderData.orderNumber,
         reservationDate: orderData.reservationDate,
         reservationTime: orderData.reservationTime,
-        customerName: auth.currentUser.displayName || "Customer", // fetch customer's name
+        customerName: (billingInfo.firstName && billingInfo.lastName) 
+        ? `${billingInfo.firstName} ${billingInfo.lastName}` 
+        : auth.currentUser.email, 
+        language: currentLanguage,
       };
   
       // Send the email
@@ -162,7 +157,8 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         customerEmail: auth.currentUser.email,
         paymentMethod: orderData.paymentMethod,
         total: orderData.total,
-        products: orderData.products, // The list of products from the order
+        products: orderData.products,
+        language: currentLanguage,
       };
       
       const responseKika = await fetch("/api/send-reservation", {
@@ -193,20 +189,6 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       console.error("Error placing order:", error);
       addToast(error.message, { appearance: "error", autoDismiss: true });
     }
-  };
-
-  const handlePayPalSuccess = async (details) => {
-    // You can process the order data here with PayPal details
-    // For example, you could store the transaction ID and order details in your database
-    addToast(t("order_placed_successfully"), {
-      appearance: "success",
-      autoDismiss: true,
-    });
-
-    // Now clear the cart and redirect
-    deleteAllFromCart(addToast, t);
-    setShowPayPalModal(false);
-    router.push("/other/my-account");
   };
 
   useEffect(() => {
@@ -244,10 +226,6 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
 
     fetchBillingInfo();
   }, []);
-
-  const handleClose = () => {
-    setShowPayPalModal(false);
-  };
 
   return (
     <LayoutTwo>
@@ -545,20 +523,6 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                               </div>
                               <div className="single-method">
                                 <input
-                                  type="radio"
-                                  id="payment_paypal"
-                                  name="payment-method"
-                                  value="payment_paypal"
-                                  onChange={(e) =>
-                                    setSelectedPaymentMethod(e.target.value)
-                                  }
-                                />
-                                <label htmlFor="payment_paypal">
-                                  {t("payment_paypal")}
-                                </label>
-                              </div>                             
-                              <div className="single-method">
-                                <input
                                   type="checkbox"
                                   id="accept_terms"
                                   checked={acceptedTerms}
@@ -608,23 +572,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
             </Row>
           )}
         </Container>
-      </div>
-      {showPayPalModal && (
-        <div className="paypal-modal-overlay">
-          <div className="paypal-modal-content">
-            <PayPalPayment
-              amount={
-                currentLanguage === "mk"
-                  ? (cartTotalPrice / conversionRateMKDToEUR).toFixed(2) // convert MKD to EUR
-                  : cartTotalPrice.toFixed(2) // already in EUR
-              }
-              currency={currency}
-              onSuccess={handlePayPalSuccess}
-              onClose={handleClose}
-            />
-          </div>
-        </div>
-      )}
+      </div>     
     </LayoutTwo>
   );
 };
