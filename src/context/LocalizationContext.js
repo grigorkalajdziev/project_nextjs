@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Card } from 'react-bootstrap';
 
 const fonts = {
   en: "'Libre Baskerville', cursive", 
@@ -277,7 +276,7 @@ const translations = {
     subtotal: "Subtotal:",
     view_cart: "View Cart",
     checkout: "Checkout",
-    free_shipping_text: "Free Shipping on All Orders Over €50!",
+    free_shipping_text: "Discount on All Orders Over € 50!",
     no_items_found_in_cart: "No items found in cart",
     wishlist_title: "Wishlist",
     view_wishlist: "View Wishlist",
@@ -400,6 +399,10 @@ const translations = {
     reservation_time_label: "Time",
     date_of_reservation: "Reservation",
     time_of_reservation: "Time",
+    pending: "Pending",
+    confirmed: "Confirmed",
+    completed: "Completed",
+    cancelled: "Canceled"
   },
   mk: {
     english: "Англиски",
@@ -671,7 +674,7 @@ const translations = {
     subtotal: "Вкупно:",
     view_cart: "Погледни кошничка",
     checkout: "Плаќање",
-    free_shipping_text: "Бесплатна испорака за нарачки над 2999 денари!",
+    free_shipping_text: "Попуст за нарачки над 2999 денари!",
     no_items_found_in_cart: "Нема услуги во кошничката",
     wishlist_title: "Омилени",
     view_wishlist: "Преглед на омилени услуги",
@@ -794,6 +797,10 @@ const translations = {
     reservation_datetime_description: "Ве молиме, резервирајте термин за вашата услуга. Ние ќе ве контактираме за да ја потврдиме вашата резервација.",
     date_of_reservation: "Резервација",
     time_of_reservation: "Време",
+    pending: "На чекање",
+    confirmed: "Потврдено",
+    completed: "Завршено",
+    cancelled: "Откажано"
     }
 };
 

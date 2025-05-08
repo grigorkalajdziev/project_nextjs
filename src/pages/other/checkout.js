@@ -82,23 +82,31 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         autoDismiss: true,
       });
       return;
-    }   
+    }
+
+    const totalMKD = cartItems
+    .reduce((total, product) => {
+      const priceMKD = parseFloat(product.price["mk"] || "0");
+      const discounted = getDiscountPrice(priceMKD, product.discount);
+      return total + discounted * product.quantity;
+    }, 0)
+    .toFixed(2);
 
     const orderData = {
       orderNumber: generateOrderNumber(8),
       date: formatDate(new Date()),
       status: "pending",
       paymentMethod: selectedPaymentMethod,
-      total: cartItems
-        .reduce((total, product) => {
-          const productPrice = product.price[currentLanguage] || "00.00";
-          const discountedPrice = getDiscountPrice(
-            productPrice,
-            product.discount
-          );
-          return total + discountedPrice * product.quantity;
-        }, 0)
-        .toFixed(2),
+      total: totalMKD,
+        // .reduce((total, product) => {
+        //   const productPrice = product.price[currentLanguage] || "00.00";
+        //   const discountedPrice = getDiscountPrice(
+        //     productPrice,
+        //     product.discount
+        //   );
+        //   return total + discountedPrice * product.quantity;
+        // }, 0)
+        // .toFixed(2),
       products: cartItems.map((product) => ({
         id: product.id,
         name: product.name[currentLanguage] || product.name["en"],
@@ -107,7 +115,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         discount: product.discount,
       })),
       reservationDate: reservationDate,
-      reservationTime: reservationTime,
+      reservationTime: reservationTime,      
     };
 
     try {
@@ -169,7 +177,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         body: JSON.stringify(emailToKikaData),
       });
 
-      console.log("Sending email to Kika:", emailToKikaData); // Log the data being sent to Kika
+     // console.log("Sending email to Kika:", emailToKikaData); // Log the data being sent to Kika
       
       if (!responseKika.ok) {
         console.error("Failed to send email to Kika");
@@ -182,7 +190,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         autoDismiss: true,
       });
 
-      deleteAllFromCart(addToast, t);
+     // deleteAllFromCart(addToast, t);
 
       router.push("/other/my-account");
     } catch (error) {

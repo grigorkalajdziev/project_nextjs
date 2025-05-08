@@ -15,7 +15,7 @@ import { useLocalization } from "../../context/LocalizationContext";
 import { useToasts } from "react-toast-notifications";
 
 const MyAccount = () => {
-  const { t } = useLocalization();
+  const { t, currentLanguage } = useLocalization();
   const { addToast } = useToasts();
   const router = useRouter();
   const [user, setUser] = useState(null);
@@ -44,6 +44,22 @@ const MyAccount = () => {
   const [cardNumber, setCardNumber] = useState("");
   const [expiration, setExpiration] = useState("");
   const [cvc, setCvc] = useState("");  
+
+  const conversionRate = 61.5;
+
+  const formatTotal = (mkdTotal) => {
+    const mkd = parseFloat(mkdTotal) || 0;
+    if (currentLanguage === "mk") {
+      return `${mkd.toFixed(2)} ден.`;
+    }
+    const eur = (mkd / conversionRate).toFixed(2);
+    return `€ ${eur}`;
+  };
+
+  const grandTotalMKD = orders.reduce(
+    (sum, order) => sum + (parseFloat(order.total) || 0),
+    0
+  );
 
   const db = getDatabase();
 
@@ -464,24 +480,21 @@ const MyAccount = () => {
                               <td>
                                 {order.status === "pending" ? (
                                   <select
-                                    value={order.status}
-                                    onChange={(e) =>
-                                      updateOrder(
-                                        order.id,
-                                        user.uid,
-                                        e.target.value
-                                      )
-                                    }
-                                  >
-                                    <option value="pending">Pending</option>
-                                    <option value="shipped">Shipped</option>
-                                    <option value="delivered">Delivered</option>
-                                  </select>
+                                  value={order.status}
+                                  onChange={(e) =>
+                                    updateOrder(order.id, e.target.value)
+                                  }
+                                >
+                                  <option value="pending">{t("pending")}</option>
+                                  <option value="confirmed">{t("confirmed")}</option>
+                                  <option value="completed">{t("completed")}</option>
+                                  <option value="cancelled">{t("cancelled")}</option>
+                                </select>
                                 ) : (
                                   order.status
                                 )}
                               </td>
-                              <td>{order.total}</td>
+                              <td>{formatTotal(order.total)}</td>
                               <td>
                                 <a href="#" className="check-btn sqr-btn">
                                   {t("view")}
@@ -503,6 +516,15 @@ const MyAccount = () => {
                             </tr>
                           ))}
                         </tbody>
+                        <tfoot>
+                        <tr>
+                          <td colSpan={5} className="text-end font-weight-bold">
+                            {t("grand_total_label")}
+                          </td>
+                          <td>{formatTotal(grandTotalMKD)}</td>
+                          <td />
+                        </tr>
+                      </tfoot>
                       </table>
                     </div>
                   )}
