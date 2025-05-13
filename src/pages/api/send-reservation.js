@@ -20,9 +20,14 @@ export default async function handler(req, res) {
     reservationTime,
     customerName,
     customerEmail,
-    paymentMethod,
+    paymentText,
     total,
     products,
+    customerPhone,
+    customerAddress,
+    customerState,
+    customerCity,
+    customerPostalCode,
     language = 'en', // exactly the same prop name as your subscribe endpoint
   } = req.body;
  
@@ -41,9 +46,14 @@ export default async function handler(req, res) {
       reservationTime={reservationTime}
       customerName={customerName}
       customerEmail={customerEmail}
-      paymentMethod={paymentMethod}
+      paymentMethod={paymentText}
       total={total}
       products={products}
+      customerPhone={customerPhone}  
+      customerAddress={customerAddress}  
+      customerState={customerState}  
+      customerCity={customerCity}  
+      customerPostalCode={customerPostalCode}  
     />
   );
 

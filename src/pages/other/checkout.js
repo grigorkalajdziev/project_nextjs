@@ -87,23 +87,15 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       const discounted = getDiscountPrice(priceMKD, product.discount);
       return total + discounted * product.quantity;
     }, 0)
-    .toFixed(2);
+    .toFixed(2);    
 
     const orderData = {
       orderNumber: generateOrderNumber(8),
       date: formatDate(new Date()),
       status: "pending",
       paymentMethod: selectedPaymentMethod,
-      total: totalMKD,
-        // .reduce((total, product) => {
-        //   const productPrice = product.price[currentLanguage] || "00.00";
-        //   const discountedPrice = getDiscountPrice(
-        //     productPrice,
-        //     product.discount
-        //   );
-        //   return total + discountedPrice * product.quantity;
-        // }, 0)
-        // .toFixed(2),
+      paymentText: t(selectedPaymentMethod),
+      total: totalMKD,      
       products: cartItems.map((product) => ({
         id: product.id,
         name: product.name[currentLanguage] || product.name["en"],
@@ -113,6 +105,13 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       })),
       reservationDate: reservationDate,
       reservationTime: reservationTime,      
+      customer: {
+        phone: billingInfo.phone || "",  
+        address: billingInfo.address1 || "",  
+        state: billingInfo.state || "",  
+        city: billingInfo.city || "",  
+        postalCode: billingInfo.zip || "",  
+    },
     };
 
     try {
@@ -132,6 +131,11 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         ? `${billingInfo.firstName} ${billingInfo.lastName}` 
         : auth.currentUser.email, 
         language: currentLanguage,
+        customerPhone: orderData.customer.phone,  
+        customerAddress: orderData.customer.address1,  // Send customer address
+        customerState: orderData.customer.state,  // Send customer state
+        customerCity: orderData.customer.city,  // Send customer city
+        customerPostalCode: orderData.customer.zip,
       };
   
       // Send the email
@@ -149,6 +153,8 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         console.log("Reservation email sent to customer");
       }
 
+      const translatedPaymentMethod = t(orderData.paymentMethod);
+
       const emailToKikaData = {
         to: ["grigorkalajdziev@gmail.com", "makeupbykika@hotmail.com"], // Kika's email addresses
         from: "reservation@kikamakeupandbeautyacademy.com", // Your company email
@@ -161,8 +167,14 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         : auth.currentUser.email, 
         customerEmail: auth.currentUser.email,
         paymentMethod: orderData.paymentMethod,
+        paymentText: translatedPaymentMethod,
         total: orderData.total,
         products: orderData.products,
+        customerPhone: orderData.customer.phone,  // Send Kika the customer phone
+        customerAddress: orderData.customer.address,  // Send Kika the customer address
+        customerState: orderData.customer.state,  // Send Kika the customer state
+        customerCity: orderData.customer.city,  // Send Kika the customer city
+        customerPostalCode: orderData.customer.postalCode,
         language: currentLanguage,
       };
       

@@ -16,9 +16,14 @@ export const ReservationEmailInternal_MK = ({
   reservationTime,
   customerName,
   paymentMethod,
-  total,    // total in MKD
-  products, // array with price in MKD
+  total,    
+  products, 
   customerEmail,
+  customerPhone,  
+  customerAddress,  
+  customerState,  
+  customerCity,  
+  customerPostalCode, 
 }) => {
   // Helper to format MKD values
   const formatMKD = (value) => `${parseFloat(value).toFixed(2)} ден.`;
@@ -46,7 +51,7 @@ export const ReservationEmailInternal_MK = ({
 
           {/* Order Meta */}
           <Section>
-            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>ID на нарачка:</Text>
+            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>ИД на нарачка:</Text>
             <Text>{orderID}</Text>
           </Section>
           <Section>
@@ -56,6 +61,26 @@ export const ReservationEmailInternal_MK = ({
           <Section>
             <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Е-пошта на клиент:</Text>
             <Text>{customerEmail}</Text>
+          </Section>
+          <Section>
+            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Телефон на клиент:</Text>
+            <Text>{customerPhone}</Text>  
+          </Section>
+          <Section>
+            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Адреса на клиент:</Text>
+            <Text>{customerAddress}</Text> 
+          </Section>
+          <Section>
+            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Држава на клиент:</Text>
+            <Text>{customerState}</Text> 
+          </Section>
+          <Section>
+            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Град на клиент:</Text>
+            <Text>{customerCity}</Text> 
+          </Section>
+          <Section>
+            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Поштенски код на клиент:</Text>
+            <Text>{customerPostalCode}</Text> 
           </Section>
           <Section>
             <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Датум на резервација:</Text>
