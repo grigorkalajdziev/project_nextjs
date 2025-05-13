@@ -33,9 +33,6 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
   const [reservationDate, setReservationDate] = useState(today);
   const [reservationTime, setReservationTime] = useState("09:00");
 
-  const conversionRateMKDToEUR = 61.5;
-  const currency = "EUR";
-
   const [billingInfo, setBillingInfo] = useState({
     firstName: "",
     lastName: "",

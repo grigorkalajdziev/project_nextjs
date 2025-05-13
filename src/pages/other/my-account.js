@@ -486,8 +486,7 @@ const MyAccount = () => {
                                   }
                                 >
                                   <option value="pending">{t("pending")}</option>
-                                  <option value="confirmed">{t("confirmed")}</option>
-                                  <option value="completed">{t("completed")}</option>
+                                  <option value="confirmed">{t("confirmed")}</option>                                  
                                   <option value="cancelled">{t("cancelled")}</option>
                                 </select>
                                 ) : (
@@ -583,7 +582,7 @@ const MyAccount = () => {
                           {orders.map((order, index) => (
                             <tr key={index}>
                               <td>{order.orderNumber}</td>
-                              <td>{order.paymentMethod}</td>
+                              <td>{t(order.paymentMethod)}</td>
                             </tr>
                           ))}
                         </tbody>
