@@ -121,6 +121,8 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       const newOrderRef = push(ordersRef);
       await set(newOrderRef, orderData);
 
+       const translatedPaymentMethod = t(orderData.paymentMethod);
+
       const emailData = {
         to: auth.currentUser.email,
         from: "reservation@kikamakeupandbeautyacademy.com",
@@ -130,12 +132,17 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         customerName: (billingInfo.firstName && billingInfo.lastName) 
         ? `${billingInfo.firstName} ${billingInfo.lastName}` 
         : auth.currentUser.email, 
-        language: currentLanguage,
+        customerEmail: auth.currentUser.email,
+        paymentMethod: orderData.paymentMethod,
+        paymentText: translatedPaymentMethod,
+        total: orderData.total,
+        products: orderData.products,
         customerPhone: orderData.customer.phone,  
-        customerAddress: orderData.customer.address1,  // Send customer address
-        customerState: orderData.customer.state,  // Send customer state
-        customerCity: orderData.customer.city,  // Send customer city
-        customerPostalCode: orderData.customer.zip,
+        customerAddress: orderData.customer.address,  
+        customerState: orderData.customer.state,  
+        customerCity: orderData.customer.city,  
+        customerPostalCode: orderData.customer.postalCode,
+        language: currentLanguage,
       };
   
       // Send the email
@@ -151,9 +158,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         console.error("Failed to send reservation email to customer");
       } else {
         console.log("Reservation email sent to customer");
-      }
-
-      const translatedPaymentMethod = t(orderData.paymentMethod);
+      }     
 
       const emailToKikaData = {
         to: ["grigorkalajdziev@gmail.com", "makeupbykika@hotmail.com"], // Kika's email addresses

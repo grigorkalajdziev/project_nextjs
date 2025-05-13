@@ -47,9 +47,7 @@ export const ReservationEmailInternal_MK = ({
           </Text>
           <Text style={{ fontSize: '16px', lineHeight: '24px', marginBottom: '20px' }}>
             Направена е нова резервација. Деталите се прикажани подолу:
-          </Text>
-
-          {/* Order Meta */}
+          </Text>         
           <Section>
             <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>ИД на нарачка:</Text>
             <Text>{orderID}</Text>
@@ -59,27 +57,27 @@ export const ReservationEmailInternal_MK = ({
             <Text>{customerName}</Text>
           </Section>
           <Section>
-            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Е-пошта на клиент:</Text>
+            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Е-пошта:</Text>
             <Text>{customerEmail}</Text>
           </Section>
           <Section>
-            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Телефон на клиент:</Text>
+            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Телефон:</Text>
             <Text>{customerPhone}</Text>  
           </Section>
           <Section>
-            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Адреса на клиент:</Text>
+            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Адреса:</Text>
             <Text>{customerAddress}</Text> 
           </Section>
           <Section>
-            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Држава на клиент:</Text>
+            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Држава:</Text>
             <Text>{customerState}</Text> 
           </Section>
           <Section>
-            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Град на клиент:</Text>
+            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Град:</Text>
             <Text>{customerCity}</Text> 
           </Section>
           <Section>
-            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Поштенски код на клиент:</Text>
+            <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Поштенски код:</Text>
             <Text>{customerPostalCode}</Text> 
           </Section>
           <Section>

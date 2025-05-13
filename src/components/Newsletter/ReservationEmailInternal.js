@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Body,
   Container,
@@ -16,7 +15,7 @@ export const ReservationEmailInternal = ({
   reservationTime,
   customerName,
   paymentMethod,
-  products, // array with price in EUR
+  products, 
   customerEmail,
   customerPhone,
   customerAddress,

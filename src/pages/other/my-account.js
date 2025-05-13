@@ -482,7 +482,7 @@ const MyAccount = () => {
                                   <select
                                   value={order.status}
                                   onChange={(e) =>
-                                    updateOrder(order.id, e.target.value)
+                                    updateOrder(order.id, user.uid, e.target.value)
                                   }
                                 >
                                   <option value="pending">{t("pending")}</option>

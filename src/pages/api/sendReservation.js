@@ -1,6 +1,4 @@
-// pages/api/resend-reservation.js
 import { Resend } from "resend";
-import React from "react";
 import ReactDOMServer from "react-dom/server";
 import ReservationEmail from "../../components/Newsletter/ReservationEmail";
 import ReservationEmail_MK from "../../components/Newsletter/ReservationEmail_MK";
@@ -12,6 +10,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
+  console.log(">> /api/sendReservation payload:", req.body);
+
   const {
     to,
     from,
@@ -19,6 +19,15 @@ export default async function handler(req, res) {
     reservationDate,
     reservationTime,
     customerName,
+    customerEmail,
+    paymentText,
+    total,
+    products,
+    customerPhone,
+    customerAddress,
+    customerState,
+    customerCity,
+    customerPostalCode,
     language = "en",
   } = req.body;
 
@@ -41,6 +50,15 @@ export default async function handler(req, res) {
       reservationDate={reservationDate}
       reservationTime={reservationTime}
       customerName={customerName}
+      customerEmail={customerEmail}
+      paymentMethod={paymentText}
+      total={total}
+      products={products}
+      customerPhone={customerPhone}  
+      customerAddress={customerAddress}  
+      customerState={customerState}  
+      customerCity={customerCity}  
+      customerPostalCode={customerPostalCode} 
     />
   );
 
