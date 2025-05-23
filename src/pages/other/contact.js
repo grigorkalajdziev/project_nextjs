@@ -14,7 +14,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import EmailTemplate from "../../components/Newsletter/EmailTemplate";
 
 const Contact = () => {
-  const { t } = useContext(LocalizationContext);
+  const { t, currentLanguage  } = useContext(LocalizationContext);
   const { addToast } = useToasts();
 
   const [formData, setFormData] = useState({
@@ -134,6 +134,7 @@ const Contact = () => {
         message: formData.message,
         name: formData.name,
         email: formData.email, 
+        currentLanguage
       }),
     });
   
