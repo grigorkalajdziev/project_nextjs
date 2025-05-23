@@ -15,6 +15,18 @@ import { useLocalization } from "../../context/LocalizationContext";
 import { useRouter } from "next/router";
 import { deleteAllFromCart } from "../../redux/actions/cartActions";
 
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import {
+  LocalizationProvider,
+  DatePicker,
+  TimePicker,
+} from "@mui/x-date-pickers";
+import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
+import TextField from "@mui/material/TextField";
+
+import enLocale from "date-fns/locale/en-US";
+import mkLocale from "date-fns/locale/mk";
+
 const formatDate = (date) => {
   const year = date.getFullYear();
   const month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -30,8 +42,13 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
   const router = useRouter();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [reservationDate, setReservationDate] = useState(today);
-  const [reservationTime, setReservationTime] = useState("09:00");
+
+  const [reservationDateTime, setReservationDateTime] = useState(new Date());
+
+  const localeMap = {
+    en: enLocale,
+    mk: mkLocale,
+  };
 
   const [billingInfo, setBillingInfo] = useState({
     firstName: "",
@@ -82,12 +99,15 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
     }
 
     const totalMKD = cartItems
-    .reduce((total, product) => {
-      const priceMKD = parseFloat(product.price["mk"] || "0");
-      const discounted = getDiscountPrice(priceMKD, product.discount);
-      return total + discounted * product.quantity;
-    }, 0)
-    .toFixed(2);    
+      .reduce((total, product) => {
+        const priceMKD = parseFloat(product.price["mk"] || "0");
+        const discounted = getDiscountPrice(priceMKD, product.discount);
+        return total + discounted * product.quantity;
+      }, 0)
+      .toFixed(2);
+
+    const reservationDate = reservationDateTime.toISOString().split("T")[0];
+    const reservationTime = reservationDateTime.toTimeString().slice(0, 5);
 
     const orderData = {
       orderNumber: generateOrderNumber(8),
@@ -95,7 +115,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       status: "pending",
       paymentMethod: selectedPaymentMethod,
       paymentText: t(selectedPaymentMethod),
-      total: totalMKD,      
+      total: totalMKD,
       products: cartItems.map((product) => ({
         id: product.id,
         name: product.name[currentLanguage] || product.name["en"],
@@ -104,14 +124,14 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         discount: product.discount,
       })),
       reservationDate: reservationDate,
-      reservationTime: reservationTime,      
+      reservationTime: reservationTime,
       customer: {
-        phone: billingInfo.phone || "",  
-        address: billingInfo.address1 || "",  
-        state: billingInfo.state || "",  
-        city: billingInfo.city || "",  
-        postalCode: billingInfo.zip || "",  
-    },
+        phone: billingInfo.phone || "",
+        address: billingInfo.address1 || "",
+        state: billingInfo.state || "",
+        city: billingInfo.city || "",
+        postalCode: billingInfo.zip || "",
+      },
     };
 
     try {
@@ -121,7 +141,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       const newOrderRef = push(ordersRef);
       await set(newOrderRef, orderData);
 
-       const translatedPaymentMethod = t(orderData.paymentMethod);
+      const translatedPaymentMethod = t(orderData.paymentMethod);
 
       const emailData = {
         to: auth.currentUser.email,
@@ -129,22 +149,23 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         orderID: orderData.orderNumber,
         reservationDate: orderData.reservationDate,
         reservationTime: orderData.reservationTime,
-        customerName: (billingInfo.firstName && billingInfo.lastName) 
-        ? `${billingInfo.firstName} ${billingInfo.lastName}` 
-        : auth.currentUser.email, 
+        customerName:
+          billingInfo.firstName && billingInfo.lastName
+            ? `${billingInfo.firstName} ${billingInfo.lastName}`
+            : auth.currentUser.email,
         customerEmail: auth.currentUser.email,
         paymentMethod: orderData.paymentMethod,
         paymentText: translatedPaymentMethod,
         total: orderData.total,
         products: orderData.products,
-        customerPhone: orderData.customer.phone,  
-        customerAddress: orderData.customer.address,  
-        customerState: orderData.customer.state,  
-        customerCity: orderData.customer.city,  
+        customerPhone: orderData.customer.phone,
+        customerAddress: orderData.customer.address,
+        customerState: orderData.customer.state,
+        customerCity: orderData.customer.city,
         customerPostalCode: orderData.customer.postalCode,
         language: currentLanguage,
       };
-  
+
       // Send the email
       const response = await fetch("/api/sendReservation", {
         method: "POST",
@@ -158,7 +179,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         console.error("Failed to send reservation email to customer");
       } else {
         console.log("Reservation email sent to customer");
-      }     
+      }
 
       const emailToKikaData = {
         to: ["grigorkalajdziev@gmail.com", "makeupbykika@hotmail.com"], // Kika's email addresses
@@ -167,22 +188,23 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         orderID: orderData.orderNumber,
         reservationDate: orderData.reservationDate,
         reservationTime: orderData.reservationTime,
-        customerName: (billingInfo.firstName && billingInfo.lastName) 
-        ? `${billingInfo.firstName} ${billingInfo.lastName}` 
-        : auth.currentUser.email, 
+        customerName:
+          billingInfo.firstName && billingInfo.lastName
+            ? `${billingInfo.firstName} ${billingInfo.lastName}`
+            : auth.currentUser.email,
         customerEmail: auth.currentUser.email,
         paymentMethod: orderData.paymentMethod,
         paymentText: translatedPaymentMethod,
         total: orderData.total,
         products: orderData.products,
-        customerPhone: orderData.customer.phone,  // Send Kika the customer phone
-        customerAddress: orderData.customer.address,  // Send Kika the customer address
-        customerState: orderData.customer.state,  // Send Kika the customer state
-        customerCity: orderData.customer.city,  // Send Kika the customer city
+        customerPhone: orderData.customer.phone, // Send Kika the customer phone
+        customerAddress: orderData.customer.address, // Send Kika the customer address
+        customerState: orderData.customer.state, // Send Kika the customer state
+        customerCity: orderData.customer.city, // Send Kika the customer city
         customerPostalCode: orderData.customer.postalCode,
         language: currentLanguage,
       };
-      
+
       const responseKika = await fetch("/api/send-reservation", {
         method: "POST",
         headers: {
@@ -191,8 +213,8 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         body: JSON.stringify(emailToKikaData),
       });
 
-     // console.log("Sending email to Kika:", emailToKikaData); // Log the data being sent to Kika
-      
+      // console.log("Sending email to Kika:", emailToKikaData); // Log the data being sent to Kika
+
       if (!responseKika.ok) {
         console.error("Failed to send email to Kika");
       } else {
@@ -204,7 +226,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         autoDismiss: true,
       });
 
-     // deleteAllFromCart(addToast, t);
+      // deleteAllFromCart(addToast, t);
 
       router.push("/other/my-account");
     } catch (error) {
@@ -385,53 +407,70 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                 placeholder={t("zip_placeholder")}
                               />
                             </div>
-                            <h4 className="checkout-title">
-                              {t("reservation_datetime_title")}
-                            </h4>
-                            <p className="checkout-description small">
-                              {t("reservation_datetime_description")}
-                            </p>
-                            <Col md={6} className="space-mb--20">
-                              <label>{t("reservation_date_label")}*</label>
-                              <input
-                                type="date"
-                                value={reservationDate}
-                                onChange={(e) =>
-                                  setReservationDate(e.target.value)
-                                }
-                                min={new Date().toISOString().split("T")[0]}
-                              />
-                            </Col>
-                            {/* Reservation Time */}
-                            <Col md={6} className="space-mb--20">
-                              <label>{t("reservation_time_label")}*</label>
-                              <select
-                                className="form-control"
-                                style={{
-                                  border: "1px solid rgb(145, 145, 145)",                                  
-                                  height: "45px", // to match typical input height
-                                  padding: "0.375rem 0.75rem",
-                                }}
-                                value={reservationTime}
-                                onChange={(e) =>
-                                  setReservationTime(e.target.value)
+                            {/* Reservation Title */}
+                            <div className="col-12 space-mb--20">
+                              <h4 className="checkout-title">
+                                {t("reservation_datetime_title")}
+                              </h4>
+                              <p className="checkout-description small">
+                                {t("reservation_datetime_description")}
+                              </p>
+                            </div>
+
+                            {/* Date Picker */}
+                            <div className="col-md-6 col-12 space-mb--20">
+                              <LocalizationProvider
+                                dateAdapter={AdapterDateFns}
+                                adapterLocale={
+                                  localeMap[currentLanguage] || enLocale
                                 }
                               >
-                                {Array.from(
-                                  { length: 11 },
-                                  (_, i) => 9 + i
-                                ).map((hour) =>
-                                  ["00", "15", "30", "45"].map((min) => {
-                                    const time = `${hour.toString().padStart(2, "0")}:${min}`;
-                                    return (
-                                      <option key={time} value={time}>
-                                        {time}
-                                      </option>
-                                    );
-                                  })
-                                )}
-                              </select>
-                            </Col>
+                                <DatePicker
+                                  label={t("reservation_date_label")}
+                                  value={reservationDateTime}
+                                  onChange={(date) => {
+                                    if (!date) return;
+                                    // preserve time portion
+                                    setReservationDateTime((prev) => {
+                                      const d = new Date(date);
+                                      d.setHours(
+                                        prev.getHours(),
+                                        prev.getMinutes()
+                                      );
+                                      return d;
+                                    });
+                                  }}
+                                  renderInput={(params) => (
+                                    <TextField {...params} fullWidth />
+                                  )}
+                                  minDate={new Date()}
+                                />
+                              </LocalizationProvider>
+                            </div>
+
+                            {/* Analog Time Picker */}
+                            <div className="col-md-6 col-12 space-mb--20">
+                              <LocalizationProvider
+                                dateAdapter={AdapterDateFns}
+                                adapterLocale={
+                                  localeMap[currentLanguage] || enLocale
+                                }
+                              >
+                                <MobileTimePicker
+                                    label={t("reservation_time_label")}
+                                    value={reservationDateTime}
+                                    onChange={(time) => {
+                                      if (!time) return;
+                                      setReservationDateTime(prev => {
+                                        const d = new Date(prev);
+                                        d.setHours(time.getHours(), time.getMinutes());
+                                        return d;
+                                      });
+                                    }}
+                                    renderInput={(params) => <TextField {...params} fullWidth />}
+                                  />
+                              </LocalizationProvider>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -514,7 +553,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                             <h4 className="checkout-title">
                               {t("payment_method")}
                             </h4>
-                            <div className="checkout-payment-method">                              
+                            <div className="checkout-payment-method">
                               <div className="single-method">
                                 <input
                                   type="radio"
@@ -594,7 +633,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
             </Row>
           )}
         </Container>
-      </div>     
+      </div>
     </LayoutTwo>
   );
 };
