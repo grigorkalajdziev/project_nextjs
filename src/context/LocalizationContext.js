@@ -402,7 +402,11 @@ const translations = {
     pending: "Pending",
     confirmed: "Confirmed",
     completed: "Completed",
-    cancelled: "Canceled"
+    cancelled: "Canceled",
+    choose_time: "Choose Time",
+    cancel: "Cancel",
+    ok: "OK",
+    choose_date: "Choose Date",
   },
   mk: {
     english: "Англиски",
@@ -800,7 +804,11 @@ const translations = {
     pending: "На чекање",
     confirmed: "Потврдено",
     completed: "Завршено",
-    cancelled: "Откажано"
+    cancelled: "Откажано",
+    choose_time: "Изберете време",
+    cancel: "Откажи",
+    ok: "Потврди",
+    choose_date: "Изберете датум",
     }
 };
 

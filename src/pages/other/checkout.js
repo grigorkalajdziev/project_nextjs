@@ -18,8 +18,7 @@ import { deleteAllFromCart } from "../../redux/actions/cartActions";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import {
   LocalizationProvider,
-  DatePicker,
-  TimePicker,
+  DatePicker,  
 } from "@mui/x-date-pickers";
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import TextField from "@mui/material/TextField";
@@ -428,6 +427,11 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                 <DatePicker
                                   label={t("reservation_date_label")}
                                   value={reservationDateTime}
+                                  localeText={{                                    
+                                    toolbarTitle: t('choose_date'),
+                                    cancelButtonLabel: t('cancel'),
+                                    okButtonLabel: t('ok'),
+                                  }}
                                   onChange={(date) => {
                                     if (!date) return;
                                     // preserve time portion
@@ -443,6 +447,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                   renderInput={(params) => (
                                     <TextField {...params} fullWidth />
                                   )}
+                                  slotProps={{ textField: { fullWidth: true } }}
                                   minDate={new Date()}
                                 />
                               </LocalizationProvider>
@@ -455,6 +460,11 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                 adapterLocale={
                                   localeMap[currentLanguage] || enLocale
                                 }
+                                localeText={{
+                                  timePickerToolbarTitle: t('choose_time'), 
+                                  cancelButtonLabel: t('cancel'),
+                                  okButtonLabel: t('ok'),
+                                }}
                               >
                                 <MobileTimePicker
                                     label={t("reservation_time_label")}
@@ -464,9 +474,10 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                       setReservationDateTime(prev => {
                                         const d = new Date(prev);
                                         d.setHours(time.getHours(), time.getMinutes());
-                                        return d;
-                                      });
+                                        return d;                                        
+                                      });                                      
                                     }}
+                                    slotProps={{ textField: { fullWidth: true } }}
                                     renderInput={(params) => <TextField {...params} fullWidth />}
                                   />
                               </LocalizationProvider>
