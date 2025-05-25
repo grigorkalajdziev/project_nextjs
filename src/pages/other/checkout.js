@@ -5,7 +5,7 @@ import { getDatabase, push, ref, get, set } from "firebase/database";
 import Link from "next/link";
 import { auth } from "../api/register";
 import { useToasts } from "react-toast-notifications";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { connect } from "react-redux";
 import { getDiscountPrice } from "../../lib/product";
 import { IoMdCash } from "react-icons/io";
@@ -43,6 +43,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const [reservationDateTime, setReservationDateTime] = useState(new Date());
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   const localeMap = {
     en: enLocale,
@@ -72,11 +73,13 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
   };
 
   const handlePlaceOrder = async () => {
+    setIsPlacingOrder(true);
     if (!auth.currentUser) {
       addToast(t("please_log_in_to_place_order"), {
         appearance: "error",
         autoDismiss: true,
       });
+      setIsPlacingOrder(false);
       return;
     }
 
@@ -85,6 +88,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         appearance: "error",
         autoDismiss: true,
       });
+      setIsPlacingOrder(false);
       return;
     }
 
@@ -94,6 +98,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         appearance: "error",
         autoDismiss: true,
       });
+      setIsPlacingOrder(false);
       return;
     }
 
@@ -226,11 +231,13 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       });
 
       // deleteAllFromCart(addToast, t);
-
+      setIsPlacingOrder(false);
       router.push("/other/my-account");
     } catch (error) {
       console.error("Error placing order:", error);
       addToast(error.message, { appearance: "error", autoDismiss: true });
+    } finally {
+    setIsPlacingOrder(false);
     }
   };
 
@@ -611,8 +618,20 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                               type="button"
                               onClick={handlePlaceOrder}
                               className="lezada-button lezada-button--medium space-mt--20"
+                              disabled={isPlacingOrder}
                             >
-                              {t("place_order")}
+                              {isPlacingOrder ? (
+                              <Spinner
+                                animation="border"
+                                role="status"
+                                size="sm"
+                                style={{ display: "block", margin: "0 auto" }}
+                              >
+                                <span className="visually-hidden">Loading...</span>
+                              </Spinner>
+                            ) : (
+                              t("place_order")
+                            )}
                             </button>
                           </div>
                         </div>
