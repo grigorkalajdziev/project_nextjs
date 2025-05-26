@@ -13,12 +13,16 @@ import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useToasts } from "react-toast-notifications";
+import { Badge } from "react-bootstrap";
 
 const MyAccount = () => {
   const { t, currentLanguage } = useLocalization();
   const { addToast } = useToasts();
   const router = useRouter();
+
   const [user, setUser] = useState(null);
+  const [role, setRole] = useState("guest");
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -43,7 +47,7 @@ const MyAccount = () => {
   const [nameOnCard, setNameOnCard] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [expiration, setExpiration] = useState("");
-  const [cvc, setCvc] = useState("");  
+  const [cvc, setCvc] = useState("");
 
   const conversionRate = 61.5;
 
@@ -76,21 +80,61 @@ const MyAccount = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const deleteOrder = async (userId, orderId) => {
-    await remove(ref(db, `orders/${userId}/${orderId}`));
-    setOrders(orders.filter((order) => order.id !== orderId));
+  const deleteOrder = async (orderId) => {
+    if (!user) {
+      console.error("Cannot delete before user loaded");
+      addToast(t("delete_error"), { appearance: "error", autoDismiss: true });
+      return;
+    }
+    const uid =
+      role === "admin"
+        ? orders.find((o) => o.id === orderId)?.userId
+        : user.uid;
+    if (!uid) {
+      console.error("Missing userId for delete", orderId);
+      addToast(t("delete_error"), { appearance: "error", autoDismiss: true });
+      return;
+    }
+    try {
+      await remove(ref(db, `orders/${uid}/${orderId}`));
+      setOrders((prev) => prev.filter((o) => o.id !== orderId));
+      addToast(t("order_deleted"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
+    } catch (err) {
+      console.error("Error deleting order:", err);
+      addToast(`${t("delete_error")}: ${err.message}`, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    }
   };
 
   const updateOrder = async (orderId, userId, newStatus) => {
-    await update(ref(db, `orders/${userId}/${orderId}`), { status: newStatus });
-    setOrders(
-      orders.map((order) =>
-        order.id === orderId ? { ...order, status: newStatus } : order
-      )
-    );
+    try {
+      // Find the correct userId based on the current orders array
+      const matchingOrder = orders.find((o) => o.id === orderId);
+      if (!matchingOrder) throw new Error("Order not found");
+
+      const { userId } = matchingOrder;
+
+      // Update only the status field at the correct location
+      await update(ref(db, `orders/${userId}/${orderId}`), {
+        status: newStatus,
+      });
+
+      // Update local state
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId ? { ...order, status: newStatus } : order
+        )
+      );
+    } catch (error) {
+      console.error("Error updating order status:", error);
+    }
   };
 
-  // --- Fetch User Data on Auth State Change ---
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -121,7 +165,8 @@ const MyAccount = () => {
             setNameOnCard(userData.billingInfo?.nameOnCard || "");
             setCardNumber(userData.billingInfo?.cardNumber || "");
             setExpiration(userData.billingInfo?.expiration || "");
-            setCvc(userData.billingInfo?.cvc || "");            
+            setCvc(userData.billingInfo?.cvc || "");
+            setRole(userData.role || "guest");
           } else {
             console.log("No additional user data found in database.");
           }
@@ -129,29 +174,7 @@ const MyAccount = () => {
           console.error("Error fetching user data:", error);
         }
 
-        const fetchOrders = async () => {
-          const db = getDatabase();
-          const ordersRef = ref(db, `orders/${user.uid}`);
-          try {
-            const snapshot = await get(ordersRef);
-            if (snapshot.exists()) {
-              const ordersData = snapshot.val();
-              // Convert orders object into an array
-              const ordersArray = Object.keys(ordersData).map((key) => ({
-                id: key,
-                ...ordersData[key],
-              }));
-              setOrders(ordersArray);
-            } else {
-              setOrders([]);
-            }
-          } catch (error) {
-            console.error("Error fetching orders:", error);
-          }
-        };
-
-        fetchOrders();
-        setDownloads([]); // or setDownloads(fetchedDownloads)
+        setDownloads([]);
       } else {
         setUser(null);
       }
@@ -159,6 +182,45 @@ const MyAccount = () => {
 
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      if (!user || !role) return;
+
+      try {
+        const ordersRef =
+          role === "admin" ? ref(db, "orders") : ref(db, `orders/${user.uid}`);
+        const snap = await get(ordersRef);
+
+        if (!snap.exists()) {
+          setOrders([]);
+          return;
+        }
+
+        const raw = snap.val();
+        let orderList = [];
+
+        if (role === "admin") {
+          Object.entries(raw).forEach(([uid, userOrders]) => {
+            Object.entries(userOrders).forEach(([id, order]) => {
+              orderList.push({ userId: uid, id, ...order });
+            });
+          });
+        } else {
+          orderList = Object.entries(raw).map(([id, order]) => ({
+            id,
+            ...order,
+          }));
+        }
+
+        setOrders(orderList);
+      } catch (err) {
+        console.error("Error fetching orders:", err);
+      }
+    };
+
+    fetchOrders();
+  }, [user, role]);
 
   // --- Logout Handler ---
   const handleLogout = async () => {
@@ -183,11 +245,15 @@ const MyAccount = () => {
 
   const isValidNameOnCard = (name) => {
     const trimmed = name.trim();
-    return trimmed.length >= 2 && trimmed.length <= 30 && /^[a-zA-Z\s]+$/.test(trimmed);
+    return (
+      trimmed.length >= 2 &&
+      trimmed.length <= 30 &&
+      /^[a-zA-Z\s]+$/.test(trimmed)
+    );
   };
 
   const isValidCardNumber = (cardNum) => {
-    const cleaned = cardNum.replace(/\D/g, '');
+    const cleaned = cardNum.replace(/\D/g, "");
     if (cleaned.length < 13 || cleaned.length > 19) return false;
     let sum = 0;
     let shouldDouble = false;
@@ -205,8 +271,8 @@ const MyAccount = () => {
     return sum % 10 === 0;
   };
 
-  const formatCardNumber = (value) => { 
-    const cleaned = value.replace(/\D/g, "");  
+  const formatCardNumber = (value) => {
+    const cleaned = value.replace(/\D/g, "");
     return cleaned.replace(/(.{4})/g, "$1 ").trim();
   };
 
@@ -226,11 +292,11 @@ const MyAccount = () => {
     return true;
   };
 
-  const formatExpiration = (value) => {   
-    const cleaned = value.replace(/\D/g, "");    
-    if (cleaned.length === 0) return "";    
-    if (cleaned.length < 2) return cleaned;   
-    if (cleaned.length === 2) return cleaned + "/";  
+  const formatExpiration = (value) => {
+    const cleaned = value.replace(/\D/g, "");
+    if (cleaned.length === 0) return "";
+    if (cleaned.length < 2) return cleaned;
+    if (cleaned.length === 2) return cleaned + "/";
     return cleaned.slice(0, 2) + "/" + cleaned.slice(2, 4);
   };
 
@@ -248,7 +314,7 @@ const MyAccount = () => {
     const newErrors = {};
 
     if (!isValidNameOnCard(nameOnCard)) {
-      newErrors.nameOnCard = t("nameOnCard") ;
+      newErrors.nameOnCard = t("nameOnCard");
     }
     if (!isValidCardNumber(cardNumber)) {
       newErrors.cardNumber = t("cardNumber");
@@ -279,8 +345,8 @@ const MyAccount = () => {
       return;
     }
 
-    setIsLoading(true);    
-    const userRef = ref(db, `users/${user.uid}`);    
+    setIsLoading(true);
+    const userRef = ref(db, `users/${user.uid}`);
 
     try {
       // If new password is provided, update it in Auth and then save in the Realtime Database
@@ -322,6 +388,7 @@ const MyAccount = () => {
               expiration,
               cvc,
             },
+            role: "guest",
           });
           addToast(t("password_changed_success"), {
             appearance: "success",
@@ -355,6 +422,7 @@ const MyAccount = () => {
             expiration,
             cvc,
           },
+          role: "guest",
         });
       }
 
@@ -463,51 +531,70 @@ const MyAccount = () => {
                           <tr>
                             <th>{t("order")}</th>
                             <th>{t("date")}</th>
-                            <th>{t("date_of_reservation")}</th> 
-                            <th>{t("time_of_reservation")}</th> 
+                            <th>{t("date_of_reservation")}</th>
+                            <th>{t("time_of_reservation")}</th>
                             <th>{t("status")}</th>
                             <th>{t("total")}</th>
                             <th>{t("action")}</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {orders.map((order, index) => (
-                            <tr key={index}>
+                          {orders.map((order) => (
+                            <tr key={order.id}>
                               <td>{order.orderNumber}</td>
                               <td>{order.date}</td>
                               <td>{order.reservationDate}</td>
                               <td>{order.reservationTime}</td>
                               <td>
-                                {order.status === "pending" ? (
+                                {role === "admin" &&
+                                order.status === "pending" ? (
                                   <select
-                                  value={order.status}
-                                  onChange={(e) =>
-                                    updateOrder(order.id, user.uid, e.target.value)
-                                  }
-                                >
-                                  <option value="pending">{t("pending")}</option>
-                                  <option value="confirmed">{t("confirmed")}</option>                                  
-                                  <option value="cancelled">{t("cancelled")}</option>
-                                </select>
+                                    value={order.status}
+                                    onChange={(e) =>
+                                      updateOrder(
+                                        order.id,
+                                        user.uid,
+                                        e.target.value
+                                      )
+                                    }
+                                    className="form-select"
+                                  >
+                                    <option value="pending">
+                                      {t("pending")}
+                                    </option>
+                                    <option value="confirmed">
+                                      {t("confirmed")}
+                                    </option>
+                                    <option value="cancelled">
+                                      {t("cancelled")}
+                                    </option>
+                                  </select>
                                 ) : (
-                                  order.status
+                                  <Badge
+                                    pill
+                                    bg={
+                                      order.status === "pending"
+                                        ? "warning"
+                                        : order.status === "confirmed"
+                                          ? "success"
+                                          : order.status === "cancelled"
+                                            ? "danger"
+                                            : "secondary"
+                                    }
+                                    className="fs-6 p-2"
+                                  >
+                                    {t(order.status)}
+                                  </Badge>
                                 )}
                               </td>
                               <td>{formatTotal(order.total)}</td>
                               <td>
-                                <a href="#" className="check-btn sqr-btn">
+                                <Link href="#" className="btn btn-primary me-2">
                                   {t("view")}
-                                </a>
-                                <br />
+                                </Link>
                                 <button
-                                  onClick={() =>
-                                    deleteOrder(user.uid, order.id)
-                                  }
-                                  style={{
-                                    backgroundColor: "white",
-                                    color: "red",
-                                  }}
-                                  className="btn"
+                                  onClick={() => deleteOrder(order.id)}
+                                  className="btn btn-outline-danger"
                                 >
                                   {t("delete")}
                                 </button>
@@ -516,14 +603,17 @@ const MyAccount = () => {
                           ))}
                         </tbody>
                         <tfoot>
-                        <tr>
-                          <td colSpan={5} className="text-end font-weight-bold">
-                            {t("grand_total_label")}
-                          </td>
-                          <td>{formatTotal(grandTotalMKD)}</td>
-                          <td />
-                        </tr>
-                      </tfoot>
+                          <tr>
+                            <td
+                              colSpan={5}
+                              className="text-end font-weight-bold"
+                            >
+                              {t("grand_total_label")}
+                            </td>
+                            <td>{formatTotal(grandTotalMKD)}</td>
+                            <td />
+                          </tr>
+                        </tfoot>
                       </table>
                     </div>
                   )}
@@ -718,7 +808,9 @@ const MyAccount = () => {
                               type="text"
                               value={cardNumber}
                               onChange={(e) => {
-                                const formatted = formatCardNumber(e.target.value);
+                                const formatted = formatCardNumber(
+                                  e.target.value
+                                );
                                 setCardNumber(formatted);
                               }}
                               placeholder="**** **** **** ****"
@@ -733,7 +825,9 @@ const MyAccount = () => {
                                   type="text"
                                   value={expiration}
                                   onChange={(e) => {
-                                    const formatted = formatExpiration(e.target.value);
+                                    const formatted = formatExpiration(
+                                      e.target.value
+                                    );
                                     setExpiration(formatted);
                                   }}
                                   placeholder={t("MM_YY")}

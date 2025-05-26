@@ -230,7 +230,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         autoDismiss: true,
       });
 
-      // deleteAllFromCart(addToast, t);
+      deleteAllFromCart(addToast, t);
       setIsPlacingOrder(false);
       router.push("/other/my-account");
     } catch (error) {

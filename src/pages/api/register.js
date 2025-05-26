@@ -1,11 +1,10 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps } from "firebase/app";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signOut,
   FacebookAuthProvider,
-  GoogleAuthProvider,
-  signInWithPopup,
+  GoogleAuthProvider,  
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getDatabase, ref, set, push, get } from "firebase/database";
@@ -33,27 +32,21 @@ const database = getDatabase(app);
 // Email + Password Registration
 export async function registerUser(email, password) {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+    // 1) Create auth user
+    const { user } = await createUserWithEmailAndPassword(authServer, email, password);
 
-    // Save user info to Realtime Database
+    // 2) Write user profile to RTDB
     await set(ref(database, `users/${user.uid}`), {
       email: user.email,
-      // Do NOT store plain text passwords
       firstName: "",
       lastName: "",
       displayName: "",
-      billingInfo: {
-        address: "",
-        city: "",
-        phone: "",
-        zipCode: ""
-      }
+      billingInfo: { address: "", city: "", phone: "", zipCode: "" },
+      role: "guest",
     });
 
-    // Sign out after registration
-    await signOut(auth);
-
+    // 3) Sign out so client handles next login
+    await signOut(authServer);
     return { success: true, user };
   } catch (error) {
     return { success: false, error: error.message };
@@ -68,33 +61,8 @@ export async function registerGoogleUser(user) {
       displayName: user.displayName || "",
       firstName: "",
       lastName: "",
-      billingInfo: {
-        address: "",
-        city: "",
-        phone: "",
-        zipCode: ""
-      }
-    });
-    return { success: true, user };
-  } catch (error) {
-    return { success: false, error: error.message };
-  }
-}
-
-// Facebook Sign-In registration
-export async function registerFacebookUser(user) {
-  try {
-    await set(ref(database, `users/${user.uid}`), {
-      email: user.email,
-      displayName: user.displayName || "",
-      firstName: "",
-      lastName: "",
-      billingInfo: {
-        address: "",
-        city: "",
-        phone: "",
-        zipCode: ""
-      }
+      billingInfo: { address: "", city: "", phone: "", zipCode: "" },
+      role: "guest",
     });
     return { success: true, user };
   } catch (error) {
