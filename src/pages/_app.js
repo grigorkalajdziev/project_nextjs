@@ -18,7 +18,7 @@ import CookieConsentToast from "../components/Cookies/CookieConsent";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../pages/api/register";
 import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
@@ -43,60 +43,12 @@ class MyApp extends App {
     const { Component, pageProps, reduxStore } = this.props;
     return (
       <Fragment>
-        <Head>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                  {
-                    "@type": "ListItem",
-                    "position": 1,
-                    "name": "Кика - Академија за шминка и убавина",
-                    "item": "https://www.kikamakeupandbeautyacademy.com/",
-                    "description": "Кика - Академија за шминка и убавина © 2025 kikamakeupandbeautyacademy.com | Сите права се задржани.",
-                  },
-                  {
-                    "@type": "ListItem",
-                    "position": 2,
-                    "name": "Најчесто поставувани прашања",
-                    "item": "https://www.kikamakeupandbeautyacademy.com/faq",
-                    "description": "Одговори на најчесто поставувани прашања за академијата и услугите.",
-                  },
-                  {
-                    "@type": "ListItem",
-                    "position": 3,
-                    "name": "За нас",
-                    "item": "https://www.kikamakeupandbeautyacademy.com/other/about",
-                    "description": "Дознајте повеќе за нашата историја, тим и мисија.",
-                  },
-                  {
-                    "@type": "ListItem",
-                    "position": 4,
-                    "name": "Продавница",
-                    "item": "https://www.kikamakeupandbeautyacademy.com/shop/left-sidebar",
-                    "description": "Разгледајте ги нашите производи и понуди во продавницата.",
-                  },
-                  {
-                    "@type": "ListItem",
-                    "position": 5,
-                    "name": "Омилени",
-                    "item": "https://www.kikamakeupandbeautyacademy.com/other/wishlist",
-                    "description": "Вашата листа со омилени производи и услуги.",
-                  },
-                ],
-              }),
-            }}
-          />
-        </Head>
         <div className={`${libreBaskerville.className} ${ptSerif.className}`}>
           <ToastProvider placement="bottom-left">
             <Provider store={reduxStore}>
               <PersistGate loading={<Preloader />} persistor={this.persistor}>
                 <LocalizationProvider>
-                  <LocalizedHead />
+                  <CanonicalHeadWrapper />
                   <SessionHandler />
                   <HeaderTop />
                   <CookieConsentToast />
@@ -113,34 +65,43 @@ class MyApp extends App {
   }
 }
 
-const SessionHandler = () => {
+// Wrapper to compute and render localized head with canonical URL
+function CanonicalHeadWrapper() {
+  const router = useRouter();
+  const canonicalUrl = `https://www.kikamakeupandbeautyacademy.com${router.asPath.split("?")[0]}`;
+  return <LocalizedHead canonicalUrl={canonicalUrl} />;
+}
+
+// Localized head component now accepts canonicalUrl prop
+function LocalizedHead({ canonicalUrl }) {
+  const { t } = useLocalization();
+
+  return (
+    <Head>
+      <title>{t("Кика - Академија за шминка и убавина")}</title>
+      <meta
+        name="description"
+        content={t("title")}
+      />
+      <link rel="icon" href={process.env.PUBLIC_URL + "/favicon(1).ico"} />
+      {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    </Head>
+  );
+}
+
+function SessionHandler() {
   const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
-        // Handle user state change
+        // Handle user state change        
       }
     });
     return () => unsubscribe();
   }, [router]);
 
   return null;
-};
-
-const LocalizedHead = () => {
-  const { t } = useLocalization();
-
-  return (
-    <Head>
-      <title>Кика - Академија за шминка и убавина</title>
-      <meta
-        name="description"
-        content="Кика - Академија за шминка и убавина © 2025. Најчесто поставувани прашања, за нас, контакти, продавница и повеќе."
-      />
-      <link rel="icon" href={process.env.PUBLIC_URL + "/favicon(1).ico"} />
-    </Head>
-  );
-};
+}
 
 export default withReduxStore(MyApp);
