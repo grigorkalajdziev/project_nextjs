@@ -184,43 +184,55 @@ const MyAccount = () => {
   }, []);
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      if (!user || !role) return;
+  const fetchOrders = async () => {
+    if (!user) return;
 
-      try {
-        const ordersRef =
-          role === "admin" ? ref(db, "orders") : ref(db, `orders/${user.uid}`);
-        const snap = await get(ordersRef);
+    try {
+      // 1) Grab raw snapshot
+      const ordersRef =
+        role === "admin" ? ref(db, "orders") : ref(db, `orders/${user.uid}`);
+      const snap = await get(ordersRef);
 
-        if (!snap.exists()) {
-          setOrders([]);
-          return;
-        }
-
-        const raw = snap.val();
-        let orderList = [];
-
-        if (role === "admin") {
-          Object.entries(raw).forEach(([uid, userOrders]) => {
-            Object.entries(userOrders).forEach(([id, order]) => {
-              orderList.push({ userId: uid, id, ...order });
-            });
-          });
-        } else {
-          orderList = Object.entries(raw).map(([id, order]) => ({
-            id,
-            ...order,
-          }));
-        }
-
-        setOrders(orderList);
-      } catch (err) {
-        console.error("Error fetching orders:", err);
+      if (!snap.exists()) {
+        setOrders([]);
+        return;
       }
-    };
 
-    fetchOrders();
-  }, [user, role]);
+      const raw = snap.val();
+      let orderList = [];
+
+      // 2) Flatten into array
+      if (role === "admin") {
+        Object.entries(raw).forEach(([uid, userOrders]) => {
+          Object.entries(userOrders).forEach(([id, order]) => {
+            orderList.push({ userId: uid, id, ...order });
+          });
+        });
+      } else {
+        orderList = Object.entries(raw).map(([id, order]) => ({
+          id,
+          ...order,
+        }));
+      }
+
+      // 3) Parse your "DD-MM-YYYY" dates and sort descending (newest first)
+      const parseDMY = (dmY) => {
+        const [d, m, y] = dmY.split("-").map(Number);
+        return new Date(y, m - 1, d);
+      };
+      orderList.sort(
+        (a, b) => parseDMY(b.date).getTime() - parseDMY(a.date).getTime()
+      );
+
+      // 4) Commit to state
+      setOrders(orderList);
+    } catch (err) {
+      console.error("Error fetching/sorting orders:", err);
+    }
+  };
+
+  fetchOrders();
+}, [user, role]);
 
   // --- Logout Handler ---
   const handleLogout = async () => {
