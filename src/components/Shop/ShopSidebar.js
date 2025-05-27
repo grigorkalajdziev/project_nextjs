@@ -55,7 +55,7 @@ const ShopSidebar = ({ products, getSortParams, searchTerm, setSearchTerm }) => 
             // Return the product with added reviewCount and avgRating properties
             return { ...product, reviewCount, avgRating };
           } catch (error) {
-            console.error("Error fetching reviews for product", product.id, error);
+            //console.error("Error fetching reviews for product", product.id, error);
             return { ...product, reviewCount: 0, avgRating: 0 };
           }
         });
