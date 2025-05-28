@@ -81,8 +81,7 @@ const MyAccount = () => {
   };
 
   const deleteOrder = async (orderId) => {
-    if (!user) {
-      console.error("Cannot delete before user loaded");
+    if (!user) {      
       addToast(t("delete_error"), { appearance: "error", autoDismiss: true });
       return;
     }
@@ -90,8 +89,7 @@ const MyAccount = () => {
       role === "admin"
         ? orders.find((o) => o.id === orderId)?.userId
         : user.uid;
-    if (!uid) {
-      console.error("Missing userId for delete", orderId);
+    if (!uid) {      
       addToast(t("delete_error"), { appearance: "error", autoDismiss: true });
       return;
     }
@@ -102,8 +100,7 @@ const MyAccount = () => {
         appearance: "success",
         autoDismiss: true,
       });
-    } catch (err) {
-      console.error("Error deleting order:", err);
+    } catch (err) {      
       addToast(`${t("delete_error")}: ${err.message}`, {
         appearance: "error",
         autoDismiss: true,
@@ -117,7 +114,21 @@ const MyAccount = () => {
       const matchingOrder = orders.find((o) => o.id === orderId);
       if (!matchingOrder) throw new Error("Order not found");
 
-      const { userId } = matchingOrder;
+      const {
+      userId,
+      orderNumber,
+      reservationDate,
+      reservationTime,
+      total,
+      products,
+      email,
+      customer,
+      language,
+      displayName,
+      paymentMethod,
+    } = matchingOrder;
+
+    console.log("   products array →", products);
 
       // Update only the status field at the correct location
       await update(ref(db, `orders/${userId}/${orderId}`), {
@@ -130,6 +141,37 @@ const MyAccount = () => {
           order.id === orderId ? { ...order, status: newStatus } : order
         )
       );
+
+      const toEmail = email || matchingOrder.customer?.email;
+      const customerPhone = customer?.phone || matchingOrder.customer?.phone;
+      const customerAddress = customer?.address || matchingOrder.customer?.address;
+      const customerState = customer?.state || matchingOrder.customer?.state;
+      const customerCity = customer?.city || matchingOrder.customer?.city;
+      const customerPostalCode = customer?.postalCode || matchingOrder.customer?.postalCode;
+
+      await fetch("/api/send-order-status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        to: toEmail,
+        from: "reservation@kikamakeupandbeautyacademy.com",
+        orderNumber,
+        status: newStatus,
+        reservationDate,
+        reservationTime,
+        customerName: displayName,
+        paymentMethod,
+        total,
+        products,
+        customerEmail: toEmail,
+        customerPhone,
+        customerAddress,
+        customerState,
+        customerCity,
+        customerPostalCode,
+        language: language || currentLanguage,
+      }),
+    });
     } catch (error) {
       console.error("Error updating order status:", error);
     }
@@ -188,43 +230,77 @@ const MyAccount = () => {
     if (!user) return;
 
     try {
-      // 1) Grab raw snapshot
       const ordersRef =
-        role === "admin" ? ref(db, "orders") : ref(db, `orders/${user.uid}`);
+        role === "admin"
+          ? ref(db, "orders")
+          : ref(db, `orders/${user.uid}`);
       const snap = await get(ordersRef);
-
       if (!snap.exists()) {
         setOrders([]);
         return;
       }
-
       const raw = snap.val();
-      let orderList = [];
 
-      // 2) Flatten into array
+      // only fetch all users if admin
+      let usersData = {};
       if (role === "admin") {
-        Object.entries(raw).forEach(([uid, userOrders]) => {
-          Object.entries(userOrders).forEach(([id, order]) => {
-            orderList.push({ userId: uid, id, ...order });
-          });
-        });
-      } else {
-        orderList = Object.entries(raw).map(([id, order]) => ({
-          id,
-          ...order,
-        }));
+        const usersSnap = await get(ref(db, "users"));
+        usersData = usersSnap.exists() ? usersSnap.val() : {};
       }
 
-      // 3) Parse your "DD-MM-YYYY" dates and sort descending (newest first)
+      const orderList = [];
+
+      if (role === "admin") {        
+        Object.entries(raw).forEach(([uid, userOrders]) => {
+          Object.entries(userOrders).forEach(([id, order]) => {
+            orderList.push({
+              userId: uid,
+              id,
+              displayName: usersData[uid]?.displayName || "(no name)",
+              email: usersData[uid]?.email       || "",
+              date: order.date || "",
+              reservationDate: order.reservationDate,
+              reservationTime: order.reservationTime,
+              orderNumber: order.orderNumber,
+              status: order.status,
+              total: order.total,
+              products: order.products || [],
+              paymentMethod: order.paymentMethod || "",
+              // …any other fields you need
+            });
+          });
+        });
+      } else {        
+        Object.entries(raw).forEach(([id, order]) => {
+          orderList.push({
+            userId: user.uid,
+            id,            
+            displayName: user.displayName || "",
+            email: user.email || "",
+            date: order.date || "",
+            reservationDate: order.reservationDate,
+            reservationTime: order.reservationTime,
+            orderNumber: order.orderNumber,
+            status: order.status,
+            total: order.total,
+            products: order.products || [],
+            paymentMethod: order.paymentMethod || "",
+            // …any other fields you need
+          });
+        });
+      }
+
+      // safe DMY parser
       const parseDMY = (dmY) => {
-        const [d, m, y] = dmY.split("-").map(Number);
+        if (typeof dmY !== "string") return new Date(0);
+        const parts = dmY.split("-");
+        if (parts.length !== 3) return new Date(0);
+        const [d, m, y] = parts.map((n) => parseInt(n, 10) || 0);
         return new Date(y, m - 1, d);
       };
-      orderList.sort(
-        (a, b) => parseDMY(b.date).getTime() - parseDMY(a.date).getTime()
-      );
+      // sort newest first
+      orderList.sort((a, b) => parseDMY(b.date) - parseDMY(a.date));
 
-      // 4) Commit to state
       setOrders(orderList);
     } catch (err) {
       console.error("Error fetching/sorting orders:", err);
@@ -233,6 +309,8 @@ const MyAccount = () => {
 
   fetchOrders();
 }, [user, role]);
+
+
 
   // --- Logout Handler ---
   const handleLogout = async () => {
@@ -541,6 +619,7 @@ const MyAccount = () => {
                       <table className="table table-bordered">
                         <thead className="thead-light">
                           <tr>
+                            {role === "admin" && <th>{t("user")}</th>}
                             <th>{t("order")}</th>
                             <th>{t("date")}</th>
                             <th>{t("date_of_reservation")}</th>
@@ -553,6 +632,7 @@ const MyAccount = () => {
                         <tbody>
                           {orders.map((order) => (
                             <tr key={order.id}>
+                              {role === "admin" && <td>{order.displayName}</td>}
                               <td>{order.orderNumber}</td>
                               <td>{order.date}</td>
                               <td>{order.reservationDate}</td>
@@ -617,7 +697,7 @@ const MyAccount = () => {
                         <tfoot>
                           <tr>
                             <td
-                              colSpan={5}
+                              colSpan={role === "admin" ? 6 : 5}
                               className="text-end font-weight-bold"
                             >
                               {t("grand_total_label")}

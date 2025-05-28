@@ -407,6 +407,8 @@ const translations = {
     cancel: "Cancel",
     ok: "OK",
     choose_date: "Choose Date",
+    user: "User",
+    order_deleted: "Order deleted!",
   },
   mk: {
     english: "Англиски",
@@ -809,6 +811,8 @@ const translations = {
     cancel: "Откажи",
     ok: "Потврди",
     choose_date: "Изберете датум",
+    user: "Корисник",
+    order_deleted: "Нарачката е избришана.",
     }
 };
 

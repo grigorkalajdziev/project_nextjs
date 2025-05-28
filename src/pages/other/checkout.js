@@ -130,6 +130,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       reservationDate: reservationDate,
       reservationTime: reservationTime,
       customer: {
+        email: billingInfo.email,
         phone: billingInfo.phone || "",
         address: billingInfo.address1 || "",
         state: billingInfo.state || "",
