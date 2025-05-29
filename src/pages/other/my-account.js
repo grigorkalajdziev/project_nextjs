@@ -128,7 +128,7 @@ const MyAccount = () => {
       paymentMethod,
     } = matchingOrder;
 
-    console.log("   products array →", products);
+    //console.log("   products array →", products);
 
       // Update only the status field at the correct location
       await update(ref(db, `orders/${userId}/${orderId}`), {
