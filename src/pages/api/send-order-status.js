@@ -1,7 +1,14 @@
 import { Resend } from "resend";
 import { render } from "@react-email/render";
+import { renderToStream } from "@react-pdf/renderer";
+import getStreamBuffer from "../../lib/getStreamBurffer";
+import QRCode from 'qrcode';
+
 import ReservationEmail from "../../components/Newsletter/ReservationEmail";
 import ReservationEmail_MK from "../../components/Newsletter/ReservationEmail_MK";
+import InvoiceDocument from "../../components/Newsletter/InvoiceDocument";
+import ConfirmationDocument from "../../components/Newsletter/ConfirmationDocument";
+import ConfirmationDocument_MK from "../../components/Newsletter/ConfirmationDocument_MK";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -9,7 +16,7 @@ export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
-
+  //console.log('📥 API received:', req.body);
   const {
     to,
     from,
@@ -35,6 +42,12 @@ export default async function handler(req, res) {
   }
 
   const isCanceled = status.toLowerCase().startsWith("cancel");
+  const isConfirmed = status.toLowerCase() === "confirmed";
+
+  // Only send email if confirmed or cancelled
+  if (!isCanceled && !isConfirmed) {
+    return res.status(200).json({ message: "No email sent. Status is neither confirmed nor cancelled." });
+  }
   const subject = isCanceled
     ? language === 'mk'
       ? `Вашата нарачка ${orderNumber} е откажана`
@@ -70,6 +83,50 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "Failed to render email HTML" });
   }
 
+  let attachments = [];
+
+  if (isConfirmed) {
+    try {
+      // Build common PDF props
+      const qrPayload = JSON.stringify({ orderNumber, reservationDate, reservationTime });
+      const qrCodeUrl = await QRCode.toDataURL(qrPayload);
+
+      const pdfProps = {
+        orderNumber,
+        date: reservationDate,
+        reservationDate,
+        reservationTime,
+        total,
+        products,
+        paymentMethod,
+        customerName,
+        customerEmail,
+        customerPhone,
+        qrCodeUrl
+      };
+
+      let stream;
+      let filename;
+
+      if (paymentMethod === 'payment_cash') {
+        stream = await renderToStream(<ConfirmationDocument_MK {...pdfProps} />);
+        filename = `Confirmation-${orderNumber}.pdf`;
+      } else {
+        stream = await renderToStream(<InvoiceDocument {...pdfProps} />);
+        filename = `Invoice-${orderNumber}.pdf`;
+      }
+
+      const buffer = await getStreamBuffer(stream);
+      attachments.push({
+        filename,
+        content: buffer.toString('base64'),
+        encoding: 'base64',
+      });
+    } catch (pdfError) {
+      console.error("Failed to generate PDF attachments:", pdfError);
+    }
+  }
+
   // Send the email
   try {
     const data = await resend.emails.send({
@@ -77,6 +134,7 @@ export default async function handler(req, res) {
       to,
       subject,
       html: emailHtml,
+      ...(attachments.length > 0 ? { attachments } : {}),
     });
     
     return res.status(200).json({ message: "Email sent successfully", data });

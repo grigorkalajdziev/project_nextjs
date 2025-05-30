@@ -7,13 +7,15 @@ import Link from "next/link";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
-import { FaCloudDownloadAlt, FaRegEdit } from "react-icons/fa";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useToasts } from "react-toast-notifications";
 import { Badge } from "react-bootstrap";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import InvoiceDocument from "../../components/Newsletter/InvoiceDocument";
+import ConfirmationDocument from "../../components/Newsletter/ConfirmationDocument";
 
 const MyAccount = () => {
   const { t, currentLanguage } = useLocalization();
@@ -81,7 +83,7 @@ const MyAccount = () => {
   };
 
   const deleteOrder = async (orderId) => {
-    if (!user) {      
+    if (!user) {
       addToast(t("delete_error"), { appearance: "error", autoDismiss: true });
       return;
     }
@@ -89,7 +91,7 @@ const MyAccount = () => {
       role === "admin"
         ? orders.find((o) => o.id === orderId)?.userId
         : user.uid;
-    if (!uid) {      
+    if (!uid) {
       addToast(t("delete_error"), { appearance: "error", autoDismiss: true });
       return;
     }
@@ -100,7 +102,7 @@ const MyAccount = () => {
         appearance: "success",
         autoDismiss: true,
       });
-    } catch (err) {      
+    } catch (err) {
       addToast(`${t("delete_error")}: ${err.message}`, {
         appearance: "error",
         autoDismiss: true,
@@ -115,20 +117,20 @@ const MyAccount = () => {
       if (!matchingOrder) throw new Error("Order not found");
 
       const {
-      userId,
-      orderNumber,
-      reservationDate,
-      reservationTime,
-      total,
-      products,
-      email,
-      customer,
-      language,
-      displayName,
-      paymentMethod,
-    } = matchingOrder;
+        userId,
+        orderNumber,
+        reservationDate,
+        reservationTime,
+        total,
+        products,
+        email,
+        customer,
+        language,
+        displayName,
+        paymentMethod,
+      } = matchingOrder;
 
-    //console.log("   products array →", products);
+      //console.log("   products array →", products);
 
       // Update only the status field at the correct location
       await update(ref(db, `orders/${userId}/${orderId}`), {
@@ -144,34 +146,36 @@ const MyAccount = () => {
 
       const toEmail = email || matchingOrder.customer?.email;
       const customerPhone = customer?.phone || matchingOrder.customer?.phone;
-      const customerAddress = customer?.address || matchingOrder.customer?.address;
+      const customerAddress =
+        customer?.address || matchingOrder.customer?.address;
       const customerState = customer?.state || matchingOrder.customer?.state;
       const customerCity = customer?.city || matchingOrder.customer?.city;
-      const customerPostalCode = customer?.postalCode || matchingOrder.customer?.postalCode;
+      const customerPostalCode =
+        customer?.postalCode || matchingOrder.customer?.postalCode;
 
       await fetch("/api/send-order-status", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        to: toEmail,
-        from: "reservation@kikamakeupandbeautyacademy.com",
-        orderNumber,
-        status: newStatus,
-        reservationDate,
-        reservationTime,
-        customerName: displayName,
-        paymentMethod,
-        total,
-        products,
-        customerEmail: toEmail,
-        customerPhone,
-        customerAddress,
-        customerState,
-        customerCity,
-        customerPostalCode,
-        language: language || currentLanguage,
-      }),
-    });
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: toEmail,
+          from: "confirmation@kikamakeupandbeautyacademy.com",
+          orderNumber,
+          status: newStatus,
+          reservationDate,
+          reservationTime,
+          customerName: displayName,
+          paymentMethod,
+          total,
+          products,
+          customerEmail: toEmail,
+          customerPhone,
+          customerAddress,
+          customerState,
+          customerCity,
+          customerPostalCode,
+          language: language || currentLanguage,
+        }),
+      });
     } catch (error) {
       console.error("Error updating order status:", error);
     }
@@ -226,38 +230,55 @@ const MyAccount = () => {
   }, []);
 
   useEffect(() => {
-  const fetchOrders = async () => {
-    if (!user) return;
+    const fetchOrders = async () => {
+      if (!user) return;
 
-    try {
-      const ordersRef =
-        role === "admin"
-          ? ref(db, "orders")
-          : ref(db, `orders/${user.uid}`);
-      const snap = await get(ordersRef);
-      if (!snap.exists()) {
-        setOrders([]);
-        return;
-      }
-      const raw = snap.val();
+      try {
+        const ordersRef =
+          role === "admin" ? ref(db, "orders") : ref(db, `orders/${user.uid}`);
+        const snap = await get(ordersRef);
+        if (!snap.exists()) {
+          setOrders([]);
+          return;
+        }
+        const raw = snap.val();
 
-      // only fetch all users if admin
-      let usersData = {};
-      if (role === "admin") {
-        const usersSnap = await get(ref(db, "users"));
-        usersData = usersSnap.exists() ? usersSnap.val() : {};
-      }
+        // only fetch all users if admin
+        let usersData = {};
+        if (role === "admin") {
+          const usersSnap = await get(ref(db, "users"));
+          usersData = usersSnap.exists() ? usersSnap.val() : {};
+        }
 
-      const orderList = [];
+        const orderList = [];
 
-      if (role === "admin") {        
-        Object.entries(raw).forEach(([uid, userOrders]) => {
-          Object.entries(userOrders).forEach(([id, order]) => {
+        if (role === "admin") {
+          Object.entries(raw).forEach(([uid, userOrders]) => {
+            Object.entries(userOrders).forEach(([id, order]) => {
+              orderList.push({
+                userId: uid,
+                id,
+                displayName: usersData[uid]?.displayName || "(no name)",
+                email: usersData[uid]?.email || "",
+                date: order.date || "",
+                reservationDate: order.reservationDate,
+                reservationTime: order.reservationTime,
+                orderNumber: order.orderNumber,
+                status: order.status,
+                total: order.total,
+                products: order.products || [],
+                paymentMethod: order.paymentMethod || "",
+                // …any other fields you need
+              });
+            });
+          });
+        } else {
+          Object.entries(raw).forEach(([id, order]) => {
             orderList.push({
-              userId: uid,
+              userId: user.uid,
               id,
-              displayName: usersData[uid]?.displayName || "(no name)",
-              email: usersData[uid]?.email       || "",
+              displayName: user.displayName || "",
+              email: user.email || "",
               date: order.date || "",
               reservationDate: order.reservationDate,
               reservationTime: order.reservationTime,
@@ -269,48 +290,27 @@ const MyAccount = () => {
               // …any other fields you need
             });
           });
-        });
-      } else {        
-        Object.entries(raw).forEach(([id, order]) => {
-          orderList.push({
-            userId: user.uid,
-            id,            
-            displayName: user.displayName || "",
-            email: user.email || "",
-            date: order.date || "",
-            reservationDate: order.reservationDate,
-            reservationTime: order.reservationTime,
-            orderNumber: order.orderNumber,
-            status: order.status,
-            total: order.total,
-            products: order.products || [],
-            paymentMethod: order.paymentMethod || "",
-            // …any other fields you need
-          });
-        });
+        }
+
+        // safe DMY parser
+        const parseDMY = (dmY) => {
+          if (typeof dmY !== "string") return new Date(0);
+          const parts = dmY.split("-");
+          if (parts.length !== 3) return new Date(0);
+          const [d, m, y] = parts.map((n) => parseInt(n, 10) || 0);
+          return new Date(y, m - 1, d);
+        };
+        // sort newest first
+        orderList.sort((a, b) => parseDMY(b.date) - parseDMY(a.date));
+
+        setOrders(orderList);
+      } catch (err) {
+        console.error("Error fetching/sorting orders:", err);
       }
+    };
 
-      // safe DMY parser
-      const parseDMY = (dmY) => {
-        if (typeof dmY !== "string") return new Date(0);
-        const parts = dmY.split("-");
-        if (parts.length !== 3) return new Date(0);
-        const [d, m, y] = parts.map((n) => parseInt(n, 10) || 0);
-        return new Date(y, m - 1, d);
-      };
-      // sort newest first
-      orderList.sort((a, b) => parseDMY(b.date) - parseDMY(a.date));
-
-      setOrders(orderList);
-    } catch (err) {
-      console.error("Error fetching/sorting orders:", err);
-    }
-  };
-
-  fetchOrders();
-}, [user, role]);
-
-
+    fetchOrders();
+  }, [user, role]);
 
   // --- Logout Handler ---
   const handleLogout = async () => {
@@ -714,7 +714,7 @@ const MyAccount = () => {
               <Tab.Pane eventKey="download">
                 <div className="my-account-area__content">
                   <h3>{t("download")}</h3>
-                  {downloads.length === 0 ? (
+                  {orders.length === 0 ? (
                     <div className="saved-message">
                       <p>{t("you_have_not_downloaded_any_file_yet")}</p>
                     </div>
@@ -723,22 +723,41 @@ const MyAccount = () => {
                       <table className="table table-bordered">
                         <thead className="thead-light">
                           <tr>
-                            <th>{t("product")}</th>
+                            {role === "admin" && <th>{t("user")}</th>}
+                            <th>{t("order")}</th>
                             <th>{t("date")}</th>
-                            <th>{t("expire")}</th>
+                            <th>{t("payment_method")}</th>
                             <th>{t("download")}</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {downloads.map((download, index) => (
-                            <tr key={index}>
-                              <td>{download.product}</td>
-                              <td>{download.date}</td>
-                              <td>{download.expire}</td>
+                          {orders.map((order) => (
+                            <tr key={order.id}>
+                              {/* Show user column for both roles */}
+                              {role === "admin" && <td>{order.displayName}</td>}
+                              <td>{order.orderNumber}</td>
+                              <td>{order.date}</td>
                               <td>
-                                <a href="#" className="check-btn sqr-btn">
-                                  <FaCloudDownloadAlt /> {t("download_file")}
-                                </a>
+                                {order.paymentMethod === "payment_cash"
+                                  ? t("payment_cash")
+                                  : t("payment_bank")}
+                              </td>
+                              <td>
+                                <PDFDownloadLink
+                                  document={
+                                    order.paymentMethod === "payment_cash" ? (
+                                      <ConfirmationDocument order={order} />
+                                    ) : (
+                                      <InvoiceDocument order={order} />
+                                    )
+                                  }
+                                  fileName={`${order.paymentMethod === "payment_cash" ? "confirmation" : "invoice"}-${order.orderNumber}.pdf`}
+                                  className="btn btn-outline-secondary"
+                                >
+                                  {({ loading }) =>
+                                    loading ? t("loading") : t("download")
+                                  }
+                                </PDFDownloadLink>
                               </td>
                             </tr>
                           ))}
@@ -748,6 +767,7 @@ const MyAccount = () => {
                   )}
                 </div>
               </Tab.Pane>
+
               <Tab.Pane eventKey="payment">
                 <div className="my-account-area__content">
                   <h3>{t("payment_method")}</h3>
