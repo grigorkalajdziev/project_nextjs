@@ -1,11 +1,11 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, Image, Font } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
-// PDF styles using built-in fonts
 const styles = StyleSheet.create({
   page: {
     padding: 30,
     fontSize: 12,
+    fontFamily: 'Helvetica',
   },
   header: {
     flexDirection: 'row',
@@ -15,36 +15,34 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#eeeeee',
     paddingBottom: 10,
-    fontFamily: 'Helvetica'
-  },
-  logo: {
-    width: 100,
-    height: 40
+    fontFamily: 'Helvetica',
   },
   title: {
     fontSize: 18,
     fontWeight: 700,
-    fontFamily: 'Helvetica'
+    fontFamily: 'Helvetica',
+  },
+  orderNumber: {
+    fontFamily: 'Helvetica',
   },
   section: {
-    marginBottom: 15
+    marginBottom: 12,
   },
   label: {
     fontWeight: 700,
-    fontFamily: 'Helvetica'
+    fontFamily: 'Helvetica',
+    marginTop: 4,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 5
+    marginBottom: 6,
   },
   productsTable: {
-    display: 'table',
-    width: 'auto',
-    marginVertical: 10
+    marginVertical: 10,
   },
   tableRow: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   tableColHeader: {
     width: '25%',
@@ -52,21 +50,53 @@ const styles = StyleSheet.create({
     borderColor: '#cccccc',
     padding: 4,
     fontWeight: 700,
-    fontFamily: 'Helvetica'
+    fontFamily: 'Helvetica',
+    textAlign: 'right',
+  },
+  firstColHeader: {
+    textAlign: 'left',
   },
   tableCol: {
     width: '25%',
     padding: 4,
     borderBottomWidth: 1,
     borderColor: '#f1f1f1',
-    fontFamily: 'Helvetica'
+    fontFamily: 'Helvetica',
+    textAlign: 'right',
+  },
+  firstCol: {
+    textAlign: 'left',
+  },
+  quantityCol: {
+    width: '25%',
+    padding: 4,
+    borderBottomWidth: 1,
+    borderColor: '#f1f1f1',
+    fontFamily: 'Helvetica',
+    textAlign: 'right',
+  },
+  priceCol: {
+    width: '25%',
+    padding: 4,
+    borderBottomWidth: 1,
+    borderColor: '#f1f1f1',
+    fontFamily: 'Helvetica',
+    textAlign: 'right',
+  },
+  totalCol: {
+    width: '25%',
+    padding: 4,
+    borderBottomWidth: 1,
+    borderColor: '#f1f1f1',
+    fontFamily: 'Helvetica',
+    textAlign: 'right',
   },
   qr: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     position: 'absolute',
     bottom: 80,
-    right: 30
+    right: 30,
   },
   footer: {
     position: 'absolute',
@@ -76,8 +106,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 10,
     color: '#999999',
-    fontFamily: 'Helvetica'
-  }
+    fontFamily: 'Helvetica',
+  },
 });
 
 const ConfirmationDocument = ({
@@ -91,18 +121,17 @@ const ConfirmationDocument = ({
   customerName,
   customerPhone,
   customerEmail,
-  qrCodeUrl
+  qrCodeUrl,
 }) => (
   <Document>
     <Page size="A4" style={styles.page}>
-      {/* Header with optional logo */}
+      {/* Header */}
       <View style={styles.header}>
-       {/* {logoUrl && <Image style={styles.logo} src={logoUrl} />} */}
         <Text style={styles.title}>Reservation Confirmation</Text>
-        <Text style={styles.label}>#{orderNumber}</Text>
+        <Text style={styles.orderNumber}>#{orderNumber}</Text>
       </View>
 
-      {/* Customer info */}
+      {/* Customer Info */}
       <View style={styles.section}>
         <Text style={styles.label}>Customer:</Text>
         <Text>{customerName}</Text>
@@ -110,7 +139,7 @@ const ConfirmationDocument = ({
         {customerPhone && <Text>{customerPhone}</Text>}
       </View>
 
-      {/* Reservation details */}
+      {/* Reservation Details */}
       <View style={styles.section}>
         <View style={styles.row}>
           <Text style={styles.label}>Date Issued:</Text>
@@ -118,7 +147,9 @@ const ConfirmationDocument = ({
         </View>
         <View style={styles.row}>
           <Text style={styles.label}>Reservation:</Text>
-          <Text>{reservationDate} at {reservationTime}</Text>
+          <Text>
+            {reservationDate} at {reservationTime}
+          </Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.label}>Payment Method:</Text>
@@ -126,30 +157,34 @@ const ConfirmationDocument = ({
         </View>
       </View>
 
-      {/* Items table */}
+      {/* Items Table */}
       {products.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.label}>Items:</Text>
           <View style={styles.productsTable}>
+            {/* Table Header */}
             <View style={styles.tableRow}>
-              <Text style={styles.tableColHeader}>Item</Text>
+              <Text style={[styles.tableColHeader, styles.firstColHeader]}>Item</Text>
               <Text style={styles.tableColHeader}>Qty</Text>
               <Text style={styles.tableColHeader}>Unit Price</Text>
               <Text style={styles.tableColHeader}>Total</Text>
             </View>
+            {/* Table Rows */}
             {products.map((item, idx) => (
-              <View style={styles.tableRow} key={idx}>
-                <Text style={styles.tableCol}>{item.name}</Text>
-                <Text style={styles.tableCol}>{item.quantity}</Text>
-                <Text style={styles.tableCol}>{item.unitPrice}</Text>
-                <Text style={styles.tableCol}>{item.totalPrice}</Text>
+              <View key={idx} style={styles.tableRow}>
+                <Text style={[styles.tableCol, styles.firstCol, styles.label]}>
+                  {item.name}
+                </Text>
+                <Text style={styles.quantityCol}>{item.quantity}</Text>
+                <Text style={styles.priceCol}>{item.unitPrice}</Text>
+                <Text style={styles.totalCol}>{item.totalPrice}</Text>
               </View>
             ))}
           </View>
         </View>
       )}
 
-      {/* Total summary */}
+      {/* Grand Total */}
       <View style={styles.section}>
         <View style={styles.row}>
           <Text style={styles.label}>Grand Total:</Text>
@@ -157,14 +192,15 @@ const ConfirmationDocument = ({
         </View>
       </View>
 
-      {/* Thank you note */}
+      {/* Thank You Note */}
       <View style={styles.section}>
         <Text>Thank you for choosing us. We look forward to serving you!</Text>
       </View>
 
-       {qrCodeUrl && <Image style={styles.qr} src={qrCodeUrl} />}
+      {/* QR Code */}
+      {qrCodeUrl && <Image style={styles.qr} src={qrCodeUrl} />}
 
-      {/* Footer contact info */}
+      {/* Footer */}
       <Text style={styles.footer}>
         Questions? Contact us at support@example.com | +1 234 567 890
       </Text>

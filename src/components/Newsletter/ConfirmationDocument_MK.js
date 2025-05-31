@@ -1,4 +1,5 @@
 import React from 'react';
+import path from 'path';
 import {
   Document,
   Page,
@@ -13,11 +14,11 @@ Font.register({
   family: 'NotoSans',
   fonts: [
     {
-      src: 'https://raw.githubusercontent.com/google/fonts/main/ofl/notosans/NotoSans-Regular.ttf',
+      src: path.resolve(process.cwd(), 'public/fonts/NotoSans-Regular.ttf'),
       fontWeight: 400,
     },
     {
-      src: 'https://raw.githubusercontent.com/google/fonts/main/ofl/notosans/NotoSans-Bold.ttf',
+      src: path.resolve(process.cwd(), 'public/fonts/NotoSans-Bold.ttf'),
       fontWeight: 700,
     },
   ],
@@ -104,7 +105,7 @@ function ConfirmationDocument_MK(props) {
     reservationDate,
     reservationTime,
     total,
-    paymentMethod = 'Налично плаќање',
+    paymentMethod,
     products = [],
     customerName,
     customerPhone,
