@@ -181,7 +181,8 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       });
 
       if (!response.ok) {
-        console.error("Failed to send reservation email to customer");
+        const errorText = await response.text();
+        console.error("Failed to send reservation email to customer:", errorText);
       } else {
         console.log("Reservation email sent to customer");
       }

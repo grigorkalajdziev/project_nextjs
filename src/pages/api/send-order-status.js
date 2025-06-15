@@ -15,8 +15,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
-  }
-  //console.log('📥 API received:', req.body);
+  }  
   const {
     to,
     from,
@@ -108,9 +107,11 @@ export default async function handler(req, res) {
       let stream;
       let filename;
 
+      const ConfirmationDocComponent = language === 'mk' ? ConfirmationDocument_MK : ConfirmationDocument;
+
       if (paymentMethod === 'payment_cash') {
-        stream = await renderToStream(<ConfirmationDocument_MK {...pdfProps} />);
-        filename = `Confirmation-${orderNumber}.pdf`;
+        stream = await renderToStream(<ConfirmationDocComponent {...pdfProps} />);
+        filename = language === 'mk' ? `Потврда-${orderNumber}.pdf` : `Confirmation-${orderNumber}.pdf`;
       } else {
         stream = await renderToStream(<InvoiceDocument {...pdfProps} />);
         filename = `Invoice-${orderNumber}.pdf`;

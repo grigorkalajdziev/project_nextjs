@@ -123,14 +123,12 @@ const MyAccount = () => {
         reservationTime,
         total,
         products,
-        email,
         customer,
+        email,
         language,
         displayName,
         paymentMethod,
-      } = matchingOrder;
-
-      //console.log("   products array →", products);
+      } = matchingOrder;      
 
       // Update only the status field at the correct location
       await update(ref(db, `orders/${userId}/${orderId}`), {
@@ -144,37 +142,37 @@ const MyAccount = () => {
         )
       );
 
-      const toEmail = email || matchingOrder.customer?.email;
-      const customerPhone = customer?.phone || matchingOrder.customer?.phone;
-      const customerAddress =
-        customer?.address || matchingOrder.customer?.address;
-      const customerState = customer?.state || matchingOrder.customer?.state;
-      const customerCity = customer?.city || matchingOrder.customer?.city;
-      const customerPostalCode =
-        customer?.postalCode || matchingOrder.customer?.postalCode;
+      const toEmail = matchingOrder.email;
+      const customerPhone = matchingOrder.customerPhone || "";
+      const customerAddress = matchingOrder.customerAddress || "";
+      const customerState = matchingOrder.customerState || "";
+      const customerCity = matchingOrder.customerCity || "";
+      const customerPostalCode = matchingOrder.customerPostalCode || "";
+
+      const payload = {
+        to: toEmail,
+        from: "confirmation@kikamakeupandbeautyacademy.com",
+        orderNumber,
+        status: newStatus,
+        reservationDate,
+        reservationTime,
+        customerName: displayName,
+        paymentMethod,
+        total,
+        products,
+        customerEmail: toEmail,
+        customerPhone: customerPhone,
+        customerAddress: customerAddress,
+        customerState: customerState,
+        customerCity: customerCity,
+        customerPostalCode: customerPostalCode,
+        language: language || currentLanguage,
+      };
 
       await fetch("/api/send-order-status", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          to: toEmail,
-          from: "confirmation@kikamakeupandbeautyacademy.com",
-          orderNumber,
-          status: newStatus,
-          reservationDate,
-          reservationTime,
-          customerName: displayName,
-          paymentMethod,
-          total,
-          products,
-          customerEmail: toEmail,
-          customerPhone,
-          customerAddress,
-          customerState,
-          customerCity,
-          customerPostalCode,
-          language: language || currentLanguage,
-        }),
+        body: JSON.stringify(payload),
       });
     } catch (error) {
       console.error("Error updating order status:", error);
@@ -268,7 +266,11 @@ const MyAccount = () => {
                 total: order.total,
                 products: order.products || [],
                 paymentMethod: order.paymentMethod || "",
-                // …any other fields you need
+                customerPhone: order.customer?.phone || "",
+                customerAddress: order.customer?.address || "",
+                customerState: order.customer?.state || "",
+                customerCity: order.customer?.city || "",
+                customerPostalCode: order.customer?.postalCode || "",
               });
             });
           });
@@ -287,7 +289,11 @@ const MyAccount = () => {
               total: order.total,
               products: order.products || [],
               paymentMethod: order.paymentMethod || "",
-              // …any other fields you need
+              customerPhone: order.customer?.phone || "",
+              customerAddress: order.customer?.address || "",
+              customerState: order.customer?.state || "",
+              customerCity: order.customer?.city || "",
+              customerPostalCode: order.customer?.postalCode || "",
             });
           });
         }
@@ -302,6 +308,12 @@ const MyAccount = () => {
         };
         // sort newest first
         orderList.sort((a, b) => parseDMY(b.date) - parseDMY(a.date));
+
+        orderList.sort((a, b) => {
+          if (a.status === "pending" && b.status !== "pending") return -1;
+          if (a.status !== "pending" && b.status === "pending") return 1;
+          return 0;
+        });
 
         setOrders(orderList);
       } catch (err) {

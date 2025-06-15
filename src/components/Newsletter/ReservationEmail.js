@@ -23,6 +23,12 @@ const ReservationEmail = ({
   customerCity,
   customerPostalCode,
 }) => {
+  const formatEUR = (value) => `€ ${parseFloat(value).toFixed(2)}`;
+  const total = products.reduce(
+    (sum, product) => sum + product.quantity * parseFloat(product.price),
+    0
+  );
+  
   return (
     <Html>
       <Head />

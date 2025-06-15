@@ -128,8 +128,12 @@ function ConfirmationDocument_MK(props) {
       React.createElement(
         View,
         { style: styles.section },
-        React.createElement(Text, { style: styles.label }, 'Клиент:'),
-        React.createElement(Text, { style: styles.label }, customerName),
+       React.createElement(
+          View,
+          { style: { flexDirection: 'row', alignItems: 'center' } },
+          React.createElement(Text, { style: styles.label }, 'Клиент: '),
+          React.createElement(Text, { style: styles.label }, customerName)
+        ),
         customerEmail && React.createElement(Text, { style: styles.label }, customerEmail),
         customerPhone && React.createElement(Text, { style: styles.label }, customerPhone)
       ),
@@ -137,7 +141,7 @@ function ConfirmationDocument_MK(props) {
         View,
         { style: styles.section },
         React.createElement(View, { style: styles.row },
-          React.createElement(Text, { style: styles.label }, 'Датум на издавање:'),
+          React.createElement(Text, { style: styles.label }, 'Датум:'),
           React.createElement(Text, null, date)
         ),
         React.createElement(View, { style: styles.row },

@@ -1,103 +1,67 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
+import path from 'path';
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  Font,
+} from '@react-pdf/renderer';
+
+Font.register({
+  family: 'NotoSans',
+  fonts: [
+    {
+      src: path.resolve(process.cwd(), 'public/fonts/NotoSans-Regular.ttf'),
+      fontWeight: 400,
+    },
+    {
+      src: path.resolve(process.cwd(), 'public/fonts/NotoSans-Bold.ttf'),
+      fontWeight: 700,
+    },
+  ],
+});
 
 const styles = StyleSheet.create({
-  page: {
-    padding: 30,
-    fontSize: 12,
-    fontFamily: 'Helvetica',
-  },
+  page: { padding: 30, fontSize: 12, fontFamily: 'NotoSans' },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
     borderBottomWidth: 1,
-    borderColor: '#eeeeee',
-    paddingBottom: 10,
-    fontFamily: 'Helvetica',
+    borderColor: '#eee',
+    paddingBottom: 10
   },
-  title: {
-    fontSize: 18,
-    fontWeight: 700,
-    fontFamily: 'Helvetica',
-  },
-  orderNumber: {
-    fontFamily: 'Helvetica',
-  },
-  section: {
-    marginBottom: 12,
-  },
-  label: {
-    fontWeight: 700,
-    fontFamily: 'Helvetica',
-    marginTop: 4,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 6,
-  },
-  productsTable: {
-    marginVertical: 10,
-  },
-  tableRow: {
-    flexDirection: 'row',
-  },
+  title: { fontSize: 18, fontWeight: 700, fontFamily: 'NotoSans' },
+  label: { fontWeight: 600, marginTop: 4, fontFamily: 'NotoSans' },
+  section: { marginBottom: 12 },
+  row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 },
+  productsTable: { marginVertical: 10 },
+  tableRow: { flexDirection: 'row' },
   tableColHeader: {
     width: '25%',
     borderBottomWidth: 1,
-    borderColor: '#cccccc',
+    borderColor: '#ccc',
     padding: 4,
     fontWeight: 700,
-    fontFamily: 'Helvetica',
-    textAlign: 'right',
-  },
-  firstColHeader: {
-    textAlign: 'left',
+    fontFamily: 'NotoSans',
+    textAlign: 'right'
   },
   tableCol: {
     width: '25%',
     padding: 4,
     borderBottomWidth: 1,
     borderColor: '#f1f1f1',
-    fontFamily: 'Helvetica',
-    textAlign: 'right',
+    fontFamily: 'NotoSans',
+    textAlign: 'right'
   },
-  firstCol: {
-    textAlign: 'left',
-  },
-  quantityCol: {
-    width: '25%',
-    padding: 4,
-    borderBottomWidth: 1,
-    borderColor: '#f1f1f1',
-    fontFamily: 'Helvetica',
-    textAlign: 'right',
-  },
-  priceCol: {
-    width: '25%',
-    padding: 4,
-    borderBottomWidth: 1,
-    borderColor: '#f1f1f1',
-    fontFamily: 'Helvetica',
-    textAlign: 'right',
-  },
-  totalCol: {
-    width: '25%',
-    padding: 4,
-    borderBottomWidth: 1,
-    borderColor: '#f1f1f1',
-    fontFamily: 'Helvetica',
-    textAlign: 'right',
-  },
-  qr: {
-    width: 50,
-    height: 50,
-    position: 'absolute',
-    bottom: 80,
-    right: 30,
-  },
+  firstColHeader: { textAlign: 'left' },
+  firstCol: { textAlign: 'left' },
+  fixedWidth: { minWidth: 50, maxWidth: 50, textAlign: 'right' },
+  qr: { width: 50, height: 50, position: 'absolute', bottom: 80, right: 30 },
   footer: {
     position: 'absolute',
     bottom: 30,
@@ -105,107 +69,138 @@ const styles = StyleSheet.create({
     right: 30,
     textAlign: 'center',
     fontSize: 10,
-    color: '#999999',
-    fontFamily: 'Helvetica',
+    color: '#999',
+    fontFamily: 'NotoSans'
   },
+  quantityCol: {
+    width: '25%',
+    padding: 4,
+    borderBottomWidth: 1,
+    borderColor: '#f1f1f1',
+    fontFamily: 'NotoSans',
+    textAlign: 'right',
+  },
+  priceCol: {
+    width: '25%',
+    padding: 4,
+    borderBottomWidth: 1,
+    borderColor: '#f1f1f1',
+    fontFamily: 'NotoSans',
+    textAlign: 'right',
+  },
+  totalCol: {
+    width: '25%',
+    padding: 4,
+    borderBottomWidth: 1,
+    borderColor: '#f1f1f1',
+    fontFamily: 'NotoSans',
+    textAlign: 'right',
+  }
 });
 
-const ConfirmationDocument = ({
-  orderNumber,
-  date,
-  reservationDate,
-  reservationTime,
-  total,
-  paymentMethod = 'Cash',
-  products = [],
-  customerName,
-  customerPhone,
-  customerEmail,
-  qrCodeUrl,
-}) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.title}>Reservation Confirmation</Text>
-        <Text style={styles.orderNumber}>#{orderNumber}</Text>
-      </View>
+// Conversion rate MKD to EUR
+const DENAR_TO_EUR = 61.5;
+function toEUR(mkd) {
+  return (Number(mkd) / DENAR_TO_EUR).toFixed(2);
+}
 
-      {/* Customer Info */}
-      <View style={styles.section}>
-        <Text style={styles.label}>Customer:</Text>
-        <Text>{customerName}</Text>
-        {customerEmail && <Text>{customerEmail}</Text>}
-        {customerPhone && <Text>{customerPhone}</Text>}
-      </View>
+function ConfirmationDocument(props) {
+  const {
+    orderNumber,
+    date,
+    reservationDate,
+    reservationTime,
+    total,
+    paymentMethod,
+    products = [],
+    customerName,
+    customerPhone,
+    customerEmail,
+    qrCodeUrl
+  } = props;
 
-      {/* Reservation Details */}
-      <View style={styles.section}>
-        <View style={styles.row}>
-          <Text style={styles.label}>Date Issued:</Text>
-          <Text>{date}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.label}>Reservation:</Text>
-          <Text>
-            {reservationDate} at {reservationTime}
-          </Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.label}>Payment Method:</Text>
-          <Text>{paymentMethod}</Text>
-        </View>
-      </View>
-
-      {/* Items Table */}
-      {products.length > 0 && (
-        <View style={styles.section}>
-          <Text style={styles.label}>Items:</Text>
-          <View style={styles.productsTable}>
-            {/* Table Header */}
-            <View style={styles.tableRow}>
-              <Text style={[styles.tableColHeader, styles.firstColHeader]}>Item</Text>
-              <Text style={styles.tableColHeader}>Qty</Text>
-              <Text style={styles.tableColHeader}>Unit Price</Text>
-              <Text style={styles.tableColHeader}>Total</Text>
-            </View>
-            {/* Table Rows */}
-            {products.map((item, idx) => (
-              <View key={idx} style={styles.tableRow}>
-                <Text style={[styles.tableCol, styles.firstCol, styles.label]}>
-                  {item.name}
-                </Text>
-                <Text style={styles.quantityCol}>{item.quantity}</Text>
-                <Text style={styles.priceCol}>{item.unitPrice}</Text>
-                <Text style={styles.totalCol}>{item.totalPrice}</Text>
-              </View>
-            ))}
-          </View>
-        </View>
-      )}
-
-      {/* Grand Total */}
-      <View style={styles.section}>
-        <View style={styles.row}>
-          <Text style={styles.label}>Grand Total:</Text>
-          <Text>{total}</Text>
-        </View>
-      </View>
-
-      {/* Thank You Note */}
-      <View style={styles.section}>
-        <Text>Thank you for choosing us. We look forward to serving you!</Text>
-      </View>
-
-      {/* QR Code */}
-      {qrCodeUrl && <Image style={styles.qr} src={qrCodeUrl} />}
-
-      {/* Footer */}
-      <Text style={styles.footer}>
-        Questions? Contact us at support@example.com | +1 234 567 890
-      </Text>
-    </Page>
-  </Document>
-);
+  return React.createElement(
+    Document,
+    null,
+    React.createElement(
+      Page,
+      { size: 'A4', style: styles.page },
+      React.createElement(
+        View,
+        { style: styles.header },
+        React.createElement(Text, { style: styles.title }, 'Reservation Confirmation'),
+        React.createElement(Text, null, `#${orderNumber}`)
+      ),
+      React.createElement(
+        View,
+        { style: styles.section },
+        React.createElement(
+          View,
+          { style: { flexDirection: 'row', alignItems: 'center' } },
+          React.createElement(Text, { style: styles.label }, 'Customer: '),
+          React.createElement(Text, { style: styles.label }, customerName)
+        ),
+        customerEmail && React.createElement(Text, { style: styles.label }, customerEmail),
+        customerPhone && React.createElement(Text, { style: styles.label }, customerPhone)
+      ),
+      React.createElement(
+        View,
+        { style: styles.section },
+        React.createElement(View, { style: styles.row },
+          React.createElement(Text, { style: styles.label }, 'Date:'),
+          React.createElement(Text, null, date)
+        ),
+        React.createElement(View, { style: styles.row },
+          React.createElement(Text, { style: styles.label }, 'Reservation:'),
+          React.createElement(Text, { style: styles.label }, `${reservationDate} at ${reservationTime}`)
+        ),
+        React.createElement(View, { style: styles.row },
+          React.createElement(Text, { style: styles.label }, 'Payment Method:'),
+          React.createElement(Text, null, paymentMethod)
+        )
+      ),
+      products.length > 0 && React.createElement(
+        View,
+        { style: styles.section },
+        React.createElement(Text, { style: styles.label }, 'Services:'),
+        React.createElement(
+          View,
+          { style: styles.productsTable },
+          React.createElement(
+            View,
+            { style: styles.tableRow },
+            React.createElement(Text, { style: [styles.tableColHeader, styles.firstColHeader] }, 'Service'),
+            React.createElement(Text, { style: styles.tableColHeader }, 'Quantity'),
+            React.createElement(Text, { style: styles.tableColHeader }, 'Unit Price'),
+            React.createElement(Text, { style: styles.tableColHeader }, 'Total')
+          ),
+          products.map((item, idx) => React.createElement(
+            View,
+            { key: idx, style: styles.tableRow },
+            React.createElement(Text, { style: [styles.tableCol, styles.firstCol, styles.label]}, item.name),
+            React.createElement(Text, { style: styles.quantityCol }, item.quantity),
+            React.createElement(Text, { style: styles.priceCol }, item.price + ' €'),
+            React.createElement(Text, { style: styles.totalCol }, (item.price * item.quantity) + ' €')
+          ))
+        )
+      ),
+      React.createElement(
+        View,
+        { style: styles.section },
+        React.createElement(View, { style: styles.row },
+          React.createElement(Text, { style: styles.label }, 'Total Amount:'),
+          React.createElement(Text, { style: styles.label }, toEUR(total) + ' €')
+        )
+      ),
+      React.createElement(
+        View,
+        { style: styles.section },
+        React.createElement(Text, { style: styles.label }, 'Thank you for choosing us!')
+      ),
+      qrCodeUrl && React.createElement(Image, { style: styles.qr, src: qrCodeUrl }),
+      React.createElement(Text, { style: styles.label }, 'Questions? Contact support@example.com')
+    )
+  );
+}
 
 export default ConfirmationDocument;
