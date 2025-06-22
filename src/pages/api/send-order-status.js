@@ -4,6 +4,8 @@ import { renderToStream } from "@react-pdf/renderer";
 import getStreamBuffer from "../../lib/getStreamBurffer";
 import QRCode from 'qrcode';
 
+import CancelationEmail_MK from "../../components/Newsletter/CancelationEmail_MK";
+import CancelationEmail from "../../components/Newsletter/CancelationEmail"
 import ReservationEmail from "../../components/Newsletter/ReservationEmail";
 import ReservationEmail_MK from "../../components/Newsletter/ReservationEmail_MK";
 import InvoiceDocument from "../../components/Newsletter/InvoiceDocument";
@@ -56,7 +58,12 @@ export default async function handler(req, res) {
     : `Your order ${orderNumber} is confirmed`;
 
   // Choose email component based on language
-  const EmailComponent = language === 'mk' ? ReservationEmail_MK : ReservationEmail;
+  let EmailComponent;
+  if (isCanceled) {
+    EmailComponent = language === 'mk' ? CancelationEmail_MK : CancelationEmail;
+  } else {
+    EmailComponent = language === 'mk' ? ReservationEmail_MK : ReservationEmail;
+  }
 
   // Render email content to HTML
   let emailHtml;

@@ -17,6 +17,16 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import InvoiceDocument from "../../components/Newsletter/InvoiceDocument";
 import ConfirmationDocument from "../../components/Newsletter/ConfirmationDocument";
 
+function formatDMY(dateStr) {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  if (isNaN(date)) return dateStr; // fallback if not a valid date
+  const d = String(date.getDate()).padStart(2, "0");
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const y = date.getFullYear();
+  return `${d}-${m}-${y}`;
+}
+
 const MyAccount = () => {
   const { t, currentLanguage } = useLocalization();
   const { addToast } = useToasts();
@@ -271,6 +281,7 @@ const MyAccount = () => {
                 customerState: order.customer?.state || "",
                 customerCity: order.customer?.city || "",
                 customerPostalCode: order.customer?.postalCode || "",
+                createdAt: order.createdAt || 0,
               });
             });
           });
@@ -294,25 +305,15 @@ const MyAccount = () => {
               customerState: order.customer?.state || "",
               customerCity: order.customer?.city || "",
               customerPostalCode: order.customer?.postalCode || "",
+              createdAt: order.createdAt || 0,
             });
           });
         }
 
-        // safe DMY parser
-        const parseDMY = (dmY) => {
-          if (typeof dmY !== "string") return new Date(0);
-          const parts = dmY.split("-");
-          if (parts.length !== 3) return new Date(0);
-          const [d, m, y] = parts.map((n) => parseInt(n, 10) || 0);
-          return new Date(y, m - 1, d);
-        };
-        // sort newest first
-        orderList.sort((a, b) => parseDMY(b.date) - parseDMY(a.date));
-
         orderList.sort((a, b) => {
           if (a.status === "pending" && b.status !== "pending") return -1;
           if (a.status !== "pending" && b.status === "pending") return 1;
-          return 0;
+          return (b.createdAt || 0) - (a.createdAt || 0);
         });
 
         setOrders(orderList);
@@ -647,7 +648,7 @@ const MyAccount = () => {
                               {role === "admin" && <td>{order.displayName}</td>}
                               <td>{order.orderNumber}</td>
                               <td>{order.date}</td>
-                              <td>{order.reservationDate}</td>
+                              <td>{formatDMY(order.reservationDate)}</td>
                               <td>{order.reservationTime}</td>
                               <td>
                                 {role === "admin" &&

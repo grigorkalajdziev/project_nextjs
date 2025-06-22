@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderBottomWidth: 1,
     borderColor: '#eee',
-    paddingBottom: 10
+    paddingBottom: 10,
+    position: 'relative'
   },
   title: { fontSize: 18, fontWeight: 700, fontFamily: 'NotoSans' },
   label: { fontWeight: 600, marginTop: 4, fontFamily: 'NotoSans' },
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
   firstColHeader: { textAlign: 'left' },
   firstCol: { textAlign: 'left' },
   fixedWidth: { minWidth: 50, maxWidth: 50, textAlign: 'right' },
-  qr: { width: 50, height: 50, position: 'absolute', bottom: 80, right: 30 },
+  qr: { width: 50, height: 50, marginLeft: 20 },
   footer: {
     position: 'absolute',
     bottom: 30,
@@ -129,7 +130,8 @@ function ConfirmationDocument(props) {
         View,
         { style: styles.header },
         React.createElement(Text, { style: styles.title }, 'Reservation Confirmation'),
-        React.createElement(Text, null, `#${orderNumber}`)
+        React.createElement(Text, null, `#${orderNumber}`),
+        qrCodeUrl && React.createElement(Image, { style: styles.qr, src: qrCodeUrl })
       ),
       React.createElement(
         View,
@@ -179,7 +181,7 @@ function ConfirmationDocument(props) {
             { key: idx, style: styles.tableRow },
             React.createElement(Text, { style: [styles.tableCol, styles.firstCol, styles.label]}, item.name),
             React.createElement(Text, { style: styles.quantityCol }, item.quantity),
-            React.createElement(Text, { style: styles.priceCol }, item.price + ' €'),
+            React.createElement(Text, { style: styles.priceCol }, item.price),
             React.createElement(Text, { style: styles.totalCol }, (item.price * item.quantity) + ' €')
           ))
         )
@@ -196,9 +198,8 @@ function ConfirmationDocument(props) {
         View,
         { style: styles.section },
         React.createElement(Text, { style: styles.label }, 'Thank you for choosing us!')
-      ),
-      qrCodeUrl && React.createElement(Image, { style: styles.qr, src: qrCodeUrl }),
-      React.createElement(Text, { style: styles.label }, 'Questions? Contact support@example.com')
+      ),      
+      React.createElement(Text, { style: styles.label }, 'Questions? Contact makeupbykika@hotmail.com')
     )
   );
 }

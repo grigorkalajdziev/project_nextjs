@@ -25,6 +25,9 @@ const ReservationEmail_MK = ({
   customerPostalCode,
 }) => {
   const formatMKD = (value) => `${parseFloat(value).toFixed(2)} ден.`;
+  const paragraph = { fontSize: '14px', marginTop: '24px' };
+  const hr = { border: 'none', borderTop: '1px solid #eee', margin: '24px 0' };
+  const footer = { fontSize: '12px', color: '#888', textAlign: 'center' };
 
   return (
     <Html>
@@ -113,6 +116,14 @@ const ReservationEmail_MK = ({
 
           <Text style={{ fontSize: '14px', lineHeight: '24px', marginTop: '20px' }}>
             Со нетрпение очекуваме да ве услужиме. Доколку имате прашања или сакате да направите промени во резервацијата, ве молиме контактирајте не.
+          </Text>
+          <Text style={paragraph}>
+            Поздрав,<br />
+            Тимот на Кика Makeup и Beauty Academy
+          </Text>
+          <hr style={hr} />
+          <Text style={footer}>
+            2025 © Kika Makeup и Beauty Academy, Охрид 6000, Македонија
           </Text>
         </Container>
       </Body>

@@ -28,7 +28,10 @@ const ReservationEmail = ({
     (sum, product) => sum + product.quantity * parseFloat(product.price),
     0
   );
-  
+  const paragraph = { fontSize: '14px', marginTop: '24px' };
+  const hr = { border: 'none', borderTop: '1px solid #eee', margin: '24px 0' };
+  const footer = { fontSize: '12px', color: '#888', textAlign: 'center' };
+
   return (
     <Html>
       <Head />
@@ -143,6 +146,14 @@ const ReservationEmail = ({
 
           <Text style={{ fontSize: '14px', lineHeight: '24px', marginTop: '20px' }}>
             We look forward to serving you. If you have any questions or need to make changes to your reservation, please contact us.
+          </Text>
+          <Text style={paragraph}>
+            Best regards,<br />
+            The Kika Makeup and Beauty Academy Team
+          </Text>
+          <hr style={hr} />
+          <Text style={footer}>
+            2025 © Kika Makeup and Beauty Academy, Ohrid 6000, Macedonia
           </Text>
         </Container>
       </Body>

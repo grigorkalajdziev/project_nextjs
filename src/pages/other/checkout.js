@@ -116,6 +116,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
     const orderData = {
       orderNumber: generateOrderNumber(8),
       date: formatDate(new Date()),
+      createdAt: Date.now(),
       status: "pending",
       paymentMethod: selectedPaymentMethod,
       paymentText: t(selectedPaymentMethod),
@@ -187,7 +188,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         console.log("Reservation email sent to customer");
       }
 
-      const emailToKikaData = {
+      const emailToAdmins = {
         to: ["grigorkalajdziev@gmail.com", "makeupbykika@hotmail.com"], // Kika's email addresses
         from: "reservation@kikamakeupandbeautyacademy.com", // Your company email
         subject: `New Reservation: Order ${orderData.orderNumber}`,
@@ -203,10 +204,10 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         paymentText: translatedPaymentMethod,
         total: orderData.total,
         products: orderData.products,
-        customerPhone: orderData.customer.phone, // Send Kika the customer phone
-        customerAddress: orderData.customer.address, // Send Kika the customer address
-        customerState: orderData.customer.state, // Send Kika the customer state
-        customerCity: orderData.customer.city, // Send Kika the customer city
+        customerPhone: orderData.customer.phone, 
+        customerAddress: orderData.customer.address, 
+        customerState: orderData.customer.state, 
+        customerCity: orderData.customer.city, 
         customerPostalCode: orderData.customer.postalCode,
         language: currentLanguage,
       };
@@ -216,10 +217,8 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(emailToKikaData),
-      });
-
-      // console.log("Sending email to Kika:", emailToKikaData); // Log the data being sent to Kika
+        body: JSON.stringify(emailToAdmins),
+      });     
 
       if (!responseKika.ok) {
         console.error("Failed to send email to Kika");
