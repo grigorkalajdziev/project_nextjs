@@ -1,4 +1,9 @@
+# *
 User-agent: *
-Disallow: 
+Allow: /
 
+# Host
+Host: https://www.kikamakeupandbeautyacademy.com
+
+# Sitemaps
 Sitemap: https://www.kikamakeupandbeautyacademy.com/sitemap.xml
