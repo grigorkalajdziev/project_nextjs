@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const fonts = {
-  en: "'Libre Baskerville', cursive", 
-  mk: "'PT Serif', cursive",   
+  en: "'Libre Baskerville', cursive",
+  mk: "'PT Serif', cursive",
 };
 
 const translations = {
@@ -13,7 +13,8 @@ const translations = {
     signup_login: "Sign up",
     title: "Kika Makeup and Beauty Academy",
     spring_summer: "Discover Your Beauty",
-    find_your_style: "Get ready for 2025 with our curated makeup collection – bold shades, luxurious textures, and a glow that lasts.",
+    find_your_style:
+      "Get ready for 2025 with our curated makeup collection – bold shades, luxurious textures, and a glow that lasts.",
     shop_now: "Shop Now",
     men_collection: "Kika Makeup and Beauty Academy",
     sport_collection: "Kika Makeup and Beauty Academy",
@@ -48,7 +49,8 @@ const translations = {
     faqs: "FAQs",
     follow_us: "Follow us on",
     subscribe: "Subscribe.",
-    subscribe_message: "Subscribe to our newsletter to receive news on updates.",
+    subscribe_message:
+      "Subscribe to our newsletter to receive news on updates.",
     email_placeholder: "Your email address",
     contact_title: "Contact",
     home: "Home",
@@ -85,12 +87,14 @@ const translations = {
     mobile: "Mobile",
     email: "Email",
     email_value: "makeupbykika@hotmail.com",
-    about_page_extra_description: "Welcome to Kika Makeup and Beauty Academy, a place where creativity, innovation, and professionalism come together to prepare the future experts in the beauty industry. Our mission is to provide our students with the best training and practical skills to set them on the path to success. As an academy dedicated to makeup and beauty, we offer comprehensive courses that cover not only the basics of makeup but also advanced techniques that are current in the global market. Our program is designed to inspire the creative potential of our students and develop them into highly qualified professionals capable of tackling any challenge in the industry. At Kika Makeup and Beauty Academy, we value an individualized approach and strive to create a motivating and inspiring environment for every student. Our courses focus on the development of makeup techniques as well as the importance of confidence and creativity, which are crucial for building successful careers in this dynamic industry. Whether you aspire to become a professional makeup artist, a beautician, or to refine your skills in the latest beauty trends, our academy is here to guide you on that journey and provide you with the highest training standards.",
+    about_page_extra_description:
+      "Welcome to Kika Makeup and Beauty Academy, a place where creativity, innovation, and professionalism come together to prepare the future experts in the beauty industry. Our mission is to provide our students with the best training and practical skills to set them on the path to success. As an academy dedicated to makeup and beauty, we offer comprehensive courses that cover not only the basics of makeup but also advanced techniques that are current in the global market. Our program is designed to inspire the creative potential of our students and develop them into highly qualified professionals capable of tackling any challenge in the industry. At Kika Makeup and Beauty Academy, we value an individualized approach and strive to create a motivating and inspiring environment for every student. Our courses focus on the development of makeup techniques as well as the importance of confidence and creativity, which are crucial for building successful careers in this dynamic industry. Whether you aspire to become a professional makeup artist, a beautician, or to refine your skills in the latest beauty trends, our academy is here to guide you on that journey and provide you with the highest training standards.",
     online_store: "online store",
     testimonial_title: "Testimonial",
     our_brands_title: "Our Brands",
     about_us_title: "About Us",
-    about_us_description: "At Kika Makeup and Beauty Academy, we are dedicated to inspiring creativity, delivering excellence, and empowering future beauty professionals. Our academy offers comprehensive training in timeless makeup techniques and cutting-edge beauty skills, ensuring our students are prepared for success in a dynamic industry. We focus on nurturing talent and fostering confidence, helping individuals build lasting careers in the world of makeup and beauty.",
+    about_us_description:
+      "At Kika Makeup and Beauty Academy, we are dedicated to inspiring creativity, delivering excellence, and empowering future beauty professionals. Our academy offers comprehensive training in timeless makeup techniques and cutting-edge beauty skills, ensuring our students are prepared for success in a dynamic industry. We focus on nurturing talent and fostering confidence, helping individuals build lasting careers in the world of makeup and beauty.",
     showing: "Showing",
     of: "of",
     result: "result",
@@ -107,13 +111,13 @@ const translations = {
     all_sizes: "All sizes",
     no_sizes_found: "No sizes found",
     tags: "Tags",
-    no_tags_found: "No tags found",    
-    training: "Training",    
+    no_tags_found: "No tags found",
+    training: "Training",
     makeup: "Makeup",
     waxing: "Waxing",
     pedicure: "Pedicure",
     extras: "Extras",
-    searchPlaceholder: "Search ...",    
+    searchPlaceholder: "Search ...",
     allCategories: "All categories",
     noCategories: "No categories found",
     colors: "Colors",
@@ -128,7 +132,7 @@ const translations = {
     added_to_compare: "Added to compare",
     removed_from_compare: "Removed From Compare",
     removed_from_wishlist: "Removed From Wishlist",
-    removed_all_from_wishlist: "Removed All From Wishlist", 
+    removed_all_from_wishlist: "Removed All From Wishlist",
     item_decremented_from_cart: "Item Decremented From Cart",
     removed_from_cart: "Removed From Cart",
     removed_all_from_cart: "Removed All From Cart",
@@ -146,7 +150,8 @@ const translations = {
     hello_user: "Hello, {name}",
     if_not: "If Not ",
     logout: "Logout",
-    dashboard_intro: "From your account dashboard, you can easily check & view your recent orders, manage your shipping and billing addresses, and edit your password and account details.",
+    dashboard_intro:
+      "From your account dashboard, you can easily check & view your recent orders, manage your shipping and billing addresses, and edit your password and account details.",
     order: "Order",
     date: "Date",
     status: "Status",
@@ -173,9 +178,10 @@ const translations = {
     email_address: "Email Address",
     email_placeholder: "Enter your email",
     password_placeholder: "Enter your password",
-    dashboard_welcome: "This is your dashboard, where you can easily review your latest orders, manage your shipping and billing addresses, and update your password and profile information.",
+    dashboard_welcome:
+      "This is your dashboard, where you can easily review your latest orders, manage your shipping and billing addresses, and update your password and profile information.",
     no_payment_saved: "You have not saved a payment method yet.",
-    edit_address: "Edit address",    
+    edit_address: "Edit address",
     last_name: "Last name",
     display_name: "Display name",
     email_address: "Email Address",
@@ -199,16 +205,26 @@ const translations = {
     orders_question_2: "How Can I Cancel Or Change My Order?",
     orders_question_3: "Who Should I Contact If I Have Any Queries?",
 
-    shipping_answer_1: "Depending on the item(s) you purchase here and the location to which the item(s) will be delivered, different shipping methods will be available. At checkout, you will be prompted to choose a variety of shipping methods.",
-    shipping_answer_2: "Currently, we are accepting orders in Macedonia. For any inquiries, feel free to contact our customer support department via email or phone: Email: makeupbykika@hotmail.com, Phone: (+389) 78 / 343 - 377.",
-    shipping_answer_3: "Once your order has been shipped, you will receive an email with your tracking and shipping information. Simply click on the link in the email or select the ‘track order’ option here and enter your order number and email address or sign into your account.",
-    shipping_answer_4: "We ship only on business days. Business days are from Monday to Friday, excluding holidays. Any order placed after 12 P.M. ET will be processed the following business day. Due to a high volume period, your order may take longer than anticipated. For remote locations, please add an additional 2-5 business days to each shipping method’s expected delivery time. If you are not sure whether your location is remote, please click here for all the details.",
-    payment_answer_1: "We gladly accept Visa, MasterCard, and American Express. If your card has been issued outside the U.S. or Canada, please note that your order may need additional verification before it can be processed. Unfortunately, we cannot accept COD orders, and all orders must be paid in full once submitted online.",
-    payment_answer_2: "We do our best to provide accuracy in the pricing and other product information displayed on our website, but mistakes sometimes happen. In such cases, Furniture.ca expressly reserves the right not to honor pricing errors found on this website when accepting an online order. If an error occurs, we’ll let you know and cancel the order. Any authorized payments for that order will be immediately refunded. If you find an error once your order is delivered, please contact our Customer Care team or refer to our return policy.",
-    payment_answer_3: "We use your info to fulfill your order accurately and quickly and to improve your shopping experience. We respect your privacy and never share this information with anyone, except in connection with your order. If you want to know more, take a look at our Private Policy.",
-    orders_answer_1: "Click on a Product Photo or Product Name to see more detailed information. To place your order, choose the specification you want and enter the quantity, and click ‘Buy Now’. Please enter the required information such as Delivery Address, Quantity Type, etc. Before clicking “Place Order,” please check your Order Details carefully. If you want to add a new Delivery Address, click “Add a new address.” If you want to edit a current Delivery Address, click ‘Edit this address.’ After confirming your Order, you will be automatically taken to the Payment page.",
-    orders_answer_2: "Go to Your Orders. Click Cancel Items. Note: Select the checkbox next to each item you wish to remove from the order. If you want to cancel the entire order, select all of the items. Click Cancel checked items when finished.",
-    orders_answer_3: "You can contact our customer support team by the provided email or mobile phone. In case it’s not convenient to talk, you can come to our store to make your request.",
+    shipping_answer_1:
+      "Depending on the item(s) you purchase here and the location to which the item(s) will be delivered, different shipping methods will be available. At checkout, you will be prompted to choose a variety of shipping methods.",
+    shipping_answer_2:
+      "Currently, we are accepting orders in Macedonia. For any inquiries, feel free to contact our customer support department via email or phone: Email: makeupbykika@hotmail.com, Phone: (+389) 78 / 343 - 377.",
+    shipping_answer_3:
+      "Once your order has been shipped, you will receive an email with your tracking and shipping information. Simply click on the link in the email or select the ‘track order’ option here and enter your order number and email address or sign into your account.",
+    shipping_answer_4:
+      "We ship only on business days. Business days are from Monday to Friday, excluding holidays. Any order placed after 12 P.M. ET will be processed the following business day. Due to a high volume period, your order may take longer than anticipated. For remote locations, please add an additional 2-5 business days to each shipping method’s expected delivery time. If you are not sure whether your location is remote, please click here for all the details.",
+    payment_answer_1:
+      "We gladly accept Visa, MasterCard, and American Express. If your card has been issued outside the U.S. or Canada, please note that your order may need additional verification before it can be processed. Unfortunately, we cannot accept COD orders, and all orders must be paid in full once submitted online.",
+    payment_answer_2:
+      "We do our best to provide accuracy in the pricing and other product information displayed on our website, but mistakes sometimes happen. In such cases, Furniture.ca expressly reserves the right not to honor pricing errors found on this website when accepting an online order. If an error occurs, we’ll let you know and cancel the order. Any authorized payments for that order will be immediately refunded. If you find an error once your order is delivered, please contact our Customer Care team or refer to our return policy.",
+    payment_answer_3:
+      "We use your info to fulfill your order accurately and quickly and to improve your shopping experience. We respect your privacy and never share this information with anyone, except in connection with your order. If you want to know more, take a look at our Private Policy.",
+    orders_answer_1:
+      "Click on a Product Photo or Product Name to see more detailed information. To place your order, choose the specification you want and enter the quantity, and click ‘Buy Now’. Please enter the required information such as Delivery Address, Quantity Type, etc. Before clicking “Place Order,” please check your Order Details carefully. If you want to add a new Delivery Address, click “Add a new address.” If you want to edit a current Delivery Address, click ‘Edit this address.’ After confirming your Order, you will be automatically taken to the Payment page.",
+    orders_answer_2:
+      "Go to Your Orders. Click Cancel Items. Note: Select the checkbox next to each item you wish to remove from the order. If you want to cancel the entire order, select all of the items. Click Cancel checked items when finished.",
+    orders_answer_3:
+      "You can contact our customer support team by the provided email or mobile phone. In case it’s not convenient to talk, you can come to our store to make your request.",
 
     checkout_title: "Checkout",
     home: "Home",
@@ -252,7 +268,7 @@ const translations = {
     payment_payoneer: "Payoneer",
     accept_terms_label: "I have read and agree to the terms and conditions",
     place_order: "Place Order",
-    cart_empty_message: "No items found in cart to checkout",    
+    cart_empty_message: "No items found in cart to checkout",
     compare: "Compare",
     compare_page_title: "Compare",
     home: "Home",
@@ -280,13 +296,13 @@ const translations = {
     no_items_found_in_cart: "No items found in cart",
     wishlist_title: "Wishlist",
     view_wishlist: "View Wishlist",
-    no_items_in_wishlist: "No items found in wishlist",    
+    no_items_in_wishlist: "No items found in wishlist",
     home: "Home",
     product: "Product",
     price: "Price",
     clear_wishlist: "Clear Wishlist",
-    no_items_found: "No items found in wishlist",    
-    added_to_cart: "Added to cart",    
+    no_items_found: "No items found in wishlist",
+    added_to_cart: "Added to cart",
     out_of_stock: "Out of stock",
     select_option: "Select option",
     buy_now: "Buy now",
@@ -306,12 +322,12 @@ const translations = {
     cart_totals: "Cart totals",
     subtotal: "Subtotal",
     proceed_to_checkout: "Proceed to checkout",
-    no_items_in_cart: "No items found in cart",    
+    no_items_in_cart: "No items found in cart",
     search_products_placeholder: "Search ...",
     search_hint: "# Hit enter to search",
     out_of_stock: "Out of Stock",
     select_option: "Select Option",
-    buy_now: "Buy Now",    
+    buy_now: "Buy Now",
     share: "Share",
     new: "new",
     out: "out",
@@ -321,7 +337,8 @@ const translations = {
     reviews: "Reviews",
     reviews_on: "reviews on",
     add_review: "Add Review",
-    email_privacy_notice: "Your email address will not be published. Required fields are marked *",
+    email_privacy_notice:
+      "Your email address will not be published. Required fields are marked *",
     name: "Name",
     email: "Email",
     your_rating: "YOUR RATING",
@@ -331,7 +348,8 @@ const translations = {
     color: "Color",
     customer_reviews: "Customer Reviews",
     currency: "€ ",
-    cookies: "We use cookies to improve your experience on our site. By accepting, you agree to our use of cookies. For more information, read our Terms of Service and Privacy Policy.",
+    cookies:
+      "We use cookies to improve your experience on our site. By accepting, you agree to our use of cookies. For more information, read our Terms of Service and Privacy Policy.",
     accept: "Accept",
     continue_with_google: "Continue with Google",
     continue_with_facebook: "Continue with Facebook",
@@ -341,15 +359,17 @@ const translations = {
     please_verify_email: "Please verify your email address",
     logout_success: "You have successfully logged out.",
     profile_updated: "Profile updated successfully",
-    password_note: "**You can change only your password if you are logged in with user/pass. If you are logged in with other providers such as Google, your password must be changed in their respective account settings.",
+    password_note:
+      "**You can change only your password if you are logged in with user/pass. If you are logged in with other providers such as Google, your password must be changed in their respective account settings.",
     password_mismatch: "The passwords do not match. Please try again.",
     password_strength: "The password must be at least 6 characters long.",
     email_sending: "Email sent successfully!",
     thank_you_for_subscribing: "Thank you for subscribing!",
-    email_subject: 'Welcome to Kika Makeup and Beauty Academy!',
+    email_subject: "Welcome to Kika Makeup and Beauty Academy!",
     preview: "Welcome to Kika Makeup and Beauty Academy!",
     greeting: "Hi,",
-    welcomeMessage: "Thank you for subscribing to Kika Makeup and Beauty Academy. We are excited to help you explore the world of makeup and beauty. Stay tuned for exclusive tips, tutorials, and offers!",
+    welcomeMessage:
+      "Thank you for subscribing to Kika Makeup and Beauty Academy. We are excited to help you explore the world of makeup and beauty. Stay tuned for exclusive tips, tutorials, and offers!",
     getStarted: "Get started",
     bestRegards: "Best,",
     team: "The Kika Makeup and Beauty Academy Team",
@@ -362,7 +382,8 @@ const translations = {
     please_enter_your_password: "Please enter your password",
     invalid_email_format: "Invalid email format",
     you_have_not_made_any_order_yet: "You have not made any order yet.",
-    you_have_not_downloaded_any_file_yet: "You have not downloaded any file yet.",
+    you_have_not_downloaded_any_file_yet:
+      "You have not downloaded any file yet.",
     reset_password_for: "Reset Password for ",
     reset_password: "Reset Password",
     password_reset_success: "Password reset successful!",
@@ -391,10 +412,12 @@ const translations = {
     payment_information: "Payment Information",
     nameOnCard: "Name on Card is required.",
     cardNumber: "Invalid card number.",
-    invalid_expiration: "Invalid expiration date. Use MM/YY format and ensure the card is not expired.",
+    invalid_expiration:
+      "Invalid expiration date. Use MM/YY format and ensure the card is not expired.",
     invalid_cvc: "Invalid CVC. It should be 3 or 4 digits.",
     reservation_datetime_title: "Reservation",
-    reservation_datetime_description: "Please book an appointment for your service. We will contact you to confirm your reservation.",
+    reservation_datetime_description:
+      "Please book an appointment for your service. We will contact you to confirm your reservation.",
     reservation_date_label: "Date",
     reservation_time_label: "Time",
     date_of_reservation: "Reservation",
@@ -417,7 +440,8 @@ const translations = {
     signup_login: "Најавете се",
     title: "Кика - Академија за Шминка и Убавина",
     spring_summer: "Откријте ја вашата природна убавина",
-    find_your_style: "Подгответе се за 2025 со нашиот избор на шминка – впечатливи нијанси, луксузни текстури и сјај кој трае.",
+    find_your_style:
+      "Подгответе се за 2025 со нашиот избор на шминка – впечатливи нијанси, луксузни текстури и сјај кој трае.",
     shop_now: "Купувај сега",
     men_collection: "Кика - Академија за Шминка и Убавина",
     sport_collection: "Кика - Академија за Шминка и Убавина",
@@ -452,7 +476,8 @@ const translations = {
     faqs: "Најчесто поставувани прашања",
     follow_us: "Следете не на",
     subscribe: "Претплатете се.",
-    subscribe_message: "Претплатете се на нашиот весник за да добивате новости.",
+    subscribe_message:
+      "Претплатете се на нашиот весник за да добивате новости.",
     email_placeholder: "Вашата email адреса",
     contact_title: "Контакт",
     home: "Дома",
@@ -489,19 +514,21 @@ const translations = {
     mobile: "Мобилен",
     email: "Е-пошта",
     email_value: "makeupbykika@hotmail.com",
-    about_page_extra_description: "Добредојдовте во Кика Makeup and Beauty Academy, место каде што креативноста, иновацијата и професионализмот се комбинираат за да ги подготвиме идните експерти во индустријата за убавина. Наша мисија е да им овозможиме на нашите студенти најдобра обука и практични вештини кои ќе ги постават на патот кон успехот. Како академија посветена на шминкањето и убавината, нудиме сеопфатни курсеви кои опфаќаат не само основите на шминкањето, туку и напредни техники кои се актуелни на глобалниот пазар. Нашата програма е дизајнирана да ги поттикне креативните потенцијали на нашите студенти и да ги развие во високо квалификувани професионалци кои можат да се справат со секој предизвик во индустријата. Во Кика Makeup and Beauty Academy, го цениме индивидуалниот пристап и се стремиме да создадеме поттикнувачка и инспиративна средина за секој студент. Нашите курсеви се фокусирани на развојот на техниките за шминкање, како и на важноста на самодовербата и креативноста, што е клучно за градење успешни кариера во оваа динамична индустрија. Без разлика дали сакате да станете професионален шминкер, козметичар или да се усовршите во најновите трендови на убавина, нашата академија е тука за да ве води на тој пат и да ви овозможи највисоките стандарди на обука.",
+    about_page_extra_description:
+      "Добредојдовте во Кика Makeup and Beauty Academy, место каде што креативноста, иновацијата и професионализмот се комбинираат за да ги подготвиме идните експерти во индустријата за убавина. Наша мисија е да им овозможиме на нашите студенти најдобра обука и практични вештини кои ќе ги постават на патот кон успехот. Како академија посветена на шминкањето и убавината, нудиме сеопфатни курсеви кои опфаќаат не само основите на шминкањето, туку и напредни техники кои се актуелни на глобалниот пазар. Нашата програма е дизајнирана да ги поттикне креативните потенцијали на нашите студенти и да ги развие во високо квалификувани професионалци кои можат да се справат со секој предизвик во индустријата. Во Кика Makeup and Beauty Academy, го цениме индивидуалниот пристап и се стремиме да создадеме поттикнувачка и инспиративна средина за секој студент. Нашите курсеви се фокусирани на развојот на техниките за шминкање, како и на важноста на самодовербата и креативноста, што е клучно за градење успешни кариера во оваа динамична индустрија. Без разлика дали сакате да станете професионален шминкер, козметичар или да се усовршите во најновите трендови на убавина, нашата академија е тука за да ве води на тој пат и да ви овозможи највисоките стандарди на обука.",
     online_store: "онлајн продавница",
     testimonial_title: "Лични искуства",
     our_brands_title: "Брендови",
     about_us_title: "За Нас",
-    about_us_description: "Добредојдовте во Кика Makeup and Beauty Academy, место каде што креативноста, иновацијата и професионализмот се комбинираат за да ги подготвиме идните експерти во индустријата за убавина. Наша мисија е да им овозможиме на нашите студенти најдобра обука и практични вештини кои ќе ги постават на патот кон успехот. Како академија посветена на шминкањето и убавината, нудиме сеопфатни курсеви кои опфаќаат не само основите на шминкањето, туку и напредни техники кои се актуелни на глобалниот пазар.",
+    about_us_description:
+      "Добредојдовте во Кика Makeup and Beauty Academy, место каде што креативноста, иновацијата и професионализмот се комбинираат за да ги подготвиме идните експерти во индустријата за убавина. Наша мисија е да им овозможиме на нашите студенти најдобра обука и практични вештини кои ќе ги постават на патот кон успехот. Како академија посветена на шминкањето и убавината, нудиме сеопфатни курсеви кои опфаќаат не само основите на шминкањето, туку и напредни техники кои се актуелни на глобалниот пазар.",
     showing: "Прикажани",
     of: "од",
     result: "резултати",
     default: "Стандардно",
     price_high_to_low: "Цена - Од висока до ниска",
     price_low_to_high: "Цена - Од ниска до висока",
-    filter: "Филтер",    
+    filter: "Филтер",
     all_categories: "Сите услуги",
     no_categories_found: "Нема услуги",
     colors: "Бои",
@@ -514,7 +541,7 @@ const translations = {
     training: "Обуки",
     makeup: "Шминка",
     waxing: "Депилација",
-    pedicure: "Педикир",    
+    pedicure: "Педикир",
     extras: "Дополнителни услуги",
     searchPlaceholder: "Пребарување на услуги ...",
     categories: "Услуга",
@@ -532,7 +559,7 @@ const translations = {
     added_to_compare: "Додадено за споредба",
     removed_from_compare: "Отстрането од споредба",
     removed_from_wishlist: "Отстрането од омилени",
-    removed_all_from_wishlist: "Омилените услуги се избришани", 
+    removed_all_from_wishlist: "Омилените услуги се избришани",
     item_decremented_from_cart: "Ставката е намалена во кошничка",
     removed_from_cart: "Отстрането од кошничката",
     removed_all_from_cart: "Кошничката е испразнета",
@@ -550,7 +577,8 @@ const translations = {
     hello: "Здраво",
     if_not: "Ако не е",
     logout: "Одјави се",
-    dashboard_welcome: "Ова е вашата контролна табла, можете лесно да ги прегледате вашите најнови нарачки, да управувате со адресите за испорака и фактурирање, како и да ги ажурирате вашата лозинка и податоците за профилот.",
+    dashboard_welcome:
+      "Ова е вашата контролна табла, можете лесно да ги прегледате вашите најнови нарачки, да управувате со адресите за испорака и фактурирање, како и да ги ажурирате вашата лозинка и податоците за профилот.",
     order: "Нарачка",
     date: "Датум",
     status: "Статус",
@@ -603,16 +631,26 @@ const translations = {
     orders_question_1: "Како да направам нарачка?",
     orders_question_2: "Како можам да ја откажам или сменам мојата нарачка?",
     orders_question_3: "Кого треба да контактирам ако имам прашања?",
-    shipping_answer_1: "Во зависност од предметите што ги купувате тука и локацијата на која ќе бидат испорачани, достапни се различни методи за испорака. При наплата, ќе бидете повикани да изберете од повеќе методи за испорака.",
-    shipping_answer_2: "Во моментов примаме нарачки во Македонија. За какви било прашања, слободно контактирајте го нашиот оддел за корисничка поддршка преку е-пошта или телефон: Email: makeupbykika@hotmail.com, Телефон: (+389) 78 / 343 - 377",
-    shipping_answer_3: "Откако вашата нарачка ќе биде испорачана, ќе добиете е-пошта со информации за следење и испорака. Едноставно кликнете на линкот во е-поштата или изберете опцијата „следи нарачка“ тука и внесете го бројот на нарачката и е-поштата или најавете се на вашата сметка.",
-    shipping_answer_4: "Испорачуваме само во работни денови. Работни денови се од понеделник до петок, без празници. Секоја нарачка направена по 12 часот по источна време ќе биде обработена следниот работен ден. Поради голем обем на нарачки, вашата нарачка може да трае подолго од очекуваното. За оддалечени локации, додадете дополнителни 2-5 работни дена на очекуваното време за испорака. Ако не сте сигурни дали вашата локација е оддалечена, кликнете тука за сите детали.",
-    payment_answer_1: "Со задоволство прифаќаме Visa, MasterCard и American Express. Ако вашата картичка е издадена надвор од САД или Канада, имајте предвид дека вашата нарачка може да бара дополнителна верификација пред да биде обработена. За жал, не можеме да прифатиме нарачки со плаќање при испорака, и сите нарачки мора да бидат целосно платени штом се поднесат онлајн.",
-    payment_answer_2: "Се трудиме да обезбедиме точност во цените и другите информации за услуги прикажани на нашата веб-страница, но понекогаш се случуваат грешки. Во такви случаи, Furniture.ca изречно го задржува правото да не ги почитува грешките во цените откриени на оваа веб-страница при прифаќање онлајн нарачка. Ако се случи грешка, ќе ве известиме и ќе ја откажеме нарачката. Сите овластени плаќања за таа нарачка ќе бидат веднаш рефундирани. Ако најдете грешка откако вашата нарачка е доставена, ве молиме контактирајте го нашиот тим за грижа на корисници или погледнете ја нашата политика за враќање.",
-    payment_answer_3: "Ги користиме вашите информации за точно и брзо исполнување на вашата нарачка и за подобрување на вашето искуство при купување. Го почитуваме вашето право на приватност и никогаш не ги споделуваме овие информации со никого, освен во врска со вашата нарачка. Ако сакате да дознаете повеќе, погледнете ја нашата политика за приватност.",
-    orders_answer_1: "Кликнете на слика или име на услугата за да видите подетални информации. За да ја направите вашата нарачка, изберете ја спецификацијата што ја сакате и внесете ја количината, потоа кликнете „Купувај сега“. Внесете ги потребните информации како адреса за испорака, тип на количина итн. Пред да кликнете „Направи нарачка“, проверете ги деталите за вашата нарачка внимателно. Ако сакате да додадете нова адреса за испорака, кликнете „Додади нова адреса“. Ако сакате да уредите моментална адреса, кликнете „Уреди ја оваа адреса“. По потврдувањето на нарачката, автоматски ќе бидете префрлени на страницата за плаќање.",
-    orders_answer_2: "Одете на 'Вашите нарачки'. Кликнете 'Откажи ставки'. Забелешка: Изберете го полето покрај секоја ставка што сакате да ја отстраните од нарачката. Ако сакате да ја откажете целата нарачка, изберете ги сите ставки. Кликнете на 'Откажи избрани ставки' кога ќе завршите.",
-    orders_answer_3: "Можете да го контактирате нашиот тим за поддршка на корисници преку е-пошта или телефонски број. Ако не ви е погодно да зборувате, можете да дојдете во нашата продавница за да го направите вашето барање.",
+    shipping_answer_1:
+      "Во зависност од предметите што ги купувате тука и локацијата на која ќе бидат испорачани, достапни се различни методи за испорака. При наплата, ќе бидете повикани да изберете од повеќе методи за испорака.",
+    shipping_answer_2:
+      "Во моментов примаме нарачки во Македонија. За какви било прашања, слободно контактирајте го нашиот оддел за корисничка поддршка преку е-пошта или телефон: Email: makeupbykika@hotmail.com, Телефон: (+389) 78 / 343 - 377",
+    shipping_answer_3:
+      "Откако вашата нарачка ќе биде испорачана, ќе добиете е-пошта со информации за следење и испорака. Едноставно кликнете на линкот во е-поштата или изберете опцијата „следи нарачка“ тука и внесете го бројот на нарачката и е-поштата или најавете се на вашата сметка.",
+    shipping_answer_4:
+      "Испорачуваме само во работни денови. Работни денови се од понеделник до петок, без празници. Секоја нарачка направена по 12 часот по источна време ќе биде обработена следниот работен ден. Поради голем обем на нарачки, вашата нарачка може да трае подолго од очекуваното. За оддалечени локации, додадете дополнителни 2-5 работни дена на очекуваното време за испорака. Ако не сте сигурни дали вашата локација е оддалечена, кликнете тука за сите детали.",
+    payment_answer_1:
+      "Со задоволство прифаќаме Visa, MasterCard и American Express. Ако вашата картичка е издадена надвор од САД или Канада, имајте предвид дека вашата нарачка може да бара дополнителна верификација пред да биде обработена. За жал, не можеме да прифатиме нарачки со плаќање при испорака, и сите нарачки мора да бидат целосно платени штом се поднесат онлајн.",
+    payment_answer_2:
+      "Се трудиме да обезбедиме точност во цените и другите информации за услуги прикажани на нашата веб-страница, но понекогаш се случуваат грешки. Во такви случаи, Furniture.ca изречно го задржува правото да не ги почитува грешките во цените откриени на оваа веб-страница при прифаќање онлајн нарачка. Ако се случи грешка, ќе ве известиме и ќе ја откажеме нарачката. Сите овластени плаќања за таа нарачка ќе бидат веднаш рефундирани. Ако најдете грешка откако вашата нарачка е доставена, ве молиме контактирајте го нашиот тим за грижа на корисници или погледнете ја нашата политика за враќање.",
+    payment_answer_3:
+      "Ги користиме вашите информации за точно и брзо исполнување на вашата нарачка и за подобрување на вашето искуство при купување. Го почитуваме вашето право на приватност и никогаш не ги споделуваме овие информации со никого, освен во врска со вашата нарачка. Ако сакате да дознаете повеќе, погледнете ја нашата политика за приватност.",
+    orders_answer_1:
+      "Кликнете на слика или име на услугата за да видите подетални информации. За да ја направите вашата нарачка, изберете ја спецификацијата што ја сакате и внесете ја количината, потоа кликнете „Купувај сега“. Внесете ги потребните информации како адреса за испорака, тип на количина итн. Пред да кликнете „Направи нарачка“, проверете ги деталите за вашата нарачка внимателно. Ако сакате да додадете нова адреса за испорака, кликнете „Додади нова адреса“. Ако сакате да уредите моментална адреса, кликнете „Уреди ја оваа адреса“. По потврдувањето на нарачката, автоматски ќе бидете префрлени на страницата за плаќање.",
+    orders_answer_2:
+      "Одете на 'Вашите нарачки'. Кликнете 'Откажи ставки'. Забелешка: Изберете го полето покрај секоја ставка што сакате да ја отстраните од нарачката. Ако сакате да ја откажете целата нарачка, изберете ги сите ставки. Кликнете на 'Откажи избрани ставки' кога ќе завршите.",
+    orders_answer_3:
+      "Можете да го контактирате нашиот тим за поддршка на корисници преку е-пошта или телефонски број. Ако не ви е погодно да зборувате, можете да дојдете во нашата продавница за да го направите вашето барање.",
 
     checkout_title: "Плаќање",
     home: "Дома",
@@ -656,7 +694,7 @@ const translations = {
     payment_payoneer: "Payoneer",
     accept_terms_label: "Го прочитав и се согласувам со условите и правилата",
     place_order: "Нарачај",
-    cart_empty_message: "Нема услуги во вашата кошничката",    
+    cart_empty_message: "Нема услуги во вашата кошничката",
     compare: "Споредба",
     compare_page_title: "Споредба",
     home: "Дома",
@@ -684,13 +722,13 @@ const translations = {
     no_items_found_in_cart: "Нема услуги во кошничката",
     wishlist_title: "Омилени",
     view_wishlist: "Преглед на омилени услуги",
-    no_items_in_wishlist: "Листата на омилени услуги е празна",    
+    no_items_in_wishlist: "Листата на омилени услуги е празна",
     home: "Дома",
     product: "Услуга",
     price: "Цена",
     clear_wishlist: "Исчисти",
-    no_items_found: "Нема услуги во омилени",    
-    added_to_cart: "Додадено во кошничката",    
+    no_items_found: "Нема услуги во омилени",
+    added_to_cart: "Додадено во кошничката",
     out_of_stock: "Нема на залиха",
     select_option: "Избери опција",
     buy_now: "Купувај веднаш",
@@ -710,12 +748,12 @@ const translations = {
     cart_totals: "Вкупно",
     subtotal: "Пресметка",
     proceed_to_checkout: "Продолжи до наплата",
-    no_items_in_cart: "Нема услуги во кошничката",    
+    no_items_in_cart: "Нема услуги во кошничката",
     search_products_placeholder: "Пребарај услуги...",
     search_hint: "# Притиснете Enter за пребарување",
     out_of_stock: "Нема на залиха",
     select_option: "Изберете опција",
-    buy_now: "Купете веднаш",      
+    buy_now: "Купете веднаш",
     share: "Сподели",
     new: "ново",
     out: "нема",
@@ -725,7 +763,8 @@ const translations = {
     reviews: "Рецензии",
     reviews_on: "рецензии за",
     add_review: "Додади рецензија",
-    email_privacy_notice: "Вашата email адреса нема да биде објавена. Потребните полиња се означени со *",
+    email_privacy_notice:
+      "Вашата email адреса нема да биде објавена. Потребните полиња се означени со *",
     name: "Име",
     email: "Email",
     your_rating: "ВАШАТА ОЦЕНА",
@@ -735,25 +774,29 @@ const translations = {
     color: "Боја",
     customer_reviews: "Рецензии од клиенти",
     currency: "ден.",
-    cookies: "Користиме колачиња за да го подобриме вашето искуство на нашата веб-страница. Со прифаќањето, се согласувате со нашата употреба на колачиња. За повеќе информации, прочитајте ги нашите Услови за користење и Политика за приватност.",
+    cookies:
+      "Користиме колачиња за да го подобриме вашето искуство на нашата веб-страница. Со прифаќањето, се согласувате со нашата употреба на колачиња. За повеќе информации, прочитајте ги нашите Услови за користење и Политика за приватност.",
     accept: "Прифати",
     continue_with_google: "Продолжете со Google",
     continue_with_facebook: "Продолжете со Facebook",
     or: "или",
     registration_success: "Регистрацијата е успешна",
     login_success: "Успешно се најавивте",
-    please_verify_email: "Ве молиме, проверете ја вашата е-пошта за да ја потврдите.",
+    please_verify_email:
+      "Ве молиме, проверете ја вашата е-пошта за да ја потврдите.",
     logout_success: "Успешно се одјавивте.",
     profile_updated: "Профилот е успешно ажуриран.",
-    password_note: "**Можете да ја промените лозинката ако сте најавени со корисничко име и лозинка. Ако сте најавени со други провајдери како што се Google, вашата лозинка мора да се промени во нивните соодветни поставки за сметка.",
+    password_note:
+      "**Можете да ја промените лозинката ако сте најавени со корисничко име и лозинка. Ако сте најавени со други провајдери како што се Google, вашата лозинка мора да се промени во нивните соодветни поставки за сметка.",
     password_mismatch: "Лозинките не се совпаѓаат. Обидете се повторно.",
     password_strength: "Лозинката мора да содржи најмалку 6 знаци.",
     email_sending: "Email-от е успешно испратен!",
     thank_you_for_subscribing: "Ви благодарам што се претплативте!",
-    email_subject: 'Добредојдовте во Kika Makeup and Beauty Academy!',
+    email_subject: "Добредојдовте во Kika Makeup and Beauty Academy!",
     preview: "Добредојдовте во Кика Makeup and Beauty Academy!",
     greeting: "Здраво,",
-    welcomeMessage: "Ви благодариме што се претплативте на Кика Makeup and Beauty Academy. Возбудени сме што ќе ви помогнеме да го истражите светот на шминкањето и убавината. Следете нè за ексклузивни совети, туторијали и понуди!",
+    welcomeMessage:
+      "Ви благодариме што се претплативте на Кика Makeup and Beauty Academy. Возбудени сме што ќе ви помогнеме да го истражите светот на шминкањето и убавината. Следете нè за ексклузивни совети, туторијали и понуди!",
     getStarted: "Започни",
     bestRegards: "Со почит,",
     team: "Тимот на Кика Makeup and Beauty Academy",
@@ -775,11 +818,13 @@ const translations = {
     please_enter_your_email: "Ве молиме, внесете ја вашата е-пошта.",
     please_enter_a_subject: "Ве молиме, внесете предмет.",
     please_enter_a_message: "Ве молиме, внесете порака.",
-    message_too_short: "Пораката е прекратка. Ве молиме, внесете подолга порака.",	
+    message_too_short:
+      "Пораката е прекратка. Ве молиме, внесете подолга порака.",
     you_must_be_logged_in: "Мора да сте најавени за да објавете рецензија.",
     review_submitted_successfully: "Рецензијата е успешно испратена!",
     please_give_a_rating: "Ве молиме, доделете оценка.",
-    please_log_in_to_place_order: "Ве молиме, најавете се за да направите нарачка.",
+    please_log_in_to_place_order:
+      "Ве молиме, најавете се за да направите нарачка.",
     delete: "Избриши",
     please_select_payment_method: "Ве молиме, изберете начин на плаќање.",
     please_accept_terms: "Ве молиме, прифатете ги условите и правилата.",
@@ -795,12 +840,14 @@ const translations = {
     payment_information: "Информации за плаќање",
     nameOnCard: "Потребно е името на картичката.",
     cardNumber: "Невалиден број на картичка.",
-    invalid_expiration: "Невалиден датум на истекување. Користете формат ММ/ГГ и осигурајте се дека картичката не е истечена.",
+    invalid_expiration:
+      "Невалиден датум на истекување. Користете формат ММ/ГГ и осигурајте се дека картичката не е истечена.",
     invalid_cvc: "Невалиден CVC. Треба да биде 3 или 4 цифри.",
     reservation_datetime_title: "Резервирајте термин",
     reservation_date_label: "Датум",
     reservation_time_label: "Време",
-    reservation_datetime_description: "Ве молиме, резервирајте термин за вашата услуга. Ние ќе ве контактираме за да ја потврдиме вашата резервација.",
+    reservation_datetime_description:
+      "Ве молиме, резервирајте термин за вашата услуга. Ние ќе ве контактираме за да ја потврдиме вашата резервација.",
     date_of_reservation: "Резервација",
     time_of_reservation: "Време",
     pending: "На чекање",
@@ -813,7 +860,7 @@ const translations = {
     choose_date: "Изберете датум",
     user: "Корисник",
     order_deleted: "Нарачката е избришана.",
-    }
+  },
 };
 
 const LocalizationContext = createContext();
@@ -823,23 +870,26 @@ export const useLocalization = () => {
 };
 
 export const LocalizationProvider = ({ children }) => {
-  const savedLang = localStorage.getItem('language');
-  const [language, setLanguage] = useState(savedLang);  // Tracks the current language
+  const savedLang = localStorage.getItem("language") || "mk";
+  const [language, setLanguage] = useState(savedLang); // Tracks the current language
 
-   useEffect(() => {
-    const savedLang = localStorage.getItem('language');
-    if (savedLang && (savedLang === 'mk' || savedLang === 'en')) {
+  useEffect(() => {
+    const savedLang = localStorage.getItem("language");
+    if (savedLang && (savedLang === "mk" || savedLang === "en")) {
       setLanguage(savedLang);
+    } else {
+      setLanguage("mk"); // fallback to default
+      localStorage.setItem("language", "mk");
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('language', language);
-    document.body.style.fontFamily = fonts[language] || fonts.en; 
+    localStorage.setItem("language", language);
+    document.body.style.fontFamily = fonts[language] || fonts.en;
   }, [language]);
 
   const changeLanguage = (lang) => {
-    if (lang === 'mk' || lang === 'en') {
+    if (lang === "mk" || lang === "en") {
       setLanguage(lang);
     }
   };
@@ -849,7 +899,9 @@ export const LocalizationProvider = ({ children }) => {
   };
 
   return (
-    <LocalizationContext.Provider value={{ changeLanguage, t, currentLanguage: language }}>
+    <LocalizationContext.Provider
+      value={{ changeLanguage, t, currentLanguage: language }}
+    >
       {children}
     </LocalizationContext.Provider>
   );
