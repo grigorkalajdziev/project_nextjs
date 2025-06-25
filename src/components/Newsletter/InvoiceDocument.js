@@ -179,7 +179,7 @@ function InvoiceDocument(props) {
                   <Text style={[styles.tableCol, styles.firstCol, styles.label]}>{item.name}</Text>
                   <Text style={styles.quantityCol}>{item.quantity}</Text>
                   <Text style={styles.priceCol}>{item.price}</Text>
-                  <Text style={styles.totalCol}>{item.price * item.quantity} €</Text>
+                  <Text style={styles.totalCol}>{(item.price * item.quantity).toFixed(2)} €</Text>
                 </View>
               ))}
             </View>
@@ -189,7 +189,7 @@ function InvoiceDocument(props) {
         <View style={styles.section}>
           <View style={styles.row}>
             <Text style={styles.label}>Total Amount:</Text>
-            <Text style={styles.label}>{subtotal} €</Text>
+            <Text style={styles.label}>{subtotal.toFixed(2)} €</Text>
           </View>
         </View>
 
