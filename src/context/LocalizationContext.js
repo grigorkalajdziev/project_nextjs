@@ -823,18 +823,29 @@ export const useLocalization = () => {
 };
 
 export const LocalizationProvider = ({ children }) => {
-  const [language, setLanguage] = useState('mk');  // Tracks the current language
+  const savedLang = localStorage.getItem('language');
+  const [language, setLanguage] = useState(savedLang);  // Tracks the current language
+
+   useEffect(() => {
+    const savedLang = localStorage.getItem('language');
+    if (savedLang && (savedLang === 'mk' || savedLang === 'en')) {
+      setLanguage(savedLang);
+    }
+  }, []);
 
   useEffect(() => {
+    localStorage.setItem('language', language);
     document.body.style.fontFamily = fonts[language] || fonts.en; 
   }, [language]);
 
   const changeLanguage = (lang) => {
-    setLanguage(lang);
+    if (lang === 'mk' || lang === 'en') {
+      setLanguage(lang);
+    }
   };
 
   const t = (key) => {
-    return translations[language][key] || key;  // default to key if not found
+    return (translations[language] && translations[language][key]) || key;
   };
 
   return (

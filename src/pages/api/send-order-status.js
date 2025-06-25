@@ -9,6 +9,7 @@ import CancelationEmail from "../../components/Newsletter/CancelationEmail"
 import ReservationEmail from "../../components/Newsletter/ReservationEmail";
 import ReservationEmail_MK from "../../components/Newsletter/ReservationEmail_MK";
 import InvoiceDocument from "../../components/Newsletter/InvoiceDocument";
+import InvoiceDocument_MK from "../../components/Newsletter/InvoiceDocument_MK";
 import ConfirmationDocument from "../../components/Newsletter/ConfirmationDocument";
 import ConfirmationDocument_MK from "../../components/Newsletter/ConfirmationDocument_MK";
 
@@ -115,13 +116,14 @@ export default async function handler(req, res) {
       let filename;
 
       const ConfirmationDocComponent = language === 'mk' ? ConfirmationDocument_MK : ConfirmationDocument;
+      const InvoiceDocComponent = language === 'mk' ? InvoiceDocument_MK : InvoiceDocument;
 
       if (paymentMethod === 'payment_cash') {
         stream = await renderToStream(<ConfirmationDocComponent {...pdfProps} />);
         filename = language === 'mk' ? `Потврда-${orderNumber}.pdf` : `Confirmation-${orderNumber}.pdf`;
       } else {
-        stream = await renderToStream(<InvoiceDocument {...pdfProps} />);
-        filename = `Invoice-${orderNumber}.pdf`;
+        stream = await renderToStream(<InvoiceDocComponent {...pdfProps} />);
+        filename = language === 'mk' ? `Потврда-${orderNumber}.pdf` : `Invoice-${orderNumber}.pdf`;
       }
 
       const buffer = await getStreamBuffer(stream);
