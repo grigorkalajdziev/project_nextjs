@@ -123,7 +123,7 @@ export default async function handler(req, res) {
         filename = language === 'mk' ? `Потврда-${orderNumber}.pdf` : `Confirmation-${orderNumber}.pdf`;
       } else {
         stream = await renderToStream(<InvoiceDocComponent {...pdfProps} />);
-        filename = language === 'mk' ? `Потврда-${orderNumber}.pdf` : `Invoice-${orderNumber}.pdf`;
+        filename = language === 'mk' ? `Фактура-${orderNumber}.pdf` : `Invoice-${orderNumber}.pdf`;
       }
 
       const buffer = await getStreamBuffer(stream);
