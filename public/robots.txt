@@ -1,9 +1,11 @@
-# *
 User-agent: *
-Allow: /
+Disallow: /
+Allow: /home/trending
+Allow: /other/about
+Allow: /other/contact
+Allow: /other/faq
+Allow: /shop/left-sidebar
+Allow: /other/login-register
 
-# Host
 Host: https://www.kikamakeupandbeautyacademy.com
-
-# Sitemaps
 Sitemap: https://www.kikamakeupandbeautyacademy.com/sitemap.xml

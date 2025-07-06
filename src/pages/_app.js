@@ -78,7 +78,7 @@ function LocalizedHead({ canonicalUrl }) {
 
   return (
     <Head>
-      <title>{t("Кика - Академија за шминка и убавина")}</title>
+      <title>Кика - Академија за шминка и убавина</title>
       <meta
         name="description"
         content={t("title")}

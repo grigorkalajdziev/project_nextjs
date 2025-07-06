@@ -5,7 +5,7 @@ const nextConfig = {
     forceSwcTransforms: true,
   },
   env: {
-    PUBLIC_URL: "", // You can populate this with your actual domain
+    PUBLIC_URL: "https://www.kikamakeupandbeautyacademy.com", 
   },
   async redirects() {
     return [
