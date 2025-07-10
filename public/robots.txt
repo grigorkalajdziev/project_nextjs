@@ -9,3 +9,4 @@ Allow: /other/login-register
 
 Host: https://www.kikamakeupandbeautyacademy.com
 Sitemap: https://www.kikamakeupandbeautyacademy.com/sitemap.xml
+Sitemap: https://www.kikamakeupandbeautyacademy.com/sitemap-0.xml
