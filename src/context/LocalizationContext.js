@@ -602,7 +602,7 @@ const translations = {
     new_password: "Нова лозинка",
     confirm_password: "Потврди лозинка",
     save_changes: "Зачувај",
-    customer_login: "Најава на корисник",
+    customer_login: "Најава",
     home: "Дома",
     login: "Најава",
     welcome_back: "Добредојдовте повторно!",
