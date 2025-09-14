@@ -155,10 +155,10 @@
     "tag": ["makeup"],
     "stock": 14,
     "thumbImage": [
-      "/assets/images/product/decor/5.jpg"
+      "/assets/images/product/decor/MakeupCorrection.jpg"
     ],
     "image": [
-      "/assets/images/product/decor/5.jpg"
+      "/assets/images/product/decor/MakeupCorrection.jpg"
     ],
     "shortDescription": {
       "en": "Quick touch-ups to perfect your look.",
@@ -189,10 +189,10 @@
     "tag": ["pedicure"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/decor/6.jpg"
+      "/assets/images/product/decor/RussianApparatusPedicure.jpg"
     ],
     "image": [
-      "/assets/images/product/decor/6.jpg"
+      "/assets/images/product/decor/RussianApparatusPedicure.jpg"
     ],
     "shortDescription": {
       "en": "Precision foot care with advanced techniques.",
@@ -298,7 +298,7 @@
     ],
     "shortDescription": {
             "en": "Smooth, hair-free legs with professional waxing.",
-            "mk": "Мазни, безвлакнести нозе со професионално восок."
+            "mk": "Мазни, безвлакнести нозе со професионален восок."
         },
         "fullDescription": {
             "en": "This service provides thorough hair removal for your entire legs, leaving your skin soft and smooth. Perfect for those looking for long-lasting results and a polished look without the hassle of shaving.",
@@ -733,10 +733,10 @@
     "tag": ["extras","makeup"],
     "stock": 20,
     "thumbImage": [
-      "/assets/images/product/cosmetics/2.jpg"
+      "/assets/images/product/cosmetics/ArtificialEyelashes.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/2.jpg"
+      "/assets/images/product/cosmetics/ArtificialEyelashes.jpg"
     ],
     "shortDescription": {
       "en": "Enhance your eyes with beautifully applied artificial eyelashes.",
@@ -767,10 +767,10 @@
     "tag": ["extras","makeup"],
     "stock": 40,
     "thumbImage": [
-      "/assets/images/product/cosmetics/3.jpg"
+      "/assets/images/product/cosmetics/IndividualEyelashes.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/3.jpg"
+      "/assets/images/product/cosmetics/IndividualEyelashes.jpg"
     ],
     "shortDescription": {
       "en": "Custom eyelash extensions for a fuller, natural look.",
@@ -801,10 +801,10 @@
     "tag": ["extras","makeup"],
     "stock": 50,
     "thumbImage": [
-      "/assets/images/product/cosmetics/4.jpg"
+      "/assets/images/product/cosmetics/SprayTan.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/4.jpg"
+      "/assets/images/product/cosmetics/SprayTan.jpg"
     ],
     "shortDescription": {
       "en": "Get a natural, sun-kissed glow with spray tanning.",
@@ -835,10 +835,10 @@
     "tag": ["extras","makeup"],
     "stock": 40,
     "thumbImage": [
-      "/assets/images/product/cosmetics/5.jpg"
+      "/assets/images/product/cosmetics/LashLamination.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/5.jpg"
+      "/assets/images/product/cosmetics/LashLamination.jpg"
     ],
     "shortDescription": {
       "en": "Lift and curl your natural lashes for a fuller, defined look.",
@@ -869,10 +869,10 @@
     "tag": ["extras","makeup"],
     "stock": 40,
     "thumbImage": [
-      "/assets/images/product/cosmetics/6.jpg"
+      "/assets/images/product/cosmetics/BrowLamination.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/6.jpg"
+      "/assets/images/product/cosmetics/BrowLamination.jpg"
     ],
    "shortDescription": {
         "en": "Shape and style your brows for a natural, fuller appearance.",
@@ -903,10 +903,10 @@
     "tag": ["extras", "makeup"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/cosmetics/7.jpg"
+      "/assets/images/product/cosmetics/Microblading.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/7.jpg"
+      "/assets/images/product/cosmetics/Microblading.jpg"
     ],
     "shortDescription": {
       "en": "Perfectly shaped eyebrows with microblading and included correction.",
