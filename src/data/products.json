@@ -64,7 +64,7 @@
     },
     "fullDescription": {
       "en": "Prom is a night to remember, and your makeup should be just as memorable. This service offers a personalized makeup application that matches your outfit and highlights your best features, ensuring you feel confident and radiant.",
-      "mk": "Матурата е вечер која ќе се памети, а вашата шминка треба да биде исто така незаборавна. Оваа услуга нуди персонализирана шминка која ќе го усогласи вашиот изглед и ќе ги истакне вашите најдобри карактеристики, осигурувајќи дека ќе се чувствувате уверено и зрачење."
+      "mk": "Матурата е вечер која ќе се памети, а вашата шминка треба да биде исто така незаборавна. Оваа услуга нуди персонализирана шминка која ќе го усогласи вашиот изглед и ќе ги истакне вашите најдобри карактеристики, осигурувајќи дека ќе се чувствувате уверено и со зрачење."
     }
   },
   {
@@ -325,10 +325,10 @@
     "tag": ["waxing"],
     "stock": 14,
     "thumbImage": [
-      "/assets/images/product/decor/10.jpg"
+      "/assets/images/product/decor/FullLegsandBikiniWaxing.jpg"
     ],
     "image": [
-      "/assets/images/product/decor/10.jpg"
+      "/assets/images/product/decor/FullLegsandBikiniWaxing.jpg"
     ],
     "shortDescription": {
       "en": "Complete leg waxing with bikini area included.",
@@ -359,10 +359,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/1.jpg"
+      "/assets/images/product/fashion/HalfLegsWaxing.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/1.jpg"
+      "/assets/images/product/fashion/HalfLegsWaxing.jpg"
     ],
     "shortDescription": {
       "en": "Targeted waxing for either upper or lower legs.",
@@ -393,10 +393,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/2.jpg"
+      "/assets/images/product/fashion/FullArmsWaxing.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/2.jpg"
+      "/assets/images/product/fashion/FullArmsWaxing.jpg"
     ],
     "shortDescription": {
       "en": "Hair-free arms with professional waxing.",
@@ -427,10 +427,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/3.jpg"
+      "/assets/images/product/fashion/HalfArmsWaxing.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/3.jpg"
+      "/assets/images/product/fashion/HalfArmsWaxing.jpg"
     ],
     "shortDescription": {
       "en": "Waxing for forearms or upper arms.",
@@ -495,10 +495,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/5.jpg"
+      "/assets/images/product/fashion/HalfLegsandIntimateAreaWaxing.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/5.jpg"
+      "/assets/images/product/fashion/HalfLegsandIntimateAreaWaxing.jpg"
     ],
     "shortDescription": {
       "en": "Combined waxing for half legs and intimate areas.",
@@ -529,10 +529,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/6.jpg"
+      "/assets/images/product/fashion/UnderarmsWaxing.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/6.jpg"
+      "/assets/images/product/fashion/UnderarmsWaxing.jpg"
     ],
     "shortDescription": {
       "en": "Quick and effective underarm hair removal.",
@@ -563,10 +563,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/7.jpg"
+      "/assets/images/product/fashion/StomachWaxing.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/7.jpg"
+      "/assets/images/product/fashion/StomachWaxing.jpg"
     ],
     "shortDescription": {
       "en": "Smooth and hair-free stomach area with waxing.",
@@ -597,10 +597,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/8.jpg"
+      "/assets/images/product/fashion/FullFaceWaxing.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/8.jpg"
+      "/assets/images/product/fashion/FullFaceWaxing.jpg"
     ],
     "shortDescription": {
       "en": "Gentle and precise waxing for the entire face.",
