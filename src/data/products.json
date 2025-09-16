@@ -64,7 +64,7 @@
     },
     "fullDescription": {
       "en": "Prom is a night to remember, and your makeup should be just as memorable. This service offers a personalized makeup application that matches your outfit and highlights your best features, ensuring you feel confident and radiant.",
-      "mk": "Матурата е вечер која ќе се памети, а вашата шминка треба да биде исто така незаборавна. Оваа услуга нуди персонализирана шминка која ќе го усогласи вашиот изглед и ќе ги истакне вашите најдобри карактеристики, осигурувајќи дека ќе се чувствувате уверено и со зрачење."
+      "mk": "Матурата е вечер за паметење, а вашата шминка треба да биде подеднакво незаборавна. Оваа услуга нуди персонализирана шминка која го надополнува вашиот изглед и ги истакнува вашите најдобри карактеристики, правејќи да изгледате и се чувствувате совршено."
     }
   },
   {
@@ -98,7 +98,7 @@
     },
     "fullDescription": {
       "en": "Bridal makeup is designed to make you glow on your wedding day. With long-lasting and camera-ready products, this service provides a timeless and elegant look tailored to your preferences and the theme of your wedding.",
-      "mk": "Невестинската шминка е специјално дизајнирана да ве направи да блескате на вашиот голем ден. Со внимателен избор на долготрајни производи, оваа услуга обезбедува безвременски и елегантен изглед кој совршено се усогласува со вашите лични преференции и темата на свадбата."
+      "mk": "Невестинската шминка е специјално дизајнирана да ве направи да блескате на вашиот голем ден. Со внимателен избор на долготрајни производи, оваа услуга обезбедува безвременски и елегантен изглед кој ја одразува вашата индивидуалност и уникатната свадбена приказна."
     }
   },
   {
@@ -132,7 +132,7 @@
     },
     "fullDescription": {
       "en": "Enhance the beauty of your décolleté with professional makeup techniques that add a touch of elegance. Perfect for weddings, photoshoots, or special events, this service ensures a smooth and radiant finish.",
-      "mk": "Зголемете ја убавината на вашето деколте со професионални техники на шминка кои додаваат елеганција. Совршено за свадби, фотосесии или специјални настани, оваа услуга осигурува глатка и сјајна завршница."
+      "mk": "Подарете му луксузен изглед на вашето деколте со уметнички техники на шминка. Оваа услуга е совршен избор за венчавки, фотосесии и специјални прилики, обезбедувајќи мазен и светкав завршен ефект."
     }
   },
   {
@@ -461,10 +461,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/4.jpg"
+      "/assets/images/product/fashion/BikiniWaxing.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/4.jpg"
+      "/assets/images/product/fashion/BikiniWaxing.jpg"
     ],
     "shortDescription": {
       "en": "Smooth and clean bikini line with expert waxing.",
