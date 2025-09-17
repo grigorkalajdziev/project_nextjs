@@ -631,10 +631,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/9.jpg"
+      "/assets/images/product/fashion/FullFaceandEyebrowsWaxing.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/9.jpg"
+      "/assets/images/product/fashion/FullFaceandEyebrowsWaxing.jpg"
     ],
     "shortDescription": {
       "en": "Complete face waxing with eyebrow shaping.",
@@ -665,10 +665,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/10.jpg"
+      "/assets/images/product/fashion/UpperLipWaxing.jpg"
     ],
     "image": [
-      "/assets/images/product/fashion/10.jpg"
+      "/assets/images/product/fashion/UpperLipWaxing.jpg"
     ],
     "shortDescription": {
       "en": "Precise waxing for a smooth upper lip.",
@@ -699,10 +699,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/cosmetics/1.jpg"
+      "/assets/images/product/cosmetics/ButtocksWaxing.jpg"
     ],
     "image": [
-      "/assets/images/product/cosmetics/1.jpg"     
+      "/assets/images/product/cosmetics/ButtocksWaxing.jpg"     
     ],
     "shortDescription": {
       "en": "Smooth and neat waxing for the intimate area.",
