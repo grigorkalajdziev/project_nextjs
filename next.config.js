@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   experimental: {    
     forceSwcTransforms: true,
   },
   env: {
-    PUBLIC_URL: "https://www.kikamakeupandbeautyacademy.com", 
+    PUBLIC_URL: "", 
   },
   async redirects() {
     return [
