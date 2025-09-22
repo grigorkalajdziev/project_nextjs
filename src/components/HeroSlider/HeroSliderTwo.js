@@ -19,7 +19,7 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
     return (
       <div className="hero-slider-loading">
         <div className="spinner"></div>
-        <span>Loading...</span>
+        <span></span>
       </div>
     );
   }
