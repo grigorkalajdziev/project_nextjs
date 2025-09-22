@@ -14,8 +14,14 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
     }
   }, [currentLanguage]);
 
+
   if (!isReady) {
-    return <div>Loading...</div>;  // Show loading state until localization is ready
+    return (
+      <div className="hero-slider-loading">
+        <div className="spinner"></div>
+        <span>Loading...</span>
+      </div>
+    );
   }
 
   const handleButtonClick = () => {
