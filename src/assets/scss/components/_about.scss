@@ -81,6 +81,17 @@
     right: -10%;
   }
 
+  .bordered-text {
+  /* For Chrome/Safari/Edge */
+  -webkit-text-stroke: 0.5px #888; // soft blue border
+  /* For Firefox and fallback */
+  text-shadow:
+    0.5px 0.5px 0 #888,
+    -0.5px -0.5px 0 #888,
+    0.5px -0.5px 0 #888,
+    -0.5px 0.5px 0 #888;
+}
+
   .play-icon {
     button {
       border: none;

@@ -93,7 +93,7 @@ const About = () => {
                         />
                       </button>
                     </div>
-                    <h1 className="text-right">{t("our_story")}</h1>
+                    <h1 className="text-right bordered-text">{t("our_story")}</h1>
                   </div>
                 </div>
               </Col>

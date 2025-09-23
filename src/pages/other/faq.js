@@ -53,14 +53,14 @@ const Faq = () => {
                       </Accordion.Body>
                     </Accordion.Item>
 
-                    <Accordion.Item eventKey="2">
+                    {/* <Accordion.Item eventKey="2">
                       <Accordion.Header>
                         {t("shipping_question_3")}
                       </Accordion.Header>
                       <Accordion.Body>
                         <p className="text-left">{t("shipping_answer_3")}</p>
                       </Accordion.Body>
-                    </Accordion.Item>
+                    </Accordion.Item> */}
 
                     <Accordion.Item eventKey="3">
                       <Accordion.Header>
