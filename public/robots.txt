@@ -1,7 +1,9 @@
+# *
 User-agent: *
 Allow: /
 
-Sitemap: https://www.kikamakeupandbeautyacademy.com/sitemap.xml
-Sitemap: https://www.kikamakeupandbeautyacademy.com/sitemap-0.xml
-
+# Host
 Host: https://www.kikamakeupandbeautyacademy.com
+
+# Sitemaps
+Sitemap: https://www.kikamakeupandbeautyacademy.com/sitemap.xml
