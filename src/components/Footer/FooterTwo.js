@@ -53,8 +53,11 @@ const FooterTwo = ({ footerBgClass }) => {
             {/*=======  copyright text  =======*/}
             <div className="footer-single-widget__copyright">
               &copy; {new Date().getFullYear() + " "}
-              <a href="https://www.kikamakeupandbeautyacademy.com" target="_blank">
-              {t("brand_name")}
+              <a
+                href="https://www.kikamakeupandbeautyacademy.com"
+                target="_blank"
+              >
+                {t("brand_name")}
               </a>
               <span>{t("all_rights_reserved")}</span>
             </div>
@@ -67,11 +70,11 @@ const FooterTwo = ({ footerBgClass }) => {
                 <li>
                   <a href="/other/about">{t("about_us")}</a>
                 </li>
-                
+
                 <li>
                   <a href="/other/contact">{t("contact")}</a>
                 </li>
-               
+
                 <li>
                   <a href="/other/faq">{t("faqs")}</a>
                 </li>
@@ -83,7 +86,7 @@ const FooterTwo = ({ footerBgClass }) => {
             <h5 className="footer-single-widget__title">{t("useful_links")}</h5>
             <nav className="footer-single-widget__nav">
               <ul>
-              <li>
+                <li>
                   <a href="/other/login-register">{t("signup_login")}</a>
                 </li>
                 <li>
@@ -92,7 +95,12 @@ const FooterTwo = ({ footerBgClass }) => {
                 <li>
                   <a href="/other/checkout">{t("checkout")}</a>
                 </li>
-                
+                <li>
+                  <a href="/other/privacy-policy">{t("privacy_policy")}</a>
+                </li>
+                <li>
+                  <a href="/other/terms-of-service">{t("terms_of_service")}</a>
+                </li>
               </ul>
             </nav>
           </Col>
@@ -127,9 +135,11 @@ const FooterTwo = ({ footerBgClass }) => {
 
           <Col className="footer-single-widget space-mb--50">
             <div className="footer-subscribe-widget">
-              <h2 className="footer-subscribe-widget__title">{t("subscribe")}.</h2>
+              <h2 className="footer-subscribe-widget__title">
+                {t("subscribe")}.
+              </h2>
               <p className="footer-subscribe-widget__subtitle">
-              {t("subscribe_message")}
+                {t("subscribe_message")}
               </p>
               {/* email subscription */}
               <SubscribeEmailTwo mailchimpUrl="https://kikamakeupandbeautyacademy.us16.list-manage.com/subscribe/post?u=28d8488f5b8e2382946ca9989&amp;id=98a58955d0" />

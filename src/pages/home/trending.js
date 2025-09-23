@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useState } from "react";
 import { connect } from "react-redux";
 import { Container, Row } from "react-bootstrap";
 import { IoIosAdd } from "react-icons/io";
@@ -18,8 +19,15 @@ import heroSliderData from "../../data/hero-sliders/hero-slider-two.json";
 
 const Trending = ({ products }) => {
   const { t } = useLocalization();
+  const [loading, setLoading] = useState(false);
+
+  const handleSeeMoreClick = (e) => {
+    setLoading(true);
+    setTimeout(() => setLoading(false), 1500);
+  };
+
   return (
-    (<LayoutFive>
+    <LayoutFive>
       {/* hero slider */}
       <HeroSliderTwo
         sliderData={heroSliderData}
@@ -48,10 +56,24 @@ const Trending = ({ products }) => {
             <Link
               href="/shop/left-sidebar"
               as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              className="lezada-loadmore-button">
-
-              <IoIosAdd />{t("see_more")}
-
+              className="lezada-loadmore-button"
+              onClick={handleSeeMoreClick}
+            >
+              {loading && (
+                <span className="spin-icon">
+                  <IoIosAdd />
+                </span>
+              )}
+              {loading ? (
+                ""
+              ) : (
+                <>
+                  <span>
+                    <IoIosAdd />
+                  </span>
+                  {t("see_more")}
+                </>
+              )}
             </Link>
           </div>
         </Container>
@@ -60,14 +82,14 @@ const Trending = ({ products }) => {
       <BlogPostSlider blogData={blogData} spaceBottomClass="space-mb--50" />
       {/*shop info*/}
       <ShopInfo />
-    </LayoutFive>)
+    </LayoutFive>
   );
 };
 
 const mapStateToProps = (state) => {
   const products = state.productData;
   return {
-    products: getProducts(products, "makeup", "extras", 10)
+    products: getProducts(products, "makeup", "extras", 10),
   };
 };
 

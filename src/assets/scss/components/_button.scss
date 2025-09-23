@@ -200,5 +200,15 @@
   }
 }
 
+.spin-icon {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
 /*=====  End of button  ======*/
 

@@ -89,7 +89,7 @@
 }
 
 .footer-copyright-text {
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.3;
 
   span {
@@ -235,7 +235,7 @@
   }
 
   &__title {    
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
 
     margin-bottom: 30px;
@@ -244,7 +244,7 @@
   }
 
   &__copyright {
-    font-size: 15px;
+    font-size: 12px;
     line-height: 2;
 
     color: $grey--seven;
@@ -256,9 +256,9 @@
   &__nav {
     ul {
       li {
-        margin-bottom: 30px;
+        margin-bottom: 7px;
         a {
-          font-size: 18px;
+          font-size: 14px;
           line-height: 1.3;
 
           position: relative;
@@ -336,7 +336,7 @@
 
 .footer-subscribe-widget {  
   &__title {    
-    font-size: 20px;
+    font-size: 16px;
 
     margin-bottom: 30px;
 
@@ -344,14 +344,14 @@
   }
   &__subtitle {
     line-height: 1.3;
-
+    font-size: 14px;
     margin-bottom: 35px;
   }
 
   .subscribe-form {
     .mc-form {
       position: relative;
-
+      font-size: 14px;
       margin-bottom: 10px;
     }
     input {
