@@ -459,7 +459,7 @@ const translations = {
     governing_law: "Governing Law",
     governing_law_text: "These Terms of Service are governed by the laws of North Macedonia. Any disputes will be resolved in accordance with applicable law.",
     contact: "Contact",
-    contact_text: "For any questions about these Terms of Service, please contact us at: makeupbykika@hotmail.com"
+    contact_text: "For any questions about these Terms of Service, please contact us at: "
     
   },
   mk: {
@@ -924,7 +924,7 @@ const translations = {
     governing_law: "Применливо право",
     governing_law_text: "Овие Услови на користење се регулирани со законите на Северна Македонија. Сите спорови ќе се решаваат согласно применливото законодавство.",
     contact: "Контакт",
-    contact_text: "За било какви прашања во врска со овие Услови на користење, ве молиме контактирајте не на: makeupbykika@hotmail.com"    
+    contact_text: "За било какви прашања во врска со овие Услови на користење, ве молиме контактирајте не на: "    
   },
 };
 
