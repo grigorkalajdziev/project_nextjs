@@ -39,6 +39,12 @@ export default async function handler(req, res) {
     language = 'en',
   } = req.body;  
 
+  const normalizedProducts = products.map(p => ({
+      ...p,
+      name: typeof p.name === "object" ? p.name[language] || p.name.en : p.name,
+      price: typeof p.price === "object" ? p.price[language] || p.price.en : p.price,
+    }));
+
   if (!to || !orderNumber || !status) {    
     return res.status(400).json({ error: "Missing required fields" });
   }
@@ -77,7 +83,7 @@ export default async function handler(req, res) {
         customerName={customerName}
         paymentMethod={paymentMethod}
         total={total}
-        products={products}
+        products={normalizedProducts}
         customerEmail={customerEmail}
         customerPhone={customerPhone}
         customerAddress={customerAddress}
@@ -104,7 +110,7 @@ export default async function handler(req, res) {
         reservationDate,
         reservationTime,
         total,
-        products,
+        normalizedProducts,
         paymentMethod,
         customerName,
         customerEmail,

@@ -107,7 +107,7 @@ function ConfirmationDocument_MK(props) {
     reservationTime,
     total,
     paymentMethod,
-    products = [],
+    normalizedProducts = [],
     customerName,
     customerPhone,
     customerEmail,
@@ -155,7 +155,7 @@ function ConfirmationDocument_MK(props) {
           React.createElement(Text, null, paymentMethod)
         )
       ),
-      products.length > 0 && React.createElement(
+      normalizedProducts.length > 0 && React.createElement(
         View,
         { style: styles.section },
         React.createElement(Text, { style: styles.label }, 'Услуги:'),
@@ -170,7 +170,7 @@ function ConfirmationDocument_MK(props) {
             React.createElement(Text, { style: styles.tableColHeader }, 'Цена по ед.'),
             React.createElement(Text, { style: styles.tableColHeader }, 'Вкупно')
           ),
-          products.map((item, idx) => React.createElement(
+          normalizedProducts.map((item, idx) => React.createElement(
             View,
             { key: idx, style: styles.tableRow },
             React.createElement(Text, { style: [styles.tableCol, styles.firstCol, styles.label]}, item.name),

@@ -37,6 +37,12 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Invalid sender email address" });
   }
 
+  const normalizedProducts = products.map(p => ({
+    ...p,
+    name: typeof p.name === 'object' ? p.name[language] || p.name.en : p.name,
+    price: typeof p.price === 'object' ? p.price[language] || p.price.en : p.price,
+  }));
+
   // Pick template based on language
   const EmailComponent =
     language === "mk" ? ReservationEmail_MK : ReservationEmail;
@@ -51,7 +57,7 @@ export default async function handler(req, res) {
       customerEmail={customerEmail}
       paymentMethod={paymentText}
       total={total}
-      products={products}
+      products={normalizedProducts}
       customerPhone={customerPhone}  
       customerAddress={customerAddress}  
       customerState={customerState}  

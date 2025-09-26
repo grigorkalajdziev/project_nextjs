@@ -459,8 +459,8 @@ const translations = {
     governing_law: "Governing Law",
     governing_law_text: "These Terms of Service are governed by the laws of North Macedonia. Any disputes will be resolved in accordance with applicable law.",
     contact: "Contact",
-    contact_text: "For any questions about these Terms of Service, please contact us at: "
-    
+    contact_text: "For any questions about these Terms of Service, please contact us at: ",
+    back_to_account: "Back to My Account",    
   },
   mk: {
     english: "Англиски",
@@ -924,7 +924,8 @@ const translations = {
     governing_law: "Применливо право",
     governing_law_text: "Овие Услови за користење се регулирани со законите на Македонија. Сите спорови ќе се решаваат согласно применливото законодавство.",
     contact: "Контакт",
-    contact_text: "За било какви прашања во врска со овие Услови за користење, ве молиме контактирајте не на: "    
+    contact_text: "За било какви прашања во врска со овие Услови за користење, ве молиме контактирајте не на: ",
+    back_to_account: "Назад во мој профилот",   
   },
 };
 

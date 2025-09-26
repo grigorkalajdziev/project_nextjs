@@ -17,7 +17,7 @@ export const ReservationEmailInternal_MK = ({
   customerName,
   paymentMethod,
   total,    
-  products, 
+  normalizedProducts, 
   customerEmail,
   customerPhone,  
   customerAddress,  
@@ -102,7 +102,7 @@ export const ReservationEmailInternal_MK = ({
             Услуги:
           </Text>
           <Section>
-            {products.map((product, idx) => (
+            {normalizedProducts.map((product, idx) => (
               <Text key={idx} style={{ fontSize: '14px' }}>
                 – {product.name}: {product.quantity} × {formatMKD(product.price)} ={' '}
                 {formatMKD(product.quantity * parseFloat(product.price))}

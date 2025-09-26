@@ -29,6 +29,11 @@ export default async function handler(req, res) {
     language = 'en', // exactly the same prop name as your subscribe endpoint
   } = req.body;
  
+   const normalizedProducts = products.map(p => ({
+    ...p,
+    name: typeof p.name === 'object' ? p.name[language] || p.name.en : p.name,
+    price: typeof p.price === 'object' ? p.price[language] || p.price.en : p.price,
+  }));
 
   // Pick the right React component
   const EmailComponent =
@@ -46,12 +51,13 @@ export default async function handler(req, res) {
       customerEmail={customerEmail}
       paymentMethod={paymentText}
       total={total}
-      products={products}
+      products={normalizedProducts}
       customerPhone={customerPhone}  
       customerAddress={customerAddress}  
       customerState={customerState}  
       customerCity={customerCity}  
       customerPostalCode={customerPostalCode}  
+      language={language}
     />
   );
 

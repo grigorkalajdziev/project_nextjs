@@ -100,14 +100,14 @@ function InvoiceDocument(props) {
     orderNumber,
     date,
     paymentMethod,
-    products = [],
+    normalizedProducts = [],
     customerName,
     customerPhone,
     customerEmail,
     qrCodeUrl
   } = props;
 
-  const subtotal = products.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const subtotal = normalizedProducts.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const dueDate = 'Due in 7 days';
   const invoiceStatus = 'Unpaid';
   const company = {
@@ -164,7 +164,7 @@ function InvoiceDocument(props) {
           </View>
         </View>
 
-        {products.length > 0 && (
+        {normalizedProducts.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.label}>Items:</Text>
             <View style={styles.productsTable}>
@@ -174,7 +174,7 @@ function InvoiceDocument(props) {
                 <Text style={styles.tableColHeader}>Unit Price</Text>
                 <Text style={styles.tableColHeader}>Total</Text>
               </View>
-              {products.map((item, idx) => (
+              {normalizedProducts.map((item, idx) => (
                 <View key={idx} style={styles.tableRow}>
                   <Text style={[styles.tableCol, styles.firstCol, styles.label]}>{item.name}</Text>
                   <Text style={styles.quantityCol}>{item.quantity}</Text>

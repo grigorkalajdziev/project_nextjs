@@ -120,6 +120,25 @@ const MyAccount = () => {
     }
   };
 
+  const viewOrder = (orderId, orderUserId) => {
+  // determine owner uid (same logic as deleteOrder/updateOrder)
+  const uid = role === "admin" ? orderUserId || orders.find((o) => o.id === orderId)?.userId : user?.uid;
+
+  if (!uid) {
+    addToast(t("view_error") || "Could not determine order owner", {
+      appearance: "error",
+      autoDismiss: true,
+    });
+    return;
+  }
+
+  // navigate to cart page in view mode (Cart will fetch from Firebase)
+  router.push({
+    pathname: "/other/cart",
+    query: { userId: uid, orderId, viewOrder: "true" },
+  });
+};
+
   const updateOrder = async (orderId, userId, newStatus) => {
     try {
       // Find the correct userId based on the current orders array
@@ -138,7 +157,7 @@ const MyAccount = () => {
         language,
         displayName,
         paymentMethod,
-      } = matchingOrder;      
+      } = matchingOrder;
 
       // Update only the status field at the correct location
       await update(ref(db, `orders/${userId}/${orderId}`), {
@@ -694,9 +713,13 @@ const MyAccount = () => {
                               </td>
                               <td>{formatTotal(order.total)}</td>
                               <td>
-                                <Link href="#" className="btn btn-primary me-2">
+                                <button
+                                  type="button"
+                                  className="btn btn-primary me-2"
+                                  onClick={() => viewOrder(order.id, order.userId)}
+                                >
                                   {t("view")}
-                                </Link>
+                                </button>
                                 <button
                                   onClick={() => deleteOrder(order.id)}
                                   className="btn btn-outline-danger"

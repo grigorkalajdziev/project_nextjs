@@ -123,9 +123,15 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       total: totalMKD,
       products: cartItems.map((product) => ({
         id: product.id,
-        name: product.name[currentLanguage] || product.name["en"],
+        name: {
+          mk: product.name["mk"] || "",
+          en: product.name["en"] || "",
+        },
         quantity: product.quantity,
-        price: product.price[currentLanguage],
+        price: {
+          mk: parseFloat(product.price["mk"] || 0),
+          en: parseFloat(product.price["en"] || 0),
+        },
         discount: product.discount,
       })),
       reservationDate: reservationDate,
@@ -163,6 +169,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         paymentMethod: orderData.paymentMethod,
         paymentText: translatedPaymentMethod,
         total: orderData.total,
+        currencyUsed: currentLanguage === "mk" ? "MKD" : "EUR",
         products: orderData.products,
         customerPhone: orderData.customer.phone,
         customerAddress: orderData.customer.address,
@@ -508,9 +515,11 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                               <ul>
                                 {cartItems.map((product, i) => {
                                   const productPrice =
-                                    product.price[currentLanguage] || "00.00";
+                                  currentLanguage === "mk"
+                                    ? product.price["mk"] || 0
+                                    : product.price["en"] || 0;
                                   const discountedPrice = getDiscountPrice(
-                                    productPrice,
+                                    parseFloat(productPrice),
                                     product.discount
                                   ).toFixed(2);
                                   cartTotalPrice +=
