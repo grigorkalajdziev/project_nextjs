@@ -9,7 +9,7 @@ import {
   Text,
 } from "@react-email/components";
 
-export const ReservationEmailInternal = ({
+const ReservationEmailInternal = ({
   orderID,
   reservationDate,
   reservationTime,
@@ -22,24 +22,13 @@ export const ReservationEmailInternal = ({
   customerState,
   customerCity,
   customerPostalCode,
-  language = "en", // Default language
 }) => {
-  // Helper to format currency based on language
-  const formatCurrency = (value) => {
-    const num = parseFloat(value) || 0;
-    return language === "mk"
-      ? `${num.toFixed(2)} МКД`
-      : `€ ${num.toFixed(2)}`;
-  };
-
-  // Calculate total from products
-  const total = products.reduce((sum, product) => {
-    const priceValue =
-      typeof product.price === "object"
-        ? product.price[language] ?? Object.values(product.price)[0]
-        : product.price;
-    return sum + product.quantity * parseFloat(priceValue || 0);
-  }, 0);
+  // Helper to format EUR values
+  const formatEUR = (value) => `€ ${parseFloat(value).toFixed(2)}`;
+  const total = products.reduce(
+    (sum, product) => sum + product.quantity * parseFloat(product.price),
+    0
+  );
 
   return (
     <Html>
@@ -51,12 +40,7 @@ export const ReservationEmailInternal = ({
           padding: "20px",
         }}
       >
-        <Preview>
-          {language === "mk"
-            ? `Нова резервација: Нарачка ${orderID}`
-            : `New Reservation: Order ${orderID}`}
-        </Preview>
-
+        <Preview>New Reservation: Order {orderID}</Preview>
         <Container
           style={{
             backgroundColor: "#fff",
@@ -82,11 +66,8 @@ export const ReservationEmailInternal = ({
               marginBottom: "10px",
             }}
           >
-            {language === "mk"
-              ? "Известување за резервација"
-              : "New Reservation Notification"}
+            New Reservation Notification
           </Text>
-
           <Text
             style={{
               fontSize: "16px",
@@ -94,88 +75,104 @@ export const ReservationEmailInternal = ({
               marginBottom: "20px",
             }}
           >
-            {language === "mk"
-              ? "Нова резервација е направена. Детали за резервацијата:"
-              : "A new reservation has been placed. Here are the details:"}
+            A new reservation has been placed. Here are the details:
           </Text>
 
-          {/* Order Details */}
+          {/* Order Meta */}
           <Section>
-            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>Order ID:</Text>
+            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>
+              Order ID:
+            </Text>
             <Text>{orderID}</Text>
           </Section>
-
           <Section>
-            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>Customer Name:</Text>
+            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>
+              Customer Name:
+            </Text>
             <Text>{customerName}</Text>
           </Section>
-
           <Section>
-            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>Customer Email:</Text>
+            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>
+              Customer Email:
+            </Text>
             <Text>{customerEmail}</Text>
           </Section>
-
           <Section>
-            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>Phone Number:</Text>
+            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>
+              Phone Number:
+            </Text>
             <Text>{customerPhone}</Text>
           </Section>
-
           <Section>
-            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>Address:</Text>
-            <Text>
-              {customerAddress}, {customerCity} {customerPostalCode}, {customerState}
+            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>
+              Address:
             </Text>
+            <Text>{customerAddress}</Text>
           </Section>
-
           <Section>
-            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>Reservation Date:</Text>
+            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>
+              Country:
+            </Text>
+            <Text>{customerState}</Text>
+          </Section>
+          <Section>
+            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>
+              City:
+            </Text>
+            <Text>{customerCity}</Text>
+          </Section>
+          <Section>
+            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>
+              ZIP Code:
+            </Text>
+            <Text>{customerPostalCode}</Text>
+          </Section>
+          <Section>
+            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>
+              Reservation Date:
+            </Text>
             <Text>{reservationDate}</Text>
           </Section>
-
           <Section>
-            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>Reservation Time:</Text>
+            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>
+              Reservation Time:
+            </Text>
             <Text>{reservationTime}</Text>
           </Section>
-
           <Section>
-            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>Payment Method:</Text>
+            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>
+              Payment Method:
+            </Text>
             <Text>{paymentMethod}</Text>
           </Section>
-
           <Section>
-            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>Total:</Text>
-            <Text>{formatCurrency(total)}</Text>
+            <Text style={{ fontSize: "14px", fontWeight: "bold" }}>
+              Total:
+            </Text>
+            <Text>{formatEUR(total)}</Text>
           </Section>
 
-          {/* Services */}
-          <Text style={{ fontSize: "16px", fontWeight: "bold", marginTop: "20px" }}>
-            {language === "mk" ? "Услуги:" : "Services:"}
+          {/* Services List */}
+          <Text
+            style={{ fontSize: "16px", fontWeight: "bold", marginTop: "20px" }}
+          >
+            Services:
           </Text>
           <Section>
-            {products.map((product, idx) => {
-              const priceValue =
-                typeof product.price === "object"
-                  ? product.name[language] || product.name.en
-                  : product.price;
-
-              const nameValue =
-                typeof product.name === "object"
-                  ? product.price[language] || product.price.en
-                  : product.name;
-
-              return (
-                <Text key={idx} style={{ fontSize: "14px" }}>
-                  – {nameValue}: {product.quantity} × {formatCurrency(priceValue)} ={" "}
-                  {formatCurrency(product.quantity * parseFloat(priceValue || 0))}
-                </Text>
-              );
-            })}
+            {products.map((product, idx) => (
+              <Text key={idx} style={{ fontSize: "14px" }}>
+                – {product.name}: {product.quantity} ×{" "}
+                {formatEUR(product.price)} ={" "}
+                {formatEUR(product.quantity * parseFloat(product.price))}
+              </Text>
+            ))}
           </Section>
 
-          <Text style={{ fontSize: "14px", lineHeight: "24px", marginTop: "20px" }}>
-            {language === "mk"
-              ? "Ве молиме прегледајте ја резервацијата и подгответе се за клиентот."
-              : "Please review the reservation and prepare for the customer."}
+          <Text
+            style={{ fontSize: "14px", lineHeight: "24px", marginTop: "20px" }}
+          >
+            Please review the reservation and prepare for the customer. If you
+            have any questions or need adjustments, feel free to reach out.
           </Text>
         </Container>
       </Body>

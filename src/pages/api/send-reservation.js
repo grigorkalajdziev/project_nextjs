@@ -57,7 +57,6 @@ export default async function handler(req, res) {
       customerState={customerState}  
       customerCity={customerCity}  
       customerPostalCode={customerPostalCode}  
-      language={language}
     />
   );
 

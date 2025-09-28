@@ -10,14 +10,14 @@ import {
   Text,
 } from '@react-email/components';
 
-export const ReservationEmailInternal_MK = ({
+const ReservationEmailInternal_MK = ({
   orderID,
   reservationDate,
   reservationTime,
   customerName,
   paymentMethod,
   total,    
-  normalizedProducts, 
+  products, 
   customerEmail,
   customerPhone,  
   customerAddress,  
@@ -102,7 +102,7 @@ export const ReservationEmailInternal_MK = ({
             Услуги:
           </Text>
           <Section>
-            {normalizedProducts.map((product, idx) => (
+            {products.map((product, idx) => (
               <Text key={idx} style={{ fontSize: '14px' }}>
                 – {product.name}: {product.quantity} × {formatMKD(product.price)} ={' '}
                 {formatMKD(product.quantity * parseFloat(product.price))}
