@@ -136,8 +136,20 @@ function ConfirmationDocument_MK(props) {
           React.createElement(Text, { style: styles.label }, 'Клиент: '),
           React.createElement(Text, { style: styles.label }, customerName)
         ),
-        customerEmail && React.createElement(Text, { style: styles.label }, customerEmail),
-        customerPhone && React.createElement(Text, { style: styles.label }, customerPhone)
+
+         React.createElement(
+          View,
+          { style: { flexDirection: 'row', alignItems: 'center' } },
+          React.createElement(Text, { style: styles.label }, 'Е-пошта: '),
+          React.createElement(Text, { style: styles.label }, customerEmail)
+        ),
+
+         React.createElement(
+          View,
+          { style: { flexDirection: 'row', alignItems: 'center' } },
+          React.createElement(Text, { style: styles.label }, 'Телефон: '),
+          React.createElement(Text, { style: styles.label }, customerPhone)
+        ),
       ),
       React.createElement(
         View,

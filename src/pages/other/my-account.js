@@ -13,7 +13,7 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useToasts } from "react-toast-notifications";
 import { Badge } from "react-bootstrap";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+
 import InvoiceDocument from "../../components/Newsletter/InvoiceDocument";
 import ConfirmationDocument from "../../components/Newsletter/ConfirmationDocument";
 
@@ -50,6 +50,8 @@ const MyAccount = () => {
   const [orders, setOrders] = useState([]);
   const [downloads, setDownloads] = useState([]);
   const [errors, setErrors] = useState({});
+
+  const [downloadingOrderId, setDownloadingOrderId] = useState(null);
 
   // --- Password Visibility Toggle States ---
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -121,23 +123,26 @@ const MyAccount = () => {
   };
 
   const viewOrder = (orderId, orderUserId) => {
-  // determine owner uid (same logic as deleteOrder/updateOrder)
-  const uid = role === "admin" ? orderUserId || orders.find((o) => o.id === orderId)?.userId : user?.uid;
+    // determine owner uid (same logic as deleteOrder/updateOrder)
+    const uid =
+      role === "admin"
+        ? orderUserId || orders.find((o) => o.id === orderId)?.userId
+        : user?.uid;
 
-  if (!uid) {
-    addToast(t("view_error") || "Could not determine order owner", {
-      appearance: "error",
-      autoDismiss: true,
+    if (!uid) {
+      addToast(t("view_error") || "Could not determine order owner", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      return;
+    }
+
+    // navigate to cart page in view mode (Cart will fetch from Firebase)
+    router.push({
+      pathname: "/other/cart",
+      query: { userId: uid, orderId, viewOrder: "true" },
     });
-    return;
-  }
-
-  // navigate to cart page in view mode (Cart will fetch from Firebase)
-  router.push({
-    pathname: "/other/cart",
-    query: { userId: uid, orderId, viewOrder: "true" },
-  });
-};
+  };
 
   const updateOrder = async (orderId, userId, newStatus) => {
     try {
@@ -564,6 +569,67 @@ const MyAccount = () => {
     }
   };
 
+ const downloadPdf = async (order) => {
+  if (!order) return;
+  setDownloadingOrderId(order.id);
+  try {
+    // Build a stronger order object to send to the server for PDF generation
+    const orderForPdf = {
+      ...order,
+      // prefer order.displayName (from fetchOrders) else use local displayName state
+      displayName: order.displayName || displayName || null,
+      // ensure .customer object exists and contains useful fields (null when missing)
+      customer: {
+        ...(order.customer || {}),
+        // some orders only had address/phone/email under order.customer
+        name: order.customer?.name || order.displayName || displayName || null,
+        email: order.customer?.email || order.email || email || null,
+        phone: order.customer?.phone || order.customerPhone || phone || null,
+        address: order.customer?.address || order.customerAddress || address || null,
+        city: order.customer?.city || order.customerCity || null,
+        postalCode: order.customer?.postalCode || order.customerPostalCode || null,
+        state: order.customer?.state || order.customerState || null,
+      },
+    };
+
+    const resp = await fetch("/api/generate-pdf", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ order: orderForPdf, language: currentLanguage }),
+    });
+
+    if (!resp.ok) {
+      let errBody = null;
+      try { errBody = await resp.json(); } catch (e) {}
+      throw new Error(errBody?.message || errBody?.error || `Server error ${resp.status}`);
+    }
+
+    const blob = await resp.blob();
+
+    const filenamePrefix =
+      order.paymentMethod === "payment_cash"
+        ? currentLanguage === "mk" ? "Потврда" : "Confirmation"
+        : currentLanguage === "mk" ? "Фактура" : "Invoice";
+    const fileName = `${filenamePrefix}-${order.orderNumber || "order"}.pdf`;
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+
+    addToast(t("download_started") || "Download started", { appearance: "success", autoDismiss: true });
+  } catch (err) {
+    console.error("Download error:", err);
+    addToast(err.message || "Download failed", { appearance: "error", autoDismiss: true });
+  } finally {
+    setDownloadingOrderId(null);
+  }
+};
+
   return (
     <LayoutTwo>
       <BreadcrumbOne
@@ -716,7 +782,9 @@ const MyAccount = () => {
                                 <button
                                   type="button"
                                   className="btn btn-primary me-2"
-                                  onClick={() => viewOrder(order.id, order.userId)}
+                                  onClick={() =>
+                                    viewOrder(order.id, order.userId)
+                                  }
                                 >
                                   {t("view")}
                                 </button>
@@ -779,21 +847,23 @@ const MyAccount = () => {
                                   : t("payment_bank")}
                               </td>
                               <td>
-                                <PDFDownloadLink
-                                  document={
-                                    order.paymentMethod === "payment_cash" ? (
-                                      <ConfirmationDocument order={order} />
-                                    ) : (
-                                      <InvoiceDocument order={order} />
-                                    )
-                                  }
-                                  fileName={`${order.paymentMethod === "payment_cash" ? "confirmation" : "invoice"}-${order.orderNumber}.pdf`}
+                                <button
                                   className="btn btn-outline-secondary"
+                                  onClick={() => downloadPdf(order)} // <-- uses new function
+                                  disabled={downloadingOrderId === order.id}
                                 >
-                                  {({ loading }) =>
-                                    loading ? t("loading") : t("download")
-                                  }
-                                </PDFDownloadLink>
+                                  {downloadingOrderId === order.id ? (
+                                    <Spinner
+                                      as="span"
+                                      animation="border"
+                                      size="sm"
+                                      role="status"
+                                      aria-hidden="true"
+                                    />
+                                  ) : (
+                                    t("download")
+                                  )}
+                                </button>
                               </td>
                             </tr>
                           ))}
