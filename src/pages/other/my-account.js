@@ -14,9 +14,6 @@ import { useLocalization } from "../../context/LocalizationContext";
 import { useToasts } from "react-toast-notifications";
 import { Badge } from "react-bootstrap";
 
-import InvoiceDocument from "../../components/Newsletter/InvoiceDocument";
-import ConfirmationDocument from "../../components/Newsletter/ConfirmationDocument";
-
 function formatDMY(dateStr) {
   if (!dateStr) return "";
   const date = new Date(dateStr);
@@ -619,9 +616,7 @@ const MyAccount = () => {
     document.body.appendChild(a);
     a.click();
     a.remove();
-    URL.revokeObjectURL(url);
-
-    addToast(t("download_started") || "Download started", { appearance: "success", autoDismiss: true });
+    URL.revokeObjectURL(url);    
   } catch (err) {
     console.error("Download error:", err);
     addToast(err.message || "Download failed", { appearance: "error", autoDismiss: true });

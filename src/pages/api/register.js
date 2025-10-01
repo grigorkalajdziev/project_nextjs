@@ -33,7 +33,7 @@ const database = getDatabase(app);
 export async function registerUser(email, password) {
   try {
     // 1) Create auth user
-    const { user } = await createUserWithEmailAndPassword(authServer, email, password);
+    const { user } = await createUserWithEmailAndPassword(auth, email, password);
 
     // 2) Write user profile to RTDB
     await set(ref(database, `users/${user.uid}`), {
@@ -46,7 +46,7 @@ export async function registerUser(email, password) {
     });
 
     // 3) Sign out so client handles next login
-    await signOut(authServer);
+    await signOut(auth);
     return { success: true, user };
   } catch (error) {
     return { success: false, error: error.message };
