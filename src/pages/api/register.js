@@ -29,12 +29,19 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const database = getDatabase(app);
 
+const generateCoupon = () => {
+  const prefixes = ["MAKEUP", "BEAUTY", "GLAM", "KIKA"];
+  const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+  const randomNumber = Math.floor(1000 + Math.random() * 9000); // 4-digit number
+  return `${randomPrefix}${randomNumber}`;
+};
+
 // Email + Password Registration
 export async function registerUser(email, password) {
   try {
     // 1) Create auth user
     const { user } = await createUserWithEmailAndPassword(auth, email, password);
-
+    const coupon = generateCoupon();
     // 2) Write user profile to RTDB
     await set(ref(database, `users/${user.uid}`), {
       email: user.email,
@@ -43,11 +50,12 @@ export async function registerUser(email, password) {
       displayName: "",
       billingInfo: { address: "", city: "", phone: "", zipCode: "" },
       role: "guest",
+      coupon: coupon,
     });
 
     // 3) Sign out so client handles next login
     await signOut(auth);
-    return { success: true, user };
+    return { success: true, user, coupon };
   } catch (error) {
     return { success: false, error: error.message };
   }
@@ -56,6 +64,8 @@ export async function registerUser(email, password) {
 // Google Sign-In registration
 export async function registerGoogleUser(user) {
   try {
+    const coupon = generateCoupon(); 
+    // Write user profile to RTDB
     await set(ref(database, `users/${user.uid}`), {
       email: user.email,
       displayName: user.displayName || "",
@@ -63,8 +73,9 @@ export async function registerGoogleUser(user) {
       lastName: "",
       billingInfo: { address: "", city: "", phone: "", zipCode: "" },
       role: "guest",
+      coupon: coupon, 
     });
-    return { success: true, user };
+    return { success: true, user, coupon };
   } catch (error) {
     return { success: false, error: error.message };
   }

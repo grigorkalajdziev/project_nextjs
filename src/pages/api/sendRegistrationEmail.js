@@ -8,11 +8,11 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { email, language } = req.body;
+    const { email, language, coupon } = req.body;   
 
     try {
       const emailHtml = ReactDOMServer.renderToStaticMarkup(
-        language === 'mk' ? <RegistrationEmail_MK /> : <RegistrationEmail />
+        language === 'mk' ? <RegistrationEmail_MK coupon={coupon} /> : <RegistrationEmail coupon={coupon}/>
       ); 
 
       await resend.emails.send({

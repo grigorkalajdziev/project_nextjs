@@ -190,6 +190,7 @@ const LoginRegister = () => {
           body: JSON.stringify({
             email: registerData.email,
             language: currentLanguage,
+            coupon: result.coupon,
           }),
         });
         addToast(t("registration_success"), {

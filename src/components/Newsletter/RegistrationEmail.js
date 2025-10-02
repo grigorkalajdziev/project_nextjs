@@ -12,7 +12,7 @@ import {
   Text,
 } from '@react-email/components';
 
-const RegistrationEmail = () => {
+const RegistrationEmail = ({ coupon }) => {
   return React.createElement(
     Html,
     null,
@@ -50,6 +50,15 @@ const RegistrationEmail = () => {
           { style: paragraph },
           'We’re thrilled to have you on board! You’ve successfully registered at Kika Makeup and Beauty Academy, where beauty meets artistry.'
         ),
+        coupon &&
+          React.createElement(
+            Text,
+            { style: paragraph },
+            `🎉 As a special welcome gift, here is your discount code: `,
+            React.createElement('strong', { style: { color: '#fa7268' } }, coupon),
+            ' — Use it on your first order!'
+          ),
+
         React.createElement(
           Text,
           { style: paragraph },
