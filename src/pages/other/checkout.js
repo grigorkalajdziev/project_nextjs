@@ -23,14 +23,22 @@ import TextField from "@mui/material/TextField";
 import enLocale from "date-fns/locale/en-US";
 import mkLocale from "date-fns/locale/mk";
 
+/**
+ * Checkout page
+ *
+ * Fixes:
+ * - Read applied coupon from sessionStorage (set by cart.js when user clicks Apply).
+ * - Compute subtotal -> discount -> final total on render so totals saved to Firebase include discount.
+ * - Save subtotal, discount, total and coupon object in order data.
+ * - Remove appliedCoupon from sessionStorage after order success.
+ */
+
 const formatDate = (date) => {
   const year = date.getFullYear();
   const month = ("0" + (date.getMonth() + 1)).slice(-2);
   const day = ("0" + date.getDate()).slice(-2);
   return `${day}-${month}-${year}`;
 };
-
-const today = new Date().toISOString().split("T")[0];
 
 const Checkout = ({ cartItems, deleteAllFromCart }) => {
   const { t, currentLanguage } = useLocalization();
@@ -42,8 +50,9 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
   const [reservationDateTime, setReservationDateTime] = useState(new Date());
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
+  // appliedCoupon is set when user applied coupon in cart.js (sessionStorage).
+  // It is NOT automatically applied — only used if it exists (user clicked Apply).
   const [appliedCoupon, setAppliedCoupon] = useState(null);
-  const [couponDiscountAmount, setCouponDiscountAmount] = useState(0);
 
   const localeMap = {
     en: enLocale,
@@ -61,7 +70,26 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
     zip: "",
   });
 
+  // compute cart subtotal (MKD) from cartItems during render
   let cartTotalPrice = 0;
+  cartItems.forEach((product) => {
+    // price selection depends on language stored price object
+    const productPrice =
+      currentLanguage === "mk" ? product.price["mk"] || 0 : product.price["en"] || 0;
+
+    const discountedPrice = parseFloat(
+      getDiscountPrice(parseFloat(productPrice || 0), product.discount)
+    );
+
+    // accumulate
+    cartTotalPrice += discountedPrice * (product.quantity || 1);
+  });
+
+  // IMPORTANT: Compute discount and final totals here (derived values)
+  const discountAmount = appliedCoupon
+    ? cartTotalPrice * (appliedCoupon.discount / 100)
+    : 0;
+  const finalTotal = cartTotalPrice - discountAmount;
 
   const generateOrderNumber = (length = 8) => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -72,191 +100,27 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
     return orderNumber;
   };
 
-  const handlePlaceOrder = async () => {
-    setIsPlacingOrder(true);
-    if (!auth.currentUser) {
-      addToast(t("please_log_in_to_place_order"), {
-        appearance: "error",
-        autoDismiss: true,
-      });
-      setIsPlacingOrder(false);
-      return;
-    }
-
-    if (!selectedPaymentMethod) {
-      addToast(t("please_select_payment_method"), {
-        appearance: "error",
-        autoDismiss: true,
-      });
-      setIsPlacingOrder(false);
-      return;
-    }
-
-    // Validate acceptance of terms and conditions
-    if (!acceptedTerms) {
-      addToast(t("please_accept_terms"), {
-        appearance: "error",
-        autoDismiss: true,
-      });
-      setIsPlacingOrder(false);
-      return;
-    }
-
-    
-
-    const totalMKD = cartItems
-      .reduce((total, product) => {
-        const priceMKD = parseFloat(product.price["mk"] || "0");
-        const discounted = getDiscountPrice(priceMKD, product.discount);
-        return total + discounted * product.quantity;
-      }, 0)
-      .toFixed(2);
-
-    const reservationDate = reservationDateTime.toISOString().split("T")[0];
-    const reservationTime = reservationDateTime.toTimeString().slice(0, 5);
-
-    const orderData = {
-      orderNumber: generateOrderNumber(8),
-      date: formatDate(new Date()),
-      createdAt: Date.now(),
-      status: "pending",
-      paymentMethod: selectedPaymentMethod,
-      paymentText: t(selectedPaymentMethod),
-      total: totalMKD,
-      products: cartItems.map((product) => ({
-        id: product.id,
-        name: {
-          mk: product.name["mk"] || "",
-          en: product.name["en"] || "",
-        },
-        quantity: product.quantity,
-        price: {
-          mk: parseFloat(product.price["mk"] || 0),
-          en: parseFloat(product.price["en"] || 0),
-        },
-        discount: product.discount,
-      })),
-      reservationDate: reservationDate,
-      reservationTime: reservationTime,
-      customer: {
-        email: billingInfo.email,
-        phone: billingInfo.phone || "",
-        address: billingInfo.address1 || "",
-        state: billingInfo.state || "",
-        city: billingInfo.city || "",
-        postalCode: billingInfo.zip || "",
-      },
-      coupon: appliedCoupon,
-    };
-
+  // Load applied coupon from sessionStorage (applied in cart page)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
     try {
-      const db = getDatabase();
-      const ordersRef = ref(db, `orders/${auth.currentUser.uid}`);
-
-      const newOrderRef = push(ordersRef);
-      await set(newOrderRef, orderData);
-
-      const translatedPaymentMethod = t(orderData.paymentMethod);
-
-      const emailData = {
-        to: auth.currentUser.email,
-        from: "reservation@kikamakeupandbeautyacademy.com",
-        orderID: orderData.orderNumber,
-        reservationDate: orderData.reservationDate,
-        reservationTime: orderData.reservationTime,
-        customerName:
-          billingInfo.firstName && billingInfo.lastName
-            ? `${billingInfo.firstName} ${billingInfo.lastName}`
-            : auth.currentUser.email,
-        customerEmail: auth.currentUser.email,
-        paymentMethod: orderData.paymentMethod,
-        paymentText: translatedPaymentMethod,
-        total: orderData.total,
-        currencyUsed: currentLanguage === "mk" ? "MKD" : "EUR",
-        products: orderData.products,
-        customerPhone: orderData.customer.phone,
-        customerAddress: orderData.customer.address,
-        customerState: orderData.customer.state,
-        customerCity: orderData.customer.city,
-        customerPostalCode: orderData.customer.postalCode,
-        language: currentLanguage,
-      };
-
-      // Send the email
-      const response = await fetch("/api/sendReservation", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(emailData),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error(
-          "Failed to send reservation email to customer:",
-          errorText
-        );
-      } else {
-        console.log("Reservation email sent to customer");
+      const raw = sessionStorage.getItem("appliedCoupon");
+      if (!raw) return;
+      let coupon = null;
+      try {
+        coupon = JSON.parse(raw);
+      } catch {
+        // fallback if only code string stored
+        coupon = { code: raw, discount: 5 };
       }
-
-      const emailToAdmins = {
-        to: ["grigorkalajdziev@gmail.com", "makeupbykika@hotmail.com"], // Kika's email addresses
-        from: "reservation@kikamakeupandbeautyacademy.com", // Your company email
-        subject: `New Reservation: Order ${orderData.orderNumber}`,
-        orderID: orderData.orderNumber,
-        reservationDate: orderData.reservationDate,
-        reservationTime: orderData.reservationTime,
-        customerName:
-          billingInfo.firstName && billingInfo.lastName
-            ? `${billingInfo.firstName} ${billingInfo.lastName}`
-            : auth.currentUser.email,
-        customerEmail: auth.currentUser.email,
-        paymentMethod: orderData.paymentMethod,
-        paymentText: translatedPaymentMethod,
-        total: orderData.total,
-        products: orderData.products,
-        customerPhone: orderData.customer.phone,
-        customerAddress: orderData.customer.address,
-        customerState: orderData.customer.state,
-        customerCity: orderData.customer.city,
-        customerPostalCode: orderData.customer.postalCode,
-        language: currentLanguage,
-      };
-
-      const responseKika = await fetch("/api/send-reservation", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(emailToAdmins),
-      });
-
-      if (!responseKika.ok) {
-        console.error("Failed to send email to Kika");
-      } else {
-        console.log("Email sent to Kika");
-      }
-
-      addToast(t("order_placed_successfully"), {
-        appearance: "success",
-        autoDismiss: true,
-      });
-
-      deleteAllFromCart(addToast, t);
-      setIsPlacingOrder(false);
-      router.push("/other/my-account");
-    } catch (error) {
-      console.error("Error placing order:", error);
-      addToast(error.message, { appearance: "error", autoDismiss: true });
-    } finally {
-      setIsPlacingOrder(false);
+      setAppliedCoupon(coupon);
+    } catch (err) {
+      console.warn("Could not read appliedCoupon from sessionStorage", err);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    document.querySelector("body").classList.remove("overflow-hidden");
+    document.querySelector("body")?.classList.remove("overflow-hidden");
   }, []);
 
   useEffect(() => {
@@ -291,21 +155,158 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
     fetchBillingInfo();
   }, []);
 
-  useEffect(() => {
-  if (typeof window === "undefined") return;
+  const handlePlaceOrder = async () => {
+    setIsPlacingOrder(true);
 
-  const raw = sessionStorage.getItem("appliedCoupon"); // <-- NEW: reading coupon from sessionStorage
-  if (!raw) return;
+    if (!auth.currentUser) {
+      addToast(t("please_log_in_to_place_order"), {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      setIsPlacingOrder(false);
+      return;
+    }
 
-  let coupon = null;
-  try {
-    coupon = JSON.parse(raw); // <-- NEW: parse stored coupon object
-  } catch {
-    coupon = { code: raw, discount: 5 }; // <-- fallback: assume 5% discount if just code stored
-  }
-  setAppliedCoupon(coupon); // <-- NEW: store coupon in state
-  setCouponDiscountAmount(cartTotalPrice * (coupon.discount / 100)); // <-- NEW: calculate discount amount
-}, [cartTotalPrice]);
+    if (!selectedPaymentMethod) {
+      addToast(t("please_select_payment_method"), {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      setIsPlacingOrder(false);
+      return;
+    }
+
+    if (!acceptedTerms) {
+      addToast(t("please_accept_terms"), {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      setIsPlacingOrder(false);
+      return;
+    }
+
+    try {
+      // Use the derived values computed above:
+      const subtotalMKD = cartTotalPrice.toFixed(2);
+      const discountMKD = discountAmount ? discountAmount.toFixed(2) : "0.00";
+      const totalMKD = finalTotal.toFixed(2);
+
+      const reservationDate = reservationDateTime.toISOString().split("T")[0];
+      const reservationTime = reservationDateTime.toTimeString().slice(0, 5);
+
+      const orderData = {
+        orderNumber: generateOrderNumber(8),
+        date: formatDate(new Date()),
+        createdAt: Date.now(),
+        status: "pending",
+        paymentMethod: selectedPaymentMethod,
+        paymentText: t(selectedPaymentMethod),
+        // Save subtotal, discount and final total (bugfix: total reflects coupon)
+        subtotal: subtotalMKD,
+        discount: discountMKD,
+        total: totalMKD,
+        products: cartItems.map((product) => ({
+          id: product.id,
+          name: {
+            mk: product.name?.mk || "",
+            en: product.name?.en || "",
+          },
+          quantity: product.quantity,
+          price: {
+            mk: parseFloat(product.price?.mk || 0),
+            en: parseFloat(product.price?.en || 0),
+          },
+          discount: product.discount,
+        })),
+        reservationDate: reservationDate,
+        reservationTime: reservationTime,
+        customer: {
+          email: billingInfo.email,
+          phone: billingInfo.phone || "",
+          address: billingInfo.address1 || "",
+          state: billingInfo.state || "",
+          city: billingInfo.city || "",
+          postalCode: billingInfo.zip || "",
+        },
+        coupon: appliedCoupon || null, // Save coupon object (if any)
+      };
+
+      // write order to Firebase
+      const db = getDatabase();
+      const ordersRef = ref(db, `orders/${auth.currentUser.uid}`);
+      const newOrderRef = push(ordersRef);
+      await set(newOrderRef, orderData);
+
+      // Prepare email payload (use final total)
+      const translatedPaymentMethod = t(orderData.paymentMethod);
+
+      const emailData = {
+        to: auth.currentUser.email,
+        from: "reservation@kikamakeupandbeautyacademy.com",
+        orderID: orderData.orderNumber,
+        reservationDate: orderData.reservationDate,
+        reservationTime: orderData.reservationTime,
+        customerName:
+          billingInfo.firstName && billingInfo.lastName
+            ? `${billingInfo.firstName} ${billingInfo.lastName}`
+            : auth.currentUser.email,
+        customerEmail: auth.currentUser.email,
+        paymentMethod: orderData.paymentMethod,
+        paymentText: translatedPaymentMethod,
+        subtotal: orderData.subtotal,
+        discount: orderData.discount,
+        total: orderData.total,
+        coupon: orderData.coupon ? orderData.coupon.code : null,
+        products: orderData.products,
+        customerPhone: orderData.customer.phone,
+        customerAddress: orderData.customer.address,
+        customerState: orderData.customer.state,
+        customerCity: orderData.customer.city,
+        customerPostalCode: orderData.customer.postalCode,
+        language: currentLanguage,
+      };
+
+      // send emails
+      await fetch("/api/sendReservation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(emailData),
+      });
+
+      // notify admins (same payload or customized)
+      await fetch("/api/send-reservation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...emailData,
+          to: ["grigorkalajdziev@gmail.com", "makeupbykika@hotmail.com"],
+        }),
+      });
+
+      addToast(t("order_placed_successfully"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
+
+      // Clear cart and the applied coupon from session
+      deleteAllFromCart(addToast, t);
+      try {
+        sessionStorage.removeItem("appliedCoupon");
+      } catch (e) {
+        // ignore if sessionStorage not available
+      }
+
+      setIsPlacingOrder(false);
+      router.push("/other/my-account");
+    } catch (error) {
+      console.error("Error placing order:", error);
+      addToast(error.message || "Error placing order", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      setIsPlacingOrder(false);
+    }
+  };
 
   return (
     <LayoutTwo>
@@ -325,6 +326,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
           <li>{t("checkout_title")}</li>
         </ul>
       </BreadcrumbOne>
+
       <div className="checkout-area space-mt--r130 space-mb--r130">
         <Container>
           {cartItems && cartItems.length >= 1 ? (
@@ -336,9 +338,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                       <div className="col-lg-7 space-mb--20">
                         {/* Billing Address */}
                         <div id="billing-form" className="space-mb--40">
-                          <h4 className="checkout-title">
-                            {t("billing_address")}
-                          </h4>
+                          <h4 className="checkout-title">{t("billing_address")}</h4>
                           <div className="row">
                             <div className="col-md-6 col-12 space-mb--20">
                               <label>{t("first_name_label")}*</label>
@@ -443,6 +443,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                 placeholder={t("zip_placeholder")}
                               />
                             </div>
+
                             {/* Reservation Title */}
                             <div className="col-12 space-mb--20">
                               <h4 className="checkout-title">
@@ -457,9 +458,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                             <div className="col-md-6 col-12 space-mb--20">
                               <LocalizationProvider
                                 dateAdapter={AdapterDateFns}
-                                adapterLocale={
-                                  localeMap[currentLanguage] || enLocale
-                                }
+                                adapterLocale={localeMap[currentLanguage] || enLocale}
                               >
                                 <DatePicker
                                   label={t("reservation_date_label")}
@@ -471,19 +470,13 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                   }}
                                   onChange={(date) => {
                                     if (!date) return;
-                                    // preserve time portion
                                     setReservationDateTime((prev) => {
                                       const d = new Date(date);
-                                      d.setHours(
-                                        prev.getHours(),
-                                        prev.getMinutes()
-                                      );
+                                      d.setHours(prev.getHours(), prev.getMinutes());
                                       return d;
                                     });
                                   }}
-                                  renderInput={(params) => (
-                                    <TextField {...params} fullWidth />
-                                  )}
+                                  renderInput={(params) => <TextField {...params} fullWidth />}
                                   slotProps={{ textField: { fullWidth: true } }}
                                   minDate={new Date()}
                                 />
@@ -494,9 +487,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                             <div className="col-md-6 col-12 space-mb--20">
                               <LocalizationProvider
                                 dateAdapter={AdapterDateFns}
-                                adapterLocale={
-                                  localeMap[currentLanguage] || enLocale
-                                }
+                                adapterLocale={localeMap[currentLanguage] || enLocale}
                                 localeText={{
                                   timePickerToolbarTitle: t("choose_time"),
                                   cancelButtonLabel: t("cancel"),
@@ -510,35 +501,29 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                     if (!time) return;
                                     setReservationDateTime((prev) => {
                                       const d = new Date(prev);
-                                      d.setHours(
-                                        time.getHours(),
-                                        time.getMinutes()
-                                      );
+                                      d.setHours(time.getHours(), time.getMinutes());
                                       return d;
                                     });
                                   }}
                                   slotProps={{ textField: { fullWidth: true } }}
-                                  renderInput={(params) => (
-                                    <TextField {...params} fullWidth />
-                                  )}
+                                  renderInput={(params) => <TextField {...params} fullWidth />}
                                 />
                               </LocalizationProvider>
                             </div>
                           </div>
                         </div>
                       </div>
+
                       <div className="col-lg-5">
                         <div className="row">
                           {/* Cart Total */}
                           <div className="col-12 space-mb--50">
-                            <h4 className="checkout-title">
-                              {t("cart_total")}
-                            </h4>
+                            <h4 className="checkout-title">{t("cart_total")}</h4>
                             <div className="checkout-cart-total">
                               <h4>
-                                {t("product_label")}{" "}
-                                <span>{t("total_label")}</span>
+                                {t("product_label")} <span>{t("total_label")}</span>
                               </h4>
+
                               <ul>
                                 {cartItems.map((product, i) => {
                                   const productPrice =
@@ -549,63 +534,55 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                     parseFloat(productPrice),
                                     product.discount
                                   ).toFixed(2);
-                                  cartTotalPrice +=
-                                    discountedPrice * product.quantity;
+
                                   return (
                                     <li key={i}>
-                                      {product.name[currentLanguage] ||
-                                        product.name["en"]}{" "}
-                                      X {product.quantity}{" "}
+                                      {product.name[currentLanguage] || product.name["en"]} X{" "}
+                                      {product.quantity}{" "}
                                       <span>
                                         {currentLanguage === "mk"
-                                          ? `${discountedPrice} ${t(
-                                              "currency"
-                                            )}`
-                                          : `${t(
-                                              "currency"
-                                            )} ${discountedPrice}`}
+                                          ? `${discountedPrice} ${t("currency")}`
+                                          : `${t("currency")} ${discountedPrice}`}
                                       </span>
                                     </li>
                                   );
                                 })}
                               </ul>
+
                               <p>
                                 {t("subtotal_label")}{" "}
                                 <span>
                                   {currentLanguage === "mk"
-                                    ? `${cartTotalPrice.toFixed(2)} ${t(
-                                        "currency"
-                                      )}`
-                                    : `${t("currency")} ${cartTotalPrice.toFixed(
-                                        2
-                                      )}`}
+                                    ? `${cartTotalPrice.toFixed(2)} ${t("currency")}`
+                                    : `${t("currency")} ${cartTotalPrice.toFixed(2)}`}
                                 </span>
                               </p>
-                              {appliedCoupon && ( // <-- NEW: display coupon discount
+
+                              {appliedCoupon && (
                                 <p>
-                                  {t("coupon_discount")} ({appliedCoupon.code}){" "}
+                                  {t("coupon_discount")}{" "}
                                   <span>
                                     {currentLanguage === "mk"
-                                      ? `-${(cartTotalPrice * (appliedCoupon.discount / 100)).toFixed(2)} ${t("currency")}`
-                                      : `-${t("currency")} ${(cartTotalPrice * (appliedCoupon.discount / 100)).toFixed(2)}`}
+                                      ? `-${discountAmount.toFixed(2)} ${t("currency")}`
+                                      : `-${t("currency")} ${discountAmount.toFixed(2)}`}
                                   </span>
                                 </p>
                               )}
+
                               <h4>
-                              {t("grand_total_label")}{" "}
-                              <span>
-                                {currentLanguage === "mk"
-                                  ? `${(cartTotalPrice - (appliedCoupon ? cartTotalPrice * (appliedCoupon.discount / 100) : 0)).toFixed(2)} ${t("currency")}`
-                                  : `${t("currency")} ${(cartTotalPrice - (appliedCoupon ? cartTotalPrice * (appliedCoupon.discount / 100) : 0)).toFixed(2)}`}
-                              </span>
-                            </h4>
+                                {t("grand_total_label")}{" "}
+                                <span>
+                                  {currentLanguage === "mk"
+                                    ? `${finalTotal.toFixed(2)} ${t("currency")}`
+                                    : `${t("currency")} ${finalTotal.toFixed(2)}`}
+                                </span>
+                              </h4>
                             </div>
                           </div>
+
                           {/* Payment Method */}
                           <div className="col-12">
-                            <h4 className="checkout-title">
-                              {t("payment_method")}
-                            </h4>
+                            <h4 className="checkout-title">{t("payment_method")}</h4>
                             <div className="checkout-payment-method">
                               <div className="single-method">
                                 <input
@@ -613,13 +590,9 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                   id="payment_bank"
                                   name="payment-method"
                                   value="payment_bank"
-                                  onChange={(e) =>
-                                    setSelectedPaymentMethod(e.target.value)
-                                  }
+                                  onChange={(e) => setSelectedPaymentMethod(e.target.value)}
                                 />
-                                <label htmlFor="payment_bank">
-                                  {t("payment_bank")}
-                                </label>
+                                <label htmlFor="payment_bank">{t("payment_bank")}</label>
                               </div>
                               <div className="single-method">
                                 <input
@@ -627,28 +600,21 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                   id="payment_cash"
                                   name="payment-method"
                                   value="payment_cash"
-                                  onChange={(e) =>
-                                    setSelectedPaymentMethod(e.target.value)
-                                  }
+                                  onChange={(e) => setSelectedPaymentMethod(e.target.value)}
                                 />
-                                <label htmlFor="payment_cash">
-                                  {t("payment_cash")}
-                                </label>
+                                <label htmlFor="payment_cash">{t("payment_cash")}</label>
                               </div>
                               <div className="single-method">
                                 <input
                                   type="checkbox"
                                   id="accept_terms"
                                   checked={acceptedTerms}
-                                  onChange={(e) =>
-                                    setAcceptedTerms(e.target.checked)
-                                  }
+                                  onChange={(e) => setAcceptedTerms(e.target.checked)}
                                 />
-                                <label htmlFor="accept_terms">
-                                  {t("accept_terms_label")}
-                                </label>
+                                <label htmlFor="accept_terms">{t("accept_terms_label")}</label>
                               </div>
                             </div>
+
                             <button
                               type="button"
                               onClick={handlePlaceOrder}
@@ -662,9 +628,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                   size="sm"
                                   style={{ display: "block", margin: "0 auto" }}
                                 >
-                                  <span className="visually-hidden">
-                                    Loading...
-                                  </span>
+                                  <span className="visually-hidden">Loading...</span>
                                 </Spinner>
                               ) : (
                                 t("place_order")
@@ -687,11 +651,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                   </div>
                   <div className="item-empty-area__text">
                     <p className="space-mb--30">{t("cart_empty_message")}</p>
-                    <Link
-                      href="/shop/left-sidebar"
-                      as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                      className="lezada-button lezada-button--medium"
-                    >
+                    <Link href="/shop/left-sidebar" as={process.env.PUBLIC_URL + "/shop/left-sidebar"} className="lezada-button lezada-button--medium">
                       {t("shop_now")}
                     </Link>
                   </div>

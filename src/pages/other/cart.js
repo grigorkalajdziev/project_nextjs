@@ -38,10 +38,11 @@ const Cart = ({
   const [orderMeta, setOrderMeta] = useState(null);
 
   // coupon states
-  const [userCoupon, setUserCoupon] = useState(null); // coupon retrieved from DB
-  const [appliedCoupon, setAppliedCoupon] = useState(null); // coupon actually applied after button click
+  const [userCoupon, setUserCoupon] = useState(null);
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [couponInput, setCouponInput] = useState("");
 
+  // fetch coupon for logged in user and autofill coupon input
   useEffect(() => {
     const fetchUserCoupon = async () => {
       const currentUser = auth.currentUser;
@@ -54,7 +55,7 @@ const Cart = ({
           if (data.coupon) {
             const coupon = { code: data.coupon, discount: 5 };
             setUserCoupon(coupon);
-            setCouponInput(coupon.code);
+            setCouponInput(coupon.code); // autofill input so user can click Apply
           }
         }
       } catch (err) {
@@ -73,58 +74,26 @@ const Cart = ({
   }, []);
 
   useEffect(() => {
-    const shouldViewOrder = viewOrder === "true" || viewOrder === true;
-    if (!shouldViewOrder || !userId || !orderId) return;
+  const shouldViewOrder = viewOrder === "true" || viewOrder === true;
+  if (!shouldViewOrder || !userId || !orderId) return;
 
-    let mounted = true;
-    setLoadingOrder(true);
+  let mounted = true;
+  setLoadingOrder(true);
 
-    const loadOrderFromFirebase = async () => {
-      try {
-        const db = getDatabase();
-        const snap = await get(ref(db, `orders/${userId}/${orderId}`));
-        if (!snap.exists()) {
-          addToast(t("order_not_found") || "Order not found", {
-            appearance: "error",
-            autoDismiss: true,
-          });
-          if (mounted) {
-            setOrderProducts([]);
-            setOrderMeta(null);
-          }
-          return;
-        }
+  const parseMoney = (v) => {
+    if (v == null) return 0;
+    const s = String(v).trim();
+    const cleaned = s.replace(/\s/g, "").replace(/,/g, "."); // "32,51" => "32.51"
+    const num = parseFloat(cleaned.replace(/[^0-9.\-]+/g, ""));
+    return Number.isFinite(num) ? num : 0;
+  };
 
-        const data = snap.val();
-
-        // Normalize products (your DB shape: { discount, id, name, price, quantity })
-        const normalized = (data.products || []).map((p, i) => ({
-          id: p.id ?? `${i + 1}`,
-          name: p.name || p.title || `Item ${i + 1}`,
-          price: p.price,
-          quantity: Number(p.quantity ?? p.qty ?? 1),
-          discount: p.discount ?? 0,
-        }));
-
-        const meta = {
-          orderNumber: data.orderNumber ?? null,
-          date: data.date ?? null,
-          reservationDate: data.reservationDate ?? null,
-          reservationTime: data.reservationTime ?? null,
-          status: data.status ?? null,
-          total: data.total ?? null,
-          paymentMethod: data.paymentMethod ?? null,
-          paymentText: data.paymentText ?? null,
-          customer: data.customer ?? null,
-          createdAt: data.createdAt ?? null,
-        };
-
-        if (!mounted) return;
-        setOrderProducts(normalized);
-        setOrderMeta(meta);
-      } catch (err) {
-        console.error("Error loading order from Firebase:", err);
-        addToast(err.message || "Error loading order", {
+  const loadOrderFromFirebase = async () => {
+    try {
+      const db = getDatabase();
+      const snap = await get(ref(db, `orders/${userId}/${orderId}`));
+      if (!snap.exists()) {
+        addToast(t("order_not_found") || "Order not found", {
           appearance: "error",
           autoDismiss: true,
         });
@@ -132,17 +101,141 @@ const Cart = ({
           setOrderProducts([]);
           setOrderMeta(null);
         }
-      } finally {
-        if (mounted) setLoadingOrder(false);
+        return;
       }
-    };
 
-    loadOrderFromFirebase();
+      const data = snap.val();
 
-    return () => {
-      mounted = false;
-    };
-  }, [userId, orderId, viewOrder, addToast, t]);
+      // Normalize product list with numericEn (EUR) and numericMk (MKD)
+      const normalized = (data.products || []).map((p, i) => {
+        const priceObj = p.price ?? p.prices ?? null;
+
+        const numericEn =
+          priceObj && typeof priceObj === "object" && priceObj.en != null
+            ? parseMoney(priceObj.en)
+            : parseMoney(p.price) || 0;
+
+        const numericMk =
+          priceObj && typeof priceObj === "object" && priceObj.mk != null
+            ? parseMoney(priceObj.mk)
+            : parseMoney(p.price) || 0;
+
+        const qty = Number(p.quantity ?? p.qty ?? 1) || 1;
+
+        return {
+          id: p.id ?? `${i + 1}`,
+          name: p.name ?? p.title ?? `Item ${i + 1}`,
+          price: p.price,
+          numericEn,
+          numericMk,
+          quantity: qty,
+          discount: Number(p.discount ?? 0) || 0,
+          thumbImage: p.thumbImage ?? p.image ?? null,
+          slug: p.slug ?? null,
+        };
+      });
+
+      // Compute reliable subtotals in both currencies (respect product discounts)
+      const computedSubtotalEn = normalized.reduce((acc, it) => {
+        const perPrice = Number(getDiscountPrice(it.numericEn, it.discount)) || it.numericEn;
+        return acc + perPrice * it.quantity;
+      }, 0);
+
+      const computedSubtotalMk = normalized.reduce((acc, it) => {
+        const perPrice = Number(getDiscountPrice(it.numericMk, it.discount)) || it.numericMk;
+        return acc + perPrice * it.quantity;
+      }, 0);
+
+      // Parse stored meta values (your DB stores subtotal/total in MKD strings)
+      const storedSubtotalMk = data.subtotal != null ? parseMoney(data.subtotal) : null;
+      const storedDiscountMk = data.discount != null ? parseMoney(data.discount) : null;
+      const storedTotalMk = data.total != null ? parseMoney(data.total) : null;
+
+      // Compute conversion rate MKD per EUR from computed rows if possible
+      const conversionRate =
+        computedSubtotalEn > 0 && computedSubtotalMk > 0
+          ? computedSubtotalMk / computedSubtotalEn
+          : null;
+
+      // Convert stored MKD -> EUR when we can, otherwise fallback to computed EN sums
+      const subtotalEn = conversionRate && storedSubtotalMk != null
+        ? storedSubtotalMk / conversionRate
+        : computedSubtotalEn;
+
+      // Discount: prefer stored discount converted, else derive from storedSubtotal/storedTotal, else 0
+      let discountEn = 0;
+      if (conversionRate && storedDiscountMk != null) {
+        discountEn = storedDiscountMk / conversionRate;
+      } else if (conversionRate && storedSubtotalMk != null && storedTotalMk != null) {
+        discountEn = (storedSubtotalMk - storedTotalMk) / conversionRate;
+      } else {
+        // no stored discount, maybe storedTotal exists: derive discount from computedSubtotalEn vs storedTotalMk
+        if (storedTotalMk != null && conversionRate) {
+          discountEn = subtotalEn - (storedTotalMk / conversionRate);
+        } else {
+          discountEn = 0;
+        }
+      }
+      if (!Number.isFinite(discountEn)) discountEn = 0;
+
+      // Total in EN
+      let totalEn = null;
+      if (conversionRate && storedTotalMk != null) {
+        totalEn = storedTotalMk / conversionRate;
+      } else {
+        totalEn = subtotalEn - discountEn;
+      }
+      if (!Number.isFinite(totalEn)) totalEn = subtotalEn - discountEn;
+
+      // Build meta: keep original MK values and computed EN values
+      const meta = {
+        orderNumber: data.orderNumber ?? null,
+        date: data.date ?? null,
+        reservationDate: data.reservationDate ?? null,
+        reservationTime: data.reservationTime ?? null,
+        status: data.status ?? null,
+        // stored MK values for debugging
+        subtotalMk: storedSubtotalMk ?? computedSubtotalMk,
+        discountMk: storedDiscountMk ?? 0,
+        totalMk: storedTotalMk ?? (computedSubtotalMk - (storedDiscountMk ?? 0)),
+        // computed / converted EUR values for display when language is EN
+        subtotalEn,
+        discountEn,
+        totalEn,
+        // currency display values
+        displayCurrencyEn: "€",
+        displayCurrencyMk: t("currency") || "ден",
+        paymentMethod: data.paymentMethod ?? null,
+        paymentText: data.paymentText ?? null,
+        customer: data.customer ?? null,
+        createdAt: data.createdAt ?? null,
+      };
+
+      if (!mounted) return;
+      setOrderProducts(normalized);
+      setOrderMeta(meta);
+    } catch (err) {
+      console.error("Error loading order from Firebase:", err);
+      addToast(err.message || "Error loading order", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      if (mounted) {
+        setOrderProducts([]);
+        setOrderMeta(null);
+      }
+    } finally {
+      if (mounted) setLoadingOrder(false);
+    }
+  };
+
+  loadOrderFromFirebase();
+
+  return () => {
+    mounted = false;
+  };
+}, [userId, orderId, viewOrder, addToast, t, currentLanguage]);
+
 
   const handleAddToCart = (product) => {
     addToCart(
@@ -151,42 +244,82 @@ const Cart = ({
       quantityCount,
       product.selectedProductColor,
       product.selectedProductSize,
-      t // Localization function used directly in addToast
+      t
     );
   };
 
   // Determine whether we are showing an order (read-only) or normal Redux cart
   const showingOrder = viewOrder === "true" || viewOrder === true;
-  const itemsToRender = showingOrder ? orderProducts : cartItems;
+  const itemsToRender = showingOrder ? orderProducts : cartItems || [];
 
-  // compute totals fresh each render
+  // ---------- totals calculation (single source of truth) ----------
+  // compute totals fresh each render (robust numeric parsing)
   let cartTotalPrice = 0;
-
   itemsToRender.forEach((product) => {
+    // priceNum extraction must handle both order items and store items,
+    // and both numeric price or object with mk/en.
     let priceNum = 0;
+
     if (showingOrder) {
-      // ✅ use the correct variable
-      priceNum = parseFloat(product.price || 0);
+      if (product.price && typeof product.price === "object") {
+        const raw = currentLanguage === "mk" ? product.price.mk : product.price.en;
+        priceNum = Number(raw) || 0;
+      } else {
+        priceNum = Number(product.price) || 0;
+      }
     } else {
-      let basePrice =
-        typeof product.price === "object"
-          ? currentLanguage === "mk"
-            ? parseFloat(product.price.mk || 0)
-            : parseFloat(product.price.en || 0)
-          : parseFloat(product.price || 0);
-      priceNum = parseFloat(getDiscountPrice(basePrice, product.discount));
+      let basePrice = 0;
+      if (product.price && typeof product.price === "object") {
+        basePrice = Number(currentLanguage === "mk" ? product.price.mk : product.price.en) || 0;
+      } else {
+        basePrice = Number(product.price) || 0;
+      }
+      priceNum = Number(getDiscountPrice(basePrice, product.discount)) || 0;
     }
-    const qty = product.quantity || product.qty || 1;
+
+    const qty = Number(product.quantity ?? product.qty ?? 1) || 1;
     cartTotalPrice += priceNum * qty;
   });
 
+  // Apply coupon discount ONLY when user clicks (appliedCoupon)
   let discountAmount = 0;
   let finalTotal = cartTotalPrice;
   if (appliedCoupon) {
-    discountAmount = (cartTotalPrice * appliedCoupon.discount) / 100;
+    discountAmount = (cartTotalPrice * Number(appliedCoupon.discount || 0)) / 100;
     finalTotal = cartTotalPrice - discountAmount;
   }
 
+  // Helper to format safely
+const safeNumber = (v) => {
+  const n = Number(v);
+  return Number.isFinite(n) ? n : 0;
+};
+  const format = (v) => safeNumber(v).toFixed(2);
+
+  // If we're showing an order, prefer orderMeta values (if present), otherwise fallback to computed ones
+const displaySubtotal = showingOrder
+  ? (currentLanguage === "mk"
+      ? safeNumber(orderMeta?.subtotalMk ?? orderMeta?.totalMk ?? cartTotalPrice)
+      : safeNumber(orderMeta?.subtotalEn ?? cartTotalPrice))
+  : cartTotalPrice;
+
+const displayDiscount = showingOrder
+  ? (currentLanguage === "mk"
+      ? safeNumber(orderMeta?.discountMk ?? 0)
+      : safeNumber(orderMeta?.discountEn ?? 0))
+  : discountAmount;
+
+const displayTotal = showingOrder
+  ? (currentLanguage === "mk"
+      ? safeNumber(orderMeta?.totalMk ?? (displaySubtotal - displayDiscount))
+      : safeNumber(orderMeta?.totalEn ?? (displaySubtotal - displayDiscount)))
+  : finalTotal;
+
+const currencyToShow = showingOrder
+  ? (currentLanguage === "mk" ? (orderMeta?.displayCurrencyMk || t("currency")) : (orderMeta?.displayCurrencyEn || "€"))
+  : t("currency") || "€";
+
+  // Apply coupon handler
   const handleApplyCoupon = (e) => {
     e?.preventDefault?.();
     if (!userCoupon && !couponInput.trim()) {
@@ -197,13 +330,15 @@ const Cart = ({
       return;
     }
 
-    if (couponInput.trim()) {   
+    if (couponInput.trim()) {
       if (
         userCoupon &&
         couponInput.trim().toLowerCase() === userCoupon.code.toLowerCase()
       ) {
         setAppliedCoupon(userCoupon);
-        sessionStorage.setItem('appliedCoupon', JSON.stringify(userCoupon));
+        try {
+          sessionStorage.setItem("appliedCoupon", JSON.stringify(userCoupon));
+        } catch {}
         addToast(
           t("coupon_applied") || `Coupon applied: ${userCoupon.discount}% off`,
           { appearance: "success", autoDismiss: true }
@@ -218,6 +353,9 @@ const Cart = ({
       // no input: attempt to apply the stored coupon
       if (userCoupon) {
         setAppliedCoupon(userCoupon);
+        try {
+          sessionStorage.setItem("appliedCoupon", JSON.stringify(userCoupon));
+        } catch {}
         addToast(
           t("coupon_applied") || `Coupon applied: ${userCoupon.discount}% off`,
           { appearance: "success", autoDismiss: true }
@@ -228,19 +366,13 @@ const Cart = ({
 
   return (
     <LayoutTwo>
-      {/* breadcrumb */}
       <BreadcrumbOne
-        pageTitle={
-          showingOrder ? t("order_preview") || "Order preview" : t("cart_title")
-        }
+        pageTitle={showingOrder ? (t("order_preview") || "Order preview") : t("cart_title")}
         backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.jpg"
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link
-              href="/home/trending"
-              as={process.env.PUBLIC_URL + "/home/trending"}
-            >
+            <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
               {t("home")}
             </Link>
           </li>
@@ -260,57 +392,41 @@ const Cart = ({
                 <table className="cart-table">
                   <thead>
                     <tr>
-                      <th
-                        className="product-name"
-                        colSpan={showingOrder ? "1" : "2"}
-                      >
+                      <th className="product-name" colSpan={showingOrder ? "1" : "2"}>
                         {t("product")}
                       </th>
                       <th className="product-price">{t("price")}</th>
                       <th className="product-quantity">{t("quantity")}</th>
                       <th className="product-subtotal">{t("total")}</th>
-                      <th className="product-remove">
-                        <span></span>
-                      </th>
+                      <th className="product-remove"><span></span></th>
                     </tr>
                   </thead>
                   <tbody>
                     {itemsToRender.map((product, i) => {
-                      // price handling: order items have numeric price, cart items may have localized price object
                       let priceNum = 0;
                       if (showingOrder) {
-                        if (
-                          product.price &&
-                          typeof product.price === "object"
-                        ) {
-                          priceNum =
-                            currentLanguage === "mk"
-                              ? parseFloat(product.price.mk || 0)
-                              : parseFloat(product.price.en || 0);
+                        if (product.price && typeof product.price === "object") {
+                          priceNum = Number(currentLanguage === "mk" ? product.price.mk : product.price.en) || 0;
                         } else {
-                          priceNum = parseFloat(product.price || 0);
+                          priceNum = Number(product.price) || 0;
                         }
                       } else {
                         let basePrice = 0;
-                        if (
-                          product.price &&
-                          typeof product.price === "object"
-                        ) {
-                          basePrice =
-                            currentLanguage === "mk"
-                              ? parseFloat(product.price.mk || 0)
-                              : parseFloat(product.price.en || 0);
+                        if (product.price && typeof product.price === "object") {
+                          basePrice = Number(currentLanguage === "mk" ? product.price.mk : product.price.en) || 0;
                         } else {
-                          basePrice = parseFloat(product.price || 0);
+                          basePrice = Number(product.price) || 0;
                         }
-                        priceNum = parseFloat(
-                          getDiscountPrice(basePrice, product.discount)
-                        );
+                        priceNum = Number(getDiscountPrice(basePrice, product.discount)) || 0;
                       }
 
-                      const qty = product.quantity || product.qty || 1;
-                      const subtotal = (priceNum * qty).toFixed(2);
-                      // we already accumulated earlier, keep showing subtotal here
+                      const qty = Number(product.quantity ?? product.qty ?? 1) || 1;
+                      const rowSubtotal = priceNum * qty;
+                      const subtotalStr = safeNumber(rowSubtotal).toFixed(2);
+
+                      const thumbRaw = Array.isArray(product.thumbImage) ? product.thumbImage[0] : product.thumbImage || product.image || "/assets/images/no-image.png";
+                      const thumbSrc = process.env.PUBLIC_URL + thumbRaw;
+
                       return (
                         <tr key={product.id || i}>
                           {!showingOrder && (
@@ -321,31 +437,13 @@ const Cart = ({
                                   as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                                 >
                                   <img
-                                    src={
-                                      process.env.PUBLIC_URL +
-                                      (Array.isArray(product.thumbImage)
-                                        ? product.thumbImage[0]
-                                        : product.thumbImage ||
-                                          product.image ||
-                                          "/assets/images/no-image.png")
-                                    }
+                                    src={thumbSrc}
                                     className="img-fluid"
                                     alt={product.name || ""}
                                   />
                                 </Link>
                               ) : (
-                                <img
-                                  src={
-                                    process.env.PUBLIC_URL +
-                                    (Array.isArray(product.thumbImage)
-                                      ? product.thumbImage[0]
-                                      : product.thumbImage ||
-                                        product.image ||
-                                        "/assets/images/no-image.png")
-                                  }
-                                  className="img-fluid"
-                                  alt={product.name || ""}
-                                />
+                                <img src={thumbSrc} className="img-fluid" alt={product.name || ""} />
                               )}
                             </td>
                           )}
@@ -356,46 +454,31 @@ const Cart = ({
                                 href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                                 as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                               >
-                                {product.name &&
-                                (product.name[currentLanguage] || product.name)
-                                  ? product.name[currentLanguage] ||
-                                    product.name
-                                  : product.name}
+                                {product.name && (product.name[currentLanguage] || product.name) ? (product.name[currentLanguage] || product.name) : product.name}
                               </Link>
-                            ) : product.name &&
-                              (product.name[currentLanguage] ||
-                                product.name) ? (
-                              product.name[currentLanguage] || product.name
                             ) : (
-                              product.name
+                              product.name && (product.name[currentLanguage] || product.name) ? (product.name[currentLanguage] || product.name) : product.name
                             )}
                           </td>
 
                           <td className="product-price">
                             <span className="price">
-                              {currentLanguage === "mk"
-                                ? `${priceNum.toFixed(2)} ${t("currency")}`
-                                : `${t("currency")} ${priceNum.toFixed(2)}`}
+                              {currentLanguage === 'mk'
+                                ? `${safeNumber(priceNum).toFixed(2)} ${t("currency")}`
+                                : `${t("currency")} ${safeNumber(priceNum).toFixed(2)}`}
                             </span>
                           </td>
 
                           <td className="product-quantity">
                             {showingOrder ? (
                               <div className="cart-plus-minus">
-                                <input
-                                  className="cart-plus-minus-box"
-                                  type="text"
-                                  value={qty}
-                                  readOnly
-                                />
+                                <input className="cart-plus-minus-box" type="text" value={qty} readOnly />
                               </div>
                             ) : (
                               <div className="cart-plus-minus">
                                 <button
                                   className="dec qtybutton"
-                                  onClick={() =>
-                                    decreaseQuantity(product, addToast, t)
-                                  }
+                                  onClick={() => decreaseQuantity(product, addToast, t)}
                                 >
                                   -
                                 </button>
@@ -427,18 +510,16 @@ const Cart = ({
 
                           <td className="total-price">
                             <span className="price">
-                              {currentLanguage === "mk"
-                                ? `${subtotal} ${t("currency")}`
-                                : `${t("currency")} ${subtotal}`}
+                              {currentLanguage === 'mk'
+                                ? `${subtotalStr} ${t("currency")}`
+                                : `${t("currency")} ${subtotalStr}`}
                             </span>
                           </td>
 
                           <td className="product-remove">
                             {showingOrder ? null : (
                               <button
-                                onClick={() =>
-                                  deleteFromCart(product, addToast, t)
-                                }
+                                onClick={() => deleteFromCart(product, addToast, t)}
                               >
                                 <IoIosClose />
                               </button>
@@ -451,69 +532,68 @@ const Cart = ({
                 </table>
               </Col>
 
-              {/* Coupon + clear cart */}
-              {!showingOrder && (
-                <Col lg={12} className="space-mb--r100">
-                  <div className="cart-coupon-area space-pt--30 space-pb--30">
-                    <Row className="align-items-center">
-                      <Col lg={7} className="space-mb-mobile-only--30">
-                        <div className="lezada-form coupon-form">
-                          <form
-                            onSubmit={(e) => {
-                              e.preventDefault();
-                              handleApplyCoupon();
-                            }}
-                          >
-                            <Row>
-                              <Col md={7}>
-                                <input
-                                  type="text"
-                                  placeholder={t("enter_coupon_code")}
-                                  value={couponInput}
-                                  onChange={(e) =>
-                                    setCouponInput(e.target.value)
-                                  }
-                                />
-                              </Col>
-                              <Col md={5}>
-                                <button
-                                  type="submit"
-                                  className="lezada-button lezada-button--medium"
-                                >
-                                  {t("apply_coupon")}
-                                </button>
-                              </Col>
-                            </Row>
-                          </form>
-                        </div>
-                      </Col>
-                      <Col lg={5} className="text-left text-lg-right">
-                        <button
-                          className="lezada-button lezada-button--medium"
-                          onClick={() => deleteAllFromCart(addToast, t)}
-                        >
-                          {t("clear_cart")}
-                        </button>
-                      </Col>
-                      {userCoupon && !appliedCoupon && (
-                      <div
-                        style={{
-                          padding: "12px 12px",
-                          margin: "10px",
-                          backgroundColor: "#fff3cd",
-                          color: "#856404",
-                          borderRadius: "4px",
-                          fontWeight: "500",
-                        }}
-                      >
-                        {currentLanguage === "mk"
-                          ? `Имате ${userCoupon.discount}% купон — кликнете Внесете попуст`
-                          : `You have a ${userCoupon.discount}% coupon — click Apply`}
+              {showingOrder ? (
+                <Col lg={12} className="space-mb--r100 space-pt--30">
+                  <Row className="align-items-center">
+                    <Col lg={8}>
+                      <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+                        <Link href="/other/my-account" as={process.env.PUBLIC_URL + "/other/my-account"} className="lezada-button lezada-button--medium">
+                          {t("back_to_account") || "Back to account"}
+                        </Link>
+
+                        <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"} className="lezada-button lezada-button--medium">
+                          {t("back_home") || "Back to home"}
+                        </Link>
                       </div>
-                    )}
-                    </Row>
-                  </div>
+                    </Col>
+                    <Col lg={4} className="text-right">
+                      {/* Optionally show order summary/meta here */}
+                    </Col>
+                  </Row>
                 </Col>
+              ) : (
+                <>
+                  <Col lg={12} className="space-mb--r100">
+                    <div className="cart-coupon-area space-pt--30 space-pb--30">
+                      <Row className="align-items-center">
+                        <Col lg={7} className="space-mb-mobile-only--30">
+                          <div className="lezada-form coupon-form">
+                            <form
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                handleApplyCoupon();
+                              }}
+                            >
+                              <Row>
+                                <Col md={7}>
+                                  <input
+                                    type="text"
+                                    placeholder={t("enter_coupon_code")}
+                                    value={couponInput}
+                                    onChange={(e) => setCouponInput(e.target.value)}
+                                  />
+                                </Col>
+                                <Col md={5}>
+                                  <button type="submit" className="lezada-button lezada-button--medium">
+                                    {t("apply_coupon")}
+                                  </button>
+                                </Col>
+                              </Row>
+                            </form>
+                          </div>
+                        </Col>
+                        <Col lg={5} className="text-left text-lg-right">
+                          <button
+                            className="lezada-button lezada-button--medium"
+                            onClick={() => deleteAllFromCart(addToast, t)}
+                          >
+                            {t("clear_cart")}
+                          </button>
+                        </Col>
+                      </Row>
+                    </div>
+                  </Col>
+                </>
               )}
 
               <Col lg={5} className="ml-auto">
@@ -524,21 +604,19 @@ const Cart = ({
                       <tr>
                         <th>{t("subtotal")}</th>
                         <td className="subtotal">
-                          {currentLanguage === "mk"
-                            ? `${cartTotalPrice.toFixed(2)} ${t("currency")}`
-                            : `${t("currency")} ${cartTotalPrice.toFixed(2)}`}
+                          {currentLanguage === 'mk'
+                            ? `${format(displaySubtotal)} ${t("currency")}`
+                            : `${t("currency")} ${format(displaySubtotal)}`}
                         </td>
                       </tr>
 
-                      {appliedCoupon && (
+                      { (showingOrder ? displayDiscount > 0 : appliedCoupon) && (
                         <tr>
-                          <th>
-                            {t("coupon_discount")} ({appliedCoupon.code})
-                          </th>
+                          <th>{t("coupon_discount")}</th>
                           <td className="discount">
-                            {currentLanguage === "mk"
-                              ? `-${discountAmount.toFixed(2)} ${t("currency")}`
-                              : `-${t("currency")} ${discountAmount.toFixed(2)}`}
+                            {currentLanguage === 'mk'
+                              ? `-${format(displayDiscount)} ${t("currency")}`
+                              : `-${t("currency")} ${format(displayDiscount)}`}
                           </td>
                         </tr>
                       )}
@@ -546,9 +624,9 @@ const Cart = ({
                       <tr>
                         <th>{t("total")}</th>
                         <td className="total">
-                          {currentLanguage === "mk"
-                            ? `${finalTotal.toFixed(2)} ${t("currency")}`
-                            : `${t("currency")} ${finalTotal.toFixed(2)}`}
+                          {currentLanguage === 'mk'
+                            ? `${format(displayTotal)} ${t("currency")}`
+                            : `${t("currency")} ${format(displayTotal)}`}
                         </td>
                       </tr>
                     </tbody>
@@ -579,8 +657,7 @@ const Cart = ({
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                      className="lezada-button lezada-button--medium"
-                    >
+                      className="lezada-button lezada-button--medium">
                       {t("shop_now")}
                     </Link>
                   </div>
@@ -613,7 +690,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     deleteAllFromCart: (addToast, t) => {
       dispatch(deleteAllFromCart(addToast, t));
-    },
+    }
   };
 };
 

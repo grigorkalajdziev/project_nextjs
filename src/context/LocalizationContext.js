@@ -467,8 +467,9 @@ const translations = {
     too_many_requests: "Too many attempts. Please try again later.",
     network_error: "Network error. Check your connection.",
     something_went_wrong: "Something went wrong. Please try again.",
-    coupon_discount: "Coupon Discount",
+    coupon_discount: "Discount",
     coupon_applied: "Coupon applied successfully!",
+    back_home: "Home"
 
   },
   mk: {
@@ -941,8 +942,10 @@ const translations = {
     too_many_requests: "Преголем број обиди. Обидете се повторно подоцна.",
     network_error: "Грешка во мрежата. Проверете ја вашата конекција.",
     something_went_wrong: "Настана грешка. Обидете се повторно.",
-    coupon_discount: "Попуст со купон",
+    coupon_discount: "Попуст",
     coupon_applied: "Купонот е применет успешно!",
+    order_preview: "Преглед на нарачка",
+    back_home: "Дома"
   },
 };
 
