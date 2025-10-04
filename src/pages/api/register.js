@@ -7,7 +7,7 @@ import {
   GoogleAuthProvider,  
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getDatabase, ref, set, push, get } from "firebase/database";
+import { getDatabase, ref, set, push, get, update } from "firebase/database";
 
 // Firebase config (uses .env values)
 const firebaseConfig = {
@@ -97,4 +97,5 @@ export {
   get,
   facebookProvider,
   googleProvider,
+  update,
 };

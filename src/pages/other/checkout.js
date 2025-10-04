@@ -16,11 +16,8 @@ import { useRouter } from "next/router";
 import { deleteAllFromCart } from "../../redux/actions/cartActions";
 
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import {
-  LocalizationProvider,
-  DatePicker,  
-} from "@mui/x-date-pickers";
-import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { MobileTimePicker } from "@mui/x-date-pickers/MobileTimePicker";
 import TextField from "@mui/material/TextField";
 
 import enLocale from "date-fns/locale/en-US";
@@ -44,6 +41,9 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
 
   const [reservationDateTime, setReservationDateTime] = useState(new Date());
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [couponDiscountAmount, setCouponDiscountAmount] = useState(0);
 
   const localeMap = {
     en: enLocale,
@@ -102,6 +102,8 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       return;
     }
 
+    
+
     const totalMKD = cartItems
       .reduce((total, product) => {
         const priceMKD = parseFloat(product.price["mk"] || "0");
@@ -144,6 +146,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         city: billingInfo.city || "",
         postalCode: billingInfo.zip || "",
       },
+      coupon: appliedCoupon,
     };
 
     try {
@@ -190,7 +193,10 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error("Failed to send reservation email to customer:", errorText);
+        console.error(
+          "Failed to send reservation email to customer:",
+          errorText
+        );
       } else {
         console.log("Reservation email sent to customer");
       }
@@ -211,10 +217,10 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         paymentText: translatedPaymentMethod,
         total: orderData.total,
         products: orderData.products,
-        customerPhone: orderData.customer.phone, 
-        customerAddress: orderData.customer.address, 
-        customerState: orderData.customer.state, 
-        customerCity: orderData.customer.city, 
+        customerPhone: orderData.customer.phone,
+        customerAddress: orderData.customer.address,
+        customerState: orderData.customer.state,
+        customerCity: orderData.customer.city,
         customerPostalCode: orderData.customer.postalCode,
         language: currentLanguage,
       };
@@ -225,7 +231,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(emailToAdmins),
-      });     
+      });
 
       if (!responseKika.ok) {
         console.error("Failed to send email to Kika");
@@ -245,7 +251,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       console.error("Error placing order:", error);
       addToast(error.message, { appearance: "error", autoDismiss: true });
     } finally {
-    setIsPlacingOrder(false);
+      setIsPlacingOrder(false);
     }
   };
 
@@ -284,6 +290,22 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
 
     fetchBillingInfo();
   }, []);
+
+  useEffect(() => {
+  if (typeof window === "undefined") return;
+
+  const raw = sessionStorage.getItem("appliedCoupon"); // <-- NEW: reading coupon from sessionStorage
+  if (!raw) return;
+
+  let coupon = null;
+  try {
+    coupon = JSON.parse(raw); // <-- NEW: parse stored coupon object
+  } catch {
+    coupon = { code: raw, discount: 5 }; // <-- fallback: assume 5% discount if just code stored
+  }
+  setAppliedCoupon(coupon); // <-- NEW: store coupon in state
+  setCouponDiscountAmount(cartTotalPrice * (coupon.discount / 100)); // <-- NEW: calculate discount amount
+}, [cartTotalPrice]);
 
   return (
     <LayoutTwo>
@@ -442,10 +464,10 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                 <DatePicker
                                   label={t("reservation_date_label")}
                                   value={reservationDateTime}
-                                  localeText={{                                    
-                                    toolbarTitle: t('choose_date'),
-                                    cancelButtonLabel: t('cancel'),
-                                    okButtonLabel: t('ok'),
+                                  localeText={{
+                                    toolbarTitle: t("choose_date"),
+                                    cancelButtonLabel: t("cancel"),
+                                    okButtonLabel: t("ok"),
                                   }}
                                   onChange={(date) => {
                                     if (!date) return;
@@ -476,25 +498,30 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                   localeMap[currentLanguage] || enLocale
                                 }
                                 localeText={{
-                                  timePickerToolbarTitle: t('choose_time'), 
-                                  cancelButtonLabel: t('cancel'),
-                                  okButtonLabel: t('ok'),
+                                  timePickerToolbarTitle: t("choose_time"),
+                                  cancelButtonLabel: t("cancel"),
+                                  okButtonLabel: t("ok"),
                                 }}
                               >
                                 <MobileTimePicker
-                                    label={t("reservation_time_label")}
-                                    value={reservationDateTime}
-                                    onChange={(time) => {
-                                      if (!time) return;
-                                      setReservationDateTime(prev => {
-                                        const d = new Date(prev);
-                                        d.setHours(time.getHours(), time.getMinutes());
-                                        return d;                                        
-                                      });                                      
-                                    }}
-                                    slotProps={{ textField: { fullWidth: true } }}
-                                    renderInput={(params) => <TextField {...params} fullWidth />}
-                                  />
+                                  label={t("reservation_time_label")}
+                                  value={reservationDateTime}
+                                  onChange={(time) => {
+                                    if (!time) return;
+                                    setReservationDateTime((prev) => {
+                                      const d = new Date(prev);
+                                      d.setHours(
+                                        time.getHours(),
+                                        time.getMinutes()
+                                      );
+                                      return d;
+                                    });
+                                  }}
+                                  slotProps={{ textField: { fullWidth: true } }}
+                                  renderInput={(params) => (
+                                    <TextField {...params} fullWidth />
+                                  )}
+                                />
                               </LocalizationProvider>
                             </div>
                           </div>
@@ -515,9 +542,9 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                               <ul>
                                 {cartItems.map((product, i) => {
                                   const productPrice =
-                                  currentLanguage === "mk"
-                                    ? product.price["mk"] || 0
-                                    : product.price["en"] || 0;
+                                    currentLanguage === "mk"
+                                      ? product.price["mk"] || 0
+                                      : product.price["en"] || 0;
                                   const discountedPrice = getDiscountPrice(
                                     parseFloat(productPrice),
                                     product.discount
@@ -554,26 +581,24 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                       )}`}
                                 </span>
                               </p>
-                              <p>
-                                {t("shipping_fee_label")}{" "}
-                                <span>
-                                  {currentLanguage === "mk"
-                                    ? `00.00 ${t("currency")}`
-                                    : `${t("currency")} 00.00`}
-                                </span>
-                              </p>
+                              {appliedCoupon && ( // <-- NEW: display coupon discount
+                                <p>
+                                  {t("coupon_discount")} ({appliedCoupon.code}){" "}
+                                  <span>
+                                    {currentLanguage === "mk"
+                                      ? `-${(cartTotalPrice * (appliedCoupon.discount / 100)).toFixed(2)} ${t("currency")}`
+                                      : `-${t("currency")} ${(cartTotalPrice * (appliedCoupon.discount / 100)).toFixed(2)}`}
+                                  </span>
+                                </p>
+                              )}
                               <h4>
-                                {t("grand_total_label")}{" "}
-                                <span>
-                                  {currentLanguage === "mk"
-                                    ? `${cartTotalPrice.toFixed(2)} ${t(
-                                        "currency"
-                                      )}`
-                                    : `${t("currency")} ${cartTotalPrice.toFixed(
-                                        2
-                                      )}`}
-                                </span>
-                              </h4>
+                              {t("grand_total_label")}{" "}
+                              <span>
+                                {currentLanguage === "mk"
+                                  ? `${(cartTotalPrice - (appliedCoupon ? cartTotalPrice * (appliedCoupon.discount / 100) : 0)).toFixed(2)} ${t("currency")}`
+                                  : `${t("currency")} ${(cartTotalPrice - (appliedCoupon ? cartTotalPrice * (appliedCoupon.discount / 100) : 0)).toFixed(2)}`}
+                              </span>
+                            </h4>
                             </div>
                           </div>
                           {/* Payment Method */}
@@ -631,17 +656,19 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                               disabled={isPlacingOrder}
                             >
                               {isPlacingOrder ? (
-                              <Spinner
-                                animation="border"
-                                role="status"
-                                size="sm"
-                                style={{ display: "block", margin: "0 auto" }}
-                              >
-                                <span className="visually-hidden">Loading...</span>
-                              </Spinner>
-                            ) : (
-                              t("place_order")
-                            )}
+                                <Spinner
+                                  animation="border"
+                                  role="status"
+                                  size="sm"
+                                  style={{ display: "block", margin: "0 auto" }}
+                                >
+                                  <span className="visually-hidden">
+                                    Loading...
+                                  </span>
+                                </Spinner>
+                              ) : (
+                                t("place_order")
+                              )}
                             </button>
                           </div>
                         </div>

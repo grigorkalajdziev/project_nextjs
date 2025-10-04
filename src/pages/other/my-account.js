@@ -530,7 +530,7 @@ const MyAccount = () => {
         }
       } else {
         // If no new password provided, update with the current password value
-        await set(userRef, {
+        await update(userRef, {
           firstName,
           lastName,
           displayName,
