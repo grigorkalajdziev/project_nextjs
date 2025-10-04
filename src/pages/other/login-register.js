@@ -162,7 +162,8 @@ const LoginRegister = () => {
         window.location.href = "/other/my-account";
       }, 2000);
     } catch (error) {
-      addToast(error.message, { appearance: "error", autoDismiss: true });
+      const message = getFriendlyAuthMessage(error.code, t);
+      addToast(message, { appearance: "error", autoDismiss: true });
     } finally {
       setLoginLoading(false);
     }
@@ -199,10 +200,12 @@ const LoginRegister = () => {
         });
         setRegisterData({ email: "", password: "" });
       } else {
-        addToast(result.error, { appearance: "error", autoDismiss: true });
+         const message = getFriendlyAuthMessage(error.code, t);
+         addToast(message, { appearance: "error", autoDismiss: true });        
       }
     } catch (error) {
-      addToast(error.message, { appearance: "error", autoDismiss: true });
+      const message = getFriendlyAuthMessage(error.code, t);
+      addToast(message, { appearance: "error", autoDismiss: true });
     } finally {
       setRegisterLoading(false);
     }
@@ -245,7 +248,8 @@ const LoginRegister = () => {
         window.location.href = "/other/my-account";
       }, 2000);
     } catch (err) {
-      addToast(err.message, { appearance: "error", autoDismiss: true });
+      const message = getFriendlyAuthMessage(err.code, t);
+      addToast(message, { appearance: "error", autoDismiss: true });
     } finally {
       setGoogleLoading(false);
     }
@@ -283,6 +287,19 @@ const LoginRegister = () => {
       addToast(error.message, { appearance: "error", autoDismiss: true });
     }
   };
+
+  const getFriendlyAuthMessage = (code, t) => {
+  const errorMap = {
+    "auth/invalid-login-credentials": "invalid_credentials",
+    "auth/wrong-password": "invalid_credentials",
+    "auth/user-not-found": "user_not_found",
+    "auth/email-already-in-use": "email_in_use",
+    "auth/too-many-requests": "too_many_requests",
+    "auth/network-request-failed": "network_error"
+  };
+
+  return t(errorMap[code] || "something_went_wrong");
+};
 
   useEffect(() => {
     setLoginErrors({ email: "", password: "" });

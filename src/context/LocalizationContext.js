@@ -461,6 +461,12 @@ const translations = {
     contact: "Contact",
     contact_text: "For any questions about these Terms of Service, please contact us at: ",
     back_to_account: "Back to My Account",    
+    invalid_credentials: "Incorrect email or password.",
+    user_not_found: "No account found with this email.",
+    email_in_use: "This email is already registered.",
+    too_many_requests: "Too many attempts. Please try again later.",
+    network_error: "Network error. Check your connection.",
+    something_went_wrong: "Something went wrong. Please try again."
   },
   mk: {
     english: "Англиски",
@@ -926,6 +932,12 @@ const translations = {
     contact: "Контакт",
     contact_text: "За било какви прашања во врска со овие Услови за користење, ве молиме контактирајте не на: ",
     back_to_account: "Назад во мој профилот",   
+    invalid_credentials: "Погрешен емаил или лозинка.",
+    user_not_found: "Не постои корисник со оваа емаил адреса.",
+    email_in_use: "Овој емаил веќе е регистриран.",
+    too_many_requests: "Преголем број обиди. Обидете се повторно подоцна.",
+    network_error: "Грешка во мрежата. Проверете ја вашата конекција.",
+    something_went_wrong: "Настана грешка. Обидете се повторно."
   },
 };
 

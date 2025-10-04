@@ -123,7 +123,7 @@ function ConfirmationDocument_MK(props) {
       React.createElement(
         View,
         { style: styles.header },
-        React.createElement(Text, { style: styles.title }, 'Потврда на резервација'),
+        React.createElement(Text, { style: styles.title }, 'Потврда за резервација'),
         React.createElement(Text, null, `#${orderNumber}`),
         qrCodeUrl && React.createElement(Image, { style: styles.qr, src: qrCodeUrl })
       ),

@@ -69,7 +69,7 @@ export default async function handler(req, res) {
   // Localized subject
   const subject =
     language === "mk"
-      ? `Потврда на резервација: ${orderID}`
+      ? `Потврда за резервација: ${orderID}`
       : `Your Reservation Confirmation: ${orderID}`;
 
   try {

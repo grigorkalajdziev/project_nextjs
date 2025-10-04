@@ -44,7 +44,7 @@ const ReservationEmail_MK = ({
           />
 
           <Text style={{ fontSize: '24px', fontWeight: 'bold', textAlign: 'center', marginBottom: '10px' }}>
-            Потврда на резервацијата
+            Потврда за резервацијата
           </Text>
           <Text style={{ fontSize: '16px', lineHeight: '24px', marginBottom: '20px' }}>
             Почитуван(а) {customerName},
