@@ -470,7 +470,8 @@ const translations = {
     coupon_discount: "Discount",
     coupon_applied: "Coupon applied successfully!",
     order_preview: "Order Preview",
-    back_home: "Home"
+    back_home: "Home",
+    comingSoon: "Website Coming Soon",
 
   },
   mk: {
@@ -946,7 +947,8 @@ const translations = {
     coupon_discount: "Попуст",
     coupon_applied: "Купонот е применет успешно!",
     order_preview: "Преглед на нарачка",
-    back_home: "Дома"
+    back_home: "Дома",
+    comingSoon: "Веб-страницата наскоро ќе биде достапна",
   },
 };
 

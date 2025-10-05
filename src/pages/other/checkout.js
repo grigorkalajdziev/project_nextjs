@@ -69,7 +69,9 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
   let cartTotalPrice = 0;
   cartItems.forEach((product) => {
     const productPrice =
-      currentLanguage === "mk" ? product.price?.mk ?? 0 : product.price?.en ?? 0;
+      currentLanguage === "mk"
+        ? (product.price?.mk ?? 0)
+        : (product.price?.en ?? 0);
 
     const discountedPrice = parseFloat(
       getDiscountPrice(parseFloat(productPrice || 0), product.discount || 0)
@@ -181,17 +183,26 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       // Build subtotal in MKD (prefer product.price.mk, fallback to en*rate)
       let subtotalMKDnum = 0;
       cartItems.forEach((product) => {
-        const rawMk = product.price?.mk != null ? Number(product.price.mk) : null;
-        const rawEn = product.price?.en != null ? Number(product.price.en) : null;
-        const priceMK = rawMk != null && !Number.isNaN(rawMk)
-          ? rawMk
-          : (rawEn != null && !Number.isNaN(rawEn) ? rawEn * conversionRate : 0);
+        const rawMk =
+          product.price?.mk != null ? Number(product.price.mk) : null;
+        const rawEn =
+          product.price?.en != null ? Number(product.price.en) : null;
+        const priceMK =
+          rawMk != null && !Number.isNaN(rawMk)
+            ? rawMk
+            : rawEn != null && !Number.isNaN(rawEn)
+              ? rawEn * conversionRate
+              : 0;
 
-        const discountedMK = parseFloat(getDiscountPrice(Number(priceMK || 0), product.discount || 0));
+        const discountedMK = parseFloat(
+          getDiscountPrice(Number(priceMK || 0), product.discount || 0)
+        );
         subtotalMKDnum += discountedMK * (product.quantity || 1);
       });
 
-      const discountMKDnum = appliedCoupon ? subtotalMKDnum * (appliedCoupon.discount / 100) : 0;
+      const discountMKDnum = appliedCoupon
+        ? subtotalMKDnum * (appliedCoupon.discount / 100)
+        : 0;
       const totalMKDnum = subtotalMKDnum - discountMKDnum;
 
       // Build order data in the legacy shape (matching the JSON you provided)
@@ -204,7 +215,10 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         customer: {
           address: billingInfo.address1 || "",
           city: billingInfo.city || "",
-          email: billingInfo.email || (auth.currentUser && auth.currentUser.email) || "",
+          email:
+            billingInfo.email ||
+            (auth.currentUser && auth.currentUser.email) ||
+            "",
           phone: billingInfo.phone || "",
           postalCode: billingInfo.zip || "",
           state: billingInfo.state || "",
@@ -215,19 +229,23 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         paymentText: t(selectedPaymentMethod),
         products: cartItems.map((product) => {
           // keep product.price as { en, mk } like your JSON
-          const rawMk = product.price?.mk != null ? Number(product.price.mk) : null;
-          const rawEn = product.price?.en != null ? Number(product.price.en) : null;
+          const rawMk =
+            product.price?.mk != null ? Number(product.price.mk) : null;
+          const rawEn =
+            product.price?.en != null ? Number(product.price.en) : null;
 
           // ensure price numbers exist; if one missing derive the other
-          const priceMk = rawMk != null && !Number.isNaN(rawMk)
-            ? rawMk
-            : rawEn != null && !Number.isNaN(rawEn)
-            ? Number((rawEn * conversionRate).toFixed(2))
-            : 0;
+          const priceMk =
+            rawMk != null && !Number.isNaN(rawMk)
+              ? rawMk
+              : rawEn != null && !Number.isNaN(rawEn)
+                ? Number((rawEn * conversionRate).toFixed(2))
+                : 0;
 
-          const priceEn = rawEn != null && !Number.isNaN(rawEn)
-            ? Number(rawEn.toFixed(2))
-            : Number((priceMk / conversionRate).toFixed(2));
+          const priceEn =
+            rawEn != null && !Number.isNaN(rawEn)
+              ? Number(rawEn.toFixed(2))
+              : Number((priceMk / conversionRate).toFixed(2));
 
           return {
             discount: product.discount || 0,
@@ -351,12 +369,17 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
             <Row>
               <Col>
                 <div className="lezada-form">
-                  <form className="checkout-form" onSubmit={(e) => e.preventDefault()}>
+                  <form
+                    className="checkout-form"
+                    onSubmit={(e) => e.preventDefault()}
+                  >
                     <div className="row row-40">
                       <div className="col-lg-7 space-mb--20">
                         {/* Billing Address */}
                         <div id="billing-form" className="space-mb--40">
-                          <h4 className="checkout-title">{t("billing_address")}</h4>
+                          <h4 className="checkout-title">
+                            {t("billing_address")}
+                          </h4>
                           <div className="row">
                             <div className="col-md-6 col-12 space-mb--20">
                               <label>{t("first_name_label")}*</label>
@@ -480,11 +503,14 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                             <div className="col-md-6 col-12 space-mb--20">
                               <LocalizationProvider
                                 dateAdapter={AdapterDateFns}
-                                adapterLocale={localeMap[currentLanguage] || enLocale}
+                                adapterLocale={
+                                  localeMap[currentLanguage] || enLocale
+                                }
                               >
                                 <DatePicker
                                   label={t("reservation_date_label")}
                                   value={reservationDateTime}
+                                  format="dd-MM-yyyy"
                                   localeText={{
                                     toolbarTitle: t("choose_date"),
                                     cancelButtonLabel: t("cancel"),
@@ -494,12 +520,24 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                     if (!date) return;
                                     setReservationDateTime((prev) => {
                                       const d = new Date(date);
-                                      d.setHours(prev.getHours(), prev.getMinutes());
+                                      d.setHours(
+                                        prev.getHours(),
+                                        prev.getMinutes()
+                                      );
                                       return d;
                                     });
                                   }}
-                                  renderInput={(params) => <TextField {...params} fullWidth />}
-                                  slotProps={{ textField: { fullWidth: true } }}
+                                  renderInput={(params) => (
+                                    <TextField {...params} fullWidth />
+                                  )}
+                                  slotProps={{
+                                    textField: {
+                                      fullWidth: true,
+                                      inputProps: {
+                                        readOnly: true,
+                                      },
+                                    },
+                                  }}
                                   minDate={new Date()}
                                 />
                               </LocalizationProvider>
@@ -509,7 +547,9 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                             <div className="col-md-6 col-12 space-mb--20">
                               <LocalizationProvider
                                 dateAdapter={AdapterDateFns}
-                                adapterLocale={localeMap[currentLanguage] || enLocale}
+                                adapterLocale={
+                                  localeMap[currentLanguage] || enLocale
+                                }
                                 localeText={{
                                   timePickerToolbarTitle: t("choose_time"),
                                   cancelButtonLabel: t("cancel"),
@@ -523,12 +563,19 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                     if (!time) return;
                                     setReservationDateTime((prev) => {
                                       const d = new Date(prev);
-                                      d.setHours(time.getHours(), time.getMinutes());
+                                      d.setHours(
+                                        time.getHours(),
+                                        time.getMinutes()
+                                      );
                                       return d;
                                     });
                                   }}
-                                  slotProps={{ textField: { fullWidth: true } }}
-                                  renderInput={(params) => <TextField {...params} fullWidth />}
+                                  slotProps={{ textField: { fullWidth: true, inputProps: {
+                                        readOnly: true,
+                                      }, } }}
+                                  renderInput={(params) => (
+                                    <TextField {...params} fullWidth />
+                                  )}
                                 />
                               </LocalizationProvider>
                             </div>
@@ -540,18 +587,21 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                         <div className="row">
                           {/* Cart Total */}
                           <div className="col-12 space-mb--50">
-                            <h4 className="checkout-title">{t("cart_total")}</h4>
+                            <h4 className="checkout-title">
+                              {t("cart_total")}
+                            </h4>
                             <div className="checkout-cart-total">
                               <h4>
-                                {t("product_label")} <span>{t("total_label")}</span>
+                                {t("product_label")}{" "}
+                                <span>{t("total_label")}</span>
                               </h4>
 
                               <ul>
                                 {cartItems.map((product, i) => {
                                   const productPrice =
                                     currentLanguage === "mk"
-                                      ? product.price?.mk ?? 0
-                                      : product.price?.en ?? 0;
+                                      ? (product.price?.mk ?? 0)
+                                      : (product.price?.en ?? 0);
                                   const discountedPrice = getDiscountPrice(
                                     parseFloat(productPrice || 0),
                                     product.discount || 0
@@ -559,8 +609,9 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
 
                                   return (
                                     <li key={i}>
-                                      {product.name?.[currentLanguage] || product.name?.en} X{" "}
-                                      {product.quantity}{" "}
+                                      {product.name?.[currentLanguage] ||
+                                        product.name?.en}{" "}
+                                      X {product.quantity}{" "}
                                       <span>
                                         {currentLanguage === "mk"
                                           ? `${discountedPrice} ${t("currency")}`
@@ -604,7 +655,9 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
 
                           {/* Payment Method */}
                           <div className="col-12">
-                            <h4 className="checkout-title">{t("payment_method")}</h4>
+                            <h4 className="checkout-title">
+                              {t("payment_method")}
+                            </h4>
                             <div className="checkout-payment-method">
                               <div className="single-method">
                                 <input
@@ -612,9 +665,13 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                   id="payment_bank"
                                   name="payment-method"
                                   value="payment_bank"
-                                  onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+                                  onChange={(e) =>
+                                    setSelectedPaymentMethod(e.target.value)
+                                  }
                                 />
-                                <label htmlFor="payment_bank">{t("payment_bank")}</label>
+                                <label htmlFor="payment_bank">
+                                  {t("payment_bank")}
+                                </label>
                               </div>
                               <div className="single-method">
                                 <input
@@ -622,18 +679,26 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                   id="payment_cash"
                                   name="payment-method"
                                   value="payment_cash"
-                                  onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+                                  onChange={(e) =>
+                                    setSelectedPaymentMethod(e.target.value)
+                                  }
                                 />
-                                <label htmlFor="payment_cash">{t("payment_cash")}</label>
+                                <label htmlFor="payment_cash">
+                                  {t("payment_cash")}
+                                </label>
                               </div>
                               <div className="single-method">
                                 <input
                                   type="checkbox"
                                   id="accept_terms"
                                   checked={acceptedTerms}
-                                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                                  onChange={(e) =>
+                                    setAcceptedTerms(e.target.checked)
+                                  }
                                 />
-                                <label htmlFor="accept_terms">{t("accept_terms_label")}</label>
+                                <label htmlFor="accept_terms">
+                                  {t("accept_terms_label")}
+                                </label>
                               </div>
                             </div>
 
@@ -650,7 +715,9 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                                   size="sm"
                                   style={{ display: "block", margin: "0 auto" }}
                                 >
-                                  <span className="visually-hidden">Loading...</span>
+                                  <span className="visually-hidden">
+                                    Loading...
+                                  </span>
                                 </Spinner>
                               ) : (
                                 t("place_order")
@@ -673,7 +740,11 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
                   </div>
                   <div className="item-empty-area__text">
                     <p className="space-mb--30">{t("cart_empty_message")}</p>
-                    <Link href="/shop/left-sidebar" as={process.env.PUBLIC_URL + "/shop/left-sidebar"} className="lezada-button lezada-button--medium">
+                    <Link
+                      href="/shop/left-sidebar"
+                      as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
+                      className="lezada-button lezada-button--medium"
+                    >
                       {t("shop_now")}
                     </Link>
                   </div>
