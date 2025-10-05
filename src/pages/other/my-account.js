@@ -161,7 +161,7 @@ const grandTotalInDisplayCurrency = orders.reduce((sum, order) => {
 
     // navigate to cart page in view mode (Cart will fetch from Firebase)
     router.push({
-      pathname: "/other/cart",
+      pathname: "/other/cart-details",
       query: { viewOrder: "true", userId: uid, orderId },
     });
   };
@@ -805,7 +805,7 @@ const grandTotalInDisplayCurrency = orders.reduce((sum, order) => {
                               </td>
                               <td>{formatTotal(order.total, order.currency)}</td>
                               <td>
-                                {/* <button
+                                <button
                                   type="button"
                                   className="btn btn-primary me-2"
                                   onClick={() =>
@@ -813,7 +813,7 @@ const grandTotalInDisplayCurrency = orders.reduce((sum, order) => {
                                   }
                                 >
                                   {t("view")}
-                                </button> */}
+                                </button>
                                 <button
                                   onClick={() => deleteOrder(order.id)}
                                   className="btn btn-outline-danger"
