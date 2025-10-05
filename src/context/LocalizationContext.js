@@ -469,6 +469,7 @@ const translations = {
     something_went_wrong: "Something went wrong. Please try again.",
     coupon_discount: "Discount",
     coupon_applied: "Coupon applied successfully!",
+    order_preview: "Order Preview",
     back_home: "Home"
 
   },
