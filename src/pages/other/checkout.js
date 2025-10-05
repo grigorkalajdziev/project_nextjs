@@ -40,6 +40,8 @@ const formatDate = (date) => {
   return `${day}-${month}-${year}`;
 };
 
+const conversionRate = 61.5;
+
 const Checkout = ({ cartItems, deleteAllFromCart }) => {
   const { t, currentLanguage } = useLocalization();
   const { addToast } = useToasts();
@@ -156,157 +158,202 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
   }, []);
 
   const handlePlaceOrder = async () => {
-    setIsPlacingOrder(true);
+  setIsPlacingOrder(true);
 
-    if (!auth.currentUser) {
-      addToast(t("please_log_in_to_place_order"), {
-        appearance: "error",
-        autoDismiss: true,
-      });
-      setIsPlacingOrder(false);
-      return;
-    }
+  if (!auth.currentUser) {
+    addToast(t("please_log_in_to_place_order"), {
+      appearance: "error",
+      autoDismiss: true,
+    });
+    setIsPlacingOrder(false);
+    return;
+  }
 
-    if (!selectedPaymentMethod) {
-      addToast(t("please_select_payment_method"), {
-        appearance: "error",
-        autoDismiss: true,
-      });
-      setIsPlacingOrder(false);
-      return;
-    }
+  if (!selectedPaymentMethod) {
+    addToast(t("please_select_payment_method"), {
+      appearance: "error",
+      autoDismiss: true,
+    });
+    setIsPlacingOrder(false);
+    return;
+  }
 
-    if (!acceptedTerms) {
-      addToast(t("please_accept_terms"), {
-        appearance: "error",
-        autoDismiss: true,
-      });
-      setIsPlacingOrder(false);
-      return;
-    }
+  if (!acceptedTerms) {
+    addToast(t("please_accept_terms"), {
+      appearance: "error",
+      autoDismiss: true,
+    });
+    setIsPlacingOrder(false);
+    return;
+  }
 
-    try {
-      // Use the derived values computed above:
-      const subtotalMKD = cartTotalPrice.toFixed(2);
-      const discountMKD = discountAmount ? discountAmount.toFixed(2) : "0.00";
-      const totalMKD = finalTotal.toFixed(2);
+  try {
+    // --- Build canonical MKD totals (do NOT depend on currentLanguage) ---
+    let subtotalMKDnum = 0;
 
-      const reservationDate = reservationDateTime.toISOString().split("T")[0];
-      const reservationTime = reservationDateTime.toTimeString().slice(0, 5);
+    cartItems.forEach((product) => {
+      // prefer explicit MKD price; fallback to en price * conversionRate
+      const rawMk = product.price?.mk != null ? Number(product.price.mk) : null;
+      const rawEn = product.price?.en != null ? Number(product.price.en) : null;
+      const priceMK = rawMk != null && !Number.isNaN(rawMk)
+        ? rawMk
+        : (rawEn != null && !Number.isNaN(rawEn) ? rawEn * conversionRate : 0);
 
-      const orderData = {
-        orderNumber: generateOrderNumber(8),
-        date: formatDate(new Date()),
-        createdAt: Date.now(),
-        status: "pending",
-        paymentMethod: selectedPaymentMethod,
-        paymentText: t(selectedPaymentMethod),
-        // Save subtotal, discount and final total (bugfix: total reflects coupon)
-        subtotal: subtotalMKD,
-        discount: discountMKD,
-        total: totalMKD,
-        products: cartItems.map((product) => ({
+      // apply product-level discount (getDiscountPrice expects base price in same unit)
+      const discountedMK = parseFloat(getDiscountPrice(Number(priceMK || 0), product.discount || 0));
+      subtotalMKDnum += discountedMK * (product.quantity || 1);
+    });
+
+    const discountMKDnum = appliedCoupon ? subtotalMKDnum * (appliedCoupon.discount / 100) : 0;
+    const totalMKDnum = subtotalMKDnum - discountMKDnum;
+
+    // compute EUR equivalents (rounded to 2 decimals)
+    const subtotalEURnum = Number((subtotalMKDnum / conversionRate).toFixed(2));
+    const discountEURnum = Number((discountMKDnum / conversionRate).toFixed(2));
+    const totalEURnum = Number((totalMKDnum / conversionRate).toFixed(2));
+
+    const reservationDate = reservationDateTime.toISOString().split("T")[0];
+    const reservationTime = reservationDateTime.toTimeString().slice(0, 5);
+
+    const orderData = {
+      orderNumber: generateOrderNumber(8),
+      date: formatDate(new Date()),
+      createdAt: Date.now(),
+      status: "pending",
+      paymentMethod: selectedPaymentMethod,
+      paymentText: t(selectedPaymentMethod),
+
+      // backward-compatible numeric totals (MKD)
+      subtotal: Number(subtotalMKDnum.toFixed(2)),
+      discount: Number(discountMKDnum.toFixed(2)),
+      total: Number(totalMKDnum.toFixed(2)),
+
+      // canonical explicit fields (recommended)
+      subtotal_mkd: Number(subtotalMKDnum.toFixed(2)),
+      discount_mkd: Number(discountMKDnum.toFixed(2)),
+      total_mkd: Number(totalMKDnum.toFixed(2)),
+
+      subtotal_eur: subtotalEURnum,
+      discount_eur: discountEURnum,
+      total_eur: totalEURnum,
+
+      // mark canonical base currency
+      currency_base: "MKD",
+
+      // product-level canonical prices
+      products: cartItems.map((product) => {
+        const rawMk = product.price?.mk != null ? Number(product.price.mk) : null;
+        const rawEn = product.price?.en != null ? Number(product.price.en) : null;
+        const price_mkd = rawMk != null && !Number.isNaN(rawMk)
+          ? Number(rawMk.toFixed(2))
+          : Number(((rawEn != null ? rawEn : 0) * conversionRate).toFixed(2));
+        const price_eur = rawEn != null && !Number.isNaN(rawEn)
+          ? Number(rawEn.toFixed(2))
+          : Number((price_mkd / conversionRate).toFixed(2));
+
+        return {
           id: product.id,
           name: {
             mk: product.name?.mk || "",
             en: product.name?.en || "",
           },
-          quantity: product.quantity,
-          price: {
-            mk: parseFloat(product.price?.mk || 0),
-            en: parseFloat(product.price?.en || 0),
-          },
-          discount: product.discount,
-        })),
-        reservationDate: reservationDate,
-        reservationTime: reservationTime,
-        customer: {
-          email: billingInfo.email,
-          phone: billingInfo.phone || "",
-          address: billingInfo.address1 || "",
-          state: billingInfo.state || "",
-          city: billingInfo.city || "",
-          postalCode: billingInfo.zip || "",
-        },
-        coupon: appliedCoupon || null, // Save coupon object (if any)
-      };
+          quantity: product.quantity || 1,
+          discount: product.discount || 0,
+          price_mkd,
+          price_eur,
+        };
+      }),
 
-      // write order to Firebase
-      const db = getDatabase();
-      const ordersRef = ref(db, `orders/${auth.currentUser.uid}`);
-      const newOrderRef = push(ordersRef);
-      await set(newOrderRef, orderData);
+      reservationDate,
+      reservationTime,
+      customer: {
+        email: billingInfo.email,
+        phone: billingInfo.phone || "",
+        address: billingInfo.address1 || "",
+        state: billingInfo.state || "",
+        city: billingInfo.city || "",
+        postalCode: billingInfo.zip || "",
+      },
+      coupon: appliedCoupon || null,
+    };
 
-      // Prepare email payload (use final total)
-      const translatedPaymentMethod = t(orderData.paymentMethod);
+    // write order to Firebase
+    const db = getDatabase();
+    const ordersRef = ref(db, `orders/${auth.currentUser.uid}`);
+    const newOrderRef = push(ordersRef);
+    await set(newOrderRef, orderData);
 
-      const emailData = {
-        to: auth.currentUser.email,
-        from: "reservation@kikamakeupandbeautyacademy.com",
-        orderID: orderData.orderNumber,
-        reservationDate: orderData.reservationDate,
-        reservationTime: orderData.reservationTime,
-        customerName:
-          billingInfo.firstName && billingInfo.lastName
-            ? `${billingInfo.firstName} ${billingInfo.lastName}`
-            : auth.currentUser.email,
-        customerEmail: auth.currentUser.email,
-        paymentMethod: orderData.paymentMethod,
-        paymentText: translatedPaymentMethod,
-        subtotal: orderData.subtotal,
-        discount: orderData.discount,
-        total: orderData.total,
-        coupon: orderData.coupon ? orderData.coupon.code : null,
-        products: orderData.products,
-        customerPhone: orderData.customer.phone,
-        customerAddress: orderData.customer.address,
-        customerState: orderData.customer.state,
-        customerCity: orderData.customer.city,
-        customerPostalCode: orderData.customer.postalCode,
-        language: currentLanguage,
-      };
+    // Prepare email payload (use final total in MKD for backward compat / server)
+    const translatedPaymentMethod = t(orderData.paymentMethod);
 
-      // send emails
-      await fetch("/api/sendReservation", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(emailData),
-      });
+    const emailData = {
+      to: auth.currentUser.email,
+      from: "reservation@kikamakeupandbeautyacademy.com",
+      orderID: orderData.orderNumber,
+      reservationDate: orderData.reservationDate,
+      reservationTime: orderData.reservationTime,
+      customerName:
+        billingInfo.firstName && billingInfo.lastName
+          ? `${billingInfo.firstName} ${billingInfo.lastName}`
+          : auth.currentUser.email,
+      customerEmail: auth.currentUser.email,
+      paymentMethod: orderData.paymentMethod,
+      paymentText: translatedPaymentMethod,
+      subtotal: orderData.subtotal, // MKD
+      discount: orderData.discount, // MKD
+      total: orderData.total, // MKD
+      coupon: orderData.coupon ? orderData.coupon.code : null,
+      products: orderData.products,
+      customerPhone: orderData.customer.phone,
+      customerAddress: orderData.customer.address,
+      customerState: orderData.customer.state,
+      customerCity: orderData.customer.city,
+      customerPostalCode: orderData.customer.postalCode,
+      language: currentLanguage,
+    };
 
-      // notify admins (same payload or customized)
-      await fetch("/api/send-reservation", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...emailData,
-          to: ["grigorkalajdziev@gmail.com", "makeupbykika@hotmail.com"],
-        }),
-      });
+    // send emails
+    await fetch("/api/sendReservation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(emailData),
+    });
 
-      addToast(t("order_placed_successfully"), {
-        appearance: "success",
-        autoDismiss: true,
-      });
+    // notify admins (same payload or customized)
+    await fetch("/api/send-reservation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...emailData,
+        to: ["grigorkalajdziev@gmail.com", "makeupbykika@hotmail.com"],
+      }),
+    });
 
-      // Clear cart and the applied coupon from session
-      deleteAllFromCart(addToast, t);
-      try {
-        sessionStorage.removeItem("appliedCoupon");
-      } catch (e) {
-        // ignore if sessionStorage not available
-      }
+    addToast(t("order_placed_successfully"), {
+      appearance: "success",
+      autoDismiss: true,
+    });
 
-      setIsPlacingOrder(false);
-      router.push("/other/my-account");
-    } catch (error) {
-      console.error("Error placing order:", error);
-      addToast(error.message || "Error placing order", {
-        appearance: "error",
-        autoDismiss: true,
-      });
-      setIsPlacingOrder(false);
+    // Clear cart and the applied coupon from session (old behaviour)
+    deleteAllFromCart(addToast, t);
+    try {
+      sessionStorage.removeItem("appliedCoupon");
+    } catch (e) {
+      // ignore if sessionStorage not available
     }
-  };
+
+    setIsPlacingOrder(false);
+    router.push("/other/my-account");
+  } catch (error) {
+    console.error("Error placing order:", error);
+    addToast(error.message || "Error placing order", {
+      appearance: "error",
+      autoDismiss: true,
+    });
+    setIsPlacingOrder(false);
+  }
+};
+
 
   return (
     <LayoutTwo>

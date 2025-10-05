@@ -62,14 +62,39 @@ const MyAccount = () => {
 
   const conversionRate = 61.5;
 
-  const formatTotal = (mkdTotal) => {
-    const mkd = parseFloat(mkdTotal) || 0;
-    if (currentLanguage === "mk") {
-      return `${mkd.toFixed(2)} ден.`;
-    }
-    const eur = (mkd / conversionRate).toFixed(2);
-    return `€ ${eur}`;
-  };
+  const parseAmount = (val) => {
+  if (val == null) return 0;
+  if (typeof val === "number") return val;
+  const cleaned = String(val).replace(/[^0-9.-]+/g, "");
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : 0;
+};
+
+const formatTotal = (amount, currency = "MKD") => {
+  const n = parseAmount(amount);
+  const cur = (currency || "MKD").toString().toUpperCase();
+
+  if (currentLanguage === "mk") {
+    const mkd = cur === "MKD" ? n : n * conversionRate;
+    return `${mkd.toFixed(2)} ден.`;
+  } else {
+    const eur = cur === "EUR" ? n : n / conversionRate;
+    return `€ ${eur.toFixed(2)}`;
+  }
+};
+
+const grandTotalInDisplayCurrency = orders.reduce((sum, order) => {
+  const amt = parseAmount(order.total);
+  const cur = (order.currency || "MKD").toUpperCase();
+
+  if (currentLanguage === "mk") {
+    // sum everything as MKD
+    return sum + (cur === "MKD" ? amt : amt * conversionRate);
+  } else {
+    // sum everything as EUR
+    return sum + (cur === "EUR" ? amt : amt / conversionRate);
+  }
+}, 0);
 
   const grandTotalMKD = orders.reduce(
     (sum, order) => sum + (parseFloat(order.total) || 0),
@@ -137,7 +162,7 @@ const MyAccount = () => {
     // navigate to cart page in view mode (Cart will fetch from Firebase)
     router.push({
       pathname: "/other/cart",
-      query: { userId: uid, orderId, viewOrder: "true" },
+      query: { viewOrder: "true", userId: uid, orderId },
     });
   };
 
@@ -284,6 +309,10 @@ const MyAccount = () => {
         if (role === "admin") {
           Object.entries(raw).forEach(([uid, userOrders]) => {
             Object.entries(userOrders).forEach(([id, order]) => {
+              const subtotal = parseAmount(order.subtotal);
+              const total = parseAmount(order.total);
+              const currency = (order.currency || "MKD").toString().toUpperCase();
+
               orderList.push({
                 userId: uid,
                 id,
@@ -294,7 +323,9 @@ const MyAccount = () => {
                 reservationTime: order.reservationTime,
                 orderNumber: order.orderNumber,
                 status: order.status,
-                total: order.total,
+                subtotal,
+                total,
+                currency,
                 products: order.products || [],
                 paymentMethod: order.paymentMethod || "",
                 customerPhone: order.customer?.phone || "",
@@ -772,9 +803,9 @@ const MyAccount = () => {
                                   </Badge>
                                 )}
                               </td>
-                              <td>{formatTotal(order.total)}</td>
+                              <td>{formatTotal(order.total, order.currency)}</td>
                               <td>
-                                <button
+                                {/* <button
                                   type="button"
                                   className="btn btn-primary me-2"
                                   onClick={() =>
@@ -782,7 +813,7 @@ const MyAccount = () => {
                                   }
                                 >
                                   {t("view")}
-                                </button>
+                                </button> */}
                                 <button
                                   onClick={() => deleteOrder(order.id)}
                                   className="btn btn-outline-danger"
@@ -801,7 +832,7 @@ const MyAccount = () => {
                             >
                               {t("grand_total_label")}
                             </td>
-                            <td>{formatTotal(grandTotalMKD)}</td>
+                            <td>{formatTotal(grandTotalInDisplayCurrency, currentLanguage === "mk" ? "MKD" : "EUR")}</td>
                             <td />
                           </tr>
                         </tfoot>
