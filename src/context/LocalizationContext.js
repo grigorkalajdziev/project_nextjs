@@ -472,6 +472,13 @@ const translations = {
     order_preview: "Order Preview",
     back_home: "Home",
     comingSoon: "Website Coming Soon",
+    confirm_deletion: "Confirm Deletion",
+    are_you_sure_delete_order: "Are you sure you want to delete this order?",
+    yes_delete: "Yes, Delete",
+    financial_reports: "Financial Reports",
+    revenue_by_payment_method: "Revenue by Payment Method",
+    revenue_by_status: "Revenue by Status",
+    payment_cash: "On-site Payment",
 
   },
   mk: {
@@ -948,6 +955,13 @@ const translations = {
     order_preview: "Преглед на нарачка",
     back_home: "Дома",
     comingSoon: "Веб-страницата наскоро ќе биде достапна",
+    confirm_deletion: "Потврди бришење",
+    are_you_sure_delete_order: "Дали сте сигурни дека сакате да ја избришете оваа нарачка?",
+    yes_delete: "Да, избриши",
+    financial_reports: "Финансиски извештаи",
+    revenue_by_payment_method: "Приход по метод на плаќање",
+    revenue_by_status: "Приход по статус на нарачка",  
+    payment_cash: "Плаќање на лице место",
   },
 };
 

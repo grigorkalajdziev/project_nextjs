@@ -6,13 +6,23 @@ import { getDatabase, ref, set, get, update, remove } from "firebase/database";
 import Link from "next/link";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
-import { Container, Row, Col, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Spinner, Modal, Button } from "react-bootstrap";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useToasts } from "react-toast-notifications";
 import { Badge } from "react-bootstrap";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 function formatDMY(dateStr) {
   if (!dateStr) return "";
@@ -54,47 +64,50 @@ const MyAccount = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [pendingDeleteId, setPendingDeleteId] = useState(null);
 
   const [nameOnCard, setNameOnCard] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [expiration, setExpiration] = useState("");
   const [cvc, setCvc] = useState("");
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
   const conversionRate = 61.5;
 
   const parseAmount = (val) => {
-  if (val == null) return 0;
-  if (typeof val === "number") return val;
-  const cleaned = String(val).replace(/[^0-9.-]+/g, "");
-  const n = Number(cleaned);
-  return Number.isFinite(n) ? n : 0;
-};
+    if (val == null) return 0;
+    if (typeof val === "number") return val;
+    const cleaned = String(val).replace(/[^0-9.-]+/g, "");
+    const n = Number(cleaned);
+    return Number.isFinite(n) ? n : 0;
+  };
 
-const formatTotal = (amount, currency = "MKD") => {
-  const n = parseAmount(amount);
-  const cur = (currency || "MKD").toString().toUpperCase();
+  const formatTotal = (amount, currency = "MKD") => {
+    const n = parseAmount(amount);
+    const cur = (currency || "MKD").toString().toUpperCase();
 
-  if (currentLanguage === "mk") {
-    const mkd = cur === "MKD" ? n : n * conversionRate;
-    return `${mkd.toFixed(2)} ден.`;
-  } else {
-    const eur = cur === "EUR" ? n : n / conversionRate;
-    return `€ ${eur.toFixed(2)}`;
-  }
-};
+    if (currentLanguage === "mk") {
+      const mkd = cur === "MKD" ? n : n * conversionRate;
+      return `${mkd.toFixed(2)} ден.`;
+    } else {
+      const eur = cur === "EUR" ? n : n / conversionRate;
+      return `€ ${eur.toFixed(2)}`;
+    }
+  };
 
-const grandTotalInDisplayCurrency = orders.reduce((sum, order) => {
-  const amt = parseAmount(order.total);
-  const cur = (order.currency || "MKD").toUpperCase();
+  const grandTotalInDisplayCurrency = orders.reduce((sum, order) => {
+    const amt = parseAmount(order.total);
+    const cur = (order.currency || "MKD").toUpperCase();
 
-  if (currentLanguage === "mk") {
-    // sum everything as MKD
-    return sum + (cur === "MKD" ? amt : amt * conversionRate);
-  } else {
-    // sum everything as EUR
-    return sum + (cur === "EUR" ? amt : amt / conversionRate);
-  }
-}, 0);
+    if (currentLanguage === "mk") {
+      // sum everything as MKD
+      return sum + (cur === "MKD" ? amt : amt * conversionRate);
+    } else {
+      // sum everything as EUR
+      return sum + (cur === "EUR" ? amt : amt / conversionRate);
+    }
+  }, 0);
 
   const grandTotalMKD = orders.reduce(
     (sum, order) => sum + (parseFloat(order.total) || 0),
@@ -115,6 +128,43 @@ const grandTotalInDisplayCurrency = orders.reduce((sum, order) => {
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
+
+  const paymentData = (orders, currentLanguage) => {
+    return orders.reduce((acc, order) => {
+      const method = order.paymentMethod || "other";
+      const amount =
+        currentLanguage === "mk"
+          ? order.currency === "MKD"
+            ? parseFloat(order.total)
+            : parseFloat(order.total) * 61.5
+          : order.currency === "EUR"
+            ? parseFloat(order.total)
+            : parseFloat(order.total) / 61.5;
+
+      const existing = acc.find((d) => d.name === method);
+      if (existing) existing.value += amount;
+      else acc.push({ name: method, value: amount });
+      return acc;
+    }, []);
+  };
+
+  const statusData = (orders) => {
+    return orders.reduce((acc, order) => {
+      const status = order.status || "other";
+      const existing = acc.find((d) => d.status === status);
+      if (existing) existing.value += parseFloat(order.total || 0);
+      else acc.push({ status, value: parseFloat(order.total || 0) });
+      return acc;
+    }, []);
+  };
+
+  
+  const formattedPaymentData = paymentData(orders, currentLanguage).map((entry) => {
+  let name = entry.name;
+  if (name === "payment_bank") name = "Bank";
+  if (name === "payment_cash") name = "Cash";
+  return { ...entry, name };
+});
 
   const deleteOrder = async (orderId) => {
     if (!user) {
@@ -311,7 +361,9 @@ const grandTotalInDisplayCurrency = orders.reduce((sum, order) => {
             Object.entries(userOrders).forEach(([id, order]) => {
               const subtotal = parseAmount(order.subtotal);
               const total = parseAmount(order.total);
-              const currency = (order.currency || "MKD").toString().toUpperCase();
+              const currency = (order.currency || "MKD")
+                .toString()
+                .toUpperCase();
 
               orderList.push({
                 userId: uid,
@@ -597,64 +649,78 @@ const grandTotalInDisplayCurrency = orders.reduce((sum, order) => {
     }
   };
 
- const downloadPdf = async (order) => {
-  if (!order) return;
-  setDownloadingOrderId(order.id);
-  try {
-    // Build a stronger order object to send to the server for PDF generation
-    const orderForPdf = {
-      ...order,
-      // prefer order.displayName (from fetchOrders) else use local displayName state
-      displayName: order.displayName || displayName || null,
-      // ensure .customer object exists and contains useful fields (null when missing)
-      customer: {
-        ...(order.customer || {}),
-        // some orders only had address/phone/email under order.customer
-        name: order.customer?.name || order.displayName || displayName || null,
-        email: order.customer?.email || order.email || email || null,
-        phone: order.customer?.phone || order.customerPhone || phone || null,
-        address: order.customer?.address || order.customerAddress || address || null,
-        city: order.customer?.city || order.customerCity || null,
-        postalCode: order.customer?.postalCode || order.customerPostalCode || null,
-        state: order.customer?.state || order.customerState || null,
-      },
-    };
+  const downloadPdf = async (order) => {
+    if (!order) return;
+    setDownloadingOrderId(order.id);
+    try {
+      // Build a stronger order object to send to the server for PDF generation
+      const orderForPdf = {
+        ...order,
+        // prefer order.displayName (from fetchOrders) else use local displayName state
+        displayName: order.displayName || displayName || null,
+        // ensure .customer object exists and contains useful fields (null when missing)
+        customer: {
+          ...(order.customer || {}),
+          // some orders only had address/phone/email under order.customer
+          name:
+            order.customer?.name || order.displayName || displayName || null,
+          email: order.customer?.email || order.email || email || null,
+          phone: order.customer?.phone || order.customerPhone || phone || null,
+          address:
+            order.customer?.address || order.customerAddress || address || null,
+          city: order.customer?.city || order.customerCity || null,
+          postalCode:
+            order.customer?.postalCode || order.customerPostalCode || null,
+          state: order.customer?.state || order.customerState || null,
+        },
+      };
 
-    const resp = await fetch("/api/generate-pdf", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ order: orderForPdf, language: currentLanguage }),
-    });
+      const resp = await fetch("/api/generate-pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ order: orderForPdf, language: currentLanguage }),
+      });
 
-    if (!resp.ok) {
-      let errBody = null;
-      try { errBody = await resp.json(); } catch (e) {}
-      throw new Error(errBody?.message || errBody?.error || `Server error ${resp.status}`);
+      if (!resp.ok) {
+        let errBody = null;
+        try {
+          errBody = await resp.json();
+        } catch (e) {}
+        throw new Error(
+          errBody?.message || errBody?.error || `Server error ${resp.status}`
+        );
+      }
+
+      const blob = await resp.blob();
+
+      const filenamePrefix =
+        order.paymentMethod === "payment_cash"
+          ? currentLanguage === "mk"
+            ? "Потврда"
+            : "Confirmation"
+          : currentLanguage === "mk"
+            ? "Фактура"
+            : "Invoice";
+      const fileName = `${filenamePrefix}-${order.orderNumber || "order"}.pdf`;
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Download error:", err);
+      addToast(err.message || "Download failed", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    } finally {
+      setDownloadingOrderId(null);
     }
-
-    const blob = await resp.blob();
-
-    const filenamePrefix =
-      order.paymentMethod === "payment_cash"
-        ? currentLanguage === "mk" ? "Потврда" : "Confirmation"
-        : currentLanguage === "mk" ? "Фактура" : "Invoice";
-    const fileName = `${filenamePrefix}-${order.orderNumber || "order"}.pdf`;
-
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);    
-  } catch (err) {
-    console.error("Download error:", err);
-    addToast(err.message || "Download failed", { appearance: "error", autoDismiss: true });
-  } finally {
-    setDownloadingOrderId(null);
-  }
-};
+  };
 
   return (
     <LayoutTwo>
@@ -803,7 +869,9 @@ const grandTotalInDisplayCurrency = orders.reduce((sum, order) => {
                                   </Badge>
                                 )}
                               </td>
-                              <td>{formatTotal(order.total, order.currency)}</td>
+                              <td>
+                                {formatTotal(order.total, order.currency)}
+                              </td>
                               <td>
                                 <button
                                   type="button"
@@ -815,7 +883,10 @@ const grandTotalInDisplayCurrency = orders.reduce((sum, order) => {
                                   {t("view")}
                                 </button>
                                 <button
-                                  onClick={() => deleteOrder(order.id)}
+                                  onClick={() => {
+                                    setPendingDeleteId(order.id);
+                                    setShowDeleteModal(true);
+                                  }}
                                   className="btn btn-outline-danger"
                                 >
                                   {t("delete")}
@@ -832,11 +903,70 @@ const grandTotalInDisplayCurrency = orders.reduce((sum, order) => {
                             >
                               {t("grand_total_label")}
                             </td>
-                            <td>{formatTotal(grandTotalInDisplayCurrency, currentLanguage === "mk" ? "MKD" : "EUR")}</td>
+                            <td>
+                              {formatTotal(
+                                grandTotalInDisplayCurrency,
+                                currentLanguage === "mk" ? "MKD" : "EUR"
+                              )}
+                            </td>
                             <td />
                           </tr>
                         </tfoot>
                       </table>
+                    </div>
+                  )}
+                  {role === "admin" && orders.length > 0 && (
+                    <div className="financial-reports mt-4">
+                      <h4 className="mb-4 mt-4">{t("financial_reports")}</h4>
+
+                      <div className="d-flex flex-wrap justify-content-around">
+                        <div>
+                          <h5 className="mb-4 mt-4">
+                            {t("revenue_by_payment_method")}
+                          </h5>
+                          <PieChart width={350} height={350}>
+                            <Pie
+                              data={formattedPaymentData}
+                              dataKey="value"
+                              nameKey="name"
+                              cx="50%"
+                              cy="50%"
+                              outerRadius={80}
+                              label={(entry) =>
+                                `${entry.name} (${entry.value.toFixed(2)})`
+                              }
+                            >
+                              {formattedPaymentData.map((entry, index) => (
+                                <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                              ))}
+                            </Pie>
+                            <Tooltip formatter={(value) => value.toFixed(2)} />
+                          </PieChart>
+                        </div>
+
+                        <div>
+                          <h5 className="mb-4 mt-4">
+                            {t("revenue_by_status")}
+                          </h5>
+                          <BarChart
+                            width={350}
+                            height={350}
+                            data={statusData(orders)}
+                          >
+                            <XAxis dataKey="status" />
+                            <YAxis />
+                            <Tooltip formatter={(value) => value.toFixed(2)} />
+                            <Bar dataKey="value">
+                              {statusData(orders).map((entry, index) => (
+                                <Cell
+                                  key={index}
+                                  fill={COLORS[index % COLORS.length]}
+                                />
+                              ))}
+                            </Bar>
+                          </BarChart>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -1225,6 +1355,32 @@ const grandTotalInDisplayCurrency = orders.reduce((sum, order) => {
           </Tab.Container>
         </Container>
       </div>
+      <Modal
+        show={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>{t("confirm_deletion")}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>{t("are_you_sure_delete_order")}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+            {t("cancel")}
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              deleteOrder(pendingDeleteId);
+              setShowDeleteModal(false);
+            }}
+          >
+            {t("yes_delete")}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </LayoutTwo>
   );
 };
