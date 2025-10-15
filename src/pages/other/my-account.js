@@ -22,6 +22,7 @@ import {
   Bar,
   XAxis,
   YAxis,
+  ResponsiveContainer,
 } from "recharts";
 
 function formatDMY(dateStr) {
@@ -109,11 +110,6 @@ const MyAccount = () => {
     }
   }, 0);
 
-  const grandTotalMKD = orders.reduce(
-    (sum, order) => sum + (parseFloat(order.total) || 0),
-    0
-  );
-
   const db = getDatabase();
 
   // --- Toggle Functions for Each Password Field ---
@@ -152,19 +148,34 @@ const MyAccount = () => {
     return orders.reduce((acc, order) => {
       const status = order.status || "other";
       const existing = acc.find((d) => d.status === status);
-      if (existing) existing.value += parseFloat(order.total || 0);
-      else acc.push({ status, value: parseFloat(order.total || 0) });
+
+      const mkdAmount = parseFloat(order.total || 0);
+      const engAmount = mkdAmount / conversionRate; // convert to EUR/USD
+
+      if (existing) {
+        existing.mkd += mkdAmount;
+        existing.eng += engAmount;
+      } else {
+        acc.push({ status, mkd: mkdAmount, eng: engAmount });
+      }
+
       return acc;
     }, []);
   };
 
-  
-  const formattedPaymentData = paymentData(orders, currentLanguage).map((entry) => {
-  let name = entry.name;
-  if (name === "payment_bank") name = "Bank";
-  if (name === "payment_cash") name = "Cash";
-  return { ...entry, name };
-});
+  const formattedPaymentData = paymentData(orders, currentLanguage).map(
+    (entry) => {
+      let name = entry.name;
+
+      if (name === "payment_bank") {
+        name = currentLanguage === "mk" ? "Банка" : "Bank";
+      } else if (name === "payment_cash") {
+        name = currentLanguage === "mk" ? "Готовина" : "Cash";
+      }
+
+      return { ...entry, name };
+    }
+  );
 
   const deleteOrder = async (orderId) => {
     if (!user) {
@@ -917,54 +928,114 @@ const MyAccount = () => {
                   )}
                   {role === "admin" && orders.length > 0 && (
                     <div className="financial-reports mt-4">
-                      <h4 className="mb-4 mt-4">{t("financial_reports")}</h4>
+                      <h4 className="mb-4 mt-4 text-center text-md-start">
+                        {t("financial_reports")}
+                      </h4>
 
-                      <div className="d-flex flex-wrap justify-content-around">
-                        <div>
-                          <h5 className="mb-4 mt-4">
+                      <div className="row">
+                        <div className="col-12 col-md-6 mb-4">
+                          <h5 className="mb-4 mt-4 text-center text-md-start">
                             {t("revenue_by_payment_method")}
                           </h5>
-                          <PieChart width={350} height={350}>
-                            <Pie
-                              data={formattedPaymentData}
-                              dataKey="value"
-                              nameKey="name"
-                              cx="50%"
-                              cy="50%"
-                              outerRadius={80}
-                              label={(entry) =>
-                                `${entry.name} (${entry.value.toFixed(2)})`
-                              }
-                            >
-                              {formattedPaymentData.map((entry, index) => (
-                                <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                              ))}
-                            </Pie>
-                            <Tooltip formatter={(value) => value.toFixed(2)} />
-                          </PieChart>
+                          <div style={{ width: "100%", height: 300 }}>
+                            <ResponsiveContainer>
+                              <PieChart>
+                                <Pie
+                                  data={formattedPaymentData}
+                                  dataKey="value"
+                                  nameKey="name"
+                                  cx="50%"
+                                  cy="50%"
+                                  outerRadius="80%"
+                                  label={(entry) =>
+                                    `${entry.name} (${entry.value.toLocaleString(
+                                      undefined,
+                                      {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                      }
+                                    )})`
+                                  }
+                                >
+                                  {formattedPaymentData.map((entry, index) => (
+                                    <Cell
+                                      key={index}
+                                      fill={COLORS[index % COLORS.length]}
+                                    />
+                                  ))}
+                                </Pie>
+                                <Tooltip
+                                  formatter={(value) =>
+                                    value.toLocaleString(undefined, {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    })
+                                  }
+                                />
+                              </PieChart>
+                            </ResponsiveContainer>
+                          </div>
                         </div>
 
-                        <div>
-                          <h5 className="mb-4 mt-4">
+                        <div className="col-12 col-md-6 mb-4">
+                          <h5 className="mb-4 mt-4 text-center text-md-start">
                             {t("revenue_by_status")}
                           </h5>
-                          <BarChart
-                            width={350}
-                            height={350}
-                            data={statusData(orders)}
-                          >
-                            <XAxis dataKey="status" />
-                            <YAxis />
-                            <Tooltip formatter={(value) => value.toFixed(2)} />
-                            <Bar dataKey="value">
-                              {statusData(orders).map((entry, index) => (
-                                <Cell
-                                  key={index}
-                                  fill={COLORS[index % COLORS.length]}
+                          <div style={{ width: "100%", height: 300 }}>
+                            <ResponsiveContainer>
+                              <BarChart
+                                data={statusData(orders).map((entry) => {
+                                  let status = entry.status;
+
+                                  if (status === "pending")
+                                    status =
+                                      currentLanguage === "mk"
+                                        ? "Во тек"
+                                        : "Pending";
+                                  else if (status === "confirmed")
+                                    status =
+                                      currentLanguage === "mk"
+                                        ? "Потврдено"
+                                        : "Confirmed";
+                                  else if (status === "cancelled")
+                                    status =
+                                      currentLanguage === "mk"
+                                        ? "Откажано"
+                                        : "Cancelled";
+
+                                  return {
+                                    status,
+                                    Total:
+                                      currentLanguage === "mk"
+                                        ? entry.mkd
+                                        : entry.eng,
+                                  };
+                                })}
+                              >
+                                <XAxis dataKey="status" />
+                                <YAxis />
+                                <Tooltip
+                                  formatter={(value) => [
+                                    value.toLocaleString(undefined, {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    }),
+                                    currentLanguage === "mk"
+                                      ? "Вкупно"
+                                      : "Total",
+                                  ]}
                                 />
-                              ))}
-                            </Bar>
-                          </BarChart>
+                                <Bar dataKey="Total">
+                                  {statusData(orders).map((entry, index) => (
+                                    <Cell
+                                      key={index}
+                                      fill={COLORS[index % COLORS.length]}
+                                    />
+                                  ))}
+                                </Bar>
+                              </BarChart>
+                            </ResponsiveContainer>
+                          </div>
                         </div>
                       </div>
                     </div>
