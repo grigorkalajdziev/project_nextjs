@@ -24,6 +24,8 @@ import {
   YAxis,
   ResponsiveContainer,
 } from "recharts";
+import Select, { components } from "react-select";
+import { Country, City } from "country-state-city";
 
 function formatDMY(dateStr) {
   if (!dateStr) return "";
@@ -58,6 +60,9 @@ const MyAccount = () => {
   const [orders, setOrders] = useState([]);
   const [downloads, setDownloads] = useState([]);
   const [errors, setErrors] = useState({});
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [cityOptions, setCityOptions] = useState([]);
 
   const [downloadingOrderId, setDownloadingOrderId] = useState(null);
 
@@ -72,7 +77,75 @@ const MyAccount = () => {
   const [cardNumber, setCardNumber] = useState("");
   const [expiration, setExpiration] = useState("");
   const [cvc, setCvc] = useState("");
+
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
+  useEffect(() => {
+    if (selectedCountry) {
+      const cities = City.getCitiesOfCountry(selectedCountry.value).map(
+        (c) => ({
+          value: c.name,
+          label: c.name,
+        })
+      );
+      setCityOptions(cities);
+       if (!selectedCity && userData?.billingInfo?.city) {
+      const cityFromDB = cities.find(c => c.value === userData.billingInfo.city);
+      if (cityFromDB) setSelectedCity(cityFromDB);
+    }
+    } else {
+      setCityOptions([]);
+      setSelectedCity(null);
+    }
+  }, [selectedCountry]);
+
+  // Styles to match your form-control inputs
+ const customStyles = {
+  control: (provided) => ({
+    ...provided,
+    minHeight: "50px",
+    height: "50px",
+    borderRadius: "4px",
+    display: "flex",
+    alignItems: "center", // vertically centers the text
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    height: "50px",
+    padding: "0 8px",
+    display: "flex",
+    alignItems: "center", // vertically centers selected value
+  }),
+  input: (provided) => ({
+    ...provided,
+    margin: "0px",
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    textAlign: "left",
+  }),
+  indicatorsContainer: (provided) => ({
+    ...provided,
+    height: "50px",
+    display: "flex",
+    alignItems: "center", // center the dropdown arrow
+  }),
+  menu: (provided) => ({
+    ...provided,
+    textAlign: "left",
+  }),
+  option: (provided) => ({
+    ...provided,
+    textAlign: "left",
+  }),
+};
+
+  // Country select with flags
+  const countryOptions = Country.getAllCountries().map((c) => ({
+    value: c.isoCode,
+    label: c.name,
+    flag: `https://flagcdn.com/24x18/${c.isoCode.toLowerCase()}.png`,
+  }));
 
   const conversionRate = 61.5;
 
@@ -322,6 +395,16 @@ const MyAccount = () => {
             setCity(userData.billingInfo?.city || "");
             setZipCode(userData.billingInfo?.zipCode || "");
             setPhone(userData.billingInfo?.phone || "");
+            setSelectedCountry(
+    userData.billingInfo?.country
+      ? { label: userData.billingInfo.country, value: Country.getAllCountries().find(c => c.name === userData.billingInfo.country)?.isoCode }
+      : null
+  );
+  setSelectedCity(
+    userData.billingInfo?.city
+      ? { label: userData.billingInfo.city, value: userData.billingInfo.city }
+      : null
+  );
             setCurrentPassword(userData.password || "");
             setNameOnCard(userData.billingInfo?.nameOnCard || "");
             setCardNumber(userData.billingInfo?.cardNumber || "");
@@ -586,10 +669,9 @@ const MyAccount = () => {
           return;
         }
         try {
-          // const credential = EmailAuthProvider.credential(user.email, currentPassword);
-          // await reauthenticateWithCredential(user, credential);
+       
           await updatePassword(user, newPassword);
-          // Save the new password in Realtime Database
+       
           await set(userRef, {
             firstName,
             lastName,
@@ -598,7 +680,8 @@ const MyAccount = () => {
             password: newPassword, // saving new password here
             billingInfo: {
               address,
-              city,
+              city: selectedCity || "",
+              country: selectedCountry || "",
               zipCode,
               phone,
               nameOnCard,
@@ -632,7 +715,8 @@ const MyAccount = () => {
           password: currentPassword,
           billingInfo: {
             address,
-            city,
+            city: selectedCity.label || "",
+            country: selectedCountry.label || "",
             zipCode,
             phone,
             nameOnCard,
@@ -1181,37 +1265,67 @@ const MyAccount = () => {
                       <div className="my-account-area__content">
                         <h3>{t("billing_address")}</h3>
                         <div className="account-details-form">
+                          
                           <Row>
                             <Col lg={6}>
                               <div className="single-input-item">
-                                <label htmlFor="address" className="required">
-                                  {t("address")}
+                                <label className="required">
+                                  {t("country_label")}
                                 </label>
-                                <input
-                                  type="text"
-                                  id="address"
-                                  className="form-control"
-                                  value={address}
-                                  onChange={(e) => setAddress(e.target.value)}
+                                <Select
+                                  options={countryOptions}
+                                  value={selectedCountry}
+                                  onChange={setSelectedCountry}
+                                  placeholder={t("select_country")}
+                                  styles={customStyles}
+                                  components={{
+                                    Option: ({ data, ...props }) => (
+                                      <components.Option {...props}>
+                                        <img
+                                          src={data.flag}
+                                          alt=""
+                                          style={{
+                                            marginRight: 8,
+                                            verticalAlign: "middle",
+                                          }}
+                                        />
+                                        {data.label}
+                                      </components.Option>
+                                    ),
+                                    SingleValue: ({ data, ...props }) => (
+                                      <components.SingleValue {...props}>
+                                        <img
+                                          src={data.flag}
+                                          alt=""
+                                          style={{
+                                            marginRight: 8,
+                                            verticalAlign: "middle",
+                                          }}
+                                        />
+                                        {data.label}
+                                      </components.SingleValue>
+                                    ),
+                                  }}
                                 />
                               </div>
                             </Col>
-                          </Row>
-                          <Row>
+
                             <Col lg={6}>
                               <div className="single-input-item">
-                                <label htmlFor="city" className="required">
+                                <label className="required">
                                   {t("city_label")}
                                 </label>
-                                <input
-                                  type="text"
-                                  id="city"
-                                  className="form-control"
-                                  value={city}
-                                  onChange={(e) => setCity(e.target.value)}
+                                <Select
+                                  options={cityOptions}
+                                  value={selectedCity}
+                                  onChange={setSelectedCity}
+                                  placeholder={t("select_city")}
+                                  styles={customStyles}
+                                  isDisabled={!selectedCountry}
                                 />
                               </div>
                             </Col>
+
                             <Col lg={6}>
                               <div className="single-input-item">
                                 <label htmlFor="zip-code" className="required">
@@ -1226,6 +1340,22 @@ const MyAccount = () => {
                                 />
                               </div>
                             </Col>
+                            
+                            <Col lg={6}>
+                              <div className="single-input-item">
+                                <label htmlFor="address" className="required">
+                                  {t("address")}
+                                </label>
+                                <input
+                                  type="text"
+                                  id="address"
+                                  className="form-control"
+                                  value={address}
+                                  onChange={(e) => setAddress(e.target.value)}
+                                />
+                              </div>
+                            </Col>
+                        
                           </Row>
                           <div className="single-input-item">
                             <label htmlFor="phone">{t("mobile")}</label>

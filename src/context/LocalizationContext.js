@@ -479,6 +479,8 @@ const translations = {
     revenue_by_payment_method: "Revenue by Payment Method",
     revenue_by_status: "Revenue by Status",
     payment_cash: "On-site Payment",
+    select_country: "Select Country",
+    select_city: "City / Town",
 
   },
   mk: {
@@ -962,6 +964,8 @@ const translations = {
     revenue_by_payment_method: "Приход по метод на плаќање",
     revenue_by_status: "Приход по статус на нарачка",  
     payment_cash: "Плаќање на лице место",
+    select_country: "Изберете држава",
+    select_city: "Изберете град",
   },
 };
 
