@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import { auth } from "../api/register"; // Import Firebase auth
 import { onAuthStateChanged, signOut, updatePassword } from "firebase/auth";
@@ -63,7 +63,6 @@ const MyAccount = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
   const [cityOptions, setCityOptions] = useState([]);
-
   const [downloadingOrderId, setDownloadingOrderId] = useState(null);
 
   // --- Password Visibility Toggle States ---
@@ -77,6 +76,23 @@ const MyAccount = () => {
   const [cardNumber, setCardNumber] = useState("");
   const [expiration, setExpiration] = useState("");
   const [cvc, setCvc] = useState("");
+
+  const [initialFirstName, setInitialFirstName] = useState("");
+  const [initialLastName, setInitialLastName] = useState("");
+  const [initialDisplayName, setInitialDisplayName] = useState("");
+  const [initialAddress, setInitialAddress] = useState("");
+  const [initialPhone, setInitialPhone] = useState("");
+  const [initialZip, setInitialZip] = useState("");
+  const [initialCountry, setInitialCountry] = useState(null);
+  const [initialCity, setInitialCity] = useState(null);
+  const [initialNameOnCard, setInitialNameOnCard] = useState("");
+  const [initialCardNumber, setInitialCardNumber] = useState("");
+  const [initialExpiration, setInitialExpiration] = useState("");
+  const [initialCvc, setInitialCvc] = useState("");
+  // flag to indicate we've loaded initial values from DB/auth
+  const [initialLoaded, setInitialLoaded] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
+  const [isCanceling, setIsCanceling] = useState(false);
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -411,7 +427,31 @@ const MyAccount = () => {
             setExpiration(userData.billingInfo?.expiration || "");
             setCvc(userData.billingInfo?.cvc || "");
             setRole(userData.role || "guest");
+
+            setInitialFirstName(userData.firstName || "");
+            setInitialLastName(userData.lastName || "");
+            setInitialDisplayName(userData.displayName || "");
+            setInitialAddress(userData.billingInfo?.address || "");
+            setInitialPhone(userData.billingInfo?.phone || "");
+            setInitialZip(userData.billingInfo?.zipCode || "");
+            setInitialCountry(
+              userData.billingInfo?.country
+                ? { label: userData.billingInfo.country, value: Country.getAllCountries().find(c => c.name === userData.billingInfo.country)?.isoCode }
+                : null
+            );
+            setInitialCity(
+              userData.billingInfo?.city
+                ? { label: userData.billingInfo.city, value: userData.billingInfo.city }
+                : null
+            );
+            setInitialNameOnCard(userData.billingInfo?.nameOnCard || "");
+            setInitialCardNumber(userData.billingInfo?.cardNumber || "");
+            setInitialExpiration(userData.billingInfo?.expiration || "");
+            setInitialCvc(userData.billingInfo?.cvc || "");
+
+            setInitialLoaded(true);
           } else {
+            setInitialLoaded(true);
             console.log("No additional user data found in database.");
           }
         } catch (error) {
@@ -522,6 +562,7 @@ const MyAccount = () => {
 
     fetchOrders();
   }, [user, role]);
+
 
   // --- Logout Handler ---
   const handleLogout = async () => {
@@ -816,6 +857,91 @@ const MyAccount = () => {
       setDownloadingOrderId(null);
     }
   };
+
+  // --- change detection ---
+const checkForChanges = useCallback(() => {
+  if (!initialLoaded) {
+    setHasChanges(false);
+    return;
+  }
+
+  const changed =
+    firstName !== initialFirstName ||
+    lastName !== initialLastName ||
+    displayName !== initialDisplayName ||
+    address !== initialAddress ||
+    phone !== initialPhone ||
+    zipCode !== initialZip ||
+    selectedCountry?.value !== initialCountry?.value ||
+    selectedCity?.value !== initialCity?.value ||
+    nameOnCard !== initialNameOnCard ||
+    cardNumber !== initialCardNumber ||
+    expiration !== initialExpiration ||
+    cvc !== initialCvc ||
+    currentPassword !== "" ||
+    newPassword !== "" ||
+    confirmPassword !== "";
+
+  setHasChanges(changed);
+}, [
+  firstName,
+  lastName,
+  displayName,
+  address,
+  phone,
+  zipCode,
+  selectedCountry,
+  selectedCity,
+  nameOnCard,
+  cardNumber,
+  expiration,
+  cvc,
+  newPassword,
+  confirmPassword,
+  currentPassword,
+  initialFirstName,
+  initialLastName,
+  initialDisplayName,
+  initialAddress,
+  initialPhone,
+  initialZip,
+  initialCountry,
+  initialCity,
+  initialNameOnCard,
+  initialCardNumber,
+  initialExpiration,
+  initialCvc,
+  initialLoaded,
+]);
+
+
+const handleCancel = () => {
+  if (!initialLoaded) return;
+
+  setFirstName(initialFirstName);
+  setLastName(initialLastName);
+  setDisplayName(initialDisplayName);
+  setAddress(initialAddress);
+  setCity(initialCity?.label || "");
+  setZipCode(initialZip);
+  setPhone(initialPhone);
+  setSelectedCountry(initialCountry);
+  setSelectedCity(initialCity);
+  setNameOnCard(initialNameOnCard);
+  setCardNumber(initialCardNumber);
+  setExpiration(initialExpiration);
+  setCvc(initialCvc);
+
+  setCurrentPassword("");
+  setNewPassword("");
+  setConfirmPassword("");
+  setHasChanges(false);
+};
+
+
+  useEffect(() => {
+  checkForChanges();
+}, [checkForChanges]);
 
   return (
     <LayoutTwo>
@@ -1533,7 +1659,7 @@ const MyAccount = () => {
                         </div>
                       </fieldset>
                       <p>{t("password_note")}</p>
-                      <div className="single-input-item">
+                      <div className="single-input-item d-flex gap-3">
                         <button type="submit" disabled={isLoading}>
                           {isLoading ? (
                             <Spinner
@@ -1545,6 +1671,27 @@ const MyAccount = () => {
                             />
                           ) : (
                             t("save_changes")
+                          )}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            setIsCanceling(true);
+                            await handleCancel();
+                            setIsCanceling(false);
+                          }}
+                          disabled={!hasChanges || !initialLoaded || isCanceling || isLoading}
+                        >
+                          {isCanceling ? (
+                            <Spinner
+                              as="span"
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            t("cancel")
                           )}
                         </button>
                       </div>
