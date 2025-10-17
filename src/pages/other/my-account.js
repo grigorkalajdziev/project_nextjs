@@ -96,65 +96,46 @@ const MyAccount = () => {
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-  useEffect(() => {
-    if (selectedCountry) {
-      const cities = City.getCitiesOfCountry(selectedCountry.value).map(
-        (c) => ({
-          value: c.name,
-          label: c.name,
-        })
-      );
-      setCityOptions(cities);
-       if (!selectedCity && userData?.billingInfo?.city) {
-      const cityFromDB = cities.find(c => c.value === userData.billingInfo.city);
-      if (cityFromDB) setSelectedCity(cityFromDB);
-    }
-    } else {
-      setCityOptions([]);
-      setSelectedCity(null);
-    }
-  }, [selectedCountry]);
-
   // Styles to match your form-control inputs
- const customStyles = {
-  control: (provided) => ({
-    ...provided,
-    minHeight: "50px",
-    height: "50px",
-    borderRadius: "4px",
-    display: "flex",
-    alignItems: "center", // vertically centers the text
-  }),
-  valueContainer: (provided) => ({
-    ...provided,
-    height: "50px",
-    padding: "0 8px",
-    display: "flex",
-    alignItems: "center", // vertically centers selected value
-  }),
-  input: (provided) => ({
-    ...provided,
-    margin: "0px",
-  }),
-  singleValue: (provided) => ({
-    ...provided,
-    textAlign: "left",
-  }),
-  indicatorsContainer: (provided) => ({
-    ...provided,
-    height: "50px",
-    display: "flex",
-    alignItems: "center", // center the dropdown arrow
-  }),
-  menu: (provided) => ({
-    ...provided,
-    textAlign: "left",
-  }),
-  option: (provided) => ({
-    ...provided,
-    textAlign: "left",
-  }),
-};
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      minHeight: "50px",
+      height: "50px",
+      borderRadius: "4px",
+      display: "flex",
+      alignItems: "center", // vertically centers the text
+    }),
+    valueContainer: (provided) => ({
+      ...provided,
+      height: "50px",
+      padding: "0 8px",
+      display: "flex",
+      alignItems: "center", // vertically centers selected value
+    }),
+    input: (provided) => ({
+      ...provided,
+      margin: "0px",
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      textAlign: "left",
+    }),
+    indicatorsContainer: (provided) => ({
+      ...provided,
+      height: "50px",
+      display: "flex",
+      alignItems: "center", // center the dropdown arrow
+    }),
+    menu: (provided) => ({
+      ...provided,
+      textAlign: "left",
+    }),
+    option: (provided) => ({
+      ...provided,
+      textAlign: "left",
+    }),
+  };
 
   // Country select with flags
   const countryOptions = Country.getAllCountries().map((c) => ({
@@ -200,6 +181,51 @@ const MyAccount = () => {
   }, 0);
 
   const db = getDatabase();
+
+  const findCountryOption = (countryFromDb) => {
+    if (!countryFromDb) return null;
+    // if already object with value
+    if (typeof countryFromDb === "object" && countryFromDb.value) {
+      const found = countryOptions.find((c) => c.value === countryFromDb.value);
+      if (found) return found;
+      // fallback to ensure flag/label/value exist
+      return {
+        label: countryFromDb.label || countryFromDb.value,
+        value: countryFromDb.value,
+        flag:
+          countryFromDb.flag ||
+          `https://flagcdn.com/24x18/${String(countryFromDb.value).toLowerCase()}.png`,
+      };
+    }
+    // if it's a string, try by value (isoCode) or label
+    const byValue = countryOptions.find((c) => c.value === countryFromDb);
+    if (byValue) return byValue;
+    const byLabel = countryOptions.find((c) => c.label === countryFromDb);
+    if (byLabel) return byLabel;
+    return null;
+  };
+
+  const findCityOption = (cityFromDb, citiesArray = []) => {
+    if (!cityFromDb) return null;
+    if (typeof cityFromDb === "object" && cityFromDb.value) {
+      return citiesArray.find((c) => c.value === cityFromDb.value) || cityFromDb;
+    }
+    // string
+    return (
+      citiesArray.find((c) => c.value === cityFromDb) || {
+        label: cityFromDb,
+        value: cityFromDb,
+      }
+    );
+  };
+
+  const buildCityOptionsFromCountryValue = (countryIso) => {
+    if (!countryIso) return [];
+    return City.getCitiesOfCountry(countryIso).map((c) => ({
+      value: c.name,
+      label: c.name,
+    }));
+  };
 
   // --- Toggle Functions for Each Password Field ---
   const toggleCurrentPasswordVisibility = () => {
@@ -412,15 +438,25 @@ const MyAccount = () => {
             setZipCode(userData.billingInfo?.zipCode || "");
             setPhone(userData.billingInfo?.phone || "");
             setSelectedCountry(
-    userData.billingInfo?.country
-      ? { label: userData.billingInfo.country, value: Country.getAllCountries().find(c => c.name === userData.billingInfo.country)?.isoCode }
-      : null
-  );
-  setSelectedCity(
-    userData.billingInfo?.city
-      ? { label: userData.billingInfo.city, value: userData.billingInfo.city }
-      : null
-  );
+              userData.billingInfo?.country
+                ? typeof userData.billingInfo.country === "object"
+                  ? userData.billingInfo.country
+                  : {
+                      label: userData.billingInfo.country,
+                      value: Country.getAllCountries().find(
+                        (c) => c.name === userData.billingInfo.country
+                      )?.isoCode,
+                    }
+                : null
+            );
+            setSelectedCity(
+              userData.billingInfo?.city
+                ? {
+                    label: userData.billingInfo.city,
+                    value: userData.billingInfo.city,
+                  }
+                : null
+            );
             setCurrentPassword(userData.password || "");
             setNameOnCard(userData.billingInfo?.nameOnCard || "");
             setCardNumber(userData.billingInfo?.cardNumber || "");
@@ -428,22 +464,35 @@ const MyAccount = () => {
             setCvc(userData.billingInfo?.cvc || "");
             setRole(userData.role || "guest");
 
+            const countryFromDb = userData.billingInfo?.country || null;
+            const countryOption = findCountryOption(countryFromDb);
+            setSelectedCountry(countryOption);
+            setInitialCountry(countryOption);
+
+            if (countryOption?.value) {
+              const cities = buildCityOptionsFromCountryValue(countryOption.value);
+              setCityOptions(cities);
+
+              const cityFromDb = userData.billingInfo?.city || null;
+              const cityOption = findCityOption(cityFromDb, cities);
+              setSelectedCity(cityOption);
+              setInitialCity(cityOption);
+              // plain text city input:
+              setCity((cityOption && cityOption.label) || userData.billingInfo?.city || "");
+            } else {
+              setCityOptions([]);
+              setSelectedCity(null);
+              setInitialCity(null);
+              setCity(userData.billingInfo?.city || "");
+            }
+
+            // initial primitives
             setInitialFirstName(userData.firstName || "");
             setInitialLastName(userData.lastName || "");
             setInitialDisplayName(userData.displayName || "");
             setInitialAddress(userData.billingInfo?.address || "");
             setInitialPhone(userData.billingInfo?.phone || "");
             setInitialZip(userData.billingInfo?.zipCode || "");
-            setInitialCountry(
-              userData.billingInfo?.country
-                ? { label: userData.billingInfo.country, value: Country.getAllCountries().find(c => c.name === userData.billingInfo.country)?.isoCode }
-                : null
-            );
-            setInitialCity(
-              userData.billingInfo?.city
-                ? { label: userData.billingInfo.city, value: userData.billingInfo.city }
-                : null
-            );
             setInitialNameOnCard(userData.billingInfo?.nameOnCard || "");
             setInitialCardNumber(userData.billingInfo?.cardNumber || "");
             setInitialExpiration(userData.billingInfo?.expiration || "");
@@ -466,6 +515,27 @@ const MyAccount = () => {
 
     return () => unsubscribe();
   }, []);
+
+    useEffect(() => {
+    if (selectedCountry) {
+      const cities = City.getCitiesOfCountry(selectedCountry.value).map(
+        (c) => ({
+          value: c.name,
+          label: c.name,
+        })
+      );
+      setCityOptions(cities);
+      if (!selectedCity && userData?.billingInfo?.city) {
+        const cityFromDB = cities.find(
+          (c) => c.value === userData.billingInfo.city
+        );
+        if (cityFromDB) setSelectedCity(cityFromDB);
+      }
+    } else {
+      setCityOptions([]);
+      setSelectedCity(null);
+    }
+  }, [selectedCountry]);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -562,7 +632,6 @@ const MyAccount = () => {
 
     fetchOrders();
   }, [user, role]);
-
 
   // --- Logout Handler ---
   const handleLogout = async () => {
@@ -710,9 +779,8 @@ const MyAccount = () => {
           return;
         }
         try {
-       
           await updatePassword(user, newPassword);
-       
+
           await set(userRef, {
             firstName,
             lastName,
@@ -722,7 +790,13 @@ const MyAccount = () => {
             billingInfo: {
               address,
               city: selectedCity || "",
-              country: selectedCountry || "",
+              country: selectedCountry
+                ? {
+                    label: selectedCountry.label,
+                    value: selectedCountry.value,
+                    flag: selectedCountry.flag,
+                  }
+                : null,
               zipCode,
               phone,
               nameOnCard,
@@ -757,7 +831,13 @@ const MyAccount = () => {
           billingInfo: {
             address,
             city: selectedCity.label || "",
-            country: selectedCountry.label || "",
+            country: selectedCountry
+            ? {
+                label: selectedCountry.label,
+                value: selectedCountry.value,
+                flag: selectedCountry.flag,
+              }
+            : null,
             zipCode,
             phone,
             nameOnCard,
@@ -859,89 +939,111 @@ const MyAccount = () => {
   };
 
   // --- change detection ---
-const checkForChanges = useCallback(() => {
-  if (!initialLoaded) {
+  const checkForChanges = useCallback(() => {
+    if (!initialLoaded) {
+      setHasChanges(false);
+      return;
+    }
+
+    const changed =
+      firstName !== initialFirstName ||
+      lastName !== initialLastName ||
+      displayName !== initialDisplayName ||
+      address !== initialAddress ||
+      phone !== initialPhone ||
+      zipCode !== initialZip ||
+      selectedCountry?.value !== initialCountry?.value ||
+      selectedCity?.value !== initialCity?.value ||
+      nameOnCard !== initialNameOnCard ||
+      cardNumber !== initialCardNumber ||
+      expiration !== initialExpiration ||
+      cvc !== initialCvc ||
+      currentPassword !== "" ||
+      newPassword !== "" ||
+      confirmPassword !== "";
+
+    setHasChanges(changed);
+  }, [
+    firstName,
+    lastName,
+    displayName,
+    address,
+    phone,
+    zipCode,
+    selectedCountry,
+    selectedCity,
+    nameOnCard,
+    cardNumber,
+    expiration,
+    cvc,
+    newPassword,
+    confirmPassword,
+    currentPassword,
+    initialFirstName,
+    initialLastName,
+    initialDisplayName,
+    initialAddress,
+    initialPhone,
+    initialZip,
+    initialCountry,
+    initialCity,
+    initialNameOnCard,
+    initialCardNumber,
+    initialExpiration,
+    initialCvc,
+    initialLoaded,
+  ]);
+
+ const handleCancel = () => {
+    if (!initialLoaded) return;
+
+    // primitives
+    setFirstName(initialFirstName);
+    setLastName(initialLastName);
+    setDisplayName(initialDisplayName);
+    setAddress(initialAddress);
+    setZipCode(initialZip);
+    setPhone(initialPhone);
+    setNameOnCard(initialNameOnCard);
+    setCardNumber(initialCardNumber);
+    setExpiration(initialExpiration);
+    setCvc(initialCvc);
+
+    // plain text city input (string)
+    setCity(typeof initialCity === "object" ? initialCity.label : initialCity || "");
+
+    // restore country: ensure we provide the canonical option object or null
+    let countryOption = null;
+    if (initialCountry) {
+      countryOption =
+        typeof initialCountry === "object"
+          ? countryOptions.find((c) => c.value === initialCountry.value) || initialCountry
+          : findCountryOption(initialCountry);
+    }
+    setSelectedCountry(countryOption);
+
+    // restore city options & selectedCity (react-select expects option object)
+    if (countryOption?.value) {
+      const cities = buildCityOptionsFromCountryValue(countryOption.value);
+      setCityOptions(cities);
+      const cityOption = findCityOption(initialCity, cities);
+      setSelectedCity(cityOption);
+    } else {
+      setCityOptions([]);
+      setSelectedCity(null);
+    }
+
+    // clear passwords
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
     setHasChanges(false);
-    return;
-  }
-
-  const changed =
-    firstName !== initialFirstName ||
-    lastName !== initialLastName ||
-    displayName !== initialDisplayName ||
-    address !== initialAddress ||
-    phone !== initialPhone ||
-    zipCode !== initialZip ||
-    selectedCountry?.value !== initialCountry?.value ||
-    selectedCity?.value !== initialCity?.value ||
-    nameOnCard !== initialNameOnCard ||
-    cardNumber !== initialCardNumber ||
-    expiration !== initialExpiration ||
-    cvc !== initialCvc ||
-    currentPassword !== "" ||
-    newPassword !== "" ||
-    confirmPassword !== "";
-
-  setHasChanges(changed);
-}, [
-  firstName,
-  lastName,
-  displayName,
-  address,
-  phone,
-  zipCode,
-  selectedCountry,
-  selectedCity,
-  nameOnCard,
-  cardNumber,
-  expiration,
-  cvc,
-  newPassword,
-  confirmPassword,
-  currentPassword,
-  initialFirstName,
-  initialLastName,
-  initialDisplayName,
-  initialAddress,
-  initialPhone,
-  initialZip,
-  initialCountry,
-  initialCity,
-  initialNameOnCard,
-  initialCardNumber,
-  initialExpiration,
-  initialCvc,
-  initialLoaded,
-]);
-
-
-const handleCancel = () => {
-  if (!initialLoaded) return;
-
-  setFirstName(initialFirstName);
-  setLastName(initialLastName);
-  setDisplayName(initialDisplayName);
-  setAddress(initialAddress);
-  setCity(initialCity?.label || "");
-  setZipCode(initialZip);
-  setPhone(initialPhone);
-  setSelectedCountry(initialCountry);
-  setSelectedCity(initialCity);
-  setNameOnCard(initialNameOnCard);
-  setCardNumber(initialCardNumber);
-  setExpiration(initialExpiration);
-  setCvc(initialCvc);
-
-  setCurrentPassword("");
-  setNewPassword("");
-  setConfirmPassword("");
-  setHasChanges(false);
-};
+  };
 
 
   useEffect(() => {
-  checkForChanges();
-}, [checkForChanges]);
+    checkForChanges();
+  }, [checkForChanges]);
 
   return (
     <LayoutTwo>
@@ -1391,7 +1493,6 @@ const handleCancel = () => {
                       <div className="my-account-area__content">
                         <h3>{t("billing_address")}</h3>
                         <div className="account-details-form">
-                          
                           <Row>
                             <Col lg={6}>
                               <div className="single-input-item">
@@ -1400,7 +1501,7 @@ const handleCancel = () => {
                                 </label>
                                 <Select
                                   options={countryOptions}
-                                  value={selectedCountry}
+                                  value={selectedCountry ?? null}
                                   onChange={setSelectedCountry}
                                   placeholder={t("select_country")}
                                   styles={customStyles}
@@ -1466,7 +1567,7 @@ const handleCancel = () => {
                                 />
                               </div>
                             </Col>
-                            
+
                             <Col lg={6}>
                               <div className="single-input-item">
                                 <label htmlFor="address" className="required">
@@ -1481,7 +1582,6 @@ const handleCancel = () => {
                                 />
                               </div>
                             </Col>
-                        
                           </Row>
                           <div className="single-input-item">
                             <label htmlFor="phone">{t("mobile")}</label>
@@ -1677,10 +1777,16 @@ const handleCancel = () => {
                           type="button"
                           onClick={async () => {
                             setIsCanceling(true);
-                            await handleCancel();
+                            await new Promise((resolve) => setTimeout(resolve, 500));
+                            handleCancel();
                             setIsCanceling(false);
                           }}
-                          disabled={!hasChanges || !initialLoaded || isCanceling || isLoading}
+                          disabled={
+                            !hasChanges ||
+                            !initialLoaded ||
+                            isCanceling ||
+                            isLoading
+                          }
                         >
                           {isCanceling ? (
                             <Spinner
