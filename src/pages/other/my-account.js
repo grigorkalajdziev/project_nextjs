@@ -510,6 +510,7 @@ const MyAccount = () => {
         setDownloads([]);
       } else {
         setUser(null);
+        router.push("/other/login-register");
       }
     });
 
