@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
-  experimental: {    
-    forceSwcTransforms: true,
-  },
+  reactStrictMode: false,  
   env: {
     PUBLIC_URL: "", 
   },

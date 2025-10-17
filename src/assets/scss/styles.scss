@@ -1,11 +1,11 @@
 /* third party styles */
-@import "~bootstrap/scss/bootstrap";
-@import "~swiper/css/swiper.css";
-@import "~react-tippy/dist/tippy.css";
-@import "~react-custom-scroll/dist/customScroll.css";
-@import "~lightgallery.js/dist/css/lightgallery.css";
-@import "~react-slidedown/lib/slidedown.css";
-@import "~react-modal-video/scss/modal-video.scss";
+@import "bootstrap/scss/bootstrap";
+@import "swiper/css/swiper.css";
+@import "react-tippy/dist/tippy.css";
+@import "react-custom-scroll/dist/customScroll.css";
+@import "lightgallery.js/dist/css/lightgallery.css";
+@import "react-slidedown/lib/slidedown.css";
+@import "react-modal-video/scss/modal-video.scss";
 
 
 /* project styles */
@@ -63,15 +63,3 @@
 @import "components/about";
 @import "components/brand-logo";
 @import "components/image-slider";
-
-// html[lang='en'] {
-//   font-family: 'Libre Baskerville', serif; /* Merriweather for English */
-//   font-size: 16px; /* Base font size */
-//   line-height: 1.5; /* Adjust for readability */
-// }
-
-// html[lang='mk'] {
-//   font-family: 'PT Serif', serif; /* PT Serif for Macedonian */
-//   font-size: 16px; /* Adjust as needed */
-//   line-height: 1.5; /* Consistent line height */
-// }
