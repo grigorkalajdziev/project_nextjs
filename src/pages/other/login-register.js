@@ -418,10 +418,10 @@ const LoginRegister = () => {
                             cursor: "pointer",
                           }}
                         >
-                          {loginPasswordVisible ? (
-                            <AiOutlineEyeInvisible size={20} color="#000" />
-                          ) : (
+                          {loginPasswordVisible ? (                            
                             <AiOutlineEye size={20} color="#000" />
+                          ) : (
+                            <AiOutlineEyeInvisible size={20} color="#000" />
                           )}
                         </span>
                       </div>
@@ -564,10 +564,10 @@ const LoginRegister = () => {
                             cursor: "pointer",
                           }}
                         >
-                          {registerPasswordVisible ? (
-                            <AiOutlineEyeInvisible size={20} color="#000" />
-                          ) : (
+                          {registerPasswordVisible ? (                            
                             <AiOutlineEye size={20} color="#000" />
+                          ) : (
+                            <AiOutlineEyeInvisible size={20} color="#000" />
                           )}
                         </span>
                       </div>
