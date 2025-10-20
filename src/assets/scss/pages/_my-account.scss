@@ -205,3 +205,103 @@
     border-radius: 4px;
   }
 }
+
+/*=============================================
+=            Financial charts responsive      =
+=============================================*/
+
+/*=============================================
+=            Financial charts responsive      =
+=============================================*/
+
+.financial-reports {
+  // Default desktop chart size
+  .recharts-responsive-container {
+    height: 300px !important;
+  }
+
+  // Default text and line style
+  .recharts-text {
+    font-size: 14px; // default label size
+  }
+  .recharts-pie-label-line {
+    stroke-width: 1.5px; // default line thickness
+  }
+
+  /* Tablet (up to ~992px) */
+  @include respond(tab-port) {
+    .recharts-responsive-container {
+      height: 280px !important;
+    }
+    .recharts-text {
+      font-size: 12px;
+    }
+    .recharts-pie-label-line {
+      stroke-width: 1px;
+    }
+  }
+
+  /* Mobile (up to ~768px) */
+  @include respond(large-mobile) {
+    .recharts-responsive-container {
+      height: 220px !important;
+    }
+    .recharts-text {
+      font-size: 10px;
+    }
+    .recharts-pie-label-line {
+      stroke-width: 0.8px;
+    }
+  }
+
+  /* Very small mobile */
+  @include respond(small-mobile) {
+    .recharts-responsive-container {
+      height: 170px !important;
+    }
+    .recharts-text {
+      font-size: 7px;
+    }
+    .recharts-pie-label-line {
+      stroke-width: 0.6px;
+    }
+  }
+}
+
+/*=============================================
+=  Handle landscape tablets / phones (short height screens)  =
+=============================================*/
+
+// When viewport height is small (<700px) but width is wide (tablet/landscape)
+@media (max-height: 700px) and (min-width: 600px) {
+  .financial-reports {
+    .recharts-responsive-container {
+      height: 200px !important; // shrink for short height devices
+    }
+
+    .recharts-text {
+      font-size: 10px; // smaller labels for landscape
+    }
+
+    .recharts-pie-label-line {
+      stroke-width: 0.8px;
+    }
+  }
+}
+
+// Optional: very short screens (like iPhone landscape ~375x667)
+@media (max-height: 500px) {
+  .financial-reports {
+    .recharts-responsive-container {
+      height: 160px !important;
+    }
+
+    .recharts-text {
+      font-size: 8px;
+    }
+
+    .recharts-pie-label-line {
+      stroke-width: 0.6px;
+    }
+  }
+}

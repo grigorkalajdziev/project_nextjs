@@ -94,6 +94,8 @@ const MyAccount = () => {
   const [hasChanges, setHasChanges] = useState(false);
   const [isCanceling, setIsCanceling] = useState(false);
 
+
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
   // Styles to match your form-control inputs
@@ -1324,6 +1326,12 @@ const MyAccount = () => {
                                         : entry.eng,
                                   };
                                 })}
+                                 margin={{
+                                  top: 10,
+                                  right: 10,
+                                  left: 0, // 👈 shift chart 20px to the left
+                                  bottom: 0,
+                                }}
                               >
                                 <XAxis dataKey="status" />
                                 <YAxis />
