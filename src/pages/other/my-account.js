@@ -93,7 +93,11 @@ const MyAccount = () => {
   const [initialLoaded, setInitialLoaded] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [isCanceling, setIsCanceling] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+  const [dateRange, setDateRange] = useState('30days');
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
@@ -210,7 +214,9 @@ const MyAccount = () => {
   const findCityOption = (cityFromDb, citiesArray = []) => {
     if (!cityFromDb) return null;
     if (typeof cityFromDb === "object" && cityFromDb.value) {
-      return citiesArray.find((c) => c.value === cityFromDb.value) || cityFromDb;
+      return (
+        citiesArray.find((c) => c.value === cityFromDb.value) || cityFromDb
+      );
     }
     // string
     return (
@@ -279,6 +285,296 @@ const MyAccount = () => {
       return acc;
     }, []);
   };
+
+  // Get unique years from orders
+// Get unique years from orders
+const getAvailableYears = (orders) => {
+  const years = orders.map(order => {
+    if (!order.date && !order.createdAt) return new Date().getFullYear();
+    const date = order.date ? new Date(order.date) : new Date(order.createdAt);
+    return isNaN(date) ? new Date().getFullYear() : date.getFullYear();
+  });
+  return [...new Set(years)].sort((a, b) => b - a);
+};
+
+// Daily Revenue (last N days)
+// Daily Revenue (last N days)
+const getDailyRevenue = (orders, days = 30) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const dailyData = {};
+  
+  // Initialize last N days
+  for (let i = days - 1; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    const dateKey = date.toISOString().split('T')[0];
+    dailyData[dateKey] = { mkd: 0, eur: 0, count: 0 };
+  }
+  
+  orders.forEach(order => {
+    if (!order.date && !order.createdAt) return;
+    
+    let orderDate;
+    if (order.date) {
+      // Handle different date formats
+      if (order.date.includes('-')) {
+        const parts = order.date.split('-');
+        if (parts[0].length === 4) {
+          // Already in YYYY-MM-DD
+          orderDate = new Date(order.date);
+        } else {
+          // Convert DD-MM-YYYY to YYYY-MM-DD
+          orderDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+        }
+      } else {
+        orderDate = new Date(order.date);
+      }
+    } else {
+      orderDate = new Date(order.createdAt);
+    }
+    
+    if (isNaN(orderDate)) return; // Skip invalid dates
+    
+    orderDate.setHours(0, 0, 0, 0);
+    const dateKey = orderDate.toISOString().split('T')[0];
+    
+    if (dailyData[dateKey]) {
+      const mkdAmount = parseFloat(order.total || 0);
+      const eurAmount = mkdAmount / conversionRate;
+      
+      dailyData[dateKey].mkd += mkdAmount;
+      dailyData[dateKey].eur += eurAmount;
+      dailyData[dateKey].count += 1;
+    }
+  });
+  
+  // Month names for both languages
+  const monthNames = {
+    en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    mk: ['Јан', 'Фев', 'Мар', 'Апр', 'Мај', 'Јун', 'Јул', 'Авг', 'Сеп', 'Окт', 'Ное', 'Дек']
+  };
+  
+  return Object.entries(dailyData).map(([date, data]) => {
+    const dateObj = new Date(date);
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const monthIndex = dateObj.getMonth();
+    const monthName = currentLanguage === 'mk' ? monthNames.mk[monthIndex] : monthNames.en[monthIndex];
+    
+    return {
+      date: `${day} ${monthName}`,  // "05 Окт" or "05 Oct"
+      fullDate: date,
+      revenue: currentLanguage === 'mk' ? data.mkd : data.eur,
+      orders: data.count
+    };
+  });
+};
+
+// Monthly Revenue for a specific year
+const getMonthlyRevenue = (orders, year) => {
+  const months = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ];
+  
+  const monthlyData = months.map((month, index) => ({
+    month: currentLanguage === 'mk' ? 
+      ['Јан', 'Фев', 'Мар', 'Апр', 'Мај', 'Јун', 'Јул', 'Авг', 'Сеп', 'Окт', 'Ное', 'Дек'][index] : 
+      month,
+    mkd: 0,
+    eur: 0,
+    count: 0
+  }));
+  
+  orders.forEach(order => {
+    if (!order.date && !order.createdAt) return;
+    
+    let orderDate;
+    if (order.date) {
+      if (order.date.includes('-')) {
+        const parts = order.date.split('-');
+        if (parts[0].length === 4) {
+          orderDate = new Date(order.date);
+        } else {
+          // Convert DD-MM-YYYY to YYYY-MM-DD
+          orderDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+        }
+      } else {
+        orderDate = new Date(order.date);
+      }
+    } else {
+      orderDate = new Date(order.createdAt);
+    }
+    
+    if (isNaN(orderDate)) return;
+    
+    if (orderDate.getFullYear() === year) {
+      const monthIndex = orderDate.getMonth();
+      const mkdAmount = parseFloat(order.total || 0);
+      const eurAmount = mkdAmount / conversionRate;
+      
+      monthlyData[monthIndex].mkd += mkdAmount;
+      monthlyData[monthIndex].eur += eurAmount;
+      monthlyData[monthIndex].count += 1;
+    }
+  });
+  
+  return monthlyData.map(data => ({
+    ...data,
+    revenue: currentLanguage === 'mk' ? data.mkd : data.eur
+  }));
+};
+
+// Yearly Revenue Comparison
+const getYearlyRevenue = (orders) => {
+  const yearlyData = {};
+  
+  orders.forEach(order => {
+    if (!order.date && !order.createdAt) return;
+    
+    let orderDate;
+    if (order.date) {
+      if (order.date.includes('-')) {
+        const parts = order.date.split('-');
+        if (parts[0].length === 4) {
+          orderDate = new Date(order.date);
+        } else {
+          // Convert DD-MM-YYYY to YYYY-MM-DD
+          orderDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+        }
+      } else {
+        orderDate = new Date(order.date);
+      }
+    } else {
+      orderDate = new Date(order.createdAt);
+    }
+    
+    if (isNaN(orderDate)) return;
+    
+    const year = orderDate.getFullYear();
+    
+    if (!yearlyData[year]) {
+      yearlyData[year] = { mkd: 0, eur: 0, count: 0 };
+    }
+    
+    const mkdAmount = parseFloat(order.total || 0);
+    const eurAmount = mkdAmount / conversionRate;
+    
+    yearlyData[year].mkd += mkdAmount;
+    yearlyData[year].eur += eurAmount;
+    yearlyData[year].count += 1;
+  });
+  
+  return Object.entries(yearlyData)
+    .map(([year, data]) => ({
+      year,
+      revenue: currentLanguage === 'mk' ? data.mkd : data.eur,
+      orders: data.count
+    }))
+    .sort((a, b) => a.year - b.year);
+};
+
+// Top Products/Services
+// Top Products/Services
+const getTopProducts = (orders, limit = 5) => {
+  const productStats = {};
+  
+  orders.forEach(order => {
+    const orderCurrency = (order.currency || "MKD").toString().toUpperCase();
+    
+    (order.products || []).forEach(product => {
+      // Handle nested name object {en: "...", mk: "..."}
+      let productName;
+      if (typeof product.name === 'object' && product.name !== null) {
+        productName = currentLanguage === 'mk' ? product.name.mk : product.name.en;
+      } else {
+        productName = product.name || 'Unknown';
+      }
+      
+      if (!productStats[productName]) {
+        productStats[productName] = { count: 0, mkd: 0, eur: 0 };
+      }
+      
+      const quantity = product.quantity || 1;
+      productStats[productName].count += quantity;
+      
+      // Handle nested price object {en: 32.51, mk: 2000}
+      let price = 0;
+      if (typeof product.price === 'object' && product.price !== null) {
+        // Price object has both currencies
+        const mkdPrice = parseFloat(product.price.mk || 0);
+        const eurPrice = parseFloat(product.price.en || 0);
+        
+        productStats[productName].mkd += mkdPrice * quantity;
+        productStats[productName].eur += eurPrice * quantity;
+      } else {
+        // Simple price number (fallback)
+        price = parseFloat(product.price || 0);
+        const totalPrice = price * quantity;
+        
+        if (orderCurrency === "MKD") {
+          productStats[productName].mkd += totalPrice;
+          productStats[productName].eur += totalPrice / conversionRate;
+        } else {
+          productStats[productName].eur += totalPrice;
+          productStats[productName].mkd += totalPrice * conversionRate;
+        }
+      }
+    });
+  });
+  
+  return Object.entries(productStats)
+    .map(([name, stats]) => ({
+      name,
+      count: stats.count,
+      revenue: currentLanguage === 'mk' ? stats.mkd : stats.eur
+    }))
+    .sort((a, b) => b.revenue - a.revenue)
+    .slice(0, limit);
+};
+// Average Order Value
+const getAverageOrderValue = (orders) => {
+  if (orders.length === 0) return 0;
+  
+  let totalMKD = 0;
+  let totalEUR = 0;
+  
+  orders.forEach(order => {
+    const amount = parseFloat(order.total || 0);
+    const currency = (order.currency || "MKD").toString().toUpperCase();
+    
+    if (currency === "MKD") {
+      totalMKD += amount;
+      totalEUR += amount / conversionRate;
+    } else {
+      totalEUR += amount;
+      totalMKD += amount * conversionRate;
+    }
+  });
+  
+  // Return average in the display currency
+  if (currentLanguage === 'mk') {
+    return totalMKD / orders.length;
+  } else {
+    return totalEUR / orders.length;
+  }
+};
+
+// Order Success Rate (Confirmed vs Total)
+const getOrderSuccessStats = (orders) => {
+  const stats = {
+    total: orders.length,
+    pending: orders.filter(o => o.status === 'pending').length,
+    confirmed: orders.filter(o => o.status === 'confirmed').length,
+    cancelled: orders.filter(o => o.status === 'cancelled').length
+  };
+  
+  stats.successRate = stats.total > 0 
+    ? ((stats.confirmed / stats.total) * 100).toFixed(1) 
+    : 0;
+  
+  return stats;
+};
 
   const formattedPaymentData = paymentData(orders, currentLanguage).map(
     (entry) => {
@@ -472,7 +768,9 @@ const MyAccount = () => {
             setInitialCountry(countryOption);
 
             if (countryOption?.value) {
-              const cities = buildCityOptionsFromCountryValue(countryOption.value);
+              const cities = buildCityOptionsFromCountryValue(
+                countryOption.value
+              );
               setCityOptions(cities);
 
               const cityFromDb = userData.billingInfo?.city || null;
@@ -480,7 +778,11 @@ const MyAccount = () => {
               setSelectedCity(cityOption);
               setInitialCity(cityOption);
               // plain text city input:
-              setCity((cityOption && cityOption.label) || userData.billingInfo?.city || "");
+              setCity(
+                (cityOption && cityOption.label) ||
+                  userData.billingInfo?.city ||
+                  ""
+              );
             } else {
               setCityOptions([]);
               setSelectedCity(null);
@@ -519,7 +821,7 @@ const MyAccount = () => {
     return () => unsubscribe();
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     if (selectedCountry) {
       const cities = City.getCitiesOfCountry(selectedCountry.value).map(
         (c) => ({
@@ -835,12 +1137,12 @@ const MyAccount = () => {
             address,
             city: selectedCity.label || "",
             country: selectedCountry
-            ? {
-                label: selectedCountry.label,
-                value: selectedCountry.value,
-                flag: selectedCountry.flag,
-              }
-            : null,
+              ? {
+                  label: selectedCountry.label,
+                  value: selectedCountry.value,
+                  flag: selectedCountry.flag,
+                }
+              : null,
             zipCode,
             phone,
             nameOnCard,
@@ -997,7 +1299,7 @@ const MyAccount = () => {
     initialLoaded,
   ]);
 
- const handleCancel = () => {
+  const handleCancel = () => {
     if (!initialLoaded) return;
 
     // primitives
@@ -1013,14 +1315,17 @@ const MyAccount = () => {
     setCvc(initialCvc);
 
     // plain text city input (string)
-    setCity(typeof initialCity === "object" ? initialCity.label : initialCity || "");
+    setCity(
+      typeof initialCity === "object" ? initialCity.label : initialCity || ""
+    );
 
     // restore country: ensure we provide the canonical option object or null
     let countryOption = null;
     if (initialCountry) {
       countryOption =
         typeof initialCountry === "object"
-          ? countryOptions.find((c) => c.value === initialCountry.value) || initialCountry
+          ? countryOptions.find((c) => c.value === initialCountry.value) ||
+            initialCountry
           : findCountryOption(initialCountry);
     }
     setSelectedCountry(countryOption);
@@ -1042,7 +1347,6 @@ const MyAccount = () => {
     setConfirmPassword("");
     setHasChanges(false);
   };
-
 
   useEffect(() => {
     checkForChanges();
@@ -1103,7 +1407,7 @@ const MyAccount = () => {
                       <strong>{displayName || user?.email || ""}!</strong>)
                     </p>
                     <button
-                      onClick={handleLogout}
+                      onClick={() => setShowLogoutModal(true)}
                       className="btn btn-danger"
                       disabled={isLoading}
                     >
@@ -1247,118 +1551,333 @@ const MyAccount = () => {
                         {t("financial_reports")}
                       </h4>
 
-                      <div className="row">
-                        <div className="col-12 col-md-6 mb-4">
-                          <h5 className="mb-4 mt-4 text-center text-md-start">
-                            {t("revenue_by_payment_method")}
-                          </h5>
-                          <div style={{ width: "100%", height: 300 }}>
-                            <ResponsiveContainer>
-                              <PieChart>
-                                <Pie
-                                  data={formattedPaymentData}
-                                  dataKey="value"
-                                  nameKey="name"
-                                  cx="50%"
-                                  cy="50%"
-                                  outerRadius="80%"
-                                  label={(entry) =>
-                                    `${entry.name} (${entry.value.toLocaleString(
-                                      undefined,
-                                      {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                      }
-                                    )})`
-                                  }
-                                >
-                                  {formattedPaymentData.map((entry, index) => (
-                                    <Cell
-                                      key={index}
-                                      fill={COLORS[index % COLORS.length]}
-                                    />
-                                  ))}
-                                </Pie>
-                                <Tooltip
-                                  formatter={(value) =>
-                                    value.toLocaleString(undefined, {
-                                      minimumFractionDigits: 2,
-                                      maximumFractionDigits: 2,
-                                    })
-                                  }
-                                />
-                              </PieChart>
-                            </ResponsiveContainer>
+                      {/* Key Metrics Cards */}
+                      <div className="row mb-4">
+                        <div className="col-12 col-md-3 mb-3">
+                          <div className="card text-center">
+                            <div className="card-body">
+                              <h6 className="text-muted">{t("total_orders")}</h6>
+                              <h3>{orders.length}</h3>
+                            </div>
                           </div>
                         </div>
-
-                        <div className="col-12 col-md-6 mb-4">
-                          <h5 className="mb-4 mt-4 text-center text-md-start">
-                            {t("revenue_by_status")}
-                          </h5>
-                          <div style={{ width: "100%", height: 300 }}>
-                            <ResponsiveContainer>
-                              <BarChart
-                                data={statusData(orders).map((entry) => {
-                                  let status = entry.status;
-
-                                  if (status === "pending")
-                                    status =
-                                      currentLanguage === "mk"
-                                        ? "Во тек"
-                                        : "Pending";
-                                  else if (status === "confirmed")
-                                    status =
-                                      currentLanguage === "mk"
-                                        ? "Потврдено"
-                                        : "Confirmed";
-                                  else if (status === "cancelled")
-                                    status =
-                                      currentLanguage === "mk"
-                                        ? "Откажано"
-                                        : "Cancelled";
-
-                                  return {
-                                    status,
-                                    Total:
-                                      currentLanguage === "mk"
-                                        ? entry.mkd
-                                        : entry.eng,
-                                  };
-                                })}
-                                 margin={{
-                                  top: 10,
-                                  right: 10,
-                                  left: 0, // 👈 shift chart 20px to the left
-                                  bottom: 0,
-                                }}
-                              >
-                                <XAxis dataKey="status" />
-                                <YAxis />
-                                <Tooltip
-                                  formatter={(value) => [
-                                    value.toLocaleString(undefined, {
-                                      minimumFractionDigits: 2,
-                                      maximumFractionDigits: 2,
-                                    }),
-                                    currentLanguage === "mk"
-                                      ? "Вкупно"
-                                      : "Total",
-                                  ]}
-                                />
-                                <Bar dataKey="Total">
-                                  {statusData(orders).map((entry, index) => (
-                                    <Cell
-                                      key={index}
-                                      fill={COLORS[index % COLORS.length]}
-                                    />
-                                  ))}
-                                </Bar>
-                              </BarChart>
-                            </ResponsiveContainer>
+                        <div className="col-12 col-md-3 mb-3">
+                          <div className="card text-center">
+                            <div className="card-body">
+                              <h6 className="text-muted">{t("total_revenue")}</h6>
+                              <h3>{formatTotal(grandTotalInDisplayCurrency, currentLanguage === "mk" ? "MKD" : "EUR")}</h3>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-12 col-md-3 mb-3">
+                          <div className="card text-center">
+                            <div className="card-body">
+                              <h6 className="text-muted">{t("avg_order_value")}</h6>
+                              <h3>{formatTotal(getAverageOrderValue(orders), currentLanguage === "mk" ? "MKD" : "EUR")}</h3>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-12 col-md-3 mb-3">
+                        <div className="card text-center">
+                          <div className="card-body">
+                            <h6 className="text-muted">{t("order_success_rate")}</h6>
+                            <h3>{getOrderSuccessStats(orders).successRate}%</h3>
+                            <small className="text-muted">
+                              {getOrderSuccessStats(orders).confirmed} / {getOrderSuccessStats(orders).total}
+                            </small>
                           </div>
                         </div>
                       </div>
+                      </div>
+
+                      {/* Daily Revenue Chart */}
+                      <div className="row mb-4">
+                        <div className="col-12">
+                          <div className="card">
+                            <div className="card-body">
+                              <div className="d-flex justify-content-between align-items-center mb-3">
+                                <h5>{t("daily_revenue_trend")}</h5>
+                                <select 
+                                  className="form-select" 
+                                  style={{width: 'auto'}}
+                                  value={dateRange}
+                                  onChange={(e) => setDateRange(e.target.value)}
+                                >
+                                  <option value="7days">{t("last_7_days")}</option>
+                                  <option value="30days">{t("last_30_days")}</option>
+                                  <option value="90days">{t("last_90_days")}</option>
+                                </select>
+                              </div>
+                              <div style={{ width: "100%", height: 300 }}>
+                                <ResponsiveContainer>
+                                  <BarChart 
+                                    data={getDailyRevenue(
+                                      orders, 
+                                      dateRange === '7days' ? 7 : dateRange === '30days' ? 30 : 90
+                                    )}
+                                    margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                                  >
+                                    <XAxis dataKey="date" />
+                                    <YAxis />
+                                    <Tooltip 
+                                      formatter={(value, name) => [
+                                        value.toLocaleString(undefined, {
+                                          minimumFractionDigits: 2,
+                                          maximumFractionDigits: 2,
+                                        }),
+                                        name === "revenue" 
+                                          ? (currentLanguage === "mk" ? "Приход" : "Revenue")
+                                          : (currentLanguage === "mk" ? "Нарачки" : "Orders")
+                                      ]}
+                                    />
+                                    <Bar dataKey="revenue" fill="#0088FE" />
+                                  </BarChart>
+                                </ResponsiveContainer>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Monthly Revenue Chart */}
+                        <div className="row mb-4">
+                          <div className="col-12">
+                            <div className="card">
+                              <div className="card-body">
+                                <div className="d-flex justify-content-between align-items-center mb-3">
+                                  <h5>{t("monthly_revenue")}</h5>
+                                  <select 
+                                    className="form-select" 
+                                    style={{width: 'auto'}}
+                                    value={selectedYear}
+                                    onChange={(e) => setSelectedYear(Number(e.target.value))}
+                                  >
+                                    {getAvailableYears(orders).map(year => (
+                                      <option key={year} value={year}>{year}</option>
+                                    ))}
+                                  </select>
+                                </div>
+                                <div style={{ width: "100%", height: 300 }}>
+                                  <ResponsiveContainer>
+                                    <BarChart 
+                                      data={getMonthlyRevenue(orders, selectedYear)}
+                                      margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                                    >
+                                      <XAxis dataKey="month" />
+                                      <YAxis />
+                                      <Tooltip 
+                                        formatter={(value) => [
+                                          value.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                          }),
+                                          currentLanguage === "mk" ? "Приход" : "Revenue"
+                                        ]}
+                                      />
+                                      <Bar dataKey="revenue" fill="#00C49F" />
+                                    </BarChart>
+                                  </ResponsiveContainer>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Yearly Comparison */}
+    {getYearlyRevenue(orders).length > 1 && (
+      <div className="row mb-4">
+        <div className="col-12">
+          <div className="card">
+            <div className="card-body">
+              <h5 className="mb-3">{t("yearly_comparison")}</h5>
+              <div style={{ width: "100%", height: 300 }}>
+                <ResponsiveContainer>
+                  <BarChart 
+                    data={getYearlyRevenue(orders)}
+                    margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                  >
+                    <XAxis dataKey="year" />
+                    <YAxis />
+                    <Tooltip 
+                      formatter={(value) => [
+                        value.toLocaleString(undefined, {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        }),
+                        currentLanguage === "mk" ? "Приход" : "Revenue"
+                      ]}
+                    />
+                    <Bar dataKey="revenue" fill="#FFBB28" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+
+
+                      <div className="row">
+  <div className="col-12 col-md-6 mb-4">
+    <div className="card">
+      <div className="card-body">
+        <h5 className="mb-3">
+          {t("revenue_by_payment_method")}
+        </h5>
+        <div style={{ width: "100%", height: 300 }}>
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie
+                data={formattedPaymentData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius="80%"
+                label={(entry) =>
+                  `${entry.name} (${entry.value.toLocaleString(
+                    undefined,
+                    {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    }
+                  )})`
+                }
+              >
+                {formattedPaymentData.map((entry, index) => (
+                  <Cell
+                    key={index}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip
+                formatter={(value) =>
+                  value.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })
+                }
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div className="col-12 col-md-6 mb-4">
+    <div className="card">
+      <div className="card-body">
+        <h5 className="mb-3">
+          {t("revenue_by_status")}
+        </h5>
+        <div style={{ width: "100%", height: 300 }}>
+          <ResponsiveContainer>
+            <BarChart
+              data={statusData(orders).map((entry) => {
+                let status = entry.status;
+
+                if (status === "pending")
+                  status =
+                    currentLanguage === "mk"
+                      ? "Во тек"
+                      : "Pending";
+                else if (status === "confirmed")
+                  status =
+                    currentLanguage === "mk"
+                      ? "Потврдено"
+                      : "Confirmed";
+                else if (status === "cancelled")
+                  status =
+                    currentLanguage === "mk"
+                      ? "Откажано"
+                      : "Cancelled";
+
+                return {
+                  status,
+                  Total:
+                    currentLanguage === "mk"
+                      ? entry.mkd
+                      : entry.eng,
+                };
+              })}
+              margin={{
+                top: 10,
+                right: 10,
+                left: 0,
+                bottom: 0,
+              }}
+            >
+              <XAxis dataKey="status" />
+              <YAxis />
+              <Tooltip
+                formatter={(value) => [
+                  value.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }),
+                  currentLanguage === "mk"
+                    ? "Вкупно"
+                    : "Total",
+                ]}
+              />
+              <Bar dataKey="Total">
+                {statusData(orders).map((entry, index) => (
+                  <Cell
+                    key={index}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+                      
+                      {/* Top Products */}
+<div className="row mb-4">
+  <div className="col-12">
+    <div className="card">
+      <div className="card-body">
+        <h5 className="mb-3">{t("top_products")}</h5>
+        {getTopProducts(orders).length > 0 ? (
+          <div className="table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>{t("product_name")}</th>
+                  <th>{t("quantity_sold")}</th>
+                  <th className="text-end">{t("revenue")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {getTopProducts(orders).map((product, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{product.name}</td>
+                    <td>{product.count}</td>
+                    <td className="text-end">
+                      {formatTotal(product.revenue, currentLanguage === "mk" ? "MKD" : "EUR")}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="text-muted">{t("no_products_found")}</p>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
+                      
                     </div>
                   )}
                 </div>
@@ -1786,7 +2305,9 @@ const MyAccount = () => {
                           type="button"
                           onClick={async () => {
                             setIsCanceling(true);
-                            await new Promise((resolve) => setTimeout(resolve, 500));
+                            await new Promise((resolve) =>
+                              setTimeout(resolve, 500)
+                            );
                             handleCancel();
                             setIsCanceling(false);
                           }}
@@ -1841,6 +2362,48 @@ const MyAccount = () => {
             }}
           >
             {t("yes_delete")}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/* Logout Confirmation Modal */}
+      <Modal
+        show={showLogoutModal}
+        onHide={() => setShowLogoutModal(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>{t("confirm_logout")}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>{t("are_you_sure_logout")}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowLogoutModal(false)}
+            disabled={isLoading}
+          >
+            {t("cancel")}
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              handleLogout();
+              setShowLogoutModal(false);
+            }}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            ) : (
+              t("yes_logout")
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
