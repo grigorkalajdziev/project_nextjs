@@ -7,6 +7,14 @@ import Link from "next/link";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 import { Container, Row, Col, Spinner, Modal, Button } from "react-bootstrap";
+import {
+  PDFDownloadLink,
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+} from "@react-pdf/renderer";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
@@ -97,7 +105,7 @@ const MyAccount = () => {
 
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
-  const [dateRange, setDateRange] = useState('30days');
+  const [dateRange, setDateRange] = useState("30days");
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
@@ -267,314 +275,375 @@ const MyAccount = () => {
     }, []);
   };
 
-  const statusData = (orders) => {
-    return orders.reduce((acc, order) => {
-      const status = order.status || "other";
-      const existing = acc.find((d) => d.status === status);
+ const statusData = (orders) => {
+  return orders.reduce((acc, order) => {
+    const status = order.status || "other";
+    const existing = acc.find((d) => d.status === status);
 
-      const mkdAmount = parseFloat(order.total || 0);
-      const engAmount = mkdAmount / conversionRate; // convert to EUR/USD
+    const mkdAmount = parseFloat(order.total || 0);
+    const engAmount = mkdAmount / conversionRate; // convert to EUR/USD
 
-      if (existing) {
-        existing.mkd += mkdAmount;
-        existing.eng += engAmount;
-      } else {
-        acc.push({ status, mkd: mkdAmount, eng: engAmount });
-      }
+    if (existing) {
+      existing.count += 1; // ✅ increment count
+      existing.mkd += mkdAmount;
+      existing.eng += engAmount;
+    } else {
+      acc.push({
+        status,
+        count: 1, // ✅ initialize count
+        mkd: mkdAmount,
+        eng: engAmount,
+      });
+    }
 
-      return acc;
-    }, []);
-  };
+    return acc;
+  }, []);
+};
 
   // Get unique years from orders
-// Get unique years from orders
-const getAvailableYears = (orders) => {
-  const years = orders.map(order => {
-    if (!order.date && !order.createdAt) return new Date().getFullYear();
-    const date = order.date ? new Date(order.date) : new Date(order.createdAt);
-    return isNaN(date) ? new Date().getFullYear() : date.getFullYear();
-  });
-  return [...new Set(years)].sort((a, b) => b - a);
-};
-
-// Daily Revenue (last N days)
-// Daily Revenue (last N days)
-const getDailyRevenue = (orders, days = 30) => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const dailyData = {};
-  
-  // Initialize last N days
-  for (let i = days - 1; i >= 0; i--) {
-    const date = new Date(today);
-    date.setDate(date.getDate() - i);
-    const dateKey = date.toISOString().split('T')[0];
-    dailyData[dateKey] = { mkd: 0, eur: 0, count: 0 };
-  }
-  
-  orders.forEach(order => {
-    if (!order.date && !order.createdAt) return;
-    
-    let orderDate;
-    if (order.date) {
-      // Handle different date formats
-      if (order.date.includes('-')) {
-        const parts = order.date.split('-');
-        if (parts[0].length === 4) {
-          // Already in YYYY-MM-DD
-          orderDate = new Date(order.date);
-        } else {
-          // Convert DD-MM-YYYY to YYYY-MM-DD
-          orderDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-        }
-      } else {
-        orderDate = new Date(order.date);
-      }
-    } else {
-      orderDate = new Date(order.createdAt);
-    }
-    
-    if (isNaN(orderDate)) return; // Skip invalid dates
-    
-    orderDate.setHours(0, 0, 0, 0);
-    const dateKey = orderDate.toISOString().split('T')[0];
-    
-    if (dailyData[dateKey]) {
-      const mkdAmount = parseFloat(order.total || 0);
-      const eurAmount = mkdAmount / conversionRate;
-      
-      dailyData[dateKey].mkd += mkdAmount;
-      dailyData[dateKey].eur += eurAmount;
-      dailyData[dateKey].count += 1;
-    }
-  });
-  
-  // Month names for both languages
-  const monthNames = {
-    en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    mk: ['Јан', 'Фев', 'Мар', 'Апр', 'Мај', 'Јун', 'Јул', 'Авг', 'Сеп', 'Окт', 'Ное', 'Дек']
+  // Get unique years from orders
+  const getAvailableYears = (orders) => {
+    const years = orders.map((order) => {
+      if (!order.date && !order.createdAt) return new Date().getFullYear();
+      const date = order.date
+        ? new Date(order.date)
+        : new Date(order.createdAt);
+      return isNaN(date) ? new Date().getFullYear() : date.getFullYear();
+    });
+    return [...new Set(years)].sort((a, b) => b - a);
   };
-  
-  return Object.entries(dailyData).map(([date, data]) => {
-    const dateObj = new Date(date);
-    const day = String(dateObj.getDate()).padStart(2, '0');
-    const monthIndex = dateObj.getMonth();
-    const monthName = currentLanguage === 'mk' ? monthNames.mk[monthIndex] : monthNames.en[monthIndex];
-    
-    return {
-      date: `${day} ${monthName}`,  // "05 Окт" or "05 Oct"
-      fullDate: date,
-      revenue: currentLanguage === 'mk' ? data.mkd : data.eur,
-      orders: data.count
-    };
-  });
-};
 
-// Monthly Revenue for a specific year
-const getMonthlyRevenue = (orders, year) => {
-  const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-  ];
-  
-  const monthlyData = months.map((month, index) => ({
-    month: currentLanguage === 'mk' ? 
-      ['Јан', 'Фев', 'Мар', 'Апр', 'Мај', 'Јун', 'Јул', 'Авг', 'Сеп', 'Окт', 'Ное', 'Дек'][index] : 
-      month,
-    mkd: 0,
-    eur: 0,
-    count: 0
-  }));
-  
-  orders.forEach(order => {
-    if (!order.date && !order.createdAt) return;
-    
-    let orderDate;
-    if (order.date) {
-      if (order.date.includes('-')) {
-        const parts = order.date.split('-');
-        if (parts[0].length === 4) {
+  // Daily Revenue (last N days)
+  // Daily Revenue (last N days)
+  const getDailyRevenue = (orders, days = 30) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const dailyData = {};
+
+    // Initialize last N days
+    for (let i = days - 1; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      const dateKey = date.toISOString().split("T")[0];
+      dailyData[dateKey] = { mkd: 0, eur: 0, count: 0 };
+    }
+
+    orders.forEach((order) => {
+      if (!order.date && !order.createdAt) return;
+
+      let orderDate;
+      if (order.date) {
+        // Handle different date formats
+        if (order.date.includes("-")) {
+          const parts = order.date.split("-");
+          if (parts[0].length === 4) {
+            // Already in YYYY-MM-DD
+            orderDate = new Date(order.date);
+          } else {
+            // Convert DD-MM-YYYY to YYYY-MM-DD
+            orderDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+          }
+        } else {
           orderDate = new Date(order.date);
-        } else {
-          // Convert DD-MM-YYYY to YYYY-MM-DD
-          orderDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
         }
       } else {
-        orderDate = new Date(order.date);
+        orderDate = new Date(order.createdAt);
       }
-    } else {
-      orderDate = new Date(order.createdAt);
-    }
-    
-    if (isNaN(orderDate)) return;
-    
-    if (orderDate.getFullYear() === year) {
-      const monthIndex = orderDate.getMonth();
-      const mkdAmount = parseFloat(order.total || 0);
-      const eurAmount = mkdAmount / conversionRate;
-      
-      monthlyData[monthIndex].mkd += mkdAmount;
-      monthlyData[monthIndex].eur += eurAmount;
-      monthlyData[monthIndex].count += 1;
-    }
-  });
-  
-  return monthlyData.map(data => ({
-    ...data,
-    revenue: currentLanguage === 'mk' ? data.mkd : data.eur
-  }));
-};
 
-// Yearly Revenue Comparison
-const getYearlyRevenue = (orders) => {
-  const yearlyData = {};
-  
-  orders.forEach(order => {
-    if (!order.date && !order.createdAt) return;
-    
-    let orderDate;
-    if (order.date) {
-      if (order.date.includes('-')) {
-        const parts = order.date.split('-');
-        if (parts[0].length === 4) {
-          orderDate = new Date(order.date);
-        } else {
-          // Convert DD-MM-YYYY to YYYY-MM-DD
-          orderDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-        }
-      } else {
-        orderDate = new Date(order.date);
-      }
-    } else {
-      orderDate = new Date(order.createdAt);
-    }
-    
-    if (isNaN(orderDate)) return;
-    
-    const year = orderDate.getFullYear();
-    
-    if (!yearlyData[year]) {
-      yearlyData[year] = { mkd: 0, eur: 0, count: 0 };
-    }
-    
-    const mkdAmount = parseFloat(order.total || 0);
-    const eurAmount = mkdAmount / conversionRate;
-    
-    yearlyData[year].mkd += mkdAmount;
-    yearlyData[year].eur += eurAmount;
-    yearlyData[year].count += 1;
-  });
-  
-  return Object.entries(yearlyData)
-    .map(([year, data]) => ({
-      year,
-      revenue: currentLanguage === 'mk' ? data.mkd : data.eur,
-      orders: data.count
-    }))
-    .sort((a, b) => a.year - b.year);
-};
+      if (isNaN(orderDate)) return; // Skip invalid dates
 
-// Top Products/Services
-// Top Products/Services
-const getTopProducts = (orders, limit = 5) => {
-  const productStats = {};
-  
-  orders.forEach(order => {
-    const orderCurrency = (order.currency || "MKD").toString().toUpperCase();
-    
-    (order.products || []).forEach(product => {
-      // Handle nested name object {en: "...", mk: "..."}
-      let productName;
-      if (typeof product.name === 'object' && product.name !== null) {
-        productName = currentLanguage === 'mk' ? product.name.mk : product.name.en;
-      } else {
-        productName = product.name || 'Unknown';
-      }
-      
-      if (!productStats[productName]) {
-        productStats[productName] = { count: 0, mkd: 0, eur: 0 };
-      }
-      
-      const quantity = product.quantity || 1;
-      productStats[productName].count += quantity;
-      
-      // Handle nested price object {en: 32.51, mk: 2000}
-      let price = 0;
-      if (typeof product.price === 'object' && product.price !== null) {
-        // Price object has both currencies
-        const mkdPrice = parseFloat(product.price.mk || 0);
-        const eurPrice = parseFloat(product.price.en || 0);
-        
-        productStats[productName].mkd += mkdPrice * quantity;
-        productStats[productName].eur += eurPrice * quantity;
-      } else {
-        // Simple price number (fallback)
-        price = parseFloat(product.price || 0);
-        const totalPrice = price * quantity;
-        
-        if (orderCurrency === "MKD") {
-          productStats[productName].mkd += totalPrice;
-          productStats[productName].eur += totalPrice / conversionRate;
-        } else {
-          productStats[productName].eur += totalPrice;
-          productStats[productName].mkd += totalPrice * conversionRate;
-        }
+      orderDate.setHours(0, 0, 0, 0);
+      const dateKey = orderDate.toISOString().split("T")[0];
+
+      if (dailyData[dateKey]) {
+        const mkdAmount = parseFloat(order.total || 0);
+        const eurAmount = mkdAmount / conversionRate;
+
+        dailyData[dateKey].mkd += mkdAmount;
+        dailyData[dateKey].eur += eurAmount;
+        dailyData[dateKey].count += 1;
       }
     });
-  });
-  
-  return Object.entries(productStats)
-    .map(([name, stats]) => ({
-      name,
-      count: stats.count,
-      revenue: currentLanguage === 'mk' ? stats.mkd : stats.eur
-    }))
-    .sort((a, b) => b.revenue - a.revenue)
-    .slice(0, limit);
-};
-// Average Order Value
-const getAverageOrderValue = (orders) => {
-  if (orders.length === 0) return 0;
-  
-  let totalMKD = 0;
-  let totalEUR = 0;
-  
-  orders.forEach(order => {
-    const amount = parseFloat(order.total || 0);
-    const currency = (order.currency || "MKD").toString().toUpperCase();
-    
-    if (currency === "MKD") {
-      totalMKD += amount;
-      totalEUR += amount / conversionRate;
-    } else {
-      totalEUR += amount;
-      totalMKD += amount * conversionRate;
-    }
-  });
-  
-  // Return average in the display currency
-  if (currentLanguage === 'mk') {
-    return totalMKD / orders.length;
-  } else {
-    return totalEUR / orders.length;
-  }
-};
 
-// Order Success Rate (Confirmed vs Total)
-const getOrderSuccessStats = (orders) => {
-  const stats = {
-    total: orders.length,
-    pending: orders.filter(o => o.status === 'pending').length,
-    confirmed: orders.filter(o => o.status === 'confirmed').length,
-    cancelled: orders.filter(o => o.status === 'cancelled').length
+    // Month names for both languages
+    const monthNames = {
+      en: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+      mk: [
+        "Јан",
+        "Фев",
+        "Мар",
+        "Апр",
+        "Мај",
+        "Јун",
+        "Јул",
+        "Авг",
+        "Сеп",
+        "Окт",
+        "Ное",
+        "Дек",
+      ],
+    };
+
+    return Object.entries(dailyData).map(([date, data]) => {
+      const dateObj = new Date(date);
+      const day = String(dateObj.getDate()).padStart(2, "0");
+      const monthIndex = dateObj.getMonth();
+      const monthName =
+        currentLanguage === "mk"
+          ? monthNames.mk[monthIndex]
+          : monthNames.en[monthIndex];
+
+      return {
+        date: `${day} ${monthName}`, // "05 Окт" or "05 Oct"
+        fullDate: date,
+        revenue: currentLanguage === "mk" ? data.mkd : data.eur,
+        orders: data.count,
+      };
+    });
   };
-  
-  stats.successRate = stats.total > 0 
-    ? ((stats.confirmed / stats.total) * 100).toFixed(1) 
-    : 0;
-  
-  return stats;
-};
+
+  // Monthly Revenue for a specific year
+  const getMonthlyRevenue = (orders, year) => {
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const monthlyData = months.map((month, index) => ({
+      month:
+        currentLanguage === "mk"
+          ? [
+              "Јан",
+              "Фев",
+              "Мар",
+              "Апр",
+              "Мај",
+              "Јун",
+              "Јул",
+              "Авг",
+              "Сеп",
+              "Окт",
+              "Ное",
+              "Дек",
+            ][index]
+          : month,
+      mkd: 0,
+      eur: 0,
+      orders: 0,
+    }));
+
+    orders.forEach((order) => {
+      if (!order.date && !order.createdAt) return;
+
+      let orderDate;
+      if (order.date) {
+        if (order.date.includes("-")) {
+          const parts = order.date.split("-");
+          if (parts[0].length === 4) {
+            orderDate = new Date(order.date);
+          } else {
+            // Convert DD-MM-YYYY to YYYY-MM-DD
+            orderDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+          }
+        } else {
+          orderDate = new Date(order.date);
+        }
+      } else {
+        orderDate = new Date(order.createdAt);
+      }
+
+      if (isNaN(orderDate)) return;
+
+      if (orderDate.getFullYear() === year) {
+        const monthIndex = orderDate.getMonth();
+        const mkdAmount = parseFloat(order.total || 0);
+        const eurAmount = mkdAmount / conversionRate;
+
+        monthlyData[monthIndex].mkd += mkdAmount;
+        monthlyData[monthIndex].eur += eurAmount;
+        monthlyData[monthIndex].orders += 1;
+      }
+    });
+
+    return monthlyData.map((data) => ({
+      ...data,
+      revenue: currentLanguage === "mk" ? data.mkd : data.eur,
+    }));
+  };
+
+  // Yearly Revenue Comparison
+  const getYearlyRevenue = (orders) => {
+    const yearlyData = {};
+
+    orders.forEach((order) => {
+      if (!order.date && !order.createdAt) return;
+
+      let orderDate;
+      if (order.date) {
+        if (order.date.includes("-")) {
+          const parts = order.date.split("-");
+          if (parts[0].length === 4) {
+            orderDate = new Date(order.date);
+          } else {
+            // Convert DD-MM-YYYY to YYYY-MM-DD
+            orderDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+          }
+        } else {
+          orderDate = new Date(order.date);
+        }
+      } else {
+        orderDate = new Date(order.createdAt);
+      }
+
+      if (isNaN(orderDate)) return;
+
+      const year = orderDate.getFullYear();
+
+      if (!yearlyData[year]) {
+        yearlyData[year] = { mkd: 0, eur: 0, count: 0 };
+      }
+
+      const mkdAmount = parseFloat(order.total || 0);
+      const eurAmount = mkdAmount / conversionRate;
+
+      yearlyData[year].mkd += mkdAmount;
+      yearlyData[year].eur += eurAmount;
+      yearlyData[year].count += 1;
+    });
+
+    return Object.entries(yearlyData)
+      .map(([year, data]) => ({
+        year,
+        revenue: currentLanguage === "mk" ? data.mkd : data.eur,
+        orders: data.count,
+      }))
+      .sort((a, b) => a.year - b.year);
+  };
+
+  // Top Products/Services
+  // Top Products/Services
+  const getTopProducts = (orders, limit = 5) => {
+    const productStats = {};
+
+    orders.forEach((order) => {
+      const orderCurrency = (order.currency || "MKD").toString().toUpperCase();
+
+      (order.products || []).forEach((product) => {
+        // Handle nested name object {en: "...", mk: "..."}
+        let productName;
+        if (typeof product.name === "object" && product.name !== null) {
+          productName =
+            currentLanguage === "mk" ? product.name.mk : product.name.en;
+        } else {
+          productName = product.name || "Unknown";
+        }
+
+        if (!productStats[productName]) {
+          productStats[productName] = { count: 0, mkd: 0, eur: 0 };
+        }
+
+        const quantity = product.quantity || 1;
+        productStats[productName].count += quantity;
+
+        // Handle nested price object {en: 32.51, mk: 2000}
+        let price = 0;
+        if (typeof product.price === "object" && product.price !== null) {
+          // Price object has both currencies
+          const mkdPrice = parseFloat(product.price.mk || 0);
+          const eurPrice = parseFloat(product.price.en || 0);
+
+          productStats[productName].mkd += mkdPrice * quantity;
+          productStats[productName].eur += eurPrice * quantity;
+        } else {
+          // Simple price number (fallback)
+          price = parseFloat(product.price || 0);
+          const totalPrice = price * quantity;
+
+          if (orderCurrency === "MKD") {
+            productStats[productName].mkd += totalPrice;
+            productStats[productName].eur += totalPrice / conversionRate;
+          } else {
+            productStats[productName].eur += totalPrice;
+            productStats[productName].mkd += totalPrice * conversionRate;
+          }
+        }
+      });
+    });
+
+    return Object.entries(productStats)
+      .map(([name, stats]) => ({
+        name,
+        count: stats.count,
+        revenue: currentLanguage === "mk" ? stats.mkd : stats.eur,
+      }))
+      .sort((a, b) => b.revenue - a.revenue)
+      .slice(0, limit);
+  };
+  // Average Order Value
+  const getAverageOrderValue = (orders) => {
+    if (orders.length === 0) return 0;
+
+    let totalMKD = 0;
+    let totalEUR = 0;
+
+    orders.forEach((order) => {
+      const amount = parseFloat(order.total || 0);
+      const currency = (order.currency || "MKD").toString().toUpperCase();
+
+      if (currency === "MKD") {
+        totalMKD += amount;
+        totalEUR += amount / conversionRate;
+      } else {
+        totalEUR += amount;
+        totalMKD += amount * conversionRate;
+      }
+    });
+
+    // Return average in the display currency
+    if (currentLanguage === "mk") {
+      return totalMKD / orders.length;
+    } else {
+      return totalEUR / orders.length;
+    }
+  };
+
+  // Order Success Rate (Confirmed vs Total)
+  const getOrderSuccessStats = (orders) => {
+    const stats = {
+      total: orders.length,
+      pending: orders.filter((o) => o.status === "pending").length,
+      confirmed: orders.filter((o) => o.status === "confirmed").length,
+      cancelled: orders.filter((o) => o.status === "cancelled").length,
+    };
+
+    stats.successRate =
+      stats.total > 0 ? ((stats.confirmed / stats.total) * 100).toFixed(1) : 0;
+
+    return stats;
+  };
 
   const formattedPaymentData = paymentData(orders, currentLanguage).map(
     (entry) => {
@@ -1547,47 +1616,106 @@ const getOrderSuccessStats = (orders) => {
                   )}
                   {role === "admin" && orders.length > 0 && (
                     <div className="financial-reports mt-4">
-                      <h4 className="mb-4 mt-4 text-center text-md-start">
-                        {t("financial_reports")}
-                      </h4>
+                      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                        <h4 className="mb-0 text-center text-md-start">
+                          {t("financial_reports")}
+                        </h4>
+                        <PDFDownloadLink
+                          //</div>document={
+                          // <FinancialReportPDF
+                          //   orders={orders}
+                          //   t={t}
+                          //   currentLanguage={currentLanguage}
+                          //   grandTotalInDisplayCurrency={grandTotalInDisplayCurrency}
+                          //   getAverageOrderValue={getAverageOrderValue}
+                          //   getOrderSuccessStats={getOrderSuccessStats}
+                          //   getTopProducts={getTopProducts}
+                          //   formattedPaymentData={formattedPaymentData}
+                          //   statusData={statusData}
+                          //   formatTotal={formatTotal}
+                          // />
+                          // }
+                          fileName={`financial-report-${new Date().toISOString().split("T")[0]}.pdf`}
+                          className="btn btn-danger"
+                        >
+                          {({ loading }) => (
+                            <>
+                              <i className="bi bi-file-pdf me-2"></i>
+                              {loading ? t("preparing_pdf") : t("download_pdf")}
+                            </>
+                          )}
+                        </PDFDownloadLink>
+                      </div>
 
                       {/* Key Metrics Cards */}
                       <div className="row mb-4">
                         <div className="col-12 col-md-3 mb-3">
                           <div className="card text-center">
                             <div className="card-body">
-                              <h6 className="text-muted">{t("total_orders")}</h6>
+                              <h6 className="text-muted">
+                                {t("total_orders")}
+                              </h6>
                               <h3>{orders.length}</h3>
+                              <small className="text-muted d-block mt-2">
+                                {t("all_time_orders")}
+                              </small>
                             </div>
                           </div>
                         </div>
                         <div className="col-12 col-md-3 mb-3">
                           <div className="card text-center">
                             <div className="card-body">
-                              <h6 className="text-muted">{t("total_revenue")}</h6>
-                              <h3>{formatTotal(grandTotalInDisplayCurrency, currentLanguage === "mk" ? "MKD" : "EUR")}</h3>
+                              <h6 className="text-muted">
+                                {t("total_revenue")}
+                              </h6>
+                              <h3>
+                                {formatTotal(
+                                  grandTotalInDisplayCurrency,
+                                  currentLanguage === "mk" ? "MKD" : "EUR"
+                                )}
+                              </h3>
+                              <small className="text-muted d-block mt-2">
+                                {t("gross_revenue")}
+                              </small>
                             </div>
                           </div>
                         </div>
                         <div className="col-12 col-md-3 mb-3">
                           <div className="card text-center">
                             <div className="card-body">
-                              <h6 className="text-muted">{t("avg_order_value")}</h6>
-                              <h3>{formatTotal(getAverageOrderValue(orders), currentLanguage === "mk" ? "MKD" : "EUR")}</h3>
+                              <h6 className="text-muted">
+                                {t("avg_order_value")}
+                              </h6>
+                              <h3>
+                                {formatTotal(
+                                  getAverageOrderValue(orders),
+                                  currentLanguage === "mk" ? "MKD" : "EUR"
+                                )}
+                              </h3>
+                              <small className="text-muted d-block mt-2">
+                                {t("per_order_average")}
+                              </small>
                             </div>
                           </div>
                         </div>
                         <div className="col-12 col-md-3 mb-3">
-                        <div className="card text-center">
-                          <div className="card-body">
-                            <h6 className="text-muted">{t("order_success_rate")}</h6>
-                            <h3>{getOrderSuccessStats(orders).successRate}%</h3>
-                            <small className="text-muted">
-                              {getOrderSuccessStats(orders).confirmed} / {getOrderSuccessStats(orders).total}
-                            </small>
+                          <div className="card text-center">
+                            <div className="card-body">
+                              <h6 className="text-muted">
+                                {t("order_success_rate")}
+                              </h6>
+                              <h3>
+                                {getOrderSuccessStats(orders).successRate}%
+                              </h3>
+                              <small className="text-muted d-block mt-2">
+                                {getOrderSuccessStats(orders).confirmed}{" "}
+                                {t("confirmed")} /{" "}
+                                {getOrderSuccessStats(orders).total}{" "}
+                                {t("total")}
+                              </small>
+                            </div>
                           </div>
                         </div>
-                      </div>
                       </div>
 
                       {/* Daily Revenue Chart */}
@@ -1597,46 +1725,333 @@ const getOrderSuccessStats = (orders) => {
                             <div className="card-body">
                               <div className="d-flex justify-content-between align-items-center mb-3">
                                 <h5>{t("daily_revenue_trend")}</h5>
-                                <select 
-                                  className="form-select" 
-                                  style={{width: 'auto'}}
+                                <select
+                                  className="form-select"
+                                  style={{ width: "auto" }}
                                   value={dateRange}
                                   onChange={(e) => setDateRange(e.target.value)}
                                 >
-                                  <option value="7days">{t("last_7_days")}</option>
-                                  <option value="30days">{t("last_30_days")}</option>
-                                  <option value="90days">{t("last_90_days")}</option>
+                                  <option value="7days">
+                                    {t("last_7_days")}
+                                  </option>
+                                  <option value="30days">
+                                    {t("last_30_days")}
+                                  </option>
+                                  <option value="90days">
+                                    {t("last_90_days")}
+                                  </option>
                                 </select>
                               </div>
                               <div className="chart-container">
                                 <ResponsiveContainer>
-                                  <BarChart 
+                                  <BarChart
                                     data={getDailyRevenue(
-                                      orders, 
-                                      dateRange === '7days' ? 7 : dateRange === '30days' ? 30 : 90
+                                      orders,
+                                      dateRange === "7days"
+                                        ? 7
+                                        : dateRange === "30days"
+                                          ? 30
+                                          : 90
                                     )}
-                                    margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                                    margin={{
+                                      top: 10,
+                                      right: 10,
+                                      left: 0,
+                                      bottom: 0,
+                                    }}
                                   >
-                                    <XAxis dataKey="date" tick={{ fontSize: 10 }}
-                                            angle={-45}
-                                            textAnchor="end"
-                                            interval={4}      // Adjust for 30 days
-                                            height={50} />
+                                    <XAxis
+                                      dataKey="date"
+                                      tick={{ fontSize: 10 }}
+                                      angle={-45}
+                                      textAnchor="end"
+                                      interval={4}
+                                      height={50}
+                                    />
                                     <YAxis />
-                                    <Tooltip 
+                                    <Tooltip
                                       formatter={(value, name) => [
                                         value.toLocaleString(undefined, {
                                           minimumFractionDigits: 2,
                                           maximumFractionDigits: 2,
                                         }),
-                                        name === "revenue" 
-                                          ? (currentLanguage === "mk" ? "Приход" : "Revenue")
-                                          : (currentLanguage === "mk" ? "Нарачки" : "Orders")
+                                        name === "revenue"
+                                          ? currentLanguage === "mk"
+                                            ? "Приход"
+                                            : "Revenue"
+                                          : currentLanguage === "mk"
+                                            ? "Нарачки"
+                                            : "Orders",
                                       ]}
                                     />
                                     <Bar dataKey="revenue" fill="#0088FE" />
                                   </BarChart>
                                 </ResponsiveContainer>
+
+                                {/* Daily Revenue Table */}
+                                <div className="mt-4">
+                                  <div className="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 className="mb-0">
+                                      <i className="bi bi-table me-2 text-primary"></i>
+                                      {t("detailed_daily_breakdown")}
+                                    </h6>
+                                    <span className="badge bg-primary">
+                                      {
+                                        getDailyRevenue(
+                                          orders,
+                                          dateRange === "7days"
+                                            ? 7
+                                            : dateRange === "30days"
+                                              ? 30
+                                              : 90
+                                        ).length
+                                      }{" "}
+                                      {t("days")}
+                                    </span>
+                                  </div>
+
+                                  <div
+                                    className="table-responsive"
+                                    style={{
+                                      maxHeight: "250px",
+                                      overflowY: "auto",
+                                      border: "1px solid #dee2e6",
+                                      borderRadius: "8px",
+                                      position: "relative",
+                                    }}
+                                  >
+                                    <table className="table table-hover table-striped mb-0">
+                                      <thead
+                                        className="table-primary"
+                                        style={{
+                                          position: "sticky",
+                                          top: 0,
+                                          zIndex: 1,
+                                        }}
+                                      >
+                                        <tr>
+                                          <th className="ps-3">
+                                            <i className="bi bi-calendar-date me-2"></i>
+                                            {t("date")}
+                                          </th>
+                                          <th className="text-center">
+                                            <i className="bi bi-cart-check me-2"></i>
+                                            {t("orders")}
+                                          </th>
+                                          <th className="text-end pe-3">
+                                            <i className="bi bi-currency-exchange me-2"></i>
+                                            {t("revenue")}
+                                          </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {getDailyRevenue(
+                                          orders,
+                                          dateRange === "7days"
+                                            ? 7
+                                            : dateRange === "30days"
+                                              ? 30
+                                              : 90
+                                        ).map((day, index) => (
+                                          <tr
+                                            key={index}
+                                            className="align-middle"
+                                          >
+                                            <td className="ps-3">
+                                              <strong className="text-dark">
+                                                {day.date}
+                                              </strong>
+                                            </td>
+                                            <td className="text-center">
+                                              <span className="badge bg-info text-dark">
+                                                {day.orders || 0}
+                                              </span>
+                                            </td>
+                                            <td className="text-end pe-3">
+                                              <strong className="text-success">
+                                                {day.revenue.toLocaleString(
+                                                  undefined,
+                                                  {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                  }
+                                                )}
+                                              </strong>
+                                            </td>
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                      <tfoot
+                                        className="table-secondary"
+                                        style={{
+                                          position: "sticky",
+                                          bottom: 0,
+                                          zIndex: 1,
+                                        }}
+                                      >
+                                        <tr className="fw-bold">
+                                          <td className="ps-3">
+                                            <i className="bi bi-calculator me-2"></i>
+                                            {t("total")}
+                                          </td>
+                                          <td className="text-center">
+                                            <span className="badge bg-dark">
+                                              {getDailyRevenue(
+                                                orders,
+                                                dateRange === "7days"
+                                                  ? 7
+                                                  : dateRange === "30days"
+                                                    ? 30
+                                                    : 90
+                                              ).reduce(
+                                                (sum, day) =>
+                                                  sum + (day.orders || 0),
+                                                0
+                                              )}
+                                            </span>
+                                          </td>
+                                          <td className="text-end pe-3 text-primary">
+                                            <strong
+                                              style={{ fontSize: "1.1rem" }}
+                                            >
+                                              {getDailyRevenue(
+                                                orders,
+                                                dateRange === "7days"
+                                                  ? 7
+                                                  : dateRange === "30days"
+                                                    ? 30
+                                                    : 90
+                                              )
+                                                .reduce(
+                                                  (sum, day) =>
+                                                    sum + day.revenue,
+                                                  0
+                                                )
+                                                .toLocaleString(undefined, {
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                                })}
+                                            </strong>
+                                          </td>
+                                        </tr>
+                                      </tfoot>
+                                    </table>
+                                  </div>
+
+                                  {/* Summary Stats */}
+                                  <div className="row mt-3 g-2">
+                                    <div className="col-md-4">
+                                      <div className="card border-primary">
+                                        <div className="card-body text-center py-2">
+                                          <small className="text-muted d-block">
+                                            {t("avg_daily_revenue")}
+                                          </small>
+                                          <strong className="text-primary">
+                                            {(
+                                              getDailyRevenue(
+                                                orders,
+                                                dateRange === "7days"
+                                                  ? 7
+                                                  : dateRange === "30days"
+                                                    ? 30
+                                                    : 90
+                                              ).reduce(
+                                                (sum, day) => sum + day.revenue,
+                                                0
+                                              ) /
+                                              getDailyRevenue(
+                                                orders,
+                                                dateRange === "7days"
+                                                  ? 7
+                                                  : dateRange === "30days"
+                                                    ? 30
+                                                    : 90
+                                              ).length
+                                            ).toLocaleString(undefined, {
+                                              minimumFractionDigits: 2,
+                                              maximumFractionDigits: 2,
+                                            })}
+                                          </strong>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                      <div className="card border-success">
+                                        <div className="card-body text-center py-2">
+                                          <small className="text-muted d-block">
+                                            {t("best_day")}
+                                          </small>
+                                          <strong className="text-success">
+                                            {(() => {
+                                              const dailyData = getDailyRevenue(
+                                                orders,
+                                                dateRange === "7days"
+                                                  ? 7
+                                                  : dateRange === "30days"
+                                                    ? 30
+                                                    : 90
+                                              );
+                                              const bestDay = dailyData.reduce(
+                                                (max, day) =>
+                                                  day.revenue > max.revenue
+                                                    ? day
+                                                    : max,
+                                                dailyData[0]
+                                              );
+                                              return bestDay.revenue.toLocaleString(
+                                                undefined,
+                                                {
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                                }
+                                              );
+                                            })()}
+                                          </strong>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                      <div className="card border-info">
+                                        <div className="card-body text-center py-2">
+                                          <small className="text-muted d-block">
+                                            {t("avg_orders_per_day")}
+                                          </small>
+                                          <strong className="text-info">
+                                            {(
+                                              getDailyRevenue(
+                                                orders,
+                                                dateRange === "7days"
+                                                  ? 7
+                                                  : dateRange === "30days"
+                                                    ? 30
+                                                    : 90
+                                              ).reduce(
+                                                (sum, day) =>
+                                                  sum + (day.orders || 0),
+                                                0
+                                              ) /
+                                              getDailyRevenue(
+                                                orders,
+                                                dateRange === "7days"
+                                                  ? 7
+                                                  : dateRange === "30days"
+                                                    ? 30
+                                                    : 90
+                                              ).length
+                                            ).toFixed(1)}
+                                          </strong>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="mt-3 p-3 bg-light rounded">
+                                <small className="text-muted">
+                                  <i className="bi bi-info-circle me-2"></i>
+                                  <strong>{t("analysis")}:</strong>{" "}
+                                  {t("daily_revenue_description")}
+                                </small>
                               </div>
                             </div>
                           </div>
@@ -1644,244 +2059,1070 @@ const getOrderSuccessStats = (orders) => {
                       </div>
 
                       {/* Monthly Revenue Chart */}
+                      <div className="row mb-4">
+                        <div className="col-12">
+                          <div className="card">
+                            <div className="card-body">
+                              <div className="d-flex justify-content-between align-items-center mb-3">
+                                <h5>{t("monthly_revenue")}</h5>
+                                <select
+                                  className="form-select"
+                                  style={{ width: "auto" }}
+                                  value={selectedYear}
+                                  onChange={(e) =>
+                                    setSelectedYear(Number(e.target.value))
+                                  }
+                                >
+                                  {getAvailableYears(orders).map((year) => (
+                                    <option key={year} value={year}>
+                                      {year}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                              <div className="chart-container">
+                                <ResponsiveContainer>
+                                  <BarChart
+                                    data={getMonthlyRevenue(
+                                      orders,
+                                      selectedYear
+                                    )}
+                                    margin={{
+                                      top: 10,
+                                      right: 10,
+                                      left: 0,
+                                      bottom: 0,
+                                    }}
+                                  >
+                                    <XAxis dataKey="month" />
+                                    <YAxis />
+                                    <Tooltip
+                                      formatter={(value) => [
+                                        value.toLocaleString(undefined, {
+                                          minimumFractionDigits: 2,
+                                          maximumFractionDigits: 2,
+                                        }),
+                                        currentLanguage === "mk"
+                                          ? "Приход"
+                                          : "Revenue",
+                                      ]}
+                                    />
+                                    <Bar dataKey="revenue" fill="#00C49F" />
+                                  </BarChart>
+                                </ResponsiveContainer>
+                                {/* Monthly Revenue Table */}
+                                <div className="mt-4">
+                                  <div className="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 className="mb-0">
+                                      <i className="bi bi-table me-2 text-success"></i>
+                                      {t("detailed_monthly_breakdown")}
+                                    </h6>
+                                    <span className="badge bg-success">
+                                      {
+                                        getMonthlyRevenue(orders, selectedYear)
+                                          .length
+                                      }{" "}
+                                      {t("months")}
+                                    </span>
+                                  </div>
+
+                                  <div
+                                    className="table-responsive"
+                                    style={{
+                                      maxHeight: "300px",
+                                      overflowY: "auto",
+                                      border: "1px solid #dee2e6",
+                                      borderRadius: "8px",
+                                      position: "relative",
+                                    }}
+                                  >
+                                    <table className="table table-hover table-striped mb-0">
+                                      <thead
+                                        className="table-success"
+                                        style={{
+                                          position: "sticky",
+                                          top: 0,
+                                          zIndex: 1,
+                                        }}
+                                      >
+                                        <tr>
+                                          <th
+                                            className="ps-3"
+                                            style={{ minWidth: "150px" }}
+                                          >
+                                            <i className="bi bi-calendar3 me-2"></i>
+                                            {t("month")}
+                                          </th>
+                                          <th
+                                            className="text-center"
+                                            style={{ minWidth: "100px" }}
+                                          >
+                                            <i className="bi bi-cart-check me-2"></i>
+                                            {t("orders")}
+                                          </th>
+                                          <th
+                                            className="text-end"
+                                            style={{ minWidth: "140px" }}
+                                          >
+                                            <i className="bi bi-currency-exchange me-2"></i>
+                                            {t("revenue")}
+                                          </th>
+                                          <th
+                                            className="text-end pe-3"
+                                            style={{ minWidth: "140px" }}
+                                          >
+                                            <i className="bi bi-graph-up me-2"></i>
+                                            {t("avg_per_day")}
+                                          </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {getMonthlyRevenue(
+                                          orders,
+                                          selectedYear
+                                        ).map((month, index) => (
+                                          <tr
+                                            key={index}
+                                            className="align-middle"
+                                          >
+                                            <td className="ps-3">
+                                              <div className="d-flex align-items-center">
+                                                <span
+                                                  className="badge bg-secondary me-2"
+                                                  style={{ minWidth: "30px" }}
+                                                >
+                                                  {index + 1}
+                                                </span>
+                                                <strong className="text-dark">
+                                                  {month.month}
+                                                </strong>
+                                              </div>
+                                            </td>
+                                            <td className="text-center">
+                                              <span className="badge bg-info text-dark">
+                                                {month.orders || 0}
+                                              </span>
+                                            </td>
+                                            <td className="text-end">
+                                              <strong className="text-success">
+                                                {month.revenue.toLocaleString(
+                                                  undefined,
+                                                  {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                  }
+                                                )}
+                                              </strong>
+                                            </td>
+                                            <td className="text-end pe-3 text-muted">
+                                              {(
+                                                month.revenue / 30
+                                              ).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                              })}
+                                            </td>
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                      <tfoot
+                                        className="table-secondary"
+                                        style={{
+                                          position: "sticky",
+                                          bottom: 0,
+                                          zIndex: 1,
+                                        }}
+                                      >
+                                        <tr className="fw-bold">
+                                          <td className="ps-3">
+                                            <i className="bi bi-calculator me-2"></i>
+                                            {t("total")}
+                                          </td>
+                                          <td className="text-center">
+                                            <span className="badge bg-dark">
+                                              {getMonthlyRevenue(
+                                                orders,
+                                                selectedYear
+                                              ).reduce(
+                                                (sum, month) =>
+                                                  sum + (month.orders || 0),
+                                                0
+                                              )}
+                                            </span>
+                                          </td>
+                                          <td className="text-end text-primary">
+                                            <strong
+                                              style={{ fontSize: "1.1rem" }}
+                                            >
+                                              {getMonthlyRevenue(
+                                                orders,
+                                                selectedYear
+                                              )
+                                                .reduce(
+                                                  (sum, month) =>
+                                                    sum + month.revenue,
+                                                  0
+                                                )
+                                                .toLocaleString(undefined, {
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                                })}
+                                            </strong>
+                                          </td>
+                                          <td className="text-end pe-3 text-primary">
+                                            <strong>
+                                              {(
+                                                getMonthlyRevenue(
+                                                  orders,
+                                                  selectedYear
+                                                ).reduce(
+                                                  (sum, month) =>
+                                                    sum + month.revenue,
+                                                  0
+                                                ) / 365
+                                              ).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                              })}
+                                            </strong>
+                                          </td>
+                                        </tr>
+                                      </tfoot>
+                                    </table>
+                                  </div>
+
+                                  {/* Summary Stats */}
+                                  <div className="row mt-3 g-2">
+                                    <div className="col-md-3">
+                                      <div className="card border-success">
+                                        <div className="card-body text-center py-2">
+                                          <small className="text-muted d-block">
+                                            {t("avg_monthly_revenue")}
+                                          </small>
+                                          <strong className="text-success">
+                                            {(
+                                              getMonthlyRevenue(
+                                                orders,
+                                                selectedYear
+                                              ).reduce(
+                                                (sum, month) =>
+                                                  sum + month.revenue,
+                                                0
+                                              ) /
+                                              getMonthlyRevenue(
+                                                orders,
+                                                selectedYear
+                                              ).length
+                                            ).toLocaleString(undefined, {
+                                              minimumFractionDigits: 2,
+                                              maximumFractionDigits: 2,
+                                            })}
+                                          </strong>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-3">
+                                      <div className="card border-primary">
+                                        <div className="card-body text-center py-2">
+                                          <small className="text-muted d-block">
+                                            {t("best_month")}
+                                          </small>
+                                          <strong className="text-primary">
+                                            {(() => {
+                                              const monthlyData =
+                                                getMonthlyRevenue(
+                                                  orders,
+                                                  selectedYear
+                                                );
+                                              const bestMonth =
+                                                monthlyData.reduce(
+                                                  (max, month) =>
+                                                    month.revenue > max.revenue
+                                                      ? month
+                                                      : max,
+                                                  monthlyData[0]
+                                                );
+                                              return bestMonth.month;
+                                            })()}
+                                          </strong>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-3">
+                                      <div className="card border-warning">
+                                        <div className="card-body text-center py-2">
+                                          <small className="text-muted d-block">
+                                            {t("total_orders_year")}
+                                          </small>
+                                          <strong className="text-warning">
+                                            {getMonthlyRevenue(
+                                              orders,
+                                              selectedYear
+                                            ).reduce(
+                                              (sum, month) =>
+                                                sum + (month.orders || 0),
+                                              0
+                                            )}
+                                          </strong>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-3">
+                                      <div className="card border-info">
+                                        <div className="card-body text-center py-2">
+                                          <small className="text-muted d-block">
+                                            {t("avg_monthly_orders")}
+                                          </small>
+                                          <strong className="text-info">
+                                            {(
+                                              getMonthlyRevenue(
+                                                orders,
+                                                selectedYear
+                                              ).reduce(
+                                                (sum, month) =>
+                                                  sum + (month.orders || 0),
+                                                0
+                                              ) /
+                                              getMonthlyRevenue(
+                                                orders,
+                                                selectedYear
+                                              ).length
+                                            ).toFixed(1)}
+                                          </strong>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="mt-3 p-3 bg-light rounded">
+                                <small className="text-muted">
+                                  <i className="bi bi-info-circle me-2"></i>
+                                  <strong>{t("analysis")}:</strong>{" "}
+                                  {t("monthly_revenue_description")}
+                                </small>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Yearly Comparison */}
+                      {getYearlyRevenue(orders).length > 1 && (
                         <div className="row mb-4">
                           <div className="col-12">
                             <div className="card">
                               <div className="card-body">
-                                <div className="d-flex justify-content-between align-items-center mb-3">
-                                  <h5>{t("monthly_revenue")}</h5>
-                                  <select 
-                                    className="form-select" 
-                                    style={{width: 'auto'}}
-                                    value={selectedYear}
-                                    onChange={(e) => setSelectedYear(Number(e.target.value))}
-                                  >
-                                    {getAvailableYears(orders).map(year => (
-                                      <option key={year} value={year}>{year}</option>
-                                    ))}
-                                  </select>
-                                </div>
+                                <h5 className="mb-3">
+                                  {t("yearly_comparison")}
+                                </h5>
                                 <div className="chart-container">
                                   <ResponsiveContainer>
-                                    <BarChart 
-                                      data={getMonthlyRevenue(orders, selectedYear)}
-                                      margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                                    <BarChart
+                                      data={getYearlyRevenue(orders)}
+                                      margin={{
+                                        top: 10,
+                                        right: 10,
+                                        left: 0,
+                                        bottom: 0,
+                                      }}
                                     >
-                                      <XAxis dataKey="month" />
+                                      <XAxis dataKey="year" />
                                       <YAxis />
-                                      <Tooltip 
+                                      <Tooltip
                                         formatter={(value) => [
                                           value.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                           }),
-                                          currentLanguage === "mk" ? "Приход" : "Revenue"
+                                          currentLanguage === "mk"
+                                            ? "Приход"
+                                            : "Revenue",
                                         ]}
                                       />
-                                      <Bar dataKey="revenue" fill="#00C49F" />
+                                      <Bar dataKey="revenue" fill="#FFBB28" />
                                     </BarChart>
                                   </ResponsiveContainer>
+                                </div>
+                                {/* Yearly Comparison Table */}
+                                <div className="mt-4">
+                                  <div className="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 className="mb-0">
+                                      <i className="bi bi-table me-2 text-warning"></i>
+                                      {t("detailed_yearly_breakdown")}
+                                    </h6>
+                                    <span className="badge bg-warning text-dark">
+                                      {getYearlyRevenue(orders).length}{" "}
+                                      {t("years")}
+                                    </span>
+                                  </div>
+
+                                  <div
+                                    className="table-responsive"
+                                    style={{
+                                      maxHeight: "300px",
+                                      overflowY: "auto",
+                                      border: "1px solid #dee2e6",
+                                      borderRadius: "8px",
+                                      position: "relative",
+                                    }}
+                                  >
+                                    <table className="table table-hover table-striped mb-0">
+                                      <thead
+                                        className="table-warning"
+                                        style={{
+                                          position: "sticky",
+                                          top: 0,
+                                          zIndex: 1,
+                                        }}
+                                      >
+                                        <tr>
+                                          <th
+                                            className="ps-3"
+                                            style={{ minWidth: "100px" }}
+                                          >
+                                            <i className="bi bi-calendar4-week me-2"></i>
+                                            {t("year")}
+                                          </th>
+                                          <th
+                                            className="text-center"
+                                            style={{ minWidth: "100px" }}
+                                          >
+                                            <i className="bi bi-cart-check me-2"></i>
+                                            {t("orders")}
+                                          </th>
+                                          <th
+                                            className="text-end"
+                                            style={{ minWidth: "140px" }}
+                                          >
+                                            <i className="bi bi-currency-exchange me-2"></i>
+                                            {t("revenue")}
+                                          </th>
+                                          <th
+                                            className="text-end"
+                                            style={{ minWidth: "120px" }}
+                                          >
+                                            <i className="bi bi-graph-up-arrow me-2"></i>
+                                            {t("growth")}
+                                          </th>
+                                          <th
+                                            className="text-end pe-3"
+                                            style={{ minWidth: "140px" }}
+                                          >
+                                            <i className="bi bi-calculator me-2"></i>
+                                            {t("avg_monthly")}
+                                          </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {getYearlyRevenue(orders).map(
+                                          (year, index) => {
+                                            const previousYear =
+                                              index > 0
+                                                ? getYearlyRevenue(orders)[
+                                                    index - 1
+                                                  ]
+                                                : null;
+                                            const growth = previousYear
+                                              ? (
+                                                  ((year.revenue -
+                                                    previousYear.revenue) /
+                                                    previousYear.revenue) *
+                                                  100
+                                                ).toFixed(1)
+                                              : 0;
+
+                                            return (
+                                              <tr
+                                                key={index}
+                                                className="align-middle"
+                                              >
+                                                <td className="ps-3">
+                                                  <div className="d-flex align-items-center">
+                                                    <span
+                                                      className="badge bg-secondary me-2"
+                                                      style={{
+                                                        minWidth: "30px",
+                                                      }}
+                                                    >
+                                                      {index + 1}
+                                                    </span>
+                                                    <strong className="text-dark">
+                                                      {year.year}
+                                                    </strong>
+                                                  </div>
+                                                </td>
+                                                <td className="text-center">
+                                                  <span className="badge bg-info text-dark">
+                                                    {year.orders || 0}
+                                                  </span>
+                                                </td>
+                                                <td className="text-end">
+                                                  <strong className="text-warning">
+                                                    {year.revenue.toLocaleString(
+                                                      undefined,
+                                                      {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2,
+                                                      }
+                                                    )}
+                                                  </strong>
+                                                </td>
+                                                <td className="text-end">
+                                                  {index > 0 ? (
+                                                    <span
+                                                      className={`badge ${growth >= 0 ? "bg-success" : "bg-danger"}`}
+                                                    >
+                                                      {growth >= 0 ? "↑" : "↓"}{" "}
+                                                      {Math.abs(growth)}%
+                                                    </span>
+                                                  ) : (
+                                                    <span className="badge bg-secondary">
+                                                      -
+                                                    </span>
+                                                  )}
+                                                </td>
+                                                <td className="text-end pe-3 text-muted">
+                                                  {(
+                                                    year.revenue / 12
+                                                  ).toLocaleString(undefined, {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                  })}
+                                                </td>
+                                              </tr>
+                                            );
+                                          }
+                                        )}
+                                      </tbody>
+                                      <tfoot
+                                        className="table-secondary"
+                                        style={{
+                                          position: "sticky",
+                                          bottom: 0,
+                                          zIndex: 1,
+                                        }}
+                                      >
+                                        <tr className="fw-bold">
+                                          <td className="ps-3">
+                                            <i className="bi bi-calculator me-2"></i>
+                                            {t("total")}
+                                          </td>
+                                          <td className="text-center">
+                                            <span className="badge bg-dark">
+                                              {getYearlyRevenue(orders).reduce(
+                                                (sum, year) =>
+                                                  sum + (year.orders || 0),
+                                                0
+                                              )}
+                                            </span>
+                                          </td>
+                                          <td className="text-end text-primary">
+                                            <strong
+                                              style={{ fontSize: "1.1rem" }}
+                                            >
+                                              {getYearlyRevenue(orders)
+                                                .reduce(
+                                                  (sum, year) =>
+                                                    sum + year.revenue,
+                                                  0
+                                                )
+                                                .toLocaleString(undefined, {
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                                })}
+                                            </strong>
+                                          </td>
+                                          <td className="text-end">
+                                            {(() => {
+                                              const years =
+                                                getYearlyRevenue(orders);
+                                              if (years.length > 1) {
+                                                const firstYear = years[0];
+                                                const lastYear =
+                                                  years[years.length - 1];
+                                                const totalGrowth = (
+                                                  ((lastYear.revenue -
+                                                    firstYear.revenue) /
+                                                    firstYear.revenue) *
+                                                  100
+                                                ).toFixed(1);
+                                                return (
+                                                  <span
+                                                    className={`badge ${totalGrowth >= 0 ? "bg-success" : "bg-danger"}`}
+                                                  >
+                                                    {totalGrowth >= 0
+                                                      ? "↑"
+                                                      : "↓"}{" "}
+                                                    {Math.abs(totalGrowth)}%
+                                                  </span>
+                                                );
+                                              }
+                                              return (
+                                                <span className="badge bg-secondary">
+                                                  -
+                                                </span>
+                                              );
+                                            })()}
+                                          </td>
+                                          <td className="text-end pe-3 text-primary">
+                                            <strong>
+                                              {(
+                                                getYearlyRevenue(orders).reduce(
+                                                  (sum, year) =>
+                                                    sum + year.revenue,
+                                                  0
+                                                ) /
+                                                (getYearlyRevenue(orders)
+                                                  .length *
+                                                  12)
+                                              ).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                              })}
+                                            </strong>
+                                          </td>
+                                        </tr>
+                                      </tfoot>
+                                    </table>
+                                  </div>
+
+                                  {/* Summary Stats */}
+                                  <div className="row mt-3 g-2">
+                                    <div className="col-md-3">
+                                      <div className="card border-warning">
+                                        <div className="card-body text-center py-2">
+                                          <small className="text-muted d-block">
+                                            {t("total_years")}
+                                          </small>
+                                          <strong
+                                            className="text-warning"
+                                            style={{ fontSize: "1.5rem" }}
+                                          >
+                                            {getYearlyRevenue(orders).length}
+                                          </strong>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-3">
+                                      <div className="card border-success">
+                                        <div className="card-body text-center py-2">
+                                          <small className="text-muted d-block">
+                                            {t("best_year")}
+                                          </small>
+                                          <strong className="text-success">
+                                            {(() => {
+                                              const yearlyData =
+                                                getYearlyRevenue(orders);
+                                              const bestYear =
+                                                yearlyData.reduce(
+                                                  (max, year) =>
+                                                    year.revenue > max.revenue
+                                                      ? year
+                                                      : max,
+                                                  yearlyData[0]
+                                                );
+                                              return bestYear.year;
+                                            })()}
+                                          </strong>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-3">
+                                      <div className="card border-primary">
+                                        <div className="card-body text-center py-2">
+                                          <small className="text-muted d-block">
+                                            {t("avg_yearly_revenue")}
+                                          </small>
+                                          <strong className="text-primary">
+                                            {(
+                                              getYearlyRevenue(orders).reduce(
+                                                (sum, year) =>
+                                                  sum + year.revenue,
+                                                0
+                                              ) /
+                                              getYearlyRevenue(orders).length
+                                            ).toLocaleString(undefined, {
+                                              minimumFractionDigits: 0,
+                                              maximumFractionDigits: 0,
+                                            })}
+                                          </strong>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-3">
+                                      <div className="card border-info">
+                                        <div className="card-body text-center py-2">
+                                          <small className="text-muted d-block">
+                                            {t("overall_growth")}
+                                          </small>
+                                          <strong className="text-info">
+                                            {(() => {
+                                              const years =
+                                                getYearlyRevenue(orders);
+                                              if (years.length > 1) {
+                                                const firstYear = years[0];
+                                                const lastYear =
+                                                  years[years.length - 1];
+                                                const totalGrowth = (
+                                                  ((lastYear.revenue -
+                                                    firstYear.revenue) /
+                                                    firstYear.revenue) *
+                                                  100
+                                                ).toFixed(1);
+                                                return `${totalGrowth >= 0 ? "+" : ""}${totalGrowth}%`;
+                                              }
+                                              return "-";
+                                            })()}
+                                          </strong>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="mt-3 p-3 bg-light rounded">
+                                  <small className="text-muted">
+                                    <i className="bi bi-info-circle me-2"></i>
+                                    <strong>{t("analysis")}:</strong>{" "}
+                                    {t("yearly_comparison_description")}
+                                  </small>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-
-                        {/* Yearly Comparison */}
-    {getYearlyRevenue(orders).length > 1 && (
-      <div className="row mb-4">
-        <div className="col-12">
-          <div className="card">
-            <div className="card-body">
-              <h5 className="mb-3">{t("yearly_comparison")}</h5>
-              <div className="chart-container">
-                <ResponsiveContainer>
-                  <BarChart 
-                    data={getYearlyRevenue(orders)}
-                    margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
-                  >
-                    <XAxis dataKey="year" />
-                    <YAxis />
-                    <Tooltip 
-                      formatter={(value) => [
-                        value.toLocaleString(undefined, {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        }),
-                        currentLanguage === "mk" ? "Приход" : "Revenue"
-                      ]}
-                    />
-                    <Bar dataKey="revenue" fill="#FFBB28" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )}
-
+                      )}
 
                       <div className="row">
-  <div className="col-12 col-md-6 mb-4">
-    <div className="card">
-      <div className="card-body">
-        <h5 className="mb-3">
-          {t("revenue_by_payment_method")}
-        </h5>
-        <div className="chart-container">
-          <ResponsiveContainer>
-            <PieChart>
-              <Pie
-                data={formattedPaymentData}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius="80%"
-                label={(entry) =>
-                  `${entry.name} (${entry.value.toLocaleString(
-                    undefined,
-                    {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    }
-                  )})`
-                }
-              >
-                {formattedPaymentData.map((entry, index) => (
-                  <Cell
-                    key={index}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip
-                formatter={(value) =>
-                  value.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })
-                }
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-    </div>
-  </div>
+                        <div className="col-12 col-md-6 mb-4">
+                          <div className="card">
+                            <div className="card-body">
+                              <h5 className="mb-3">
+                                {t("revenue_by_payment_method")}
+                              </h5>
+                              <div className="chart-container">
+                                <ResponsiveContainer>
+                                  <PieChart>
+                                    <Pie
+                                      data={formattedPaymentData}
+                                      dataKey="value"
+                                      nameKey="name"
+                                      cx="50%"
+                                      cy="50%"
+                                      outerRadius="80%"
+                                      label={(entry) =>
+                                        `${entry.name} (${entry.value.toLocaleString(
+                                          undefined,
+                                          {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                          }
+                                        )})`
+                                      }
+                                    >
+                                      {formattedPaymentData.map(
+                                        (entry, index) => (
+                                          <Cell
+                                            key={index}
+                                            fill={COLORS[index % COLORS.length]}
+                                          />
+                                        )
+                                      )}
+                                    </Pie>
+                                    <Tooltip
+                                      formatter={(value) =>
+                                        value.toLocaleString(undefined, {
+                                          minimumFractionDigits: 2,
+                                          maximumFractionDigits: 2,
+                                        })
+                                      }
+                                    />
+                                  </PieChart>
+                                </ResponsiveContainer>
+                              </div>
+                              <div className="mt-3">
+                                <table className="table table-sm">
+                                  <thead>
+                                    <tr>
+                                      <th>{t("payment_method")}</th>
+                                      <th className="text-end">
+                                        {t("amount")}
+                                      </th>
+                                      <th className="text-end">%</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {formattedPaymentData.map(
+                                      (entry, index) => (
+                                        <tr key={index}>
+                                          <td>
+                                            <span
+                                              className="badge me-2"
+                                              style={{
+                                                backgroundColor:
+                                                  COLORS[index % COLORS.length],
+                                                width: "12px",
+                                                height: "12px",
+                                                display: "inline-block",
+                                              }}
+                                            ></span>
+                                            {entry.name}
+                                          </td>
+                                          <td className="text-end">
+                                            {entry.value.toLocaleString(
+                                              undefined,
+                                              {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                              }
+                                            )}
+                                          </td>
+                                          <td className="text-end">
+                                            {(
+                                              (entry.value /
+                                                grandTotalInDisplayCurrency) *
+                                              100
+                                            ).toFixed(1)}
+                                            %
+                                          </td>
+                                        </tr>
+                                      )
+                                    )}
+                                  </tbody>
+                                </table>
+                              </div>
+                              <div className="mt-3 p-3 bg-light rounded">
+                              <small className="text-muted">
+                                <i className="bi bi-info-circle me-2"></i>
+                                <strong>{t("analysis")}:</strong>{" "}
+                                {t("revenue_by_payment_method_description")}
+                              </small>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
 
-  <div className="col-12 col-md-6 mb-4">
-    <div className="card">
-      <div className="card-body">
-        <h5 className="mb-3">
-          {t("revenue_by_status")}
-        </h5>
-        <div className="chart-container">
-          <ResponsiveContainer>
-            <BarChart
-              data={statusData(orders).map((entry) => {
-                let status = entry.status;
+                        <div className="col-12 col-md-6 mb-4">
+                          <div className="card">
+                            <div className="card-body">
+                              <h5 className="mb-3">{t("revenue_by_status")}</h5>
+                              <div className="chart-container">
+                                <ResponsiveContainer>
+                                  <BarChart
+                                    data={statusData(orders).map((entry) => {
+                                      let status = entry.status;
+                                      if (status === "pending")
+                                        status =
+                                          currentLanguage === "mk"
+                                            ? "Во тек"
+                                            : "Pending";
+                                      else if (status === "confirmed")
+                                        status =
+                                          currentLanguage === "mk"
+                                            ? "Потврдено"
+                                            : "Confirmed";
+                                      else if (status === "cancelled")
+                                        status =
+                                          currentLanguage === "mk"
+                                            ? "Откажано"
+                                            : "Cancelled";
 
-                if (status === "pending")
-                  status =
-                    currentLanguage === "mk"
-                      ? "Во тек"
-                      : "Pending";
-                else if (status === "confirmed")
-                  status =
-                    currentLanguage === "mk"
-                      ? "Потврдено"
-                      : "Confirmed";
-                else if (status === "cancelled")
-                  status =
-                    currentLanguage === "mk"
-                      ? "Откажано"
-                      : "Cancelled";
+                                      return {
+                                        status,
+                                        Total:
+                                          currentLanguage === "mk"
+                                            ? entry.mkd
+                                            : entry.eng,
+                                      };
+                                    })}
+                                    margin={{
+                                      top: 10,
+                                      right: 10,
+                                      left: 0,
+                                      bottom: 0,
+                                    }}
+                                  >
+                                    <XAxis dataKey="status" />
+                                    <YAxis />
+                                    <Tooltip
+                                      formatter={(value) => [
+                                        value.toLocaleString(undefined, {
+                                          minimumFractionDigits: 2,
+                                          maximumFractionDigits: 2,
+                                        }),
+                                        currentLanguage === "mk"
+                                          ? "Вкупно"
+                                          : "Total",
+                                      ]}
+                                    />
+                                    <Bar dataKey="Total">
+                                      {statusData(orders).map(
+                                        (entry, index) => (
+                                          <Cell
+                                            key={index}
+                                            fill={COLORS[index % COLORS.length]}
+                                          />
+                                        )
+                                      )}
+                                    </Bar>
+                                  </BarChart>
+                                </ResponsiveContainer>
+                              </div>
+                              <div className="mt-3">
+                                <table className="table table-sm">
+                                  <thead>
+                                    <tr>
+                                      <th>{t("status")}</th>
+                                      <th className="text-end">{t("count")}</th>
+                                      <th className="text-end">
+                                        {t("revenue")}
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {statusData(orders).map((entry, index) => {
+                                      let statusLabel = entry.status;
+                                      if (statusLabel === "pending")
+                                        statusLabel =
+                                          currentLanguage === "mk"
+                                            ? "Во тек"
+                                            : "Pending";
+                                      else if (statusLabel === "confirmed")
+                                        statusLabel =
+                                          currentLanguage === "mk"
+                                            ? "Потврдено"
+                                            : "Confirmed";
+                                      else if (statusLabel === "cancelled")
+                                        statusLabel =
+                                          currentLanguage === "mk"
+                                            ? "Откажано"
+                                            : "Cancelled";
 
-                return {
-                  status,
-                  Total:
-                    currentLanguage === "mk"
-                      ? entry.mkd
-                      : entry.eng,
-                };
-              })}
-              margin={{
-                top: 10,
-                right: 10,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <XAxis dataKey="status" />
-              <YAxis />
-              <Tooltip
-                formatter={(value) => [
-                  value.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  }),
-                  currentLanguage === "mk"
-                    ? "Вкупно"
-                    : "Total",
-                ]}
-              />
-              <Bar dataKey="Total">
-                {statusData(orders).map((entry, index) => (
-                  <Cell
-                    key={index}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-                      
+                                      return (
+                                        <tr key={index}>
+                                          <td>
+                                            <span
+                                              className="badge me-2"
+                                              style={{
+                                                backgroundColor:
+                                                  COLORS[index % COLORS.length],
+                                                width: "12px",
+                                                height: "12px",
+                                                display: "inline-block",
+                                              }}
+                                            ></span>
+                                            {statusLabel}
+                                          </td>
+                                          <td className="text-end">
+                                            {entry.count}
+                                          </td>
+                                          <td className="text-end">
+                                            {(currentLanguage === "mk"
+                                              ? entry.mkd
+                                              : entry.eng
+                                            ).toLocaleString(undefined, {
+                                              minimumFractionDigits: 2,
+                                              maximumFractionDigits: 2,
+                                            })}
+                                          </td>
+                                        </tr>
+                                      );
+                                    })}
+                                  </tbody>
+                                </table>
+                              </div>
+                              <div className="mt-3 p-3 bg-light rounded">
+                              <small className="text-muted">
+                                <i className="bi bi-info-circle me-2"></i>
+                                <strong>{t("analysis")}:</strong>{" "}
+                                {t("revenue_by_status_description")}
+                              </small>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
                       {/* Top Products */}
-<div className="row mb-4">
-  <div className="col-12">
-    <div className="card">
-      <div className="card-body">
-        <h5 className="mb-3">{t("top_products")}</h5>
-        {getTopProducts(orders).length > 0 ? (
-          <div className="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>{t("product_name")}</th>
-                  <th>{t("quantity_sold")}</th>
-                  <th className="text-end">{t("revenue")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {getTopProducts(orders).map((product, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{product.name}</td>
-                    <td>{product.count}</td>
-                    <td className="text-end">
-                      {formatTotal(product.revenue, currentLanguage === "mk" ? "MKD" : "EUR")}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <p className="text-muted">{t("no_products_found")}</p>
-        )}
-      </div>
-    </div>
-  </div>
-</div>
-                      
+                      <div className="row mb-4">
+                        <div className="col-12">
+                          <div className="card">
+                            <div className="card-body">
+                              <h5 className="mb-3">{t("top_products")}</h5>
+                              {getTopProducts(orders).length > 0 ? (
+                                <>
+                                  <div className="table-responsive">
+                                    <table className="table table-hover">
+                                      <thead className="table-light">
+                                        <tr>
+                                          <th>#</th>
+                                          <th>{t("product_name")}</th>
+                                          <th className="text-center">
+                                            {t("quantity_sold")}
+                                          </th>
+                                          <th className="text-end">
+                                            {t("revenue")}
+                                          </th>
+                                          <th className="text-end">
+                                            {t("avg_price")}
+                                          </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {getTopProducts(orders).map(
+                                          (product, index) => (
+                                            <tr key={index}>
+                                              <td>
+                                                <span className="badge bg-primary">
+                                                  {index + 1}
+                                                </span>
+                                              </td>
+                                              <td>
+                                                <strong>{product.name}</strong>
+                                              </td>
+                                              <td className="text-center">
+                                                {product.count}
+                                              </td>
+                                              <td className="text-end">
+                                                {formatTotal(
+                                                  product.revenue,
+                                                  currentLanguage === "mk"
+                                                    ? "MKD"
+                                                    : "EUR"
+                                                )}
+                                              </td>
+                                              <td className="text-end text-muted">
+                                                {formatTotal(
+                                                  product.revenue /
+                                                    product.count,
+                                                  currentLanguage === "mk"
+                                                    ? "MKD"
+                                                    : "EUR"
+                                                )}
+                                              </td>
+                                            </tr>
+                                          )
+                                        )}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  <div className="mt-3 p-3 bg-light rounded">
+                                    <small className="text-muted">
+                                      <i className="bi bi-info-circle me-2"></i>
+                                      <strong>{t("analysis")}:</strong>{" "}
+                                      {t("top_products_description")}
+                                    </small>
+                                  </div>
+                                </>
+                              ) : (
+                                <p className="text-muted">
+                                  {t("no_products_found")}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
