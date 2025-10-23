@@ -1608,7 +1608,7 @@ const getOrderSuccessStats = (orders) => {
                                   <option value="90days">{t("last_90_days")}</option>
                                 </select>
                               </div>
-                              <div style={{ width: "100%", height: 300 }}>
+                              <div className="chart-container">
                                 <ResponsiveContainer>
                                   <BarChart 
                                     data={getDailyRevenue(
@@ -1617,7 +1617,11 @@ const getOrderSuccessStats = (orders) => {
                                     )}
                                     margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                                   >
-                                    <XAxis dataKey="date" />
+                                    <XAxis dataKey="date" tick={{ fontSize: 10 }}
+                                            angle={-45}
+                                            textAnchor="end"
+                                            interval={4}      // Adjust for 30 days
+                                            height={50} />
                                     <YAxis />
                                     <Tooltip 
                                       formatter={(value, name) => [
@@ -1657,7 +1661,7 @@ const getOrderSuccessStats = (orders) => {
                                     ))}
                                   </select>
                                 </div>
-                                <div style={{ width: "100%", height: 300 }}>
+                                <div className="chart-container">
                                   <ResponsiveContainer>
                                     <BarChart 
                                       data={getMonthlyRevenue(orders, selectedYear)}
@@ -1690,7 +1694,7 @@ const getOrderSuccessStats = (orders) => {
           <div className="card">
             <div className="card-body">
               <h5 className="mb-3">{t("yearly_comparison")}</h5>
-              <div style={{ width: "100%", height: 300 }}>
+              <div className="chart-container">
                 <ResponsiveContainer>
                   <BarChart 
                     data={getYearlyRevenue(orders)}
@@ -1725,7 +1729,7 @@ const getOrderSuccessStats = (orders) => {
         <h5 className="mb-3">
           {t("revenue_by_payment_method")}
         </h5>
-        <div style={{ width: "100%", height: 300 }}>
+        <div className="chart-container">
           <ResponsiveContainer>
             <PieChart>
               <Pie
@@ -1773,7 +1777,7 @@ const getOrderSuccessStats = (orders) => {
         <h5 className="mb-3">
           {t("revenue_by_status")}
         </h5>
-        <div style={{ width: "100%", height: 300 }}>
+        <div className="chart-container">
           <ResponsiveContainer>
             <BarChart
               data={statusData(orders).map((entry) => {
