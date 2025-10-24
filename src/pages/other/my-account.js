@@ -16,6 +16,7 @@ import {
   StyleSheet,
 } from "@react-pdf/renderer";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
+import { IoIosSearch } from "react-icons/io";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
@@ -188,7 +189,20 @@ const MyAccount = () => {
     }
   };
 
-  const grandTotalInDisplayCurrency = orders.reduce((sum, order) => {
+  const filteredOrders = orders
+    .filter(
+      (order) =>
+        order.orderNumber?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        order.displayName?.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .filter((order) =>
+      filterStatus === "all" ? true : order.status === filterStatus
+    )
+    .filter((order) =>
+      filterPayment === "all" ? true : order.paymentMethod === filterPayment
+    );
+
+  const grandTotalInDisplayCurrency = filteredOrders.reduce((sum, order) => {
     const amt = parseAmount(order.total);
     const cur = (order.currency || "MKD").toUpperCase();
 
@@ -1425,20 +1439,7 @@ const MyAccount = () => {
 
   useEffect(() => {
     checkForChanges();
-  }, [checkForChanges]);
-
-  const filteredOrders = orders
-    .filter(
-      (order) =>
-        order.orderNumber?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.displayName?.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-    .filter((order) =>
-      filterStatus === "all" ? true : order.status === filterStatus
-    )
-    .filter((order) =>
-      filterPayment === "all" ? true : order.paymentMethod === filterPayment
-    );
+  }, [checkForChanges]);  
 
   // Pagination logic
   const indexOfFirstOrder = (currentPage - 1) * ordersPerPage;
@@ -1560,17 +1561,28 @@ const MyAccount = () => {
                         {/* Filters Section */}
                         <div className="row mb-4 g-3">
                           <div className="col-md-4">
-                            <label className="form-label">
-                              <i className="bi bi-search me-2"></i>
-                              {t("search")}
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder={t("search_order_or_user")}
-                              value={searchQuery}
-                              onChange={(e) => setSearchQuery(e.target.value)}
-                            />
+                            <label className="form-label">{t("search")}</label>
+                            <div style={{ position: "relative" }}>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder={t("search_order_or_user")}
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                style={{ paddingLeft: "40px" }}
+                              />
+                              <IoIosSearch
+                                style={{
+                                  position: "absolute",
+                                  left: "12px",
+                                  top: "50%",
+                                  transform: "translateY(-50%)",
+                                  fontSize: "20px",
+                                  color: "#6c757d",
+                                  pointerEvents: "none",
+                                }}
+                              />
+                            </div>
                           </div>
                           <div className="col-md-4">
                             <label className="form-label">
@@ -1693,9 +1705,17 @@ const MyAccount = () => {
                                       {order.orderNumber}
                                     </span>
                                   </td>
-                                  <td><small>{order.date}</small></td>
-                                  <td><small>{formatDMY(order.reservationDate)}</small></td>
-                                  <td><small>{order.reservationTime}</small></td>
+                                  <td>
+                                    <small>{order.date}</small>
+                                  </td>
+                                  <td>
+                                    <small>
+                                      {formatDMY(order.reservationDate)}
+                                    </small>
+                                  </td>
+                                  <td>
+                                    <small>{order.reservationTime}</small>
+                                  </td>
                                   <td className="text-center">
                                     {role === "admin" &&
                                     order.status === "pending" ? (
@@ -1917,7 +1937,7 @@ const MyAccount = () => {
                                 </small>
                                 <h4 className="mb-0 text-warning">
                                   {
-                                    orders.filter((o) => o.status === "pending")
+                                    filteredOrders.filter((o) => o.status === "pending")
                                       .length
                                   }
                                 </h4>
@@ -1932,7 +1952,7 @@ const MyAccount = () => {
                                 </small>
                                 <h4 className="mb-0 text-success">
                                   {
-                                    orders.filter(
+                                    filteredOrders.filter(
                                       (o) => o.status === "confirmed"
                                     ).length
                                   }
@@ -1948,7 +1968,7 @@ const MyAccount = () => {
                                 </small>
                                 <h4 className="mb-0 text-danger">
                                   {
-                                    orders.filter(
+                                    filteredOrders.filter(
                                       (o) => o.status === "cancelled"
                                     ).length
                                   }
@@ -2205,17 +2225,17 @@ const MyAccount = () => {
                                             className="align-middle"
                                           >
                                             <td className="ps-3">
-                                              <strong className="text-dark">
+                                              <small className="text-dark">
                                                 {day.date}
-                                              </strong>
+                                              </small>
                                             </td>
                                             <td className="text-center">
                                               <span className="badge bg-info text-dark">
-                                                {day.orders || 0}
+                                                <small>{day.orders || 0}</small>
                                               </span>
                                             </td>
                                             <td className="text-end pe-3">
-                                              <strong className="text-success">
+                                              <small className="text-success">
                                                 {day.revenue.toLocaleString(
                                                   undefined,
                                                   {
@@ -2223,7 +2243,7 @@ const MyAccount = () => {
                                                     maximumFractionDigits: 2,
                                                   }
                                                 )}
-                                              </strong>
+                                              </small>
                                             </td>
                                           </tr>
                                         ))}
@@ -2540,18 +2560,20 @@ const MyAccount = () => {
                                                 >
                                                   {index + 1}
                                                 </span>
-                                                <strong className="text-dark">
+                                                <small className="text-dark">
                                                   {month.month}
-                                                </strong>
+                                                </small>
                                               </div>
                                             </td>
                                             <td className="text-center">
                                               <span className="badge bg-info text-dark">
-                                                {month.orders || 0}
+                                                <small>
+                                                  {month.orders || 0}
+                                                </small>
                                               </span>
                                             </td>
                                             <td className="text-end">
-                                              <strong className="text-success">
+                                              <small className="text-success">
                                                 {month.revenue.toLocaleString(
                                                   undefined,
                                                   {
@@ -2559,15 +2581,17 @@ const MyAccount = () => {
                                                     maximumFractionDigits: 2,
                                                   }
                                                 )}
-                                              </strong>
+                                              </small>
                                             </td>
                                             <td className="text-end pe-3 text-muted">
-                                              {(
-                                                month.revenue / 30
-                                              ).toLocaleString(undefined, {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2,
-                                              })}
+                                              <small>
+                                                {(
+                                                  month.revenue / 30
+                                                ).toLocaleString(undefined, {
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                                })}
+                                              </small>
                                             </td>
                                           </tr>
                                         ))}
@@ -2894,18 +2918,20 @@ const MyAccount = () => {
                                                     >
                                                       {index + 1}
                                                     </span>
-                                                    <strong className="text-dark">
+                                                    <small className="text-dark">
                                                       {year.year}
-                                                    </strong>
+                                                    </small>
                                                   </div>
                                                 </td>
                                                 <td className="text-center">
                                                   <span className="badge bg-info text-dark">
-                                                    {year.orders || 0}
+                                                    <small>
+                                                      {year.orders || 0}
+                                                    </small>
                                                   </span>
                                                 </td>
                                                 <td className="text-end">
-                                                  <strong className="text-warning">
+                                                  <small className="text-warning">
                                                     {year.revenue.toLocaleString(
                                                       undefined,
                                                       {
@@ -2913,29 +2939,38 @@ const MyAccount = () => {
                                                         maximumFractionDigits: 2,
                                                       }
                                                     )}
-                                                  </strong>
+                                                  </small>
                                                 </td>
                                                 <td className="text-end">
-                                                  {index > 0 ? (
-                                                    <span
-                                                      className={`badge ${growth >= 0 ? "bg-success" : "bg-danger"}`}
-                                                    >
-                                                      {growth >= 0 ? "↑" : "↓"}{" "}
-                                                      {Math.abs(growth)}%
-                                                    </span>
-                                                  ) : (
-                                                    <span className="badge bg-secondary">
-                                                      -
-                                                    </span>
-                                                  )}
+                                                  <small>
+                                                    {index > 0 ? (
+                                                      <span
+                                                        className={`badge ${growth >= 0 ? "bg-success" : "bg-danger"}`}
+                                                      >
+                                                        {growth >= 0
+                                                          ? "↑"
+                                                          : "↓"}{" "}
+                                                        {Math.abs(growth)}%
+                                                      </span>
+                                                    ) : (
+                                                      <span className="badge bg-secondary">
+                                                        -
+                                                      </span>
+                                                    )}
+                                                  </small>
                                                 </td>
                                                 <td className="text-end pe-3 text-muted">
-                                                  {(
-                                                    year.revenue / 12
-                                                  ).toLocaleString(undefined, {
-                                                    minimumFractionDigits: 2,
-                                                    maximumFractionDigits: 2,
-                                                  })}
+                                                  <small>
+                                                    {(
+                                                      year.revenue / 12
+                                                    ).toLocaleString(
+                                                      undefined,
+                                                      {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2,
+                                                      }
+                                                    )}
+                                                  </small>
                                                 </td>
                                               </tr>
                                             );
@@ -3081,7 +3116,7 @@ const MyAccount = () => {
                                           <small className="text-muted d-block">
                                             {t("avg_yearly_revenue")}
                                           </small>
-                                          <strong className="text-primary">
+                                          <small className="text-primary">
                                             {(
                                               getYearlyRevenue(orders).reduce(
                                                 (sum, year) =>
@@ -3093,7 +3128,7 @@ const MyAccount = () => {
                                               minimumFractionDigits: 0,
                                               maximumFractionDigits: 0,
                                             })}
-                                          </strong>
+                                          </small>
                                         </div>
                                       </div>
                                     </div>
@@ -3390,7 +3425,7 @@ const MyAccount = () => {
                         </div>
                       </div>
 
-                      {/* Top Products */}
+                      {/* Top Services */}
                       <div className="row mb-4">
                         <div className="col-12">
                           <div className="card">
@@ -3403,15 +3438,17 @@ const MyAccount = () => {
                                       <thead className="table-light">
                                         <tr>
                                           <th>#</th>
-                                          <th>{t("product_name")}</th>
+                                          <th>
+                                            <small>{t("product_name")}</small>
+                                          </th>
                                           <th className="text-center">
-                                            {t("quantity_sold")}
+                                            <small>{t("quantity_sold")}</small>
                                           </th>
                                           <th className="text-end">
-                                            {t("revenue")}
+                                            <small>{t("revenue")}</small>
                                           </th>
                                           <th className="text-end">
-                                            {t("avg_price")}
+                                            <small>{t("avg_price")}</small>
                                           </th>
                                         </tr>
                                       </thead>
@@ -3425,27 +3462,31 @@ const MyAccount = () => {
                                                 </span>
                                               </td>
                                               <td>
-                                                <strong>{product.name}</strong>
+                                                <small>{product.name}</small>
                                               </td>
                                               <td className="text-center">
-                                                {product.count}
+                                                <small>{product.count}</small>
                                               </td>
                                               <td className="text-end">
-                                                {formatTotal(
-                                                  product.revenue,
-                                                  currentLanguage === "mk"
-                                                    ? "MKD"
-                                                    : "EUR"
-                                                )}
+                                                <small>
+                                                  {formatTotal(
+                                                    product.revenue,
+                                                    currentLanguage === "mk"
+                                                      ? "MKD"
+                                                      : "EUR"
+                                                  )}
+                                                </small>
                                               </td>
                                               <td className="text-end text-muted">
-                                                {formatTotal(
-                                                  product.revenue /
-                                                    product.count,
-                                                  currentLanguage === "mk"
-                                                    ? "MKD"
-                                                    : "EUR"
-                                                )}
+                                                <small>
+                                                  {formatTotal(
+                                                    product.revenue /
+                                                      product.count,
+                                                    currentLanguage === "mk"
+                                                      ? "MKD"
+                                                      : "EUR"
+                                                  )}
+                                                </small>
                                               </td>
                                             </tr>
                                           )

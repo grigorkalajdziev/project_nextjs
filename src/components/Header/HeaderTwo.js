@@ -24,6 +24,8 @@ const HeaderTwo = () => {
     setScroll(window.scrollY);
   };
 
+  const isScrolled = scroll > headerTop;
+
   return (
     (<Fragment>
       <header
@@ -31,10 +33,17 @@ const HeaderTwo = () => {
           scroll > headerTop ? "is-sticky" : ""
         }`}
         style={{
+          position: isScrolled ? 'fixed' : 'absolute',
           top: 0,
           left: 0,
           width: "100%",
-          paddingTop: "25px"
+          paddingTop: "25px",
+          zIndex: 1000,
+          transition: 'all 0.3s ease',
+          backgroundColor: isScrolled ? 'rgba(255, 255, 255, 0.65)' : 'transparent',
+          backdropFilter: isScrolled ? 'blur(15px)' : 'none',
+          WebkitBackdropFilter: isScrolled ? 'blur(15px)' : 'none',
+          boxShadow: isScrolled ? '0 4px 20px rgba(0, 0, 0, 0.06)' : 'none'
         }}
       >
         <Container className="wide">

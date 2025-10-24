@@ -45,10 +45,19 @@ const HeaderOne = ({ aboutOverlay, cartItems, wishlistItems }) => {
     setScroll(window.scrollY);
   };
 
+  const isScrolled = scroll > headerTop;
+
   return (
     (<Fragment>
       <header
         className={`topbar-shadow ${scroll > headerTop ? "is-sticky" : ""}`}
+        style={{
+          transition: 'all 0.3s ease',
+          backgroundColor: isScrolled ? 'rgba(255, 255, 255, 0.65)' : 'transparent',
+          backdropFilter: isScrolled ? 'blur(15px)' : 'none',
+          WebkitBackdropFilter: isScrolled ? 'blur(15px)' : 'none',
+          boxShadow: isScrolled ? '0 4px 20px rgba(0, 0, 0, 0.06)' : 'none'
+        }}
       >
         <Container className="wide">
           <div className="header-content d-flex align-items-center justify-content-between position-relative space-py-mobile-only--30">

@@ -284,7 +284,30 @@
     .recharts-text {
       font-size: 8px;
     }
-  }  
+  }
+  
+  @media (max-width: 768px) {
+    table {
+      th:first-child,
+      td:first-child,
+      th:nth-child(2),
+      td:nth-child(2) {
+        text-align: left !important;
+      }
+
+      th:not(:first-child):not(:nth-child(2)),
+      td:not(:first-child):not(:nth-child(2)) {
+        text-align: right !important;
+      }
+
+      th,
+      td {
+        font-size: 13px;
+        padding: 8px 6px;
+        white-space: nowrap;
+      }
+    }
+  }
 }
 
 .pagination {
