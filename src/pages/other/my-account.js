@@ -35,6 +35,9 @@ import {
 } from "recharts";
 import Select, { components } from "react-select";
 import { Country, City } from "country-state-city";
+import { cities } from "../../context/CountryCityTranslations";
+import { isoToMK } from "../../context/CountryIsoCode";
+
 
 function formatDMY(dateStr) {
   if (!dateStr) return "";
@@ -160,11 +163,18 @@ const MyAccount = () => {
   };
 
   // Country select with flags
-  const countryOptions = Country.getAllCountries().map((c) => ({
+const countryOptions = Country.getAllCountries().map((c) => {
+  const mkLabel = isoToMK[c.isoCode];
+  return {
     value: c.isoCode,
-    label: c.name,
+    label: currentLanguage === "mk" ? mkLabel || c.name : c.name,
     flag: `https://flagcdn.com/24x18/${c.isoCode.toLowerCase()}.png`,
-  }));
+    // keep englishName for possible internal matching if needed
+    englishName: c.name,
+  };
+});
+
+
 
   const conversionRate = 61.5;
 
@@ -217,28 +227,39 @@ const MyAccount = () => {
 
   const db = getDatabase();
 
-  const findCountryOption = (countryFromDb) => {
-    if (!countryFromDb) return null;
-    // if already object with value
-    if (typeof countryFromDb === "object" && countryFromDb.value) {
-      const found = countryOptions.find((c) => c.value === countryFromDb.value);
-      if (found) return found;
-      // fallback to ensure flag/label/value exist
-      return {
-        label: countryFromDb.label || countryFromDb.value,
-        value: countryFromDb.value,
-        flag:
-          countryFromDb.flag ||
-          `https://flagcdn.com/24x18/${String(countryFromDb.value).toLowerCase()}.png`,
-      };
-    }
-    // if it's a string, try by value (isoCode) or label
-    const byValue = countryOptions.find((c) => c.value === countryFromDb);
-    if (byValue) return byValue;
-    const byLabel = countryOptions.find((c) => c.label === countryFromDb);
-    if (byLabel) return byLabel;
-    return null;
-  };
+  // findCountryOption should consider iso->MK labels so saved DB objects match appropriately
+const findCountryOption = (countryFromDb) => {
+  if (!countryFromDb) return null;
+
+  // if already option-like object
+  if (typeof countryFromDb === "object" && countryFromDb.value) {
+    // try to find canonical object from countryOptions
+    const found = countryOptions.find((c) => c.value === countryFromDb.value);
+    if (found) return found;
+    // fallback to recreate option (respect currentLanguage)
+    return {
+      value: countryFromDb.value,
+      label:
+        currentLanguage === "mk"
+          ? isoToMK[countryFromDb.value] || countryFromDb.label || countryFromDb.value
+          : countryFromDb.label || countryFromDb.value,
+      flag: countryFromDb.flag || `https://flagcdn.com/24x18/${String(countryFromDb.value).toLowerCase()}.png`,
+    };
+  }
+
+  // if string, try isoCode match first (user might store iso), then label match
+  const byIso = countryOptions.find((c) => c.value === countryFromDb);
+  if (byIso) return byIso;
+
+  const byLabel = countryOptions.find((c) => c.label === countryFromDb);
+  if (byLabel) return byLabel;
+
+  // lastly try match by englishName when DB stored english name
+  const byEnglishName = countryOptions.find((c) => c.englishName === countryFromDb);
+  if (byEnglishName) return byEnglishName;
+
+  return null;
+};
 
   const findCityOption = (cityFromDb, citiesArray = []) => {
     if (!cityFromDb) return null;
@@ -256,13 +277,28 @@ const MyAccount = () => {
     );
   };
 
-  const buildCityOptionsFromCountryValue = (countryIso) => {
-    if (!countryIso) return [];
+ const buildCityOptionsFromCountryValue = (countryIso) => {
+  if (!countryIso) return [];
+
+  if (currentLanguage === "mk") {
+    const mkCountryName = isoToMK[countryIso];
+    const mkCities = mkCountryName ? cities[mkCountryName] : null;
+
+    if (Array.isArray(mkCities) && mkCities.length > 0) {
+      return mkCities.map((name) => ({ value: name, label: name }));
+    }
+  }
+
+  // fallback to English cities via country-state-city library
+  try {
     return City.getCitiesOfCountry(countryIso).map((c) => ({
       value: c.name,
       label: c.name,
     }));
-  };
+  } catch (err) {
+    return [];
+  }
+};
 
   // --- Toggle Functions for Each Password Field ---
   const toggleCurrentPasswordVisibility = () => {
@@ -910,26 +946,33 @@ const MyAccount = () => {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    if (selectedCountry) {
-      const cities = City.getCitiesOfCountry(selectedCountry.value).map(
-        (c) => ({
-          value: c.name,
-          label: c.name,
-        })
+  // Keep cityOptions in state as before. Rebuild whenever selectedCountry or language changes
+useEffect(() => {
+  if (selectedCountry?.value) {
+    const cities = buildCityOptionsFromCountryValue(selectedCountry.value);
+    setCityOptions(cities);
+
+    // maintain selectedCity when language toggles: try to find a matching value
+    if (selectedCity) {
+      // If value exists in new city list, keep it. If not, try to find by label.
+      const existing =
+        cities.find((c) => c.value === selectedCity.value) ||
+        cities.find((c) => c.label === selectedCity.label);
+      if (existing) setSelectedCity(existing);
+      else setSelectedCity(null);
+    } else if (initialCity) {
+      // when initializing (first load), try to set from initialCity if present
+      const cityFromDB = cities.find(
+        (c) => c.value === initialCity.value || c.value === initialCity.label
       );
-      setCityOptions(cities);
-      if (!selectedCity && userData?.billingInfo?.city) {
-        const cityFromDB = cities.find(
-          (c) => c.value === userData.billingInfo.city
-        );
-        if (cityFromDB) setSelectedCity(cityFromDB);
-      }
-    } else {
-      setCityOptions([]);
-      setSelectedCity(null);
+      if (cityFromDB) setSelectedCity(cityFromDB);
     }
-  }, [selectedCountry]);
+  } else {
+    setCityOptions([]);
+    setSelectedCity(null);
+  }
+// include currentLanguage so it refreshes on language change
+}, [selectedCountry, currentLanguage]);
 
   useEffect(() => {
     const fetchOrders = async () => {
