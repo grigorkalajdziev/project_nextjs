@@ -103,6 +103,13 @@ const MyAccount = () => {
   const [isCanceling, setIsCanceling] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterPayment, setFilterPayment] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const ordersPerPage = 6;
+
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [dateRange, setDateRange] = useState("30days");
@@ -275,30 +282,30 @@ const MyAccount = () => {
     }, []);
   };
 
- const statusData = (orders) => {
-  return orders.reduce((acc, order) => {
-    const status = order.status || "other";
-    const existing = acc.find((d) => d.status === status);
+  const statusData = (orders) => {
+    return orders.reduce((acc, order) => {
+      const status = order.status || "other";
+      const existing = acc.find((d) => d.status === status);
 
-    const mkdAmount = parseFloat(order.total || 0);
-    const engAmount = mkdAmount / conversionRate; // convert to EUR/USD
+      const mkdAmount = parseFloat(order.total || 0);
+      const engAmount = mkdAmount / conversionRate; // convert to EUR/USD
 
-    if (existing) {
-      existing.count += 1; // ✅ increment count
-      existing.mkd += mkdAmount;
-      existing.eng += engAmount;
-    } else {
-      acc.push({
-        status,
-        count: 1, // ✅ initialize count
-        mkd: mkdAmount,
-        eng: engAmount,
-      });
-    }
+      if (existing) {
+        existing.count += 1; // ✅ increment count
+        existing.mkd += mkdAmount;
+        existing.eng += engAmount;
+      } else {
+        acc.push({
+          status,
+          count: 1, // ✅ initialize count
+          mkd: mkdAmount,
+          eng: engAmount,
+        });
+      }
 
-    return acc;
-  }, []);
-};
+      return acc;
+    }, []);
+  };
 
   // Get unique years from orders
   // Get unique years from orders
@@ -543,7 +550,6 @@ const MyAccount = () => {
       .sort((a, b) => a.year - b.year);
   };
 
-  // Top Products/Services
   // Top Products/Services
   const getTopProducts = (orders, limit = 5) => {
     const productStats = {};
@@ -1421,6 +1427,32 @@ const MyAccount = () => {
     checkForChanges();
   }, [checkForChanges]);
 
+  const filteredOrders = orders
+    .filter(
+      (order) =>
+        order.orderNumber?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        order.displayName?.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .filter((order) =>
+      filterStatus === "all" ? true : order.status === filterStatus
+    )
+    .filter((order) =>
+      filterPayment === "all" ? true : order.paymentMethod === filterPayment
+    );
+
+  // Pagination logic
+  const indexOfFirstOrder = (currentPage - 1) * ordersPerPage;
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const currentOrders = filteredOrders.slice(
+    indexOfFirstOrder,
+    indexOfLastOrder
+  );
+
+  const ordersOnCurrentPage = currentOrders.length;
+
+  const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <LayoutTwo>
       <BreadcrumbOne
@@ -1498,122 +1530,437 @@ const MyAccount = () => {
               </Tab.Pane>
               <Tab.Pane eventKey="orders">
                 <div className="my-account-area__content">
-                  <h3>{t("orders")}</h3>
+                  <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                    <h3 className="mb-0">{t("orders")}</h3>
+                    {orders.length > 0 && (
+                      <span
+                        className="badge bg-primary"
+                        style={{ fontSize: "1rem", padding: "0.5rem 1rem" }}
+                      >
+                        {orders.length} {t("total_orders")}
+                      </span>
+                    )}
+                  </div>
+
                   {orders.length === 0 ? (
-                    <div className="saved-message">
-                      <p>{t("you_have_not_made_any_order_yet")}</p>
+                    <div className="card">
+                      <div className="card-body text-center py-5">
+                        <i
+                          className="bi bi-cart-x"
+                          style={{ fontSize: "3rem", color: "#ccc" }}
+                        ></i>
+                        <p className="mt-3 mb-0 text-muted">
+                          {t("you_have_not_made_any_order_yet")}
+                        </p>
+                      </div>
                     </div>
                   ) : (
-                    <div className="myaccount-table table-responsive text-center">
-                      <table className="table table-bordered">
-                        <thead className="thead-light">
-                          <tr>
-                            {role === "admin" && <th>{t("user")}</th>}
-                            <th>{t("order")}</th>
-                            <th>{t("date")}</th>
-                            <th>{t("date_of_reservation")}</th>
-                            <th>{t("time_of_reservation")}</th>
-                            <th>{t("status")}</th>
-                            <th>{t("total")}</th>
-                            <th>{t("action")}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {orders.map((order) => (
-                            <tr key={order.id}>
-                              {role === "admin" && <td>{order.displayName}</td>}
-                              <td>{order.orderNumber}</td>
-                              <td>{order.date}</td>
-                              <td>{formatDMY(order.reservationDate)}</td>
-                              <td>{order.reservationTime}</td>
-                              <td>
-                                {role === "admin" &&
-                                order.status === "pending" ? (
-                                  <select
-                                    value={order.status}
-                                    onChange={(e) =>
-                                      updateOrder(
-                                        order.id,
-                                        user.uid,
-                                        e.target.value
-                                      )
-                                    }
-                                    className="form-select"
-                                  >
-                                    <option value="pending">
-                                      {t("pending")}
-                                    </option>
-                                    <option value="confirmed">
-                                      {t("confirmed")}
-                                    </option>
-                                    <option value="cancelled">
-                                      {t("cancelled")}
-                                    </option>
-                                  </select>
-                                ) : (
-                                  <Badge
-                                    pill
-                                    bg={
-                                      order.status === "pending"
-                                        ? "warning"
-                                        : order.status === "confirmed"
-                                          ? "success"
-                                          : order.status === "cancelled"
-                                            ? "danger"
-                                            : "secondary"
-                                    }
-                                    className="fs-6 p-2"
-                                  >
-                                    {t(order.status)}
-                                  </Badge>
-                                )}
-                              </td>
-                              <td>
-                                {formatTotal(order.total, order.currency)}
-                              </td>
-                              <td>
-                                <button
-                                  type="button"
-                                  className="btn btn-primary me-2"
-                                  onClick={() =>
-                                    viewOrder(order.id, order.userId)
-                                  }
-                                >
-                                  {t("view")}
-                                </button>
-                                <button
-                                  onClick={() => {
-                                    setPendingDeleteId(order.id);
-                                    setShowDeleteModal(true);
-                                  }}
-                                  className="btn btn-outline-danger"
-                                >
-                                  {t("delete")}
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                        <tfoot>
-                          <tr>
-                            <td
-                              colSpan={role === "admin" ? 6 : 5}
-                              className="text-end font-weight-bold"
+                    <div className="card">
+                      <div className="card-body">
+                        {/* Filters Section */}
+                        <div className="row mb-4 g-3">
+                          <div className="col-md-4">
+                            <label className="form-label">
+                              <i className="bi bi-search me-2"></i>
+                              {t("search")}
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder={t("search_order_or_user")}
+                              value={searchQuery}
+                              onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-md-4">
+                            <label className="form-label">
+                              <i className="bi bi-funnel me-2"></i>
+                              {t("filter_by_status")}
+                            </label>
+                            <select
+                              className="form-select"
+                              value={filterStatus}
+                              onChange={(e) => setFilterStatus(e.target.value)}
                             >
-                              {t("grand_total_label")}
-                            </td>
-                            <td>
-                              {formatTotal(
-                                grandTotalInDisplayCurrency,
-                                currentLanguage === "mk" ? "MKD" : "EUR"
-                              )}
-                            </td>
-                            <td />
-                          </tr>
-                        </tfoot>
-                      </table>
+                              <option value="all">{t("all_statuses")}</option>
+                              <option value="pending">{t("pending")}</option>
+                              <option value="confirmed">
+                                {t("confirmed")}
+                              </option>
+                              <option value="cancelled">
+                                {t("cancelled")}
+                              </option>
+                            </select>
+                          </div>
+                          <div className="col-md-4">
+                            <label className="form-label">
+                              <i className="bi bi-credit-card me-2"></i>
+                              {t("filter_by_payment")}
+                            </label>
+                            <select
+                              className="form-select"
+                              value={filterPayment}
+                              onChange={(e) => setFilterPayment(e.target.value)}
+                            >
+                              <option value="all">{t("all_payments")}</option>
+                              <option value="payment_cash">
+                                {t("payment_cash")}
+                              </option>
+                              <option value="payment_bank">
+                                {t("payment_bank")}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div
+                          className="table-responsive"
+                          style={{
+                            maxHeight: "350px",
+                            overflowY: "auto",
+                            border: "1px solid #dee2e6",
+                            borderRadius: "8px",
+                            position: "relative",
+                          }}
+                        >
+                          <table className="table table-hover table-striped mb-0">
+                            <thead
+                              className="table-primary"
+                              style={{
+                                position: "sticky",
+                                top: 0,
+                                zIndex: 1,
+                              }}
+                            >
+                              <tr>
+                                {role === "admin" && (
+                                  <th
+                                    className="ps-3"
+                                    style={{ minWidth: "150px" }}
+                                  >
+                                    <i className="bi bi-person me-2"></i>
+                                    {t("user")}
+                                  </th>
+                                )}
+                                <th style={{ minWidth: "120px" }}>
+                                  <i className="bi bi-receipt me-2"></i>
+                                  {t("order")}
+                                </th>
+                                <th style={{ minWidth: "120px" }}>
+                                  <i className="bi bi-calendar-date me-2"></i>
+                                  {t("date")}
+                                </th>
+                                <th style={{ minWidth: "140px" }}>
+                                  <i className="bi bi-calendar-check me-2"></i>
+                                  {t("date_of_reservation")}
+                                </th>
+                                <th style={{ minWidth: "90px" }}>
+                                  <i className="bi bi-clock me-2"></i>
+                                  {t("time_of_reservation")}
+                                </th>
+                                <th
+                                  className="text-center"
+                                  style={{ minWidth: "90px" }}
+                                >
+                                  <i className="bi bi-info-circle me-2"></i>
+                                  {t("status")}
+                                </th>
+                                <th
+                                  className="text-end"
+                                  style={{ minWidth: "120px" }}
+                                >
+                                  <i className="bi bi-currency-exchange me-2"></i>
+                                  {t("total")}
+                                </th>
+                                <th
+                                  className="text-center pe-3"
+                                  style={{ minWidth: "180px" }}
+                                >
+                                  <i className="bi bi-gear me-2"></i>
+                                  {t("action")}
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {currentOrders.map((order) => (
+                                <tr key={order.id} className="align-middle">
+                                  {role === "admin" && (
+                                    <td className="ps-3">
+                                      <small>{order.displayName}</small>
+                                    </td>
+                                  )}
+                                  <td>
+                                    <span className="badge bg-secondary">
+                                      {order.orderNumber}
+                                    </span>
+                                  </td>
+                                  <td><small>{order.date}</small></td>
+                                  <td><small>{formatDMY(order.reservationDate)}</small></td>
+                                  <td><small>{order.reservationTime}</small></td>
+                                  <td className="text-center">
+                                    {role === "admin" &&
+                                    order.status === "pending" ? (
+                                      <select
+                                        value={order.status}
+                                        onChange={(e) =>
+                                          updateOrder(
+                                            order.id,
+                                            user.uid,
+                                            e.target.value
+                                          )
+                                        }
+                                        className="form-select form-select-sm"
+                                        style={{
+                                          maxWidth: "130px",
+                                          margin: "0 auto",
+                                        }}
+                                      >
+                                        <option value="pending">
+                                          {t("pending")}
+                                        </option>
+                                        <option value="confirmed">
+                                          {t("confirmed")}
+                                        </option>
+                                        <option value="cancelled">
+                                          {t("cancelled")}
+                                        </option>
+                                      </select>
+                                    ) : (
+                                      <Badge
+                                        pill
+                                        bg={
+                                          order.status === "pending"
+                                            ? "warning"
+                                            : order.status === "confirmed"
+                                              ? "success"
+                                              : order.status === "cancelled"
+                                                ? "danger"
+                                                : "secondary"
+                                        }
+                                        className="px-3 py-2"
+                                      >
+                                        {t(order.status)}
+                                      </Badge>
+                                    )}
+                                  </td>
+                                  <td className="text-end">
+                                    <small>
+                                      {formatTotal(order.total, order.currency)}
+                                    </small>
+                                  </td>
+                                  <td className="text-center pe-3">
+                                    <div className="d-flex gap-2 justify-content-center">
+                                      <button
+                                        type="button"
+                                        className="btn btn-sm btn-primary"
+                                        onClick={() =>
+                                          viewOrder(order.id, order.userId)
+                                        }
+                                      >
+                                        <i className="bi bi-eye me-1"></i>
+                                        {t("view")}
+                                      </button>
+                                      <button
+                                        onClick={() => {
+                                          setPendingDeleteId(order.id);
+                                          setShowDeleteModal(true);
+                                        }}
+                                        className="btn btn-sm btn-outline-danger"
+                                      >
+                                        <i className="bi bi-trash me-1"></i>
+                                        {t("delete")}
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                            <tfoot
+                              className="table-secondary"
+                              style={{
+                                position: "sticky",
+                                bottom: 0,
+                                zIndex: 1,
+                              }}
+                            >
+                              <tr className="fw-bold">
+                                <td
+                                  colSpan={role === "admin" ? 6 : 5}
+                                  className={role === "admin" ? "ps-3" : ""}
+                                >
+                                  <i className="bi bi-calculator me-2"></i>
+                                  {t("grand_total_label")}
+                                </td>
+                                <td className="text-end text-primary">
+                                  <small>
+                                    {formatTotal(
+                                      grandTotalInDisplayCurrency,
+                                      currentLanguage === "mk" ? "MKD" : "EUR"
+                                    )}
+                                  </small>
+                                </td>
+                                <td className="pe-3" />
+                              </tr>
+                            </tfoot>
+                          </table>
+                        </div>
+                        {totalPages > 1 && (
+                          <div className="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-3">
+                            {/* Pagination summary (left side) */}
+                            <div className="text-muted">
+                              <small>
+                                {t("showing")} {ordersOnCurrentPage} {t("of")}{" "}
+                                {filteredOrders.length} {t("orders")}
+                              </small>
+                            </div>
+
+                            {/* Pagination navigation */}
+                            <nav>
+                              <ul className="pagination mb-0">
+                                {/* Previous Button */}
+                                <li
+                                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                                >
+                                  <button
+                                    type="button"
+                                    className="page-link"
+                                    onClick={() => paginate(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                    aria-label="Previous"
+                                  >
+                                    <i className="bi bi-chevron-left">
+                                      {t("previous")}
+                                    </i>
+                                  </button>
+                                </li>
+
+                                {/* Page Numbers */}
+                                {[...Array(totalPages)].map((_, index) => {
+                                  const pageNumber = index + 1;
+
+                                  if (
+                                    pageNumber === 1 ||
+                                    pageNumber === totalPages ||
+                                    (pageNumber >= currentPage - 1 &&
+                                      pageNumber <= currentPage + 1)
+                                  ) {
+                                    return (
+                                      <li
+                                        key={pageNumber}
+                                        className={`page-item ${currentPage === pageNumber ? "active" : ""}`}
+                                      >
+                                        <button
+                                          type="button"
+                                          className="page-link"
+                                          onClick={() => paginate(pageNumber)}
+                                        >
+                                          {pageNumber}
+                                        </button>
+                                      </li>
+                                    );
+                                  } else if (
+                                    pageNumber === currentPage - 2 ||
+                                    pageNumber === currentPage + 2
+                                  ) {
+                                    return (
+                                      <li
+                                        key={`ellipsis-${pageNumber}`}
+                                        className="page-item disabled"
+                                      >
+                                        <span className="page-link">...</span>
+                                      </li>
+                                    );
+                                  }
+
+                                  return null;
+                                })}
+
+                                {/* Next Button */}
+                                <li
+                                  className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+                                >
+                                  <button
+                                    type="button"
+                                    className="page-link"
+                                    onClick={() => paginate(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
+                                    aria-label="Next"
+                                  >
+                                    <i className="bi bi-chevron-right">
+                                      {t("next")}
+                                    </i>
+                                  </button>
+                                </li>
+                              </ul>
+                            </nav>
+                          </div>
+                        )}
+
+                        {/* Summary Stats */}
+                        <div className="row mt-4 g-3">
+                          <div className="col-md-3">
+                            <div className="card border-primary">
+                              <div className="card-body text-center py-3">
+                                <small className="text-muted d-block">
+                                  {t("total_orders")}
+                                </small>
+                                <h4 className="mb-0 text-primary">
+                                  {orders.length}
+                                </h4>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="col-md-3">
+                            <div className="card border-warning">
+                              <div className="card-body text-center py-3">
+                                <small className="text-muted d-block">
+                                  {t("pending")}
+                                </small>
+                                <h4 className="mb-0 text-warning">
+                                  {
+                                    orders.filter((o) => o.status === "pending")
+                                      .length
+                                  }
+                                </h4>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="col-md-3">
+                            <div className="card border-success">
+                              <div className="card-body text-center py-3">
+                                <small className="text-muted d-block">
+                                  {t("confirmed")}
+                                </small>
+                                <h4 className="mb-0 text-success">
+                                  {
+                                    orders.filter(
+                                      (o) => o.status === "confirmed"
+                                    ).length
+                                  }
+                                </h4>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="col-md-3">
+                            <div className="card border-danger">
+                              <div className="card-body text-center py-3">
+                                <small className="text-muted d-block">
+                                  {t("cancelled")}
+                                </small>
+                                <h4 className="mb-0 text-danger">
+                                  {
+                                    orders.filter(
+                                      (o) => o.status === "cancelled"
+                                    ).length
+                                  }
+                                </h4>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   )}
+
                   {role === "admin" && orders.length > 0 && (
                     <div className="financial-reports mt-4">
                       <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
@@ -2892,12 +3239,12 @@ const MyAccount = () => {
                                 </table>
                               </div>
                               <div className="mt-3 p-3 bg-light rounded">
-                              <small className="text-muted">
-                                <i className="bi bi-info-circle me-2"></i>
-                                <strong>{t("analysis")}:</strong>{" "}
-                                {t("revenue_by_payment_method_description")}
-                              </small>
-                            </div>
+                                <small className="text-muted">
+                                  <i className="bi bi-info-circle me-2"></i>
+                                  <strong>{t("analysis")}:</strong>{" "}
+                                  {t("revenue_by_payment_method_description")}
+                                </small>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -3032,12 +3379,12 @@ const MyAccount = () => {
                                 </table>
                               </div>
                               <div className="mt-3 p-3 bg-light rounded">
-                              <small className="text-muted">
-                                <i className="bi bi-info-circle me-2"></i>
-                                <strong>{t("analysis")}:</strong>{" "}
-                                {t("revenue_by_status_description")}
-                              </small>
-                            </div>
+                                <small className="text-muted">
+                                  <i className="bi bi-info-circle me-2"></i>
+                                  <strong>{t("analysis")}:</strong>{" "}
+                                  {t("revenue_by_status_description")}
+                                </small>
+                              </div>
                             </div>
                           </div>
                         </div>
