@@ -111,6 +111,7 @@ const MyAccount = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterPayment, setFilterPayment] = useState("all");
+  const [filterYear, setFilterYear] = useState(new Date().getFullYear().toString());
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
 
@@ -199,18 +200,24 @@ const MyAccount = () => {
     }
   };
 
-  const filteredOrders = orders
-    .filter(
-      (order) =>
-        order.orderNumber?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.displayName?.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-    .filter((order) =>
-      filterStatus === "all" ? true : order.status === filterStatus
-    )
-    .filter((order) =>
-      filterPayment === "all" ? true : order.paymentMethod === filterPayment
-    );
+const filteredOrders = orders
+  .filter(
+    (order) =>
+      order.orderNumber?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      order.displayName?.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+  .filter((order) =>
+    filterStatus === "all" ? true : order.status === filterStatus
+  )
+  .filter((order) =>
+    filterPayment === "all" ? true : order.paymentMethod === filterPayment
+  )
+  .filter((order) => {
+    if (filterYear === "all") return true;
+    const [day, month, year] = order.date.split("-");
+    return Number(year) === Number(filterYear);
+  });
+
 
   const grandTotalInDisplayCurrency = filteredOrders.reduce((sum, order) => {
     const amt = parseAmount(order.total);
@@ -1719,6 +1726,33 @@ const MyAccount = () => {
                                   <option value="payment_bank">
                                     {t("payment_bank")}
                                   </option>
+                                </select>
+                              </div>
+
+                               {/* Year Filter */}
+                              <div className="col-md-4">
+                                <label className="form-label">
+                                  <i className="bi bi-calendar-year me-2"></i>
+                                  {t("filter_by_year")}
+                                </label>
+                                <select
+                                  className="form-select"
+                                  value={filterYear}
+                                  onChange={(e) => {
+                                      setFilterYear(e.target.value);
+                                      setCurrentPage(1); // reset pagination
+                                    }}
+                                  style={{ fontSize: "12px" }}
+                                >
+                                  <option value="all">{t("all_years")}</option>
+                                  {[...Array(5)].map((_, idx) => {
+                                    const year = new Date().getFullYear() - idx;
+                                    return (
+                                      <option key={year} value={year.toString()}>
+                                        {year}
+                                      </option>
+                                    );
+                                  })}
                                 </select>
                               </div>
                             </div>

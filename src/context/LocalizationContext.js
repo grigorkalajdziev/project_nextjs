@@ -563,6 +563,8 @@ const translations = {
     search_order_or_user: "Search order or user...",
     filter_by_payment: "Filter by payment method",
     all_payments: "All payments",
+    filter_by_year: "Filter by year",
+    all_years: "All years",
   },
   mk: {
     english: "Англиски",
@@ -1128,7 +1130,9 @@ const translations = {
     all_statuses: "Сите статуси",
     search_order_or_user: "Пребарај нарачка или корисник...",
     filter_by_payment: "Филтрирај по плаќање",
-    all_payments: "Сите плаќања"
+    all_payments: "Сите плаќања",
+    filter_by_year: "Филтрирај по година",
+    all_years: "Сите години",
   },
 };
 
