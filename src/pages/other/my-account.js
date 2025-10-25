@@ -18,6 +18,7 @@ import {
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { IoIosSearch } from "react-icons/io";
 import { IoFilter } from "react-icons/io5";
+import { TbReportAnalytics } from "react-icons/tb";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
@@ -1608,92 +1609,121 @@ const MyAccount = () => {
                       <div className="card-body">
                         {/* Filters Section */}
                         <div className="filter-section mb-4">
-      {/* Toggle Button */}
-      <div className="d-flex align-items-center mb-3">
-        <button
-          type="button"
-          className="btn btn-outline-secondary d-flex align-items-center justify-content-center me-3"
-          onClick={() => setShowFilters((prev) => !prev)}
-          title={showFilters ? t("hide_filters") : t("show_filters")}
-          style={{
-            width: "45px",
-            height: "45px",
-            borderRadius: "50%",
-            padding: 0,
-          }}
-        >
-          <IoFilter size={22} />          
-        </button>
-        <span>{t("filter")}</span>
-      </div>
+                          {/* Toggle Button */}
+                          <div className="d-flex align-items-center mb-3">
+                            <button
+                              type="button"
+                              className="btn btn-outline-secondary d-flex align-items-center justify-content-center me-3"
+                              onClick={() => setShowFilters((prev) => !prev)}
+                              title={
+                                showFilters
+                                  ? t("hide_filters")
+                                  : t("show_filters")
+                              }
+                              style={{
+                                width: "45px",
+                                height: "45px",
+                                borderRadius: "50%",
+                                padding: 0,
+                              }}
+                            >
+                              <IoFilter size={22} />
+                            </button>
+                            <span>{t("filter")}</span>
+                          </div>
 
-      {/* Filters Section */}
-      {showFilters && (
-        <div className="row mb-3 g-3">
-           {/* Search Input */}
-          <div className="col-md-4">
-            <label className="form-label">{t("search")}</label>
-            <div style={{ position: "relative" }}>
-              <input
-                type="text"
-                className="form-control"
-                placeholder={t("search_order_or_user")}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ paddingLeft: "40px", fontSize: "12px" }}
-              />
-              <IoIosSearch
-                style={{
-                  position: "absolute",
-                  left: "12px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  fontSize: "20px",
-                  color: "#6c757d",
-                  pointerEvents: "none",
-                }}
-              />
-            </div>
-          </div>
-          {/* Filter by Status */}
-          <div className="col-md-4">
-            <label className="form-label">
-              <i className="bi bi-funnel me-2"></i>
-              {t("filter_by_status")}
-            </label>
-            <select
-              className="form-select"
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              style={{ fontSize: "12px" }}
-            >
-              <option value="all">{t("all_statuses")}</option>
-              <option value="pending">{t("pending")}</option>
-              <option value="confirmed">{t("confirmed")}</option>
-              <option value="cancelled">{t("cancelled")}</option>
-            </select>
-          </div>
+                          {/* Filters Section */}
+                          {showFilters && (
+                            <div className="row mb-3 g-3">
+                              {/* Search Input */}
+                              <div className="col-md-4">
+                                <label className="form-label">
+                                  {t("search")}
+                                </label>
+                                <div style={{ position: "relative" }}>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder={t("search_order_or_user")}
+                                    value={searchQuery}
+                                    onChange={(e) =>
+                                      setSearchQuery(e.target.value)
+                                    }
+                                    style={{
+                                      paddingLeft: "40px",
+                                      fontSize: "12px",
+                                    }}
+                                  />
+                                  <IoIosSearch
+                                    style={{
+                                      position: "absolute",
+                                      left: "12px",
+                                      top: "50%",
+                                      transform: "translateY(-50%)",
+                                      fontSize: "20px",
+                                      color: "#6c757d",
+                                      pointerEvents: "none",
+                                    }}
+                                  />
+                                </div>
+                              </div>
+                              {/* Filter by Status */}
+                              <div className="col-md-4">
+                                <label className="form-label">
+                                  <i className="bi bi-funnel me-2"></i>
+                                  {t("filter_by_status")}
+                                </label>
+                                <select
+                                  className="form-select"
+                                  value={filterStatus}
+                                  onChange={(e) =>
+                                    setFilterStatus(e.target.value)
+                                  }
+                                  style={{ fontSize: "12px" }}
+                                >
+                                  <option value="all">
+                                    {t("all_statuses")}
+                                  </option>
+                                  <option value="pending">
+                                    {t("pending")}
+                                  </option>
+                                  <option value="confirmed">
+                                    {t("confirmed")}
+                                  </option>
+                                  <option value="cancelled">
+                                    {t("cancelled")}
+                                  </option>
+                                </select>
+                              </div>
 
-          {/* Filter by Payment */}
-          <div className="col-md-4">
-            <label className="form-label">
-              <i className="bi bi-credit-card me-2"></i>
-              {t("filter_by_payment")}
-            </label>
-            <select
-              className="form-select"
-              value={filterPayment}
-              onChange={(e) => setFilterPayment(e.target.value)}
-              style={{ fontSize: "12px" }}
-            >
-              <option value="all">{t("all_payments")}</option>
-              <option value="payment_cash">{t("payment_cash")}</option>
-              <option value="payment_bank">{t("payment_bank")}</option>
-            </select>
-          </div>
-        </div>
-      )}
-    </div>
+                              {/* Filter by Payment */}
+                              <div className="col-md-4">
+                                <label className="form-label">
+                                  <i className="bi bi-credit-card me-2"></i>
+                                  {t("filter_by_payment")}
+                                </label>
+                                <select
+                                  className="form-select"
+                                  value={filterPayment}
+                                  onChange={(e) =>
+                                    setFilterPayment(e.target.value)
+                                  }
+                                  style={{ fontSize: "12px" }}
+                                >
+                                  <option value="all">
+                                    {t("all_payments")}
+                                  </option>
+                                  <option value="payment_cash">
+                                    {t("payment_cash")}
+                                  </option>
+                                  <option value="payment_bank">
+                                    {t("payment_bank")}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                         <div
                           className="table-responsive"
                           style={{
@@ -1912,25 +1942,18 @@ const MyAccount = () => {
                                 >
                                   <button
                                     type="button"
-                                    className="page-link"
+                                    className="page-link py-1 px-2" // smaller padding
                                     onClick={() => paginate(currentPage - 1)}
                                     disabled={currentPage === 1}
                                     aria-label="Previous"
                                   >
-                                    <i className="bi bi-chevron-left">
-                                      {t("previous")}
-                                    </i>
+                                    {t("previous")}
                                   </button>
                                 </li>
 
                                 {/* Page Numbers */}
                                 {[...Array(totalPages)].map((_, index) => {
                                   const pageNumber = index + 1;
-                                  const showLeftEllipsis =
-                                    currentPage > 3 && pageNumber === 2;
-                                  const showRightEllipsis =
-                                    currentPage < totalPages - 2 &&
-                                    pageNumber === totalPages - 1;
 
                                   if (
                                     pageNumber === 1 ||
@@ -1941,11 +1964,15 @@ const MyAccount = () => {
                                     return (
                                       <li
                                         key={pageNumber}
-                                        className={`page-item ${currentPage === pageNumber ? "active" : ""}`}
+                                        className={`page-item ${
+                                          currentPage === pageNumber
+                                            ? "active"
+                                            : ""
+                                        }`}
                                       >
                                         <button
                                           type="button"
-                                          className="page-link"
+                                          className="page-link py-1 px-2"
                                           onClick={() => paginate(pageNumber)}
                                         >
                                           {pageNumber}
@@ -1953,19 +1980,20 @@ const MyAccount = () => {
                                       </li>
                                     );
                                   } else if (
-                                    showLeftEllipsis ||
-                                    showRightEllipsis
+                                    pageNumber === currentPage - 2 ||
+                                    pageNumber === currentPage + 2
                                   ) {
                                     return (
                                       <li
                                         key={`ellipsis-${pageNumber}`}
                                         className="page-item disabled"
                                       >
-                                        <span className="page-link">...</span>
+                                        <span className="page-link py-1 px-2">
+                                          ...
+                                        </span>
                                       </li>
                                     );
                                   }
-
                                   return null;
                                 })}
 
@@ -1975,14 +2003,12 @@ const MyAccount = () => {
                                 >
                                   <button
                                     type="button"
-                                    className="page-link"
+                                    className="page-link py-1 px-2"
                                     onClick={() => paginate(currentPage + 1)}
                                     disabled={currentPage === totalPages}
                                     aria-label="Next"
                                   >
-                                    <i className="bi bi-chevron-right">
-                                      {t("next")}
-                                    </i>
+                                    {t("next")}
                                   </button>
                                 </li>
                               </ul>
@@ -2061,6 +2087,7 @@ const MyAccount = () => {
                     <div className="financial-reports mt-4">
                       <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
                         <h4 className="mb-0 text-center text-md-start">
+                          <TbReportAnalytics size={24} className="me-2" />
                           {t("financial_reports")}
                         </h4>
                         <PDFDownloadLink
@@ -2167,6 +2194,7 @@ const MyAccount = () => {
                           <div className="card">
                             <div className="card-body">
                               <div className="d-flex justify-content-between align-items-center mb-3">
+                                <TbReportAnalytics size={24} className="me-2" />
                                 <h5>{t("daily_revenue_trend")}</h5>
                                 <select
                                   className="form-select"
@@ -2507,6 +2535,7 @@ const MyAccount = () => {
                           <div className="card">
                             <div className="card-body">
                               <div className="d-flex justify-content-between align-items-center mb-3">
+                                <TbReportAnalytics size={24} className="me-2" />
                                 <h5>{t("monthly_revenue")}</h5>
                                 <select
                                   className="form-select"
@@ -2861,6 +2890,7 @@ const MyAccount = () => {
                             <div className="card">
                               <div className="card-body">
                                 <h5 className="mb-3">
+                                  <TbReportAnalytics size={24} className="me-2" />
                                   {t("yearly_comparison")}
                                 </h5>
                                 <div className="chart-container">
@@ -3256,6 +3286,7 @@ const MyAccount = () => {
                           <div className="card">
                             <div className="card-body">
                               <h5 className="mb-3">
+                                <TbReportAnalytics size={24} className="me-2" />
                                 {t("revenue_by_payment_method")}
                               </h5>
                               <div className="chart-container">
@@ -3363,7 +3394,7 @@ const MyAccount = () => {
                         <div className="col-12 col-md-6 mb-4">
                           <div className="card">
                             <div className="card-body">
-                              <h5 className="mb-3">{t("revenue_by_status")}</h5>
+                              <h5 className="mb-3"><TbReportAnalytics size={24} className="me-2" />{t("revenue_by_status")}</h5>
                               <div className="chart-container">
                                 <ResponsiveContainer>
                                   <BarChart
