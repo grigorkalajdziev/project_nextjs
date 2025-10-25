@@ -17,6 +17,7 @@ import {
 } from "@react-pdf/renderer";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { IoIosSearch } from "react-icons/io";
+import { IoFilter } from "react-icons/io5";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
@@ -37,7 +38,6 @@ import Select, { components } from "react-select";
 import { Country, City } from "country-state-city";
 import { cities } from "../../context/CountryCityTranslations";
 import { isoToMK } from "../../context/CountryIsoCode";
-
 
 function formatDMY(dateStr) {
   if (!dateStr) return "";
@@ -111,6 +111,7 @@ const MyAccount = () => {
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterPayment, setFilterPayment] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [showFilters, setShowFilters] = useState(false);
 
   const ordersPerPage = 6;
 
@@ -163,18 +164,16 @@ const MyAccount = () => {
   };
 
   // Country select with flags
-const countryOptions = Country.getAllCountries().map((c) => {
-  const mkLabel = isoToMK[c.isoCode];
-  return {
-    value: c.isoCode,
-    label: currentLanguage === "mk" ? mkLabel || c.name : c.name,
-    flag: `https://flagcdn.com/24x18/${c.isoCode.toLowerCase()}.png`,
-    // keep englishName for possible internal matching if needed
-    englishName: c.name,
-  };
-});
-
-
+  const countryOptions = Country.getAllCountries().map((c) => {
+    const mkLabel = isoToMK[c.isoCode];
+    return {
+      value: c.isoCode,
+      label: currentLanguage === "mk" ? mkLabel || c.name : c.name,
+      flag: `https://flagcdn.com/24x18/${c.isoCode.toLowerCase()}.png`,
+      // keep englishName for possible internal matching if needed
+      englishName: c.name,
+    };
+  });
 
   const conversionRate = 61.5;
 
@@ -228,38 +227,44 @@ const countryOptions = Country.getAllCountries().map((c) => {
   const db = getDatabase();
 
   // findCountryOption should consider iso->MK labels so saved DB objects match appropriately
-const findCountryOption = (countryFromDb) => {
-  if (!countryFromDb) return null;
+  const findCountryOption = (countryFromDb) => {
+    if (!countryFromDb) return null;
 
-  // if already option-like object
-  if (typeof countryFromDb === "object" && countryFromDb.value) {
-    // try to find canonical object from countryOptions
-    const found = countryOptions.find((c) => c.value === countryFromDb.value);
-    if (found) return found;
-    // fallback to recreate option (respect currentLanguage)
-    return {
-      value: countryFromDb.value,
-      label:
-        currentLanguage === "mk"
-          ? isoToMK[countryFromDb.value] || countryFromDb.label || countryFromDb.value
-          : countryFromDb.label || countryFromDb.value,
-      flag: countryFromDb.flag || `https://flagcdn.com/24x18/${String(countryFromDb.value).toLowerCase()}.png`,
-    };
-  }
+    // if already option-like object
+    if (typeof countryFromDb === "object" && countryFromDb.value) {
+      // try to find canonical object from countryOptions
+      const found = countryOptions.find((c) => c.value === countryFromDb.value);
+      if (found) return found;
+      // fallback to recreate option (respect currentLanguage)
+      return {
+        value: countryFromDb.value,
+        label:
+          currentLanguage === "mk"
+            ? isoToMK[countryFromDb.value] ||
+              countryFromDb.label ||
+              countryFromDb.value
+            : countryFromDb.label || countryFromDb.value,
+        flag:
+          countryFromDb.flag ||
+          `https://flagcdn.com/24x18/${String(countryFromDb.value).toLowerCase()}.png`,
+      };
+    }
 
-  // if string, try isoCode match first (user might store iso), then label match
-  const byIso = countryOptions.find((c) => c.value === countryFromDb);
-  if (byIso) return byIso;
+    // if string, try isoCode match first (user might store iso), then label match
+    const byIso = countryOptions.find((c) => c.value === countryFromDb);
+    if (byIso) return byIso;
 
-  const byLabel = countryOptions.find((c) => c.label === countryFromDb);
-  if (byLabel) return byLabel;
+    const byLabel = countryOptions.find((c) => c.label === countryFromDb);
+    if (byLabel) return byLabel;
 
-  // lastly try match by englishName when DB stored english name
-  const byEnglishName = countryOptions.find((c) => c.englishName === countryFromDb);
-  if (byEnglishName) return byEnglishName;
+    // lastly try match by englishName when DB stored english name
+    const byEnglishName = countryOptions.find(
+      (c) => c.englishName === countryFromDb
+    );
+    if (byEnglishName) return byEnglishName;
 
-  return null;
-};
+    return null;
+  };
 
   const findCityOption = (cityFromDb, citiesArray = []) => {
     if (!cityFromDb) return null;
@@ -277,28 +282,28 @@ const findCountryOption = (countryFromDb) => {
     );
   };
 
- const buildCityOptionsFromCountryValue = (countryIso) => {
-  if (!countryIso) return [];
+  const buildCityOptionsFromCountryValue = (countryIso) => {
+    if (!countryIso) return [];
 
-  if (currentLanguage === "mk") {
-    const mkCountryName = isoToMK[countryIso];
-    const mkCities = mkCountryName ? cities[mkCountryName] : null;
+    if (currentLanguage === "mk") {
+      const mkCountryName = isoToMK[countryIso];
+      const mkCities = mkCountryName ? cities[mkCountryName] : null;
 
-    if (Array.isArray(mkCities) && mkCities.length > 0) {
-      return mkCities.map((name) => ({ value: name, label: name }));
+      if (Array.isArray(mkCities) && mkCities.length > 0) {
+        return mkCities.map((name) => ({ value: name, label: name }));
+      }
     }
-  }
 
-  // fallback to English cities via country-state-city library
-  try {
-    return City.getCitiesOfCountry(countryIso).map((c) => ({
-      value: c.name,
-      label: c.name,
-    }));
-  } catch (err) {
-    return [];
-  }
-};
+    // fallback to English cities via country-state-city library
+    try {
+      return City.getCitiesOfCountry(countryIso).map((c) => ({
+        value: c.name,
+        label: c.name,
+      }));
+    } catch (err) {
+      return [];
+    }
+  };
 
   // --- Toggle Functions for Each Password Field ---
   const toggleCurrentPasswordVisibility = () => {
@@ -947,32 +952,32 @@ const findCountryOption = (countryFromDb) => {
   }, []);
 
   // Keep cityOptions in state as before. Rebuild whenever selectedCountry or language changes
-useEffect(() => {
-  if (selectedCountry?.value) {
-    const cities = buildCityOptionsFromCountryValue(selectedCountry.value);
-    setCityOptions(cities);
+  useEffect(() => {
+    if (selectedCountry?.value) {
+      const cities = buildCityOptionsFromCountryValue(selectedCountry.value);
+      setCityOptions(cities);
 
-    // maintain selectedCity when language toggles: try to find a matching value
-    if (selectedCity) {
-      // If value exists in new city list, keep it. If not, try to find by label.
-      const existing =
-        cities.find((c) => c.value === selectedCity.value) ||
-        cities.find((c) => c.label === selectedCity.label);
-      if (existing) setSelectedCity(existing);
-      else setSelectedCity(null);
-    } else if (initialCity) {
-      // when initializing (first load), try to set from initialCity if present
-      const cityFromDB = cities.find(
-        (c) => c.value === initialCity.value || c.value === initialCity.label
-      );
-      if (cityFromDB) setSelectedCity(cityFromDB);
+      // maintain selectedCity when language toggles: try to find a matching value
+      if (selectedCity) {
+        // If value exists in new city list, keep it. If not, try to find by label.
+        const existing =
+          cities.find((c) => c.value === selectedCity.value) ||
+          cities.find((c) => c.label === selectedCity.label);
+        if (existing) setSelectedCity(existing);
+        else setSelectedCity(null);
+      } else if (initialCity) {
+        // when initializing (first load), try to set from initialCity if present
+        const cityFromDB = cities.find(
+          (c) => c.value === initialCity.value || c.value === initialCity.label
+        );
+        if (cityFromDB) setSelectedCity(cityFromDB);
+      }
+    } else {
+      setCityOptions([]);
+      setSelectedCity(null);
     }
-  } else {
-    setCityOptions([]);
-    setSelectedCity(null);
-  }
-// include currentLanguage so it refreshes on language change
-}, [selectedCountry, currentLanguage]);
+    // include currentLanguage so it refreshes on language change
+  }, [selectedCountry, currentLanguage]);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -1482,7 +1487,7 @@ useEffect(() => {
 
   useEffect(() => {
     checkForChanges();
-  }, [checkForChanges]);  
+  }, [checkForChanges]);
 
   // Pagination logic
   const indexOfFirstOrder = (currentPage - 1) * ordersPerPage;
@@ -1602,71 +1607,93 @@ useEffect(() => {
                     <div className="card">
                       <div className="card-body">
                         {/* Filters Section */}
-                        <div className="row mb-4 g-3">
-                          <div className="col-md-4">
-                            <label className="form-label">{t("search")}</label>
-                            <div style={{ position: "relative" }}>
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder={t("search_order_or_user")}
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                style={{ paddingLeft: "40px" }}
-                              />
-                              <IoIosSearch
-                                style={{
-                                  position: "absolute",
-                                  left: "12px",
-                                  top: "50%",
-                                  transform: "translateY(-50%)",
-                                  fontSize: "20px",
-                                  color: "#6c757d",
-                                  pointerEvents: "none",
-                                }}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-md-4">
-                            <label className="form-label">
-                              <i className="bi bi-funnel me-2"></i>
-                              {t("filter_by_status")}
-                            </label>
-                            <select
-                              className="form-select"
-                              value={filterStatus}
-                              onChange={(e) => setFilterStatus(e.target.value)}
-                            >
-                              <option value="all">{t("all_statuses")}</option>
-                              <option value="pending">{t("pending")}</option>
-                              <option value="confirmed">
-                                {t("confirmed")}
-                              </option>
-                              <option value="cancelled">
-                                {t("cancelled")}
-                              </option>
-                            </select>
-                          </div>
-                          <div className="col-md-4">
-                            <label className="form-label">
-                              <i className="bi bi-credit-card me-2"></i>
-                              {t("filter_by_payment")}
-                            </label>
-                            <select
-                              className="form-select"
-                              value={filterPayment}
-                              onChange={(e) => setFilterPayment(e.target.value)}
-                            >
-                              <option value="all">{t("all_payments")}</option>
-                              <option value="payment_cash">
-                                {t("payment_cash")}
-                              </option>
-                              <option value="payment_bank">
-                                {t("payment_bank")}
-                              </option>
-                            </select>
-                          </div>
-                        </div>
+                        <div className="filter-section mb-4">
+      {/* Toggle Button */}
+      <div className="d-flex align-items-center mb-3">
+        <button
+          type="button"
+          className="btn btn-outline-secondary d-flex align-items-center justify-content-center me-3"
+          onClick={() => setShowFilters((prev) => !prev)}
+          title={showFilters ? t("hide_filters") : t("show_filters")}
+          style={{
+            width: "45px",
+            height: "45px",
+            borderRadius: "50%",
+            padding: 0,
+          }}
+        >
+          <IoFilter size={22} />          
+        </button>
+        <span>{t("filter")}</span>
+      </div>
+
+      {/* Filters Section */}
+      {showFilters && (
+        <div className="row mb-3 g-3">
+           {/* Search Input */}
+          <div className="col-md-4">
+            <label className="form-label">{t("search")}</label>
+            <div style={{ position: "relative" }}>
+              <input
+                type="text"
+                className="form-control"
+                placeholder={t("search_order_or_user")}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{ paddingLeft: "40px", fontSize: "12px" }}
+              />
+              <IoIosSearch
+                style={{
+                  position: "absolute",
+                  left: "12px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  fontSize: "20px",
+                  color: "#6c757d",
+                  pointerEvents: "none",
+                }}
+              />
+            </div>
+          </div>
+          {/* Filter by Status */}
+          <div className="col-md-4">
+            <label className="form-label">
+              <i className="bi bi-funnel me-2"></i>
+              {t("filter_by_status")}
+            </label>
+            <select
+              className="form-select"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              style={{ fontSize: "12px" }}
+            >
+              <option value="all">{t("all_statuses")}</option>
+              <option value="pending">{t("pending")}</option>
+              <option value="confirmed">{t("confirmed")}</option>
+              <option value="cancelled">{t("cancelled")}</option>
+            </select>
+          </div>
+
+          {/* Filter by Payment */}
+          <div className="col-md-4">
+            <label className="form-label">
+              <i className="bi bi-credit-card me-2"></i>
+              {t("filter_by_payment")}
+            </label>
+            <select
+              className="form-select"
+              value={filterPayment}
+              onChange={(e) => setFilterPayment(e.target.value)}
+              style={{ fontSize: "12px" }}
+            >
+              <option value="all">{t("all_payments")}</option>
+              <option value="payment_cash">{t("payment_cash")}</option>
+              <option value="payment_bank">{t("payment_bank")}</option>
+            </select>
+          </div>
+        </div>
+      )}
+    </div>
                         <div
                           className="table-responsive"
                           style={{
@@ -1899,6 +1926,11 @@ useEffect(() => {
                                 {/* Page Numbers */}
                                 {[...Array(totalPages)].map((_, index) => {
                                   const pageNumber = index + 1;
+                                  const showLeftEllipsis =
+                                    currentPage > 3 && pageNumber === 2;
+                                  const showRightEllipsis =
+                                    currentPage < totalPages - 2 &&
+                                    pageNumber === totalPages - 1;
 
                                   if (
                                     pageNumber === 1 ||
@@ -1921,8 +1953,8 @@ useEffect(() => {
                                       </li>
                                     );
                                   } else if (
-                                    pageNumber === currentPage - 2 ||
-                                    pageNumber === currentPage + 2
+                                    showLeftEllipsis ||
+                                    showRightEllipsis
                                   ) {
                                     return (
                                       <li
@@ -1980,8 +2012,9 @@ useEffect(() => {
                                 </small>
                                 <h4 className="mb-0 text-warning">
                                   {
-                                    filteredOrders.filter((o) => o.status === "pending")
-                                      .length
+                                    filteredOrders.filter(
+                                      (o) => o.status === "pending"
+                                    ).length
                                   }
                                 </h4>
                               </div>
