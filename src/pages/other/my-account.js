@@ -326,6 +326,11 @@ const filteredOrders = orders
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+  const handleYearChange = (e) => {
+  setFilterYear(e.target.value);
+  setCurrentPage(1); // Reset pagination
+};
+
   const paymentData = (orders, currentLanguage) => {
     return orders.reduce((acc, order) => {
       const method = order.paymentMethod || "other";
@@ -345,30 +350,61 @@ const filteredOrders = orders
     }, []);
   };
 
-  const statusData = (orders) => {
-    return orders.reduce((acc, order) => {
-      const status = order.status || "other";
-      const existing = acc.find((d) => d.status === status);
+  const filteredOrdersForCharts = orders.filter((order) => {
+  if (!order.date) return false;
 
-      const mkdAmount = parseFloat(order.total || 0);
-      const engAmount = mkdAmount / conversionRate; // convert to EUR/USD
+  const [day, month, year] = order.date.split("-");
+  const orderYear = parseInt(year, 10);
 
-      if (existing) {
-        existing.count += 1; // ✅ increment count
-        existing.mkd += mkdAmount;
-        existing.eng += engAmount;
-      } else {
-        acc.push({
-          status,
-          count: 1, // ✅ initialize count
-          mkd: mkdAmount,
-          eng: engAmount,
-        });
-      }
+  const targetYear = filterYear === "all" 
+    ? new Date().getFullYear() 
+    : parseInt(filterYear, 10);
 
-      return acc;
-    }, []);
-  };
+  return orderYear === targetYear;
+});
+
+ const statusData = (orders, filterYear) => {
+  const targetYear =
+    filterYear === "all" ? new Date().getFullYear() : parseInt(filterYear, 10);
+
+  return orders.reduce((acc, order) => {
+    if (!order.date) return acc;
+
+    let orderYear;
+    const parts = order.date.split("-");
+    if (parts[0].length === 4) {
+      // YYYY-MM-DD
+      orderYear = parseInt(parts[0], 10);
+    } else {
+      // DD-MM-YYYY
+      orderYear = parseInt(parts[2], 10);
+    }
+
+    if (orderYear !== targetYear) return acc;
+
+    const status = order.status || "other";
+    const existing = acc.find((d) => d.status === status);
+
+    const mkdAmount = parseFloat(order.total || 0);
+    const engAmount = mkdAmount / conversionRate;
+
+    if (existing) {
+      existing.count += 1;
+      existing.mkd += mkdAmount;
+      existing.eng += engAmount;
+    } else {
+      acc.push({
+        status,
+        count: 1,
+        mkd: mkdAmount,
+        eng: engAmount,
+      });
+    }
+
+    return acc;
+  }, []);
+};
+
 
   // Get unique years from orders
   // Get unique years from orders
@@ -668,7 +704,7 @@ const filteredOrders = orders
         count: stats.count,
         revenue: currentLanguage === "mk" ? stats.mkd : stats.eur,
       }))
-      .sort((a, b) => b.revenue - a.revenue)
+      .sort((a, b) => b.count - a.count)
       .slice(0, limit);
   };
   // Average Order Value
@@ -714,7 +750,7 @@ const filteredOrders = orders
     return stats;
   };
 
-  const formattedPaymentData = paymentData(orders, currentLanguage).map(
+  const formattedPaymentData = paymentData(filteredOrdersForCharts, currentLanguage).map(
     (entry) => {
       let name = entry.name;
 
@@ -3432,7 +3468,7 @@ const filteredOrders = orders
                               <div className="chart-container">
                                 <ResponsiveContainer>
                                   <BarChart
-                                    data={statusData(orders).map((entry) => {
+                                    data={statusData(orders, filterYear).map((entry) => {
                                       let status = entry.status;
                                       if (status === "pending")
                                         status =
@@ -3479,7 +3515,7 @@ const filteredOrders = orders
                                       ]}
                                     />
                                     <Bar dataKey="Total">
-                                      {statusData(orders).map(
+                                      {statusData(orders, filterYear).map(
                                         (entry, index) => (
                                           <Cell
                                             key={index}
@@ -3503,7 +3539,7 @@ const filteredOrders = orders
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {statusData(orders).map((entry, index) => {
+                                    {statusData(orders, filterYear).map((entry, index) => {
                                       let statusLabel = entry.status;
                                       if (statusLabel === "pending")
                                         statusLabel =
