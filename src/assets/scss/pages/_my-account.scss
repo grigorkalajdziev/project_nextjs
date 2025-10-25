@@ -359,5 +359,21 @@
       transform: none;
     }
   }
+
+  // --- Mobile adjustments ---
+  @media (max-width: 576px) {
+    .page-item {
+      .page-link {
+        padding: 0.3rem 0.5rem; // smaller padding
+        font-size: 0.75rem;     // smaller text
+        min-width: 30px;        // narrower buttons
+      }
+
+      i {
+        font-size: 0.85rem;     // smaller chevrons
+      }
+    }
+  }
 }
+
 
