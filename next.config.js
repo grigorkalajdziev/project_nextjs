@@ -7,8 +7,8 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/old-url',
-        destination: '/new-url',
+        source: '/',
+        destination: '/home/trending',
         permanent: true, // 301 redirect helps indexing
       },
       // Add more as needed

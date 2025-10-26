@@ -111,7 +111,9 @@ const MyAccount = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterPayment, setFilterPayment] = useState("all");
-  const [filterYear, setFilterYear] = useState(new Date().getFullYear().toString());
+  const [filterYear, setFilterYear] = useState(
+    new Date().getFullYear().toString()
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
 
@@ -200,24 +202,22 @@ const MyAccount = () => {
     }
   };
 
-const filteredOrders = orders
-  .filter(
-    (order) =>
-      order.orderNumber?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      order.displayName?.toLowerCase().includes(searchQuery.toLowerCase())
-  )
-  .filter((order) =>
-    filterStatus === "all" ? true : order.status === filterStatus
-  )
-  .filter((order) =>
-    filterPayment === "all" ? true : order.paymentMethod === filterPayment
-  )
-  .filter((order) => {
-    if (filterYear === "all") return true;
-    const [day, month, year] = order.date.split("-");
-    return Number(year) === Number(filterYear);
-  });
-
+  const filteredOrders = orders
+    .filter(
+      (order) =>
+        order.orderNumber?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        order.displayName?.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .filter((order) =>
+      filterStatus === "all" ? true : order.status === filterStatus
+    )
+    .filter((order) =>
+      filterPayment === "all" ? true : order.paymentMethod === filterPayment
+    )
+    .filter((order) => {
+      const [day, month, year] = order.date.split("-");
+      return Number(year) === Number(filterYear);
+    });
 
   const grandTotalInDisplayCurrency = filteredOrders.reduce((sum, order) => {
     const amt = parseAmount(order.total);
@@ -327,9 +327,9 @@ const filteredOrders = orders
   };
 
   const handleYearChange = (e) => {
-  setFilterYear(e.target.value);
-  setCurrentPage(1); // Reset pagination
-};
+    setFilterYear(e.target.value);
+    setCurrentPage(1); // Reset pagination
+  };
 
   const paymentData = (orders, currentLanguage) => {
     return orders.reduce((acc, order) => {
@@ -351,82 +351,85 @@ const filteredOrders = orders
   };
 
   const filteredOrdersForCharts = orders.filter((order) => {
-  if (!order.date) return false;
+    if (!order.date) return false;
 
-  const [day, month, year] = order.date.split("-");
-  const orderYear = parseInt(year, 10);
+    const [day, month, year] = order.date.split("-");
+    const orderYear = parseInt(year, 10);
 
-  const targetYear = filterYear === "all" 
-    ? new Date().getFullYear() 
-    : parseInt(filterYear, 10);
+    const targetYear = parseInt(filterYear, 10);
+    return orderYear === targetYear;
 
-  return orderYear === targetYear;
-});
+    return orderYear === targetYear;
+  });
 
- const statusData = (orders, filterYear) => {
-  const targetYear =
-    filterYear === "all" ? new Date().getFullYear() : parseInt(filterYear, 10);
+  const statusData = (orders, filterYear) => {
+    const targetYear =
+      filterYear === "all"
+        ? new Date().getFullYear()
+        : parseInt(filterYear, 10);
 
-  return orders.reduce((acc, order) => {
-    if (!order.date) return acc;
+    return orders.reduce((acc, order) => {
+      if (!order.date) return acc;
 
-    let orderYear;
-    const parts = order.date.split("-");
-    if (parts[0].length === 4) {
-      // YYYY-MM-DD
-      orderYear = parseInt(parts[0], 10);
-    } else {
-      // DD-MM-YYYY
-      orderYear = parseInt(parts[2], 10);
-    }
+      let orderYear;
+      const parts = order.date.split("-");
+      if (parts[0].length === 4) {
+        // YYYY-MM-DD
+        orderYear = parseInt(parts[0], 10);
+      } else {
+        // DD-MM-YYYY
+        orderYear = parseInt(parts[2], 10);
+      }
 
-    if (orderYear !== targetYear) return acc;
+      if (orderYear !== targetYear) return acc;
 
-    const status = order.status || "other";
-    const existing = acc.find((d) => d.status === status);
+      const status = order.status || "other";
+      const existing = acc.find((d) => d.status === status);
 
-    const mkdAmount = parseFloat(order.total || 0);
-    const engAmount = mkdAmount / conversionRate;
+      const mkdAmount = parseFloat(order.total || 0);
+      const engAmount = mkdAmount / conversionRate;
 
-    if (existing) {
-      existing.count += 1;
-      existing.mkd += mkdAmount;
-      existing.eng += engAmount;
-    } else {
-      acc.push({
-        status,
-        count: 1,
-        mkd: mkdAmount,
-        eng: engAmount,
-      });
-    }
+      if (existing) {
+        existing.count += 1;
+        existing.mkd += mkdAmount;
+        existing.eng += engAmount;
+      } else {
+        acc.push({
+          status,
+          count: 1,
+          mkd: mkdAmount,
+          eng: engAmount,
+        });
+      }
 
-    return acc;
-  }, []);
-};
-
-
-  // Get unique years from orders
-  // Get unique years from orders
-  const getAvailableYears = (orders) => {
-    const years = orders.map((order) => {
-      if (!order.date && !order.createdAt) return new Date().getFullYear();
-      const date = order.date
-        ? new Date(order.date)
-        : new Date(order.createdAt);
-      return isNaN(date) ? new Date().getFullYear() : date.getFullYear();
-    });
-    return [...new Set(years)].sort((a, b) => b - a);
+      return acc;
+    }, []);
   };
 
-  // Daily Revenue (last N days)
-  // Daily Revenue (last N days)
+  // Daily Revenue (last N days) - filtered by year
+
   const getDailyRevenue = (orders, days = 30) => {
+    const targetYear =
+      filterYear === "all"
+        ? new Date().getFullYear()
+        : parseInt(filterYear, 10);
+
+    // Use the target year's end date instead of today
     const today = new Date();
+    if (filterYear !== "all") {
+      today.setFullYear(targetYear);
+      // Set to Dec 31 of target year or today if target year is current year
+      if (targetYear === new Date().getFullYear()) {
+        today.setTime(new Date().getTime());
+      } else {
+        today.setMonth(11, 31); // December 31st of target year
+      }
+    }
     today.setHours(0, 0, 0, 0);
+
     const dailyData = {};
 
-    // Initialize last N days
+    // Initialize last N days from the reference date
     for (let i = days - 1; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
@@ -457,6 +460,10 @@ const filteredOrders = orders
       }
 
       if (isNaN(orderDate)) return; // Skip invalid dates
+
+      // Filter by year
+      if (filterYear !== "all" && orderDate.getFullYear() !== targetYear)
+        return;
 
       orderDate.setHours(0, 0, 0, 0);
       const dateKey = orderDate.toISOString().split("T")[0];
@@ -750,19 +757,20 @@ const filteredOrders = orders
     return stats;
   };
 
-  const formattedPaymentData = paymentData(filteredOrdersForCharts, currentLanguage).map(
-    (entry) => {
-      let name = entry.name;
+  const formattedPaymentData = paymentData(
+    filteredOrdersForCharts,
+    currentLanguage
+  ).map((entry) => {
+    let name = entry.name;
 
-      if (name === "payment_bank") {
-        name = currentLanguage === "mk" ? "Банка" : "Bank";
-      } else if (name === "payment_cash") {
-        name = currentLanguage === "mk" ? "Готовина" : "Cash";
-      }
-
-      return { ...entry, name };
+    if (name === "payment_bank") {
+      name = currentLanguage === "mk" ? "Банка" : "Bank";
+    } else if (name === "payment_cash") {
+      name = currentLanguage === "mk" ? "Готовина" : "Cash";
     }
-  );
+
+    return { ...entry, name };
+  });
 
   const deleteOrder = async (orderId) => {
     if (!user) {
@@ -1765,7 +1773,7 @@ const filteredOrders = orders
                                 </select>
                               </div>
 
-                               {/* Year Filter */}
+                              {/* Year Filter */}
                               <div className="col-md-4">
                                 <label className="form-label">
                                   <i className="bi bi-calendar-year me-2"></i>
@@ -1775,16 +1783,18 @@ const filteredOrders = orders
                                   className="form-select"
                                   value={filterYear}
                                   onChange={(e) => {
-                                      setFilterYear(e.target.value);
-                                      setCurrentPage(1); // reset pagination
-                                    }}
+                                    setFilterYear(e.target.value);
+                                    setCurrentPage(1); // reset pagination
+                                  }}
                                   style={{ fontSize: "12px" }}
                                 >
-                                  <option value="all">{t("all_years")}</option>
                                   {[...Array(5)].map((_, idx) => {
                                     const year = new Date().getFullYear() - idx;
                                     return (
-                                      <option key={year} value={year.toString()}>
+                                      <option
+                                        key={year}
+                                        value={year.toString()}
+                                      >
                                         {year}
                                       </option>
                                     );
@@ -2095,7 +2105,7 @@ const filteredOrders = orders
                                   {t("total_orders")}
                                 </small>
                                 <h4 className="mb-0 text-primary">
-                                  {orders.length}
+                                  {filteredOrdersForCharts.length}
                                 </h4>
                               </div>
                             </div>
@@ -2195,7 +2205,7 @@ const filteredOrders = orders
                               <h6 className="text-muted">
                                 {t("total_orders")}
                               </h6>
-                              <h3>{orders.length}</h3>
+                              <h3>{filteredOrdersForCharts.length}</h3>
                               <small className="text-muted d-block mt-2">
                                 {t("all_time_orders")}
                               </small>
@@ -2210,7 +2220,30 @@ const filteredOrders = orders
                               </h6>
                               <h3>
                                 {formatTotal(
-                                  grandTotalInDisplayCurrency,
+                                  filteredOrdersForCharts.reduce(
+                                    (sum, order) => {
+                                      const amt = parseAmount(order.total);
+                                      const cur = (
+                                        order.currency || "MKD"
+                                      ).toUpperCase();
+                                      if (currentLanguage === "mk") {
+                                        return (
+                                          sum +
+                                          (cur === "MKD"
+                                            ? amt
+                                            : amt * conversionRate)
+                                        );
+                                      } else {
+                                        return (
+                                          sum +
+                                          (cur === "EUR"
+                                            ? amt
+                                            : amt / conversionRate)
+                                        );
+                                      }
+                                    },
+                                    0
+                                  ),
                                   currentLanguage === "mk" ? "MKD" : "EUR"
                                 )}
                               </h3>
@@ -2228,7 +2261,7 @@ const filteredOrders = orders
                               </h6>
                               <h3>
                                 {formatTotal(
-                                  getAverageOrderValue(orders),
+                                  getAverageOrderValue(filteredOrdersForCharts),
                                   currentLanguage === "mk" ? "MKD" : "EUR"
                                 )}
                               </h3>
@@ -2245,12 +2278,22 @@ const filteredOrders = orders
                                 {t("order_success_rate")}
                               </h6>
                               <h3>
-                                {getOrderSuccessStats(orders).successRate}%
+                                {
+                                  getOrderSuccessStats(filteredOrdersForCharts)
+                                    .successRate
+                                }
+                                %
                               </h3>
                               <small className="text-muted d-block mt-2">
-                                {getOrderSuccessStats(orders).confirmed}{" "}
+                                {
+                                  getOrderSuccessStats(filteredOrdersForCharts)
+                                    .confirmed
+                                }{" "}
                                 {t("confirmed")} /{" "}
-                                {getOrderSuccessStats(orders).total}{" "}
+                                {
+                                  getOrderSuccessStats(filteredOrdersForCharts)
+                                    .total
+                                }{" "}
                                 {t("total")}
                               </small>
                             </div>
@@ -2287,7 +2330,7 @@ const filteredOrders = orders
                                 <ResponsiveContainer>
                                   <BarChart
                                     data={getDailyRevenue(
-                                      orders,
+                                      filteredOrdersForCharts,
                                       dateRange === "7days"
                                         ? 7
                                         : dateRange === "30days"
@@ -2339,7 +2382,7 @@ const filteredOrders = orders
                                     <span className="badge bg-primary">
                                       {
                                         getDailyRevenue(
-                                          orders,
+                                          filteredOrdersForCharts,
                                           dateRange === "7days"
                                             ? 7
                                             : dateRange === "30days"
@@ -2387,7 +2430,7 @@ const filteredOrders = orders
                                       </thead>
                                       <tbody>
                                         {getDailyRevenue(
-                                          orders,
+                                          filteredOrdersForCharts,
                                           dateRange === "7days"
                                             ? 7
                                             : dateRange === "30days"
@@ -2438,7 +2481,7 @@ const filteredOrders = orders
                                           <td className="text-center">
                                             <span className="badge bg-dark">
                                               {getDailyRevenue(
-                                                orders,
+                                                filteredOrdersForCharts,
                                                 dateRange === "7days"
                                                   ? 7
                                                   : dateRange === "30days"
@@ -2456,7 +2499,7 @@ const filteredOrders = orders
                                               style={{ fontSize: "1.1rem" }}
                                             >
                                               {getDailyRevenue(
-                                                orders,
+                                                filteredOrdersForCharts,
                                                 dateRange === "7days"
                                                   ? 7
                                                   : dateRange === "30days"
@@ -2490,7 +2533,7 @@ const filteredOrders = orders
                                           <strong className="text-primary">
                                             {(
                                               getDailyRevenue(
-                                                orders,
+                                                filteredOrdersForCharts,
                                                 dateRange === "7days"
                                                   ? 7
                                                   : dateRange === "30days"
@@ -2501,7 +2544,7 @@ const filteredOrders = orders
                                                 0
                                               ) /
                                               getDailyRevenue(
-                                                orders,
+                                                filteredOrdersForCharts,
                                                 dateRange === "7days"
                                                   ? 7
                                                   : dateRange === "30days"
@@ -2525,7 +2568,7 @@ const filteredOrders = orders
                                           <strong className="text-success">
                                             {(() => {
                                               const dailyData = getDailyRevenue(
-                                                orders,
+                                                filteredOrdersForCharts,
                                                 dateRange === "7days"
                                                   ? 7
                                                   : dateRange === "30days"
@@ -2560,7 +2603,7 @@ const filteredOrders = orders
                                           <strong className="text-info">
                                             {(
                                               getDailyRevenue(
-                                                orders,
+                                                filteredOrdersForCharts,
                                                 dateRange === "7days"
                                                   ? 7
                                                   : dateRange === "30days"
@@ -2572,7 +2615,7 @@ const filteredOrders = orders
                                                 0
                                               ) /
                                               getDailyRevenue(
-                                                orders,
+                                                filteredOrdersForCharts,
                                                 dateRange === "7days"
                                                   ? 7
                                                   : dateRange === "30days"
@@ -2607,27 +2650,26 @@ const filteredOrders = orders
                               <div className="d-flex justify-content-between align-items-center mb-3">
                                 <TbReportAnalytics size={24} className="me-2" />
                                 <h5>{t("monthly_revenue")}</h5>
-                                <select
-                                  className="form-select"
-                                  style={{ width: "auto" }}
-                                  value={selectedYear}
-                                  onChange={(e) =>
-                                    setSelectedYear(Number(e.target.value))
-                                  }
+                                <span
+                                  className="badge bg-secondary"
+                                  style={{
+                                    fontSize: "1rem",
+                                    padding: "0.5rem 1rem",
+                                  }}
                                 >
-                                  {getAvailableYears(orders).map((year) => (
-                                    <option key={year} value={year}>
-                                      {year}
-                                    </option>
-                                  ))}
-                                </select>
+                                  {filterYear === "all"
+                                    ? t("all_years")
+                                    : filterYear}
+                                </span>
                               </div>
                               <div className="chart-container">
                                 <ResponsiveContainer>
                                   <BarChart
                                     data={getMonthlyRevenue(
-                                      orders,
-                                      selectedYear
+                                      filteredOrdersForCharts,
+                                      filterYear === "all"
+                                        ? new Date().getFullYear()
+                                        : parseInt(filterYear, 10)
                                     )}
                                     margin={{
                                       top: 10,
@@ -2652,6 +2694,7 @@ const filteredOrders = orders
                                     <Bar dataKey="revenue" fill="#00C49F" />
                                   </BarChart>
                                 </ResponsiveContainer>
+
                                 {/* Monthly Revenue Table */}
                                 <div className="mt-4">
                                   <div className="d-flex justify-content-between align-items-center mb-3">
@@ -2661,8 +2704,12 @@ const filteredOrders = orders
                                     </h6>
                                     <span className="badge bg-success">
                                       {
-                                        getMonthlyRevenue(orders, selectedYear)
-                                          .length
+                                        getMonthlyRevenue(
+                                          filteredOrdersForCharts,
+                                          filterYear === "all"
+                                            ? new Date().getFullYear()
+                                            : parseInt(filterYear, 10)
+                                        ).length
                                       }{" "}
                                       {t("months")}
                                     </span>
@@ -2720,8 +2767,10 @@ const filteredOrders = orders
                                       </thead>
                                       <tbody>
                                         {getMonthlyRevenue(
-                                          orders,
-                                          selectedYear
+                                          filteredOrdersForCharts,
+                                          filterYear === "all"
+                                            ? new Date().getFullYear()
+                                            : parseInt(filterYear, 10)
                                         ).map((month, index) => (
                                           <tr
                                             key={index}
@@ -2787,8 +2836,10 @@ const filteredOrders = orders
                                           <td className="text-center">
                                             <span className="badge bg-dark">
                                               {getMonthlyRevenue(
-                                                orders,
-                                                selectedYear
+                                                filteredOrdersForCharts,
+                                                filterYear === "all"
+                                                  ? new Date().getFullYear()
+                                                  : parseInt(filterYear, 10)
                                               ).reduce(
                                                 (sum, month) =>
                                                   sum + (month.orders || 0),
@@ -2801,8 +2852,10 @@ const filteredOrders = orders
                                               style={{ fontSize: "1.1rem" }}
                                             >
                                               {getMonthlyRevenue(
-                                                orders,
-                                                selectedYear
+                                                filteredOrdersForCharts,
+                                                filterYear === "all"
+                                                  ? new Date().getFullYear()
+                                                  : parseInt(filterYear, 10)
                                               )
                                                 .reduce(
                                                   (sum, month) =>
@@ -2819,8 +2872,10 @@ const filteredOrders = orders
                                             <strong>
                                               {(
                                                 getMonthlyRevenue(
-                                                  orders,
-                                                  selectedYear
+                                                  filteredOrdersForCharts,
+                                                  filterYear === "all"
+                                                    ? new Date().getFullYear()
+                                                    : parseInt(filterYear, 10)
                                                 ).reduce(
                                                   (sum, month) =>
                                                     sum + month.revenue,
@@ -2848,16 +2903,20 @@ const filteredOrders = orders
                                           <strong className="text-success">
                                             {(
                                               getMonthlyRevenue(
-                                                orders,
-                                                selectedYear
+                                                filteredOrdersForCharts,
+                                                filterYear === "all"
+                                                  ? new Date().getFullYear()
+                                                  : parseInt(filterYear, 10)
                                               ).reduce(
                                                 (sum, month) =>
                                                   sum + month.revenue,
                                                 0
                                               ) /
                                               getMonthlyRevenue(
-                                                orders,
-                                                selectedYear
+                                                filteredOrdersForCharts,
+                                                filterYear === "all"
+                                                  ? new Date().getFullYear()
+                                                  : parseInt(filterYear, 10)
                                               ).length
                                             ).toLocaleString(undefined, {
                                               minimumFractionDigits: 2,
@@ -2877,8 +2936,10 @@ const filteredOrders = orders
                                             {(() => {
                                               const monthlyData =
                                                 getMonthlyRevenue(
-                                                  orders,
-                                                  selectedYear
+                                                  filteredOrdersForCharts,
+                                                  filterYear === "all"
+                                                    ? new Date().getFullYear()
+                                                    : parseInt(filterYear, 10)
                                                 );
                                               const bestMonth =
                                                 monthlyData.reduce(
@@ -2902,8 +2963,10 @@ const filteredOrders = orders
                                           </small>
                                           <strong className="text-warning">
                                             {getMonthlyRevenue(
-                                              orders,
-                                              selectedYear
+                                              filteredOrdersForCharts,
+                                              filterYear === "all"
+                                                ? new Date().getFullYear()
+                                                : parseInt(filterYear, 10)
                                             ).reduce(
                                               (sum, month) =>
                                                 sum + (month.orders || 0),
@@ -2922,16 +2985,20 @@ const filteredOrders = orders
                                           <strong className="text-info">
                                             {(
                                               getMonthlyRevenue(
-                                                orders,
-                                                selectedYear
+                                                filteredOrdersForCharts,
+                                                filterYear === "all"
+                                                  ? new Date().getFullYear()
+                                                  : parseInt(filterYear, 10)
                                               ).reduce(
                                                 (sum, month) =>
                                                   sum + (month.orders || 0),
                                                 0
                                               ) /
                                               getMonthlyRevenue(
-                                                orders,
-                                                selectedYear
+                                                filteredOrdersForCharts,
+                                                filterYear === "all"
+                                                  ? new Date().getFullYear()
+                                                  : parseInt(filterYear, 10)
                                               ).length
                                             ).toFixed(1)}
                                           </strong>
@@ -2960,7 +3027,10 @@ const filteredOrders = orders
                             <div className="card">
                               <div className="card-body">
                                 <h5 className="mb-3">
-                                  <TbReportAnalytics size={24} className="me-2" />
+                                  <TbReportAnalytics
+                                    size={24}
+                                    className="me-2"
+                                  />
                                   {t("yearly_comparison")}
                                 </h5>
                                 <div className="chart-container">
@@ -3464,36 +3534,41 @@ const filteredOrders = orders
                         <div className="col-12 col-md-6 mb-4">
                           <div className="card">
                             <div className="card-body">
-                              <h5 className="mb-3"><TbReportAnalytics size={24} className="me-2" />{t("revenue_by_status")}</h5>
+                              <h5 className="mb-3">
+                                <TbReportAnalytics size={24} className="me-2" />
+                                {t("revenue_by_status")}
+                              </h5>
                               <div className="chart-container">
                                 <ResponsiveContainer>
                                   <BarChart
-                                    data={statusData(orders, filterYear).map((entry) => {
-                                      let status = entry.status;
-                                      if (status === "pending")
-                                        status =
-                                          currentLanguage === "mk"
-                                            ? "Во тек"
-                                            : "Pending";
-                                      else if (status === "confirmed")
-                                        status =
-                                          currentLanguage === "mk"
-                                            ? "Потврдено"
-                                            : "Confirmed";
-                                      else if (status === "cancelled")
-                                        status =
-                                          currentLanguage === "mk"
-                                            ? "Откажано"
-                                            : "Cancelled";
+                                    data={statusData(orders, filterYear).map(
+                                      (entry) => {
+                                        let status = entry.status;
+                                        if (status === "pending")
+                                          status =
+                                            currentLanguage === "mk"
+                                              ? "Во тек"
+                                              : "Pending";
+                                        else if (status === "confirmed")
+                                          status =
+                                            currentLanguage === "mk"
+                                              ? "Потврдено"
+                                              : "Confirmed";
+                                        else if (status === "cancelled")
+                                          status =
+                                            currentLanguage === "mk"
+                                              ? "Откажано"
+                                              : "Cancelled";
 
-                                      return {
-                                        status,
-                                        Total:
-                                          currentLanguage === "mk"
-                                            ? entry.mkd
-                                            : entry.eng,
-                                      };
-                                    })}
+                                        return {
+                                          status,
+                                          Total:
+                                            currentLanguage === "mk"
+                                              ? entry.mkd
+                                              : entry.eng,
+                                        };
+                                      }
+                                    )}
                                     margin={{
                                       top: 10,
                                       right: 10,
@@ -3539,54 +3614,58 @@ const filteredOrders = orders
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {statusData(orders, filterYear).map((entry, index) => {
-                                      let statusLabel = entry.status;
-                                      if (statusLabel === "pending")
-                                        statusLabel =
-                                          currentLanguage === "mk"
-                                            ? "Во тек"
-                                            : "Pending";
-                                      else if (statusLabel === "confirmed")
-                                        statusLabel =
-                                          currentLanguage === "mk"
-                                            ? "Потврдено"
-                                            : "Confirmed";
-                                      else if (statusLabel === "cancelled")
-                                        statusLabel =
-                                          currentLanguage === "mk"
-                                            ? "Откажано"
-                                            : "Cancelled";
+                                    {statusData(orders, filterYear).map(
+                                      (entry, index) => {
+                                        let statusLabel = entry.status;
+                                        if (statusLabel === "pending")
+                                          statusLabel =
+                                            currentLanguage === "mk"
+                                              ? "Во тек"
+                                              : "Pending";
+                                        else if (statusLabel === "confirmed")
+                                          statusLabel =
+                                            currentLanguage === "mk"
+                                              ? "Потврдено"
+                                              : "Confirmed";
+                                        else if (statusLabel === "cancelled")
+                                          statusLabel =
+                                            currentLanguage === "mk"
+                                              ? "Откажано"
+                                              : "Cancelled";
 
-                                      return (
-                                        <tr key={index}>
-                                          <td>
-                                            <span
-                                              className="badge me-2"
-                                              style={{
-                                                backgroundColor:
-                                                  COLORS[index % COLORS.length],
-                                                width: "12px",
-                                                height: "12px",
-                                                display: "inline-block",
-                                              }}
-                                            ></span>
-                                            {statusLabel}
-                                          </td>
-                                          <td className="text-end">
-                                            {entry.count}
-                                          </td>
-                                          <td className="text-end">
-                                            {(currentLanguage === "mk"
-                                              ? entry.mkd
-                                              : entry.eng
-                                            ).toLocaleString(undefined, {
-                                              minimumFractionDigits: 2,
-                                              maximumFractionDigits: 2,
-                                            })}
-                                          </td>
-                                        </tr>
-                                      );
-                                    })}
+                                        return (
+                                          <tr key={index}>
+                                            <td>
+                                              <span
+                                                className="badge me-2"
+                                                style={{
+                                                  backgroundColor:
+                                                    COLORS[
+                                                      index % COLORS.length
+                                                    ],
+                                                  width: "12px",
+                                                  height: "12px",
+                                                  display: "inline-block",
+                                                }}
+                                              ></span>
+                                              {statusLabel}
+                                            </td>
+                                            <td className="text-end">
+                                              {entry.count}
+                                            </td>
+                                            <td className="text-end">
+                                              {(currentLanguage === "mk"
+                                                ? entry.mkd
+                                                : entry.eng
+                                              ).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                              })}
+                                            </td>
+                                          </tr>
+                                        );
+                                      }
+                                    )}
                                   </tbody>
                                 </table>
                               </div>

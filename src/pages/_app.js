@@ -81,7 +81,7 @@ function LocalizedHead({ canonicalUrl }) {
       <title>Кика - Академија за шминка и убавина</title>
       <meta
         name="description"
-        content={t("title")}
+        content="Кика Академија за шминка и убавина нуди професионални курсеви, трендови и совети за шминка, нега и убавина."
       />
       <link rel="icon" href={process.env.PUBLIC_URL + "/favicon(1).ico"} />
       {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
