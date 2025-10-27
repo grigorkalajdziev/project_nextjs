@@ -313,7 +313,7 @@
       color: $grey--seven;
       &::before {
         position: absolute;
-        top: 0;
+        top: 2.5px;
         left: 0;
 
         display: block;
@@ -328,7 +328,7 @@
       }
       &::after {
         position: absolute;
-        top: 4px;
+        top: 7px;
         left: 4px;
 
         display: block;

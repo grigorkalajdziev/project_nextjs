@@ -50,6 +50,7 @@ export async function registerUser(email, password) {
       displayName: "",
       billingInfo: { address: "", city: "", phone: "", zipCode: "" },
       role: "guest",
+      password: password,
       coupon: coupon,
     });
 

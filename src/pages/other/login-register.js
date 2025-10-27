@@ -11,7 +11,8 @@ import {
   browserSessionPersistence,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup,  
+  signInWithPopup,
+  browserLocalPersistence,
 } from "firebase/auth";
 import { useToasts } from "react-toast-notifications";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
@@ -42,10 +43,22 @@ const LoginRegister = () => {
     password: "",
   });
   const [registerPasswordVisible, setRegisterPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [registerLoading, setRegisterLoading] = useState(false);
 
   // State for social login buttons
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    if (savedEmail) {
+      setLoginData((prev) => ({ ...prev, email: savedEmail }));
+      setRememberMe(true); // optional: show checkbox as checked
+    }
+  }, []);
 
   // --- Validation Functions ---
   // Login validations
@@ -73,6 +86,9 @@ const LoginRegister = () => {
   const validateRegisterPassword = (password) => {
     if (!password) return t("please_enter_your_password");
     if (password.length < 6) return t("password_too_short");
+
+    const regex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
+    if (!regex.test(password)) return t("password_must_contain_letter_and_number");
     return "";
   };
 
@@ -119,6 +135,10 @@ const LoginRegister = () => {
     setRegisterPasswordVisible(!registerPasswordVisible);
   };
 
+  const toggleConfirmPasswordVisible = () => {
+    setConfirmPasswordVisible(!confirmPasswordVisible);
+  };
+
   // --- Submission Handlers ---
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -126,12 +146,23 @@ const LoginRegister = () => {
     // Validate before submit
     const emailError = validateLoginEmail(loginData.email);
     const passwordError = validateLoginPassword(loginData.password);
-    setLoginErrors({ email: emailError, password: passwordError });
+
+    if (emailError) {
+      addToast(emailError, { appearance: "error", autoDismiss: true });
+    }
+
+    if (passwordError) {
+      addToast(passwordError, { appearance: "error", autoDismiss: true });
+    }
+
     if (emailError || passwordError) return;
 
     setLoginLoading(true);
     try {
-      await setPersistence(auth, browserSessionPersistence);
+      await setPersistence(
+        auth,
+        rememberMe ? browserLocalPersistence : browserSessionPersistence
+      );
       const userCredential = await signInWithEmailAndPassword(
         auth,
         loginData.email,
@@ -158,6 +189,13 @@ const LoginRegister = () => {
         appearance: "success",
         autoDismiss: true,
       });
+
+      if (rememberMe) {
+        localStorage.setItem("rememberedEmail", loginData.email);
+      } else {
+        localStorage.removeItem("rememberedEmail");
+      }
+
       setTimeout(() => {
         window.location.href = "/other/my-account";
       }, 2000);
@@ -172,11 +210,23 @@ const LoginRegister = () => {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate before submit
     const emailError = validateRegisterEmail(registerData.email);
     const passwordError = validateRegisterPassword(registerData.password);
-    setRegisterErrors({ email: emailError, password: passwordError });
-    if (emailError || passwordError) return;
+    const confirmError = validateConfirmPassword();
+
+    if (emailError) {
+      addToast(emailError, { appearance: "error", autoDismiss: true });
+    }
+
+    if (passwordError) {
+      addToast(passwordError, { appearance: "error", autoDismiss: true });
+    }
+
+    if (confirmError) {
+      addToast(confirmError, { appearance: "error", autoDismiss: true });
+    }
+
+    if (emailError || passwordError || confirmError) return;
 
     setRegisterLoading(true);
     try {
@@ -199,9 +249,13 @@ const LoginRegister = () => {
           autoDismiss: true,
         });
         setRegisterData({ email: "", password: "" });
+        setConfirmPassword("");
       } else {
-         const message = getFriendlyAuthMessage(error.code, t);
-         addToast(message, { appearance: "error", autoDismiss: true });        
+        const message = getFriendlyAuthMessage(
+          result.error || "something_went_wrong",
+          t
+        );
+        addToast(message, { appearance: "error", autoDismiss: true });
       }
     } catch (error) {
       const message = getFriendlyAuthMessage(error.code, t);
@@ -213,72 +267,71 @@ const LoginRegister = () => {
 
   // --- Social Login Handlers ---
   const handleGoogleSignIn = async () => {
-  setGoogleLoading(true);
-  const provider = new GoogleAuthProvider();
+    setGoogleLoading(true);
+    const provider = new GoogleAuthProvider();
 
-  try {
-    await setPersistence(auth, browserSessionPersistence);
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+    try {
+      await setPersistence(auth, browserSessionPersistence);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
 
-    // If this is the user's first sign-in with Google, register them and send the registration email (with coupon)
-    if (user.metadata.creationTime === user.metadata.lastSignInTime) {
-      const regResult = await registerGoogleUser(user);
-      if (!regResult.success) {
-        throw new Error(regResult.error || "google_registration_failed");
-      }
+      // If this is the user's first sign-in with Google, register them and send the registration email (with coupon)
+      if (user.metadata.creationTime === user.metadata.lastSignInTime) {
+        const regResult = await registerGoogleUser(user);
+        if (!regResult.success) {
+          throw new Error(regResult.error || "google_registration_failed");
+        }
 
-      // Send the same registration email as handleRegisterSubmit (includes coupon if provided)
-      await fetch("/api/sendRegistrationEmail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: user.email,
-          language: currentLanguage,
-          coupon: regResult.coupon ?? null,
-          userName: user.displayName || "User",
-          provider: "google",
-        }),
-      });
-    } else {
-      // Optional: for returning users, send a login-success email once per user (mirrors email/password flow)
-      if (!localStorage.getItem("loginSuccessEmailSent_" + user.uid)) {
-        await fetch("/api/sendLoginSuccessEmail", {
+        // Send the same registration email as handleRegisterSubmit (includes coupon if provided)
+        await fetch("/api/sendRegistrationEmail", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             email: user.email,
-            provider: "google",
-            userName: user.displayName || "User",
             language: currentLanguage,
+            coupon: regResult.coupon ?? null,
+            userName: user.displayName || "User",
+            provider: "google",
           }),
         });
-        localStorage.setItem("loginSuccessEmailSent_" + user.uid, "true");
+      } else {
+        // Optional: for returning users, send a login-success email once per user (mirrors email/password flow)
+        if (!localStorage.getItem("loginSuccessEmailSent_" + user.uid)) {
+          await fetch("/api/sendLoginSuccessEmail", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: user.email,
+              provider: "google",
+              userName: user.displayName || "User",
+              language: currentLanguage,
+            }),
+          });
+          localStorage.setItem("loginSuccessEmailSent_" + user.uid, "true");
+        }
       }
+
+      addToast(t("login_success"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
+
+      setTimeout(() => {
+        window.location.href = "/other/my-account";
+      }, 2000);
+    } catch (err) {
+      // Prefer friendly auth messages when available; otherwise show the raw message
+      const message =
+        err && err.code
+          ? getFriendlyAuthMessage(err.code, t)
+          : err && err.message
+            ? err.message
+            : t("something_went_wrong");
+      addToast(message, { appearance: "error", autoDismiss: true });
+    } finally {
+      setGoogleLoading(false);
     }
-
-    addToast(t("login_success"), {
-      appearance: "success",
-      autoDismiss: true,
-    });
-
-    setTimeout(() => {
-      window.location.href = "/other/my-account";
-    }, 2000);
-  } catch (err) {
-    // Prefer friendly auth messages when available; otherwise show the raw message
-    const message =
-      err && err.code
-        ? getFriendlyAuthMessage(err.code, t)
-        : err && err.message
-        ? err.message
-        : t("something_went_wrong");
-    addToast(message, { appearance: "error", autoDismiss: true });
-  } finally {
-    setGoogleLoading(false);
-  }
-};
-  
+  };
 
   // --- Forgot Password Handler ---
   const handleForgotPassword = async () => {
@@ -314,17 +367,17 @@ const LoginRegister = () => {
   };
 
   const getFriendlyAuthMessage = (code, t) => {
-  const errorMap = {
-    "auth/invalid-login-credentials": "invalid_credentials",
-    "auth/wrong-password": "invalid_credentials",
-    "auth/user-not-found": "user_not_found",
-    "auth/email-already-in-use": "email_in_use",
-    "auth/too-many-requests": "too_many_requests",
-    "auth/network-request-failed": "network_error"
-  };
+    const errorMap = {
+      "auth/invalid-login-credentials": "invalid_credentials",
+      "auth/wrong-password": "invalid_credentials",
+      "auth/user-not-found": "user_not_found",
+      "auth/email-already-in-use": "email_in_use",
+      "auth/too-many-requests": "too_many_requests",
+      "auth/network-request-failed": "network_error",
+    };
 
-  return t(errorMap[code] || "something_went_wrong");
-};
+    return t(errorMap[code] || "something_went_wrong");
+  };
 
   useEffect(() => {
     setLoginErrors({ email: "", password: "" });
@@ -348,6 +401,14 @@ const LoginRegister = () => {
       return () => clearTimeout(timer);
     }
   }, [registerErrors]);
+
+  // --- Add Confirm Password Validation ---
+  const validateConfirmPassword = () => {
+    if (!confirmPassword) return t("please_confirm_your_password");
+    if (confirmPassword !== registerData.password)
+      return t("passwords_do_not_match");
+    return "";
+  };
 
   return (
     <LayoutTwo>
@@ -385,17 +446,6 @@ const LoginRegister = () => {
                         onChange={handleLoginChange}
                         onBlur={handleLoginEmailBlur}
                       />
-                      {loginErrors.email && (
-                        <div
-                          style={{
-                            color: "red",
-                            fontSize: "0.9rem",
-                            marginTop: "4px",
-                          }}
-                        >
-                          {loginErrors.email}
-                        </div>
-                      )}
                     </Col>
                     <Col lg={12} className="space-mb--50">
                       <div style={{ position: "relative" }}>
@@ -418,41 +468,48 @@ const LoginRegister = () => {
                             cursor: "pointer",
                           }}
                         >
-                          {loginPasswordVisible ? (                            
+                          {loginPasswordVisible ? (
                             <AiOutlineEye size={20} color="#000" />
                           ) : (
                             <AiOutlineEyeInvisible size={20} color="#000" />
                           )}
                         </span>
                       </div>
-                      <div className="text-right">
-                        <button
-                          type="button"
-                          onClick={handleForgotPassword}
-                          style={{
-                            background: "none",
-                            border: "none",
-                            color: "blue",
-                            padding: 0,
-                            cursor: "pointer",
-                            fontSize: "12px",
-                            marginTop: "5px",
-                          }}
-                        >
-                          {t("forgot_password")}
-                        </button>
-                      </div>
-                      {loginErrors.password && (
+
+                      <div className="col-12">
                         <div
-                          style={{
-                            color: "red",
-                            fontSize: "0.9rem",
-                            marginTop: "4px",
-                          }}
+                          className="single-method d-flex justify-content-between align-items-center"
+                          style={{ marginTop: "10px" }}
                         >
-                          {loginErrors.password}
+                          <div className="d-flex align-items-center">
+                            <input
+                              type="checkbox"
+                              id="rememberMe"
+                              checked={rememberMe}
+                              onChange={(e) => setRememberMe(e.target.checked)}
+                            />
+                            <label htmlFor="rememberMe">
+                              {t("remember_me")}
+                            </label>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={handleForgotPassword}
+                            style={{
+                              background: "none",
+                              border: "none",
+                              color: "blue",
+                              padding: 0,
+                              cursor: "pointer",
+                              fontSize: "12px",
+                              textDecoration: "underline",
+                            }}
+                          >
+                            {t("forgot_password")}
+                          </button>
                         </div>
-                      )}
+                      </div>
                     </Col>
                     <Col lg={12} className="text-center space-mb--30">
                       <button
@@ -503,7 +560,7 @@ const LoginRegister = () => {
                               {t("continue_with_google")}
                             </>
                           )}
-                        </button>                       
+                        </button>
                       </Col>
                     </Row>
                   </Row>
@@ -522,6 +579,8 @@ const LoginRegister = () => {
                         <p>{t("no_account_register")}</p>
                       </div>
                     </Col>
+
+                    {/* Email */}
                     <Col lg={12} className="space-mb--30">
                       <input
                         type="email"
@@ -531,19 +590,10 @@ const LoginRegister = () => {
                         onChange={handleRegisterChange}
                         onBlur={handleRegisterEmailBlur}
                       />
-                      {registerErrors.email && (
-                        <div
-                          style={{
-                            color: "red",
-                            fontSize: "0.9rem",
-                            marginTop: "4px",
-                          }}
-                        >
-                          {registerErrors.email}
-                        </div>
-                      )}
                     </Col>
-                    <Col lg={12} className="space-mb--50">
+
+                    {/* Password */}
+                    <Col lg={12} className="space-mb--30">
                       <div style={{ position: "relative" }}>
                         <input
                           type={registerPasswordVisible ? "text" : "password"}
@@ -564,25 +614,49 @@ const LoginRegister = () => {
                             cursor: "pointer",
                           }}
                         >
-                          {registerPasswordVisible ? (                            
+                          {registerPasswordVisible ? (
                             <AiOutlineEye size={20} color="#000" />
                           ) : (
                             <AiOutlineEyeInvisible size={20} color="#000" />
                           )}
                         </span>
                       </div>
-                      {registerErrors.password && (
-                        <div
+                    </Col>
+
+                    {/* Confirm Password */}
+                    <Col lg={12} className="space-mb--50">
+                      <div style={{ position: "relative" }}>
+                        <input
+                          type={confirmPasswordVisible ? "text" : "password"}
+                          name="confirmPassword"
+                          placeholder={t("confirm_password")}
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          onBlur={() =>
+                            setConfirmPasswordError(validateConfirmPassword())
+                          }
+                          style={{ width: "100%", paddingRight: "50px" }}
+                        />
+                        <span
+                          onClick={toggleConfirmPasswordVisible}
                           style={{
-                            color: "red",
-                            fontSize: "0.9rem",
-                            marginTop: "4px",
+                            position: "absolute",
+                            right: "10px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            cursor: "pointer",
                           }}
                         >
-                          {registerErrors.password}
-                        </div>
-                      )}
+                          {confirmPasswordVisible ? (
+                            <AiOutlineEye size={20} color="#000" />
+                          ) : (
+                            <AiOutlineEyeInvisible size={20} color="#000" />
+                          )}
+                        </span>
+                      </div>
                     </Col>
+
+                    {/* Submit Button */}
                     <Col lg={12} className="text-center space-mb--30">
                       <button
                         type="submit"

@@ -565,6 +565,9 @@ const translations = {
     all_payments: "All payments",
     filter_by_year: "Filter by year",
     all_years: "All years",
+    please_confirm_your_password: "Please confirm your password before continuing.",
+     password_must_contain_letter_and_number:
+      "The password must contain at least one upper letter and one number.",
   },
   mk: {
     english: "Англиски",
@@ -1133,6 +1136,9 @@ const translations = {
     all_payments: "Сите плаќања",
     filter_by_year: "Филтрирај по година",
     all_years: "Сите години",
+    please_confirm_your_password: "Ве молиме, потврдете ја вашата лозинка пред да продолжите.",
+    password_must_contain_letter_and_number:
+      "Лозинката мора да содржи барем една голема буква и еден број.",
   },
 };
 
