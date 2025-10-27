@@ -147,7 +147,7 @@ const translations = {
     payment_method: "Payment Method",
     billing_address: "Billing Address",
     account_details: "Account Details",
-    hello_user: "Hello, {name}",
+    hello_user: "Hello, ",
     if_not: "If Not ",
     logout: "Logout",
     dashboard_intro:
@@ -747,7 +747,7 @@ const translations = {
     email_address: "Е-маил",
     email_placeholder: "Внесете ја вашата е-маил",
     password_placeholder: "Внесете ја вашата лозинка",
-    hello_user: "Здраво, {name}",
+    hello_user: "Здраво, ",
     not_you: "Ако не си {name}",
 
     shipping_information_title: "Информации за резервации",

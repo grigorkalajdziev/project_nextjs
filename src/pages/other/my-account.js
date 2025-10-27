@@ -1630,7 +1630,7 @@ const MyAccount = () => {
                   <h3>{t("dashboard")}</h3>
                   <div className="welcome">
                     <p>
-                      {t("hello")},{" "}
+                      {t("hello_user")} {" "}
                       <strong>{displayName || user?.email || ""}</strong> (
                       {t("if_not")}{" "}
                       <strong>{displayName || user?.email || ""}!</strong>)

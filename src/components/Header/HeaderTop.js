@@ -2,6 +2,7 @@ import { IoIosArrowDown, IoLogoFacebook, IoLogoInstagram, IoLogoYoutube } from "
 import { FaXTwitter } from "react-icons/fa6";
 import { MdLanguage } from "react-icons/md";
 import { TbCurrencyEuro } from "react-icons/tb";
+import { VscAccount } from "react-icons/vsc";
 import { useLocalization } from "../../context/LocalizationContext";
 import { Container } from "react-bootstrap";
 import Link from "next/link";
@@ -102,6 +103,7 @@ const HeaderTop = () => {
                 a non-null "user" here means the user is properly logged in. */}
             {user ? (
               <>
+                <VscAccount style={{ marginRight: "6px", fontSize: "18px", verticalAlign: "middle" }} />  
                 <span className="user-email">{user.email}</span>
                 <span className="header-separator">|</span>
                 <a href="#" className="signout-link" onClick={handleLogout}>
@@ -110,6 +112,7 @@ const HeaderTop = () => {
               </>
             ) : (
               <div className="signup-link">
+                <VscAccount style={{ marginRight: "6px", fontSize: "18px", verticalAlign: "middle" }} />
                 <Link
                   href="/other/login-register"
                   as={process.env.PUBLIC_URL + "/other/login-register"}
