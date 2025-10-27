@@ -38,8 +38,8 @@ const MobileMenu = ({ activeStatus, getActiveStatus }) => {
                   value={currentLanguage}
                   onChange={(e) => changeLanguage(e.target.value)}
                 >
-                  <option value="mk">{t("macedonian")}</option>
-                  <option value="en">{t("english")}</option>
+                  <option value="mk">🇲🇰 {t("macedonian")}</option>
+                  <option value="en">🇬🇧 {t("english")}</option>
                 </select>
               </div>
               <div className="lang-curr-style">

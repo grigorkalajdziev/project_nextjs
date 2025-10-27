@@ -1,5 +1,7 @@
 import { IoIosArrowDown, IoLogoFacebook, IoLogoInstagram, IoLogoYoutube } from "react-icons/io";
 import { FaXTwitter } from "react-icons/fa6";
+import { MdLanguage } from "react-icons/md";
+import { TbCurrencyEuro } from "react-icons/tb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { Container } from "react-bootstrap";
 import Link from "next/link";
@@ -54,23 +56,25 @@ const HeaderTop = () => {
         <div className="header-top">
           <div className="header-top__left">
             <div className="language-change change-dropdown">
+              <MdLanguage style={{ marginRight: "6px", fontSize: "18px", verticalAlign: "middle" }} />
               <span>{currentLanguage === "en" ? t("english") : t("macedonian")}</span>
               <IoIosArrowDown />
               <ul>
                 <li>
                   <button onClick={() => changeLanguage("mk")}>
-                    {t("macedonian")}
+                  🇲🇰   {t("macedonian")}
                   </button>
                 </li>
                 <li>
                   <button onClick={() => changeLanguage("en")}>
-                    {t("english")}
+                  🇬🇧   {t("english")}
                   </button>
                 </li>
               </ul>
             </div>
             <span className="header-separator">|</span>
             <div className="currency-change change-dropdown">
+              <TbCurrencyEuro style={{ marginRight: "6px", fontSize: "18px", verticalAlign: "middle" }} />
               <span>{currency}</span> <IoIosArrowDown />
               <ul>
                 <li>

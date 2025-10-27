@@ -116,8 +116,23 @@ const MyAccount = () => {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
+  const [currentPageDown, setCurrentPageDown] = useState(1);
+  const itemsPerPageDown = 6;
+  const startIndexDown = (currentPageDown - 1) * itemsPerPageDown;
+  const endIndexDown = startIndexDown + itemsPerPageDown;
+  const currentOrdersDown = orders.slice(startIndexDown, endIndexDown);
+  const totalPagesDown = Math.ceil(orders.length / itemsPerPageDown);
 
   const ordersPerPage = 6;
+
+  const [currentPagePayment, setCurrentPagePayment] = useState(1);
+  const itemsPerPagePayment = 6;
+
+  const startIndexPayment = (currentPagePayment - 1) * itemsPerPagePayment;
+  const endIndexPayment = startIndexPayment + itemsPerPagePayment;
+
+  const currentOrdersPayment = orders.slice(startIndexPayment, endIndexPayment);
+  const totalPagesPayment = Math.ceil(orders.length / itemsPerPagePayment);
 
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
@@ -1554,6 +1569,18 @@ const MyAccount = () => {
   const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const handlePageChangeDown = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPagesDown) {
+      setCurrentPageDown(pageNumber);
+    }
+  };
+
+  const handlePageChangePayment = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPagesPayment) {
+      setCurrentPagePayment(pageNumber);
+    }
+  };
+
   return (
     <LayoutTwo>
       <BreadcrumbOne
@@ -1697,11 +1724,21 @@ const MyAccount = () => {
                                     className="form-control"
                                     placeholder={t("search_order_or_user")}
                                     value={searchQuery}
-                                    onChange={(e) =>
-                                      setSearchQuery(e.target.value)
-                                    }
+                                    onChange={(e) => {
+                                      const newValue = e.target.value;
+                                      setSearchQuery(newValue);
+                                      // Only reset pagination when user is typing (adding text)
+                                      if (
+                                        newValue.length > searchQuery.length
+                                      ) {
+                                        setCurrentPage(1);
+                                      }
+                                    }}
                                     style={{
                                       paddingLeft: "40px",
+                                      paddingRight: searchQuery
+                                        ? "40px"
+                                        : "12px",
                                       fontSize: "12px",
                                     }}
                                   />
@@ -1716,6 +1753,41 @@ const MyAccount = () => {
                                       pointerEvents: "none",
                                     }}
                                   />
+                                  {searchQuery && (
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setSearchQuery("");
+                                        setCurrentPage(1);
+                                      }}
+                                      style={{
+                                        position: "absolute",
+                                        right: "8px",
+                                        top: "50%",
+                                        transform: "translateY(-50%)",
+                                        background: "transparent",
+                                        border: "none",
+                                        cursor: "pointer",
+                                        padding: "4px",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        color: "#dc3545",
+                                        transition: "color 0.2s",
+                                      }}
+                                      onMouseEnter={(e) =>
+                                        (e.currentTarget.style.color =
+                                          "#bb2d3b")
+                                      }
+                                      onMouseLeave={(e) =>
+                                        (e.currentTarget.style.color =
+                                          "#dc3545")
+                                      }
+                                      title={t("clear")}
+                                    >
+                                      ✕
+                                    </button>
+                                  )}
                                 </div>
                               </div>
                               {/* Filter by Status */}
@@ -3773,58 +3845,132 @@ const MyAccount = () => {
               </Tab.Pane>
               <Tab.Pane eventKey="download">
                 <div className="my-account-area__content">
-                  <h3>{t("download")}</h3>
+                  <h3 className="mb-4">{t("download")}</h3>
+
                   {orders.length === 0 ? (
-                    <div className="saved-message">
-                      <p>{t("you_have_not_downloaded_any_file_yet")}</p>
+                    <div className="card">
+                      <div className="card-body text-center">
+                        <p className="text-muted mb-0">
+                          {t("you_have_not_downloaded_any_file_yet")}
+                        </p>
+                      </div>
                     </div>
                   ) : (
-                    <div className="myaccount-table table-responsive text-center">
-                      <table className="table table-bordered">
-                        <thead className="thead-light">
-                          <tr>
-                            {role === "admin" && <th>{t("user")}</th>}
-                            <th>{t("order")}</th>
-                            <th>{t("date")}</th>
-                            <th>{t("payment_method")}</th>
-                            <th>{t("download")}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {orders.map((order) => (
-                            <tr key={order.id}>
-                              {/* Show user column for both roles */}
-                              {role === "admin" && <td>{order.displayName}</td>}
-                              <td>{order.orderNumber}</td>
-                              <td>{order.date}</td>
-                              <td>
-                                {order.paymentMethod === "payment_cash"
-                                  ? t("payment_cash")
-                                  : t("payment_bank")}
-                              </td>
-                              <td>
-                                <button
-                                  className="btn btn-outline-secondary"
-                                  onClick={() => downloadPdf(order)} // <-- uses new function
-                                  disabled={downloadingOrderId === order.id}
-                                >
-                                  {downloadingOrderId === order.id ? (
-                                    <Spinner
-                                      as="span"
-                                      animation="border"
-                                      size="sm"
-                                      role="status"
-                                      aria-hidden="true"
-                                    />
-                                  ) : (
-                                    t("download")
+                    <div className="card">
+                      <div className="card-body">
+                        <div className="table-responsive">
+                          <table className="table table-hover align-middle">
+                            <thead className="table-light">
+                              <tr>
+                                {role === "admin" && <th>{t("user")}</th>}
+                                <th>{t("order")}</th>
+                                <th>{t("date")}</th>
+                                <th>{t("payment_method")}</th>
+                                <th>{t("download")}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {currentOrdersDown.map((order) => (
+                                <tr key={order.id}>
+                                  {role === "admin" && (
+                                    <td>{order.displayName}</td>
                                   )}
+                                  <td>
+                                    <span className="fw-semibold">
+                                      {order.orderNumber}
+                                    </span>
+                                  </td>
+                                  <td>{order.date}</td>
+                                  <td>
+                                    <span className="badge bg-light text-dark border">
+                                      {order.paymentMethod === "payment_cash"
+                                        ? t("payment_cash")
+                                        : t("payment_bank")}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <button
+                                      className="btn btn-sm btn-outline-primary rounded-pill"
+                                      onClick={() => downloadPdf(order)}
+                                      disabled={downloadingOrderId === order.id}
+                                    >
+                                      {downloadingOrderId === order.id ? (
+                                        <Spinner
+                                          as="span"
+                                          animation="border"
+                                          size="sm"
+                                          role="status"
+                                          aria-hidden="true"
+                                        />
+                                      ) : (
+                                        <>
+                                          <i className="bi bi-download me-1"></i>
+                                          {t("download")}
+                                        </>
+                                      )}
+                                    </button>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                        {totalPagesDown > 1 && (
+                          <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                            <span className="text-muted small mb-2">
+                              {t("showing")} {currentOrdersDown.length}{" "}
+                              {t("of")} {orders.length} {t("orders")}
+                            </span>
+
+                            <ul className="pagination mb-0">
+                              <li
+                                className={`page-item ${currentPageDown === 1 ? "disabled" : ""}`}
+                              >
+                                <button
+                                  className="page-link"
+                                  onClick={() =>
+                                    handlePageChangeDown(currentPageDown - 1)
+                                  }
+                                >
+                                  &laquo;
                                 </button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                              </li>
+
+                              {Array.from(
+                                { length: totalPagesDown },
+                                (_, i) => (
+                                  <li
+                                    key={i + 1}
+                                    className={`page-item ${currentPageDown === i + 1 ? "active" : ""}`}
+                                  >
+                                    <button
+                                      className="page-link"
+                                      onClick={() =>
+                                        handlePageChangeDown(i + 1)
+                                      }
+                                    >
+                                      {i + 1}
+                                    </button>
+                                  </li>
+                                )
+                              )}
+
+                              <li
+                                className={`page-item ${currentPageDown === totalPagesDown ? "disabled" : ""}`}
+                              >
+                                <button
+                                  className="page-link"
+                                  onClick={() =>
+                                    handlePageChangeDown(currentPageDown + 1)
+                                  }
+                                >
+                                  &raquo;
+                                </button>
+                              </li>
+                            </ul>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -3843,7 +3989,7 @@ const MyAccount = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {orders.map((order, index) => (
+                          {currentOrdersPayment.map((order, index) => (
                             <tr key={index}>
                               <td>{order.orderNumber}</td>
                               <td>{t(order.paymentMethod)}</td>
@@ -3854,6 +4000,56 @@ const MyAccount = () => {
                     </div>
                   ) : (
                     <p className="saved-message">{t("no_payment_saved")}</p>
+                  )}
+                  {totalPagesPayment > 1 && (
+                    <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                      <span className="text-muted small mb-2">
+                        {t("showing")} {currentOrdersPayment.length} {t("of")}{" "}
+                        {orders.length} {t("orders")}
+                      </span>
+
+                      <ul className="pagination mb-0">
+                        <li
+                          className={`page-item ${currentPagePayment === 1 ? "disabled" : ""}`}
+                        >
+                          <button
+                            className="page-link"
+                            onClick={() =>
+                              handlePageChangePayment(currentPagePayment - 1)
+                            }
+                          >
+                            &laquo;
+                          </button>
+                        </li>
+
+                        {Array.from({ length: totalPagesPayment }, (_, i) => (
+                          <li
+                            key={i + 1}
+                            className={`page-item ${currentPagePayment === i + 1 ? "active" : ""}`}
+                          >
+                            <button
+                              className="page-link"
+                              onClick={() => handlePageChangePayment(i + 1)}
+                            >
+                              {i + 1}
+                            </button>
+                          </li>
+                        ))}
+
+                        <li
+                          className={`page-item ${currentPagePayment === totalPagesPayment ? "disabled" : ""}`}
+                        >
+                          <button
+                            className="page-link"
+                            onClick={() =>
+                              handlePageChangePayment(currentPagePayment + 1)
+                            }
+                          >
+                            &raquo;
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
                   )}
                 </div>
               </Tab.Pane>
