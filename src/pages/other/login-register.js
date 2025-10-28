@@ -478,19 +478,17 @@ const LoginRegister = () => {
 
                       <div className="col-12">
                         <div
-                          className="single-method d-flex justify-content-between align-items-center"
+                          className="single-method remember-container d-flex justify-content-between align-items-center"
                           style={{ marginTop: "10px" }}
                         >
-                          <div className="d-flex align-items-center">
+                          <div className="remember-me d-flex align-items-center">
                             <input
                               type="checkbox"
                               id="rememberMe"
                               checked={rememberMe}
                               onChange={(e) => setRememberMe(e.target.checked)}
                             />
-                            <label htmlFor="rememberMe">
-                              {t("remember_me")}
-                            </label>
+                            <label htmlFor="rememberMe">{t("remember_me")}</label>
                           </div>
 
                           <button

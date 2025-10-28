@@ -148,7 +148,7 @@
           border: 2px solid $black;
         }
         &::after {
-          opacity: 1;
+          opacity: 1;          
         }
       }
     }
@@ -236,9 +236,14 @@
 /*-- Single Payment Method --*/
 .single-method {
   margin-bottom: 20px;
+
   &:last-child {
     margin-bottom: 0;
   }
+
+  /* ==========================
+     RADIO BUTTONS
+     ========================== */
   & input[type="radio"] {
     display: none;
 
@@ -246,44 +251,37 @@
       font-size: 14px;
       font-weight: 400;
       line-height: 20px;
-
       position: relative;
-
       margin: 0;
       padding-left: 30px;
-
       color: $black;
+
       &::before {
         position: absolute;
-        top: 0;
+        top: 50%;
         left: 0;
-
+        transform: translateY(-50%); // ✅ centers checkbox box vertically
         display: block;
-
-        width: 20px;
-        height: 20px;
-
+        width: 16px;
+        height: 16px;
         content: "";
         transition: all 0.3s ease 0s;
-
         border: 2px solid $grey--six;
       }
+
       &::after {
-        position: absolute;
-        top: 5px;
-        left: 5px;
-
-        display: block;
-
-        width: 10px;
-        height: 10px;
-
-        content: "";
-        transition: all 0.3s ease 0s;
-        text-align: center;
-
-        opacity: 0;
-        background-color: $black;
+         position: absolute;
+          top: 50%;
+          left: 4px;
+          transform: translateY(-50%); // ✅ centers the inner fill
+          display: block;
+          width: 8px;
+          height: 8px;
+          content: "";
+          transition: all 0.3s ease 0s;
+          text-align: center;
+          opacity: 0;
+          background-color: $black;
       }
     }
 
@@ -291,12 +289,16 @@
       &::before {
         border: 2px solid $black;
       }
+
       &::after {
         opacity: 1;
       }
     }
   }
 
+  /* ==========================
+     CHECKBOXES
+     ========================== */
   & input[type="checkbox"] {
     display: none;
 
@@ -304,44 +306,37 @@
       font-size: 14px;
       font-weight: 400;
       line-height: 20px;
-
       position: relative;
-
       margin: 0;
       padding-left: 30px;
-
       color: $grey--seven;
+
       &::before {
         position: absolute;
-        top: 2.5px;
+        top: 50%;
         left: 0;
-
+        transform: translateY(-50%); // ✅ centers checkbox box vertically
         display: block;
-
         width: 16px;
         height: 16px;
-
         content: "";
         transition: all 0.3s ease 0s;
-
         border: 2px solid $grey--six;
       }
+
       &::after {
-        position: absolute;
-        top: 7px;
-        left: 4px;
-
-        display: block;
-
-        width: 8px;
-        height: 8px;
-
-        content: "";
-        transition: all 0.3s ease 0s;
-        text-align: center;
-
-        opacity: 0;
-        background-color: $black;
+          position: absolute;
+          top: 50%;
+          left: 4px;
+          transform: translateY(-50%); // ✅ centers the inner fill
+          display: block;
+          width: 8px;
+          height: 8px;
+          content: "";
+          transition: all 0.3s ease 0s;
+          text-align: center;
+          opacity: 0;
+          background-color: $black;
       }
     }
 
@@ -349,23 +344,36 @@
       &::before {
         border: 2px solid $black;
       }
+
       &::after {
         opacity: 1;
       }
     }
   }
 
+  /* ==========================
+     PARAGRAPH TEXT (if any)
+     ========================== */
   & p {
     font-size: 14px;
     line-height: 23px;
-
     display: none;
-
     margin-top: 8px;
-
     color: $grey--seven;
   }
+
+  /* ==========================
+     RESPONSIVE FIXES
+     (No longer needed for centering, but you can keep if future adjustments needed)
+     ========================== */
+  @media (max-width: 1024px) {
+    .single-method input[type="checkbox"] + label::after,
+    .single-method input[type="radio"] + label::after {
+      transform: translate(-50%, -50%);
+    }
+  }
 }
+
 
 /*-- Place Order --*/
 .place-order {
@@ -446,6 +454,7 @@
   align-items: center; /* Center vertically if needed */
   margin-top: 10px; /* Adjust spacing */
 }
+
 
 
 /*=====  End of checkout  ======*/
