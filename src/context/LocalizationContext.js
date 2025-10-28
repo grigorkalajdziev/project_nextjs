@@ -566,8 +566,11 @@ const translations = {
     filter_by_year: "Filter by year",
     all_years: "All years",
     please_confirm_your_password: "Please confirm your password before continuing.",
-     password_must_contain_letter_and_number:
-      "The password must contain at least one upper letter and one number.",
+    password_must_contain_letter_and_number: "The password must contain at least one upper letter and one number.",
+    please_enter_your_first_name: "Please enter your first name.",
+    please_enter_your_last_name: "Please enter your last name.",
+    first_name_too_short: "First name must be at least 2 characters.",
+    last_name_too_short: "Last name must be at least 2 characters."
   },
   mk: {
     english: "Англиски",
@@ -1137,8 +1140,11 @@ const translations = {
     filter_by_year: "Филтрирај по година",
     all_years: "Сите години",
     please_confirm_your_password: "Ве молиме, потврдете ја вашата лозинка пред да продолжите.",
-    password_must_contain_letter_and_number:
-      "Лозинката мора да содржи барем една голема буква и еден број.",
+    password_must_contain_letter_and_number: "Лозинката мора да содржи барем една голема буква и еден број.",
+    please_enter_your_first_name: "Ве молиме, внесете го вашето име.",
+    please_enter_your_last_name: "Ве молиме, внесете го вашето презиме.",
+    first_name_too_short: "Име мора да содржи најмалку 2 карактери.",
+    last_name_too_short: "Презиме мора да содржи најмалку 2 карактери.",
   },
 };
 

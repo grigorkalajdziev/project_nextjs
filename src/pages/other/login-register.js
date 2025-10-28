@@ -35,10 +35,14 @@ const LoginRegister = () => {
 
   // State for register
   const [registerData, setRegisterData] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
   const [registerErrors, setRegisterErrors] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
@@ -88,11 +92,24 @@ const LoginRegister = () => {
     if (password.length < 6) return t("password_too_short");
 
     const regex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
-    if (!regex.test(password)) return t("password_must_contain_letter_and_number");
+    if (!regex.test(password))
+      return t("password_must_contain_letter_and_number");
     return "";
   };
 
-  // --- onBlur Handlers ---
+  const validateRegisterFirstName = (name) => {
+  if (!name.trim()) return t("please_enter_your_first_name");
+  if (name.trim().length < 2) return t("first_name_too_short");
+  return "";
+};
+
+const validateRegisterLastName = (name) => {
+  if (!name.trim()) return t("please_enter_your_last_name");
+  if (name.trim().length < 2) return t("last_name_too_short");
+  return "";
+};
+
+
   // Login
   const handleLoginEmailBlur = (e) => {
     const errorMsg = validateLoginEmail(e.target.value);
@@ -124,6 +141,16 @@ const LoginRegister = () => {
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
     setRegisterData({ ...registerData, [name]: value });
+  };
+
+  const handleRegisterFirstNameBlur = (e) => {
+    const errorMsg = validateRegisterFirstName(e.target.value);
+    setRegisterErrors((prev) => ({ ...prev, firstName: errorMsg }));
+  };
+
+  const handleRegisterLastNameBlur = (e) => {
+    const errorMsg = validateRegisterLastName(e.target.value);
+    setRegisterErrors((prev) => ({ ...prev, lastName: errorMsg }));
   };
 
   // --- Toggle Password Visibility ---
@@ -210,10 +237,19 @@ const LoginRegister = () => {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
+    const firstNameError = validateRegisterFirstName(registerData.firstName);
+    const lastNameError = validateRegisterLastName(registerData.lastName);
     const emailError = validateRegisterEmail(registerData.email);
     const passwordError = validateRegisterPassword(registerData.password);
     const confirmError = validateConfirmPassword();
 
+
+    if (firstNameError) {
+        addToast(firstNameError, { appearance: "error", autoDismiss: true });
+      }
+      if (lastNameError) {
+        addToast(lastNameError, { appearance: "error", autoDismiss: true });
+      }
     if (emailError) {
       addToast(emailError, { appearance: "error", autoDismiss: true });
     }
@@ -226,13 +262,15 @@ const LoginRegister = () => {
       addToast(confirmError, { appearance: "error", autoDismiss: true });
     }
 
-    if (emailError || passwordError || confirmError) return;
+    if (firstNameError || lastNameError || emailError || passwordError || confirmError) return;
 
     setRegisterLoading(true);
     try {
       const result = await registerUser(
         registerData.email,
-        registerData.password
+        registerData.password,
+        registerData.firstName,
+        registerData.lastName
       );
       if (result.success) {
         await fetch("/api/sendRegistrationEmail", {
@@ -248,7 +286,7 @@ const LoginRegister = () => {
           appearance: "success",
           autoDismiss: true,
         });
-        setRegisterData({ email: "", password: "" });
+        setRegisterData({ email: "", password: "", firstName: "", lastName: "" });
         setConfirmPassword("");
       } else {
         const message = getFriendlyAuthMessage(
@@ -488,7 +526,15 @@ const LoginRegister = () => {
                               checked={rememberMe}
                               onChange={(e) => setRememberMe(e.target.checked)}
                             />
-                            <label htmlFor="rememberMe">{t("remember_me")}</label>
+                            <label
+                              htmlFor="rememberMe"
+                              style={{
+                                cursor: "pointer",
+                                fontSize: "12px",
+                              }}
+                            >
+                              {t("remember_me")}
+                            </label>
                           </div>
 
                           <button
@@ -576,6 +622,30 @@ const LoginRegister = () => {
                         <h2 className="space-mb--20">{t("register")}</h2>
                         <p>{t("no_account_register")}</p>
                       </div>
+                    </Col>
+
+                    {/* First Name */}
+                    <Col lg={12} className="space-mb--30">
+                      <input
+                        type="text"
+                        name="firstName"
+                        placeholder={t("first_name_placeholder")}
+                        value={registerData.firstName}
+                        onChange={handleRegisterChange}
+                        onBlur={handleRegisterFirstNameBlur}
+                      />
+                    </Col>
+
+                    {/* Last Name */}
+                    <Col lg={12} className="space-mb--30">
+                      <input
+                        type="text"
+                        name="lastName"
+                        placeholder={t("last_name_placeholder")}
+                        value={registerData.lastName}
+                        onChange={handleRegisterChange}
+                        onBlur={handleRegisterLastNameBlur}
+                      />
                     </Col>
 
                     {/* Email */}

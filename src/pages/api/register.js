@@ -37,7 +37,7 @@ const generateCoupon = () => {
 };
 
 // Email + Password Registration
-export async function registerUser(email, password) {
+export async function registerUser(email, password, firstName, lastName) {
   try {
     // 1) Create auth user
     const { user } = await createUserWithEmailAndPassword(auth, email, password);
@@ -45,9 +45,9 @@ export async function registerUser(email, password) {
     // 2) Write user profile to RTDB
     await set(ref(database, `users/${user.uid}`), {
       email: user.email,
-      firstName: "",
-      lastName: "",
-      displayName: "",
+      firstName: firstName,
+      lastName: lastName,
+      displayName: `${firstName} ${lastName}`,
       billingInfo: { address: "", city: "", phone: "", zipCode: "" },
       role: "guest",
       password: password,
