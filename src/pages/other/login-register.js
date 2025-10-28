@@ -759,7 +759,10 @@ const LoginRegister = () => {
                           />
                           <label
                             htmlFor="termsAccepted"
-                            style={{ cursor: "pointer", fontSize: "10px" }}
+                            style={{
+                              cursor: "pointer",
+                              fontSize: window.innerWidth < 376 ? "7px" : "10px",
+                            }}
                           >
                             {t("i_accept")}{" "}
                             <Link
