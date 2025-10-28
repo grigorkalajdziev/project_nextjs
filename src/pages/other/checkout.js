@@ -138,7 +138,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
             address1: userData.billingInfo?.address || "",
             city: userData.billingInfo?.city || "",
             zip: userData.billingInfo?.zipCode || "",
-            state: userData.billingInfo?.state || "",
+            state: userData.billingInfo?.country.label || "",
           });
         }
       } catch (error) {

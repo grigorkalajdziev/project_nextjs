@@ -20,6 +20,7 @@ import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 const LoginRegister = () => {
   const { t, currentLanguage } = useLocalization();
   const { addToast } = useToasts();
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   // State for login
   const [loginData, setLoginData] = useState({
@@ -98,21 +99,21 @@ const LoginRegister = () => {
   };
 
   const validateRegisterFirstName = (name) => {
-  if (!name.trim()) return t("please_enter_your_first_name");
-  if (name.trim().length < 2) return t("first_name_too_short");
-  return "";
-};
+    if (!name.trim()) return t("please_enter_your_first_name");
+    if (name.trim().length < 2) return t("first_name_too_short");
+    return "";
+  };
 
-const validateRegisterLastName = (name) => {
-  if (!name.trim()) return t("please_enter_your_last_name");
-  if (name.trim().length < 2) return t("last_name_too_short");
-  return "";
-};
-
+  const validateRegisterLastName = (name) => {
+    if (!name.trim()) return t("please_enter_your_last_name");
+    if (name.trim().length < 2) return t("last_name_too_short");
+    return "";
+  };
 
   // Login
   const handleLoginEmailBlur = (e) => {
     const errorMsg = validateLoginEmail(e.target.value);
+    if (errorMsg) addToast(errorMsg, { appearance: "error", autoDismiss: true });
     setLoginErrors((prev) => ({ ...prev, email: errorMsg }));
   };
 
@@ -124,6 +125,7 @@ const validateRegisterLastName = (name) => {
   // Register
   const handleRegisterEmailBlur = (e) => {
     const errorMsg = validateRegisterEmail(e.target.value);
+    if (errorMsg) addToast(errorMsg, { appearance: "error", autoDismiss: true });
     setRegisterErrors((prev) => ({ ...prev, email: errorMsg }));
   };
 
@@ -243,13 +245,12 @@ const validateRegisterLastName = (name) => {
     const passwordError = validateRegisterPassword(registerData.password);
     const confirmError = validateConfirmPassword();
 
-
     if (firstNameError) {
-        addToast(firstNameError, { appearance: "error", autoDismiss: true });
-      }
-      if (lastNameError) {
-        addToast(lastNameError, { appearance: "error", autoDismiss: true });
-      }
+      addToast(firstNameError, { appearance: "error", autoDismiss: true });
+    }
+    if (lastNameError) {
+      addToast(lastNameError, { appearance: "error", autoDismiss: true });
+    }
     if (emailError) {
       addToast(emailError, { appearance: "error", autoDismiss: true });
     }
@@ -262,7 +263,22 @@ const validateRegisterLastName = (name) => {
       addToast(confirmError, { appearance: "error", autoDismiss: true });
     }
 
-    if (firstNameError || lastNameError || emailError || passwordError || confirmError) return;
+    if (
+      firstNameError ||
+      lastNameError ||
+      emailError ||
+      passwordError ||
+      confirmError
+    )
+      return;
+
+    if (!termsAccepted) {
+      addToast(t("please_accept_terms"), {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      return;
+    }
 
     setRegisterLoading(true);
     try {
@@ -286,7 +302,12 @@ const validateRegisterLastName = (name) => {
           appearance: "success",
           autoDismiss: true,
         });
-        setRegisterData({ email: "", password: "", firstName: "", lastName: "" });
+        setRegisterData({
+          email: "",
+          password: "",
+          firstName: "",
+          lastName: "",
+        });
         setConfirmPassword("");
       } else {
         const message = getFriendlyAuthMessage(
@@ -692,7 +713,7 @@ const validateRegisterLastName = (name) => {
                     </Col>
 
                     {/* Confirm Password */}
-                    <Col lg={12} className="space-mb--50">
+                    <Col lg={12} className="space-mb--15">
                       <div style={{ position: "relative" }}>
                         <input
                           type={confirmPasswordVisible ? "text" : "password"}
@@ -721,6 +742,49 @@ const validateRegisterLastName = (name) => {
                             <AiOutlineEyeInvisible size={20} color="#000" />
                           )}
                         </span>
+                      </div>
+                    </Col>
+                    <Col lg={12} className="space-mb--30">
+                      <div
+                        className="single-method remember-container d-flex align-items-center"
+                        style={{ marginTop: "10px", justifyContent: "center" }}
+                      >
+                        <div className="remember-me d-flex align-items-center">
+                          <input
+                            type="checkbox"
+                            id="termsAccepted"
+                            checked={termsAccepted}
+                            onChange={(e) => setTermsAccepted(e.target.checked)}
+                            style={{ marginRight: "8px" }}
+                          />
+                          <label
+                            htmlFor="termsAccepted"
+                            style={{ cursor: "pointer", fontSize: "10px" }}
+                          >
+                            {t("i_accept")}{" "}
+                            <Link
+                              href="/other/terms-of-service"
+                              target="_blank"
+                              style={{
+                                textDecoration: "underline",
+                                color: "blue",
+                              }}
+                            >
+                              {t("terms_of_service_register")}
+                            </Link>{" "}
+                            {t("and")}{" "}
+                            <Link
+                              href="/other/privacy-policy"
+                              target="_blank"
+                              style={{
+                                textDecoration: "underline",
+                                color: "blue",
+                              }}
+                            >
+                              {t("privacy_policy")}
+                            </Link>
+                          </label>
+                        </div>
                       </div>
                     </Col>
 

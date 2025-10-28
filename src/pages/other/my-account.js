@@ -1630,7 +1630,7 @@ const MyAccount = () => {
                   <h3>{t("dashboard")}</h3>
                   <div className="welcome">
                     <p>
-                      {t("hello_user")} {" "}
+                      {t("hello_user")}{" "}
                       <strong>{displayName || user?.email || ""}</strong> (
                       {t("if_not")}{" "}
                       <strong>{displayName || user?.email || ""}!</strong>)
@@ -1691,7 +1691,9 @@ const MyAccount = () => {
                           <div className="d-flex align-items-center mb-3">
                             <button
                               type="button"
-                              className="btn btn-outline-secondary d-flex align-items-center justify-content-center me-3"
+                              className={`btn btn-outline-secondary d-flex align-items-center justify-content-center me-3 filter-toggle ${
+                                showFilters ? "active" : ""
+                              }`}
                               onClick={() => setShowFilters((prev) => !prev)}
                               title={
                                 showFilters
@@ -1705,7 +1707,7 @@ const MyAccount = () => {
                                 padding: 0,
                               }}
                             >
-                              <IoFilter size={22} />
+                              <IoFilter size={22} className="filter-icon"/>
                             </button>
                             <span>{t("filter")}</span>
                           </div>
@@ -1898,31 +1900,43 @@ const MyAccount = () => {
                               <tr>
                                 {role === "admin" && (
                                   <th
-                                    className="ps-3"
+                                    className="ps-3 text-start"
                                     style={{ minWidth: "150px" }}
                                   >
                                     <i className="bi bi-person me-2"></i>
                                     {t("user")}
                                   </th>
                                 )}
-                                <th style={{ minWidth: "120px" }}>
+                                <th
+                                  className="text-start"
+                                  style={{ minWidth: "120px" }}
+                                >
                                   <i className="bi bi-receipt me-2"></i>
                                   {t("order")}
                                 </th>
-                                <th style={{ minWidth: "120px" }}>
+                                <th
+                                  className="text-start"
+                                  style={{ minWidth: "120px" }}
+                                >
                                   <i className="bi bi-calendar-date me-2"></i>
                                   {t("date")}
                                 </th>
-                                <th style={{ minWidth: "140px" }}>
+                                <th
+                                  className="text-start"
+                                  style={{ minWidth: "140px" }}
+                                >
                                   <i className="bi bi-calendar-check me-2"></i>
                                   {t("date_of_reservation")}
                                 </th>
-                                <th style={{ minWidth: "90px" }}>
+                                <th
+                                  className="text-start pe-3"
+                                  style={{ minWidth: "90px" }}
+                                >
                                   <i className="bi bi-clock me-2"></i>
                                   {t("time_of_reservation")}
                                 </th>
                                 <th
-                                  className="text-center"
+                                  className="text-center pe-3"
                                   style={{ minWidth: "90px" }}
                                 >
                                   <i className="bi bi-info-circle me-2"></i>
@@ -1935,6 +1949,7 @@ const MyAccount = () => {
                                   <i className="bi bi-currency-exchange me-2"></i>
                                   {t("total")}
                                 </th>
+                                {/* Only Action stays centered */}
                                 <th
                                   className="text-center pe-3"
                                   style={{ minWidth: "180px" }}
@@ -1944,6 +1959,7 @@ const MyAccount = () => {
                                 </th>
                               </tr>
                             </thead>
+
                             <tbody>
                               {currentOrders.map((order) => (
                                 <tr key={order.id} className="align-middle">
@@ -1957,15 +1973,15 @@ const MyAccount = () => {
                                       {order.orderNumber}
                                     </span>
                                   </td>
-                                  <td>
+                                  <td className="text-start pe-3">
                                     <small>{order.date}</small>
                                   </td>
-                                  <td>
+                                  <td className="text-center pe-3">
                                     <small>
                                       {formatDMY(order.reservationDate)}
                                     </small>
                                   </td>
-                                  <td>
+                                  <td className="text-center pe-3">
                                     <small>{order.reservationTime}</small>
                                   </td>
                                   <td className="text-center">
@@ -2046,6 +2062,7 @@ const MyAccount = () => {
                                 </tr>
                               ))}
                             </tbody>
+
                             <tfoot
                               className="table-secondary"
                               style={{
@@ -2075,6 +2092,7 @@ const MyAccount = () => {
                             </tfoot>
                           </table>
                         </div>
+
                         {totalPages > 1 && (
                           <div className="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-3">
                             {/* Pagination summary (left side) */}
@@ -2567,9 +2585,9 @@ const MyAccount = () => {
                                             </span>
                                           </td>
                                           <td className="text-end pe-3 text-primary">
-                                            <strong
-                                              style={{ fontSize: "1.1rem" }}
-                                            >
+                                            <small
+                                              style={{ fontSize: "0.9rem" }} >
+                                            
                                               {getDailyRevenue(
                                                 filteredOrdersForCharts,
                                                 dateRange === "7days"
@@ -2587,7 +2605,7 @@ const MyAccount = () => {
                                                   minimumFractionDigits: 2,
                                                   maximumFractionDigits: 2,
                                                 })}
-                                            </strong>
+                                            </small>
                                           </td>
                                         </tr>
                                       </tfoot>
@@ -2921,7 +2939,7 @@ const MyAccount = () => {
                                           </td>
                                           <td className="text-end text-primary">
                                             <strong
-                                              style={{ fontSize: "1.1rem" }}
+                                              style={{ fontSize: "1rem" }}
                                             >
                                               {getMonthlyRevenue(
                                                 filteredOrdersForCharts,
@@ -3319,7 +3337,7 @@ const MyAccount = () => {
                                           </td>
                                           <td className="text-end text-primary">
                                             <strong
-                                              style={{ fontSize: "1.1rem" }}
+                                              style={{ fontSize: "1rem" }}
                                             >
                                               {getYearlyRevenue(orders)
                                                 .reduce(
@@ -3397,7 +3415,7 @@ const MyAccount = () => {
                                           </small>
                                           <strong
                                             className="text-warning"
-                                            style={{ fontSize: "1.5rem" }}
+                                            style={{ fontSize: "1.1rem" }}
                                           >
                                             {getYearlyRevenue(orders).length}
                                           </strong>
@@ -3862,50 +3880,71 @@ const MyAccount = () => {
                           <table className="table table-hover align-middle">
                             <thead className="table-light">
                               <tr>
-                                {role === "admin" && <th>{t("user")}</th>}
-                                <th>{t("order")}</th>
-                                <th>{t("date")}</th>
-                                <th>{t("payment_method")}</th>
-                                <th>{t("download")}</th>
+                                {role === "admin" && (
+                                  <th>
+                                    <small>{t("user")}</small>
+                                  </th>
+                                )}
+                                <th>
+                                  <small>{t("order")}</small>
+                                </th>
+                                <th>
+                                  <small>{t("date")}</small>
+                                </th>
+                                <th>
+                                  <small>{t("payment_method")}</small>
+                                </th>
+                                <th className="text-center">
+                                  <small>{t("download")}</small>
+                                </th>
                               </tr>
                             </thead>
                             <tbody>
                               {currentOrdersDown.map((order) => (
                                 <tr key={order.id}>
                                   {role === "admin" && (
-                                    <td>{order.displayName}</td>
+                                    <td>
+                                      <small>{order.displayName}</small>
+                                    </td>
                                   )}
                                   <td>
-                                    <span className="fw-semibold">
-                                      {order.orderNumber}
+                                    <span className="badge bg-light text-dark border">
+                                      <small>{order.orderNumber}</small>
                                     </span>
                                   </td>
-                                  <td>{order.date}</td>
+                                  <td>
+                                    <small>{order.date}</small>
+                                  </td>
                                   <td>
                                     <span className="badge bg-light text-dark border">
-                                      {order.paymentMethod === "payment_cash"
-                                        ? t("payment_cash")
-                                        : t("payment_bank")}
+                                      <small>
+                                        {order.paymentMethod === "payment_cash"
+                                          ? t("payment_cash")
+                                          : t("payment_bank")}
+                                      </small>
                                     </span>
                                   </td>
-                                  <td>
+                                  <td className="text-center">
                                     <button
-                                      className="btn btn-sm btn-outline-primary rounded-pill"
+                                      className="btn btn-sm btn-outline-primary rounded-pill d-flex justify-content-center align-items-center mx-auto"
                                       onClick={() => downloadPdf(order)}
                                       disabled={downloadingOrderId === order.id}
+                                      style={{ minWidth: "100px" }} // optional, keeps width consistent
                                     >
                                       {downloadingOrderId === order.id ? (
-                                        <Spinner
-                                          as="span"
-                                          animation="border"
-                                          size="sm"
-                                          role="status"
-                                          aria-hidden="true"
-                                        />
+                                        <div className="d-flex justify-content-center align-items-center w-100">
+                                          <Spinner
+                                            as="span"
+                                            animation="border"
+                                            size="sm"
+                                            role="status"
+                                            aria-hidden="true"
+                                          />
+                                        </div>
                                       ) : (
                                         <>
                                           <i className="bi bi-download me-1"></i>
-                                          {t("download")}
+                                          <small>{t("download")}</small>
                                         </>
                                       )}
                                     </button>

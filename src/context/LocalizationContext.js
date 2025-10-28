@@ -425,7 +425,8 @@ const translations = {
     user: "User",
     order_deleted: "Order deleted!",
     privacy_policy: "Privacy Policy",
-    terms_of_service: "Terms of Service",    
+    terms_of_service: "Terms of Service",     
+    terms_of_service_register: "Terms of Service",   
     privacy_intro: "We respect your privacy and are committed to protecting your personal data. When you shop with us, we only collect information necessary to process orders, improve your experience, and provide customer support.",
     information_we_collect: "Information We Collect",
     info_collect_name_email: "- Name, email, phone, and shipping address when placing an order.",
@@ -570,7 +571,9 @@ const translations = {
     please_enter_your_first_name: "Please enter your first name.",
     please_enter_your_last_name: "Please enter your last name.",
     first_name_too_short: "First name must be at least 2 characters.",
-    last_name_too_short: "Last name must be at least 2 characters."
+    last_name_too_short: "Last name must be at least 2 characters.",
+    i_accept: "I accept the ",
+    and: " and ",
   },
   mk: {
     english: "Англиски",
@@ -998,7 +1001,8 @@ const translations = {
     user: "Корисник",
     order_deleted: "Нарачката е избришана.",
     privacy_policy: "Политика за приватност",
-    terms_of_service: "Услови за користење",    
+    terms_of_service: "Услови за користење",   
+    terms_of_service_register: "Условите за користење",
     privacy_intro: "Ние ја почитуваме вашата приватност и сме посветени на заштита на вашите лични податоци. Кога купувате кај нас, ги собираме само информациите потребни за обработка на нарачки, подобрување на вашето искуство и обезбедување корисничка поддршка.",
     information_we_collect: "Кои информации ги собираме",
     info_collect_name_email: "- Име, е-маил, телефон и адреса за испорака при нарачка.",
@@ -1145,6 +1149,8 @@ const translations = {
     please_enter_your_last_name: "Ве молиме, внесете го вашето презиме.",
     first_name_too_short: "Име мора да содржи најмалку 2 карактери.",
     last_name_too_short: "Презиме мора да содржи најмалку 2 карактери.",
+    i_accept: "Се согласувам со ",
+    and: " и ",
   },
 };
 
