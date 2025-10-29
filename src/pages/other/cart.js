@@ -32,17 +32,22 @@ const Cart = ({
   const router = useRouter();
   const { userId, orderId, viewOrder } = router.query || {};
 
-  // Order preview state (when viewing an order from Firebase)
+  // Order preview state
   const [loadingOrder, setLoadingOrder] = useState(false);
   const [orderProducts, setOrderProducts] = useState([]);
   const [orderMeta, setOrderMeta] = useState(null);
 
-  // coupon states
+  // Coupon states
   const [userCoupon, setUserCoupon] = useState(null);
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [couponInput, setCouponInput] = useState("");
 
-  // fetch coupon for logged in user and autofill coupon input
+  // Totals state
+  const [cartTotalPrice, setCartTotalPrice] = useState(0);
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [finalTotal, setFinalTotal] = useState(0);
+
+  // Fetch user coupon from Firebase
   useEffect(() => {
     const fetchUserCoupon = async () => {
       const currentUser = auth.currentUser;
@@ -55,7 +60,7 @@ const Cart = ({
           if (data.coupon) {
             const coupon = { code: data.coupon, discount: 5 };
             setUserCoupon(coupon);
-            setCouponInput(coupon.code); // autofill input so user can click Apply
+            setCouponInput(coupon.code);
           }
         }
       } catch (err) {
@@ -66,267 +71,95 @@ const Cart = ({
     fetchUserCoupon();
   }, []);
 
-  // ensure body overflow class removed once
+  // Remove body overflow class
   useEffect(() => {
     if (typeof document !== "undefined") {
       document.querySelector("body")?.classList.remove("overflow-hidden");
     }
   }, []);
 
-  useEffect(() => {
-  const shouldViewOrder = viewOrder === "true" || viewOrder === true;
-  if (!shouldViewOrder || !userId || !orderId) return;
-
-  let mounted = true;
-  setLoadingOrder(true);
-
-  const parseMoney = (v) => {
-    if (v == null) return 0;
-    const s = String(v).trim();
-    const cleaned = s.replace(/\s/g, "").replace(/,/g, "."); // "32,51" => "32.51"
-    const num = parseFloat(cleaned.replace(/[^0-9.\-]+/g, ""));
-    return Number.isFinite(num) ? num : 0;
-  };
-
-  const loadOrderFromFirebase = async () => {
-    try {
-      const db = getDatabase();
-      const snap = await get(ref(db, `orders/${userId}/${orderId}`));
-      if (!snap.exists()) {
-        addToast(t("order_not_found") || "Order not found", {
-          appearance: "error",
-          autoDismiss: true,
-        });
-        if (mounted) {
-          setOrderProducts([]);
-          setOrderMeta(null);
-        }
-        return;
-      }
-
-      const data = snap.val();
-
-      // Normalize product list with numericEn (EUR) and numericMk (MKD)
-      const normalized = (data.products || []).map((p, i) => {
-        const priceObj = p.price ?? p.prices ?? null;
-
-        const numericEn =
-          priceObj && typeof priceObj === "object" && priceObj.en != null
-            ? parseMoney(priceObj.en)
-            : parseMoney(p.price) || 0;
-
-        const numericMk =
-          priceObj && typeof priceObj === "object" && priceObj.mk != null
-            ? parseMoney(priceObj.mk)
-            : parseMoney(p.price) || 0;
-
-        const qty = Number(p.quantity ?? p.qty ?? 1) || 1;
-
-        return {
-          id: p.id ?? `${i + 1}`,
-          name: p.name ?? p.title ?? `Item ${i + 1}`,
-          price: p.price,
-          numericEn,
-          numericMk,
-          quantity: qty,
-          discount: Number(p.discount ?? 0) || 0,
-          thumbImage: p.thumbImage ?? p.image ?? null,
-          slug: p.slug ?? null,
-        };
-      });
-
-      // Compute reliable subtotals in both currencies (respect product discounts)
-      const computedSubtotalEn = normalized.reduce((acc, it) => {
-        const perPrice = Number(getDiscountPrice(it.numericEn, it.discount)) || it.numericEn;
-        return acc + perPrice * it.quantity;
-      }, 0);
-
-      const computedSubtotalMk = normalized.reduce((acc, it) => {
-        const perPrice = Number(getDiscountPrice(it.numericMk, it.discount)) || it.numericMk;
-        return acc + perPrice * it.quantity;
-      }, 0);
-
-      // Parse stored meta values (your DB stores subtotal/total in MKD strings)
-      const storedSubtotalMk = data.subtotal != null ? parseMoney(data.subtotal) : null;
-      const storedDiscountMk = data.discount != null ? parseMoney(data.discount) : null;
-      const storedTotalMk = data.total != null ? parseMoney(data.total) : null;
-
-      // Compute conversion rate MKD per EUR from computed rows if possible
-      const conversionRate =
-        computedSubtotalEn > 0 && computedSubtotalMk > 0
-          ? computedSubtotalMk / computedSubtotalEn
-          : null;
-
-      // Convert stored MKD -> EUR when we can, otherwise fallback to computed EN sums
-      const subtotalEn = conversionRate && storedSubtotalMk != null
-        ? storedSubtotalMk / conversionRate
-        : computedSubtotalEn;
-
-      // Discount: prefer stored discount converted, else derive from storedSubtotal/storedTotal, else 0
-      let discountEn = 0;
-      if (conversionRate && storedDiscountMk != null) {
-        discountEn = storedDiscountMk / conversionRate;
-      } else if (conversionRate && storedSubtotalMk != null && storedTotalMk != null) {
-        discountEn = (storedSubtotalMk - storedTotalMk) / conversionRate;
-      } else {
-        // no stored discount, maybe storedTotal exists: derive discount from computedSubtotalEn vs storedTotalMk
-        if (storedTotalMk != null && conversionRate) {
-          discountEn = subtotalEn - (storedTotalMk / conversionRate);
-        } else {
-          discountEn = 0;
-        }
-      }
-      if (!Number.isFinite(discountEn)) discountEn = 0;
-
-      // Total in EN
-      let totalEn = null;
-      if (conversionRate && storedTotalMk != null) {
-        totalEn = storedTotalMk / conversionRate;
-      } else {
-        totalEn = subtotalEn - discountEn;
-      }
-      if (!Number.isFinite(totalEn)) totalEn = subtotalEn - discountEn;
-
-      // Build meta: keep original MK values and computed EN values
-      const meta = {
-        orderNumber: data.orderNumber ?? null,
-        date: data.date ?? null,
-        reservationDate: data.reservationDate ?? null,
-        reservationTime: data.reservationTime ?? null,
-        status: data.status ?? null,
-        // stored MK values for debugging
-        subtotalMk: storedSubtotalMk ?? computedSubtotalMk,
-        discountMk: storedDiscountMk ?? 0,
-        totalMk: storedTotalMk ?? (computedSubtotalMk - (storedDiscountMk ?? 0)),
-        // computed / converted EUR values for display when language is EN
-        subtotalEn,
-        discountEn,
-        totalEn,
-        // currency display values
-        displayCurrencyEn: "€",
-        displayCurrencyMk: t("currency") || "ден",
-        paymentMethod: data.paymentMethod ?? null,
-        paymentText: data.paymentText ?? null,
-        customer: data.customer ?? null,
-        createdAt: data.createdAt ?? null,
-      };
-
-      if (!mounted) return;
-      setOrderProducts(normalized);
-      setOrderMeta(meta);
-    } catch (err) {
-      console.error("Error loading order from Firebase:", err);
-      addToast(err.message || "Error loading order", {
-        appearance: "error",
-        autoDismiss: true,
-      });
-      if (mounted) {
-        setOrderProducts([]);
-        setOrderMeta(null);
-      }
-    } finally {
-      if (mounted) setLoadingOrder(false);
-    }
-  };
-
-  loadOrderFromFirebase();
-
-  return () => {
-    mounted = false;
-  };
-}, [userId, orderId, viewOrder, addToast, t, currentLanguage]);
-
-
-  const handleAddToCart = (product) => {
-    addToCart(
-      product,
-      addToast,
-      quantityCount,
-      product.selectedProductColor,
-      product.selectedProductSize,
-      t
-    );
-  };
-
-  // Determine whether we are showing an order (read-only) or normal Redux cart
+  // Determine if showing order (read-only)
   const showingOrder = viewOrder === "true" || viewOrder === true;
   const itemsToRender = showingOrder ? orderProducts : cartItems || [];
 
-  // ---------- totals calculation (single source of truth) ----------
-  // compute totals fresh each render (robust numeric parsing)
-  let cartTotalPrice = 0;
-  itemsToRender.forEach((product) => {
-    // priceNum extraction must handle both order items and store items,
-    // and both numeric price or object with mk/en.
-    let priceNum = 0;
+  // Recalculate totals whenever cartItems or appliedCoupon change
+  useEffect(() => {
+    let total = 0;
+    itemsToRender.forEach((product) => {
+      let priceNum = 0;
 
-    if (showingOrder) {
-      if (product.price && typeof product.price === "object") {
-        const raw = currentLanguage === "mk" ? product.price.mk : product.price.en;
-        priceNum = Number(raw) || 0;
+      if (showingOrder) {
+        if (product.price && typeof product.price === "object") {
+          priceNum =
+            Number(currentLanguage === "mk" ? product.price.mk : product.price.en) || 0;
+        } else {
+          priceNum = Number(product.price) || 0;
+        }
       } else {
-        priceNum = Number(product.price) || 0;
+        let basePrice = 0;
+        if (product.price && typeof product.price === "object") {
+          basePrice =
+            Number(currentLanguage === "mk" ? product.price.mk : product.price.en) || 0;
+        } else {
+          basePrice = Number(product.price) || 0;
+        }
+        priceNum = Number(getDiscountPrice(basePrice, product.discount)) || 0;
       }
-    } else {
-      let basePrice = 0;
-      if (product.price && typeof product.price === "object") {
-        basePrice = Number(currentLanguage === "mk" ? product.price.mk : product.price.en) || 0;
-      } else {
-        basePrice = Number(product.price) || 0;
+
+      const qty = Number(product.quantity ?? product.qty ?? 1) || 1;
+      total += priceNum * qty;
+    });
+
+    let discount = appliedCoupon ? (total * Number(appliedCoupon.discount || 0)) / 100 : 0;
+    let finalAmount = total - discount;
+
+    setCartTotalPrice(total);
+    setDiscountAmount(discount);
+    setFinalTotal(finalAmount);
+  }, [cartItems, appliedCoupon, currentLanguage, itemsToRender]);
+
+  // Auto-remove coupon if total drops below threshold
+  useEffect(() => {
+    if (appliedCoupon) {
+      const thresholdMk = 2999;
+      const thresholdEn = 48.67;
+      const minTotal = currentLanguage === "mk" ? thresholdMk : thresholdEn;
+      const currentTotal = cartTotalPrice;
+
+      if (currentTotal < minTotal) {
+        setAppliedCoupon(null);
+        try {
+          sessionStorage.removeItem("appliedCoupon");
+        } catch {}
+        addToast(
+          t("coupon_min_total") || `Cart total must exceed ${minTotal} ${t("currency")}`,
+          { appearance: "warning", autoDismiss: true }
+        );
       }
-      priceNum = Number(getDiscountPrice(basePrice, product.discount)) || 0;
     }
-
-    const qty = Number(product.quantity ?? product.qty ?? 1) || 1;
-    cartTotalPrice += priceNum * qty;
-  });
-
-  // Apply coupon discount ONLY when user clicks (appliedCoupon)
-  let discountAmount = 0;
-  let finalTotal = cartTotalPrice;
-  if (appliedCoupon) {
-    discountAmount = (cartTotalPrice * Number(appliedCoupon.discount || 0)) / 100;
-    finalTotal = cartTotalPrice - discountAmount;
-  }
-
-  // Helper to format safely
-const safeNumber = (v) => {
-  const n = Number(v);
-  return Number.isFinite(n) ? n : 0;
-};
-  const format = (v) => safeNumber(v).toFixed(2);
-
-  // If we're showing an order, prefer orderMeta values (if present), otherwise fallback to computed ones
-const displaySubtotal = showingOrder
-  ? (currentLanguage === "mk"
-      ? safeNumber(orderMeta?.subtotalMk ?? orderMeta?.totalMk ?? cartTotalPrice)
-      : safeNumber(orderMeta?.subtotalEn ?? cartTotalPrice))
-  : cartTotalPrice;
-
-const displayDiscount = showingOrder
-  ? (currentLanguage === "mk"
-      ? safeNumber(orderMeta?.discountMk ?? 0)
-      : safeNumber(orderMeta?.discountEn ?? 0))
-  : discountAmount;
-
-const displayTotal = showingOrder
-  ? (currentLanguage === "mk"
-      ? safeNumber(orderMeta?.totalMk ?? (displaySubtotal - displayDiscount))
-      : safeNumber(orderMeta?.totalEn ?? (displaySubtotal - displayDiscount)))
-  : finalTotal;
-
-const currencyToShow = showingOrder
-  ? (currentLanguage === "mk" ? (orderMeta?.displayCurrencyMk || t("currency")) : (orderMeta?.displayCurrencyEn || "€"))
-  : t("currency") || "€";
+  }, [cartItems, cartTotalPrice, currentLanguage, appliedCoupon, addToast, t]);
 
   // Apply coupon handler
   const handleApplyCoupon = (e) => {
     e?.preventDefault?.();
+
     if (!userCoupon && !couponInput.trim()) {
       addToast(t("invalid_coupon") || "No coupon available", {
         appearance: "error",
         autoDismiss: true,
       });
+      return;
+    }
+
+    const minTotalMKD = 2999;
+    const minTotalEUR = 48.67;
+    const minTotal = currentLanguage === "mk" ? minTotalMKD : minTotalEUR;
+
+    if (cartTotalPrice < minTotal) {
+      addToast(
+        t("coupon_min_total") || `Cart total must exceed ${minTotal} ${t("currency")}`,
+        { appearance: "error", autoDismiss: true }
+      );
       return;
     }
 
@@ -349,30 +182,49 @@ const currencyToShow = showingOrder
           autoDismiss: true,
         });
       }
-    } else {
-      // no input: attempt to apply the stored coupon
-      if (userCoupon) {
-        setAppliedCoupon(userCoupon);
-        try {
-          sessionStorage.setItem("appliedCoupon", JSON.stringify(userCoupon));
-        } catch {}
-        addToast(
-          t("coupon_applied") || `Coupon applied: ${userCoupon.discount}% off`,
-          { appearance: "success", autoDismiss: true }
-        );
-      }
+    } else if (userCoupon) {
+      setAppliedCoupon(userCoupon);
+      try {
+        sessionStorage.setItem("appliedCoupon", JSON.stringify(userCoupon));
+      } catch {}
+      addToast(
+        t("coupon_applied") || `Coupon applied: ${userCoupon.discount}% off`,
+        { appearance: "success", autoDismiss: true }
+      );
     }
   };
+
+  const handleAddToCart = (product) => {
+    addToCart(
+      product,
+      addToast,
+      quantityCount,
+      product.selectedProductColor,
+      product.selectedProductSize,
+      t
+    );
+  };
+
+  const safeNumber = (v) => {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+  };
+  const format = (v) => safeNumber(v).toFixed(2);
+
+  const currencyToShow = t("currency") || "€";
 
   return (
     <LayoutTwo>
       <BreadcrumbOne
-        pageTitle={showingOrder ? (t("order_preview") || "Order preview") : t("cart_title")}
+        pageTitle={showingOrder ? t("order_preview") : t("cart_title")}
         backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.jpg"
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
+            <Link
+              href="/home/trending"
+              as={process.env.PUBLIC_URL + "/home/trending"}
+            >
               {t("home")}
             </Link>
           </li>
@@ -389,6 +241,7 @@ const currencyToShow = showingOrder
           ) : itemsToRender && itemsToRender.length >= 1 ? (
             <Row>
               <Col lg={12}>
+                {/* CART TABLE */}
                 <table className="cart-table">
                   <thead>
                     <tr>
@@ -406,14 +259,16 @@ const currencyToShow = showingOrder
                       let priceNum = 0;
                       if (showingOrder) {
                         if (product.price && typeof product.price === "object") {
-                          priceNum = Number(currentLanguage === "mk" ? product.price.mk : product.price.en) || 0;
+                          priceNum =
+                            Number(currentLanguage === "mk" ? product.price.mk : product.price.en) || 0;
                         } else {
                           priceNum = Number(product.price) || 0;
                         }
                       } else {
                         let basePrice = 0;
                         if (product.price && typeof product.price === "object") {
-                          basePrice = Number(currentLanguage === "mk" ? product.price.mk : product.price.en) || 0;
+                          basePrice =
+                            Number(currentLanguage === "mk" ? product.price.mk : product.price.en) || 0;
                         } else {
                           basePrice = Number(product.price) || 0;
                         }
@@ -424,7 +279,9 @@ const currencyToShow = showingOrder
                       const rowSubtotal = priceNum * qty;
                       const subtotalStr = safeNumber(rowSubtotal).toFixed(2);
 
-                      const thumbRaw = Array.isArray(product.thumbImage) ? product.thumbImage[0] : product.thumbImage || product.image || "/assets/images/no-image.png";
+                      const thumbRaw = Array.isArray(product.thumbImage)
+                        ? product.thumbImage[0]
+                        : product.thumbImage || product.image || "/assets/images/no-image.png";
                       const thumbSrc = process.env.PUBLIC_URL + thumbRaw;
 
                       return (
@@ -436,11 +293,7 @@ const currencyToShow = showingOrder
                                   href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                                   as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                                 >
-                                  <img
-                                    src={thumbSrc}
-                                    className="img-fluid"
-                                    alt={product.name || ""}
-                                  />
+                                  <img src={thumbSrc} className="img-fluid" alt={product.name || ""} />
                                 </Link>
                               ) : (
                                 <img src={thumbSrc} className="img-fluid" alt={product.name || ""} />
@@ -454,16 +307,20 @@ const currencyToShow = showingOrder
                                 href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                                 as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                               >
-                                {product.name && (product.name[currentLanguage] || product.name) ? (product.name[currentLanguage] || product.name) : product.name}
+                                {product.name && (product.name[currentLanguage] || product.name)
+                                  ? product.name[currentLanguage] || product.name
+                                  : product.name}
                               </Link>
+                            ) : product.name && (product.name[currentLanguage] || product.name) ? (
+                              product.name[currentLanguage] || product.name
                             ) : (
-                              product.name && (product.name[currentLanguage] || product.name) ? (product.name[currentLanguage] || product.name) : product.name
+                              product.name
                             )}
                           </td>
 
                           <td className="product-price">
                             <span className="price">
-                              {currentLanguage === 'mk'
+                              {currentLanguage === "mk"
                                 ? `${safeNumber(priceNum).toFixed(2)} ${t("currency")}`
                                 : `${t("currency")} ${safeNumber(priceNum).toFixed(2)}`}
                             </span>
@@ -482,12 +339,7 @@ const currencyToShow = showingOrder
                                 >
                                   -
                                 </button>
-                                <input
-                                  className="cart-plus-minus-box"
-                                  type="text"
-                                  value={product.quantity}
-                                  readOnly
-                                />
+                                <input className="cart-plus-minus-box" type="text" value={product.quantity} readOnly />
                                 <button
                                   className="inc qtybutton"
                                   onClick={() => handleAddToCart(product)}
@@ -510,7 +362,7 @@ const currencyToShow = showingOrder
 
                           <td className="total-price">
                             <span className="price">
-                              {currentLanguage === 'mk'
+                              {currentLanguage === "mk"
                                 ? `${subtotalStr} ${t("currency")}`
                                 : `${t("currency")} ${subtotalStr}`}
                             </span>
@@ -518,9 +370,7 @@ const currencyToShow = showingOrder
 
                           <td className="product-remove">
                             {showingOrder ? null : (
-                              <button
-                                onClick={() => deleteFromCart(product, addToast, t)}
-                              >
+                              <button onClick={() => deleteFromCart(product, addToast, t)}>
                                 <IoIosClose />
                               </button>
                             )}
@@ -532,38 +382,15 @@ const currencyToShow = showingOrder
                 </table>
               </Col>
 
-              {showingOrder ? (
-                <Col lg={12} className="space-mb--r100 space-pt--30">
-                  <Row className="align-items-center">
-                    <Col lg={8}>
-                      <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-                        <Link href="/other/my-account" as={process.env.PUBLIC_URL + "/other/my-account"} className="lezada-button lezada-button--medium">
-                          {t("back_to_account") || "Back to account"}
-                        </Link>
-
-                        <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"} className="lezada-button lezada-button--medium">
-                          {t("back_home") || "Back to home"}
-                        </Link>
-                      </div>
-                    </Col>
-                    <Col lg={4} className="text-right">
-                      {/* Optionally show order summary/meta here */}
-                    </Col>
-                  </Row>
-                </Col>
-              ) : (
+              {!showingOrder && (
                 <>
+                  {/* COUPON & CLEAR CART */}
                   <Col lg={12} className="space-mb--r100">
                     <div className="cart-coupon-area space-pt--30 space-pb--30">
                       <Row className="align-items-center">
                         <Col lg={7} className="space-mb-mobile-only--30">
                           <div className="lezada-form coupon-form">
-                            <form
-                              onSubmit={(e) => {
-                                e.preventDefault();
-                                handleApplyCoupon();
-                              }}
-                            >
+                            <form onSubmit={(e) => { e.preventDefault(); handleApplyCoupon(); }}>
                               <Row>
                                 <Col md={7}>
                                   <input
@@ -593,57 +420,57 @@ const currencyToShow = showingOrder
                       </Row>
                     </div>
                   </Col>
+
+                  {/* CART TOTALS */}
+                  <Col lg={5} className="ml-auto">
+                    <div className="cart-calculation-area">
+                      <h2 className="space-mb--40">{t("cart_totals")}</h2>
+                      <table className="cart-calculation-table space-mb--40">
+                        <tbody>
+                          <tr>
+                            <th>{t("subtotal")}</th>
+                            <td className="subtotal">
+                              {currentLanguage === "mk"
+                                ? `${format(cartTotalPrice)} ${currencyToShow}`
+                                : `${currencyToShow} ${format(cartTotalPrice)}`}
+                            </td>
+                          </tr>
+
+                          {appliedCoupon && (
+                            <tr>
+                              <th>{t("coupon_discount")}</th>
+                              <td className="discount">
+                                {currentLanguage === "mk"
+                                  ? `-${format(discountAmount)} ${currencyToShow}`
+                                  : `-${currencyToShow} ${format(discountAmount)}`}
+                              </td>
+                            </tr>
+                          )}
+
+                          <tr>
+                            <th>{t("total")}</th>
+                            <td className="total">
+                              {currentLanguage === "mk"
+                                ? `${format(finalTotal)} ${currencyToShow}`
+                                : `${currencyToShow} ${format(finalTotal)}`}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <div className="cart-calculation-button text-center">
+                        <Link
+                          href="/other/checkout"
+                          as={process.env.PUBLIC_URL + "/other/checkout"}
+                          className="lezada-button lezada-button--medium"
+                        >
+                          {t("proceed_to_checkout")}
+                        </Link>
+                      </div>
+                    </div>
+                  </Col>
                 </>
               )}
-
-              <Col lg={5} className="ml-auto">
-                <div className="cart-calculation-area">
-                  <h2 className="space-mb--40">{t("cart_totals")}</h2>
-                  <table className="cart-calculation-table space-mb--40">
-                    <tbody>
-                      <tr>
-                        <th>{t("subtotal")}</th>
-                        <td className="subtotal">
-                          {currentLanguage === 'mk'
-                            ? `${format(displaySubtotal)} ${t("currency")}`
-                            : `${t("currency")} ${format(displaySubtotal)}`}
-                        </td>
-                      </tr>
-
-                      { (showingOrder ? displayDiscount > 0 : appliedCoupon) && (
-                        <tr>
-                          <th>{t("coupon_discount")}</th>
-                          <td className="discount">
-                            {currentLanguage === 'mk'
-                              ? `-${format(displayDiscount)} ${t("currency")}`
-                              : `-${t("currency")} ${format(displayDiscount)}`}
-                          </td>
-                        </tr>
-                      )}
-
-                      <tr>
-                        <th>{t("total")}</th>
-                        <td className="total">
-                          {currentLanguage === 'mk'
-                            ? `${format(displayTotal)} ${t("currency")}`
-                            : `${t("currency")} ${format(displayTotal)}`}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  {!showingOrder && (
-                    <div className="cart-calculation-button text-center">
-                      <Link
-                        href="/other/checkout"
-                        as={process.env.PUBLIC_URL + "/other/checkout"}
-                        className="lezada-button lezada-button--medium"
-                      >
-                        {t("proceed_to_checkout")}
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </Col>
             </Row>
           ) : (
             <Row>
@@ -657,7 +484,8 @@ const currencyToShow = showingOrder
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                      className="lezada-button lezada-button--medium">
+                      className="lezada-button lezada-button--medium"
+                    >
                       {t("shop_now")}
                     </Link>
                   </div>
@@ -671,27 +499,23 @@ const currencyToShow = showingOrder
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    cartItems: state.cartData,
-  };
-};
+const mapStateToProps = (state) => ({
+  cartItems: state.cartData,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addToCart: (item, addToast, quantity, color, size, t) => {
-      dispatch(addToCart(item, addToast, quantity, color, size, t));
-    },
-    decreaseQuantity: (item, addToast, t) => {
-      dispatch(decreaseQuantity(item, addToast, t));
-    },
-    deleteFromCart: (item, addToast, t) => {
-      dispatch(deleteFromCart(item, addToast, t));
-    },
-    deleteAllFromCart: (addToast, t) => {
-      dispatch(deleteAllFromCart(addToast, t));
-    }
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  addToCart: (item, addToast, quantity, color, size, t) => {
+    dispatch(addToCart(item, addToast, quantity, color, size, t));
+  },
+  decreaseQuantity: (item, addToast, t) => {
+    dispatch(decreaseQuantity(item, addToast, t));
+  },
+  deleteFromCart: (item, addToast, t) => {
+    dispatch(deleteFromCart(item, addToast, t));
+  },
+  deleteAllFromCart: (addToast, t) => {
+    dispatch(deleteAllFromCart(addToast, t));
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
