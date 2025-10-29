@@ -1428,9 +1428,13 @@ const MyAccount = () => {
     if (!order) return;
     setDownloadingOrderId(order.id);
     try {
+      const paymentText = order.paymentMethod === "payment_cash"
+      ? t("payment_cash")
+      : t("payment_bank");
       // Build a stronger order object to send to the server for PDF generation
       const orderForPdf = {
         ...order,
+        paymentText,
         // prefer order.displayName (from fetchOrders) else use local displayName state
         displayName: order.displayName || displayName || null,
         // ensure .customer object exists and contains useful fields (null when missing)
@@ -3967,7 +3971,7 @@ const MyAccount = () => {
                                       <small>{order.orderNumber}</small>
                                     </span>
                                   </td>
-                                  <td>
+                                  <td style={{ minWidth: "100px" }}>
                                     <small>{order.date}</small>
                                   </td>
                                   <td>

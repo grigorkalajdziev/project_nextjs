@@ -56,7 +56,7 @@ export default async function handler(req, res) {
             reservationTime: order.reservationTime,
             total: order.total,
             normalizedProducts,
-            paymentMethod: order.paymentMethod,
+            paymentText: order.paymentText,
             customerName: order.customer?.name || order.customer?.displayName || '-', // fallback
             customerEmail: order.customer?.email || null, // use null instead of empty string
             customerPhone: order.customer?.phone || null, // use null instead of empty string

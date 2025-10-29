@@ -99,7 +99,7 @@ function InvoiceDocument(props) {
   const {
     orderNumber,
     date,
-    paymentMethod,
+    paymentText,
     normalizedProducts = [],
     customerName,
     customerPhone,
@@ -160,7 +160,7 @@ function InvoiceDocument(props) {
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>Payment Method:</Text>
-            <Text>{paymentMethod}</Text>
+            <Text>{paymentText}</Text>
           </View>
         </View>
 

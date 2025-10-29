@@ -104,7 +104,7 @@ function InvoiceDocument_MK(props) {
   const {
     orderNumber,
     date,
-    paymentMethod,
+    paymentText,
     normalizedProducts = [],
     customerName,
     customerPhone,
@@ -165,13 +165,13 @@ function InvoiceDocument_MK(props) {
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>Начин на плаќање:</Text>
-            <Text>{paymentMethod}</Text>
+            <Text>{paymentText}</Text>
           </View>
         </View>
 
         {normalizedProducts.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.label}>Артикли:</Text>
+            <Text style={styles.label}>Услуги:</Text>
             <View style={styles.productsTable}>
               <View style={styles.tableRow}>
                 <Text style={[styles.tableColHeader, styles.firstColHeader]}>Услуга</Text>
