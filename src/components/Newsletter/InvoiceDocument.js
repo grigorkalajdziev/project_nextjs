@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
 
   // Table headers: keep bold
   tableColHeader: {
-    width: '25%',
     borderBottomWidth: 1,
     borderColor: '#ccc',
     padding: 4,
@@ -57,7 +56,6 @@ const styles = StyleSheet.create({
     fontFamily: 'NotoSans',
     textAlign: 'right',
   },
-
   tableCol: {
     width: '25%',
     padding: 4,
@@ -68,11 +66,39 @@ const styles = StyleSheet.create({
   },
 
   firstColHeader: { textAlign: 'left' },
-  firstCol: { textAlign: 'left', width: '40%' },
+  firstCol: {
+    width: '40%',
+    textAlign: 'left',
+    padding: 4,
+    borderBottomWidth: 1,
+    borderColor: '#f1f1f1',
+    fontFamily: 'NotoSans',
+  },
   tableCol: { width: '20%', padding: 4, borderBottomWidth: 1, borderColor: '#f1f1f1', textAlign: 'right' },
-  quantityCol: { width: '20%', padding: 4, borderBottomWidth: 1, borderColor: '#f1f1f1', textAlign: 'right' },
-  priceCol: { width: '20%', padding: 4, borderBottomWidth: 1, borderColor: '#f1f1f1', textAlign: 'right' },
-  totalCol: { width: '20%', padding: 4, borderBottomWidth: 1, borderColor: '#f1f1f1', textAlign: 'right' },
+  quantityCol: {
+    width: '20%',
+    textAlign: 'right',
+    padding: 4,
+    borderBottomWidth: 1,
+    borderColor: '#f1f1f1',
+    fontFamily: 'NotoSans',
+  },
+  priceCol: {
+    width: '20%',
+    textAlign: 'right',
+    padding: 4,
+    borderBottomWidth: 1,
+    borderColor: '#f1f1f1',
+    fontFamily: 'NotoSans',
+  },
+  totalCol: {
+    width: '20%',
+    textAlign: 'right',
+    padding: 4,
+    borderBottomWidth: 1,
+    borderColor: '#f1f1f1',
+    fontFamily: 'NotoSans',
+  },
 
   // Total row kept bold
   totalRowLabel: { fontFamily: 'NotoSans', fontWeight: 700 },
@@ -105,7 +131,7 @@ const formatPrice = (num) => {
   return n.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 };
 
-function InvoiceDocumentEN(props) {
+function InvoiceDocument(props) {
   const {
     orderNumber,
     date,
@@ -212,9 +238,9 @@ function InvoiceDocumentEN(props) {
             <View style={styles.productsTable}>
               <View style={styles.tableRow}>
                 <Text style={[styles.tableColHeader, styles.firstColHeader]}>Item</Text>
-                <Text style={styles.tableColHeader}>Quantity</Text>
-                <Text style={styles.tableColHeader}>Unit Price (€)</Text>
-                <Text style={styles.tableColHeader}>Total (€)</Text>
+                <Text style={[styles.tableColHeader, { width: '20%' }]}>Quantity</Text>
+                <Text style={[styles.tableColHeader, { width: '20%' }]}>Unit Price (€)</Text>
+                <Text style={[styles.tableColHeader, { width: '20%' }]}>Total (€)</Text>
               </View>
 
               {normalizedProducts.map((item, idx) => {
@@ -222,7 +248,7 @@ function InvoiceDocumentEN(props) {
                 const price = Number(item.price || 0);
                 return (
                   <View key={idx} style={styles.tableRow}>
-                    <Text style={[styles.tableCol, styles.firstCol]}>{item.name}</Text>
+                    <Text style={styles.firstCol}>{item.name}</Text>
                     <Text style={styles.quantityCol}>{qty}</Text>
                     <Text style={styles.priceCol}>{formatPrice(price)} €</Text>
                     <Text style={styles.totalCol}>{formatPrice(price * qty)} €</Text>
@@ -259,4 +285,4 @@ function InvoiceDocumentEN(props) {
   );
 }
 
-export default InvoiceDocumentEN;
+export default InvoiceDocument;

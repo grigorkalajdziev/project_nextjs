@@ -40,17 +40,19 @@ const styles = StyleSheet.create({
   boldLabel: { fontWeight: 700 },
   section: { marginBottom: 12 },
   row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 },
+
+
   productsTable: { marginVertical: 10 },
   tableRow: { flexDirection: 'row' },
   qr: { width: 50, height: 50, marginLeft: 20 },
+
   tableColHeader: {
-    width: '25%',
-    borderBottomWidth: 1,
-    borderColor: '#ccc',
-    padding: 4,
-    fontWeight: 700,
-    textAlign: 'right',
-  },
+      borderBottomWidth: 1,
+      borderColor: '#ccc',
+      padding: 4,
+      fontWeight: 700,
+      textAlign: 'right',
+    },
   tableCol: {
     width: '25%',
     padding: 4,
@@ -58,12 +60,41 @@ const styles = StyleSheet.create({
     borderColor: '#f1f1f1',
     textAlign: 'right',
   },
-  firstColHeader: { textAlign: 'left' },
-  firstCol: { textAlign: 'left', width: '40%' },
+  firstColHeader: {
+    width: '40%',
+    textAlign: 'left',
+  },
+  firstCol: {
+    width: '40%',
+    textAlign: 'left',
+    padding: 4,
+    borderBottomWidth: 1,
+    borderColor: '#f1f1f1',
+  },
   tableCol: { width: '20%', padding: 4, borderBottomWidth: 1, borderColor: '#f1f1f1', textAlign: 'right' },
-  quantityCol: { width: '20%', padding: 4, borderBottomWidth: 1, borderColor: '#f1f1f1', textAlign: 'right' },
-  priceCol: { width: '20%', padding: 4, borderBottomWidth: 1, borderColor: '#f1f1f1', textAlign: 'right' },
-  totalCol: { width: '20%', padding: 4, borderBottomWidth: 1, borderColor: '#f1f1f1', textAlign: 'right' },
+  quantityCol: {
+    width: '20%',
+    textAlign: 'right',
+    padding: 4,
+    borderBottomWidth: 1,
+    borderColor: '#f1f1f1',
+  },
+  priceCol: {
+    width: '20%',
+    textAlign: 'right',
+    padding: 4,
+    borderBottomWidth: 1,
+    borderColor: '#f1f1f1',
+  },
+  totalCol: {
+    width: '20%',
+    textAlign: 'right',
+    padding: 4,
+    borderBottomWidth: 1,
+    borderColor: '#f1f1f1',
+  },
+
+
   footer: {
     marginTop: 40,
     textAlign: 'center',
@@ -173,13 +204,13 @@ function InvoiceDocument_MK(props) {
             <View style={styles.productsTable}>
               <View style={styles.tableRow}>
                 <Text style={[styles.tableColHeader, styles.firstColHeader]}>Услуга</Text>
-                <Text style={styles.tableColHeader}>Кол.</Text>
-                <Text style={styles.tableColHeader}>Цена</Text>
-                <Text style={styles.tableColHeader}>Вкупно</Text>
+                <Text style={[styles.tableColHeader, { width: '20%' }]}>Кол.</Text>
+                <Text style={[styles.tableColHeader, { width: '20%' }]}>Цена</Text>
+                <Text style={[styles.tableColHeader, { width: '20%' }]}>Вкупно</Text>
               </View>
               {normalizedProducts.map((item, idx) => (
                 <View key={idx} style={styles.tableRow}>
-                  <Text style={[styles.tableCol, styles.firstCol]}>{item.name}</Text>
+                  <Text style={styles.firstCol}>{item.name}</Text>
                   <Text style={styles.quantityCol}>{item.quantity}</Text>
                   <Text style={styles.priceCol}>{formatPrice(item.price)} ден.</Text>
                   <Text style={styles.totalCol}>{formatPrice(item.price * item.quantity)} ден.</Text>

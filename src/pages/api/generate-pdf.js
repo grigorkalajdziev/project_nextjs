@@ -64,7 +64,7 @@ export default async function handler(req, res) {
             qrCodeUrl: undefined,
             language,
             };
-    console.log("PDF props:", pdfProps);
+    
     // Try generate QR code (non-fatal)
     try {
       const qrPayload = JSON.stringify({

@@ -3962,7 +3962,7 @@ const MyAccount = () => {
                               {currentOrdersDown.map((order) => (
                                 <tr key={order.id}>
                                   {role === "admin" && (
-                                    <td style={{ minWidth: "120px" }}>
+                                    <td style={{ minWidth: "140px" }}>
                                       <small>{order.displayName}</small>
                                     </td>
                                   )}
