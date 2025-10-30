@@ -589,6 +589,8 @@ const translations = {
     guests: "Guests",
     role: "Role",
     coupon: "Coupon",
+    admin: "Admin",
+    guest: "Guest",
   },
   mk: {
     english: "Англиски",
@@ -1181,6 +1183,8 @@ const translations = {
     guests: "Гости",
     role: "Улога",
     coupon: "Купон",
+    admin: "Админ",
+    guest: "Гостин",
   },
 };
 

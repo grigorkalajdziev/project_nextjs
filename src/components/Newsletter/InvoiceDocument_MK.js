@@ -7,7 +7,7 @@ import {
   View,
   StyleSheet,
   Image,
-  Font  
+  Font
 } from '@react-pdf/renderer';
 
 Font.register({
@@ -34,10 +34,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#eee',
     paddingBottom: 10,
-    position: 'relative',
   },
-  title: { fontSize: 18, fontWeight: 700, fontFamily: 'NotoSans' },
-  label: { fontWeight: 600, marginTop: 4, fontFamily: 'NotoSans' },
+  title: { fontSize: 18, fontWeight: 700 },
+  label: { marginTop: 4 },
+  boldLabel: { fontWeight: 700 },
   section: { marginBottom: 12 },
   row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 },
   productsTable: { marginVertical: 10 },
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     padding: 4,
     fontWeight: 700,
-    fontFamily: 'NotoSans',
     textAlign: 'right',
   },
   tableCol: {
@@ -57,43 +56,34 @@ const styles = StyleSheet.create({
     padding: 4,
     borderBottomWidth: 1,
     borderColor: '#f1f1f1',
-    fontFamily: 'NotoSans',
     textAlign: 'right',
   },
   firstColHeader: { textAlign: 'left' },
-  firstCol: { textAlign: 'left' },
-  quantityCol: {
-    width: '25%',
-    padding: 4,
-    borderBottomWidth: 1,
-    borderColor: '#f1f1f1',
-    fontFamily: 'NotoSans',
-    textAlign: 'right',
-  },
-  priceCol: {
-    width: '25%',
-    padding: 4,
-    borderBottomWidth: 1,
-    borderColor: '#f1f1f1',
-    fontFamily: 'NotoSans',
-    textAlign: 'right',
-  },
-  totalCol: {
-    width: '25%',
-    padding: 4,
-    borderBottomWidth: 1,
-    borderColor: '#f1f1f1',
-    fontFamily: 'NotoSans',
-    textAlign: 'right',
-  },
+  firstCol: { textAlign: 'left', width: '40%' },
+  tableCol: { width: '20%', padding: 4, borderBottomWidth: 1, borderColor: '#f1f1f1', textAlign: 'right' },
+  quantityCol: { width: '20%', padding: 4, borderBottomWidth: 1, borderColor: '#f1f1f1', textAlign: 'right' },
+  priceCol: { width: '20%', padding: 4, borderBottomWidth: 1, borderColor: '#f1f1f1', textAlign: 'right' },
+  totalCol: { width: '20%', padding: 4, borderBottomWidth: 1, borderColor: '#f1f1f1', textAlign: 'right' },
   footer: {
     marginTop: 40,
     textAlign: 'center',
     fontSize: 10,
     color: '#999',
-    fontFamily: 'NotoSans',
   },
 });
+
+// Helper function to format date as DD-MM-YYYY
+const formatDate = (date) => {
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
+const formatPrice = (num) => {
+  return num.toLocaleString('mk-MK');
+};
 
 const DENAR_TO_EUR = 61.5;
 function toEUR(mkd) {
@@ -105,6 +95,8 @@ function InvoiceDocument_MK(props) {
     orderNumber,
     date,
     paymentText,
+    reservationDate,
+    reservationTime,
     normalizedProducts = [],
     customerName,
     customerPhone,
@@ -136,7 +128,7 @@ function InvoiceDocument_MK(props) {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.label}>Испраќач:</Text>
+          <Text style={styles.boldLabel}>Испраќач:</Text>
           <Text>{company.name}</Text>
           <Text>{company.address}</Text>
           <Text>{company.email}</Text>
@@ -144,7 +136,7 @@ function InvoiceDocument_MK(props) {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.label}>Купувач:</Text>
+          <Text style={styles.boldLabel}>Купувач:</Text>
           <Text>{customerName}</Text>
           {customerEmail && <Text>{customerEmail}</Text>}
           {customerPhone && <Text>{customerPhone}</Text>}
@@ -152,26 +144,32 @@ function InvoiceDocument_MK(props) {
 
         <View style={styles.section}>
           <View style={styles.row}>
-            <Text style={styles.label}>Датум:</Text>
+            <Text>Датум:</Text>
             <Text>{date}</Text>
           </View>
+          {reservationDate && (
+            <View style={styles.row}>
+              <Text>Датум и време на резервација:</Text>
+              <Text>{formatDate(reservationDate)} во {reservationTime}</Text>
+            </View>
+          )}         
           <View style={styles.row}>
-            <Text style={styles.label}>Рок на плаќање:</Text>
+            <Text>Рок на плаќање:</Text>
             <Text>{dueDate}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Статус:</Text>
+            <Text>Статус:</Text>
             <Text>{invoiceStatus}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Начин на плаќање:</Text>
+            <Text>Начин на плаќање:</Text>
             <Text>{paymentText}</Text>
           </View>
         </View>
 
         {normalizedProducts.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.label}>Услуги:</Text>
+            <Text style={styles.boldLabel}>Услуги:</Text>
             <View style={styles.productsTable}>
               <View style={styles.tableRow}>
                 <Text style={[styles.tableColHeader, styles.firstColHeader]}>Услуга</Text>
@@ -181,10 +179,10 @@ function InvoiceDocument_MK(props) {
               </View>
               {normalizedProducts.map((item, idx) => (
                 <View key={idx} style={styles.tableRow}>
-                  <Text style={[styles.tableCol, styles.firstCol, styles.label]}>{item.name}</Text>
+                  <Text style={[styles.tableCol, styles.firstCol]}>{item.name}</Text>
                   <Text style={styles.quantityCol}>{item.quantity}</Text>
-                  <Text style={styles.priceCol}>{item.price}</Text>
-                  <Text style={styles.totalCol}>{item.price * item.quantity} ден.</Text>
+                  <Text style={styles.priceCol}>{formatPrice(item.price)} ден.</Text>
+                  <Text style={styles.totalCol}>{formatPrice(item.price * item.quantity)} ден.</Text>
                 </View>
               ))}
             </View>
@@ -193,22 +191,22 @@ function InvoiceDocument_MK(props) {
 
         <View style={styles.section}>
           <View style={styles.row}>
-            <Text style={styles.label}>Вкупен износ:</Text>
-            <Text style={styles.label}>{subtotal} ден.</Text>
+            <Text style={styles.boldLabel}>Вкупен износ:</Text>
+            <Text style={styles.boldLabel}>{formatPrice(subtotal)} денари</Text>
           </View>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.label}>Банкарски детали:</Text>
+          <Text style={styles.boldLabel}>Банкарски детали:</Text>
           <Text>Банка: {bankDetails.bankName}</Text>
           <Text>ИБАН: {bankDetails.iban}</Text>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.label}>Ви благодариме за вашата нарачка!</Text>
+          <Text>Ви благодариме за вашата нарачка!</Text>
         </View>
 
-        <Text style={styles.label}>Прашања? Контактирајте не на makeupbykika@hotmail.com</Text>
+        <Text>Прашања? Контактирајте не на makeupbykika@hotmail.com</Text>
       </Page>
     </Document>
   );
