@@ -2438,7 +2438,7 @@ const MyAccount = () => {
                                   getOrderSuccessStats(filteredOrdersForCharts)
                                     .confirmed
                                 }{" "}
-                                {t("confirmed")} /{" "}
+                                {t("confirmed_analysis")} /{" "}
                                 {
                                   getOrderSuccessStats(filteredOrdersForCharts)
                                     .total
