@@ -68,7 +68,7 @@ class MyApp extends App {
 // Wrapper to compute and render localized head with canonical URL
 function CanonicalHeadWrapper() {
   const router = useRouter();
-  const canonicalUrl = `https://www.kikamakeupandbeautyacademy.com${router.asPath.split("?")[0]}`;
+  const canonicalUrl = `https://kikamakeupandbeautyacademy.com${router.asPath.split("?")[0]}`;
   return <LocalizedHead canonicalUrl={canonicalUrl} />;
 }
 
