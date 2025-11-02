@@ -2106,16 +2106,18 @@ const MyAccount = () => {
                                         <i className="bi bi-eye me-1"></i>
                                         {t("view")}
                                       </button>
-                                      <button
-                                        onClick={() => {
-                                          setPendingDeleteId(order.id);
-                                          setShowDeleteModal(true);
-                                        }}
-                                        className="btn btn-sm btn-outline-danger"
-                                      >
-                                        <i className="bi bi-trash me-1"></i>
-                                        {t("delete")}
-                                      </button>
+                                      {role === "admin" && (  // <-- Only shows for admins
+                                          <button
+                                            onClick={() => {
+                                              setPendingDeleteId(order.id);
+                                              setShowDeleteModal(true);
+                                            }}
+                                            className="btn btn-sm btn-outline-danger"
+                                          >
+                                            <i className="bi bi-trash me-1"></i>
+                                            {t("delete")}
+                                          </button>
+                                        )}
                                     </div>
                                   </td>
                                 </tr>
