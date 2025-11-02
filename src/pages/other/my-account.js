@@ -50,6 +50,28 @@ function formatDMY(dateStr) {
   return `${d}-${m}-${y}`;
 }
 
+const getLocalizedTotal = (order, lang) => {
+  if (!order?.products || !Array.isArray(order.products)) return 0;
+
+  const subtotal = order.products.reduce((sum, p) => {
+    const price =
+      typeof p.price === "object"
+        ? p.price[lang] ?? p.price["mk"] ?? 0
+        : parseFloat(p.price || 0);
+    return sum + price * (p.quantity || 1);
+  }, 0);
+
+  // if order.discount exists and is > 0 → use order.total
+  if (order.discount && parseFloat(order.discount) > 0) {
+    return parseFloat(order.total || subtotal).toFixed(2);
+  }
+
+  // otherwise show subtotal
+  return subtotal.toFixed(2);
+};
+
+
+
 const MyAccount = () => {
   const { t, currentLanguage } = useLocalization();
   const { addToast } = useToasts();
@@ -211,18 +233,13 @@ const MyAccount = () => {
     return Number.isFinite(n) ? n : 0;
   };
 
-  const formatTotal = (amount, currency = "MKD") => {
-    const n = parseAmount(amount);
-    const cur = (currency || "MKD").toString().toUpperCase();
+const formatTotal = (amount, lang) => {
+  const isEnglish = lang === "en";
+  const symbol = isEnglish ? "€" : "ден.";
+  const formatted = parseFloat(amount || 0).toFixed(2);
 
-    if (currentLanguage === "mk") {
-      const mkd = cur === "MKD" ? n : n * conversionRate;
-      return `${mkd.toFixed(2)} ден.`;
-    } else {
-      const eur = cur === "EUR" ? n : n / conversionRate;
-      return `€ ${eur.toFixed(2)}`;
-    }
-  };
+  return `${formatted} ${symbol}`;
+};
 
   const filteredOrders = orders
     .filter(
@@ -1690,9 +1707,9 @@ const MyAccount = () => {
                   <div className="welcome">
                     <p>
                       {t("hello_user")}{" "}
-                      <strong>{displayName || user?.email || ""}</strong> (
+                      <strong>{displayName || ""}</strong> (
                       {t("if_not")}{" "}
-                      <strong>{displayName || user?.email || ""}!</strong>)
+                      <strong>{displayName || ""}!</strong>)
                     </p>
                     <button
                       onClick={() => setShowLogoutModal(true)}
@@ -2090,9 +2107,7 @@ const MyAccount = () => {
                                     )}
                                   </td>
                                   <td className="text-end">
-                                    <small>
-                                      {formatTotal(order.total, order.currency)}
-                                    </small>
+                                    <small>{formatTotal(getLocalizedTotal(order, currentLanguage), currentLanguage)}</small>
                                   </td>
                                   <td className="text-center pe-3">
                                     <div className="d-flex gap-2 justify-content-center">
@@ -2144,7 +2159,7 @@ const MyAccount = () => {
                                   <small>
                                     {formatTotal(
                                       grandTotalInDisplayCurrency,
-                                      currentLanguage === "mk" ? "MKD" : "EUR"
+                                      currentLanguage
                                     )}
                                   </small>
                                 </td>
@@ -2395,7 +2410,7 @@ const MyAccount = () => {
                                     },
                                     0
                                   ),
-                                  currentLanguage === "mk" ? "MKD" : "EUR"
+                                  currentLanguage
                                 )}
                               </h3>
                               <small className="text-muted d-block mt-2">
@@ -2413,7 +2428,7 @@ const MyAccount = () => {
                               <h3>
                                 {formatTotal(
                                   getAverageOrderValue(filteredOrdersForCharts),
-                                  currentLanguage === "mk" ? "MKD" : "EUR"
+                                  currentLanguage 
                                 )}
                               </h3>
                               <small className="text-muted d-block mt-2">
@@ -3878,9 +3893,7 @@ const MyAccount = () => {
                                                 <small>
                                                   {formatTotal(
                                                     product.revenue,
-                                                    currentLanguage === "mk"
-                                                      ? "MKD"
-                                                      : "EUR"
+                                                    currentLanguage
                                                   )}
                                                 </small>
                                               </td>
@@ -3889,9 +3902,7 @@ const MyAccount = () => {
                                                   {formatTotal(
                                                     product.revenue /
                                                       product.count,
-                                                    currentLanguage === "mk"
-                                                      ? "MKD"
-                                                      : "EUR"
+                                                    currentLanguage
                                                   )}
                                                 </small>
                                               </td>

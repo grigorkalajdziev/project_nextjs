@@ -17,7 +17,6 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { IoIosClose, IoMdCart } from "react-icons/io";
 import { useLocalization } from "../../context/LocalizationContext";
 import { getDatabase, ref, get } from "firebase/database";
-import { auth, database } from "../api/register";
 
 const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAllFromCart }) => {
   const { addToast } = useToasts();
