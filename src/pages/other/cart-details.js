@@ -18,6 +18,53 @@ import { IoIosClose, IoMdCart } from "react-icons/io";
 import { useLocalization } from "../../context/LocalizationContext";
 import { getDatabase, ref, get } from "firebase/database";
 
+const conversionRate = 61.5; // keep same conversion as other file
+
+// --- Helpers: parsing & formatting (compatible with {en: "...", mk: "..."} shapes)
+const parseAmount = (val, lang = "mk") => {
+  if (val == null) return 0;
+  if (typeof val === "number") return val;
+  if (typeof val === "object") {
+    const preferred = lang === "en" ? val.en ?? val.mk : val.mk ?? val.en;
+    return parseAmount(preferred, lang);
+  }
+  const cleaned = String(val).replace(/[^0-9.-]+/g, "").replace(",", ".");
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : 0;
+};
+
+const getLocalizedTotal = (order, lang = "mk") => {
+  if (!order) return 0;
+  const explicit = parseAmount(order?.total, lang);
+  if (explicit > 0) return explicit;
+
+  if (!order?.products || !Array.isArray(order.products)) return 0;
+
+  const subtotal = order.products.reduce((sum, p) => {
+    let price = 0;
+    if (typeof p.price === "object" && p.price !== null) {
+      price = parseAmount(lang === "en" ? p.price.en : p.price.mk, lang);
+      if (!price) price = parseAmount(p.price.en ?? p.price.mk, lang);
+    } else {
+      price = parseAmount(p.price, lang);
+    }
+    return sum + price * (p.quantity || 1);
+  }, 0);
+
+  const discountAmount = parseAmount(order?.discount, lang);
+  if (discountAmount > 0) {
+    return Math.max(subtotal - discountAmount, 0);
+  }
+  return subtotal;
+};
+
+const formatTotal = (amount, lang) => {
+  const isEnglish = lang === "en";
+  const symbol = isEnglish ? "€" : "ден.";
+  const formatted = (Number(amount) || 0).toFixed(2);
+  return isEnglish ? `${symbol} ${formatted}` : `${formatted} ${symbol}`;
+};
+
 const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAllFromCart }) => {
   const { addToast } = useToasts();
   const { t, currentLanguage } = useLocalization();
@@ -28,7 +75,6 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
   const [orderProducts, setOrderProducts] = useState([]);
   const [orderMeta, setOrderMeta] = useState(null);
 
-  // Note: coupon and clear UI removed per request - we keep functions in case used elsewhere
   const [quantityCount] = useState(1);
 
   useEffect(() => {
@@ -47,13 +93,6 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
     let mounted = true;
     setLoadingOrder(true);
 
-    const parseMoney = (v) => {
-      if (v == null) return 0;
-      const cleaned = String(v).trim().replace(/\s/g, "").replace(/,/g, ".");
-      const num = parseFloat(cleaned.replace(/[^0-9.\-]+/g, ""));
-      return Number.isFinite(num) ? num : 0;
-    };
-
     const loadOrder = async () => {
       try {
         const db = getDatabase();
@@ -69,18 +108,19 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
 
         const data = snap.val();
 
+        // Normalize products: compute numeric versions for en/mk (handles object/number)
         const normalizedProducts = (data.products || []).map((p, i) => {
           const priceObj = p.price ?? p.prices ?? null;
 
           const numericEn =
             priceObj && typeof priceObj === "object" && priceObj.en != null
-              ? parseMoney(priceObj.en)
-              : parseMoney(p.price) || 0;
+              ? parseAmount(priceObj.en, "en")
+              : parseAmount(p.price, "en");
 
           const numericMk =
             priceObj && typeof priceObj === "object" && priceObj.mk != null
-              ? parseMoney(priceObj.mk)
-              : parseMoney(p.price) || 0;
+              ? parseAmount(priceObj.mk, "mk")
+              : parseAmount(p.price, "mk");
 
           const quantity = Number(p.quantity ?? p.qty ?? 1) || 1;
 
@@ -97,6 +137,7 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
           };
         });
 
+        // Compute product-sum subtotals per currency (taking per-product discount into account)
         const computedSubtotalEn = normalizedProducts.reduce((acc, it) => {
           const perPrice = Number(getDiscountPrice(it.numericEn, it.discount)) || it.numericEn;
           return acc + perPrice * it.quantity;
@@ -107,40 +148,61 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
           return acc + perPrice * it.quantity;
         }, 0);
 
-        const storedSubtotalMk = data.subtotal != null ? parseMoney(data.subtotal) : null;
-        const storedDiscountMk = data.discount != null ? parseMoney(data.discount) : null;
-        const storedTotalMk = data.total != null ? parseMoney(data.total) : null;
+        // Parse stored amounts (they may be objects or strings)
+        const storedSubtotalMK = data.subtotal != null ? parseAmount(data.subtotal, "mk") : null;
+        const storedSubtotalEN = data.subtotal != null ? parseAmount(data.subtotal, "en") : null;
+        const storedDiscountMK = data.discount != null ? parseAmount(data.discount, "mk") : null;
+        const storedDiscountEN = data.discount != null ? parseAmount(data.discount, "en") : null;
+        const storedTotalMK = data.total != null ? parseAmount(data.total, "mk") : null;
+        const storedTotalEN = data.total != null ? parseAmount(data.total, "en") : null;
 
-        const conversionRate =
+        // Determine conversionRate from product sums if possible
+        const inferredConv =
           computedSubtotalEn > 0 && computedSubtotalMk > 0
             ? computedSubtotalMk / computedSubtotalEn
             : null;
 
-        const subtotalEn = conversionRate && storedSubtotalMk != null
-          ? storedSubtotalMk / conversionRate
-          : computedSubtotalEn;
+        // Choose sensible subtotal and totals with fallbacks
+        const finalSubtotalMk = storedSubtotalMK != null ? storedSubtotalMK : computedSubtotalMk;
+        const finalSubtotalEn =
+          storedSubtotalEN != null
+            ? storedSubtotalEN
+            : inferredConv
+            ? finalSubtotalMk / inferredConv
+            : computedSubtotalEn;
 
-        let discountEn = 0;
-        if (conversionRate && storedDiscountMk != null) {
-          discountEn = storedDiscountMk / conversionRate;
-        } else if (conversionRate && storedSubtotalMk != null && storedTotalMk != null) {
-          discountEn = (storedSubtotalMk - storedTotalMk) / conversionRate;
-        } else {
-          if (storedTotalMk != null && conversionRate) {
-            discountEn = subtotalEn - (storedTotalMk / conversionRate);
-          } else {
-            discountEn = 0;
-          }
-        }
-        if (!Number.isFinite(discountEn)) discountEn = 0;
+        // Try to compute discount in both currencies
+        let finalDiscountMk = storedDiscountMK != null ? storedDiscountMK : 0;
+        let finalDiscountEn = storedDiscountEN != null ? storedDiscountEN : 0;
 
-        let totalEn = null;
-        if (conversionRate && storedTotalMk != null) {
-          totalEn = storedTotalMk / conversionRate;
-        } else {
-          totalEn = subtotalEn - discountEn;
+        // If only stored totals exist, derive discount; prefer MK stored values
+        if (storedTotalMK != null && storedDiscountMK == null) {
+          finalDiscountMk = finalSubtotalMk - storedTotalMK;
         }
-        if (!Number.isFinite(totalEn)) totalEn = subtotalEn - discountEn;
+        if (storedTotalEN != null && storedDiscountEN == null) {
+          finalDiscountEn = finalSubtotalEn - storedTotalEN;
+        }
+
+        // If discount present in MK but not EN, convert
+        if (finalDiscountMk > 0 && finalDiscountEn === 0 && inferredConv) {
+          finalDiscountEn = finalDiscountMk / inferredConv;
+        }
+        if (finalDiscountEn > 0 && finalDiscountMk === 0 && inferredConv) {
+          finalDiscountMk = finalDiscountEn * inferredConv;
+        }
+
+        // Determine totals
+        const finalTotalMk =
+          storedTotalMK != null
+            ? storedTotalMK
+            : finalSubtotalMk - finalDiscountMk;
+
+        const finalTotalEn =
+          storedTotalEN != null
+            ? storedTotalEN
+            : inferredConv
+            ? finalTotalMk / inferredConv
+            : finalSubtotalEn - finalDiscountEn;
 
         const meta = {
           orderNumber: data.orderNumber ?? null,
@@ -148,12 +210,12 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
           reservationDate: data.reservationDate ?? null,
           reservationTime: data.reservationTime ?? null,
           status: data.status ?? null,
-          subtotalMk: storedSubtotalMk ?? computedSubtotalMk,
-          discountMk: storedDiscountMk ?? 0,
-          totalMk: storedTotalMk ?? (computedSubtotalMk - (storedDiscountMk ?? 0)),
-          subtotalEn,
-          discountEn,
-          totalEn,
+          subtotalMK: finalSubtotalMk,
+          subtotalEN: finalSubtotalEn,
+          discountMK: finalDiscountMk,
+          discountEN: finalDiscountEn,
+          totalMK: finalTotalMk,
+          totalEN: finalTotalEn,
           displayCurrencyEn: "€",
           displayCurrencyMk: t("currency") || "ден",
           paymentMethod: data.paymentMethod ?? null,
@@ -180,7 +242,7 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
     loadOrder();
 
     return () => {
-      mounted = false;
+      // cleanup
     };
   }, [userId, orderId, viewOrder, addToast, t, currentLanguage]);
 
@@ -200,40 +262,43 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
     const n = Number(v);
     return Number.isFinite(n) ? n : 0;
   };
-  const format = (v) => safeNumber(v).toFixed(2);
 
+  // If showingOrder use orderMeta totals; otherwise compute from cartItems
   let cartTotalPrice = 0;
-  itemsToRender.forEach((product) => {
-    let priceNum = 0;
-
-    if (showingOrder) {
-      if (product.price && typeof product.price === "object") {
-        priceNum = Number(currentLanguage === "mk" ? product.price.mk : product.price.en) || 0;
-      } else {
-        priceNum = Number(product.price) || 0;
-      }
-    } else {
+  if (!showingOrder) {
+    itemsToRender.forEach((product) => {
+      // compute base price (handles object price)
       let basePrice = 0;
       if (product.price && typeof product.price === "object") {
-        basePrice = Number(currentLanguage === "mk" ? product.price.mk : product.price.en) || 0;
+        basePrice = parseAmount(currentLanguage === "mk" ? product.price.mk : product.price.en, currentLanguage);
       } else {
-        basePrice = Number(product.price) || 0;
+        basePrice = parseAmount(product.price, currentLanguage);
       }
-      priceNum = Number(getDiscountPrice(basePrice, product.discount)) || 0;
-    }
-
-    const qty = Number(product.quantity ?? product.qty ?? 1) || 1;
-    cartTotalPrice += priceNum * qty;
-  });
+      const applied = Number(getDiscountPrice(basePrice, product.discount)) || basePrice;
+      const qty = Number(product.quantity ?? product.qty ?? 1) || 1;
+      cartTotalPrice += applied * qty;
+    });
+  } else {
+    // when showingOrder, cartTotalPrice not used for display totals (we use orderMeta)
+    cartTotalPrice = 0;
+  }
 
   const displaySubtotal = showingOrder
-    ? (currentLanguage === "mk" ? safeNumber(orderMeta?.subtotalMk ?? cartTotalPrice) : safeNumber(orderMeta?.subtotalEn ?? cartTotalPrice))
+    ? (currentLanguage === "mk"
+        ? safeNumber(orderMeta?.subtotalMK ?? cartTotalPrice)
+        : safeNumber(orderMeta?.subtotalEN ?? cartTotalPrice))
     : cartTotalPrice;
 
-  const displayDiscount = showingOrder ? (currentLanguage === "mk" ? safeNumber(orderMeta?.discountMk ?? 0) : safeNumber(orderMeta?.discountEn ?? 0)) : 0;
+  const displayDiscount = showingOrder
+    ? (currentLanguage === "mk"
+        ? safeNumber(orderMeta?.discountMK ?? 0)
+        : safeNumber(orderMeta?.discountEN ?? 0))
+    : 0;
 
   const displayTotal = showingOrder
-    ? (currentLanguage === "mk" ? safeNumber(orderMeta?.totalMk ?? (displaySubtotal - displayDiscount)) : safeNumber(orderMeta?.totalEn ?? (displaySubtotal - displayDiscount)))
+    ? (currentLanguage === "mk"
+        ? safeNumber(orderMeta?.totalMK ?? (displaySubtotal - displayDiscount))
+        : safeNumber(orderMeta?.totalEN ?? (displaySubtotal - displayDiscount)))
     : cartTotalPrice;
 
   const currencyToShow = showingOrder
@@ -281,7 +346,10 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
                     {itemsToRender.map((product, i) => {
                       let priceNum = 0;
                       if (showingOrder) {
-                        if (product.price && typeof product.price === "object") {
+                        // prefer numericEn/numericMk fields if present (normalizedProducts set them)
+                        if (product.numericMk != null || product.numericEn != null) {
+                          priceNum = Number(currentLanguage === "mk" ? product.numericMk : product.numericEn) || 0;
+                        } else if (product.price && typeof product.price === "object") {
                           priceNum = Number(currentLanguage === "mk" ? product.price.mk : product.price.en) || 0;
                         } else {
                           priceNum = Number(product.price) || 0;
@@ -431,19 +499,18 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
                             <th>{t("subtotal")}</th>
                             <td className="subtotal">
                               {currentLanguage === 'mk'
-                                ? `${format(displaySubtotal)} ${currencyToShow}`
-                                : `${currencyToShow} ${format(displaySubtotal)}`}
+                                ? `${Number(displaySubtotal).toFixed(2)} ${currencyToShow}`
+                                : `${currencyToShow} ${Number(displaySubtotal).toFixed(2)}`}
                             </td>
                           </tr>
 
-                          {/* We removed coupon UI; discount shown only if order preview contains it */}
                           {displayDiscount > 0 && (
                             <tr>
                               <th>{t("coupon_discount")}</th>
                               <td className="discount">
                                 {currentLanguage === 'mk'
-                                  ? `-${format(displayDiscount)} ${currencyToShow}`
-                                  : `-${currencyToShow} ${format(displayDiscount)}`}
+                                  ? `-${Number(displayDiscount).toFixed(2)} ${currencyToShow}`
+                                  : `-${currencyToShow} ${Number(displayDiscount).toFixed(2)}`}
                               </td>
                             </tr>
                           )}
@@ -452,8 +519,8 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
                             <th>{t("total")}</th>
                             <td className="total">
                               {currentLanguage === 'mk'
-                                ? `${format(displayTotal)} ${currencyToShow}`
-                                : `${currencyToShow} ${format(displayTotal)}`}
+                                ? `${Number(displayTotal).toFixed(2)} ${currencyToShow}`
+                                : `${currencyToShow} ${Number(displayTotal).toFixed(2)}`}
                             </td>
                           </tr>
                         </tbody>

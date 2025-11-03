@@ -205,6 +205,10 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         : 0;
       const totalMKDnum = subtotalMKDnum - discountMKDnum;
 
+      const subtotalENnum = subtotalMKDnum / conversionRate;
+      const discountENnum = discountMKDnum / conversionRate;
+      const totalENnum = totalMKDnum / conversionRate;
+
       // Build order data in the legacy shape (matching the JSON you provided)
       const reservationDate = reservationDateTime.toISOString().split("T")[0];
       const reservationTime = reservationDateTime.toTimeString().slice(0, 5);
@@ -265,9 +269,18 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
         reservationTime,
         status: "pending",
         // Save subtotal/discount/total as strings (two decimals) — matching sample JSON
-        subtotal: Number(subtotalMKDnum.toFixed(2)).toFixed(2),
-        discount: Number(discountMKDnum.toFixed(2)).toFixed(2),
-        total: Number(totalMKDnum.toFixed(2)).toFixed(2),
+        subtotal: {
+          mk: Number(subtotalMKDnum.toFixed(2)).toFixed(2),
+          en: Number(subtotalENnum.toFixed(2)).toFixed(2),
+        },
+        discount: {
+          mk: Number(discountMKDnum.toFixed(2)).toFixed(2),
+          en: Number(discountENnum.toFixed(2)).toFixed(2),
+        },
+        total: {
+          mk: Number(totalMKDnum.toFixed(2)).toFixed(2),
+          en: Number(totalENnum.toFixed(2)).toFixed(2),
+        },
       };
 
       // write order to Firebase under user's orders node
