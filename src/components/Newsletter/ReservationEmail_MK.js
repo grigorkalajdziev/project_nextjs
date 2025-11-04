@@ -14,7 +14,7 @@ const ReservationEmail_MK = ({
   reservationDate,
   reservationTime,
   customerName,
-  paymentMethod,
+  paymentText,
   total,    
   products, 
   customerEmail,
@@ -94,7 +94,7 @@ const ReservationEmail_MK = ({
           </Section>
           <Section>
             <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Начин на плаќање:</Text>
-            <Text>{paymentMethod}</Text>
+            <Text>{paymentText}</Text>
           </Section>
           <Section>
             <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Вкупно:</Text>

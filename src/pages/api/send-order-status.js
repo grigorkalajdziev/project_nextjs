@@ -18,7 +18,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
-  }  
+  }
+
   const {
     to,
     from,
@@ -27,6 +28,7 @@ export default async function handler(req, res) {
     reservationDate,
     reservationTime,
     customerName,
+    paymentText,
     paymentMethod,
     total,
     products,
@@ -38,6 +40,7 @@ export default async function handler(req, res) {
     customerPostalCode,
     language = 'en',
   } = req.body;  
+
 
   const normalizedProducts = products.map(p => ({
       ...p,
@@ -81,7 +84,7 @@ export default async function handler(req, res) {
         reservationDate={reservationDate}
         reservationTime={reservationTime}
         customerName={customerName}
-        paymentMethod={paymentMethod}
+        paymentText={paymentText}
         total={total}
         products={normalizedProducts}
         customerEmail={customerEmail}
@@ -111,7 +114,7 @@ export default async function handler(req, res) {
         reservationTime,
         total,
         normalizedProducts,
-        paymentMethod,
+        paymentText,
         customerName,
         customerEmail,
         customerPhone,

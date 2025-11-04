@@ -55,7 +55,7 @@ export default async function handler(req, res) {
       reservationTime={reservationTime}
       customerName={customerName}
       customerEmail={customerEmail}
-      paymentMethod={paymentText}
+      paymentText={paymentText}
       total={total}
       products={normalizedProducts}
       customerPhone={customerPhone}  

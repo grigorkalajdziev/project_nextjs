@@ -14,7 +14,7 @@ const ReservationEmail = ({
   reservationDate,
   reservationTime,
   customerName,
-  paymentMethod,
+  paymaentText,
   products, 
   customerEmail,
   customerPhone,
@@ -119,7 +119,7 @@ const ReservationEmail = ({
             <Text style={{ fontSize: "14px", fontWeight: "bold" }}>
               Payment Method:
             </Text>
-            <Text>{paymentMethod}</Text>
+            <Text>{paymaentText}</Text>
           </Section>
           <Section>
             <Text style={{ fontSize: "14px", fontWeight: "bold" }}>

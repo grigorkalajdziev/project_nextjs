@@ -866,14 +866,16 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
         orderNumber,
         reservationDate,
         reservationTime,
-        total,
+        totalMK,
+        totalEN,
         products,
         customer,
         email,
         language,
         displayName,
-        paymentMethod,
-      } = matchingOrder;
+        paymentText,
+        paymentMethod
+    } = matchingOrder;
 
       // Update only the status field at the correct location
       await update(ref(db, `orders/${userId}/${orderId}`), {
@@ -894,6 +896,12 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
       const customerCity = matchingOrder.customerCity || "";
       const customerPostalCode = matchingOrder.customerPostalCode || "";
 
+      // Determine which total to send based on order language or current language
+      const orderLanguage = language || currentLanguage;
+      const totalToSend = orderLanguage === "mk" ? Number(totalMK) || 0 
+                                                 : Number(totalEN) || 0;
+      const currency = orderLanguage === "mk" ? "MKD" : "EUR";      
+
       const payload = {
         to: toEmail,
         from: "confirmation@kikamakeupandbeautyacademy.com",
@@ -902,8 +910,9 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
         reservationDate,
         reservationTime,
         customerName: displayName,
+        paymentText: paymentText,
         paymentMethod,
-        total,
+        total: totalToSend,
         products,
         customerEmail: toEmail,
         customerPhone: customerPhone,
@@ -913,7 +922,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
         customerPostalCode: customerPostalCode,
         language: language || currentLanguage,
       };
-
+      
       await fetch("/api/send-order-status", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1129,6 +1138,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
               currency: currencyHint,
               products: order.products || [],
               paymentMethod: order.paymentMethod || "",
+              paymentText: order.paymentText || "",
               customerPhone: order.customer?.phone || "",
               customerAddress: order.customer?.address || "",
               customerState: order.customer?.state || "",
@@ -1174,6 +1184,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                 : "EUR",
             products: order.products || [],
             paymentMethod: order.paymentMethod || "",
+            paymentText: order.paymentText || "",
             customerPhone: order.customer?.phone || "",
             customerAddress: order.customer?.address || "",
             customerState: order.customer?.state || "",
