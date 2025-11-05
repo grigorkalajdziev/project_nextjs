@@ -11,6 +11,7 @@ import { auth } from "../../pages/api/register"; // Adjust path if necessary
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useToasts } from "react-toast-notifications";
+import ReactCountryFlag from "react-country-flag";
 
 const HeaderTop = () => {
   const { t, currentLanguage, changeLanguage } = useLocalization();
@@ -63,12 +64,12 @@ const HeaderTop = () => {
               <ul>
                 <li>
                   <button onClick={() => changeLanguage("mk")}>
-                  🇲🇰   {t("macedonian")}
+                    <ReactCountryFlag countryCode="MK" svg style={{ width: "1.1em", height: "1.1em" }} /> {t("macedonian")}
                   </button>
                 </li>
                 <li>
                   <button onClick={() => changeLanguage("en")}>
-                  🇬🇧   {t("english")}
+                    <ReactCountryFlag countryCode="GB" svg style={{ width: "1.1em", height: "1.1em" }} /> {t("english")}
                   </button>
                 </li>
               </ul>

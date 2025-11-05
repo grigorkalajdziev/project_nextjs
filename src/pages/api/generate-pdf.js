@@ -27,10 +27,10 @@ export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).end("Method Not Allowed");
-  }
+  }  
 
   try {
-    const { order, language = "en" } = req.body || {};
+    const { order, language = "en" } = req.body || {};    
 
     if (!order) {
       return res.status(400).json({ error: "Missing order in request body" });
@@ -54,7 +54,9 @@ export default async function handler(req, res) {
             date: order.date || order.reservationDate || new Date().toISOString(),
             reservationDate: order.reservationDate,
             reservationTime: order.reservationTime,
-            total: order.total,
+            total: language === "mk"
+                    ? Number(order.totalMK ?? order.displayTotal ?? 0)
+                    : Number(order.totalEN ?? order.displayTotal ?? 0),
             normalizedProducts,
             paymentText: order.paymentText,
             customerName: order.customer?.name || order.customer?.displayName || '-', // fallback

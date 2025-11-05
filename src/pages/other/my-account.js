@@ -1916,7 +1916,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                               {/* Filter by Status */}
                               <div className="col-md-4">
                                 <label className="form-label">
-                                  <i className="bi bi-funnel me-2"></i>
+                                  <i className="bi bi-funnel me-1"></i>
                                   {t("filter_by_status")}
                                 </label>
                                 <select
@@ -1945,7 +1945,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                               {/* Filter by Payment */}
                               <div className="col-md-4">
                                 <label className="form-label">
-                                  <i className="bi bi-credit-card me-2"></i>
+                                  <i className="bi bi-credit-card me-1"></i>
                                   {t("filter_by_payment")}
                                 </label>
                                 <select
@@ -1971,7 +1971,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                               {/* Year Filter */}
                               <div className="col-md-4">
                                 <label className="form-label">
-                                  <i className="bi bi-calendar-year me-2"></i>
+                                  <i className="bi bi-calendar-year me-1"></i>
                                   {t("filter_by_year")}
                                 </label>
                                 <select
@@ -2065,7 +2065,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                                 </th>
                                 <th
                                   className="text-end"
-                                  style={{ minWidth: "120px" }}
+                                  style={{ minWidth: "140px" }}
                                 >
                                   <i className="bi bi-currency-exchange me-2"></i>
                                   {t("total")}
@@ -4726,7 +4726,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                                 {/* Filter by Role */}
                                 <div className="col-md-6">
                                   <label className="form-label">
-                                    <i className="bi bi-funnel me-2"></i>
+                                    <i className="bi bi-funnel me-1"></i>
                                     {t("filter_by_role")}
                                   </label>
                                   <select

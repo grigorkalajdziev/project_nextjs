@@ -123,11 +123,6 @@ const formatPrice = (num) => {
   return num.toLocaleString('en-US');
 };
 
-const DENAR_TO_EUR = 61.5;
-function toEUR(mkd) {
-  return (Number(mkd) / DENAR_TO_EUR).toFixed(2);
-}
-
 function ConfirmationDocument_EN(props) {
   const {
     orderNumber,
@@ -224,7 +219,7 @@ function ConfirmationDocument_EN(props) {
         <View style={styles.section}>
           <View style={[styles.row, { marginTop: 6 }]}>
             <Text style={[styles.label, { fontWeight: 700, width: 120 }]}>Total Amount:</Text>
-            <Text style={[styles.value, { fontWeight: 700 }]}>{formatPrice(toEUR(total))} €</Text>
+            <Text style={[styles.value, { fontWeight: 700 }]}>{formatPrice(total)} €</Text>
           </View>
         </View>
 
