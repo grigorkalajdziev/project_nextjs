@@ -136,7 +136,7 @@ function InvoiceDocument_MK(props) {
     qrCodeUrl
   } = props;
   
-  const dueDate = 'Рок на плаќање: 7 дена';
+  const dueDate = '7 дена';
   const invoiceStatus = 'Неплатено';
   const company = {
     name: 'Kika Makeup and Beauty Academy',
@@ -185,7 +185,7 @@ function InvoiceDocument_MK(props) {
             </View>
           )}         
           <View style={styles.row}>
-            <Text>Рок на плаќање </Text>
+            <Text>Рок на плаќање: </Text>
             <Text>{dueDate}</Text>
           </View>
           <View style={styles.row}>
