@@ -28,6 +28,14 @@ const ReservationEmailInternal_MK = ({
   // Helper to format MKD values
   const formatMKD = (value) => `${parseFloat(value).toFixed(2)} ден.`;
 
+  const formatDate = (date) => {
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
   return (
     <Html>
       <Head />
@@ -82,7 +90,7 @@ const ReservationEmailInternal_MK = ({
           </Section>
           <Section>
             <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Датум на резервација:</Text>
-            <Text>{reservationDate}</Text>
+            <Text>{formatDate(reservationDate)}</Text>
           </Section>
           <Section>
             <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Време на резервација:</Text>

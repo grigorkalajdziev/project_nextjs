@@ -15,6 +15,7 @@ const ReservationEmail = ({
   reservationTime,
   customerName,
   paymaentText,
+  total,
   products, 
   customerEmail,
   customerPhone,
@@ -23,14 +24,18 @@ const ReservationEmail = ({
   customerCity,
   customerPostalCode,
 }) => {
-  const formatEUR = (value) => `€ ${parseFloat(value).toFixed(2)}`;
-  const total = products.reduce(
-    (sum, product) => sum + product.quantity * parseFloat(product.price),
-    0
-  );
+  const formatEUR = (value) => `€ ${parseFloat(value).toFixed(2)}`;  
   const paragraph = { fontSize: '14px', marginTop: '24px' };
   const hr = { border: 'none', borderTop: '1px solid #eee', margin: '24px 0' };
   const footer = { fontSize: '12px', color: '#888', textAlign: 'center' };
+
+  const formatDate = (date) => {
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+};
 
   return (
     <Html>
@@ -107,7 +112,7 @@ const ReservationEmail = ({
             <Text style={{ fontSize: "14px", fontWeight: "bold" }}>
               Reservation Date:
             </Text>
-            <Text>{reservationDate}</Text>
+            <Text>{formatDate(reservationDate)}</Text>
           </Section>
           <Section>
             <Text style={{ fontSize: "14px", fontWeight: "bold" }}>

@@ -35,53 +35,42 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#eee',
     paddingBottom: 10,
-    position: 'relative',
   },
-  // Title NOT bold (only headers and total remain bold)
-  title: { fontSize: 18, fontFamily: 'NotoSans' },
-  label: { marginTop: 4, fontFamily: 'NotoSans' },
-  labelBold: { marginTop: 4, fontFamily: 'NotoSans', fontWeight: 700 },
+  title: { fontSize: 18, fontWeight: 700 },
+  label: { marginTop: 4 },
+  boldLabel: { fontWeight: 700 },
   section: { marginBottom: 12 },
-  row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 },
+  row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 },
+
   productsTable: { marginVertical: 10 },
   tableRow: { flexDirection: 'row' },
   qr: { width: 50, height: 50, marginLeft: 20 },
 
-  // Table headers: keep bold
+  // Matching MK design
   tableColHeader: {
     borderBottomWidth: 1,
     borderColor: '#ccc',
     padding: 4,
     fontWeight: 700,
-    fontFamily: 'NotoSans',
     textAlign: 'right',
   },
-  tableCol: {
-    width: '25%',
-    padding: 4,
-    borderBottomWidth: 1,
-    borderColor: '#f1f1f1',
-    fontFamily: 'NotoSans',
-    textAlign: 'right',
+  firstColHeader: {
+    width: '40%',
+    textAlign: 'left',
   },
-
-  firstColHeader: { textAlign: 'left' },
   firstCol: {
     width: '40%',
     textAlign: 'left',
     padding: 4,
     borderBottomWidth: 1,
     borderColor: '#f1f1f1',
-    fontFamily: 'NotoSans',
   },
-  tableCol: { width: '20%', padding: 4, borderBottomWidth: 1, borderColor: '#f1f1f1', textAlign: 'right' },
   quantityCol: {
     width: '20%',
     textAlign: 'right',
     padding: 4,
     borderBottomWidth: 1,
     borderColor: '#f1f1f1',
-    fontFamily: 'NotoSans',
   },
   priceCol: {
     width: '20%',
@@ -89,7 +78,6 @@ const styles = StyleSheet.create({
     padding: 4,
     borderBottomWidth: 1,
     borderColor: '#f1f1f1',
-    fontFamily: 'NotoSans',
   },
   totalCol: {
     width: '20%',
@@ -97,37 +85,28 @@ const styles = StyleSheet.create({
     padding: 4,
     borderBottomWidth: 1,
     borderColor: '#f1f1f1',
-    fontFamily: 'NotoSans',
   },
-
-  // Total row kept bold
-  totalRowLabel: { fontFamily: 'NotoSans', fontWeight: 700 },
-  totalRowValue: { fontFamily: 'NotoSans', fontWeight: 700 },
 
   footer: {
     marginTop: 40,
     textAlign: 'center',
     fontSize: 10,
     color: '#999',
-    fontFamily: 'NotoSans',
   },
 });
 
-// Helper: format date as DD-MM-YYYY safely
-const formatDate = (value) => {
-  if (!value) return '-';
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return String(value); // fallback to raw if invalid
+// Helper: format date as DD-MM-YYYY
+const formatDate = (date) => {
+  const d = new Date(date);
   const day = String(d.getDate()).padStart(2, '0');
   const month = String(d.getMonth() + 1).padStart(2, '0');
   const year = d.getFullYear();
   return `${day}-${month}-${year}`;
 };
 
-// Format price for en-GB with 2 decimals, safe fallback
+// Helper: format price
 const formatPrice = (num) => {
   const n = Number(num);
-  if (Number.isNaN(n)) return '-';
   return n.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 };
 
@@ -135,21 +114,16 @@ function InvoiceDocument(props) {
   const {
     orderNumber,
     date,
+    paymentText,
     reservationDate,
     reservationTime,
-    paymentText,
+    total,
     normalizedProducts = [],
     customerName,
     customerPhone,
     customerEmail,
     qrCodeUrl,
   } = props;
-
-  const subtotal = normalizedProducts.reduce((acc, item) => {
-    const price = Number(item.price || 0);
-    const qty = Number(item.quantity || 0);
-    return acc + price * qty;
-  }, 0);
 
   const dueDate = 'Due in 7 days';
   const invoiceStatus = 'Unpaid';
@@ -164,15 +138,7 @@ function InvoiceDocument(props) {
   const bankDetails = {
     bankName: 'NLB Banka',
     iban: 'MK07200002784531254',
-  };
-
-  // Build a single reservation string (date and time combined)
-  const reservationDisplay = (() => {
-    const parts = [];
-    if (reservationDate) parts.push(formatDate(reservationDate));
-    if (reservationTime) parts.push(String(reservationTime));
-    return parts.length ? parts.join(' in ') : null;
-  })();
+  };  
 
   return (
     <Document>
@@ -184,77 +150,71 @@ function InvoiceDocument(props) {
           {qrCodeUrl && <Image style={styles.qr} src={qrCodeUrl} />}
         </View>
 
-        {/* From */}
+        {/* Company Info */}
         <View style={styles.section}>
-          <Text style={styles.labelBold}>From:</Text>
+          <Text style={styles.boldLabel}>From:</Text>
           <Text>{company.name}</Text>
           <Text>{company.address}</Text>
           <Text>{company.email}</Text>
           <Text>Tax Number: {company.taxNumber}</Text>
         </View>
 
-        {/* Customer */}
+        {/* Customer Info */}
         <View style={styles.section}>
-          <Text style={styles.labelBold}>Customer:</Text>
+          <Text style={styles.boldLabel}>Customer:</Text>
           <Text>{customerName}</Text>
           {customerEmail && <Text>{customerEmail}</Text>}
           {customerPhone && <Text>{customerPhone}</Text>}
         </View>
 
-        {/* Dates & reservation (reservation date + time in one row) */}
+        {/* Dates and Payment */}
         <View style={styles.section}>
           <View style={styles.row}>
-            <Text style={styles.label}>Invoice Date:</Text>
+            <Text>Date:</Text>
             <Text>{formatDate(date)}</Text>
           </View>
-
-          {reservationDisplay && (
+          {reservationDate && (
             <View style={styles.row}>
-              <Text style={styles.label}>Reservation Date & Time:</Text>
-              <Text>{reservationDisplay}</Text>
+              <Text>Reservation Date & Time:</Text>
+              <Text>{formatDate(reservationDate)} at {reservationTime}</Text>
             </View>
           )}
-
           <View style={styles.row}>
-            <Text style={styles.label}>Due Date:</Text>
+            <Text>Due Date:</Text>
             <Text>{dueDate}</Text>
           </View>
-
           <View style={styles.row}>
-            <Text style={styles.label}>Status:</Text>
+            <Text>Status:</Text>
             <Text>{invoiceStatus}</Text>
           </View>
-
           <View style={styles.row}>
-            <Text style={styles.label}>Payment Method:</Text>
+            <Text>Payment Method:</Text>
             <Text>{paymentText}</Text>
           </View>
         </View>
 
-        {/* Products */}
+        {/* Products Table */}
         {normalizedProducts.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.label}>Items:</Text>
+            <Text style={styles.boldLabel}>Services:</Text>
             <View style={styles.productsTable}>
+              {/* Header */}
               <View style={styles.tableRow}>
-                <Text style={[styles.tableColHeader, styles.firstColHeader]}>Item</Text>
-                <Text style={[styles.tableColHeader, { width: '20%' }]}>Quantity</Text>
-                <Text style={[styles.tableColHeader, { width: '20%' }]}>Unit Price (€)</Text>
+                <Text style={[styles.tableColHeader, styles.firstColHeader]}>Service</Text>
+                <Text style={[styles.tableColHeader, { width: '20%' }]}>Qty</Text>
+                <Text style={[styles.tableColHeader, { width: '20%' }]}>Price (€)</Text>
                 <Text style={[styles.tableColHeader, { width: '20%' }]}>Total (€)</Text>
               </View>
 
-              {normalizedProducts.map((item, idx) => {
-                const qty = Number(item.quantity || 0);
-                const price = Number(item.price || 0);
-                return (
-                  <View key={idx} style={styles.tableRow}>
-                    <Text style={styles.firstCol}>{item.name}</Text>
-                    <Text style={styles.quantityCol}>{qty}</Text>
-                    <Text style={styles.priceCol}>{formatPrice(price)} €</Text>
-                    <Text style={styles.totalCol}>{formatPrice(price * qty)} €</Text>
-                  </View>
-                );
-              })}
+              {/* Rows */}
+              {normalizedProducts.map((item, idx) => (
+                <View key={idx} style={styles.tableRow}>
+                  <Text style={styles.firstCol}>{item.name}</Text>
+                  <Text style={styles.quantityCol}>{item.quantity}</Text>
+                  <Text style={styles.priceCol}>{formatPrice(item.price)} €</Text>
+                  <Text style={styles.totalCol}>{formatPrice(item.price * item.quantity)} €</Text>
+                </View>
+              ))}
             </View>
           </View>
         )}
@@ -262,24 +222,23 @@ function InvoiceDocument(props) {
         {/* Total */}
         <View style={styles.section}>
           <View style={styles.row}>
-            <Text style={styles.totalRowLabel}>Total Amount:</Text>
-            <Text style={styles.totalRowValue}>{formatPrice(subtotal)} €</Text>
+            <Text style={styles.boldLabel}>Total Amount:</Text>
+            <Text style={styles.boldLabel}>{formatPrice(total)} €</Text>
           </View>
         </View>
 
-        {/* Bank */}
+        {/* Bank Details */}
         <View style={styles.section}>
-          <Text style={styles.label}>Bank Details:</Text>
+          <Text style={styles.boldLabel}>Bank Details:</Text>
           <Text>Bank: {bankDetails.bankName}</Text>
           <Text>IBAN: {bankDetails.iban}</Text>
         </View>
 
         {/* Footer */}
         <View style={styles.section}>
-          <Text style={styles.label}>Thank you for your reservation!</Text>
+          <Text>Thank you for your order!</Text>
         </View>
-
-        <Text style={styles.label}>Questions? Contact makeupbykika@hotmail.com</Text>
+        <Text>Questions? Contact makeupbykika@hotmail.com</Text>
       </Page>
     </Document>
   );

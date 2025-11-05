@@ -179,7 +179,7 @@ function ConfirmationDocument_MK(props) {
         <View style={styles.section}>
           <View style={styles.infoRow}>
             <Text style={styles.label}>Датум:</Text>
-            <Text style={styles.valueRight}>{date}</Text>
+            <Text style={styles.valueRight}>{formatDate(date)}</Text>
           </View>
 
           <View style={styles.infoRow}>

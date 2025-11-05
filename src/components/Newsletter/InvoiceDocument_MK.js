@@ -128,14 +128,14 @@ function InvoiceDocument_MK(props) {
     paymentText,
     reservationDate,
     reservationTime,
+    total,
     normalizedProducts = [],
     customerName,
     customerPhone,
     customerEmail,
     qrCodeUrl
   } = props;
-
-  const subtotal = normalizedProducts.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  
   const dueDate = 'Рок на плаќање: 7 дена';
   const invoiceStatus = 'Неплатено';
   const company = {
@@ -176,7 +176,7 @@ function InvoiceDocument_MK(props) {
         <View style={styles.section}>
           <View style={styles.row}>
             <Text>Датум:</Text>
-            <Text>{date}</Text>
+            <Text>{formatDate(date)}</Text>
           </View>
           {reservationDate && (
             <View style={styles.row}>
@@ -185,7 +185,7 @@ function InvoiceDocument_MK(props) {
             </View>
           )}         
           <View style={styles.row}>
-            <Text>Рок на плаќање:</Text>
+            <Text>Рок на плаќање </Text>
             <Text>{dueDate}</Text>
           </View>
           <View style={styles.row}>
@@ -223,7 +223,7 @@ function InvoiceDocument_MK(props) {
         <View style={styles.section}>
           <View style={styles.row}>
             <Text style={styles.boldLabel}>Вкупен износ:</Text>
-            <Text style={styles.boldLabel}>{formatPrice(subtotal)} денари</Text>
+            <Text style={styles.boldLabel}>{formatPrice(total)} денари</Text>
           </View>
         </View>
 
