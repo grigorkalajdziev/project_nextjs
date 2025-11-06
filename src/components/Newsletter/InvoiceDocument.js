@@ -95,15 +95,6 @@ const styles = StyleSheet.create({
   },
 });
 
-// Helper: format date as DD-MM-YYYY
-const formatDate = (date) => {
-  const d = new Date(date);
-  const day = String(d.getDate()).padStart(2, '0');
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const year = d.getFullYear();
-  return `${day}-${month}-${year}`;
-};
-
 // Helper: format price
 const formatPrice = (num) => {
   const n = Number(num);
@@ -171,12 +162,12 @@ function InvoiceDocument(props) {
         <View style={styles.section}>
           <View style={styles.row}>
             <Text>Date:</Text>
-            <Text>{formatDate(date)}</Text>
+            <Text>{date}</Text>
           </View>
           {reservationDate && (
             <View style={styles.row}>
               <Text>Reservation Date & Time:</Text>
-              <Text>{formatDate(reservationDate)} at {reservationTime}</Text>
+              <Text>{reservationDate} at {reservationTime}</Text>
             </View>
           )}
           <View style={styles.row}>

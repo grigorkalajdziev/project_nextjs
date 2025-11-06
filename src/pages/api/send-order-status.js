@@ -25,6 +25,7 @@ export default async function handler(req, res) {
     from,
     orderNumber,
     status,
+    date,
     reservationDate,
     reservationTime,
     customerName,
@@ -39,8 +40,7 @@ export default async function handler(req, res) {
     customerCity,
     customerPostalCode,
     language = 'en',
-  } = req.body;  
-
+  } = req.body;
 
   const normalizedProducts = products.map(p => ({
       ...p,
@@ -109,7 +109,7 @@ export default async function handler(req, res) {
 
       const pdfProps = {
         orderNumber,
-        date: reservationDate,
+        date: date,
         reservationDate,
         reservationTime,
         total,
@@ -119,7 +119,7 @@ export default async function handler(req, res) {
         customerEmail,
         customerPhone,
         qrCodeUrl
-      };
+      };       
 
       let stream;
       let filename;

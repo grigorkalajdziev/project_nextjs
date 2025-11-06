@@ -29,13 +29,6 @@ const ReservationEmail_MK = ({
   const hr = { border: 'none', borderTop: '1px solid #eee', margin: '24px 0' };
   const footer = { fontSize: '12px', color: '#888', textAlign: 'center' };
 
-  const formatDate = (date) => {
-  const d = new Date(date);
-  const day = String(d.getDate()).padStart(2, "0");
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const year = d.getFullYear();
-  return `${day}-${month}-${year}`;
-};
 
   return (
     <Html>
@@ -94,7 +87,7 @@ const ReservationEmail_MK = ({
           </Section>
           <Section>
             <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Датум на резервација:</Text>
-            <Text>{formatDate(reservationDate)}</Text>
+            <Text>{reservationDate}</Text>
           </Section>
           <Section>
             <Text style={{ fontSize: '14px', fontWeight: 'bold' }}>Време на резервација:</Text>

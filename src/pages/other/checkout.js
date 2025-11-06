@@ -210,7 +210,7 @@ const handlePlaceOrder = async () => {
     const totalENnum = totalMKDnum / conversionRate;
 
     // Build order data in the legacy shape
-    const reservationDate = reservationDateTime.toISOString().split("T")[0];
+    const reservationDate = formatDate(reservationDateTime);
     const reservationTime = reservationDateTime.toTimeString().slice(0, 5);
 
     const orderData = {

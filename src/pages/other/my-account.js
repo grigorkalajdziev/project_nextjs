@@ -40,15 +40,6 @@ import { Country, City } from "country-state-city";
 import { cities } from "../../context/CountryCityTranslations";
 import { isoToMK } from "../../context/CountryIsoCode";
 
-function formatDMY(dateStr) {
-  if (!dateStr) return "";
-  const date = new Date(dateStr);
-  if (isNaN(date)) return dateStr; // fallback if not a valid date
-  const d = String(date.getDate()).padStart(2, "0");
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const y = date.getFullYear();
-  return `${d}-${m}-${y}`;
-}
 
 const getLocalizedTotal = (order, lang = "mk") => {
   if (!order) return 0;
@@ -205,6 +196,8 @@ const MyAccount = () => {
     singleValue: (provided) => ({
       ...provided,
       textAlign: "left",
+      marginTop: "-5px",
+      marginLeft: "12px",
     }),
     indicatorsContainer: (provided) => ({
       ...provided,
@@ -861,9 +854,14 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
       const matchingOrder = orders.find((o) => o.id === orderId);
       if (!matchingOrder) throw new Error("Order not found");
 
+    console.log("=== UPDATE ORDER DEBUG ===");
+    console.log("Original matchingOrder.date:", matchingOrder.date);
+    console.log("Original matchingOrder.reservationDate:", matchingOrder.reservationDate);    
+
       const {
         userId,
         orderNumber,
+        date,
         reservationDate,
         reservationTime,
         totalMK,
@@ -907,7 +905,8 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
         from: "confirmation@kikamakeupandbeautyacademy.com",
         orderNumber,
         status: newStatus,
-        reservationDate,
+        date: date,
+        reservationDate: reservationDate,
         reservationTime,
         customerName: displayName,
         paymentText: paymentText,
@@ -922,6 +921,12 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
         customerPostalCode: customerPostalCode,
         language: language || currentLanguage,
       };
+
+       console.log("Payload being sent to send-order-status:", {
+      date: payload.date,
+      reservationDate: payload.reservationDate,
+      reservationTime: payload.reservationTime
+    });
       
       await fetch("/api/send-order-status", {
         method: "POST",
@@ -1493,28 +1498,33 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
       const paymentText = order.paymentMethod === "payment_cash"
       ? t("payment_cash")
       : t("payment_bank");
-      // Build a stronger order object to send to the server for PDF generation
+
+      console.log("=== DOWNLOAD PDF DEBUG ===");
+      console.log("Original order.date:", order.date);
+      console.log("Original order.reservationDate:", order.reservationDate);      
+      
       const orderForPdf = {
         ...order,
         paymentText,
-        // prefer order.displayName (from fetchOrders) else use local displayName state
-        displayName: order.displayName || displayName || null,
-        // ensure .customer object exists and contains useful fields (null when missing)
-        customer: {
-          ...(order.customer || {}),
-          // some orders only had address/phone/email under order.customer
-          name:
-            order.customer?.name || order.displayName || displayName || null,
-          email: order.customer?.email || order.email || email || null,
-          phone: order.customer?.phone || order.customerPhone || phone || null,
-          address:
-            order.customer?.address || order.customerAddress || address || null,
-          city: order.customer?.city || order.customerCity || null,
-          postalCode:
-            order.customer?.postalCode || order.customerPostalCode || null,
-          state: order.customer?.state || order.customerState || null,
+        date: order.date,
+        reservationDate: order.reservationDate,        
+        displayName: order.displayName || displayName || null,        
+        customer: {...(order.customer || {}),        
+        name: order.customer?.name || order.displayName || displayName || null,
+        email: order.customer?.email || order.email || email || null,
+        phone: order.customer?.phone || order.customerPhone || phone || null,
+        address: order.customer?.address || order.customerAddress || address || null,
+        city: order.customer?.city || order.customerCity || null,
+        postalCode: order.customer?.postalCode || order.customerPostalCode || null,
+        state: order.customer?.state || order.customerState || null,
         },
       };
+
+      console.log("OrderForPdf being sent:", {
+      date: orderForPdf.date,
+      reservationDate: orderForPdf.reservationDate,
+      reservationTime: orderForPdf.reservationTime
+    });
 
       const resp = await fetch("/api/generate-pdf", {
         method: "POST",
@@ -2022,7 +2032,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                                 {role === "admin" && (
                                   <th
                                     className="ps-3 text-start"
-                                    style={{ minWidth: "150px" }}
+                                    style={{ minWidth: "180px" }}
                                   >
                                     <i className="bi bi-person me-2"></i>
                                     {t("user")}
@@ -2030,28 +2040,28 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                                 )}
                                 <th
                                   className="text-start"
-                                  style={{ minWidth: "120px" }}
+                                  style={{ minWidth: "100px" }}
                                 >
                                   <i className="bi bi-receipt me-2"></i>
                                   {t("order")}
                                 </th>
                                 <th
                                   className="text-start"
-                                  style={{ minWidth: "120px" }}
+                                  style={{ minWidth: "100px" }}
                                 >
                                   <i className="bi bi-calendar-date me-2"></i>
                                   {t("date")}
                                 </th>
                                 <th
                                   className="text-start"
-                                  style={{ minWidth: "140px" }}
+                                  style={{ minWidth: "120px" }}
                                 >
                                   <i className="bi bi-calendar-check me-2"></i>
                                   {t("date_of_reservation")}
                                 </th>
                                 <th
                                   className="text-start pe-3"
-                                  style={{ minWidth: "90px" }}
+                                  style={{ minWidth: "60px" }}
                                 >
                                   <i className="bi bi-clock me-2"></i>
                                   {t("time_of_reservation")}
@@ -2065,7 +2075,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                                 </th>
                                 <th
                                   className="text-end"
-                                  style={{ minWidth: "140px" }}
+                                  style={{ minWidth: "130px" }}
                                 >
                                   <i className="bi bi-currency-exchange me-2"></i>
                                   {t("total")}
@@ -2099,7 +2109,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                                   </td>
                                   <td className="text-center pe-3">
                                     <small>
-                                      {formatDMY(order.reservationDate)}
+                                      {order.reservationDate}
                                     </small>
                                   </td>
                                   <td className="text-center pe-3">
@@ -4314,7 +4324,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
 
                             <Col lg={6}>
                               <div className="single-input-item">
-                                <label className="required">
+                                <label htmlFor="city" className="required">
                                   {t("city_label")}
                                 </label>
                                 <Select
@@ -4772,7 +4782,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                                 <tr>
                                   <th
                                     className="ps-3 text-start"
-                                    style={{ minWidth: "150px" }}
+                                    style={{ minWidth: "200px" }}
                                   >
                                     <i className="bi bi-person me-2"></i>
                                     {t("name")}

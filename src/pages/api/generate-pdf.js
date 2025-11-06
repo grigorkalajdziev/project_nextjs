@@ -1,18 +1,11 @@
-// pages/api/generate-pdf.js
 import { renderToStream } from "@react-pdf/renderer";
 import getStreamBuffer from "../../lib/getStreamBurffer"; // adjust path if needed
 import QRCode from "qrcode";
-
-// Reuse the same components you used for email attachments
 import ConfirmationDocument from "../../components/Newsletter/ConfirmationDocument";
 import ConfirmationDocument_MK from "../../components/Newsletter/ConfirmationDocument_MK";
 import InvoiceDocument from "../../components/Newsletter/InvoiceDocument";
 import InvoiceDocument_MK from "../../components/Newsletter/InvoiceDocument_MK";
 
-/**
- * Make a safe ASCII fallback filename by replacing non-ASCII chars.
- * Keeps basic characters and replaces others with underscore.
- */
 function asciiFallbackFilename(name) {
   if (!name) return "download.pdf";
   // Replace path separators and quotes just in case, then replace non-ASCII
@@ -27,11 +20,11 @@ export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).end("Method Not Allowed");
-  }  
+  }
 
   try {
-    const { order, language = "en" } = req.body || {};    
-
+    const { order, language = "en" } = req.body || {};
+    
     if (!order) {
       return res.status(400).json({ error: "Missing order in request body" });
     }
@@ -50,22 +43,23 @@ export default async function handler(req, res) {
     }));
 
     const pdfProps = {
-            orderNumber: order.orderNumber,
-            date: order.date || order.reservationDate || new Date().toISOString(),
-            reservationDate: order.reservationDate,
-            reservationTime: order.reservationTime,
-            total: language === "mk"
-                    ? Number(order.totalMK ?? order.displayTotal ?? 0)
-                    : Number(order.totalEN ?? order.displayTotal ?? 0),
-            normalizedProducts,
-            paymentText: order.paymentText,
-            customerName: order.customer?.name || order.customer?.displayName || '-', // fallback
-            customerEmail: order.customer?.email || null, // use null instead of empty string
-            customerPhone: order.customer?.phone || null, // use null instead of empty string
-            customerAddress: order.customer?.address || null,
-            qrCodeUrl: undefined,
-            language,
-            };
+      orderNumber: order.orderNumber,
+      date: order.date,
+      reservationDate: order.reservationDate,
+      reservationTime: order.reservationTime,
+      total:
+        language === "mk"
+          ? Number(order.totalMK ?? order.displayTotal ?? 0)
+          : Number(order.totalEN ?? order.displayTotal ?? 0),
+      normalizedProducts,
+      paymentText: order.paymentText,
+      customerName: order.customer?.name || order.customer?.displayName || "-", // fallback
+      customerEmail: order.customer?.email || null, // use null instead of empty string
+      customerPhone: order.customer?.phone || null, // use null instead of empty string
+      customerAddress: order.customer?.address || null,
+      qrCodeUrl: undefined,
+      language,
+    };
     
     // Try generate QR code (non-fatal)
     try {
@@ -87,22 +81,15 @@ export default async function handler(req, res) {
           ? ConfirmationDocument_MK
           : InvoiceDocument_MK
         : isCash
-        ? ConfirmationDocument
-        : InvoiceDocument;
+          ? ConfirmationDocument
+          : InvoiceDocument;
 
     const stream = await renderToStream(<DocComponent {...pdfProps} />);
     const buffer = await getStreamBuffer(stream);
-
-    // Prepare filename: can include Unicode for user-friendly name,
-    // but header must be ASCII-safe — so set both filename and filename*.
-    const humanFilename = `${isCash ? (language === "mk" ? "Потврда" : "Confirmation") : (language === "mk" ? "Фактура" : "Invoice")}-${order.orderNumber || "order"}.pdf`;
+    const humanFilename = `${isCash ? (language === "mk" ? "Потврда" : "Confirmation") : language === "mk" ? "Фактура" : "Invoice"}-${order.orderNumber || "order"}.pdf`;
     const asciiName = asciiFallbackFilename(humanFilename);
     const encodedName = encodeURIComponent(humanFilename);
-
-    // Set headers: ASCII filename fallback + RFC5987 encoded UTF-8 filename*
-    // Node will allow ASCII header content; filename* uses percent-encoding.
     res.setHeader("Content-Type", "application/pdf");
-    // safe Content-Disposition containing ASCII and filename* for UTF-8 names
     res.setHeader(
       "Content-Disposition",
       `attachment; filename="${asciiName}"; filename*=UTF-8''${encodedName}`
@@ -115,7 +102,8 @@ export default async function handler(req, res) {
     return res.status(500).json({
       error: "Failed to generate PDF",
       message: err.message,
-      stack: process.env.NODE_ENV === "development" ? String(err.stack) : undefined,
+      stack:
+        process.env.NODE_ENV === "development" ? String(err.stack) : undefined,
     });
   }
 }

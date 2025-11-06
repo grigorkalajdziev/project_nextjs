@@ -118,15 +118,6 @@ const styles = StyleSheet.create({
   },
 });
 
-// Helper function to format date as DD-MM-YYYY
-const formatDate = (date) => {
-  const d = new Date(date);
-  const day = String(d.getDate()).padStart(2, '0');
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const year = d.getFullYear();
-  return `${day}-${month}-${year}`;
-};
-
 // Helper function to format numbers with thousand separators
 const formatPrice = (num) => {
   return num.toLocaleString('mk-MK');
@@ -179,13 +170,13 @@ function ConfirmationDocument_MK(props) {
         <View style={styles.section}>
           <View style={styles.infoRow}>
             <Text style={styles.label}>Датум:</Text>
-            <Text style={styles.valueRight}>{formatDate(date)}</Text>
+            <Text style={styles.valueRight}>{date}</Text>
           </View>
 
           <View style={styles.infoRow}>
             <Text style={styles.label}>Резервација:</Text>
             <Text style={styles.valueRight}>
-              {`${formatDate(reservationDate)} во ${reservationTime}`}
+              {`${reservationDate} во ${reservationTime}`}
             </Text>
           </View>
 
