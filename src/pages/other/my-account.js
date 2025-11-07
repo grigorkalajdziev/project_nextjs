@@ -1497,11 +1497,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
     try {
       const paymentText = order.paymentMethod === "payment_cash"
       ? t("payment_cash")
-      : t("payment_bank");
-
-      console.log("=== DOWNLOAD PDF DEBUG ===");
-      console.log("Original order.date:", order.date);
-      console.log("Original order.reservationDate:", order.reservationDate);      
+      : t("payment_bank");        
       
       const orderForPdf = {
         ...order,
@@ -1519,12 +1515,6 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
         state: order.customer?.state || order.customerState || null,
         },
       };
-
-      console.log("OrderForPdf being sent:", {
-      date: orderForPdf.date,
-      reservationDate: orderForPdf.reservationDate,
-      reservationTime: orderForPdf.reservationTime
-    });
 
       const resp = await fetch("/api/generate-pdf", {
         method: "POST",
@@ -2040,14 +2030,14 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                                 )}
                                 <th
                                   className="text-start"
-                                  style={{ minWidth: "100px" }}
+                                  style={{ minWidth: "110px" }}
                                 >
                                   <i className="bi bi-receipt me-2"></i>
                                   {t("order")}
                                 </th>
                                 <th
                                   className="text-start"
-                                  style={{ minWidth: "100px" }}
+                                  style={{ minWidth: "110px" }}
                                 >
                                   <i className="bi bi-calendar-date me-2"></i>
                                   {t("date")}
