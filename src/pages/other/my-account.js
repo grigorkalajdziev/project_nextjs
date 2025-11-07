@@ -40,7 +40,6 @@ import { Country, City } from "country-state-city";
 import { cities } from "../../context/CountryCityTranslations";
 import { isoToMK } from "../../context/CountryIsoCode";
 
-
 const getLocalizedTotal = (order, lang = "mk") => {
   if (!order) return 0;
 
@@ -71,8 +70,6 @@ const getLocalizedTotal = (order, lang = "mk") => {
 
   return subtotal;
 };
-
-
 
 const MyAccount = () => {
   const { t, currentLanguage } = useLocalization();
@@ -156,10 +153,7 @@ const MyAccount = () => {
   const endIndexPayment = startIndexPayment + itemsPerPagePayment;
 
   const currentOrdersPayment = orders.slice(startIndexPayment, endIndexPayment);
-  const totalPagesPayment = Math.ceil(orders.length / itemsPerPagePayment);
-
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+  const totalPagesPayment = Math.ceil(orders.length / itemsPerPagePayment); 
   const [dateRange, setDateRange] = useState("30days");
 
   const [allUsers, setAllUsers] = useState([]);
@@ -168,8 +162,6 @@ const MyAccount = () => {
   const [currentPageUsers, setCurrentPageUsers] = useState(1);
   const [showUserFilters, setShowUserFilters] = useState(false);
   const usersPerPage = 6;
-
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
   // Styles to match your form-control inputs
@@ -230,25 +222,25 @@ const MyAccount = () => {
   const conversionRate = 61.5;
 
   const parseAmount = (val, lang = "mk") => {
-  if (val == null) return 0;
-  if (typeof val === "number") return val;
-  if (typeof val === "object") {
-    // prefer language-specific field, fallback to the other
-    const preferred = lang === "en" ? val.en ?? val.mk : val.mk ?? val.en;
-    return parseAmount(preferred, lang);
-  }
-  // string: strip non-numeric chars (currency symbols, spaces, etc.)
-  const cleaned = String(val).replace(/[^0-9.-]+/g, "");
-  const n = Number(cleaned);
-  return Number.isFinite(n) ? n : 0;
-};
+    if (val == null) return 0;
+    if (typeof val === "number") return val;
+    if (typeof val === "object") {
+      // prefer language-specific field, fallback to the other
+      const preferred = lang === "en" ? (val.en ?? val.mk) : (val.mk ?? val.en);
+      return parseAmount(preferred, lang);
+    }
+    // string: strip non-numeric chars (currency symbols, spaces, etc.)
+    const cleaned = String(val).replace(/[^0-9.-]+/g, "");
+    const n = Number(cleaned);
+    return Number.isFinite(n) ? n : 0;
+  };
 
-const formatTotal = (amount, lang) => {
-  const isEnglish = lang === "en";
-  const symbol = isEnglish ? "€" : "ден.";
-  const formatted = parseFloat(amount || 0).toFixed(2);
-  return `${formatted} ${symbol}`;
-};
+  const formatTotal = (amount, lang) => {
+    const isEnglish = lang === "en";
+    const symbol = isEnglish ? "€" : "ден.";
+    const formatted = parseFloat(amount || 0).toFixed(2);
+    return `${formatted} ${symbol}`;
+  };
 
   const filteredOrders = orders
     .filter(
@@ -268,18 +260,18 @@ const formatTotal = (amount, lang) => {
     });
 
   const grandTotalInDisplayCurrency = filteredOrders.reduce((sum, order) => {
-  // prefer numeric total fields we set during fetch
-  const mk = parseFloat(order.totalMK || 0);
-  const en = parseFloat(order.totalEN || 0);
+    // prefer numeric total fields we set during fetch
+    const mk = parseFloat(order.totalMK || 0);
+    const en = parseFloat(order.totalEN || 0);
 
-  if (currentLanguage === "mk") {
-    // sum in MKD: use MK if available, otherwise convert from EUR
-    return sum + (mk > 0 ? mk : en * conversionRate);
-  } else {
-    // sum in EUR: use EUR if available, otherwise convert from MKD
-    return sum + (en > 0 ? en : mk / conversionRate);
-  }
-}, 0);
+    if (currentLanguage === "mk") {
+      // sum in MKD: use MK if available, otherwise convert from EUR
+      return sum + (mk > 0 ? mk : en * conversionRate);
+    } else {
+      // sum in EUR: use EUR if available, otherwise convert from MKD
+      return sum + (en > 0 ? en : mk / conversionRate);
+    }
+  }, 0);
 
   const db = getDatabase();
 
@@ -381,20 +373,22 @@ const formatTotal = (amount, lang) => {
   };
 
   const paymentData = (orders, currentLanguage) => {
-  return orders.reduce((acc, order) => {
-    const method = order.paymentMethod || "other";
+    return orders.reduce((acc, order) => {
+      const method = order.paymentMethod || "other";
 
-    const amount =
-      currentLanguage === "mk"
-        ? order.totalMK || (order.totalEN ? order.totalEN * conversionRate : 0)
-        : order.totalEN || (order.totalMK ? order.totalMK / conversionRate : 0);
+      const amount =
+        currentLanguage === "mk"
+          ? order.totalMK ||
+            (order.totalEN ? order.totalEN * conversionRate : 0)
+          : order.totalEN ||
+            (order.totalMK ? order.totalMK / conversionRate : 0);
 
-    const existing = acc.find((d) => d.name === method);
-    if (existing) existing.value += amount;
-    else acc.push({ name: method, value: amount });
-    return acc;
-  }, []);
-};
+      const existing = acc.find((d) => d.name === method);
+      if (existing) existing.value += amount;
+      else acc.push({ name: method, value: amount });
+      return acc;
+    }, []);
+  };
 
   const filteredOrdersForCharts = orders.filter((order) => {
     if (!order.date) return false;
@@ -409,364 +403,427 @@ const formatTotal = (amount, lang) => {
   });
 
   const statusData = (orders, filterYear) => {
-  if (!Array.isArray(orders) || orders.length === 0) return [];
+    if (!Array.isArray(orders) || orders.length === 0) return [];
 
-  const targetYear =
-    filterYear === "all"
-      ? new Date().getFullYear()
-      : parseInt(filterYear, 10);
+    const targetYear =
+      filterYear === "all"
+        ? new Date().getFullYear()
+        : parseInt(filterYear, 10);
 
-  return orders.reduce((acc, order) => {
-    if (!order.date && !order.createdAt) return acc;
+    return orders.reduce((acc, order) => {
+      if (!order.date && !order.createdAt) return acc;
 
-    // Parse year safely (supports both DD-MM-YYYY and YYYY-MM-DD)
-    let orderYear;
-    if (order.date) {
-      const parts = order.date.split("-");
-      orderYear =
-        parts[0].length === 4 ? parseInt(parts[0], 10) : parseInt(parts[2], 10);
-    } else if (order.createdAt) {
-      orderYear = new Date(order.createdAt).getFullYear();
-    }
-
-    if (!orderYear || orderYear !== targetYear) return acc;
-
-    const status = order.status || "other";
-    const existing = acc.find((d) => d.status === status);
-
-    // Prefer explicit numeric fields (totalMK / totalEN)
-    const mkRaw = order.totalMK ?? 0;
-    const enRaw = order.totalEN ?? 0;
-    const mk = Number.isFinite(Number(mkRaw)) ? Number(mkRaw) : 0;
-    const en = Number.isFinite(Number(enRaw)) ? Number(enRaw) : 0;
-
-    // Handle fallback if those don’t exist
-    let mkdAmount = 0;
-    let engAmount = 0;
-    if (mk === 0 && en === 0) {
-      const fallback = parseAmount(order.total ?? 0);
-      const cur = (order.currency || "MKD").toString().toUpperCase();
-      if (cur === "EUR") {
-        engAmount = fallback;
-        mkdAmount = fallback * conversionRate;
-      } else {
-        mkdAmount = fallback;
-        engAmount = fallback / conversionRate;
+      // Parse year safely (supports both DD-MM-YYYY and YYYY-MM-DD)
+      let orderYear;
+      if (order.date) {
+        const parts = order.date.split("-");
+        orderYear =
+          parts[0].length === 4
+            ? parseInt(parts[0], 10)
+            : parseInt(parts[2], 10);
+      } else if (order.createdAt) {
+        orderYear = new Date(order.createdAt).getFullYear();
       }
-    } else {
-      mkdAmount = mk > 0 ? mk : en * conversionRate;
-      engAmount = en > 0 ? en : mk / conversionRate;
-    }
 
-    if (existing) {
-      existing.count += 1;
-      existing.mkd += mkdAmount;
-      existing.eng += engAmount;
-    } else {
-      acc.push({
-        status,
-        count: 1,
-        mkd: mkdAmount,
-        eng: engAmount,
-      });
-    }
+      if (!orderYear || orderYear !== targetYear) return acc;
 
-    return acc;
-  }, []);
-};
+      const status = order.status || "other";
+      const existing = acc.find((d) => d.status === status);
 
+      // Prefer explicit numeric fields (totalMK / totalEN)
+      const mkRaw = order.totalMK ?? 0;
+      const enRaw = order.totalEN ?? 0;
+      const mk = Number.isFinite(Number(mkRaw)) ? Number(mkRaw) : 0;
+      const en = Number.isFinite(Number(enRaw)) ? Number(enRaw) : 0;
+
+      // Handle fallback if those don’t exist
+      let mkdAmount = 0;
+      let engAmount = 0;
+      if (mk === 0 && en === 0) {
+        const fallback = parseAmount(order.total ?? 0);
+        const cur = (order.currency || "MKD").toString().toUpperCase();
+        if (cur === "EUR") {
+          engAmount = fallback;
+          mkdAmount = fallback * conversionRate;
+        } else {
+          mkdAmount = fallback;
+          engAmount = fallback / conversionRate;
+        }
+      } else {
+        mkdAmount = mk > 0 ? mk : en * conversionRate;
+        engAmount = en > 0 ? en : mk / conversionRate;
+      }
+
+      if (existing) {
+        existing.count += 1;
+        existing.mkd += mkdAmount;
+        existing.eng += engAmount;
+      } else {
+        acc.push({
+          status,
+          count: 1,
+          mkd: mkdAmount,
+          eng: engAmount,
+        });
+      }
+
+      return acc;
+    }, []);
+  };
 
   // Daily Revenue (last N days) - filtered by year
 
   const getDailyRevenue = (orders, days = 30) => {
-  const targetYear =
-    filterYear === "all" ? new Date().getFullYear() : parseInt(filterYear, 10);
+    const targetYear = parseInt(filterYear, 10);
 
-  // reference date (end) — preserve original behavior for non-current years
-  const today = new Date();
-  if (filterYear !== "all") {
+    // reference date (end) — preserve original behavior for non-current years
+    const today = new Date();
     today.setFullYear(targetYear);
     if (targetYear !== new Date().getFullYear()) {
       today.setMonth(11, 31); // Dec 31 of target year
     }
-  }
-  today.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
 
-  const dailyData = {};
-  for (let i = days - 1; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    dailyData[d.toISOString().split("T")[0]] = { mkd: 0, eur: 0, count: 0 };
-  }
+    const dailyData = {};
+    for (let i = days - 1; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      // Use local date formatting to avoid timezone issues
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      const dateKey = `${year}-${month}-${day}`;
+      dailyData[dateKey] = { mkd: 0, eur: 0, count: 0 };
+    }
 
-  orders.forEach((order) => {
-    // derive orderDate similar to your existing logic
-    let orderDate = null;
-    if (order.date) {
-      if (order.date.includes("-")) {
-        const parts = order.date.split("-");
-        if (parts[0].length === 4) {
-          orderDate = new Date(order.date); // YYYY-MM-DD
+    orders.forEach((order) => {
+      // derive orderDate similar to your existing logic
+      let orderDate = null;
+      if (order.date) {
+        if (order.date.includes("-")) {
+          const parts = order.date.split("-");
+          if (parts[0].length === 4) {
+            // YYYY-MM-DD - use local date construction
+            const [year, month, day] = parts.map(Number);
+            orderDate = new Date(year, month - 1, day);
+          } else {
+            // DD-MM-YYYY - use local date construction
+            const [day, month, year] = parts.map(Number);
+            orderDate = new Date(year, month - 1, day);
+          }
         } else {
-          orderDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`); // DD-MM-YYYY
+          orderDate = new Date(order.date);
+        }
+      } else if (order.createdAt) {
+        orderDate = new Date(order.createdAt);
+      }
+
+      if (!orderDate || isNaN(orderDate)) return;
+      if (orderDate.getFullYear() !== targetYear) return;
+
+      orderDate.setHours(0, 0, 0, 0);
+      // Use local date string instead of ISO to avoid timezone shift
+      const year = orderDate.getFullYear();
+      const month = String(orderDate.getMonth() + 1).padStart(2, "0");
+      const day = String(orderDate.getDate()).padStart(2, "0");
+      const dateKey = `${year}-${month}-${day}`;
+      if (!dailyData[dateKey]) return;
+
+      const mk = parseFloat(order.totalMK || 0);
+      const en = parseFloat(order.totalEN || 0);
+
+      // fallback to legacy total (assume MKD unless order.currency says otherwise)
+      if (!mk && !en) {
+        const fallback = parseAmount(order.total || 0);
+        const cur = (order.currency || "MKD").toUpperCase();
+        if (cur === "EUR") {
+          dailyData[dateKey].eur += fallback;
+          dailyData[dateKey].mkd += fallback * conversionRate;
+        } else {
+          dailyData[dateKey].mkd += fallback;
+          dailyData[dateKey].eur += fallback / conversionRate;
         }
       } else {
-        orderDate = new Date(order.date);
+        dailyData[dateKey].mkd += mk > 0 ? mk : en * conversionRate;
+        dailyData[dateKey].eur += en > 0 ? en : mk / conversionRate;
       }
-    } else if (order.createdAt) {
-      orderDate = new Date(order.createdAt);
-    }
 
-    if (!orderDate || isNaN(orderDate)) return;
-    if (filterYear !== "all" && orderDate.getFullYear() !== targetYear) return;
+      dailyData[dateKey].count += 1;
+    });
 
-    orderDate.setHours(0, 0, 0, 0);
-    const dateKey = orderDate.toISOString().split("T")[0];
-    if (!dailyData[dateKey]) return;
-
-    const mk = parseFloat(order.totalMK || 0);
-    const en = parseFloat(order.totalEN || 0);
-
-    // fallback to legacy total (assume MKD unless order.currency says otherwise)
-    if (!mk && !en) {
-      const fallback = parseAmount(order.total || 0);
-      const cur = (order.currency || "MKD").toUpperCase();
-      if (cur === "EUR") {
-        dailyData[dateKey].eur += fallback;
-        dailyData[dateKey].mkd += fallback * conversionRate;
-      } else {
-        dailyData[dateKey].mkd += fallback;
-        dailyData[dateKey].eur += fallback / conversionRate;
-      }
-    } else {
-      dailyData[dateKey].mkd += mk > 0 ? mk : en * conversionRate;
-      dailyData[dateKey].eur += en > 0 ? en : mk / conversionRate;
-    }
-
-    dailyData[dateKey].count += 1;
-  });
-
-  const monthNames = {
-    en: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-    mk: ["Јан","Фев","Мар","Апр","Мај","Јун","Јул","Авг","Сеп","Окт","Ное","Дек"]
-  };
-
-  return Object.entries(dailyData).map(([date, data]) => {
-    const dateObj = new Date(date);
-    const day = String(dateObj.getDate()).padStart(2, "0");
-    const monthIndex = dateObj.getMonth();
-    const monthName = currentLanguage === "mk" ? monthNames.mk[monthIndex] : monthNames.en[monthIndex];
-    return {
-      date: `${day} ${monthName}`,
-      fullDate: date,
-      revenue: currentLanguage === "mk" ? data.mkd : data.eur,
-      orders: data.count,
+    const monthNames = {
+      en: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+      mk: [
+        "Јан",
+        "Фев",
+        "Мар",
+        "Апр",
+        "Мај",
+        "Јун",
+        "Јул",
+        "Авг",
+        "Сеп",
+        "Окт",
+        "Ное",
+        "Дек",
+      ],
     };
-  });
-};
 
+    return Object.entries(dailyData).map(([date, data]) => {
+      // Parse the local date string manually to avoid UTC conversion
+      const [year, month, day] = date.split("-").map(Number);
+      const dateObj = new Date(year, month - 1, day);
+      const dayStr = String(dateObj.getDate()).padStart(2, "0");
+      const monthIndex = dateObj.getMonth();
+      const monthName =
+        currentLanguage === "mk"
+          ? monthNames.mk[monthIndex]
+          : monthNames.en[monthIndex];
+      return {
+        date: `${dayStr} ${monthName}`,
+        fullDate: date,
+        revenue: currentLanguage === "mk" ? data.mkd : data.eur,
+        orders: data.count,
+      };
+    });
+  };
 
   // Monthly Revenue for a specific year
   const getMonthlyRevenue = (orders, year) => {
-  const monthsLabelsEn = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  const monthsLabelsMk = ["Јан","Фев","Мар","Апр","Мај","Јун","Јул","Авг","Сеп","Окт","Ное","Дек"];
+    const monthsLabelsEn = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const monthsLabelsMk = [
+      "Јан",
+      "Фев",
+      "Мар",
+      "Апр",
+      "Мај",
+      "Јун",
+      "Јул",
+      "Авг",
+      "Сеп",
+      "Окт",
+      "Ное",
+      "Дек",
+    ];
 
-  const monthlyData = Array.from({ length: 12 }, (_, i) => ({
-    month: currentLanguage === "mk" ? monthsLabelsMk[i] : monthsLabelsEn[i],
-    mkd: 0,
-    eur: 0,
-    orders: 0,
-  }));
+    const monthlyData = Array.from({ length: 12 }, (_, i) => ({
+      month: currentLanguage === "mk" ? monthsLabelsMk[i] : monthsLabelsEn[i],
+      mkd: 0,
+      eur: 0,
+      orders: 0,
+    }));
 
-  orders.forEach((order) => {
-    let orderDate = null;
-    if (order.date) {
-      const parts = order.date.split("-");
-      if (parts[0].length === 4) orderDate = new Date(order.date);
-      else orderDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-    } else if (order.createdAt) {
-      orderDate = new Date(order.createdAt);
-    }
-    if (!orderDate || isNaN(orderDate)) return;
-    if (orderDate.getFullYear() !== year) return;
-
-    const idx = orderDate.getMonth();
-    const mk = parseFloat(order.totalMK || 0);
-    const en = parseFloat(order.totalEN || 0);
-
-    if (!mk && !en) {
-      const fallback = parseAmount(order.total || 0);
-      const cur = (order.currency || "MKD").toUpperCase();
-      if (cur === "EUR") {
-        monthlyData[idx].eur += fallback;
-        monthlyData[idx].mkd += fallback * conversionRate;
-      } else {
-        monthlyData[idx].mkd += fallback;
-        monthlyData[idx].eur += fallback / conversionRate;
+    orders.forEach((order) => {
+      let orderDate = null;
+      if (order.date) {
+        const parts = order.date.split("-");
+        if (parts[0].length === 4) orderDate = new Date(order.date);
+        else orderDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+      } else if (order.createdAt) {
+        orderDate = new Date(order.createdAt);
       }
-    } else {
-      monthlyData[idx].mkd += mk > 0 ? mk : en * conversionRate;
-      monthlyData[idx].eur += en > 0 ? en : mk / conversionRate;
-    }
+      if (!orderDate || isNaN(orderDate)) return;
+      if (orderDate.getFullYear() !== year) return;
 
-    monthlyData[idx].orders += 1;
-  });
+      const idx = orderDate.getMonth();
+      const mk = parseFloat(order.totalMK || 0);
+      const en = parseFloat(order.totalEN || 0);
 
-  return monthlyData.map((m) => ({
-    ...m,
-    revenue: currentLanguage === "mk" ? m.mkd : m.eur,
-  }));
-};
+      if (!mk && !en) {
+        const fallback = parseAmount(order.total || 0);
+        const cur = (order.currency || "MKD").toUpperCase();
+        if (cur === "EUR") {
+          monthlyData[idx].eur += fallback;
+          monthlyData[idx].mkd += fallback * conversionRate;
+        } else {
+          monthlyData[idx].mkd += fallback;
+          monthlyData[idx].eur += fallback / conversionRate;
+        }
+      } else {
+        monthlyData[idx].mkd += mk > 0 ? mk : en * conversionRate;
+        monthlyData[idx].eur += en > 0 ? en : mk / conversionRate;
+      }
 
+      monthlyData[idx].orders += 1;
+    });
+
+    return monthlyData.map((m) => ({
+      ...m,
+      revenue: currentLanguage === "mk" ? m.mkd : m.eur,
+    }));
+  };
 
   // Yearly Revenue Comparison
   const getYearlyRevenue = (orders) => {
-  if (!Array.isArray(orders) || orders.length === 0) return [];
+    if (!Array.isArray(orders) || orders.length === 0) return [];
 
-  const yearly = {};
+    const yearly = {};
 
-  orders.forEach((order) => {
-    let orderDate = null;
-    if (order.date) {
-      const parts = order.date.split("-");
-      if (parts[0].length === 4) orderDate = new Date(order.date);
-      else orderDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-    } else if (order.createdAt) {
-      orderDate = new Date(order.createdAt);
-    }
-    if (!orderDate || isNaN(orderDate)) return;
-
-    const y = orderDate.getFullYear();
-    if (!yearly[y]) yearly[y] = { mkd: 0, eur: 0, count: 0 };
-
-    // prefer explicit numeric fields; coerce safely
-    const mkRaw = order.totalMK ?? 0;
-    const enRaw = order.totalEN ?? 0;
-    const mk = Number.isFinite(Number(mkRaw)) ? Number(mkRaw) : 0;
-    const en = Number.isFinite(Number(enRaw)) ? Number(enRaw) : 0;
-
-    if (mk === 0 && en === 0) {
-      // fallback to legacy string/number total
-      const fallback = parseAmount(order.total ?? 0);
-      const cur = (order.currency || "MKD").toString().toUpperCase();
-      if (cur === "EUR") {
-        yearly[y].eur += fallback;
-        yearly[y].mkd += fallback * conversionRate;
-      } else {
-        yearly[y].mkd += fallback;
-        yearly[y].eur += fallback / conversionRate;
+    orders.forEach((order) => {
+      let orderDate = null;
+      if (order.date) {
+        const parts = order.date.split("-");
+        if (parts[0].length === 4) orderDate = new Date(order.date);
+        else orderDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+      } else if (order.createdAt) {
+        orderDate = new Date(order.createdAt);
       }
-    } else {
-      yearly[y].mkd += mk > 0 ? mk : en * conversionRate;
-      yearly[y].eur += en > 0 ? en : mk / conversionRate;
-    }
+      if (!orderDate || isNaN(orderDate)) return;
 
-    yearly[y].count += 1;
-  });
+      const y = orderDate.getFullYear();
+      if (!yearly[y]) yearly[y] = { mkd: 0, eur: 0, count: 0 };
 
-  return Object.entries(yearly)
-    .map(([year, data]) => ({
-      year: Number(year),
-      // revenue is numeric and already converted to the display currency
-      revenue: currentLanguage === "mk" ? Number(data.mkd) : Number(data.eur),
-      orders: data.count,
-    }))
-    .sort((a, b) => a.year - b.year);
-};
+      // prefer explicit numeric fields; coerce safely
+      const mkRaw = order.totalMK ?? 0;
+      const enRaw = order.totalEN ?? 0;
+      const mk = Number.isFinite(Number(mkRaw)) ? Number(mkRaw) : 0;
+      const en = Number.isFinite(Number(enRaw)) ? Number(enRaw) : 0;
 
+      if (mk === 0 && en === 0) {
+        // fallback to legacy string/number total
+        const fallback = parseAmount(order.total ?? 0);
+        const cur = (order.currency || "MKD").toString().toUpperCase();
+        if (cur === "EUR") {
+          yearly[y].eur += fallback;
+          yearly[y].mkd += fallback * conversionRate;
+        } else {
+          yearly[y].mkd += fallback;
+          yearly[y].eur += fallback / conversionRate;
+        }
+      } else {
+        yearly[y].mkd += mk > 0 ? mk : en * conversionRate;
+        yearly[y].eur += en > 0 ? en : mk / conversionRate;
+      }
 
+      yearly[y].count += 1;
+    });
+
+    return Object.entries(yearly)
+      .map(([year, data]) => ({
+        year: Number(year),
+        // revenue is numeric and already converted to the display currency
+        revenue: currentLanguage === "mk" ? Number(data.mkd) : Number(data.eur),
+        orders: data.count,
+      }))
+      .sort((a, b) => a.year - b.year);
+  };
 
   // Top Products/Services
-const getTopProducts = (orders, limit = 5, filterYear) => {
-  const productStats = {};
-  const targetYear = parseInt(filterYear, 10);
+  const getTopProducts = (orders, limit = 5, filterYear) => {
+    const productStats = {};
+    const targetYear = parseInt(filterYear, 10);
 
-  orders.forEach((order) => {
-    if (!order.date) return;
+    orders.forEach((order) => {
+      if (!order.date) return;
 
-    // Parse year safely (handles YYYY-MM-DD or DD-MM-YYYY)
-    const parts = order.date.split("-");
-    const orderYear =
-      parts[0].length === 4 ? parseInt(parts[0], 10) : parseInt(parts[2], 10);
+      // Parse year safely (handles YYYY-MM-DD or DD-MM-YYYY)
+      const parts = order.date.split("-");
+      const orderYear =
+        parts[0].length === 4 ? parseInt(parts[0], 10) : parseInt(parts[2], 10);
 
-    // Skip orders not in selected year
-    if (orderYear !== targetYear) return;
+      // Skip orders not in selected year
+      if (orderYear !== targetYear) return;
 
-    const orderCurrency = (order.currency || "MKD").toUpperCase();
+      const orderCurrency = (order.currency || "MKD").toUpperCase();
 
-    (order.products || []).forEach((product) => {
-      let productName;
-      if (typeof product.name === "object" && product.name !== null) {
-        productName =
-          currentLanguage === "mk" ? product.name.mk : product.name.en;
-      } else {
-        productName = product.name || "Unknown";
-      }
-
-      if (!productStats[productName]) {
-        productStats[productName] = { count: 0, mkd: 0, eur: 0 };
-      }
-
-      const quantity = product.quantity || 1;
-      productStats[productName].count += quantity;
-
-      // Handle price in both currencies
-      if (typeof product.price === "object" && product.price !== null) {
-        const mkdPrice = parseFloat(product.price.mk || 0);
-        const eurPrice = parseFloat(product.price.en || 0);
-
-        productStats[productName].mkd += mkdPrice * quantity;
-        productStats[productName].eur += eurPrice * quantity;
-      } else {
-        const price = parseFloat(product.price || 0);
-        const total = price * quantity;
-
-        if (orderCurrency === "MKD") {
-          productStats[productName].mkd += total;
-          productStats[productName].eur += total / conversionRate;
+      (order.products || []).forEach((product) => {
+        let productName;
+        if (typeof product.name === "object" && product.name !== null) {
+          productName =
+            currentLanguage === "mk" ? product.name.mk : product.name.en;
         } else {
-          productStats[productName].eur += total;
-          productStats[productName].mkd += total * conversionRate;
+          productName = product.name || "Unknown";
         }
-      }
+
+        if (!productStats[productName]) {
+          productStats[productName] = { count: 0, mkd: 0, eur: 0 };
+        }
+
+        const quantity = product.quantity || 1;
+        productStats[productName].count += quantity;
+
+        // Handle price in both currencies
+        if (typeof product.price === "object" && product.price !== null) {
+          const mkdPrice = parseFloat(product.price.mk || 0);
+          const eurPrice = parseFloat(product.price.en || 0);
+
+          productStats[productName].mkd += mkdPrice * quantity;
+          productStats[productName].eur += eurPrice * quantity;
+        } else {
+          const price = parseFloat(product.price || 0);
+          const total = price * quantity;
+
+          if (orderCurrency === "MKD") {
+            productStats[productName].mkd += total;
+            productStats[productName].eur += total / conversionRate;
+          } else {
+            productStats[productName].eur += total;
+            productStats[productName].mkd += total * conversionRate;
+          }
+        }
+      });
     });
-  });
 
-  return Object.entries(productStats)
-    .map(([name, stats]) => ({
-      name,
-      count: stats.count,
-      revenue: currentLanguage === "mk" ? stats.mkd : stats.eur,
-    }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, limit);
-};
-
+    return Object.entries(productStats)
+      .map(([name, stats]) => ({
+        name,
+        count: stats.count,
+        revenue: currentLanguage === "mk" ? stats.mkd : stats.eur,
+      }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, limit);
+  };
 
   // Average Order Value
   const getAverageOrderValue = (orders) => {
-  if (!orders || orders.length === 0) return 0;
+    if (!orders || orders.length === 0) return 0;
 
-  // sum in the display currency (based on currentLanguage)
-  const total = orders.reduce((acc, order) => {
-    const mk = parseFloat(order.totalMK || 0);
-    const en = parseFloat(order.totalEN || 0);
+    // sum in the display currency (based on currentLanguage)
+    const total = orders.reduce((acc, order) => {
+      const mk = parseFloat(order.totalMK || 0);
+      const en = parseFloat(order.totalEN || 0);
 
-    // fallback: use legacy order.total if neither numeric fields exist
-    if (!mk && !en) {
-      const fallback = parseAmount(order.total || 0);
+      // fallback: use legacy order.total if neither numeric fields exist
+      if (!mk && !en) {
+        const fallback = parseAmount(order.total || 0);
+        return currentLanguage === "mk"
+          ? acc + fallback
+          : acc + fallback / conversionRate;
+      }
+
       return currentLanguage === "mk"
-        ? acc + fallback
-        : acc + (fallback / conversionRate);
-    }
+        ? acc + (mk > 0 ? mk : en * conversionRate)
+        : acc + (en > 0 ? en : mk / conversionRate);
+    }, 0);
 
-    return currentLanguage === "mk"
-      ? acc + (mk > 0 ? mk : en * conversionRate)
-      : acc + (en > 0 ? en : mk / conversionRate);
-  }, 0);
-
-  return total / orders.length;
-};
+    return total / orders.length;
+  };
 
   // Order Success Rate (Confirmed vs Total)
   const getOrderSuccessStats = (orders) => {
@@ -854,9 +911,12 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
       const matchingOrder = orders.find((o) => o.id === orderId);
       if (!matchingOrder) throw new Error("Order not found");
 
-    console.log("=== UPDATE ORDER DEBUG ===");
-    console.log("Original matchingOrder.date:", matchingOrder.date);
-    console.log("Original matchingOrder.reservationDate:", matchingOrder.reservationDate);    
+      console.log("=== UPDATE ORDER DEBUG ===");
+      console.log("Original matchingOrder.date:", matchingOrder.date);
+      console.log(
+        "Original matchingOrder.reservationDate:",
+        matchingOrder.reservationDate
+      );
 
       const {
         userId,
@@ -872,8 +932,8 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
         language,
         displayName,
         paymentText,
-        paymentMethod
-    } = matchingOrder;
+        paymentMethod,
+      } = matchingOrder;
 
       // Update only the status field at the correct location
       await update(ref(db, `orders/${userId}/${orderId}`), {
@@ -896,9 +956,9 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
 
       // Determine which total to send based on order language or current language
       const orderLanguage = language || currentLanguage;
-      const totalToSend = orderLanguage === "mk" ? Number(totalMK) || 0 
-                                                 : Number(totalEN) || 0;
-      const currency = orderLanguage === "mk" ? "MKD" : "EUR";      
+      const totalToSend =
+        orderLanguage === "mk" ? Number(totalMK) || 0 : Number(totalEN) || 0;
+      const currency = orderLanguage === "mk" ? "MKD" : "EUR";
 
       const payload = {
         to: toEmail,
@@ -922,12 +982,12 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
         language: language || currentLanguage,
       };
 
-       console.log("Payload being sent to send-order-status:", {
-      date: payload.date,
-      reservationDate: payload.reservationDate,
-      reservationTime: payload.reservationTime
-    });
-      
+      console.log("Payload being sent to send-order-status:", {
+        date: payload.date,
+        reservationDate: payload.reservationDate,
+        reservationTime: payload.reservationTime,
+      });
+
       await fetch("/api/send-order-status", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1081,66 +1141,112 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
   // Fetch all users for admin
 
   useEffect(() => {
-  const fetchOrders = async () => {
-    if (!user) return;
+    const fetchOrders = async () => {
+      if (!user) return;
 
-    try {
-      const ordersRef =
-        role === "admin" ? ref(db, "orders") : ref(db, `orders/${user.uid}`);
-      const snap = await get(ordersRef);
-      if (!snap.exists()) {
-        setOrders([]);
-        return;
-      }
-      const raw = snap.val();
+      try {
+        const ordersRef =
+          role === "admin" ? ref(db, "orders") : ref(db, `orders/${user.uid}`);
+        const snap = await get(ordersRef);
+        if (!snap.exists()) {
+          setOrders([]);
+          return;
+        }
+        const raw = snap.val();
 
-      // only fetch all users if admin
-      let usersData = {};
-      if (role === "admin") {
-        const usersSnap = await get(ref(db, "users"));
-        usersData = usersSnap.exists() ? usersSnap.val() : {};
-      }
+        // only fetch all users if admin
+        let usersData = {};
+        if (role === "admin") {
+          const usersSnap = await get(ref(db, "users"));
+          usersData = usersSnap.exists() ? usersSnap.val() : {};
+        }
 
-      const orderList = [];
+        const orderList = [];
 
-      if (role === "admin") {
-        Object.entries(raw).forEach(([uid, userOrders]) => {
-          Object.entries(userOrders).forEach(([id, order]) => {
-            // Parse amounts in both languages (handles object/string/number)
+        if (role === "admin") {
+          Object.entries(raw).forEach(([uid, userOrders]) => {
+            Object.entries(userOrders).forEach(([id, order]) => {
+              // Parse amounts in both languages (handles object/string/number)
+              const subtotalMK = parseAmount(order?.subtotal, "mk");
+              const subtotalEN = parseAmount(order?.subtotal, "en");
+              const explicitTotalMK = parseAmount(order?.total, "mk");
+              const explicitTotalEN = parseAmount(order?.total, "en");
+
+              // If explicit totals are missing, compute from products
+              const computedTotalMK =
+                explicitTotalMK || getLocalizedTotal(order, "mk");
+              const computedTotalEN =
+                explicitTotalEN || getLocalizedTotal(order, "en");
+
+              const currencyHint =
+                computedTotalMK > 0 && computedTotalEN > 0
+                  ? "BOTH"
+                  : computedTotalMK > 0
+                    ? "MKD"
+                    : "EUR";
+
+              orderList.push({
+                userId: uid,
+                id,
+                displayName: usersData[uid]?.displayName || "(no name)",
+                email: usersData[uid]?.email || "",
+                date: order.date || "",
+                reservationDate: order.reservationDate,
+                reservationTime: order.reservationTime,
+                orderNumber: order.orderNumber,
+                status: order.status,
+                // store both numeric values for later calculations
+                subtotalMK,
+                subtotalEN,
+                totalMK: computedTotalMK,
+                totalEN: computedTotalEN,
+                currency: currencyHint,
+                products: order.products || [],
+                paymentMethod: order.paymentMethod || "",
+                paymentText: order.paymentText || "",
+                customerPhone: order.customer?.phone || "",
+                customerAddress: order.customer?.address || "",
+                customerState: order.customer?.state || "",
+                customerCity: order.customer?.city || "",
+                customerPostalCode: order.customer?.postalCode || "",
+                createdAt: order.createdAt || 0,
+                // displayTotal for UI convenience (depends on currentLanguage at fetch time)
+                displayTotal:
+                  currentLanguage === "mk" ? computedTotalMK : computedTotalEN,
+              });
+            });
+          });
+        } else {
+          Object.entries(raw).forEach(([id, order]) => {
             const subtotalMK = parseAmount(order?.subtotal, "mk");
             const subtotalEN = parseAmount(order?.subtotal, "en");
             const explicitTotalMK = parseAmount(order?.total, "mk");
             const explicitTotalEN = parseAmount(order?.total, "en");
-
-            // If explicit totals are missing, compute from products
             const computedTotalMK =
               explicitTotalMK || getLocalizedTotal(order, "mk");
             const computedTotalEN =
               explicitTotalEN || getLocalizedTotal(order, "en");
 
-            const currencyHint =
-              computedTotalMK > 0 && computedTotalEN > 0
-                ? "BOTH"
-                : computedTotalMK > 0
-                ? "MKD"
-                : "EUR";
-
             orderList.push({
-              userId: uid,
+              userId: user.uid,
               id,
-              displayName: usersData[uid]?.displayName || "(no name)",
-              email: usersData[uid]?.email || "",
+              displayName: user.displayName || "",
+              email: user.email || "",
               date: order.date || "",
               reservationDate: order.reservationDate,
               reservationTime: order.reservationTime,
               orderNumber: order.orderNumber,
               status: order.status,
-              // store both numeric values for later calculations
               subtotalMK,
               subtotalEN,
               totalMK: computedTotalMK,
               totalEN: computedTotalEN,
-              currency: currencyHint,
+              currency:
+                computedTotalMK > 0 && computedTotalEN > 0
+                  ? "BOTH"
+                  : computedTotalMK > 0
+                    ? "MKD"
+                    : "EUR",
               products: order.products || [],
               paymentMethod: order.paymentMethod || "",
               paymentText: order.paymentText || "",
@@ -1150,73 +1256,26 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
               customerCity: order.customer?.city || "",
               customerPostalCode: order.customer?.postalCode || "",
               createdAt: order.createdAt || 0,
-              // displayTotal for UI convenience (depends on currentLanguage at fetch time)
               displayTotal:
                 currentLanguage === "mk" ? computedTotalMK : computedTotalEN,
             });
           });
-        });
-      } else {
-        Object.entries(raw).forEach(([id, order]) => {
-          const subtotalMK = parseAmount(order?.subtotal, "mk");
-          const subtotalEN = parseAmount(order?.subtotal, "en");
-          const explicitTotalMK = parseAmount(order?.total, "mk");
-          const explicitTotalEN = parseAmount(order?.total, "en");
-          const computedTotalMK =
-            explicitTotalMK || getLocalizedTotal(order, "mk");
-          const computedTotalEN =
-            explicitTotalEN || getLocalizedTotal(order, "en");
+        }
 
-          orderList.push({
-            userId: user.uid,
-            id,
-            displayName: user.displayName || "",
-            email: user.email || "",
-            date: order.date || "",
-            reservationDate: order.reservationDate,
-            reservationTime: order.reservationTime,
-            orderNumber: order.orderNumber,
-            status: order.status,
-            subtotalMK,
-            subtotalEN,
-            totalMK: computedTotalMK,
-            totalEN: computedTotalEN,
-            currency:
-              computedTotalMK > 0 && computedTotalEN > 0
-                ? "BOTH"
-                : computedTotalMK > 0
-                ? "MKD"
-                : "EUR",
-            products: order.products || [],
-            paymentMethod: order.paymentMethod || "",
-            paymentText: order.paymentText || "",
-            customerPhone: order.customer?.phone || "",
-            customerAddress: order.customer?.address || "",
-            customerState: order.customer?.state || "",
-            customerCity: order.customer?.city || "",
-            customerPostalCode: order.customer?.postalCode || "",
-            createdAt: order.createdAt || 0,
-            displayTotal:
-              currentLanguage === "mk" ? computedTotalMK : computedTotalEN,
-          });
+        orderList.sort((a, b) => {
+          if (a.status === "pending" && b.status !== "pending") return -1;
+          if (a.status !== "pending" && b.status === "pending") return 1;
+          return (b.createdAt || 0) - (a.createdAt || 0);
         });
+
+        setOrders(orderList);
+      } catch (err) {
+        console.error("Error fetching/sorting orders:", err);
       }
+    };
 
-      orderList.sort((a, b) => {
-        if (a.status === "pending" && b.status !== "pending") return -1;
-        if (a.status !== "pending" && b.status === "pending") return 1;
-        return (b.createdAt || 0) - (a.createdAt || 0);
-      });
-
-      setOrders(orderList);
-    } catch (err) {
-      console.error("Error fetching/sorting orders:", err);
-    }
-  };
-
-  fetchOrders();
-}, [user, role, currentLanguage]); // include currentLanguage so displayTotal reflects language changes
-
+    fetchOrders();
+  }, [user, role, currentLanguage]); // include currentLanguage so displayTotal reflects language changes
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -1495,24 +1554,29 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
     if (!order) return;
     setDownloadingOrderId(order.id);
     try {
-      const paymentText = order.paymentMethod === "payment_cash"
-      ? t("payment_cash")
-      : t("payment_bank");        
-      
+      const paymentText =
+        order.paymentMethod === "payment_cash"
+          ? t("payment_cash")
+          : t("payment_bank");
+
       const orderForPdf = {
         ...order,
         paymentText,
         date: order.date,
-        reservationDate: order.reservationDate,        
-        displayName: order.displayName || displayName || null,        
-        customer: {...(order.customer || {}),        
-        name: order.customer?.name || order.displayName || displayName || null,
-        email: order.customer?.email || order.email || email || null,
-        phone: order.customer?.phone || order.customerPhone || phone || null,
-        address: order.customer?.address || order.customerAddress || address || null,
-        city: order.customer?.city || order.customerCity || null,
-        postalCode: order.customer?.postalCode || order.customerPostalCode || null,
-        state: order.customer?.state || order.customerState || null,
+        reservationDate: order.reservationDate,
+        displayName: order.displayName || displayName || null,
+        customer: {
+          ...(order.customer || {}),
+          name:
+            order.customer?.name || order.displayName || displayName || null,
+          email: order.customer?.email || order.email || email || null,
+          phone: order.customer?.phone || order.customerPhone || phone || null,
+          address:
+            order.customer?.address || order.customerAddress || address || null,
+          city: order.customer?.city || order.customerCity || null,
+          postalCode:
+            order.customer?.postalCode || order.customerPostalCode || null,
+          state: order.customer?.state || order.customerState || null,
         },
       };
 
@@ -1743,7 +1807,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                 <Nav.Link eventKey="accountDetails">
                   {t("account_details")}
                 </Nav.Link>
-              </Nav.Item>              
+              </Nav.Item>
             </Nav>
             <Tab.Content>
               <Tab.Pane eventKey="dashboard">
@@ -1751,10 +1815,8 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                   <h3>{t("dashboard")}</h3>
                   <div className="welcome">
                     <p>
-                      {t("hello_user")}{" "}
-                      <strong>{displayName || ""}</strong> (
-                      {t("if_not")}{" "}
-                      <strong>{displayName || ""}!</strong>)
+                      {t("hello_user")} <strong>{displayName || ""}</strong> (
+                      {t("if_not")} <strong>{displayName || ""}!</strong>)
                     </p>
                     <button
                       onClick={() => setShowLogoutModal(true)}
@@ -2098,9 +2160,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                                     <small>{order.date}</small>
                                   </td>
                                   <td className="text-center pe-3">
-                                    <small>
-                                      {order.reservationDate}
-                                    </small>
+                                    <small>{order.reservationDate}</small>
                                   </td>
                                   <td className="text-center pe-3">
                                     <small>{order.reservationTime}</small>
@@ -2153,12 +2213,15 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                                   </td>
                                   <td className="text-end">
                                     <small>
-                                    {formatTotal(
-                                      // prefer precomputed displayTotal, fallback to language-specific numeric fields
-                                      order.displayTotal ?? (currentLanguage === "mk" ? order.totalMK : order.totalEN),
-                                      currentLanguage
-                                    )}
-                                  </small>
+                                      {formatTotal(
+                                        // prefer precomputed displayTotal, fallback to language-specific numeric fields
+                                        order.displayTotal ??
+                                          (currentLanguage === "mk"
+                                            ? order.totalMK
+                                            : order.totalEN),
+                                        currentLanguage
+                                      )}
+                                    </small>
                                   </td>
                                   <td className="text-center pe-3">
                                     <div className="d-flex gap-2 justify-content-center">
@@ -2172,18 +2235,18 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                                         <i className="bi bi-eye me-1"></i>
                                         {t("view")}
                                       </button>
-                                      {role === "admin" && (  // <-- Only shows for admins
-                                          <button
-                                            onClick={() => {
-                                              setPendingDeleteId(order.id);
-                                              setShowDeleteModal(true);
-                                            }}
-                                            className="btn btn-sm btn-outline-danger"
-                                          >
-                                            <i className="bi bi-trash me-1"></i>
-                                            {t("delete")}
-                                          </button>
-                                        )}
+                                      {role === "admin" && ( // <-- Only shows for admins
+                                        <button
+                                          onClick={() => {
+                                            setPendingDeleteId(order.id);
+                                            setShowDeleteModal(true);
+                                          }}
+                                          className="btn btn-sm btn-outline-danger"
+                                        >
+                                          <i className="bi bi-trash me-1"></i>
+                                          {t("delete")}
+                                        </button>
+                                      )}
                                     </div>
                                   </td>
                                 </tr>
@@ -2437,32 +2500,55 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                               </h6>
                               <h3>
                                 {formatTotal(
-                                    filteredOrdersForCharts.reduce((sum, order) => {
+                                  filteredOrdersForCharts.reduce(
+                                    (sum, order) => {
                                       // prefer explicit numeric fields added at fetch time
                                       const mk = parseFloat(order.totalMK || 0);
                                       const en = parseFloat(order.totalEN || 0);
 
                                       // fallback: if neither exists, try parsing legacy order.total
-                                      const fallback = parseAmount(order.total || 0);
+                                      const fallback = parseAmount(
+                                        order.total || 0
+                                      );
                                       if (!mk && !en) {
                                         // try to guess currency from order.currency (backwards-compat)
-                                        const cur = (order.currency || "MKD").toUpperCase();
+                                        const cur = (
+                                          order.currency || "MKD"
+                                        ).toUpperCase();
                                         if (currentLanguage === "mk") {
-                                          return sum + (cur === "MKD" ? fallback : fallback * conversionRate);
+                                          return (
+                                            sum +
+                                            (cur === "MKD"
+                                              ? fallback
+                                              : fallback * conversionRate)
+                                          );
                                         } else {
-                                          return sum + (cur === "EUR" ? fallback : fallback / conversionRate);
+                                          return (
+                                            sum +
+                                            (cur === "EUR"
+                                              ? fallback
+                                              : fallback / conversionRate)
+                                          );
                                         }
                                       }
 
                                       // use the numeric fields (convert if one is missing)
                                       if (currentLanguage === "mk") {
-                                        return sum + (mk > 0 ? mk : en * conversionRate);
+                                        return (
+                                          sum +
+                                          (mk > 0 ? mk : en * conversionRate)
+                                        );
                                       } else {
-                                        return sum + (en > 0 ? en : mk / conversionRate);
+                                        return (
+                                          sum +
+                                          (en > 0 ? en : mk / conversionRate)
+                                        );
                                       }
-                                    }, 0),
-                                    currentLanguage
-                                  )}
+                                    },
+                                    0
+                                  ),
+                                  currentLanguage
+                                )}
                               </h3>
                               <small className="text-muted d-block mt-2">
                                 {t("gross_revenue")}
@@ -2479,7 +2565,7 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                               <h3>
                                 {formatTotal(
                                   getAverageOrderValue(filteredOrdersForCharts),
-                                  currentLanguage 
+                                  currentLanguage
                                 )}
                               </h3>
                               <small className="text-muted d-block mt-2">
@@ -3904,62 +3990,57 @@ const getTopProducts = (orders, limit = 5, filterYear) => {
                           <div className="card">
                             <div className="card-body">
                               <h5 className="mb-3">{t("top_products")}</h5>
-                              {getTopProducts(orders, 5, filterYear).length > 0 ? (
+                              {getTopProducts(orders, 5, filterYear).length >
+                              0 ? (
                                 <>
                                   <div className="table-responsive">
                                     <table className="table table-hover">
                                       <thead className="table-light">
                                         <tr>
                                           <th>#</th>
-                                          <th>
-                                            <small>{t("product_name")}</small>
-                                          </th>
-                                          <th className="text-center">
-                                            <small>{t("quantity_sold")}</small>
-                                          </th>
-                                          <th className="text-end">
-                                            <small>{t("revenue")}</small>
-                                          </th>
-                                          <th className="text-end">
-                                            <small>{t("avg_price")}</small>
-                                          </th>
+                                          <th>{t("product_name")}</th>
+                                          <th className="text-center">{t("quantity_sold")}</th>
+                                          <th className="text-end">{t("revenue")}</th>
+                                          <th className="text-end">{t("avg_price")}</th>
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        {getTopProducts(orders, 5, filterYear).map(
-                                          (product, index) => (
-                                            <tr key={index}>
-                                              <td>
-                                                <span className="badge bg-primary">
-                                                  {index + 1}
-                                                </span>
-                                              </td>
-                                              <td>
-                                                <small>{product.name}</small>
-                                              </td>
-                                              <td className="text-center">
-                                                <small>{product.count}</small>
-                                              </td>
-                                              <td className="text-end">
-                                                <small>
-                                                  {formatTotal(
-                                                    product.revenue,
-                                                    currentLanguage
-                                                  )}
-                                                </small>
-                                              </td>
-                                              <td className="text-end text-muted">
-                                                <small>
-                                                  {formatTotal(
-                                                    product.revenue /
-                                                      product.count,
-                                                    currentLanguage
-                                                  )}
-                                                </small>
-                                              </td>
-                                            </tr>
-                                          )
-                                        )}
+                                        {getTopProducts(
+                                          orders,
+                                          5,
+                                          filterYear
+                                        ).map((product, index) => (
+                                          <tr key={index}>
+                                            <td>
+                                              <span className="badge bg-primary">
+                                                {index + 1}
+                                              </span>
+                                            </td>
+                                            <td>
+                                              <small>{product.name}</small>
+                                            </td>
+                                            <td className="text-center">
+                                              <small>{product.count}</small>
+                                            </td>
+                                            <td className="text-end">
+                                              <small>
+                                                {formatTotal(
+                                                  product.revenue,
+                                                  currentLanguage
+                                                )}
+                                              </small>
+                                            </td>
+                                            <td className="text-end text-muted">
+                                              <small>
+                                                {formatTotal(
+                                                  product.revenue /
+                                                    product.count,
+                                                  currentLanguage
+                                                )}
+                                              </small>
+                                            </td>
+                                          </tr>
+                                        ))}
                                       </tbody>
                                     </table>
                                   </div>
