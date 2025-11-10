@@ -5,10 +5,11 @@ import Link from "next/link";
 import { Container, Row, Col } from "react-bootstrap";
 import Paginator from "react-hooks-paginator";
 import { SlideDown } from "react-slidedown";
-import { LayoutTwo } from "../../components/Layout";
+import { LayoutFive } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { getSortedProducts } from "../../lib/product";
 import { useLocalization } from "../../context/LocalizationContext";
+import { ShopInfo } from "../../components/Shop";
 import {
   ShopHeader,
   ShopFilter,
@@ -21,7 +22,7 @@ const LeftSidebar = ({ products }) => {
   const router = useRouter();
   const { search } = router.query;
 
-  const [layout, setLayout] = useState("grid four-column");
+  const [layout, setLayout] = useState("grid five-column");
   const [sortType, setSortType] = useState("");
   const [sortValue, setSortValue] = useState("");
   const [filterSortType, setFilterSortType] = useState("");
@@ -80,7 +81,7 @@ const LeftSidebar = ({ products }) => {
   }, [offset, products, sortType, sortValue, filterSortType, filterSortValue, searchTerm, currentLanguage]);
 
   return (
-    (<LayoutTwo>
+    <LayoutFive>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("shop")}
@@ -96,6 +97,7 @@ const LeftSidebar = ({ products }) => {
           <li>{t("shop")}</li>
         </ul>
       </BreadcrumbOne>
+      
       <div className="shop-page-content">
         {/* shop page header */}
         <ShopHeader
@@ -113,8 +115,8 @@ const LeftSidebar = ({ products }) => {
         </SlideDown>
 
         {/* shop page body */}
-        <div className="shop-page-content__body space-mt--r130 space-mb--r130">
-          <Container>
+        <div className="shop-page-content__body space-mt--r130 space-mb--r100">
+          <Container className="wide">
             <Row>
               <Col
                 lg={3}
@@ -152,7 +154,10 @@ const LeftSidebar = ({ products }) => {
           </Container>
         </div>
       </div>
-    </LayoutTwo>)
+      
+      {/*shop info - matching Trending page*/}
+      <ShopInfo />
+    </LayoutFive>
   );
 };
 
