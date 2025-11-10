@@ -40,6 +40,8 @@ export default async function handler(req, res) {
     customerCity,
     customerPostalCode,
     language = 'en',
+    discount = 0,   // discount amount
+    couponCode = null
   } = req.body;
 
   const normalizedProducts = products.map(p => ({
@@ -86,6 +88,8 @@ export default async function handler(req, res) {
         customerName={customerName}
         paymentText={paymentText}
         total={total}
+        discount={discount}          
+        couponCode={couponCode}      
         products={normalizedProducts}
         customerEmail={customerEmail}
         customerPhone={customerPhone}
@@ -113,6 +117,8 @@ export default async function handler(req, res) {
         reservationDate,
         reservationTime,
         total,
+        discount,       
+        couponCode,     
         normalizedProducts,
         paymentText,
         customerName,

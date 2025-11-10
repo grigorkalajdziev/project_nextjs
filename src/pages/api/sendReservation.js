@@ -27,6 +27,8 @@ export default async function handler(req, res) {
     customerCity,
     customerPostalCode,
     language = "en",
+    discount = 0,   
+    couponCode = null
   } = req.body;
 
   // Basic email validation
@@ -56,6 +58,8 @@ export default async function handler(req, res) {
       customerName={customerName}
       customerEmail={customerEmail}
       paymentText={paymentText}
+      discount={discount}          
+      couponCode={couponCode} 
       total={total}
       products={normalizedProducts}
       customerPhone={customerPhone}  

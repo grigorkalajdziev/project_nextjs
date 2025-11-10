@@ -130,6 +130,8 @@ function ConfirmationDocument_MK(props) {
     reservationDate,
     reservationTime,
     total,
+    discount = 0,      
+    couponCode = null, 
     paymentText,
     normalizedProducts = [],
     customerName,
@@ -137,6 +139,8 @@ function ConfirmationDocument_MK(props) {
     customerEmail,
     qrCodeUrl,
   } = props;
+
+  const totalAfterDiscount = total - discount;
 
   return (
     <Document>
@@ -215,23 +219,37 @@ function ConfirmationDocument_MK(props) {
           </View>
         )}
 
-        {/* Total */}
+        {/* Discount & Coupon */}
+        {discount > 0 && (
+          <View style={styles.section}>
+            <View style={styles.row}>
+              <Text style={[styles.label, { fontWeight: 700, width: 120 }]}>Попуст:</Text>
+              <Text style={[styles.value, { fontWeight: 700 }]}>{formatPrice(discount)} денари</Text>
+            </View>
+            {couponCode && (
+              <View style={styles.row}>
+                <Text style={[styles.label, { fontWeight: 700, width: 120 }]}>Купон:</Text>
+                <Text style={[styles.value, { fontWeight: 700 }]}>{couponCode}</Text>
+              </View>
+            )}
+          </View>
+        )}
+
+        {/* Total After Discount */}
         <View style={styles.section}>
           <View style={[styles.row, { marginTop: 6 }]}>
             <Text style={[styles.label, { fontWeight: 700, width: 120 }]}>Вкупен износ:</Text>
-            <Text style={[styles.value, { fontWeight: 700 }]}>{formatPrice(total)} денари</Text>
+            <Text style={[styles.value, { fontWeight: 700 }]}>{formatPrice(totalAfterDiscount)} денари</Text>
           </View>
         </View>
 
         {/* Footer */}
         <View style={styles.section}>
-          <Text style={[styles.value, { fontWeight: 600 }]}>
-            Ви благодариме што не избравте!
-          </Text>
-          <Text style={{ fontSize: 10, marginTop: 4 }}>
-            Прашања? Контактирајте makeupbykika@hotmail.com
-          </Text>
+          <Text style={[styles.value, { fontWeight: 600 }]}>Ви благодариме што не избравте!</Text>
+          <Text style={{ fontSize: 10, marginTop: 4 }}>Прашања? Контактирајте makeupbykika@hotmail.com</Text>
         </View>
+
+
       </Page>
     </Document>
   );

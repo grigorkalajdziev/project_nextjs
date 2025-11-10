@@ -297,15 +297,15 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
           ) : itemsToRender && itemsToRender.length >= 1 ? (
             <Row>
               <Col lg={12}>
-                <table className="cart-table mx-auto">
+                <table className="cart-table ">
                   <thead>
                     <tr>
                       <th className="product-name" colSpan={showingOrder ? "1" : "2"}>
                         {t("product")}
                       </th>
-                      <th className="product-price text-center">{t("price")}</th>
-                      <th className="product-quantity text-top">{t("quantity")}</th>
-                      <th className="product-subtotal text-center">{t("total")}</th>
+                      <th className="product-price">{t("price")}</th>
+                      <th className="product-quantity">{t("quantity")}</th>
+                      <th className="product-subtotal">{t("total")}</th>
                       <th className="product-remove"><span></span></th>
                     </tr>
                   </thead>
@@ -372,7 +372,7 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
                             )}
                           </td>
 
-                          <td className="product-price text-center">
+                          <td className="product-price">
                             <span className="price">
                               {currentLanguage === 'mk'
                                 ? `${safeNumber(priceNum).toFixed(2)} ${currencyToShow}`
@@ -382,7 +382,7 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
 
                           <td className="product-quantity text-center">
                             {showingOrder ? (
-                              <div className="cart-plus-minus ">
+                              <div className="cart-plus-minus">
                                 <input className="cart-plus-minus-box" type="text" value={qty} readOnly />
                               </div>
                             ) : (
@@ -419,7 +419,7 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
                             )}
                           </td>
 
-                          <td className="total-price text-center">
+                          <td className="total-price">
                             <span className="price">
                               {currentLanguage === 'mk'
                                 ? `${subtotalStr} ${currencyToShow}`
