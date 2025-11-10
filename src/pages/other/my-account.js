@@ -1984,9 +1984,10 @@ const MyAccount = () => {
                                 <select
                                   className="form-select"
                                   value={filterStatus}
-                                  onChange={(e) =>
-                                    setFilterStatus(e.target.value)
-                                  }
+                                  onChange={(e) => {
+                                    setFilterStatus(e.target.value);
+                                    setCurrentPage(1); // reset pagination
+                                  }}
                                   style={{ fontSize: "12px" }}
                                 >
                                   <option value="all">
@@ -2013,9 +2014,10 @@ const MyAccount = () => {
                                 <select
                                   className="form-select"
                                   value={filterPayment}
-                                  onChange={(e) =>
-                                    setFilterPayment(e.target.value)
-                                  }
+                                  onChange={(e) => {
+                                    setFilterPayment(e.target.value);
+                                    setCurrentPage(1); // reset pagination
+                                  }}
                                   style={{ fontSize: "12px" }}
                                 >
                                   <option value="all">
