@@ -18,9 +18,7 @@ import { IoIosClose, IoMdCart } from "react-icons/io";
 import { useLocalization } from "../../context/LocalizationContext";
 import { getDatabase, ref, get } from "firebase/database";
 
-const conversionRate = 61.5; // keep same conversion as other file
 
-// --- Helpers: parsing & formatting (compatible with {en: "...", mk: "..."} shapes)
 const parseAmount = (val, lang = "mk") => {
   if (val == null) return 0;
   if (typeof val === "number") return val;
@@ -33,37 +31,6 @@ const parseAmount = (val, lang = "mk") => {
   return Number.isFinite(n) ? n : 0;
 };
 
-const getLocalizedTotal = (order, lang = "mk") => {
-  if (!order) return 0;
-  const explicit = parseAmount(order?.total, lang);
-  if (explicit > 0) return explicit;
-
-  if (!order?.products || !Array.isArray(order.products)) return 0;
-
-  const subtotal = order.products.reduce((sum, p) => {
-    let price = 0;
-    if (typeof p.price === "object" && p.price !== null) {
-      price = parseAmount(lang === "en" ? p.price.en : p.price.mk, lang);
-      if (!price) price = parseAmount(p.price.en ?? p.price.mk, lang);
-    } else {
-      price = parseAmount(p.price, lang);
-    }
-    return sum + price * (p.quantity || 1);
-  }, 0);
-
-  const discountAmount = parseAmount(order?.discount, lang);
-  if (discountAmount > 0) {
-    return Math.max(subtotal - discountAmount, 0);
-  }
-  return subtotal;
-};
-
-const formatTotal = (amount, lang) => {
-  const isEnglish = lang === "en";
-  const symbol = isEnglish ? "€" : "ден.";
-  const formatted = (Number(amount) || 0).toFixed(2);
-  return isEnglish ? `${symbol} ${formatted}` : `${formatted} ${symbol}`;
-};
 
 const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAllFromCart }) => {
   const { addToast } = useToasts();
@@ -330,15 +297,15 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
           ) : itemsToRender && itemsToRender.length >= 1 ? (
             <Row>
               <Col lg={12}>
-                <table className="cart-table">
+                <table className="cart-table mx-auto">
                   <thead>
                     <tr>
                       <th className="product-name" colSpan={showingOrder ? "1" : "2"}>
                         {t("product")}
                       </th>
-                      <th className="product-price">{t("price")}</th>
-                      <th className="product-quantity">{t("quantity")}</th>
-                      <th className="product-subtotal">{t("total")}</th>
+                      <th className="product-price text-center">{t("price")}</th>
+                      <th className="product-quantity text-top">{t("quantity")}</th>
+                      <th className="product-subtotal text-center">{t("total")}</th>
                       <th className="product-remove"><span></span></th>
                     </tr>
                   </thead>
@@ -405,7 +372,7 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
                             )}
                           </td>
 
-                          <td className="product-price">
+                          <td className="product-price text-center">
                             <span className="price">
                               {currentLanguage === 'mk'
                                 ? `${safeNumber(priceNum).toFixed(2)} ${currencyToShow}`
@@ -413,9 +380,9 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
                             </span>
                           </td>
 
-                          <td className="product-quantity">
+                          <td className="product-quantity text-center">
                             {showingOrder ? (
-                              <div className="cart-plus-minus">
+                              <div className="cart-plus-minus ">
                                 <input className="cart-plus-minus-box" type="text" value={qty} readOnly />
                               </div>
                             ) : (
@@ -452,7 +419,7 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
                             )}
                           </td>
 
-                          <td className="total-price">
+                          <td className="total-price text-center">
                             <span className="price">
                               {currentLanguage === 'mk'
                                 ? `${subtotalStr} ${currencyToShow}`
