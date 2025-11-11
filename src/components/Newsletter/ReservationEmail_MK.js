@@ -41,7 +41,7 @@ const ReservationEmail_MK = ({
   };
 
   const subtotal = products.reduce(
-    (s, p) => s + (parseFloat(p.price || 0) * (p.quantity || 1)),
+    (s, p) => s + parseFloat(p.price || 0) * (p.quantity || 1),
     0
   );
   const discountAmount = Number(discount || 0);
@@ -127,7 +127,9 @@ const ReservationEmail_MK = ({
     <Html>
       <Head />
       <Body style={containerStyle}>
-        <Preview>💄 Потврда за резервација #{orderID} — Kika Makeup & Beauty Academy</Preview>
+        <Preview>
+          💄 Потврда за резервација #{orderID} — Kika Makeup & Beauty Academy
+        </Preview>
 
         <Container style={cardStyle}>
           {/* Header */}
@@ -149,7 +151,8 @@ const ReservationEmail_MK = ({
           <div style={{ textAlign: "center", marginBottom: 12 }}>
             <h1 style={titleStyle}>Потврда за вашата резервација</h1>
             <div style={smallMuted}>
-              Почитуван(а) <strong>{customerName}</strong>, вашата резервација е успешно потврдена!
+              Почитуван(а) <strong>{customerName}</strong>, вашата резервација е
+              успешно потврдена!
             </div>
           </div>
 
@@ -194,8 +197,8 @@ const ReservationEmail_MK = ({
                 <div>
                   {customerAddress}
                   {customerCity && `, ${customerCity}`}
-                  {customerState && `, ${customerState}`}
-                  {customerPostalCode && ` (${customerPostalCode})`}
+                  {customerPostalCode && `, (${customerPostalCode})`}
+                  {customerState && ` ${customerState}`}
                 </div>
               </div>
             )}
@@ -214,7 +217,9 @@ const ReservationEmail_MK = ({
                 <div style={productName}>
                   <div style={{ fontWeight: 600 }}>{p.name}</div>
                   {p.variant && (
-                    <div style={{ color: MUTED, fontSize: 12 }}>{p.variant}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>
+                      {p.variant}
+                    </div>
                   )}
                 </div>
                 <div style={productQty}>x {p.quantity || 1}</div>
@@ -235,12 +240,12 @@ const ReservationEmail_MK = ({
                 <div style={{ color: MUTED }}>
                   Попуст {couponCode ? `(${couponCode})` : ""}
                 </div>
-                <div>-{formatMKD(discountAmount)}</div>
+                <div> -{formatMKD(discountAmount)}</div>
               </div>
             )}
 
             <div style={{ ...totalRow, marginTop: 12 }}>
-              <div style={grandTotal}>Вкупно:</div>
+              <div style={grandTotal}>Вкупно: </div>
               <div style={grandTotal}>{formatMKD(totalAfterDiscount)}</div>
             </div>
           </Section>
@@ -268,14 +273,15 @@ const ReservationEmail_MK = ({
           {/* Note */}
           <Section style={{ marginTop: 18 }}>
             <Text style={{ color: MUTED, fontSize: 13, lineHeight: "20px" }}>
-              Доколку имате прашања или сакате промена на резервацијата, пишете ни на{" "}
+              Доколку имате прашања или сакате промена на резервацијата, пишете
+              ни на{" "}
               <a
                 href="mailto:makeupbykika@hotmail.com"
                 style={{ color: BRAND, textDecoration: "none" }}
               >
                 makeupbykika@hotmail.com
               </a>{" "}
-              или јавете се на {customerPhone}.
+              или јавете се на (+389) 78 / 343 - 377.
             </Text>
           </Section>
 
@@ -287,28 +293,70 @@ const ReservationEmail_MK = ({
               paddingTop: 12,
             }}
           >
-            <Row>
-              <Column style={{ width: "60%", verticalAlign: "middle" }}>
-                <Text style={{ fontSize: 12, color: MUTED }}>
+            <Row
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Column
+                style={{
+                  width: "60%",
+                  display: "flex",
+                  alignItems: "center",
+                  paddingRight: "12px",
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: MUTED,
+                    lineHeight: "18px",
+                    margin: 0,
+                  }}
+                >
                   © 2025 Kika Makeup и Beauty Academy — Охрид, Македонија
                 </Text>
               </Column>
-              <Column style={{ width: "40%", textAlign: "right" }}>
-                <Text style={{ fontSize: 12, color: MUTED }}>
+
+              <Column
+                style={{
+                  width: "40%",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                {/* Use both gap and explicit margin as fallback for email clients */}
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "12px" }}
+                >
                   <a
                     href="https://instagram.com/"
-                    style={{ color: BRAND, textDecoration: "none" }}
+                    style={{ display: "inline-block", marginRight: "0" }}
                   >
-                    Instagram
-                  </a>{" "}
-                  •{" "}
+                    <Img
+                      src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
+                      alt="Instagram"
+                      width={20}
+                      height={20}
+                      style={{ display: "block" }}
+                    />
+                  </a>
+
                   <a
                     href="https://facebook.com/"
-                    style={{ color: BRAND, textDecoration: "none" }}
+                    style={{ display: "inline-block", marginLeft: "12px" }}
                   >
-                    Facebook
+                    <Img
+                      src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
+                      alt="Facebook"
+                      width={20}
+                      height={20}
+                      style={{ display: "block" }}
+                    />
                   </a>
-                </Text>
+                </div>
               </Column>
             </Row>
           </Section>

@@ -129,9 +129,8 @@ function ConfirmationDocument_MK(props) {
     date,
     reservationDate,
     reservationTime,
-    total,
-    discount = 0,      
-    couponCode = null, 
+    discount = 0,
+    couponCode = null,
     paymentText,
     normalizedProducts = [],
     customerName,
@@ -140,7 +139,12 @@ function ConfirmationDocument_MK(props) {
     qrCodeUrl,
   } = props;
 
-  const totalAfterDiscount = total - discount;
+  // Compute subtotal from products
+  const subtotal = normalizedProducts.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  const totalAfterDiscount = subtotal - discount;
 
   return (
     <Document>
@@ -219,27 +223,23 @@ function ConfirmationDocument_MK(props) {
           </View>
         )}
 
-        {/* Discount & Coupon */}
-        {discount > 0 && (
-          <View style={styles.section}>
-            <View style={styles.row}>
-              <Text style={[styles.label, { fontWeight: 700, width: 120 }]}>Попуст:</Text>
-              <Text style={[styles.value, { fontWeight: 700 }]}>{formatPrice(discount)} денари</Text>
-            </View>
-            {couponCode && (
-              <View style={styles.row}>
-                <Text style={[styles.label, { fontWeight: 700, width: 120 }]}>Купон:</Text>
-                <Text style={[styles.value, { fontWeight: 700 }]}>{couponCode}</Text>
-              </View>
-            )}
-          </View>
-        )}
-
-        {/* Total After Discount */}
+        {/* Summary: Subtotal / Discount / Coupon / Total */}
         <View style={styles.section}>
+          <View style={styles.row}>
+            <Text style={[styles.label, { fontWeight: 700, flex: 3 }]}>Подизнос: </Text>
+            <Text style={[styles.valueRight, { fontWeight: 700 }]}>{formatPrice(subtotal)} денари</Text>
+          </View>
+
+          {discount > 0 && (
+            <View style={styles.row}>
+              <Text style={[styles.label, { fontWeight: 700, flex: 3 }]}>Попуст {couponCode} </Text>
+              <Text style={[styles.valueRight, { fontWeight: 700 }]}> - {formatPrice(discount)} денари</Text>
+            </View>
+          )}        
+
           <View style={[styles.row, { marginTop: 6 }]}>
-            <Text style={[styles.label, { fontWeight: 700, width: 120 }]}>Вкупен износ:</Text>
-            <Text style={[styles.value, { fontWeight: 700 }]}>{formatPrice(totalAfterDiscount)} денари</Text>
+            <Text style={[styles.label, { fontWeight: 700, flex: 3 }]}>Вкупен износ: </Text>
+            <Text style={[styles.valueRight, { fontWeight: 700 }]}>{formatPrice(totalAfterDiscount)} денари</Text>
           </View>
         </View>
 
@@ -248,8 +248,6 @@ function ConfirmationDocument_MK(props) {
           <Text style={[styles.value, { fontWeight: 600 }]}>Ви благодариме што не избравте!</Text>
           <Text style={{ fontSize: 10, marginTop: 4 }}>Прашања? Контактирајте makeupbykika@hotmail.com</Text>
         </View>
-
-
       </Page>
     </Document>
   );

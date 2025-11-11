@@ -909,14 +909,7 @@ const MyAccount = () => {
     try {
       // Find the correct userId based on the current orders array
       const matchingOrder = orders.find((o) => o.id === orderId);
-      if (!matchingOrder) throw new Error("Order not found");
-
-      console.log("=== UPDATE ORDER DEBUG ===");
-      console.log("Original matchingOrder.date:", matchingOrder.date);
-      console.log(
-        "Original matchingOrder.reservationDate:",
-        matchingOrder.reservationDate
-      );
+      if (!matchingOrder) throw new Error("Order not found");   
 
       const {
         userId,
@@ -933,6 +926,9 @@ const MyAccount = () => {
         displayName,
         paymentText,
         paymentMethod,
+        discountMK,
+        discountEN,
+        coupon, 
       } = matchingOrder;
 
       // Update only the status field at the correct location
@@ -958,6 +954,9 @@ const MyAccount = () => {
       const orderLanguage = language || currentLanguage;
       const totalToSend =
         orderLanguage === "mk" ? Number(totalMK) || 0 : Number(totalEN) || 0;
+      const discountToSend = orderLanguage === "mk" 
+      ? Number(discountMK) || 0 
+      : Number(discountEN) || 0;  
       const currency = orderLanguage === "mk" ? "MKD" : "EUR";
 
       const payload = {
@@ -973,6 +972,8 @@ const MyAccount = () => {
         paymentMethod,
         total: totalToSend,
         products,
+        discount: discountToSend,           // Add discount
+        couponCode: coupon?.code || null,// Add couponCode
         customerEmail: toEmail,
         customerPhone: customerPhone,
         customerAddress: customerAddress,
@@ -980,13 +981,7 @@ const MyAccount = () => {
         customerCity: customerCity,
         customerPostalCode: customerPostalCode,
         language: language || currentLanguage,
-      };
-
-      console.log("Payload being sent to send-order-status:", {
-        date: payload.date,
-        reservationDate: payload.reservationDate,
-        reservationTime: payload.reservationTime,
-      });
+      };      
 
       await fetch("/api/send-order-status", {
         method: "POST",
@@ -1204,6 +1199,11 @@ const MyAccount = () => {
                 products: order.products || [],
                 paymentMethod: order.paymentMethod || "",
                 paymentText: order.paymentText || "",
+
+                discountMK: parseFloat(order.discount?.mk || 0),
+                discountEN: parseFloat(order.discount?.en || 0),
+                coupon: order.coupon || null,
+
                 customerPhone: order.customer?.phone || "",
                 customerAddress: order.customer?.address || "",
                 customerState: order.customer?.state || "",
@@ -1250,6 +1250,9 @@ const MyAccount = () => {
               products: order.products || [],
               paymentMethod: order.paymentMethod || "",
               paymentText: order.paymentText || "",
+              discountMK: parseFloat(order.discount?.mk || 0),
+              discountEN: parseFloat(order.discount?.en || 0),
+              coupon: order.coupon || null,
               customerPhone: order.customer?.phone || "",
               customerAddress: order.customer?.address || "",
               customerState: order.customer?.state || "",
@@ -2241,7 +2244,7 @@ const MyAccount = () => {
                                         <button
                                           onClick={() => {
                                             setPendingDeleteId(order.id);
-                                            setShowDeleteModal(true);
+                                            setShowDeleteModal(true);                                            
                                           }}
                                           className="btn btn-sm btn-outline-danger"
                                         >
@@ -5212,6 +5215,7 @@ const MyAccount = () => {
             onClick={() => {
               deleteOrder(pendingDeleteId);
               setShowDeleteModal(false);
+              setCurrentPage(1); // reset pagination
             }}
           >
             {t("yes_delete")}

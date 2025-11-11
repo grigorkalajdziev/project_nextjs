@@ -5,7 +5,7 @@ import getStreamBuffer from "../../lib/getStreamBurffer";
 import QRCode from 'qrcode';
 
 import CancelationEmail_MK from "../../components/Newsletter/CancelationEmail_MK";
-import CancelationEmail from "../../components/Newsletter/CancelationEmail"
+import CancelationEmail from "../../components/Newsletter/CancelationEmail";
 import ReservationEmail from "../../components/Newsletter/ReservationEmail";
 import ReservationEmail_MK from "../../components/Newsletter/ReservationEmail_MK";
 import InvoiceDocument from "../../components/Newsletter/InvoiceDocument";
@@ -31,7 +31,6 @@ export default async function handler(req, res) {
     customerName,
     paymentText,
     paymentMethod,
-    total,
     products,
     customerEmail,
     customerPhone,
@@ -44,11 +43,12 @@ export default async function handler(req, res) {
     couponCode = null
   } = req.body;
 
+  // Normalize products for language
   const normalizedProducts = products.map(p => ({
-      ...p,
-      name: typeof p.name === "object" ? p.name[language] || p.name.en : p.name,
-      price: typeof p.price === "object" ? p.price[language] || p.price.en : p.price,
-    }));
+    ...p,
+    name: typeof p.name === "object" ? p.name[language] || p.name.en : p.name,
+    price: typeof p.price === "object" ? p.price[language] || p.price.en : p.price,
+  }));
 
   if (!to || !orderNumber || !status) {    
     return res.status(400).json({ error: "Missing required fields" });
@@ -61,23 +61,21 @@ export default async function handler(req, res) {
   if (!isCanceled && !isConfirmed) {
     return res.status(200).json({ message: "No email sent. Status is neither confirmed nor cancelled." });
   }
+
   const subject = isCanceled
     ? language === 'mk'
       ? `Вашата нарачка ${orderNumber} е откажана`
       : `Your order ${orderNumber} has been cancelled`
     : language === 'mk'
-    ? `Вашата нарачка ${orderNumber} е потврдена`
-    : `Your order ${orderNumber} is confirmed`;
+      ? `Вашата нарачка ${orderNumber} е потврдена`
+      : `Your order ${orderNumber} is confirmed`;
 
   // Choose email component based on language
-  let EmailComponent;
-  if (isCanceled) {
-    EmailComponent = language === 'mk' ? CancelationEmail_MK : CancelationEmail;
-  } else {
-    EmailComponent = language === 'mk' ? ReservationEmail_MK : ReservationEmail;
-  }
+  const EmailComponent = isCanceled
+    ? (language === 'mk' ? CancelationEmail_MK : CancelationEmail)
+    : (language === 'mk' ? ReservationEmail_MK : ReservationEmail);
 
-  // Render email content to HTML
+  // Render email HTML
   let emailHtml;
   try {
     emailHtml = await render(
@@ -87,10 +85,9 @@ export default async function handler(req, res) {
         reservationTime={reservationTime}
         customerName={customerName}
         paymentText={paymentText}
-        total={total}
-        discount={discount}          
-        couponCode={couponCode}      
         products={normalizedProducts}
+        discount={discount}
+        couponCode={couponCode}
         customerEmail={customerEmail}
         customerPhone={customerPhone}
         customerAddress={customerAddress}
@@ -98,8 +95,9 @@ export default async function handler(req, res) {
         customerCity={customerCity}
         customerPostalCode={customerPostalCode}
       />
-    );    
-  } catch (renderError) {    
+    );
+  } catch (renderError) {
+    console.error("Email render error:", renderError);
     return res.status(500).json({ error: "Failed to render email HTML" });
   }
 
@@ -107,29 +105,27 @@ export default async function handler(req, res) {
 
   if (isConfirmed) {
     try {
-      // Build common PDF props
       const qrPayload = JSON.stringify({ orderNumber, reservationDate, reservationTime });
       const qrCodeUrl = await QRCode.toDataURL(qrPayload);
 
+      // Pass only products and discount to PDF; subtotal and totalAfterDiscount are calculated in the component
       const pdfProps = {
         orderNumber,
-        date: date,
+        date,
         reservationDate,
         reservationTime,
-        total,
-        discount,       
-        couponCode,     
         normalizedProducts,
+        discount,
+        couponCode,
         paymentText,
         customerName,
         customerEmail,
         customerPhone,
         qrCodeUrl
-      };       
+      };
 
       let stream;
       let filename;
-
       const ConfirmationDocComponent = language === 'mk' ? ConfirmationDocument_MK : ConfirmationDocument;
       const InvoiceDocComponent = language === 'mk' ? InvoiceDocument_MK : InvoiceDocument;
 
@@ -152,7 +148,7 @@ export default async function handler(req, res) {
     }
   }
 
-  // Send the email
+  // Send email via Resend
   try {
     const data = await resend.emails.send({
       from,
@@ -161,7 +157,7 @@ export default async function handler(req, res) {
       html: emailHtml,
       ...(attachments.length > 0 ? { attachments } : {}),
     });
-    
+
     return res.status(200).json({ message: "Email sent successfully", data });
   } catch (err) {
     console.error("Email send error:", err);
