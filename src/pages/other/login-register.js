@@ -325,73 +325,77 @@ const LoginRegister = () => {
   };
 
   // --- Social Login Handlers ---
-  const handleGoogleSignIn = async () => {
-    setGoogleLoading(true);
-    const provider = new GoogleAuthProvider();
+ const handleGoogleSignIn = async () => {
+  setGoogleLoading(true);
+  const provider = new GoogleAuthProvider();
 
-    try {
-      await setPersistence(auth, browserSessionPersistence);
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+  try {
+    await setPersistence(auth, browserSessionPersistence);
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-      // If this is the user's first sign-in with Google, register them and send the registration email (with coupon)
-      if (user.metadata.creationTime === user.metadata.lastSignInTime) {
-        const regResult = await registerGoogleUser(user);
-        if (!regResult.success) {
-          throw new Error(regResult.error || "google_registration_failed");
-        }
+    // Check if user already exists in database (client-side check)
+    const { checkUserExists } = await import("../api/register");
+    const userExists = await checkUserExists(user.uid);
 
-        // Send the same registration email as handleRegisterSubmit (includes coupon if provided)
-        await fetch("/api/sendRegistrationEmail", {
+    // If user doesn't exist in database, this is their first registration
+    if (!userExists) {
+      const regResult = await registerGoogleUser(user);
+      if (!regResult.success) {
+        throw new Error(regResult.error || "google_registration_failed");
+      }
+
+      // Send the registration email (includes coupon)
+      await fetch("/api/sendRegistrationEmail", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: user.email,
+          language: currentLanguage,
+          coupon: regResult.coupon,
+          userName: user.displayName || "User",
+          provider: "google",
+        }),
+      });
+    } else {
+      // User already exists, this is a login
+      // Send login-success email once per user (without coupon)
+      if (!localStorage.getItem("loginSuccessEmailSent_" + user.uid)) {
+        await fetch("/api/sendLoginSuccessEmail", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             email: user.email,
-            language: currentLanguage,
-            coupon: regResult.coupon ?? null,
-            userName: user.displayName || "User",
             provider: "google",
+            userName: user.displayName || "User",
+            language: currentLanguage,
           }),
         });
-      } else {
-        // Optional: for returning users, send a login-success email once per user (mirrors email/password flow)
-        if (!localStorage.getItem("loginSuccessEmailSent_" + user.uid)) {
-          await fetch("/api/sendLoginSuccessEmail", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: user.email,
-              provider: "google",
-              userName: user.displayName || "User",
-              language: currentLanguage,
-            }),
-          });
-          localStorage.setItem("loginSuccessEmailSent_" + user.uid, "true");
-        }
+        localStorage.setItem("loginSuccessEmailSent_" + user.uid, "true");
       }
-
-      addToast(t("login_success"), {
-        appearance: "success",
-        autoDismiss: true,
-      });
-
-      setTimeout(() => {
-        window.location.href = "/other/my-account";
-      }, 2000);
-    } catch (err) {
-      // Prefer friendly auth messages when available; otherwise show the raw message
-      const message =
-        err && err.code
-          ? getFriendlyAuthMessage(err.code, t)
-          : err && err.message
-            ? err.message
-            : t("something_went_wrong");
-      addToast(message, { appearance: "error", autoDismiss: true });
-    } finally {
-      setGoogleLoading(false);
     }
-  };
 
+    addToast(t("login_success"), {
+      appearance: "success",
+      autoDismiss: true,
+    });
+
+    setTimeout(() => {
+      window.location.href = "/other/my-account";
+    }, 2000);
+  } catch (err) {
+    // Prefer friendly auth messages when available; otherwise show the raw message
+    const message =
+      err && err.code
+        ? getFriendlyAuthMessage(err.code, t)
+        : err && err.message
+          ? err.message
+          : t("something_went_wrong");
+    addToast(message, { appearance: "error", autoDismiss: true });
+  } finally {
+    setGoogleLoading(false);
+  }
+};
   // --- Forgot Password Handler ---
   const handleForgotPassword = async () => {
     if (!loginData.email) {

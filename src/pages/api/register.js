@@ -36,6 +36,19 @@ const generateCoupon = () => {
   return `${randomPrefix}${randomNumber}`;
 };
 
+export async function checkUserExists(userId) {
+  try {
+    const database = getDatabase();
+    const userRef = ref(database, `users/${userId}`);
+    const snapshot = await get(userRef);
+    
+    return snapshot.exists();
+  } catch (error) {
+    console.error("Error checking user existence:", error);
+    return false;
+  }
+}
+
 // Email + Password Registration
 export async function registerUser(email, password, firstName, lastName) {
   try {
