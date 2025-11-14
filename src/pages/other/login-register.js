@@ -5,7 +5,9 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { auth, registerUser, registerGoogleUser } from "../api/register";
+import { FaPhoneAlt } from "react-icons/fa";
+import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
+import { auth, registerUser, registerGoogleUser, set, ref, database } from "../api/register";
 import {
   setPersistence,
   browserSessionPersistence,
@@ -21,6 +23,21 @@ const LoginRegister = () => {
   const { t, currentLanguage } = useLocalization();
   const { addToast } = useToasts();
   const [termsAccepted, setTermsAccepted] = useState(false);
+
+  useEffect(() => {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: () => {
+            console.log("reCAPTCHA verified!");
+          },
+        },
+        auth
+      );
+    }
+  }, []);
 
   // State for login
   const [loginData, setLoginData] = useState({
@@ -113,7 +130,8 @@ const LoginRegister = () => {
   // Login
   const handleLoginEmailBlur = (e) => {
     const errorMsg = validateLoginEmail(e.target.value);
-    if (errorMsg) addToast(errorMsg, { appearance: "error", autoDismiss: true });
+    if (errorMsg)
+      addToast(errorMsg, { appearance: "error", autoDismiss: true });
     setLoginErrors((prev) => ({ ...prev, email: errorMsg }));
   };
 
@@ -125,7 +143,8 @@ const LoginRegister = () => {
   // Register
   const handleRegisterEmailBlur = (e) => {
     const errorMsg = validateRegisterEmail(e.target.value);
-    if (errorMsg) addToast(errorMsg, { appearance: "error", autoDismiss: true });
+    if (errorMsg)
+      addToast(errorMsg, { appearance: "error", autoDismiss: true });
     setRegisterErrors((prev) => ({ ...prev, email: errorMsg }));
   };
 
@@ -325,77 +344,130 @@ const LoginRegister = () => {
   };
 
   // --- Social Login Handlers ---
- const handleGoogleSignIn = async () => {
-  setGoogleLoading(true);
-  const provider = new GoogleAuthProvider();
+  const handleGoogleSignIn = async () => {
+    setGoogleLoading(true);
+    const provider = new GoogleAuthProvider();
 
-  try {
-    await setPersistence(auth, browserSessionPersistence);
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+    try {
+      await setPersistence(auth, browserSessionPersistence);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
 
-    // Check if user already exists in database (client-side check)
-    const { checkUserExists } = await import("../api/register");
-    const userExists = await checkUserExists(user.uid);
+      // Check if user already exists in database (client-side check)
+      const { checkUserExists } = await import("../api/register");
+      const userExists = await checkUserExists(user.uid);
 
-    // If user doesn't exist in database, this is their first registration
-    if (!userExists) {
-      const regResult = await registerGoogleUser(user);
-      if (!regResult.success) {
-        throw new Error(regResult.error || "google_registration_failed");
-      }
+      // If user doesn't exist in database, this is their first registration
+      if (!userExists) {
+        const regResult = await registerGoogleUser(user);
+        if (!regResult.success) {
+          throw new Error(regResult.error || "google_registration_failed");
+        }
 
-      // Send the registration email (includes coupon)
-      await fetch("/api/sendRegistrationEmail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: user.email,
-          language: currentLanguage,
-          coupon: regResult.coupon,
-          userName: user.displayName || "User",
-          provider: "google",
-        }),
-      });
-    } else {
-      // User already exists, this is a login
-      // Send login-success email once per user (without coupon)
-      if (!localStorage.getItem("loginSuccessEmailSent_" + user.uid)) {
-        await fetch("/api/sendLoginSuccessEmail", {
+        // Send the registration email (includes coupon)
+        await fetch("/api/sendRegistrationEmail", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             email: user.email,
-            provider: "google",
-            userName: user.displayName || "User",
             language: currentLanguage,
+            coupon: regResult.coupon,
+            userName: user.displayName || "User",
+            provider: "google",
           }),
         });
-        localStorage.setItem("loginSuccessEmailSent_" + user.uid, "true");
+      } else {
+        // User already exists, this is a login
+        // Send login-success email once per user (without coupon)
+        if (!localStorage.getItem("loginSuccessEmailSent_" + user.uid)) {
+          await fetch("/api/sendLoginSuccessEmail", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: user.email,
+              provider: "google",
+              userName: user.displayName || "User",
+              language: currentLanguage,
+            }),
+          });
+          localStorage.setItem("loginSuccessEmailSent_" + user.uid, "true");
+        }
       }
+
+      addToast(t("login_success"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
+
+      setTimeout(() => {
+        window.location.href = "/other/my-account";
+      }, 2000);
+    } catch (err) {
+      // Prefer friendly auth messages when available; otherwise show the raw message
+      const message =
+        err && err.code
+          ? getFriendlyAuthMessage(err.code, t)
+          : err && err.message
+            ? err.message
+            : t("something_went_wrong");
+      addToast(message, { appearance: "error", autoDismiss: true });
+    } finally {
+      setGoogleLoading(false);
     }
+  };
 
-    addToast(t("login_success"), {
-      appearance: "success",
-      autoDismiss: true,
-    });
+  const handlePhoneSignIn = async () => {
+    const phoneNumber = prompt(t("enter_your_phone_number")); // simple demo prompt
+    if (!phoneNumber) return;
 
-    setTimeout(() => {
-      window.location.href = "/other/my-account";
-    }, 2000);
-  } catch (err) {
-    // Prefer friendly auth messages when available; otherwise show the raw message
-    const message =
-      err && err.code
-        ? getFriendlyAuthMessage(err.code, t)
-        : err && err.message
-          ? err.message
-          : t("something_went_wrong");
-    addToast(message, { appearance: "error", autoDismiss: true });
-  } finally {
-    setGoogleLoading(false);
-  }
-};
+    try {
+      const appVerifier = window.recaptchaVerifier;
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phoneNumber,
+        appVerifier
+      );
+
+      const code = prompt(t("enter_verification_code")); // ask for SMS code
+      if (!code) return;
+
+      const result = await confirmationResult.confirm(code);
+      const user = result.user;
+
+      addToast(t("login_success"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
+
+      // Check if user exists in RTDB
+      const { checkUserExists } = await import("../api/register");
+      const userExists = await checkUserExists(user.uid);
+
+      if (!userExists) {
+        // First-time user: add to RTDB
+        await set(ref(database, `users/${user.uid}`), {
+          phone: user.phoneNumber,
+          displayName: "",
+          firstName: "",
+          lastName: "",
+          billingInfo: { address: "", city: "", phone: "", zipCode: "" },
+          role: "guest",
+          coupon: "",
+        });
+      }
+
+      setTimeout(() => {
+        window.location.href = "/other/my-account";
+      }, 1000);
+    } catch (error) {
+      console.error(error);
+      addToast(error.message || t("something_went_wrong"), {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    }
+  };
+
   // --- Forgot Password Handler ---
   const handleForgotPassword = async () => {
     if (!loginData.email) {
@@ -602,15 +674,18 @@ const LoginRegister = () => {
                     <Col lg={12} className="text-center">
                       <span>{t("or")}</span>
                     </Col>
+                    {/* --- Social Login Section --- */}
                     <Row className="justify-content-center space-mt--30">
                       <Col
                         lg={12}
                         className="d-flex flex-column gap-3 align-items-center"
                       >
+                        {/* Google Sign-In Button */}
                         <button
                           onClick={handleGoogleSignIn}
                           className="lezada-button lezada-button--small w-100 d-flex align-items-center justify-content-center"
                           disabled={googleLoading}
+                          style={{ minHeight: "45px" }}
                         >
                           {googleLoading ? (
                             <Spinner
@@ -629,6 +704,27 @@ const LoginRegister = () => {
                               {t("continue_with_google")}
                             </>
                           )}
+                        </button>
+                        {/* Phone Sign-In Button */}
+                        <div
+                          id="recaptcha-container"
+                          style={{
+                            opacity: 0,
+                            position: "absolute",
+                            left: 0,
+                          }}
+                        ></div>
+                        {/* Invisible reCAPTCHA container */}
+                        <button
+                          type="button"
+                          onClick={handlePhoneSignIn}
+                          className="lezada-button lezada-button--small w-100 d-flex align-items-center justify-content-center"
+                          style={{ minHeight: "45px" }}
+                        > <FaPhoneAlt
+                                size={22}
+                                style={{ marginRight: "10px" }}
+                              />
+                          {t("continue_with_phone")}
                         </button>
                       </Col>
                     </Row>
@@ -765,7 +861,8 @@ const LoginRegister = () => {
                             htmlFor="termsAccepted"
                             style={{
                               cursor: "pointer",
-                              fontSize: window.innerWidth < 376 ? "7px" : "10px",
+                              fontSize:
+                                window.innerWidth < 376 ? "7px" : "10px",
                             }}
                           >
                             {t("i_accept")}{" "}

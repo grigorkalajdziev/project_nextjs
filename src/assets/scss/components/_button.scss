@@ -210,5 +210,29 @@
   100% { transform: rotate(360deg); }
 }
 
+// components/button.scss
+
+.phone-auth-button {
+  @extend .lezada-button--small; // inherit small button style
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 45px;
+  font-size: 14px;
+
+  // Optional: phone icon spacing
+  svg, .phone-icon {
+    margin-right: 10px;
+  }
+
+  // Optional: hover effect
+  &:hover {
+    background-color: #007bff; // match your primary color
+    color: #fff;
+  }
+}
+
+
 /*=====  End of button  ======*/
 

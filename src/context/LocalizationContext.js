@@ -592,6 +592,9 @@ const translations = {
     coupon: "Coupon",
     admin: "Admin",
     guest: "Guest",
+    continue_with_phone: "Continue with Phone",
+    enter_your_phone_number: "Enter your phone number",
+    enter_verification_code: "Enter the verification code"
   },
   mk: {
     english: "Англиски",
@@ -1187,6 +1190,9 @@ const translations = {
     coupon: "Купон",
     admin: "Админ",
     guest: "Гостин",
+    continue_with_phone: "Продолжете со телефон",
+    enter_your_phone_number: "Внесете го вашиот телефонски број",
+    enter_verification_code: "Внесете го кодот за верификација",
   },
 };
 
