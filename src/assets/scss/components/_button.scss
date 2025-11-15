@@ -156,26 +156,8 @@
 
 /*----------  load more button  ----------*/
 
-.lezada-loadmore-button {  
-  font-weight: 500;
-
-  letter-spacing: 1px;
-
-  color: $black--two;
-
-  &:hover {
-    color: $black--two;
-  }
-  svg {
-    font-size: 26px;
-    font-weight: 600;
-
-    display: inline-block;
-
-    padding-right: 8px;
-
-    color: $black--two;
-  }
+.lezada-loadmore-button span {
+  margin-right: 6px;
 }
 
 

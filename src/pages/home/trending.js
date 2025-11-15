@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { connect } from "react-redux";
-import { Container, Row } from "react-bootstrap";
+import { Container, Row, Spinner } from "react-bootstrap";
 import { IoIosAdd } from "react-icons/io";
 import { LayoutFive } from "../../components/Layout";
 import { ShopInfo } from "../../components/Shop";
@@ -53,27 +53,29 @@ const Trending = ({ products }) => {
             />
           </Row>
           <div className="text-center">
-            <Link
-              href="/shop/left-sidebar"
-              as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-              className="lezada-loadmore-button"
-              onClick={handleSeeMoreClick}
-            >
-              {loading && (
-                <span className="spin-icon">
-                  <IoIosAdd />
-                </span>
-              )}
-              {loading ? (
-                ""
-              ) : (
-                <>
-                  <span>
-                    <IoIosAdd />
-                  </span>
-                  {t("see_more")}
-                </>
-              )}
+            <Link href="/shop/left-sidebar" legacyBehavior>
+              <a
+                className="lezada-loadmore-button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSeeMoreClick();
+
+                  setTimeout(() => {
+                    window.location.href = "/shop/left-sidebar";
+                  }, 1200);
+                }}
+              >
+                {loading ? (
+                  <Spinner animation="border" size="sm" />
+                ) : (
+                  <>
+                    <span>
+                      <IoIosAdd />
+                    </span>
+                    {t("see_more")}
+                  </>
+                )}
+              </a>
             </Link>
           </div>
         </Container>
@@ -89,7 +91,7 @@ const Trending = ({ products }) => {
 const mapStateToProps = (state) => {
   const products = state.productData;
   return {
-    products: getProducts(products, "makeup", "extras", 10),
+    products: getProducts(products, "makeup", "extras").slice(0, 10),
   };
 };
 
