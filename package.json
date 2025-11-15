@@ -54,6 +54,7 @@
     "redux-thunk": "^2.3.0",
     "resend": "^4.1.2",
     "styled-jsx": "^5.1.7",
+    "sweetalert2": "^11.26.3",
     "swiper": "^5.3.6",
     "uuid": "^7.0.3"
   },

@@ -594,7 +594,13 @@ const translations = {
     guest: "Guest",
     continue_with_phone: "Continue with Phone",
     enter_your_phone_number: "Enter your phone number",
-    enter_verification_code: "Enter the verification code"
+    enter_verification_code: "Enter the verification code",
+    continue: "Continue",
+    please_enter_phone: "Please enter your phone number.",
+    sending_sms: "Sending SMS...",
+    please_wait: "Please wait...",
+    please_enter_code: "Please enter the verification code.",
+    verify: "Verify",    
   },
   mk: {
     english: "Англиски",
@@ -1193,6 +1199,12 @@ const translations = {
     continue_with_phone: "Продолжете со телефон",
     enter_your_phone_number: "Внесете го вашиот телефонски број",
     enter_verification_code: "Внесете го кодот за верификација",
+    continue: "Продолжи",
+    please_enter_phone: "Ве молиме внесете телефонски број.",
+    sending_sms: "Испраќање SMS...",
+    please_wait: "Ве молиме почекајте...",
+    please_enter_code: "Ве молиме внесете го кодот за верификација.",
+    verify: "Верификувај",    
   },
 };
 

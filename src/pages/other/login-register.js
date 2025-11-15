@@ -18,6 +18,7 @@ import {
 } from "firebase/auth";
 import { useToasts } from "react-toast-notifications";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
+import Swal from "sweetalert2";
 
 const LoginRegister = () => {
   const { t, currentLanguage } = useLocalization();
@@ -417,56 +418,95 @@ const LoginRegister = () => {
   };
 
   const handlePhoneSignIn = async () => {
-    const phoneNumber = prompt(t("enter_your_phone_number")); // simple demo prompt
+  try {
+    // 1️⃣ Ask for phone number
+    const { value: phoneNumber } = await Swal.fire({
+      title: t("enter_your_phone_number"),
+      input: "tel",
+      inputPlaceholder: "+38970123456",
+      confirmButtonText: t("continue"),
+      cancelButtonText: t("cancel"),
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) return t("please_enter_phone");
+      }
+    });
+
     if (!phoneNumber) return;
 
-    try {
-      const appVerifier = window.recaptchaVerifier;
-      const confirmationResult = await signInWithPhoneNumber(
-        auth,
-        phoneNumber,
-        appVerifier
-      );
+    // Loading modal
+    Swal.fire({
+      title: t("sending_sms"),
+      text: t("please_wait"),
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading(),
+    });
 
-      const code = prompt(t("enter_verification_code")); // ask for SMS code
-      if (!code) return;
+    auth.languageCode = currentLanguage === "mk" ? "mk" : "en";
 
-      const result = await confirmationResult.confirm(code);
-      const user = result.user;
+    // 2️⃣ Start phone sign-in
+    const appVerifier = window.recaptchaVerifier;
+    const confirmationResult = await signInWithPhoneNumber(
+      auth,
+      phoneNumber,
+      appVerifier
+    );
 
-      addToast(t("login_success"), {
-        appearance: "success",
-        autoDismiss: true,
-      });
+    Swal.close();
 
-      // Check if user exists in RTDB
-      const { checkUserExists } = await import("../api/register");
-      const userExists = await checkUserExists(user.uid);
-
-      if (!userExists) {
-        // First-time user: add to RTDB
-        await set(ref(database, `users/${user.uid}`), {
-          phone: user.phoneNumber,
-          displayName: "",
-          firstName: "",
-          lastName: "",
-          billingInfo: { address: "", city: "", phone: "", zipCode: "" },
-          role: "guest",
-          coupon: "",
-        });
+    // 3️⃣ Ask for verification code
+    const { value: code } = await Swal.fire({
+      title: t("enter_verification_code"),
+      input: "text",
+      inputPlaceholder: "123456",
+      confirmButtonText: t("verify"),
+      cancelButtonText: t("cancel"),
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) return t("please_enter_code");
       }
+    });
 
-      setTimeout(() => {
-        window.location.href = "/other/my-account";
-      }, 1000);
-    } catch (error) {
-      console.error(error);
-      addToast(error.message || t("something_went_wrong"), {
-        appearance: "error",
-        autoDismiss: true,
+    if (!code) return;
+
+    // Verify SMS code
+    const result = await confirmationResult.confirm(code);
+    const user = result.user;
+
+    addToast(t("login_success"), {
+      appearance: "success",
+      autoDismiss: true,
+    });
+
+    // 4️⃣ Check if user exists
+    const { checkUserExists } = await import("../api/register");
+    const userExists = await checkUserExists(user.uid);
+
+    if (!userExists) {
+      await set(ref(database, `users/${user.uid}`), {        
+        displayName: "",
+        firstName: "",
+        lastName: "",
+        billingInfo: { address: "", city: "", phone: user.phoneNumber, zipCode: "" },
+        role: "guest",
+        coupon: "",
       });
     }
-  };
+
+    setTimeout(() => {
+      window.location.href = "/other/my-account";
+    }, 1000);
+
+  } catch (error) {
+    console.error(error);
+    Swal.fire({
+      icon: "error",
+      title: t("something_went_wrong"),
+      text: error.message,
+    });
+  }
+};
+
 
   // --- Forgot Password Handler ---
   const handleForgotPassword = async () => {
