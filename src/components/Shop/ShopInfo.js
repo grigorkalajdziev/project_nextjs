@@ -28,7 +28,7 @@ const ShopInfo = () => {
                   <div className="content">
                     <img
                       src={
-                        process.env.PUBLIC_URL + "/assets/images/icon/pay.png"
+                        process.env.PUBLIC_URL + "/assets/images/icon/pay.svg"
                       }
                       className="img-fluid"
                       alt=""
