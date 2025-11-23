@@ -24,6 +24,7 @@ const LoginRegister = () => {
   const { t, currentLanguage } = useLocalization();
   const { addToast } = useToasts();
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [phoneLoading, setPhoneLoading] = useState(false);
 
   useEffect(() => {
     if (!window.recaptchaVerifier) {
@@ -760,11 +761,21 @@ const LoginRegister = () => {
                           onClick={handlePhoneSignIn}
                           className="lezada-button lezada-button--small w-100 d-flex align-items-center justify-content-center"
                           style={{ minHeight: "45px" }}
-                        > <FaPhoneAlt
-                                size={22}
-                                style={{ marginRight: "10px" }}
-                              />
-                          {t("continue_with_phone")}
+                          disabled={phoneLoading}
+                        > {phoneLoading ? (
+                            <Spinner
+                              as="span"
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <>
+                              <FaPhoneAlt size={22} style={{ marginRight: "10px" }} />
+                              {t("continue_with_phone")}
+                            </>
+                          )}
                         </button>
                       </Col>
                     </Row>
