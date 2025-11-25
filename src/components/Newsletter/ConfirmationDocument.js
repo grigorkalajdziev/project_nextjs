@@ -114,13 +114,14 @@ const formatPrice = (num) => {
   return num.toLocaleString('en-US');
 };
 
-function ConfirmationDocument_EN(props) {
+function ConfirmationDocument(props) {
   const {
     orderNumber,
     date,
     reservationDate,
     reservationTime,
-    total,
+    discount = 0,
+    couponCode = null,
     paymentText,
     normalizedProducts = [],
     customerName,
@@ -128,6 +129,13 @@ function ConfirmationDocument_EN(props) {
     customerEmail,
     qrCodeUrl,
   } = props;
+
+  // Compute subtotal from products
+  const subtotal = normalizedProducts.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  const totalAfterDiscount = subtotal - discount;
 
   return (
     <Document>
@@ -206,11 +214,23 @@ function ConfirmationDocument_EN(props) {
           </View>
         )}
 
-        {/* Total */}
+        {/* Summary: Subtotal / Discount / Coupon / Total */}
         <View style={styles.section}>
+          <View style={styles.row}>
+            <Text style={[styles.label, { fontWeight: 700, flex: 3 }]}>Subtotal:</Text>
+            <Text style={[styles.valueRight, { fontWeight: 700 }]}>{formatPrice(subtotal)} €</Text>
+          </View>
+
+          {discount > 0 && (
+            <View style={styles.row}>
+              <Text style={[styles.label, { fontWeight: 700, flex: 3 }]}>Discount {couponCode}</Text>
+              <Text style={[styles.valueRight, { fontWeight: 700 }]}>-{formatPrice(discount)} €</Text>
+            </View>
+          )}
+
           <View style={[styles.row, { marginTop: 6 }]}>
-            <Text style={[styles.label, { fontWeight: 700, width: 120 }]}>Total Amount:</Text>
-            <Text style={[styles.value, { fontWeight: 700 }]}>{formatPrice(total)} €</Text>
+            <Text style={[styles.label, { fontWeight: 700, flex: 3 }]}>Total Amount:</Text>
+            <Text style={[styles.valueRight, { fontWeight: 700 }]}>{formatPrice(totalAfterDiscount)} €</Text>
           </View>
         </View>
 
@@ -228,4 +248,4 @@ function ConfirmationDocument_EN(props) {
   );
 }
 
-export default ConfirmationDocument_EN;
+export default ConfirmationDocument;

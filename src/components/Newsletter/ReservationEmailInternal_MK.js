@@ -140,8 +140,7 @@ const ReservationEmailInternal_MK = ({
           <div style={{ textAlign: "center", marginBottom: 12 }}>
             <h1 style={titleStyle}>Известување за нова резервација</h1>
             <div style={smallMuted}>
-              Почитуван(а) <strong>{customerName}</strong>, направена е нова
-              резервација!
+              Драг тиму, креирана е нова резервација!
             </div>
           </div>
 
