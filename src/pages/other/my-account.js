@@ -153,7 +153,7 @@ const MyAccount = () => {
   const endIndexPayment = startIndexPayment + itemsPerPagePayment;
 
   const currentOrdersPayment = orders.slice(startIndexPayment, endIndexPayment);
-  const totalPagesPayment = Math.ceil(orders.length / itemsPerPagePayment); 
+  const totalPagesPayment = Math.ceil(orders.length / itemsPerPagePayment);
   const [dateRange, setDateRange] = useState("30days");
 
   const [allUsers, setAllUsers] = useState([]);
@@ -909,7 +909,7 @@ const MyAccount = () => {
     try {
       // Find the correct userId based on the current orders array
       const matchingOrder = orders.find((o) => o.id === orderId);
-      if (!matchingOrder) throw new Error("Order not found");   
+      if (!matchingOrder) throw new Error("Order not found");
 
       const {
         userId,
@@ -928,7 +928,7 @@ const MyAccount = () => {
         paymentMethod,
         discountMK,
         discountEN,
-        coupon, 
+        coupon,
       } = matchingOrder;
 
       // Update only the status field at the correct location
@@ -954,9 +954,10 @@ const MyAccount = () => {
       const orderLanguage = language || currentLanguage;
       const totalToSend =
         orderLanguage === "mk" ? Number(totalMK) || 0 : Number(totalEN) || 0;
-      const discountToSend = orderLanguage === "mk" 
-      ? Number(discountMK) || 0 
-      : Number(discountEN) || 0;  
+      const discountToSend =
+        orderLanguage === "mk"
+          ? Number(discountMK) || 0
+          : Number(discountEN) || 0;
       const currency = orderLanguage === "mk" ? "MKD" : "EUR";
 
       const payload = {
@@ -972,8 +973,8 @@ const MyAccount = () => {
         paymentMethod,
         total: totalToSend,
         products,
-        discount: discountToSend,           // Add discount
-        couponCode: coupon?.code || null,// Add couponCode
+        discount: discountToSend, // Add discount
+        couponCode: coupon?.code || null, // Add couponCode
         customerEmail: toEmail,
         customerPhone: customerPhone,
         customerAddress: customerAddress,
@@ -981,7 +982,7 @@ const MyAccount = () => {
         customerCity: customerCity,
         customerPostalCode: customerPostalCode,
         language: language || currentLanguage,
-      };      
+      };
 
       await fetch("/api/send-order-status", {
         method: "POST",
@@ -2244,7 +2245,7 @@ const MyAccount = () => {
                                         <button
                                           onClick={() => {
                                             setPendingDeleteId(order.id);
-                                            setShowDeleteModal(true);                                            
+                                            setShowDeleteModal(true);
                                           }}
                                           className="btn btn-sm btn-outline-danger"
                                         >
@@ -4004,9 +4005,15 @@ const MyAccount = () => {
                                         <tr>
                                           <th>#</th>
                                           <th>{t("product_name")}</th>
-                                          <th className="text-center">{t("quantity_sold")}</th>
-                                          <th className="text-end">{t("revenue")}</th>
-                                          <th className="text-end">{t("avg_price")}</th>
+                                          <th className="text-center">
+                                            {t("quantity_sold")}
+                                          </th>
+                                          <th className="text-end">
+                                            {t("revenue")}
+                                          </th>
+                                          <th className="text-end">
+                                            {t("avg_price")}
+                                          </th>
                                         </tr>
                                       </thead>
                                       <tbody>
@@ -4138,7 +4145,7 @@ const MyAccount = () => {
                                       className="btn btn-sm btn-outline-primary rounded-pill d-flex justify-content-center align-items-center mx-auto"
                                       onClick={() => downloadPdf(order)}
                                       disabled={downloadingOrderId === order.id}
-                                      style={{ minWidth: "100px" }} // optional, keeps width consistent
+                                      style={{ minWidth: "100px" }}
                                     >
                                       {downloadingOrderId === order.id ? (
                                         <div className="d-flex justify-content-center align-items-center w-100">
@@ -4164,58 +4171,98 @@ const MyAccount = () => {
                           </table>
                         </div>
                         {totalPagesDown > 1 && (
-                          <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
-                            <span className="text-muted small mb-2">
-                              {t("showing")} {currentOrdersDown.length}{" "}
-                              {t("of")} {orders.length} {t("orders")}
-                            </span>
+                          <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-3">
+                            <div className="text-muted">
+                              <small>
+                                {t("showing")} {currentOrdersDown.length}{" "}
+                                {t("of")} {orders.length} {t("orders")}
+                              </small>
+                            </div>
 
-                            <ul className="pagination mb-0">
-                              <li
-                                className={`page-item ${currentPageDown === 1 ? "disabled" : ""}`}
-                              >
-                                <button
-                                  className="page-link"
-                                  onClick={() =>
-                                    handlePageChangeDown(currentPageDown - 1)
-                                  }
+                            <nav>
+                              <ul className="pagination mb-0">
+                                <li
+                                  className={`page-item ${currentPageDown === 1 ? "disabled" : ""}`}
                                 >
-                                  &laquo;
-                                </button>
-                              </li>
-
-                              {Array.from(
-                                { length: totalPagesDown },
-                                (_, i) => (
-                                  <li
-                                    key={i + 1}
-                                    className={`page-item ${currentPageDown === i + 1 ? "active" : ""}`}
+                                  <button
+                                    type="button"
+                                    className="page-link py-1 px-2"
+                                    onClick={() =>
+                                      handlePageChangeDown(currentPageDown - 1)
+                                    }
+                                    disabled={currentPageDown === 1}
+                                    aria-label="Previous"
                                   >
-                                    <button
-                                      className="page-link"
-                                      onClick={() =>
-                                        handlePageChangeDown(i + 1)
-                                      }
-                                    >
-                                      {i + 1}
-                                    </button>
-                                  </li>
-                                )
-                              )}
+                                    {t("previous")}
+                                  </button>
+                                </li>
 
-                              <li
-                                className={`page-item ${currentPageDown === totalPagesDown ? "disabled" : ""}`}
-                              >
-                                <button
-                                  className="page-link"
-                                  onClick={() =>
-                                    handlePageChangeDown(currentPageDown + 1)
+                                {[...Array(totalPagesDown)].map((_, index) => {
+                                  const pageNumber = index + 1;
+
+                                  if (
+                                    pageNumber === 1 ||
+                                    pageNumber === totalPagesDown ||
+                                    (pageNumber >= currentPageDown - 1 &&
+                                      pageNumber <= currentPageDown + 1)
+                                  ) {
+                                    return (
+                                      <li
+                                        key={pageNumber}
+                                        className={`page-item ${
+                                          currentPageDown === pageNumber
+                                            ? "active"
+                                            : ""
+                                        }`}
+                                      >
+                                        <button
+                                          type="button"
+                                          className="page-link py-1 px-2"
+                                          onClick={() =>
+                                            handlePageChangeDown(pageNumber)
+                                          }
+                                        >
+                                          {pageNumber}
+                                        </button>
+                                      </li>
+                                    );
+                                  } else if (
+                                    pageNumber === currentPageDown - 2 ||
+                                    pageNumber === currentPageDown + 2
+                                  ) {
+                                    return (
+                                      <li
+                                        key={`ellipsis-${pageNumber}`}
+                                        className="page-item disabled"
+                                      >
+                                        <span className="page-link py-1 px-2">
+                                          ...
+                                        </span>
+                                      </li>
+                                    );
                                   }
+                                  return null;
+                                })}
+
+                                <li
+                                  className={`page-item ${currentPageDown === totalPagesDown ? "disabled" : ""}`}
                                 >
-                                  &raquo;
-                                </button>
-                              </li>
-                            </ul>
+                                  <button
+                                    type="button"
+                                    className="page-link py-1 px-2"
+                                    onClick={() =>
+                                      handlePageChangeDown(currentPageDown + 1)
+                                    }
+                                    disabled={
+                                      currentPageDown === totalPagesDown
+                                    }
+                                    aria-label="Next"
+                                  >
+                                    {t("next")}
+                                  </button>
+                                </li>
+                              </ul>
+                            </nav>
                           </div>
                         )}
                       </div>
@@ -4227,6 +4274,7 @@ const MyAccount = () => {
               <Tab.Pane eventKey="payment">
                 <div className="my-account-area__content">
                   <h3>{t("payment_method")}</h3>
+
                   {orders.length > 0 ? (
                     <div className="myaccount-table table-responsive text-center">
                       <table className="table table-bordered">
@@ -4249,58 +4297,109 @@ const MyAccount = () => {
                   ) : (
                     <p className="saved-message">{t("no_payment_saved")}</p>
                   )}
+
                   {totalPagesPayment > 1 && (
-                    <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
-                      <span className="text-muted small mb-2">
+                    <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-3">
+                      <span className="text-muted small">
                         {t("showing")} {currentOrdersPayment.length} {t("of")}{" "}
                         {orders.length} {t("orders")}
                       </span>
 
-                      <ul className="pagination mb-0">
-                        <li
-                          className={`page-item ${currentPagePayment === 1 ? "disabled" : ""}`}
-                        >
-                          <button
-                            className="page-link"
-                            onClick={() =>
-                              handlePageChangePayment(currentPagePayment - 1)
-                            }
-                          >
-                            &laquo;
-                          </button>
-                        </li>
-
-                        {Array.from({ length: totalPagesPayment }, (_, i) => (
+                      <nav>
+                        <ul className="pagination mb-0">
+                          {/* Previous button */}
                           <li
-                            key={i + 1}
-                            className={`page-item ${currentPagePayment === i + 1 ? "active" : ""}`}
+                            className={`page-item ${currentPagePayment === 1 ? "disabled" : ""}`}
                           >
                             <button
-                              className="page-link"
-                              onClick={() => handlePageChangePayment(i + 1)}
+                              type="button"
+                              className="page-link py-1 px-2"
+                              onClick={() =>
+                                handlePageChangePayment(currentPagePayment - 1)
+                              }
+                              disabled={currentPagePayment === 1}
                             >
-                              {i + 1}
+                              {t("previous")}
                             </button>
                           </li>
-                        ))}
 
-                        <li
-                          className={`page-item ${currentPagePayment === totalPagesPayment ? "disabled" : ""}`}
-                        >
-                          <button
-                            className="page-link"
-                            onClick={() =>
-                              handlePageChangePayment(currentPagePayment + 1)
+                          {/* Page numbers + ellipses */}
+                          {[...Array(totalPagesPayment)].map((_, index) => {
+                            const pageNumber = index + 1;
+
+                            if (
+                              pageNumber === 1 ||
+                              pageNumber === totalPagesPayment ||
+                              (pageNumber >= currentPagePayment - 1 &&
+                                pageNumber <= currentPagePayment + 1)
+                            ) {
+                              return (
+                                <li
+                                  key={pageNumber}
+                                  className={`page-item ${
+                                    currentPagePayment === pageNumber
+                                      ? "active"
+                                      : ""
+                                  }`}
+                                >
+                                  <button
+                                    type="button"
+                                    className="page-link py-1 px-2"
+                                    onClick={() =>
+                                      handlePageChangePayment(pageNumber)
+                                    }
+                                  >
+                                    {pageNumber}
+                                  </button>
+                                </li>
+                              );
+                            } else if (
+                              pageNumber === currentPagePayment - 2 ||
+                              pageNumber === currentPagePayment + 2
+                            ) {
+                              return (
+                                <li
+                                  key={`ellipsis-${pageNumber}`}
+                                  className="page-item disabled"
+                                >
+                                  <span className="page-link py-1 px-2">
+                                    ...
+                                  </span>
+                                </li>
+                              );
                             }
+
+                            return null;
+                          })}
+
+                          {/* Next button */}
+                          <li
+                            className={`page-item ${
+                              currentPagePayment === totalPagesPayment
+                                ? "disabled"
+                                : ""
+                            }`}
                           >
-                            &raquo;
-                          </button>
-                        </li>
-                      </ul>
+                            <button
+                              type="button"
+                              className="page-link py-1 px-2"
+                              onClick={() =>
+                                handlePageChangePayment(currentPagePayment + 1)
+                              }
+                              disabled={
+                                currentPagePayment === totalPagesPayment
+                              }
+                            >
+                              {t("next")}
+                            </button>
+                          </li>
+                        </ul>
+                      </nav>
                     </div>
                   )}
                 </div>
               </Tab.Pane>
+
               <Tab.Pane eventKey="accountDetails">
                 <div className="my-account-area__content">
                   <h3>{t("account_details")}</h3>
