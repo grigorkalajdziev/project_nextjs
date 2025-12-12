@@ -1769,7 +1769,7 @@ const MyAccount = () => {
     <LayoutTwo>
       <BreadcrumbOne
         pageTitle={t("my_account")}
-        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.jpg"
+        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.webp"
       >
         <ul className="breadcrumb__list">
           <li>

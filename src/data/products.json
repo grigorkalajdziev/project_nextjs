@@ -53,10 +53,10 @@
     "tag": ["makeup"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/decor/PromMakeup.jpg"
+      "/assets/images/product/decor/PromMakeup.webp"
     ],
     "image": [
-      "/assets/images/product/decor/PromMakeup.jpg"
+      "/assets/images/product/decor/PromMakeup.webp"
     ],
     "shortDescription": {
       "en": "Look stunning on your prom night with tailored makeup.",
@@ -155,10 +155,10 @@
     "tag": ["makeup"],
     "stock": 14,
     "thumbImage": [
-      "/assets/images/product/decor/MakeupCorrection.jpg"
+      "/assets/images/product/decor/MakeupCorrection.webp"
     ],
     "image": [
-      "/assets/images/product/decor/MakeupCorrection.jpg"
+      "/assets/images/product/decor/MakeupCorrection.webp"
     ],
     "shortDescription": {
       "en": "Quick touch-ups to perfect your look.",
@@ -189,10 +189,10 @@
     "tag": ["pedicure"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/decor/RussianApparatusPedicure.jpg"
+      "/assets/images/product/decor/RussianApparatusPedicure.webp"
     ],
     "image": [
-      "/assets/images/product/decor/RussianApparatusPedicure.jpg"
+      "/assets/images/product/decor/RussianApparatusPedicure.webp"
     ],
     "shortDescription": {
       "en": "Precision foot care with advanced techniques.",
@@ -223,10 +223,10 @@
     "tag": ["pedicure"],
     "stock": 18,
     "thumbImage": [
-      "/assets/images/product/decor/RussianApparatusPedicurePolish.jpg"
+      "/assets/images/product/decor/RussianApparatusPedicurePolish.webp"
     ],
     "image": [
-      "/assets/images/product/decor/RussianApparatusPedicurePolish.jpg"
+      "/assets/images/product/decor/RussianApparatusPedicurePolish.webp"
     ],
     "shortDescription": {
             "en": "Flawless pedicure with added nail polish.",
@@ -257,10 +257,10 @@
     "tag": ["pedicure"],
     "stock": 12,
     "thumbImage": [
-      "/assets/images/product/decor/RussianApparatusPedicureGelPolish.jpg"
+      "/assets/images/product/decor/RussianApparatusPedicureGelPolish.webp"
     ],
     "image": [
-      "/assets/images/product/decor/RussianApparatusPedicureGelPolish.jpg"
+      "/assets/images/product/decor/RussianApparatusPedicureGelPolish.webp"
     ],
    "shortDescription": {
             "en": "Perfect pedicure with durable gel polish.",
@@ -291,10 +291,10 @@
     "tag": ["waxing"],
     "stock": 16,
     "thumbImage": [
-      "/assets/images/product/decor/FullLegsWaxing.jpg"
+      "/assets/images/product/decor/FullLegsWaxing.webp"
     ],
     "image": [
-      "/assets/images/product/decor/FullLegsWaxing.jpg"
+      "/assets/images/product/decor/FullLegsWaxing.webp"
     ],
     "shortDescription": {
             "en": "Smooth, hair-free legs with professional waxing.",
@@ -325,10 +325,10 @@
     "tag": ["waxing"],
     "stock": 14,
     "thumbImage": [
-      "/assets/images/product/decor/FullLegsandBikiniWaxing.jpg"
+      "/assets/images/product/decor/FullLegsandBikiniWaxing.webp"
     ],
     "image": [
-      "/assets/images/product/decor/FullLegsandBikiniWaxing.jpg"
+      "/assets/images/product/decor/FullLegsandBikiniWaxing.webp"
     ],
     "shortDescription": {
       "en": "Complete leg waxing with bikini area included.",
@@ -359,10 +359,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/HalfLegsWaxing.jpg"
+      "/assets/images/product/fashion/HalfLegsWaxing.webp"
     ],
     "image": [
-      "/assets/images/product/fashion/HalfLegsWaxing.jpg"
+      "/assets/images/product/fashion/HalfLegsWaxing.webp"
     ],
     "shortDescription": {
       "en": "Targeted waxing for either upper or lower legs.",
@@ -393,10 +393,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/FullArmsWaxing.jpg"
+      "/assets/images/product/fashion/FullArmsWaxing.webp"
     ],
     "image": [
-      "/assets/images/product/fashion/FullArmsWaxing.jpg"
+      "/assets/images/product/fashion/FullArmsWaxing.webp"
     ],
     "shortDescription": {
       "en": "Hair-free arms with professional waxing.",
@@ -427,10 +427,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/HalfArmsWaxing.jpg"
+      "/assets/images/product/fashion/HalfArmsWaxing.webp"
     ],
     "image": [
-      "/assets/images/product/fashion/HalfArmsWaxing.jpg"
+      "/assets/images/product/fashion/HalfArmsWaxing.webp"
     ],
     "shortDescription": {
       "en": "Waxing for forearms or upper arms.",
@@ -461,10 +461,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/BikiniWaxing.jpg"
+      "/assets/images/product/fashion/BikiniWaxing.webp"
     ],
     "image": [
-      "/assets/images/product/fashion/BikiniWaxing.jpg"
+      "/assets/images/product/fashion/BikiniWaxing.webp"
     ],
     "shortDescription": {
       "en": "Smooth and clean bikini line with expert waxing.",
@@ -495,10 +495,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/HalfLegsandIntimateAreaWaxing.jpg"
+      "/assets/images/product/fashion/HalfLegsandIntimateAreaWaxing.webp"
     ],
     "image": [
-      "/assets/images/product/fashion/HalfLegsandIntimateAreaWaxing.jpg"
+      "/assets/images/product/fashion/HalfLegsandIntimateAreaWaxing.webp"
     ],
     "shortDescription": {
       "en": "Combined waxing for half legs and intimate areas.",
@@ -529,10 +529,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/UnderarmsWaxing.jpg"
+      "/assets/images/product/fashion/UnderarmsWaxing.webp"
     ],
     "image": [
-      "/assets/images/product/fashion/UnderarmsWaxing.jpg"
+      "/assets/images/product/fashion/UnderarmsWaxing.webp"
     ],
     "shortDescription": {
       "en": "Quick and effective underarm hair removal.",
@@ -563,10 +563,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/StomachWaxing.jpg"
+      "/assets/images/product/fashion/StomachWaxing.webp"
     ],
     "image": [
-      "/assets/images/product/fashion/StomachWaxing.jpg"
+      "/assets/images/product/fashion/StomachWaxing.webp"
     ],
     "shortDescription": {
       "en": "Smooth and hair-free stomach area with waxing.",
@@ -597,10 +597,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/FullFaceWaxing.jpg"
+      "/assets/images/product/fashion/FullFaceWaxing.webp"
     ],
     "image": [
-      "/assets/images/product/fashion/FullFaceWaxing.jpg"
+      "/assets/images/product/fashion/FullFaceWaxing.webp"
     ],
     "shortDescription": {
       "en": "Gentle and precise waxing for the entire face.",
@@ -631,10 +631,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/FullFaceandEyebrowsWaxing.jpg"
+      "/assets/images/product/fashion/FullFaceandEyebrowsWaxing.webp"
     ],
     "image": [
-      "/assets/images/product/fashion/FullFaceandEyebrowsWaxing.jpg"
+      "/assets/images/product/fashion/FullFaceandEyebrowsWaxing.webp"
     ],
     "shortDescription": {
       "en": "Complete face waxing with eyebrow shaping.",
@@ -665,10 +665,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/fashion/UpperLipWaxing.jpg"
+      "/assets/images/product/fashion/UpperLipWaxing.webp"
     ],
     "image": [
-      "/assets/images/product/fashion/UpperLipWaxing.jpg"
+      "/assets/images/product/fashion/UpperLipWaxing.webp"
     ],
     "shortDescription": {
       "en": "Precise waxing for a smooth upper lip.",
@@ -699,10 +699,10 @@
     "tag": ["waxing"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/cosmetics/ButtocksWaxing.jpg"
+      "/assets/images/product/cosmetics/ButtocksWaxing.webp"
     ],
     "image": [
-      "/assets/images/product/cosmetics/ButtocksWaxing.jpg"     
+      "/assets/images/product/cosmetics/ButtocksWaxing.webp"     
     ],
     "shortDescription": {
       "en": "Smooth and neat waxing for the intimate area.",
@@ -733,10 +733,10 @@
     "tag": ["extras","makeup"],
     "stock": 20,
     "thumbImage": [
-      "/assets/images/product/cosmetics/ArtificialEyelashes.jpg"
+      "/assets/images/product/cosmetics/ArtificialEyelashes.webp"
     ],
     "image": [
-      "/assets/images/product/cosmetics/ArtificialEyelashes.jpg"
+      "/assets/images/product/cosmetics/ArtificialEyelashes.webp"
     ],
     "shortDescription": {
       "en": "Enhance your eyes with beautifully applied artificial eyelashes.",
@@ -767,10 +767,10 @@
     "tag": ["extras","makeup"],
     "stock": 40,
     "thumbImage": [
-      "/assets/images/product/cosmetics/IndividualEyelashes.jpg"
+      "/assets/images/product/cosmetics/IndividualEyelashes.webp"
     ],
     "image": [
-      "/assets/images/product/cosmetics/IndividualEyelashes.jpg"
+      "/assets/images/product/cosmetics/IndividualEyelashes.webp"
     ],
     "shortDescription": {
       "en": "Custom eyelash extensions for a fuller, natural look.",
@@ -801,10 +801,10 @@
     "tag": ["extras","makeup"],
     "stock": 50,
     "thumbImage": [
-      "/assets/images/product/cosmetics/SprayTan.jpg"
+      "/assets/images/product/cosmetics/SprayTan.webp"
     ],
     "image": [
-      "/assets/images/product/cosmetics/SprayTan.jpg"
+      "/assets/images/product/cosmetics/SprayTan.webp"
     ],
     "shortDescription": {
       "en": "Get a natural, sun-kissed glow with spray tanning.",
@@ -835,10 +835,10 @@
     "tag": ["extras","makeup"],
     "stock": 40,
     "thumbImage": [
-      "/assets/images/product/cosmetics/LashLamination.jpg"
+      "/assets/images/product/cosmetics/LashLamination.webp"
     ],
     "image": [
-      "/assets/images/product/cosmetics/LashLamination.jpg"
+      "/assets/images/product/cosmetics/LashLamination.webp"
     ],
     "shortDescription": {
       "en": "Lift and curl your natural lashes for a fuller, defined look.",
@@ -869,10 +869,10 @@
     "tag": ["extras","makeup"],
     "stock": 40,
     "thumbImage": [
-      "/assets/images/product/cosmetics/BrowLamination.jpg"
+      "/assets/images/product/cosmetics/BrowLamination.webp"
     ],
     "image": [
-      "/assets/images/product/cosmetics/BrowLamination.jpg"
+      "/assets/images/product/cosmetics/BrowLamination.webp"
     ],
    "shortDescription": {
         "en": "Shape and style your brows for a natural, fuller appearance.",
@@ -903,10 +903,10 @@
     "tag": ["extras", "makeup"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/cosmetics/Microblading.jpg"
+      "/assets/images/product/cosmetics/Microblading.webp"
     ],
     "image": [
-      "/assets/images/product/cosmetics/Microblading.jpg"
+      "/assets/images/product/cosmetics/Microblading.webp"
     ],
     "shortDescription": {
       "en": "Perfectly shaped eyebrows with microblading and included correction.",
@@ -937,10 +937,10 @@
     "tag": ["training"],
     "stock": 20,
     "thumbImage": [
-      "/assets/images/product/cosmetics/TrainingforProfessionalMakeup.jpg"
+      "/assets/images/product/cosmetics/TrainingforProfessionalMakeup.webp"
     ],
     "image": [
-      "/assets/images/product/cosmetics/TrainingforProfessionalMakeup.jpg"
+      "/assets/images/product/cosmetics/TrainingforProfessionalMakeup.webp"
     ],
     "shortDescription": {
       "en": "Master the art of professional makeup with expert training.",
@@ -971,10 +971,10 @@
     "tag": ["training"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/cosmetics/IndividualMakeupTraining.jpg"
+      "/assets/images/product/cosmetics/IndividualMakeupTraining.webp"
     ],
     "image": [
-      "/assets/images/product/cosmetics/IndividualMakeupTraining.jpg"
+      "/assets/images/product/cosmetics/IndividualMakeupTraining.webp"
     ],
     "shortDescription": {
       "en": "One-on-one makeup training for personalized learning.",
@@ -1005,10 +1005,10 @@
     "tag": ["training"],
     "stock": 20,
     "thumbImage": [
-      "/assets/images/product/cosmetics/TrainingForHennaBrows.jpg"
+      "/assets/images/product/cosmetics/TrainingForHennaBrows.webp"
     ],
     "image": [
-      "/assets/images/product/cosmetics/TrainingForHennaBrows.jpg"
+      "/assets/images/product/cosmetics/TrainingForHennaBrows.webp"
     ],
     "shortDescription": {
       "en": "Master the art of henna brow tinting for a natural, defined look.",
@@ -1039,10 +1039,10 @@
     "tag": ["training"],
     "stock": 30,
     "thumbImage": [
-      "/assets/images/product/cosmetics/MakeupTraining.jpg"
+      "/assets/images/product/cosmetics/MakeupTraining.webp"
     ],
     "image": [
-      "/assets/images/product/cosmetics/MakeupTraining.jpg"
+      "/assets/images/product/cosmetics/MakeupTraining.webp"
     ],
     "shortDescription": {
       "en": "A comprehensive course to perfect your makeup skills.",
@@ -1073,10 +1073,10 @@
     "tag": ["training"],
     "stock": 30,
     "thumbImage": [
-      "/assets/images/product/cosmetics/TrainingForBrowAndLashLamination.jpg"
+      "/assets/images/product/cosmetics/TrainingForBrowAndLashLamination.webp"
     ],
     "image": [
-      "/assets/images/product/cosmetics/TrainingForBrowAndLashLamination.jpg"
+      "/assets/images/product/cosmetics/TrainingForBrowAndLashLamination.webp"
     ],
     "shortDescription": {
       "en": "Master the art of brow and lash lamination.",

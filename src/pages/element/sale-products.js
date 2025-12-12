@@ -14,7 +14,7 @@ const SaleProducts = ({ products }) => {
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle="Sale products"
-        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.jpg"
+        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.webp"
       >
         <ul className="breadcrumb__list">
           <li>

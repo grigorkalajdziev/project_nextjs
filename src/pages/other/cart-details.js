@@ -276,7 +276,7 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
     <LayoutTwo>
       <BreadcrumbOne
         pageTitle={showingOrder ? (t("order_preview") || "Order preview") : t("cart_title")}
-        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.jpg"
+        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.webp"
       >
         <ul className="breadcrumb__list">
           <li>
