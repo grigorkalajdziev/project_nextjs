@@ -19,10 +19,10 @@
     "tag": ["makeup"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/decor/ProfessionalMakeup.jpg"
+      "/assets/images/product/decor/ProfessionalMakeup.webp"
     ],
     "image": [
-      "/assets/images/product/decor/ProfessionalMakeup.jpg"
+      "/assets/images/product/decor/ProfessionalMakeup.webp"
     ],
     "shortDescription": {
       "en": "Professional makeup services ensure you look flawless.",
@@ -87,10 +87,10 @@
     "tag": ["makeup"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/decor/BridalMakeup.jpg"
+      "/assets/images/product/decor/BridalMakeup.webp"
     ],
     "image": [
-      "/assets/images/product/decor/BridalMakeup.jpg"
+      "/assets/images/product/decor/BridalMakeup.webp"
     ],
     "shortDescription": {
       "en": "Perfect bridal makeup for your big day.",
@@ -121,10 +121,10 @@
     "tag": ["makeup"],
     "stock": 12,    
     "thumbImage": [
-      "/assets/images/product/decor/DécolletéMakeup.jpg"
+      "/assets/images/product/decor/DécolletéMakeup.webp"
     ],
     "image": [
-      "/assets/images/product/decor/DécolletéMakeup.jpg"
+      "/assets/images/product/decor/DécolletéMakeup.webp"
     ],
     "shortDescription": {
       "en": "Highlight your décolleté area with expert techniques.",
