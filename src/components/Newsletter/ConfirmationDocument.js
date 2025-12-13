@@ -128,6 +128,7 @@ function ConfirmationDocument(props) {
     customerPhone,
     customerEmail,
     qrCodeUrl,
+    total 
   } = props;
 
   // Compute subtotal from products
@@ -135,7 +136,7 @@ function ConfirmationDocument(props) {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const totalAfterDiscount = subtotal - discount;
+  const totalAfterDiscount = typeof total === 'number' ? total : subtotal - discount;  
 
   return (
     <Document>

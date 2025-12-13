@@ -181,33 +181,29 @@ const handlePlaceOrder = async () => {
 
   try {
     // Build subtotal in MKD (prefer product.price.mk, fallback to en*rate)
-    let subtotalMKDnum = 0;
-    cartItems.forEach((product) => {
-      const rawMk =
-        product.price?.mk != null ? Number(product.price.mk) : null;
-      const rawEn =
-        product.price?.en != null ? Number(product.price.en) : null;
-      const priceMK =
-        rawMk != null && !Number.isNaN(rawMk)
-          ? rawMk
-          : rawEn != null && !Number.isNaN(rawEn)
-            ? rawEn * conversionRate
-            : 0;
+    let subtotalENnum = 0;
+let subtotalMKDnum = 0;
 
-      const discountedMK = parseFloat(
-        getDiscountPrice(Number(priceMK || 0), product.discount || 0)
-      );
-      subtotalMKDnum += discountedMK * (product.quantity || 1);
-    });
+cartItems.forEach((product) => {
+  const qty = product.quantity || 1;
+  
+  // Use prices as-is
+  const priceEN = Number(product.price?.en || 0);
+  const priceMK = Number(product.price?.mk || 0);
 
-    const discountMKDnum = appliedCoupon
-      ? subtotalMKDnum * (appliedCoupon.discount / 100)
-      : 0;
-    const totalMKDnum = subtotalMKDnum - discountMKDnum;
+  // Apply discount
+  const discountedEN = parseFloat(getDiscountPrice(priceEN, product.discount || 0));
+  const discountedMK = parseFloat(getDiscountPrice(priceMK, product.discount || 0));
 
-    const subtotalENnum = subtotalMKDnum / conversionRate;
-    const discountENnum = discountMKDnum / conversionRate;
-    const totalENnum = totalMKDnum / conversionRate;
+  subtotalENnum += discountedEN * qty;
+  subtotalMKDnum += discountedMK * qty;
+});
+
+const discountENnum = appliedCoupon ? subtotalENnum * (appliedCoupon.discount / 100) : 0;
+const discountMKDnum = appliedCoupon ? subtotalMKDnum * (appliedCoupon.discount / 100) : 0;
+
+const totalENnum = subtotalENnum - discountENnum;
+const totalMKDnum = subtotalMKDnum - discountMKDnum;
 
     // Build order data in the legacy shape
     const reservationDate = formatDate(reservationDateTime);

@@ -15,7 +15,7 @@ import ConfirmationDocument_MK from "../../components/Newsletter/ConfirmationDoc
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export default async function handler(req, res) {
+export default async function handler(req, res) {  
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
     reservationTime,
     customerName,
     paymentText,
-    paymentMethod,
+    paymentMethod,    
     products,
     customerEmail,
     customerPhone,
@@ -40,8 +40,10 @@ export default async function handler(req, res) {
     customerPostalCode,
     language = 'en',
     discount = 0,   // discount amount
-    couponCode = null
+    couponCode = null,
+    total
   } = req.body;
+
 
   // Normalize products for language
   const normalizedProducts = products.map(p => ({
@@ -121,7 +123,8 @@ export default async function handler(req, res) {
         customerName,
         customerEmail,
         customerPhone,
-        qrCodeUrl
+        qrCodeUrl,
+        total
       };
 
       let stream;
