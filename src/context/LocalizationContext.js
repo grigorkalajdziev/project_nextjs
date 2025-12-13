@@ -247,7 +247,7 @@ const translations = {
     country_india: "India",
     country_japan: "Japan",
     cart_total: "Cart Total",
-    product_label: "Product",
+    product_label: "Service",
     total_label: "Total",
     subtotal_label: "Subtotal",
     shipping_fee_label: "Shipping Fee",

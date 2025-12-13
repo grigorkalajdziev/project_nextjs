@@ -625,10 +625,14 @@ const totalMKDnum = subtotalMKDnum - discountMKDnum;
                                     currentLanguage === "mk"
                                       ? (product.price?.mk ?? 0)
                                       : (product.price?.en ?? 0);
+
                                   const discountedPrice = getDiscountPrice(
                                     parseFloat(productPrice || 0),
                                     product.discount || 0
                                   ).toFixed(2);
+
+                                  const qty = product.quantity || 1;
+                                  const lineTotal = (discountedPrice * qty).toFixed(2);
 
                                   return (
                                     <li key={i}>
@@ -637,8 +641,8 @@ const totalMKDnum = subtotalMKDnum - discountMKDnum;
                                       X {product.quantity}{" "}
                                       <span>
                                         {currentLanguage === "mk"
-                                          ? `${discountedPrice} ${t("currency")}`
-                                          : `${t("currency")} ${discountedPrice}`}
+                                          ? `${lineTotal} ${t("currency")}`
+                                          : `${t("currency")} ${lineTotal}`}
                                       </span>
                                     </li>
                                   );
