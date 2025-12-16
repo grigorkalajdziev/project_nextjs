@@ -127,11 +127,13 @@
   .card-body .table-responsive {
     table {
       width: 100%;
-      table-layout: auto; 
-      border-collapse: separate;
-      border-spacing: 0;
+        border-collapse: collapse; /* same as Recent Orders */
+        border: 1px solid $grey--eleven;
+        font-size: 14px;
+        background-color: #fff;
 
       th, td {
+        
         padding: 12px 15px;
         white-space: nowrap; // prevent wrapping
         vertical-align: middle;
