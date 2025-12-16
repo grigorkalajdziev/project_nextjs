@@ -13,16 +13,23 @@
 
   &__author-info {
     display: flex;
+    align-items: center;
 
     .image {
       flex-basis: 80px;
-
       width: 80px;
       height: 80px;
+
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+
       img {
         width: 100%;
-
-        border-radius: 500px;
+        height: 100%;      
+        object-fit: cover; 
+        border-radius: 50%;
+        display: block;
       }
     }
 
