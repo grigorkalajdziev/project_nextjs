@@ -142,7 +142,14 @@
         padding: 10px;
         vertical-align: middle;
         border-color: $grey--eleven;
+        white-space: nowrap;
       }
+
+      .col-user   { min-width: 180px; }
+      .col-order  { min-width: 140px; }
+      .col-date   { min-width: 120px; }
+      .col-status { min-width: 140px; text-align: center; }
+      .col-total  { min-width: 130px; text-align: right; }
     }
   }
 

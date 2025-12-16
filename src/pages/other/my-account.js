@@ -1815,8 +1815,7 @@ const MyAccount = () => {
             </Nav>
             <Tab.Content>
               <Tab.Pane eventKey="dashboard">
-
-               <div className="my-account-area__content">
+                <div className="my-account-area__content">
                   <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
                     <h3 className="mb-0">{t("dashboard")}</h3>
                     <button
@@ -1845,30 +1844,36 @@ const MyAccount = () => {
                   <div className="card mb-4 border-0 shadow-sm">
                     <div className="card-body p-4">
                       <div className="d-flex align-items-center mb-3">
-                        <div 
-                          className={`${role === "admin" ? "bg-danger" : "bg-primary"} text-white rounded-circle d-flex align-items-center justify-content-center me-3`} 
-                          style={{ width: "60px", height: "60px", fontSize: "24px" }}
+                        <div
+                          className={`${role === "admin" ? "bg-danger" : "bg-primary"} text-white rounded-circle d-flex align-items-center justify-content-center me-3`}
+                          style={{
+                            width: "45px",
+                            height: "45px",
+                            fontSize: "24px",
+                          }}
                         >
-                          <i className={`bi ${role === "admin" ? "bi-shield-check" : "bi-person"}`}></i>
+                          <i
+                            className={`bi ${role === "admin" ? "bi-shield-check" : "bi-person"}`}
+                          ></i>
                         </div>
                         <div>
                           <h4 className="mb-1">
                             {t("hello_user")} {displayName || ""}!
-                            {role === "admin" && (
-                              <Badge bg="danger" className="ms-2">
-                                <i className="bi bi-shield-check me-1"></i>
-                                {t("admin")}
-                              </Badge>
-                            )}
                           </h4>
+                          {role === "admin" && (
+                            <Badge bg="danger">
+                              <i className="bi bi-shield-check me-1"></i>
+                              {t("admin")}
+                            </Badge>
+                          )}
                           <p className="text-muted mb-0">{email}</p>
                         </div>
                       </div>
                       <p className="mb-0">
-                        {role === "admin" 
-                          ? t("admin_dashboard_welcome") || t("dashboard_welcome")
-                          : t("dashboard_welcome")
-                        }
+                        {role === "admin"
+                          ? t("admin_dashboard_welcome") ||
+                            t("dashboard_welcome")
+                          : t("dashboard_welcome")}
                       </p>
                     </div>
                   </div>
@@ -1882,10 +1887,15 @@ const MyAccount = () => {
                           <div className="card border-0 shadow-sm h-100">
                             <div className="card-body text-center p-4">
                               <div className="text-primary mb-2">
-                                <i className="bi bi-cart-check" style={{ fontSize: "2rem" }}></i>
+                                <i
+                                  className="bi bi-cart-check"
+                                  style={{ fontSize: "2rem" }}
+                                ></i>
                               </div>
                               <h3 className="mb-1">{orders.length}</h3>
-                              <small className="text-muted">{t("all_orders")}</small>
+                              <small className="text-muted">
+                                {t("all_orders")}
+                              </small>
                             </div>
                           </div>
                         </div>
@@ -1893,10 +1903,20 @@ const MyAccount = () => {
                           <div className="card border-0 shadow-sm h-100">
                             <div className="card-body text-center p-4">
                               <div className="text-warning mb-2">
-                                <i className="bi bi-clock-history" style={{ fontSize: "2rem" }}></i>
+                                <i
+                                  className="bi bi-clock-history"
+                                  style={{ fontSize: "2rem" }}
+                                ></i>
                               </div>
-                              <h3 className="mb-1">{orders.filter(o => o.status === "pending").length}</h3>
-                              <small className="text-muted">{t("pending_review")}</small>
+                              <h3 className="mb-1">
+                                {
+                                  orders.filter((o) => o.status === "pending")
+                                    .length
+                                }
+                              </h3>
+                              <small className="text-muted">
+                                {t("pending_review")}
+                              </small>
                             </div>
                           </div>
                         </div>
@@ -1904,10 +1924,15 @@ const MyAccount = () => {
                           <div className="card border-0 shadow-sm h-100">
                             <div className="card-body text-center p-4">
                               <div className="text-info mb-2">
-                                <i className="bi bi-people" style={{ fontSize: "2rem" }}></i>
+                                <i
+                                  className="bi bi-people"
+                                  style={{ fontSize: "2rem" }}
+                                ></i>
                               </div>
                               <h3 className="mb-1">{allUsers.length}</h3>
-                              <small className="text-muted">{t("total_users")}</small>
+                              <small className="text-muted">
+                                {t("total_users")}
+                              </small>
                             </div>
                           </div>
                         </div>
@@ -1915,21 +1940,31 @@ const MyAccount = () => {
                           <div className="card border-0 shadow-sm h-100">
                             <div className="card-body text-center p-4">
                               <div className="text-success mb-2">
-                                <i className="bi bi-currency-exchange" style={{ fontSize: "2rem" }}></i>
+                                <i
+                                  className="bi bi-currency-exchange"
+                                  style={{ fontSize: "2rem" }}
+                                ></i>
                               </div>
-                              <h3 className="mb-1" style={{ fontSize: "1.3rem" }}>
+                              <h3
+                                className="mb-1"
+                                style={{ fontSize: "1.3rem" }}
+                              >
                                 {formatTotal(
                                   orders.reduce((sum, order) => {
                                     const mk = parseFloat(order.totalMK || 0);
                                     const en = parseFloat(order.totalEN || 0);
                                     return currentLanguage === "mk"
-                                      ? sum + (mk > 0 ? mk : en * conversionRate)
-                                      : sum + (en > 0 ? en : mk / conversionRate);
+                                      ? sum +
+                                          (mk > 0 ? mk : en * conversionRate)
+                                      : sum +
+                                          (en > 0 ? en : mk / conversionRate);
                                   }, 0),
                                   currentLanguage
                                 )}
                               </h3>
-                              <small className="text-muted">{t("total_revenue")}</small>
+                              <small className="text-muted">
+                                {t("total_revenue")}
+                              </small>
                             </div>
                           </div>
                         </div>
@@ -1941,10 +1976,15 @@ const MyAccount = () => {
                           <div className="card border-0 shadow-sm h-100">
                             <div className="card-body text-center p-4">
                               <div className="text-primary mb-2">
-                                <i className="bi bi-cart-check" style={{ fontSize: "2rem" }}></i>
+                                <i
+                                  className="bi bi-cart-check"
+                                  style={{ fontSize: "2rem" }}
+                                ></i>
                               </div>
                               <h3 className="mb-1">{orders.length}</h3>
-                              <small className="text-muted">{t("my_orders")}</small>
+                              <small className="text-muted">
+                                {t("my_orders")}
+                              </small>
                             </div>
                           </div>
                         </div>
@@ -1952,10 +1992,20 @@ const MyAccount = () => {
                           <div className="card border-0 shadow-sm h-100">
                             <div className="card-body text-center p-4">
                               <div className="text-warning mb-2">
-                                <i className="bi bi-clock-history" style={{ fontSize: "2rem" }}></i>
+                                <i
+                                  className="bi bi-clock-history"
+                                  style={{ fontSize: "2rem" }}
+                                ></i>
                               </div>
-                              <h3 className="mb-1">{orders.filter(o => o.status === "pending").length}</h3>
-                              <small className="text-muted">{t("pending")}</small>
+                              <h3 className="mb-1">
+                                {
+                                  orders.filter((o) => o.status === "pending")
+                                    .length
+                                }
+                              </h3>
+                              <small className="text-muted">
+                                {t("pending")}
+                              </small>
                             </div>
                           </div>
                         </div>
@@ -1963,10 +2013,20 @@ const MyAccount = () => {
                           <div className="card border-0 shadow-sm h-100">
                             <div className="card-body text-center p-4">
                               <div className="text-success mb-2">
-                                <i className="bi bi-check-circle" style={{ fontSize: "2rem" }}></i>
+                                <i
+                                  className="bi bi-check-circle"
+                                  style={{ fontSize: "2rem" }}
+                                ></i>
                               </div>
-                              <h3 className="mb-1">{orders.filter(o => o.status === "confirmed").length}</h3>
-                              <small className="text-muted">{t("confirmed")}</small>
+                              <h3 className="mb-1">
+                                {
+                                  orders.filter((o) => o.status === "confirmed")
+                                    .length
+                                }
+                              </h3>
+                              <small className="text-muted">
+                                {t("confirmed")}
+                              </small>
                             </div>
                           </div>
                         </div>
@@ -1974,21 +2034,31 @@ const MyAccount = () => {
                           <div className="card border-0 shadow-sm h-100">
                             <div className="card-body text-center p-4">
                               <div className="text-info mb-2">
-                                <i className="bi bi-currency-exchange" style={{ fontSize: "2rem" }}></i>
+                                <i
+                                  className="bi bi-currency-exchange"
+                                  style={{ fontSize: "2rem" }}
+                                ></i>
                               </div>
-                              <h3 className="mb-1" style={{ fontSize: "1.3rem" }}>
+                              <h3
+                                className="mb-1"
+                                style={{ fontSize: "1.3rem" }}
+                              >
                                 {formatTotal(
                                   orders.reduce((sum, order) => {
                                     const mk = parseFloat(order.totalMK || 0);
                                     const en = parseFloat(order.totalEN || 0);
                                     return currentLanguage === "mk"
-                                      ? sum + (mk > 0 ? mk : en * conversionRate)
-                                      : sum + (en > 0 ? en : mk / conversionRate);
+                                      ? sum +
+                                          (mk > 0 ? mk : en * conversionRate)
+                                      : sum +
+                                          (en > 0 ? en : mk / conversionRate);
                                   }, 0),
                                   currentLanguage
                                 )}
                               </h3>
-                              <small className="text-muted">{t("total_spent")}</small>
+                              <small className="text-muted">
+                                {t("total_spent")}
+                              </small>
                             </div>
                           </div>
                         </div>
@@ -2000,12 +2070,17 @@ const MyAccount = () => {
                   {orders.length > 0 && (
                     <div className="card border-0 shadow-sm mb-4">
                       <div className="card-header bg-white border-bottom">
-                        <div className="d-flex justify-content-between align-items-center">
-                          <h5 className="mb-0">
-                            <i className="bi bi-clock-history me-2 text-primary"></i>
-                            {role === "admin" ? t("recent_system_orders") : t("recent_orders")}
+                        <div className="d-flex justify-content-between align-items-center w-100">
+                          <h5 className="mb-0 d-flex align-items-center gap-1">
+                            <i className="bi bi-clock-history text-primary"></i>
+                            {role === "admin"
+                              ? t("recent_system_orders")
+                              : t("recent_orders")}
                           </h5>
-                          <small className="text-muted">{t("last_5_orders")}</small>
+
+                          <small className="text-muted text-end">
+                            {t("last_5_orders")}
+                          </small>
                         </div>
                       </div>
                       <div className="card-body p-0">
@@ -2014,29 +2089,44 @@ const MyAccount = () => {
                             <thead className="table-light">
                               <tr>
                                 {role === "admin" && (
-                                  <th className="ps-3">{t("user")}</th>
+                                  <th className="ps-3 col-user">{t("user")}</th>
                                 )}
-                                <th className={role === "admin" ? "" : "ps-3"}>{t("order")}</th>
-                                <th>{t("date")}</th>
-                                <th className="text-center">{t("status")}</th>
-                                <th className="text-end pe-3">{t("total")}</th>
+                                <th
+                                  className={`${role === "admin" ? "" : "ps-3"} col-order`}
+                                >
+                                  {t("order")}
+                                </th>
+                                <th className="col-date">{t("date")}</th>
+                                <th className="text-center col-status">
+                                  {t("status")}
+                                </th>
+                                <th className="text-end pe-3 col-total">
+                                  {t("total")}
+                                </th>
                               </tr>
                             </thead>
+
                             <tbody>
                               {orders.slice(0, 5).map((order) => (
                                 <tr key={order.id} className="align-middle">
                                   {role === "admin" && (
-                                    <td className="ps-3">
-                                      <small className="fw-bold">{order.displayName}</small>
+                                    <td className="ps-3 col-user">
+                                      <small className="fw-bold">
+                                        {order.displayName}
+                                      </small>
                                     </td>
                                   )}
-                                  <td className={role === "admin" ? "" : "ps-3"}>
+                                  <td
+                                    className={`col-order ${role === "admin" ? "" : "ps-3"}`}
+                                  >
                                     <span className="badge bg-secondary">
                                       {order.orderNumber}
                                     </span>
                                   </td>
-                                  <td><small>{order.date}</small></td>
-                                  <td className="text-center">
+                                  <td className="col-date">
+                                    <small>{order.date}</small>
+                                  </td>
+                                  <td className="text-center col-status">
                                     <Badge
                                       pill
                                       bg={
@@ -2051,7 +2141,7 @@ const MyAccount = () => {
                                       {t(order.status)}
                                     </Badge>
                                   </td>
-                                  <td className="text-end pe-3">
+                                  <td className="text-end pe-3 col-total">
                                     <small>
                                       {formatTotal(
                                         order.displayTotal ??
@@ -2084,46 +2174,90 @@ const MyAccount = () => {
                         <div className="row g-3">
                           <div className="col-md-3 col-sm-6">
                             <button
-                              className="btn btn-outline-primary w-100 py-3"
-                              onClick={() => document.querySelector('[data-rr-ui-event-key="orders"]').click()}
+                              className="btn btn-outline-primary w-100"
+                              style={{ paddingTop: 0, paddingBottom: "0.5rem" }}
+                              onClick={() =>
+                                document
+                                  .querySelector(
+                                    '[data-rr-ui-event-key="orders"]'
+                                  )
+                                  .click()
+                              }
                             >
-                              <i className="bi bi-cart-check d-block mb-2" style={{ fontSize: "1.5rem" }}></i>
+                              <i
+                                className="bi bi-cart-check d-block mb-2"
+                                style={{ fontSize: "1.5rem" }}
+                              ></i>
                               <small>{t("manage_orders")}</small>
                             </button>
                           </div>
                           <div className="col-md-3 col-sm-6">
                             <button
-                              className="btn btn-outline-info w-100 py-3"
-                              onClick={() => document.querySelector('[data-rr-ui-event-key="users"]').click()}
+                              className="btn btn-outline-info w-100"
+                              style={{ paddingTop: 0, paddingBottom: "0.5rem" }}
+                              onClick={() =>
+                                document
+                                  .querySelector(
+                                    '[data-rr-ui-event-key="users"]'
+                                  )
+                                  .click()
+                              }
                             >
-                              <i className="bi bi-people d-block mb-2" style={{ fontSize: "1.5rem" }}></i>
+                              <i
+                                className="bi bi-people d-block mb-2"
+                                style={{ fontSize: "1.5rem" }}
+                              ></i>
                               <small>{t("view_users")}</small>
                             </button>
                           </div>
                           <div className="col-md-3 col-sm-6">
                             <button
-                              className="btn btn-outline-success w-100 py-3"
+                              className="btn btn-outline-success w-100"
+                              style={{ paddingTop: 0, paddingBottom: "0.5rem" }}
                               onClick={() => {
-                                document.querySelector('[data-rr-ui-event-key="orders"]').click();
+                                document
+                                  .querySelector(
+                                    '[data-rr-ui-event-key="orders"]'
+                                  )
+                                  .click();
                                 // Scroll to financial reports section
                                 setTimeout(() => {
-                                  const reportsSection = document.querySelector('.financial-reports');
+                                  const reportsSection =
+                                    document.querySelector(
+                                      ".financial-reports"
+                                    );
                                   if (reportsSection) {
-                                    reportsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                    reportsSection.scrollIntoView({
+                                      behavior: "smooth",
+                                      block: "start",
+                                    });
                                   }
                                 }, 100);
                               }}
                             >
-                              <i className="bi bi-graph-up d-block mb-2" style={{ fontSize: "1.5rem" }}></i>
+                              <i
+                                className="bi bi-graph-up d-block mb-2"
+                                style={{ fontSize: "1.5rem" }}
+                              ></i>
                               <small>{t("view_reports")}</small>
                             </button>
                           </div>
                           <div className="col-md-3 col-sm-6">
                             <button
-                              className="btn btn-outline-secondary w-100 py-3"
-                              onClick={() => document.querySelector('[data-rr-ui-event-key="accountDetails"]').click()}
+                              className="btn btn-outline-secondary w-100"
+                              style={{ paddingTop: 0, paddingBottom: "0.5rem" }}
+                              onClick={() =>
+                                document
+                                  .querySelector(
+                                    '[data-rr-ui-event-key="accountDetails"]'
+                                  )
+                                  .click()
+                              }
                             >
-                              <i className="bi bi-person-gear d-block mb-2" style={{ fontSize: "1.5rem" }}></i>
+                              <i
+                                className="bi bi-person-gear d-block mb-2"
+                                style={{ fontSize: "1.5rem" }}
+                              ></i>
                               <small>{t("edit_profile")}</small>
                             </button>
                           </div>
@@ -2132,28 +2266,58 @@ const MyAccount = () => {
                         <div className="row g-3">
                           <div className="col-md-4 col-sm-6">
                             <button
-                              className="btn btn-outline-primary w-100 py-3"
-                              onClick={() => document.querySelector('[data-rr-ui-event-key="orders"]').click()}
+                              className="btn btn-outline-primary w-100"
+                              style={{ paddingTop: 0, paddingBottom: "0.5rem" }}
+                              onClick={() =>
+                                document
+                                  .querySelector(
+                                    '[data-rr-ui-event-key="orders"]'
+                                  )
+                                  .click()
+                              }
                             >
-                              <i className="bi bi-cart-check d-block mb-2" style={{ fontSize: "1.5rem" }}></i>
+                              <i
+                                className="bi bi-cart-check d-block mb-2"
+                                style={{ fontSize: "1.5rem" }}
+                              ></i>
                               <small>{t("view_orders")}</small>
                             </button>
                           </div>
                           <div className="col-md-4 col-sm-6">
                             <button
-                              className="btn btn-outline-success w-100 py-3"
-                              onClick={() => document.querySelector('[data-rr-ui-event-key="accountDetails"]').click()}
+                              className="btn btn-outline-success w-100"
+                              style={{ paddingTop: 0, paddingBottom: "0.5rem" }}
+                              onClick={() =>
+                                document
+                                  .querySelector(
+                                    '[data-rr-ui-event-key="accountDetails"]'
+                                  )
+                                  .click()
+                              }
                             >
-                              <i className="bi bi-person-gear d-block mb-2" style={{ fontSize: "1.5rem" }}></i>
+                              <i
+                                className="bi bi-person-gear d-block mb-2"
+                                style={{ fontSize: "1.5rem" }}
+                              ></i>
                               <small>{t("edit_profile")}</small>
                             </button>
                           </div>
                           <div className="col-md-4 col-sm-6">
                             <button
-                              className="btn btn-outline-info w-100 py-3"
-                              onClick={() => document.querySelector('[data-rr-ui-event-key="download"]').click()}
+                              className="btn btn-outline-info w-100"
+                              style={{ paddingTop: 0, paddingBottom: "0.5rem" }}
+                              onClick={() =>
+                                document
+                                  .querySelector(
+                                    '[data-rr-ui-event-key="download"]'
+                                  )
+                                  .click()
+                              }
                             >
-                              <i className="bi bi-download d-block mb-2" style={{ fontSize: "1.5rem" }}></i>
+                              <i
+                                className="bi bi-download d-block mb-2"
+                                style={{ fontSize: "1.5rem" }}
+                              ></i>
                               <small>{t("download_invoices")}</small>
                             </button>
                           </div>
@@ -2162,7 +2326,6 @@ const MyAccount = () => {
                     </div>
                   </div>
                 </div>
-
               </Tab.Pane>
               <Tab.Pane eventKey="orders">
                 <div className="my-account-area__content">
