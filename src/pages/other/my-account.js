@@ -1847,9 +1847,10 @@ const MyAccount = () => {
                         <div
                           className={`${role === "admin" ? "bg-danger" : "bg-primary"} text-white rounded-circle d-flex align-items-center justify-content-center me-3`}
                           style={{
-                            width: "45px",
-                            height: "45px",
-                            fontSize: "24px",
+                            width: "35px",
+                            height: "35px",
+                            borderRadius: "50%",
+                            padding: 0,
                           }}
                         >
                           <i
@@ -2086,6 +2087,14 @@ const MyAccount = () => {
                       <div className="card-body p-0">
                         <div className="table-responsive">
                           <table className="table table-hover mb-0">
+                            <colgroup>
+                              {role === "admin" && <col className="col-user" />}
+                              <col className="col-order" />
+                              <col className="col-date" />
+                              <col className="col-status" />
+                              <col className="col-total" />
+                            </colgroup>
+
                             <thead className="table-light">
                               <tr>
                                 {role === "admin" && (
