@@ -12,7 +12,7 @@ const Faq = () => {
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("faq")}
-        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.png"
+        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.webp"
       >
         <ul className="breadcrumb__list">
           <li>

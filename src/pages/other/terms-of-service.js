@@ -12,7 +12,7 @@ const TermsOfService = () => {
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("terms_of_service")}
-        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.png"
+        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.webp"
       >
         <ul className="breadcrumb__list">
           <li>

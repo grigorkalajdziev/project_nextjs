@@ -20,7 +20,7 @@ const About = () => {
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("about_page_title")}
-        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.png"
+        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.webp"
       >
         <ul className="breadcrumb__list">
           <li>
@@ -147,7 +147,7 @@ const About = () => {
         {/* testimonial */}
         <TestimonialOne
           testimonialData={testimonialData}
-          backgroundImage="/assets/images/backgrounds/testimonials-bg.png"
+          backgroundImage="/assets/images/backgrounds/testimonials-bg.webp"
         />
         <div className="space-mb--r100"></div>
         {/* brand logo */}

@@ -29,7 +29,7 @@ const Testimonials = () => {
 
         <TestimonialTwo
           testimonialData={testimonialTwoData}
-          backgroundImage="/assets/images/backgrounds/testimonials-bg.png"
+          backgroundImage="/assets/images/backgrounds/testimonials-bg.webp"
         />
       </div>
     </LayoutTwo>)
