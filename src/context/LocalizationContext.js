@@ -868,7 +868,7 @@ const translations = {
     cart_total: "Вкупна кошничка",
     product_label: "Услуга",
     total_label: "Вкупно",
-    subtotal_label: "Подвкупно",
+    subtotal_label: "Меѓузбир",
     shipping_fee_label: "Цена на испорака",
     grand_total_label: "Конечен износ",
     payment_method: "Начин на плаќање",

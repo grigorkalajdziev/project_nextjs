@@ -226,7 +226,7 @@ function ConfirmationDocument_MK(props) {
         {/* Summary: Subtotal / Discount / Coupon / Total */}
         <View style={styles.section}>
           <View style={styles.row}>
-            <Text style={[styles.label, { fontWeight: 700, flex: 3 }]}>Подизнос: </Text>
+            <Text style={[styles.label, { fontWeight: 700, flex: 3 }]}>Меѓузбир: </Text>
             <Text style={[styles.valueRight, { fontWeight: 700 }]}>{formatPrice(subtotal)} денари</Text>
           </View>
 

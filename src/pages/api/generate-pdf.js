@@ -8,7 +8,7 @@ import InvoiceDocument_MK from "../../components/Newsletter/InvoiceDocument_MK";
 
 function asciiFallbackFilename(name) {
   if (!name) return "download.pdf";
-  // Replace path separators and quotes just in case, then replace non-ASCII
+  
   const cleaned = String(name)
     .replace(/[/\\"]/g, "_")
     .replace(/[^\x20-\x7E]/g, "_") // strip non-ASCII
@@ -28,8 +28,7 @@ export default async function handler(req, res) {
     if (!order) {
       return res.status(400).json({ error: "Missing order in request body" });
     }
-
-    // Normalize products (same logic as in your email handler)
+    
     const normalizedProducts = (order.products || []).map((p) => ({
       ...p,
       name:
@@ -47,21 +46,22 @@ export default async function handler(req, res) {
       date: order.date,
       reservationDate: order.reservationDate,
       reservationTime: order.reservationTime,
+      discount: Number(order.discount || 0),
+      couponCode: order.couponCode || null,
       total:
         language === "mk"
           ? Number(order.totalMK ?? order.displayTotal ?? 0)
           : Number(order.totalEN ?? order.displayTotal ?? 0),
       normalizedProducts,
       paymentText: order.paymentText,
-      customerName: order.customer?.name || order.customer?.displayName || "-", // fallback
-      customerEmail: order.customer?.email || null, // use null instead of empty string
-      customerPhone: order.customer?.phone || null, // use null instead of empty string
+      customerName: order.customer?.name || order.customer?.displayName || "-", 
+      customerEmail: order.customer?.email || null, 
+      customerPhone: order.customer?.phone || null, 
       customerAddress: order.customer?.address || null,
       qrCodeUrl: undefined,
       language,
-    };
+    };    
     
-    // Try generate QR code (non-fatal)
     try {
       const qrPayload = JSON.stringify({
         orderNumber: order.orderNumber,

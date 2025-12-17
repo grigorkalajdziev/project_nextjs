@@ -1554,82 +1554,108 @@ const MyAccount = () => {
     }
   };
 
-  const downloadPdf = async (order) => {
-    if (!order) return;
-    setDownloadingOrderId(order.id);
-    try {
-      const paymentText =
-        order.paymentMethod === "payment_cash"
-          ? t("payment_cash")
-          : t("payment_bank");
+ const downloadPdf = async (order) => {
+  if (!order) return;
 
-      const orderForPdf = {
-        ...order,
-        paymentText,
-        date: order.date,
-        reservationDate: order.reservationDate,
-        displayName: order.displayName || displayName || null,
-        customer: {
-          ...(order.customer || {}),
-          name:
-            order.customer?.name || order.displayName || displayName || null,
-          email: order.customer?.email || order.email || email || null,
-          phone: order.customer?.phone || order.customerPhone || phone || null,
-          address:
-            order.customer?.address || order.customerAddress || address || null,
-          city: order.customer?.city || order.customerCity || null,
-          postalCode:
-            order.customer?.postalCode || order.customerPostalCode || null,
-          state: order.customer?.state || order.customerState || null,
-        },
-      };
+  setDownloadingOrderId(order.id);
 
-      const resp = await fetch("/api/generate-pdf", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ order: orderForPdf, language: currentLanguage }),
-      });
+  try {
+    const isMK = currentLanguage === "mk";
 
-      if (!resp.ok) {
-        let errBody = null;
-        try {
-          errBody = await resp.json();
-        } catch (e) {}
-        throw new Error(
-          errBody?.message || errBody?.error || `Server error ${resp.status}`
-        );
-      }
+    const paymentText =
+      order.paymentMethod === "payment_cash"
+        ? t("payment_cash")
+        : t("payment_bank");
 
-      const blob = await resp.blob();
+    // ✅ Normalize discount
+    const discountValue = isMK
+      ? Number(order.discountMK || 0)
+      : Number(order.discountEN || 0);
 
-      const filenamePrefix =
-        order.paymentMethod === "payment_cash"
-          ? currentLanguage === "mk"
-            ? "Потврда"
-            : "Confirmation"
-          : currentLanguage === "mk"
-            ? "Фактура"
-            : "Invoice";
-      const fileName = `${filenamePrefix}-${order.orderNumber || "order"}.pdf`;
+    // ✅ Build order exactly as API expects
+    const orderForPdf = {
+      orderNumber: order.orderNumber,
+      date: order.date,
+      reservationDate: order.reservationDate,
+      reservationTime: order.reservationTime,
 
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = fileName;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error("Download error:", err);
-      addToast(err.message || "Download failed", {
-        appearance: "error",
-        autoDismiss: true,
-      });
-    } finally {
-      setDownloadingOrderId(null);
+      paymentMethod: order.paymentMethod,
+      paymentText,
+
+      // ✅ language-aware totals
+      totalMK: order.totalMK,
+      totalEN: order.totalEN,
+      displayTotal: isMK ? order.totalMK : order.totalEN,
+
+      // ✅ discount
+      discount: discountValue,
+      couponCode: order.coupon?.code || null,
+
+      // ✅ products (API will normalize names/prices)
+      products: order.products || [],
+
+      // ✅ customer mapping (important)
+      customer: {
+        name: order.displayName || null,
+        email: order.email || null,
+        phone: order.customerPhone || null,
+        address: order.customerAddress || null,
+        city: order.customerCity || null,
+        postalCode: order.customerPostalCode || null,
+        state: order.customerState || null,
+      },
+    };
+
+    const resp = await fetch("/api/generate-pdf", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        order: orderForPdf,
+        language: currentLanguage,
+      }),
+    });
+
+    if (!resp.ok) {
+      let errBody = null;
+      try {
+        errBody = await resp.json();
+      } catch {}
+      throw new Error(
+        errBody?.message || errBody?.error || `Server error ${resp.status}`
+      );
     }
-  };
+
+    const blob = await resp.blob();
+
+    const filenamePrefix =
+      order.paymentMethod === "payment_cash"
+        ? isMK
+          ? "Потврда"
+          : "Confirmation"
+        : isMK
+        ? "Фактура"
+        : "Invoice";
+
+    const fileName = `${filenamePrefix}-${order.orderNumber}.pdf`;
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error("Download error:", err);
+    addToast(err.message || "Download failed", {
+      appearance: "error",
+      autoDismiss: true,
+    });
+  } finally {
+    setDownloadingOrderId(null);
+  }
+};
 
   // --- change detection ---
   const checkForChanges = useCallback(() => {

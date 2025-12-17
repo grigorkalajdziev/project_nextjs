@@ -231,7 +231,7 @@ const ReservationEmail_MK = ({
           {/* Totals and discount */}
           <Section>
             <div style={totalRow}>
-              <div style={{ color: MUTED }}>Под-износ: </div>
+              <div style={{ color: MUTED }}>Меѓузбир: </div>
               <div>{formatMKD(subtotal)}</div>
             </div>
 

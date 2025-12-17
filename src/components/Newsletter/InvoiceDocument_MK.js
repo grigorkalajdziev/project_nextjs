@@ -107,11 +107,6 @@ const formatPrice = (num) => {
   return num.toLocaleString('mk-MK');
 };
 
-const DENAR_TO_EUR = 61.5;
-function toEUR(mkd) {
-  return (Number(mkd) / DENAR_TO_EUR).toFixed(2);
-}
-
 function InvoiceDocument_MK(props) {
   const {
     orderNumber,
@@ -121,11 +116,18 @@ function InvoiceDocument_MK(props) {
     reservationTime,
     total,
     normalizedProducts = [],
+    discount = 0,
+    couponCode = null,
     customerName,
     customerPhone,
     customerEmail,
     qrCodeUrl
   } = props;
+
+  const subtotal = normalizedProducts.reduce(
+  (sum, item) => sum + item.price * item.quantity,
+    0
+  );
   
   const dueDate = '7 дена';
   const invoiceStatus = 'Неплатено';
@@ -213,8 +215,24 @@ function InvoiceDocument_MK(props) {
 
         <View style={styles.section}>
           <View style={styles.row}>
-            <Text style={styles.boldLabel}>Вкупен износ:</Text>
-            <Text style={styles.boldLabel}>{formatPrice(total)} денари</Text>
+            <Text>Меѓузбир:</Text>
+            <Text>{formatPrice(subtotal)} ден.</Text>
+          </View>
+
+          {discount > 0 && (
+            <View style={styles.row}>
+              <Text>
+                Попуст{couponCode ? ` (${couponCode})` : ""}:
+              </Text>
+              <Text>-{formatPrice(discount)} ден.</Text>
+            </View>
+          )}
+
+          <View style={styles.row}>
+            <Text style={styles.boldLabel}>Вкупно за плаќање:</Text>
+            <Text style={styles.boldLabel}>
+              {formatPrice(total)} денари
+            </Text>
           </View>
         </View>
 

@@ -110,11 +110,18 @@ function InvoiceDocument(props) {
     reservationTime,
     total,
     normalizedProducts = [],
+    discount = 0,
+    couponCode = null,
     customerName,
     customerPhone,
     customerEmail,
     qrCodeUrl,
   } = props;
+
+  const subtotal = normalizedProducts.reduce(
+  (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   const dueDate = 'Due in 7 days';
   const invoiceStatus = 'Unpaid';
@@ -213,8 +220,24 @@ function InvoiceDocument(props) {
         {/* Total */}
         <View style={styles.section}>
           <View style={styles.row}>
+            <Text>Subtotal:</Text>
+            <Text>{formatPrice(subtotal)} €</Text>
+          </View>
+
+          {discount > 0 && (
+            <View style={styles.row}>
+              <Text>
+                Discount{couponCode ? ` (${couponCode})` : ""}:
+              </Text>
+              <Text>-{formatPrice(discount)} €</Text>
+            </View>
+          )}
+
+          <View style={styles.row}>
             <Text style={styles.boldLabel}>Total Amount:</Text>
-            <Text style={styles.boldLabel}>{formatPrice(total)} €</Text>
+            <Text style={styles.boldLabel}>
+              {formatPrice(total)} €
+            </Text>
           </View>
         </View>
 
