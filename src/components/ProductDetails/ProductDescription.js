@@ -1,8 +1,9 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState,  useEffect, Fragment } from "react";
 import { IoIosHeartEmpty, IoIosShuffle } from "react-icons/io";
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { ProductRating } from "../Product";
 import { getProductCartQuantity } from "../../lib/product";
 import { useLocalization } from "../../context/LocalizationContext";
@@ -23,6 +24,8 @@ const ProductDescription = ({
   addToCompare,
   deleteFromCompare,
 }) => {
+  const { t, currentLanguage } = useLocalization();
+  const router = useRouter();
   const [selectedProductColor, setSelectedProductColor] = useState(
     product.variation ? product.variation[0].color : ""
   );
@@ -37,13 +40,28 @@ const ProductDescription = ({
   const [averageRating, setAverageRating] = useState(product.rating || 0);
   const [reviewCount, setReviewCount] = useState(product.ratingCount || 0);
 
+  const productUrl = 
+  typeof window !== "undefined"
+    ? `${window.location.origin}${router.asPath}`
+    : "";
+   
+  const shareText =
+  product.name[currentLanguage] || product.name.en;
+
+  const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+    productUrl
+  )}`;
+
+  const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+    shareText
+  )}&url=${encodeURIComponent(productUrl)}`;
+
   const productCartQty = getProductCartQuantity(
     cartItems,
     product,
     selectedProductColor,
     selectedProductSize
-  );
-  const { t, currentLanguage } = useLocalization();
+  ); 
 
   const calculateAverageRating = (reviews) => {
     const keys = Object.keys(reviews);
@@ -356,29 +374,33 @@ const ProductDescription = ({
                   <td className="title">{t("share")}: </td>
                   <td className="value">
                     <ul className="social-icons">
+                      {/* X / Twitter */}
                       <li>
-                        <a href="https://www.x.com">
+                        <a
+                          href={twitterShareUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title={t("share_on_twitter")}
+                        >
                           <FaXTwitter />
                         </a>
                       </li>
+
+                      {/* Facebook */}
                       <li>
-                        <a href="https://www.facebook.com">
+                        <a
+                          href={facebookShareUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title={t("share_on_facebook")}
+                        >
                           <FaFacebookF />
                         </a>
-                      </li>
-                      <li>
-                        <a href="https://www.instagram.com">
-                          <FaInstagram />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://www.youtube.com">
-                          <FaYoutube />
-                        </a>
-                      </li>
+                      </li>                     
                     </ul>
                   </td>
                 </tr>
+
               </tbody>
             </table>
           </div>

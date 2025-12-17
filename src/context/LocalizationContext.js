@@ -618,6 +618,8 @@ const translations = {
     admins: "Admins",
     guests: "Guests",
     recent_orders: "Recent Orders",
+    share_on_twitter: "Share on X",
+    share_on_facebook: "Share on Facebook",
   },
   mk: {
     english: "Англиски",
@@ -1239,6 +1241,8 @@ const translations = {
     admins: "Администратори",
     guests: "Гости",
     recent_orders: "Последни нарачки",
+    share_on_twitter: "Сподели на X",
+    share_on_facebook: "Сподели на Facebook",
   },
 };
 
