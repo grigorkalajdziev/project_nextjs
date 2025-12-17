@@ -383,7 +383,7 @@ const ProductDescription = ({
                       {/* X / Twitter */}
                       <li>
                         <a
-                          href={twitterShareUrl}
+                          href={twitterShareImageUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           title={t("share_on_twitter")}
@@ -395,7 +395,7 @@ const ProductDescription = ({
                       {/* Facebook */}
                       <li>
                         <a
-                          href={facebookShareUrl}
+                          href={facebookShareImageUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           title={t("share_on_facebook")}
