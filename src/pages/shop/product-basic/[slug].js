@@ -78,47 +78,61 @@ const ProductBasic = ({
   return (
     (<LayoutTwo>
       <Head>
-      
-      <title>
-        {product.name[currentLanguage] || product.name.en} | Kika Makeup Academy
-      </title>      
-      <meta
-        name="description"
-        content={product.shortDescription?.[currentLanguage] || product.shortDescription?.en}
-      />      
-      <meta property="og:type" content="product" />
-      <meta
-        property="og:title"
-        content={product.name[currentLanguage] || product.name.en}
-      />
-      <meta
-        property="og:description"
-        content={product.shortDescription?.[currentLanguage] || product.shortDescription?.en}
-      />
-      <meta
-        property="og:url"
-        content={`https://kikamakeupandbeautyacademy.com/shop/product-basic/${product.slug}`}
-      />
-      <meta
-        property="og:image"
-        content={`https://kikamakeupandbeautyacademy.com${product.image[0]}`}
-      />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />      
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta
-        name="twitter:title"
-        content={product.name[currentLanguage] || product.name.en}
-      />
-      <meta
-        name="twitter:description"
-        content={product.shortDescription?.[currentLanguage] || product.shortDescription?.en}
-      />
-      <meta
-        name="twitter:image"
-        content={`https://kikamakeupandbeautyacademy.com${product.image[0]}`}
-      />
-    </Head>
+        <title>
+          {product.name[currentLanguage] || product.name.en} | Kika Makeup Academy
+        </title>      
+        <meta
+          name="description"
+          content={product.shortDescription?.[currentLanguage] || product.shortDescription?.en}
+        />      
+        <meta property="og:type" content="product" />
+        <meta
+          property="og:title"
+          content={product.name[currentLanguage] || product.name.en}
+        />
+        <meta
+          property="og:description"
+          content={product.shortDescription?.[currentLanguage] || product.shortDescription?.en}
+        />
+        <meta
+          property="og:url"
+          content={`https://kikamakeupandbeautyacademy.com/shop/product-basic/${product.slug}`}
+        />
+
+        {/* Absolute URL for OG image */}
+        <meta
+          property="og:image"
+          content={
+            product.image?.[0]
+              ? product.image[0].startsWith("http")
+                ? product.image[0]
+                : `https://kikamakeupandbeautyacademy.com${product.image[0]}`
+              : "https://kikamakeupandbeautyacademy.com/assets/images/default-product.png"
+          }
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />      
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content={product.name[currentLanguage] || product.name.en}
+        />
+        <meta
+          name="twitter:description"
+          content={product.shortDescription?.[currentLanguage] || product.shortDescription?.en}
+        />
+        <meta
+          name="twitter:image"
+          content={
+            product.image?.[0]
+              ? product.image[0].startsWith("http")
+                ? product.image[0]
+                : `https://kikamakeupandbeautyacademy.com${product.image[0]}`
+              : "https://kikamakeupandbeautyacademy.com/assets/images/default-product.png"
+          }
+        />
+      </Head>
 
       {/* breadcrumb */}
       <BreadcrumbOne
