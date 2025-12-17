@@ -1,4 +1,4 @@
-import { useState,  useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { IoIosHeartEmpty, IoIosShuffle } from "react-icons/io";
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -26,6 +26,11 @@ const ProductDescription = ({
 }) => {
   const { t, currentLanguage } = useLocalization();
   const router = useRouter();
+  const SITE_URL =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (typeof window !== "undefined"
+      ? window.location.origin
+      : "https://kikamakeupandbeautyacademy.com");
   const [selectedProductColor, setSelectedProductColor] = useState(
     product.variation ? product.variation[0].color : ""
   );
@@ -40,28 +45,29 @@ const ProductDescription = ({
   const [averageRating, setAverageRating] = useState(product.rating || 0);
   const [reviewCount, setReviewCount] = useState(product.ratingCount || 0);
 
-  const productUrl = 
-  typeof window !== "undefined"
-    ? `${window.location.origin}${router.asPath}`
-    : "";
-   
-  const shareText =
-  product.name[currentLanguage] || product.name.en;
+  const canonicalProductUrl = `${SITE_URL}/shop/product-basic/${product.slug}`;
 
-  const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-    productUrl
-  )}`;
+  const img = product.image?.[0] || product.thumbImage?.[0];
+  const imageUrl = img
+    ? img.startsWith("http")
+      ? img
+      : `${SITE_URL}${img}`
+    : `${SITE_URL}/assets/images/default-product.png`;
 
-  const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-    shareText
-  )}&url=${encodeURIComponent(productUrl)}`;
+  const shareText = product.name[currentLanguage] || product.name.en;
+
+  const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonicalProductUrl)}`;
+  const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(canonicalProductUrl)}`;
+
+  const facebookShareImageUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageUrl)}`;
+  const twitterShareImageUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(imageUrl)}`;
 
   const productCartQty = getProductCartQuantity(
     cartItems,
     product,
     selectedProductColor,
     selectedProductSize
-  ); 
+  );
 
   const calculateAverageRating = (reviews) => {
     const keys = Object.keys(reviews);
@@ -396,11 +402,10 @@ const ProductDescription = ({
                         >
                           <FaFacebookF />
                         </a>
-                      </li>                     
+                      </li>
                     </ul>
                   </td>
                 </tr>
-
               </tbody>
             </table>
           </div>

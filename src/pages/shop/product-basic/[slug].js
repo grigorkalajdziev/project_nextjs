@@ -38,6 +38,7 @@ const ProductBasic = ({
   useEffect(() => {
     document.querySelector("body").classList.remove("overflow-hidden");
   });
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://kikamakeupandbeautyacademy.com";
 
   const { addToast } = useToasts();
   const { t, currentLanguage } = useLocalization();
@@ -80,58 +81,46 @@ const ProductBasic = ({
       <Head>
         <title>
           {product.name[currentLanguage] || product.name.en} | Kika Makeup Academy
-        </title>      
+        </title>
         <meta
           name="description"
           content={product.shortDescription?.[currentLanguage] || product.shortDescription?.en}
-        />      
-        <meta property="og:type" content="product" />
-        <meta
-          property="og:title"
-          content={product.name[currentLanguage] || product.name.en}
         />
+        <meta property="og:type" content="product" />
+        <meta property="og:title" content={product.name[currentLanguage] || product.name.en} />
         <meta
           property="og:description"
           content={product.shortDescription?.[currentLanguage] || product.shortDescription?.en}
         />
         <meta
           property="og:url"
-          content={`https://kikamakeupandbeautyacademy.com/shop/product-basic/${product.slug}`}
+          content={`${SITE_URL}/shop/product-basic/${product.slug}`}
         />
 
-        {/* Absolute URL for OG image */}
-        <meta
-          property="og:image"
-          content={
-            product.image?.[0]
-              ? product.image[0].startsWith("http")
-                ? product.image[0]
-                : `https://kikamakeupandbeautyacademy.com${product.image[0]}`
-              : "https://kikamakeupandbeautyacademy.com/assets/images/default-product.png"
-          }
-        />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />      
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content={product.name[currentLanguage] || product.name.en}
-        />
-        <meta
-          name="twitter:description"
-          content={product.shortDescription?.[currentLanguage] || product.shortDescription?.en}
-        />
-        <meta
-          name="twitter:image"
-          content={
-            product.image?.[0]
-              ? product.image[0].startsWith("http")
-                ? product.image[0]
-                : `https://kikamakeupandbeautyacademy.com${product.image[0]}`
-              : "https://kikamakeupandbeautyacademy.com/assets/images/default-product.png"
-          }
-        />
+        {/* canonical absolute image URL (with fallback) */}
+        {(() => {
+          const img = product.image?.[0];
+          const imageUrl = img
+            ? img.startsWith("http")
+              ? img
+              : `${SITE_URL}${img}`
+            : `${SITE_URL}/assets/images/default-product.png`;
+          return (
+            <>
+              <meta property="og:image" content={imageUrl} />
+              <meta property="og:image:secure_url" content={imageUrl} />
+              <meta property="og:image:type" content={imageUrl.endsWith(".webp") ? "image/webp" : "image/jpeg"} />
+              <meta property="og:image:alt" content={product.name[currentLanguage] || product.name.en} />
+              <meta property="og:image:width" content="1200" />
+              <meta property="og:image:height" content="630" />
+              <link rel="image_src" href={imageUrl} />
+              <meta name="twitter:card" content="summary_large_image" />
+              <meta name="twitter:title" content={product.name[currentLanguage] || product.name.en} />
+              <meta name="twitter:description" content={product.shortDescription?.[currentLanguage] || product.shortDescription?.en} />
+              <meta name="twitter:image" content={imageUrl} />
+            </>
+          );
+        })()}
       </Head>
 
       {/* breadcrumb */}
