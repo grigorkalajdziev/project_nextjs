@@ -1136,7 +1136,7 @@ const translations = {
     daily_revenue_description: "Прикажува трендови на приходи за избраниот период",
     monthly_revenue_description: "Месечен распоред на приходи за избраната година",
     yearly_comparison_description: "Споредба на приходи по години",
-    top_products_description: "Најпродавани производи рангирани по вкупен приход",
+    top_products_description: "Најпродавани производи рангирани по продадено количество",
     revenue_by_status_description: "Прикажува приходи распределени по статус на нарачки",
     revenue_by_payment_method_description: "Прикажува приходи распределени по метод на плаќање",
     payment_method: "Метод на плаќање",
