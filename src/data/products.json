@@ -105,7 +105,7 @@
     "id": "4",
     "sku": "asdf104",
     "name": {
-      "en": "Décolleté",
+      "en": "Decollete",
       "mk": "Деколте"
     },
     "slug": "makeup-four",
@@ -121,10 +121,10 @@
     "tag": ["makeup"],
     "stock": 12,    
     "thumbImage": [
-      "/assets/images/product/decor/DécolletéMakeup.webp"
+      "/assets/images/product/decor/DecolleteMakeup.webp"
     ],
     "image": [
-      "/assets/images/product/decor/DécolletéMakeup.webp"
+      "/assets/images/product/decor/DecolleteMakeup.webp"
     ],
     "shortDescription": {
       "en": "Highlight your décolleté area with expert techniques.",
