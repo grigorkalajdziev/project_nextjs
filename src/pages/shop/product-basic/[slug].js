@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import Link from "next/link";
-import Head from "next/head";
 import { Container, Row, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import { useToasts } from "react-toast-notifications";
@@ -38,7 +37,6 @@ const ProductBasic = ({
   useEffect(() => {
     document.querySelector("body").classList.remove("overflow-hidden");
   });
-  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://kikamakeupandbeautyacademy.com";
 
   const { addToast } = useToasts();
   const { t, currentLanguage } = useLocalization();
@@ -78,50 +76,6 @@ const ProductBasic = ({
 
   return (
     (<LayoutTwo>
-      <Head>
-        <title>
-          {product.name[currentLanguage] || product.name.en} | Kika Makeup Academy
-        </title>
-        <meta
-          name="description"
-          content={product.shortDescription?.[currentLanguage] || product.shortDescription?.en}
-        />
-        <meta property="og:type" content="product" />
-        <meta property="og:title" content={product.name[currentLanguage] || product.name.en} />
-        <meta
-          property="og:description"
-          content={product.shortDescription?.[currentLanguage] || product.shortDescription?.en}
-        />
-        <meta
-          property="og:url"
-          content={`${SITE_URL}/shop/product-basic/${product.slug}`}
-        />
-
-        {/* canonical absolute image URL (with fallback) */}
-        {(() => {
-          const img = product.image?.[0];
-          const imageUrl = img
-            ? img.startsWith("http")
-              ? img
-              : `${SITE_URL}${img}`
-            : `${SITE_URL}/assets/images/default-product.png`;
-          return (
-            <>
-              <meta property="og:image" content={imageUrl} />
-              <meta property="og:image:secure_url" content={imageUrl} />
-              <meta property="og:image:type" content={imageUrl.endsWith(".webp") ? "image/webp" : "image/jpeg"} />
-              <meta property="og:image:alt" content={product.name[currentLanguage] || product.name.en} />
-              <meta property="og:image:width" content="1200" />
-              <meta property="og:image:height" content="630" />
-              <link rel="image_src" href={imageUrl} />
-              <meta name="twitter:card" content="summary_large_image" />
-              <meta name="twitter:title" content={product.name[currentLanguage] || product.name.en} />
-              <meta name="twitter:description" content={product.shortDescription?.[currentLanguage] || product.shortDescription?.en} />
-              <meta name="twitter:image" content={imageUrl} />
-            </>
-          );
-        })()}
-      </Head>
 
       {/* breadcrumb */}
       <BreadcrumbOne

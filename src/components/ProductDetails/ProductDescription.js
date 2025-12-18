@@ -3,7 +3,6 @@ import { IoIosHeartEmpty, IoIosShuffle } from "react-icons/io";
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { ProductRating } from "../Product";
 import { getProductCartQuantity } from "../../lib/product";
 import { useLocalization } from "../../context/LocalizationContext";
@@ -24,13 +23,8 @@ const ProductDescription = ({
   addToCompare,
   deleteFromCompare,
 }) => {
-  const { t, currentLanguage } = useLocalization();
-  const router = useRouter();
-  const SITE_URL =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    (typeof window !== "undefined"
-      ? window.location.origin
-      : "https://kikamakeupandbeautyacademy.com");
+  const { t, currentLanguage } = useLocalization();  
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || (typeof window !== "undefined" ? window.location.origin : "https://kikamakeupandbeautyacademy.com");
   const [selectedProductColor, setSelectedProductColor] = useState(
     product.variation ? product.variation[0].color : ""
   );
@@ -54,10 +48,7 @@ const ProductDescription = ({
       : `${SITE_URL}${img}`
     : `${SITE_URL}/assets/images/default-product.png`;
 
-  const shareText = product.name[currentLanguage] || product.name.en;
-
-  const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonicalProductUrl)}`;
-  const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(canonicalProductUrl)}`;
+  const shareText = product.name[currentLanguage] || product.name.en;  
 
   const facebookShareImageUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageUrl)}`;
   const twitterShareImageUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(imageUrl)}`;
