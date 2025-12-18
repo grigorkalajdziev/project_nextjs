@@ -1,6 +1,6 @@
 import { Tooltip } from "react-tippy";
 import { IoIosClose } from "react-icons/io";
-import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { useLocalization } from "../../../context/LocalizationContext"; 
 

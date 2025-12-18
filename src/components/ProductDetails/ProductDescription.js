@@ -1,3 +1,4 @@
+import { Tooltip } from "react-tippy";
 import { useState, useEffect, Fragment } from "react";
 import { IoIosHeartEmpty, IoIosShuffle } from "react-icons/io";
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
@@ -23,8 +24,12 @@ const ProductDescription = ({
   addToCompare,
   deleteFromCompare,
 }) => {
-  const { t, currentLanguage } = useLocalization();  
-  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || (typeof window !== "undefined" ? window.location.origin : "https://kikamakeupandbeautyacademy.com");
+  const { t, currentLanguage } = useLocalization();
+  const SITE_URL =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (typeof window !== "undefined"
+      ? window.location.origin
+      : "https://kikamakeupandbeautyacademy.com");
   const [selectedProductColor, setSelectedProductColor] = useState(
     product.variation ? product.variation[0].color : ""
   );
@@ -48,7 +53,7 @@ const ProductDescription = ({
       : `${SITE_URL}${img}`
     : `${SITE_URL}/assets/images/default-product.png`;
 
-  const shareText = product.name[currentLanguage] || product.name.en;  
+  const shareText = product.name[currentLanguage] || product.name.en;
 
   const facebookShareImageUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(imageUrl)}`;
   const twitterShareImageUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(imageUrl)}`;
@@ -373,26 +378,42 @@ const ProductDescription = ({
                     <ul className="social-icons">
                       {/* X / Twitter */}
                       <li>
-                        <a
-                          href={twitterShareImageUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <Tooltip
                           title={t("share_on_twitter")}
+                          position="top"
+                          trigger="mouseenter"
+                          animation="shift"
+                          arrow={true}
+                          duration={200}
                         >
-                          <FaXTwitter />
-                        </a>
+                          <a
+                            href={twitterShareImageUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <FaXTwitter />
+                          </a>
+                        </Tooltip>
                       </li>
 
                       {/* Facebook */}
                       <li>
-                        <a
-                          href={facebookShareImageUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <Tooltip
                           title={t("share_on_facebook")}
+                          position="top"
+                          trigger="mouseenter"
+                          animation="shift"
+                          arrow={true}
+                          duration={200}
                         >
-                          <FaFacebookF />
-                        </a>
+                          <a
+                            href={facebookShareImageUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <FaFacebookF />
+                          </a>
+                        </Tooltip>
                       </li>
                     </ul>
                   </td>
