@@ -340,16 +340,7 @@ const ProductGridList = ({
                 >
                   {product.name[currentLanguage] || product.name["en"]}
                 </Link>
-              </h3>
-              {/* Product Description */}
-              {product.shortDescription && (
-                <div className="product-quickview__description space-mb--20">
-                  <p>
-                    {product.shortDescription[currentLanguage] ||
-                      product.shortDescription["en"]}
-                  </p>
-                </div>
-              )}
+              </h3>              
             </div>
             <div className="price">
               {product.discount > 0 ? (
@@ -374,7 +365,7 @@ const ProductGridList = ({
               )}
             </div>
 
-            <div className="short-description">{product.shortDescription[currentLanguage]}</div>
+            <div className="short-description">{product.fullDescription[currentLanguage]}</div>
             <div className="add-to-cart">
               {/* add to cart */}
               {product.affiliateLink ? (
