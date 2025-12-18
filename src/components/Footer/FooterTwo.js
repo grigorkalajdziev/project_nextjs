@@ -115,20 +115,15 @@ const FooterTwo = ({ footerBgClass }) => {
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.facebook.com">
+                  <a href="https://www.facebook.com/kristina.iloski">
                     <FaFacebookF /> Facebook
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.instagram.com">
+                  <a href="https://www.instagram.com/kikamakeup_and_beautyacademy/">
                     <FaInstagram /> Instagram
                   </a>
-                </li>
-                <li>
-                  <a href="https://www.youtube.com">
-                    <FaYoutube /> Youtube
-                  </a>
-                </li>
+                </li>              
               </ul>
             </nav>
           </Col>

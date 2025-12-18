@@ -132,20 +132,15 @@ const HeaderTop = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.facebook.com" target="_blank" rel="noreferrer">
+                  <a href="https://www.facebook.com/kristina.iloski" target="_blank" rel="noreferrer">
                     <IoLogoFacebook />
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.instagram.com" target="_blank" rel="noreferrer">
+                  <a href="https://www.instagram.com/kikamakeup_and_beautyacademy/" target="_blank" rel="noreferrer">
                     <IoLogoInstagram />
                   </a>
-                </li>
-                <li>
-                  <a href="https://www.youtube.com" target="_blank" rel="noreferrer">
-                    <IoLogoYoutube />
-                  </a>
-                </li>
+                </li>                
               </ul>
             </div>
           </div>

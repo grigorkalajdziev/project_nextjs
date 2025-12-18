@@ -65,7 +65,7 @@ const AboutOverlay = ({ activeStatus, getActiveStatus }) => {
                     arrow={true}
                     duration={200}
                   >
-                    <a href="https://www.facebook.com" target="_blank">
+                    <a href="https://www.facebook.com/kristina.iloski" target="_blank">
                       <FaFacebookF />
                     </a>
                   </Tooltip>
@@ -79,7 +79,7 @@ const AboutOverlay = ({ activeStatus, getActiveStatus }) => {
                     arrow={true}
                     duration={200}
                   >
-                    <a href="https://www.instagram.com" target="_blank">
+                    <a href="https://www.instagram.com/kikamakeup_and_beautyacademy/" target="_blank">
                       <FaInstagram />
                     </a>
                   </Tooltip>
@@ -92,10 +92,7 @@ const AboutOverlay = ({ activeStatus, getActiveStatus }) => {
                     animation="shift"
                     arrow={true}
                     duration={200}
-                  >
-                    <a href="https://www.youtube.com" target="_blank">
-                      <FaYoutube />
-                    </a>
+                  >                    
                   </Tooltip>
                 </li>
               </ul>
