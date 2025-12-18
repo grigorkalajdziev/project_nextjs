@@ -153,6 +153,15 @@ const ProductGridList = ({
                   {product.name[currentLanguage] || product.name["en"]}
                 </Link>
               </h3>
+              {/* Product Description */}
+              {product.shortDescription && (
+                <div className="product-quickview__description space-mb--20">
+                  <p>
+                    {product.shortDescription[currentLanguage] ||
+                      product.shortDescription["en"]}
+                  </p>
+                </div>
+              )}
               {/* add to cart */}
               {product.affiliateLink ? (
                 <a href={product.affiliateLink} target="_blank">
@@ -332,6 +341,15 @@ const ProductGridList = ({
                   {product.name[currentLanguage] || product.name["en"]}
                 </Link>
               </h3>
+              {/* Product Description */}
+              {product.shortDescription && (
+                <div className="product-quickview__description space-mb--20">
+                  <p>
+                    {product.shortDescription[currentLanguage] ||
+                      product.shortDescription["en"]}
+                  </p>
+                </div>
+              )}
             </div>
             <div className="price">
               {product.discount > 0 ? (

@@ -53,7 +53,6 @@ const ProductGridWrapper = ({
             addToCart(item, addToast, quantityCount, selectedColor, selectedSize, t);
           };
 
-
           const handleAddToWishlist = () => {
             addToWishlist(product, addToast, t); 
           }

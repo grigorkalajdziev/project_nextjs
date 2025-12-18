@@ -157,6 +157,17 @@ const ProductGrid = ({
                   {product.name[currentLanguage] || product.name["en"]}
                 </Link>
               </h3>
+
+              {/* Product Description */}
+              {product.shortDescription && (
+                <div className="product-quickview__description space-mb--30">
+                  <p>
+                    {product.shortDescription[currentLanguage] ||
+                      product.shortDescription["en"]}
+                  </p>
+                </div>
+              )} 
+
               {/* add to cart */}
               {product.affiliateLink ? (
                 <a href={product.affiliateLink} target="_blank">
