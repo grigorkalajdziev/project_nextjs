@@ -590,7 +590,7 @@ const LoginRegister = () => {
     <LayoutTwo>
       <BreadcrumbOne
         pageTitle={t("customer_login")}
-        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.webp"
+        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.webp"
       >
         <ul className="breadcrumb__list">
           <li>

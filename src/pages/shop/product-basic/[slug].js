@@ -80,7 +80,7 @@ const ProductBasic = ({
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={product.name[currentLanguage] || product.name["en"]}
-        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.png"
+        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.webp"
       >
         <ul className="breadcrumb__list">
           <li>
