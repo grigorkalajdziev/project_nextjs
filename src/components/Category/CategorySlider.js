@@ -75,7 +75,7 @@ const CategorySlider = ({ categoryData, spaceBottomClass }) => {
                             {single.name}
                           </Link>
                         </div>
-                        <p className="product-count">{single.count}</p>
+                        <p className="product-count">{i + 1}</p>
                       </div>
                       <Link
                         href="/shop/left-sidebar"
