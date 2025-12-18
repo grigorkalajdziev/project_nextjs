@@ -155,7 +155,7 @@ const ProductGridList = ({
               </h3>
               {/* Product Description */}
               {product.shortDescription && (
-                <div className="product-quickview__description space-mb--20">
+                <div className="product-quickview__description space-mb--10">
                   <p>
                     {product.shortDescription[currentLanguage] ||
                       product.shortDescription["en"]}

@@ -160,7 +160,7 @@ const ProductGrid = ({
 
               {/* Product Description */}
               {product.shortDescription && (
-                <div className="product-quickview__description space-mb--30">
+                <div className="product-quickview__description space-mb--10">
                   <p>
                     {product.shortDescription[currentLanguage] ||
                       product.shortDescription["en"]}
