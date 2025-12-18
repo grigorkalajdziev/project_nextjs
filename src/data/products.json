@@ -19,10 +19,12 @@
     "tag": ["makeup"],
     "stock": 10,
     "thumbImage": [
-      "/assets/images/product/decor/ProfessionalMakeup.webp"
+      "/assets/images/product/decor/ProfessionalMakeup.webp"      
     ],
     "image": [
-      "/assets/images/product/decor/ProfessionalMakeup.webp"
+      "/assets/images/product/decor/ProfessionalMakeup.webp",
+       "/assets/images/product/decor/ProfessionalMakeup1.webp",
+       "/assets/images/product/decor/ProfessionalMakeup2.webp"
     ],
     "shortDescription": {
       "en": "Professional makeup services ensure you look flawless.",
@@ -56,7 +58,9 @@
       "/assets/images/product/decor/PromMakeup.webp"
     ],
     "image": [
-      "/assets/images/product/decor/PromMakeup.webp"
+      "/assets/images/product/decor/PromMakeup.webp",
+      "/assets/images/product/decor/PromMakeup1.webp",
+      "/assets/images/product/decor/PromMakeup2.webp"
     ],
     "shortDescription": {
       "en": "Look stunning on your prom night with tailored makeup.",
@@ -90,7 +94,9 @@
       "/assets/images/product/decor/BridalMakeup.webp"
     ],
     "image": [
-      "/assets/images/product/decor/BridalMakeup.webp"
+      "/assets/images/product/decor/BridalMakeup.webp",
+      "/assets/images/product/decor/BridalMakeup1.webp",
+      "/assets/images/product/decor/BridalMakeup2.webp"
     ],
     "shortDescription": {
       "en": "Perfect bridal makeup for your big day.",
