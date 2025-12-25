@@ -5477,7 +5477,7 @@ const MyAccount = () => {
                                 nameKey="name"
                                 cx="50%"
                                 cy="50%"
-                                outerRadius={90}
+                                outerRadius="80%"
                                 label={(entry) =>                                  
                                   `${entry.name} (${((entry.value / grandTotalInDisplayCurrency) * 100).toFixed(1)}%)`                                 
                                 }
@@ -5499,7 +5499,7 @@ const MyAccount = () => {
 
                           {/* Payment Method Stats Table */}
                           <div className="mt-3">
-                            <table className="table table-sm table-borderless" style={{ fontSize: "0.8rem" }}>
+                            <table className="table table-sm table-borderless" style={{ fontSize: "0.75rem" }}>
                               <tbody>
                                 {formattedPaymentData.map((entry, index) => (
                                   <tr key={index}>
