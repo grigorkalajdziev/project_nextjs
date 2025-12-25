@@ -2764,8 +2764,7 @@ const MyAccount = () => {
                           style={{
                             maxHeight: "350px",
                             overflowY: "auto",
-                            border: "1px solid #dee2e6",
-                            borderRadius: "8px",
+                            border: "1px solid #dee2e6",                            
                             position: "relative",
                           }}
                         >
@@ -3400,8 +3399,7 @@ const MyAccount = () => {
                                     style={{
                                       maxHeight: "250px",
                                       overflowY: "auto",
-                                      border: "1px solid #dee2e6",
-                                      borderRadius: "8px",
+                                      border: "1px solid #dee2e6",                                      
                                       position: "relative",
                                     }}
                                   >
@@ -3721,8 +3719,7 @@ const MyAccount = () => {
                                     style={{
                                       maxHeight: "300px",
                                       overflowY: "auto",
-                                      border: "1px solid #dee2e6",
-                                      borderRadius: "8px",
+                                      border: "1px solid #dee2e6",                                      
                                       position: "relative",
                                     }}
                                   >
@@ -4080,8 +4077,7 @@ const MyAccount = () => {
                                     style={{
                                       maxHeight: "300px",
                                       overflowY: "auto",
-                                      border: "1px solid #dee2e6",
-                                      borderRadius: "8px",
+                                      border: "1px solid #dee2e6",                                      
                                       position: "relative",
                                     }}
                                   >
@@ -4779,7 +4775,7 @@ const MyAccount = () => {
                       {t("download")}
                     </h3>
 
-                    {filteredOrdersForDownload.length > 0 && (
+                    {orders.length > 0 && filteredOrdersForDownload.length > 0 && (
                       <div className="d-flex gap-2 flex-wrap">
                         {selectedOrdersForDownload.length > 0 && (
                           <>
@@ -4803,7 +4799,7 @@ const MyAccount = () => {
                                 </>
                               ) : (
                                 <>
-                                  <i className="bi bi-download me-2"></i>
+                                  <i className="bi bi-download"></i>
                                   {t("download_selected")}
                                 </>
                               )}
@@ -4815,7 +4811,7 @@ const MyAccount = () => {
                                 setSelectAllDownload(false);
                               }}
                             >
-                              <i className="bi bi-x-circle me-1"></i>
+                              <i className="bi bi-x-circle"></i>
                               {t("clear_selection")}
                             </button>
                           </>
@@ -4825,7 +4821,7 @@ const MyAccount = () => {
                   </div>
 
                   {/* Download Statistics */}
-                  {filteredOrdersForDownload.length > 0 && (
+                  
                     <div className="row mb-4 g-3">
                       <div className="col-md-3 col-sm-6">
                         <div className="card border-0 shadow-sm h-100">
@@ -4897,22 +4893,8 @@ const MyAccount = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-
-                  {filteredOrdersForDownload.length === 0 ? (
-                    <div className="card">
-                      <div className="card-body text-center py-5">
-                        <i
-                          className="bi bi-file-earmark-x"
-                          style={{ fontSize: "3rem", color: "#ccc" }}
-                        ></i>
-                        <p className="mt-3 mb-0 text-muted">
-                          {t("you_have_not_downloaded_any_file_yet")}
-                        </p>
-                      </div>
-                    </div>
-                  ) : (
+                    </div>                 
+                  
                     <div className="card border-0 shadow-sm">
                       <div className="card-body">
                         {/* Filters Section */}
@@ -5070,8 +5052,7 @@ const MyAccount = () => {
                           style={{
                             maxHeight: "500px",
                             overflowY: "auto",
-                            border: "1px solid #dee2e6",
-                            borderRadius: "8px",
+                            border: "1px solid #dee2e6",                            
                           }}
                         >
                           <table className="table table-hover align-middle mb-0">
@@ -5225,7 +5206,7 @@ const MyAccount = () => {
                                         />
                                       ) : (
                                         <>
-                                          <i className="bi bi-download me-1"></i>
+                                          <i className="bi bi-download"></i>
                                           <small>{t("download")}</small>
                                         </>
                                       )}
@@ -5338,8 +5319,7 @@ const MyAccount = () => {
                           </div>
                         )}
                       </div>
-                    </div>
-                  )}
+                    </div>                  
                 </div>
               </Tab.Pane>
 
@@ -5375,7 +5355,7 @@ const MyAccount = () => {
                           // You can add this state if not exists: const [displayCurrency, setDisplayCurrency] = useState('mkd');
                         }}
                       >
-                        <i className="bi bi-currency-exchange me-1"></i>
+                        <i className="bi bi-currency-exchange"></i>
                         {currentLanguage === "mk" ? "MKD" : "EUR"}
                       </button>
                     </div>
@@ -5392,7 +5372,7 @@ const MyAccount = () => {
                               style={{ fontSize: "2rem" }}
                             ></i>
                           </div>
-                          <h4 className="mb-1" style={{ fontSize: "1.5rem" }}>
+                          <h4 className="mb-1" style={{ fontSize: "1.3rem" }}>
                             {formatTotal(
                               filteredOrdersForCharts.reduce((sum, order) => {
                                 const mk = parseFloat(order.totalMK || 0);
@@ -5420,7 +5400,7 @@ const MyAccount = () => {
                               style={{ fontSize: "2rem" }}
                             ></i>
                           </div>
-                          <h4 className="mb-1" style={{ fontSize: "1.5rem" }}>
+                          <h4 className="mb-1" style={{ fontSize: "1.3rem" }}>
                             {formatTotal(
                               getAverageOrderValue(filteredOrdersForCharts),
                               currentLanguage
@@ -5442,7 +5422,7 @@ const MyAccount = () => {
                               style={{ fontSize: "2rem" }}
                             ></i>
                           </div>
-                          <h4 className="mb-1" style={{ fontSize: "1.5rem" }}>
+                          <h4 className="mb-1" style={{ fontSize: "1.3rem" }}>
                             {
                               filteredOrdersForCharts.filter(
                                 (o) => o.paymentMethod === "payment_cash"
@@ -5465,7 +5445,7 @@ const MyAccount = () => {
                               style={{ fontSize: "2rem" }}
                             ></i>
                           </div>
-                          <h4 className="mb-1" style={{ fontSize: "1.5rem" }}>
+                          <h4 className="mb-1" style={{ fontSize: "1.3rem" }}>
                             {
                               filteredOrdersForCharts.filter(
                                 (o) => o.paymentMethod === "payment_bank"
@@ -5497,9 +5477,9 @@ const MyAccount = () => {
                                 nameKey="name"
                                 cx="50%"
                                 cy="50%"
-                                outerRadius={100}
-                                label={(entry) =>
-                                  `${entry.name} (${((entry.value / grandTotalInDisplayCurrency) * 100).toFixed(1)}%)`
+                                outerRadius={90}
+                                label={(entry) =>                                  
+                                  `${entry.name} (${((entry.value / grandTotalInDisplayCurrency) * 100).toFixed(1)}%)`                                 
                                 }
                               >
                                 {formattedPaymentData.map((entry, index) => (
@@ -5512,14 +5492,14 @@ const MyAccount = () => {
                               <Tooltip
                                 formatter={(value) =>
                                   formatTotal(value, currentLanguage)
-                                }
+                                }                                
                               />
                             </PieChart>
                           </ResponsiveContainer>
 
                           {/* Payment Method Stats Table */}
                           <div className="mt-3">
-                            <table className="table table-sm table-borderless">
+                            <table className="table table-sm table-borderless" style={{ fontSize: "0.8rem" }}>
                               <tbody>
                                 {formattedPaymentData.map((entry, index) => (
                                   <tr key={index}>
@@ -5529,8 +5509,8 @@ const MyAccount = () => {
                                         style={{
                                           backgroundColor:
                                             COLORS[index % COLORS.length],
-                                          width: "12px",
-                                          height: "12px",
+                                          width: "10px",
+                                          height: "10px",
                                           display: "inline-block",
                                         }}
                                       ></span>
@@ -6637,8 +6617,7 @@ const MyAccount = () => {
                             style={{
                               maxHeight: "500px",
                               overflowY: "auto",
-                              border: "1px solid #dee2e6",
-                              borderRadius: "8px",
+                              border: "1px solid #dee2e6",                              
                               position: "relative",
                             }}
                           >
