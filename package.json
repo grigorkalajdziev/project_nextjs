@@ -24,7 +24,7 @@
     "firebase-admin": "^13.2.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.485.0",
-    "next": "^15.3.6",
+    "next": "^15.5.9",
     "next-sitemap": "^4.2.3",
     "qrcode": "^1.5.4",
     "react": "^18.3.1",
