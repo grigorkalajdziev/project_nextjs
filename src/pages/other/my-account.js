@@ -2764,7 +2764,7 @@ const MyAccount = () => {
                           style={{
                             maxHeight: "350px",
                             overflowY: "auto",
-                            border: "1px solid #dee2e6",                            
+                            border: "1px solid #dee2e6",
                             position: "relative",
                           }}
                         >
@@ -3399,7 +3399,7 @@ const MyAccount = () => {
                                     style={{
                                       maxHeight: "250px",
                                       overflowY: "auto",
-                                      border: "1px solid #dee2e6",                                      
+                                      border: "1px solid #dee2e6",
                                       position: "relative",
                                     }}
                                   >
@@ -3719,7 +3719,7 @@ const MyAccount = () => {
                                     style={{
                                       maxHeight: "300px",
                                       overflowY: "auto",
-                                      border: "1px solid #dee2e6",                                      
+                                      border: "1px solid #dee2e6",
                                       position: "relative",
                                     }}
                                   >
@@ -4077,7 +4077,7 @@ const MyAccount = () => {
                                     style={{
                                       maxHeight: "300px",
                                       overflowY: "auto",
-                                      border: "1px solid #dee2e6",                                      
+                                      border: "1px solid #dee2e6",
                                       position: "relative",
                                     }}
                                   >
@@ -4775,884 +4775,1099 @@ const MyAccount = () => {
                       {t("download")}
                     </h3>
 
-                    {orders.length > 0 && filteredOrdersForDownload.length > 0 && (
-                      <div className="d-flex gap-2 flex-wrap">
-                        {selectedOrdersForDownload.length > 0 && (
-                          <>
-                            <span className="badge bg-info align-self-center px-3 py-2">
-                              {selectedOrdersForDownload.length} {t("selected")}
-                            </span>
-                            <button
-                              className="btn btn-primary btn-sm"
-                              onClick={downloadBulkPdfs}
-                              disabled={bulkDownloading}
-                            >
-                              {bulkDownloading ? (
-                                <>
-                                  <Spinner
-                                    as="span"
-                                    animation="border"
-                                    size="sm"
-                                    className="me-2"
-                                  />
-                                  {t("downloading")}...
-                                </>
-                              ) : (
-                                <>
-                                  <i className="bi bi-download"></i>
-                                  {t("download_selected")}
-                                </>
-                              )}
-                            </button>
-                            <button
-                              className="btn btn-outline-secondary btn-sm"
-                              onClick={() => {
-                                setSelectedOrdersForDownload([]);
-                                setSelectAllDownload(false);
-                              }}
-                            >
-                              <i className="bi bi-x-circle"></i>
-                              {t("clear_selection")}
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    )}
+                    {orders.length > 0 &&
+                      filteredOrdersForDownload.length > 0 && (
+                        <div className="d-flex gap-2 flex-wrap">
+                          {selectedOrdersForDownload.length > 0 && (
+                            <>
+                              <span className="badge bg-info align-self-center px-3 py-2">
+                                {selectedOrdersForDownload.length}{" "}
+                                {t("selected")}
+                              </span>
+                              <button
+                                className="btn btn-primary btn-sm"
+                                onClick={downloadBulkPdfs}
+                                disabled={bulkDownloading}
+                              >
+                                {bulkDownloading ? (
+                                  <>
+                                    <Spinner
+                                      as="span"
+                                      animation="border"
+                                      size="sm"
+                                      className="me-2"
+                                    />
+                                    {t("downloading")}...
+                                  </>
+                                ) : (
+                                  <>
+                                    <i className="bi bi-download"></i>
+                                    {t("download_selected")}
+                                  </>
+                                )}
+                              </button>
+                              <button
+                                className="btn btn-outline-secondary btn-sm"
+                                onClick={() => {
+                                  setSelectedOrdersForDownload([]);
+                                  setSelectAllDownload(false);
+                                }}
+                              >
+                                <i className="bi bi-x-circle"></i>
+                                {t("clear_selection")}
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      )}
                   </div>
 
                   {/* Download Statistics */}
-                  
-                    <div className="row mb-4 g-3">
-                      <div className="col-md-3 col-sm-6">
-                        <div className="card border-0 shadow-sm h-100">
-                          <div className="card-body text-center p-3">
-                            <div className="text-primary mb-2">
-                              <i
-                                className="bi bi-file-earmark-pdf"
-                                style={{ fontSize: "1.8rem" }}
-                              ></i>
-                            </div>
-                            <h5 className="mb-1">{downloadStats.total}</h5>
-                            <small className="text-muted">
-                              {t("available_invoices")}
-                            </small>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-3 col-sm-6">
-                        <div className="card border-0 shadow-sm h-100">
-                          <div className="card-body text-center p-3">
-                            <div className="text-success mb-2">
-                              <i
-                                className="bi bi-check-circle"
-                                style={{ fontSize: "1.8rem" }}
-                              ></i>
-                            </div>
-                            <h5 className="mb-1">
-                              {downloadStats.withHistory}
-                            </h5>
-                            <small className="text-muted">
-                              {t("downloaded_once")}
-                            </small>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-3 col-sm-6">
-                        <div className="card border-0 shadow-sm h-100">
-                          <div className="card-body text-center p-3">
-                            <div className="text-info mb-2">
-                              <i
-                                className="bi bi-arrow-down-circle"
-                                style={{ fontSize: "1.8rem" }}
-                              ></i>
-                            </div>
-                            <h5 className="mb-1">
-                              {downloadStats.totalDownloads}
-                            </h5>
-                            <small className="text-muted">
-                              {t("total_downloads")}
-                            </small>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-3 col-sm-6">
-                        <div className="card border-0 shadow-sm h-100">
-                          <div className="card-body text-center p-3">
-                            <div className="text-warning mb-2">
-                              <i
-                                className="bi bi-graph-up"
-                                style={{ fontSize: "1.8rem" }}
-                              ></i>
-                            </div>
-                            <h5 className="mb-1">
-                              {downloadStats.avgDownloadsPerOrder}
-                            </h5>
-                            <small className="text-muted">
-                              {t("avg_downloads")}
-                            </small>
-                          </div>
-                        </div>
-                      </div>
-                    </div>                 
-                  
-                    <div className="card border-0 shadow-sm">
-                      <div className="card-body">
-                        {/* Filters Section */}
-                        <div className="filter-section mb-4">
-                          <div className="d-flex align-items-center mb-3">
-                            <button
-                              type="button"
-                              className={`btn btn-outline-secondary d-flex align-items-center justify-content-center me-3 filter-toggle ${
-                                showDownloadFilters ? "active" : ""
-                              }`}
-                              onClick={() =>
-                                setShowDownloadFilters((prev) => !prev)
-                              }
-                              title={
-                                showDownloadFilters
-                                  ? t("hide_filters")
-                                  : t("show_filters")
-                              }
-                              style={{
-                                width: "45px",
-                                height: "45px",
-                                borderRadius: "50%",
-                                padding: 0,
-                              }}
-                            >
-                              <IoFilter size={22} className="filter-icon" />
-                            </button>
-                            <span>{t("filter")}</span>
-                          </div>
 
-                          {showDownloadFilters && (
-                            <div className="row mb-3 g-3">
-                              {/* Search */}
-                              <div className="col-md-4">
-                                <label className="form-label">
-                                  {t("search")}
-                                </label>
-                                <div style={{ position: "relative" }}>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder={t("search_order_or_user")}
-                                    value={downloadSearchQuery}
-                                    onChange={(e) => {
-                                      setDownloadSearchQuery(e.target.value);
+                  <div className="row mb-4 g-3">
+                    <div className="col-md-3 col-sm-6">
+                      <div className="card border-0 shadow-sm h-100">
+                        <div className="card-body text-center p-3">
+                          <div className="text-primary mb-2">
+                            <i
+                              className="bi bi-file-earmark-pdf"
+                              style={{ fontSize: "1.8rem" }}
+                            ></i>
+                          </div>
+                          <h5 className="mb-1">{downloadStats.total}</h5>
+                          <small className="text-muted">
+                            {t("available_invoices")}
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-3 col-sm-6">
+                      <div className="card border-0 shadow-sm h-100">
+                        <div className="card-body text-center p-3">
+                          <div className="text-success mb-2">
+                            <i
+                              className="bi bi-check-circle"
+                              style={{ fontSize: "1.8rem" }}
+                            ></i>
+                          </div>
+                          <h5 className="mb-1">{downloadStats.withHistory}</h5>
+                          <small className="text-muted">
+                            {t("downloaded_once")}
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-3 col-sm-6">
+                      <div className="card border-0 shadow-sm h-100">
+                        <div className="card-body text-center p-3">
+                          <div className="text-info mb-2">
+                            <i
+                              className="bi bi-arrow-down-circle"
+                              style={{ fontSize: "1.8rem" }}
+                            ></i>
+                          </div>
+                          <h5 className="mb-1">
+                            {downloadStats.totalDownloads}
+                          </h5>
+                          <small className="text-muted">
+                            {t("total_downloads")}
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-3 col-sm-6">
+                      <div className="card border-0 shadow-sm h-100">
+                        <div className="card-body text-center p-3">
+                          <div className="text-warning mb-2">
+                            <i
+                              className="bi bi-graph-up"
+                              style={{ fontSize: "1.8rem" }}
+                            ></i>
+                          </div>
+                          <h5 className="mb-1">
+                            {downloadStats.avgDownloadsPerOrder}
+                          </h5>
+                          <small className="text-muted">
+                            {t("avg_downloads")}
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="card border-0 shadow-sm">
+                    <div className="card-body">
+                      {/* Filters Section */}
+                      <div className="filter-section mb-4">
+                        <div className="d-flex align-items-center mb-3">
+                          <button
+                            type="button"
+                            className={`btn btn-outline-secondary d-flex align-items-center justify-content-center me-3 filter-toggle ${
+                              showDownloadFilters ? "active" : ""
+                            }`}
+                            onClick={() =>
+                              setShowDownloadFilters((prev) => !prev)
+                            }
+                            title={
+                              showDownloadFilters
+                                ? t("hide_filters")
+                                : t("show_filters")
+                            }
+                            style={{
+                              width: "45px",
+                              height: "45px",
+                              borderRadius: "50%",
+                              padding: 0,
+                            }}
+                          >
+                            <IoFilter size={22} className="filter-icon" />
+                          </button>
+                          <span>{t("filter")}</span>
+                        </div>
+
+                        {showDownloadFilters && (
+                          <div className="row mb-3 g-3">
+                            {/* Search */}
+                            <div className="col-md-4">
+                              <label className="form-label">
+                                {t("search")}
+                              </label>
+                              <div style={{ position: "relative" }}>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder={t("search_order_or_user")}
+                                  value={downloadSearchQuery}
+                                  onChange={(e) => {
+                                    setDownloadSearchQuery(e.target.value);
+                                    setCurrentPageDown(1);
+                                  }}
+                                  style={{
+                                    paddingLeft: "40px",
+                                    paddingRight: downloadSearchQuery
+                                      ? "40px"
+                                      : "12px",
+                                    fontSize: "12px",
+                                  }}
+                                />
+                                <IoIosSearch
+                                  style={{
+                                    position: "absolute",
+                                    left: "12px",
+                                    top: "50%",
+                                    transform: "translateY(-50%)",
+                                    fontSize: "20px",
+                                    color: "#6c757d",
+                                    pointerEvents: "none",
+                                  }}
+                                />
+                                {downloadSearchQuery && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setDownloadSearchQuery("");
                                       setCurrentPageDown(1);
                                     }}
                                     style={{
-                                      paddingLeft: "40px",
-                                      paddingRight: downloadSearchQuery
-                                        ? "40px"
-                                        : "12px",
-                                      fontSize: "12px",
-                                    }}
-                                  />
-                                  <IoIosSearch
-                                    style={{
                                       position: "absolute",
-                                      left: "12px",
+                                      right: "8px",
                                       top: "50%",
                                       transform: "translateY(-50%)",
-                                      fontSize: "20px",
-                                      color: "#6c757d",
-                                      pointerEvents: "none",
+                                      background: "transparent",
+                                      border: "none",
+                                      cursor: "pointer",
+                                      padding: "4px",
+                                      color: "#dc3545",
                                     }}
-                                  />
-                                  {downloadSearchQuery && (
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        setDownloadSearchQuery("");
-                                        setCurrentPageDown(1);
-                                      }}
-                                      style={{
-                                        position: "absolute",
-                                        right: "8px",
-                                        top: "50%",
-                                        transform: "translateY(-50%)",
-                                        background: "transparent",
-                                        border: "none",
-                                        cursor: "pointer",
-                                        padding: "4px",
-                                        color: "#dc3545",
-                                      }}
-                                    >
-                                      ✕
-                                    </button>
-                                  )}
-                                </div>
-                              </div>
-
-                              {/* Filter by Payment Method */}
-                              <div className="col-md-4">
-                                <label className="form-label">
-                                  <i className="bi bi-credit-card me-1"></i>
-                                  {t("filter_by_payment")}
-                                </label>
-                                <select
-                                  className="form-select"
-                                  value={downloadFilterPayment}
-                                  onChange={(e) => {
-                                    setDownloadFilterPayment(e.target.value);
-                                    setCurrentPageDown(1);
-                                  }}
-                                  style={{ fontSize: "12px" }}
-                                >
-                                  <option value="all">
-                                    {t("all_payments")}
-                                  </option>
-                                  <option value="payment_cash">
-                                    {t("payment_cash")}
-                                  </option>
-                                  <option value="payment_bank">
-                                    {t("payment_bank")}
-                                  </option>
-                                </select>
-                              </div>
-
-                              {/* Filter by Status */}
-                              <div className="col-md-4">
-                                <label className="form-label">
-                                  <i className="bi bi-funnel me-1"></i>
-                                  {t("filter_by_status")}
-                                </label>
-                                <select
-                                  className="form-select"
-                                  value={downloadFilterStatus}
-                                  onChange={(e) => {
-                                    setDownloadFilterStatus(e.target.value);
-                                    setCurrentPageDown(1);
-                                  }}
-                                  style={{ fontSize: "12px" }}
-                                >
-                                  <option value="all">
-                                    {t("all_statuses")}
-                                  </option>
-                                  <option value="pending">
-                                    {t("pending")}
-                                  </option>
-                                  <option value="confirmed">
-                                    {t("confirmed")}
-                                  </option>
-                                  <option value="cancelled">
-                                    {t("cancelled")}
-                                  </option>
-                                </select>
+                                  >
+                                    ✕
+                                  </button>
+                                )}
                               </div>
                             </div>
-                          )}
-                        </div>
 
-                        {/* Table */}
-                        <div
-                          className="table-responsive"
-                          style={{
-                            maxHeight: "500px",
-                            overflowY: "auto",
-                            border: "1px solid #dee2e6",                            
-                          }}
-                        >
-                          <table className="table table-hover align-middle mb-0">
-                            <thead
-                              className="table-light"
-                              style={{ position: "sticky", top: 0, zIndex: 1 }}
-                            >
-                              <tr>
-                                <th style={{ width: "50px" }} className="ps-3">
-                                  <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    checked={selectAllDownload}
-                                    onChange={toggleSelectAll}
-                                  />
-                                </th>
-                                {role === "admin" && (
-                                  <th style={{ minWidth: "140px" }}>
-                                    <small>{t("user")}</small>
-                                  </th>
-                                )}
-                                <th style={{ minWidth: "120px" }}>
-                                  <small>{t("order")}</small>
-                                </th>
-                                <th style={{ minWidth: "100px" }}>
-                                  <small>{t("date")}</small>
-                                </th>
-                                <th style={{ minWidth: "130px" }}>
-                                  <small>{t("payment_method")}</small>
-                                </th>
-                                <th
-                                  style={{ minWidth: "100px" }}
-                                  className="text-center"
-                                >
-                                  <small>{t("status")}</small>
-                                </th>
-                                <th
-                                  style={{ minWidth: "120px" }}
-                                  className="text-center"
-                                >
-                                  <small>{t("download_history")}</small>
-                                </th>
-                                <th
-                                  style={{ minWidth: "180px" }}
-                                  className="text-center pe-3"
-                                >
-                                  <small>{t("action")}</small>
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {currentOrdersDownload.map((order) => (
-                                <tr key={order.id}>
-                                  <td className="ps-3">
-                                    <input
-                                      type="checkbox"
-                                      className="form-check-input"
-                                      checked={selectedOrdersForDownload.includes(
-                                        order.id
-                                      )}
-                                      onChange={() =>
-                                        toggleOrderSelection(order.id)
-                                      }
-                                    />
-                                  </td>
-                                  {role === "admin" && (
-                                    <td>
-                                      <small>{order.displayName}</small>
-                                    </td>
-                                  )}
-                                  <td>
-                                    <span className="badge bg-light text-dark border">
-                                      <small>{order.orderNumber}</small>
-                                    </span>
-                                  </td>
-                                  <td>
-                                    <small>{order.date}</small>
-                                  </td>
-                                  <td>
-                                    <span
-                                      className={`badge ${
-                                        order.paymentMethod === "payment_cash"
-                                          ? "bg-success"
-                                          : "bg-primary"
-                                      }`}
-                                    >
-                                      <i
-                                        className={`bi ${
-                                          order.paymentMethod === "payment_cash"
-                                            ? "bi-cash"
-                                            : "bi-bank"
-                                        } me-1`}
-                                      ></i>
-                                      <small>
-                                        {order.paymentMethod === "payment_cash"
-                                          ? t("payment_cash")
-                                          : t("payment_bank")}
-                                      </small>
-                                    </span>
-                                  </td>
-                                  <td className="text-center">
-                                    <span
-                                      className={`badge ${
-                                        order.status === "confirmed"
-                                          ? "bg-success"
-                                          : order.status === "pending"
-                                            ? "bg-warning"
-                                            : "bg-danger"
-                                      }`}
-                                    >
-                                      <small>{t(order.status)}</small>
-                                    </span>
-                                  </td>
-                                  <td className="text-center">
-                                    {downloadHistory[order.id] ? (
-                                      <div>
-                                        <span className="badge bg-info">
-                                          <i className="bi bi-download me-1"></i>
-                                          {downloadHistory[order.id].count}x
-                                        </span>
-                                        <br />
-                                        <small
-                                          className="text-muted"
-                                          style={{ fontSize: "0.7rem" }}
-                                        >
-                                          {new Date(
-                                            downloadHistory[
-                                              order.id
-                                            ].lastDownload
-                                          ).toLocaleDateString()}
-                                        </small>
-                                      </div>
-                                    ) : (
-                                      <small className="text-muted">-</small>
-                                    )}
-                                  </td>
-                                  <td className="text-center pe-3">
-                                    <button
-                                      className="btn btn-sm btn-outline-primary rounded-pill"
-                                      onClick={() => downloadPdfEnhanced(order)}
-                                      disabled={downloadingOrderId === order.id}
-                                      style={{ minWidth: "100px" }}
-                                    >
-                                      {downloadingOrderId === order.id ? (
-                                        <Spinner
-                                          as="span"
-                                          animation="border"
-                                          size="sm"
-                                          role="status"
-                                          aria-hidden="true"
-                                        />
-                                      ) : (
-                                        <>
-                                          <i className="bi bi-download"></i>
-                                          <small>{t("download")}</small>
-                                        </>
-                                      )}
-                                    </button>
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-
-                        {/* Pagination */}
-                        {totalPagesDownload > 1 && (
-                          <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-3">
-                            <div className="text-muted">
-                              <small>
-                                {t("showing")} {currentOrdersDownload.length}{" "}
-                                {t("of")} {filteredOrdersForDownload.length}{" "}
-                                {t("orders")}
-                              </small>
+                            {/* Filter by Payment Method */}
+                            <div className="col-md-4">
+                              <label className="form-label">
+                                <i className="bi bi-credit-card me-1"></i>
+                                {t("filter_by_payment")}
+                              </label>
+                              <select
+                                className="form-select"
+                                value={downloadFilterPayment}
+                                onChange={(e) => {
+                                  setDownloadFilterPayment(e.target.value);
+                                  setCurrentPageDown(1);
+                                }}
+                                style={{ fontSize: "12px" }}
+                              >
+                                <option value="all">{t("all_payments")}</option>
+                                <option value="payment_cash">
+                                  {t("payment_cash")}
+                                </option>
+                                <option value="payment_bank">
+                                  {t("payment_bank")}
+                                </option>
+                              </select>
                             </div>
 
-                            <nav>
-                              <ul className="pagination mb-0">
-                                <li
-                                  className={`page-item ${currentPageDown === 1 ? "disabled" : ""}`}
-                                >
-                                  <button
-                                    type="button"
-                                    className="page-link py-1 px-2"
-                                    onClick={() =>
-                                      handlePageChangeDown(currentPageDown - 1)
-                                    }
-                                    disabled={currentPageDown === 1}
-                                  >
-                                    {t("previous")}
-                                  </button>
-                                </li>
-
-                                {[...Array(totalPagesDownload)].map(
-                                  (_, index) => {
-                                    const pageNumber = index + 1;
-                                    if (
-                                      pageNumber === 1 ||
-                                      pageNumber === totalPagesDownload ||
-                                      (pageNumber >= currentPageDown - 1 &&
-                                        pageNumber <= currentPageDown + 1)
-                                    ) {
-                                      return (
-                                        <li
-                                          key={pageNumber}
-                                          className={`page-item ${
-                                            currentPageDown === pageNumber
-                                              ? "active"
-                                              : ""
-                                          }`}
-                                        >
-                                          <button
-                                            type="button"
-                                            className="page-link py-1 px-2"
-                                            onClick={() =>
-                                              handlePageChangeDown(pageNumber)
-                                            }
-                                          >
-                                            {pageNumber}
-                                          </button>
-                                        </li>
-                                      );
-                                    } else if (
-                                      pageNumber === currentPageDown - 2 ||
-                                      pageNumber === currentPageDown + 2
-                                    ) {
-                                      return (
-                                        <li
-                                          key={`ellipsis-${pageNumber}`}
-                                          className="page-item disabled"
-                                        >
-                                          <span className="page-link py-1 px-2">
-                                            ...
-                                          </span>
-                                        </li>
-                                      );
-                                    }
-                                    return null;
-                                  }
-                                )}
-
-                                <li
-                                  className={`page-item ${
-                                    currentPageDown === totalPagesDownload
-                                      ? "disabled"
-                                      : ""
-                                  }`}
-                                >
-                                  <button
-                                    type="button"
-                                    className="page-link py-1 px-2"
-                                    onClick={() =>
-                                      handlePageChangeDown(currentPageDown + 1)
-                                    }
-                                    disabled={
-                                      currentPageDown === totalPagesDownload
-                                    }
-                                  >
-                                    {t("next")}
-                                  </button>
-                                </li>
-                              </ul>
-                            </nav>
+                            {/* Filter by Status */}
+                            <div className="col-md-4">
+                              <label className="form-label">
+                                <i className="bi bi-funnel me-1"></i>
+                                {t("filter_by_status")}
+                              </label>
+                              <select
+                                className="form-select"
+                                value={downloadFilterStatus}
+                                onChange={(e) => {
+                                  setDownloadFilterStatus(e.target.value);
+                                  setCurrentPageDown(1);
+                                }}
+                                style={{ fontSize: "12px" }}
+                              >
+                                <option value="all">{t("all_statuses")}</option>
+                                <option value="pending">{t("pending")}</option>
+                                <option value="confirmed">
+                                  {t("confirmed")}
+                                </option>
+                                <option value="cancelled">
+                                  {t("cancelled")}
+                                </option>
+                              </select>
+                            </div>
                           </div>
                         )}
                       </div>
-                    </div>                  
+
+                      {/* Table */}
+                      <div
+                        className="table-responsive"
+                        style={{
+                          maxHeight: "500px",
+                          overflowY: "auto",
+                          border: "1px solid #dee2e6",
+                        }}
+                      >
+                        <table className="table table-hover align-middle mb-0">
+                          <thead
+                            className="table-light"
+                            style={{ position: "sticky", top: 0, zIndex: 1 }}
+                          >
+                            <tr>
+                              <th style={{ width: "50px" }} className="ps-3">
+                                <input
+                                  type="checkbox"
+                                  className="form-check-input"
+                                  checked={selectAllDownload}
+                                  onChange={toggleSelectAll}
+                                />
+                              </th>
+                              {role === "admin" && (
+                                <th style={{ minWidth: "140px" }}>
+                                  <small>{t("user")}</small>
+                                </th>
+                              )}
+                              <th style={{ minWidth: "120px" }}>
+                                <small>{t("order")}</small>
+                              </th>
+                              <th style={{ minWidth: "100px" }}>
+                                <small>{t("date")}</small>
+                              </th>
+                              <th style={{ minWidth: "130px" }}>
+                                <small>{t("payment_method")}</small>
+                              </th>
+                              <th
+                                style={{ minWidth: "100px" }}
+                                className="text-center"
+                              >
+                                <small>{t("status")}</small>
+                              </th>
+                              <th
+                                style={{ minWidth: "120px" }}
+                                className="text-center"
+                              >
+                                <small>{t("download_history")}</small>
+                              </th>
+                              <th
+                                style={{ minWidth: "180px" }}
+                                className="text-center pe-3"
+                              >
+                                <small>{t("action")}</small>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {currentOrdersDownload.map((order) => (
+                              <tr key={order.id}>
+                                <td className="ps-3">
+                                  <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    checked={selectedOrdersForDownload.includes(
+                                      order.id
+                                    )}
+                                    onChange={() =>
+                                      toggleOrderSelection(order.id)
+                                    }
+                                  />
+                                </td>
+                                {role === "admin" && (
+                                  <td>
+                                    <small>{order.displayName}</small>
+                                  </td>
+                                )}
+                                <td>
+                                  <span className="badge bg-light text-dark border">
+                                    <small>{order.orderNumber}</small>
+                                  </span>
+                                </td>
+                                <td>
+                                  <small>{order.date}</small>
+                                </td>
+                                <td>
+                                  <span
+                                    className={`badge ${
+                                      order.paymentMethod === "payment_cash"
+                                        ? "bg-success"
+                                        : "bg-primary"
+                                    }`}
+                                  >
+                                    <i
+                                      className={`bi ${
+                                        order.paymentMethod === "payment_cash"
+                                          ? "bi-cash"
+                                          : "bi-bank"
+                                      } me-1`}
+                                    ></i>
+                                    <small>
+                                      {order.paymentMethod === "payment_cash"
+                                        ? t("payment_cash")
+                                        : t("payment_bank")}
+                                    </small>
+                                  </span>
+                                </td>
+                                <td className="text-center">
+                                  <span
+                                    className={`badge ${
+                                      order.status === "confirmed"
+                                        ? "bg-success"
+                                        : order.status === "pending"
+                                          ? "bg-warning"
+                                          : "bg-danger"
+                                    }`}
+                                  >
+                                    <small>{t(order.status)}</small>
+                                  </span>
+                                </td>
+                                <td className="text-center">
+                                  {downloadHistory[order.id] ? (
+                                    <div>
+                                      <span className="badge bg-info">
+                                        <i className="bi bi-download me-1"></i>
+                                        {downloadHistory[order.id].count}x
+                                      </span>
+                                      <br />
+                                      <small
+                                        className="text-muted"
+                                        style={{ fontSize: "0.7rem" }}
+                                      >
+                                        {new Date(
+                                          downloadHistory[order.id].lastDownload
+                                        ).toLocaleDateString()}
+                                      </small>
+                                    </div>
+                                  ) : (
+                                    <small className="text-muted">-</small>
+                                  )}
+                                </td>
+                                <td className="text-center pe-3">
+                                  <button
+                                    className="btn btn-sm btn-outline-primary rounded-pill"
+                                    onClick={() => downloadPdfEnhanced(order)}
+                                    disabled={downloadingOrderId === order.id}
+                                    style={{ minWidth: "100px" }}
+                                  >
+                                    {downloadingOrderId === order.id ? (
+                                      <Spinner
+                                        as="span"
+                                        animation="border"
+                                        size="sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                      />
+                                    ) : (
+                                      <>
+                                        <i className="bi bi-download"></i>
+                                        <small>{t("download")}</small>
+                                      </>
+                                    )}
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      {/* Pagination */}
+                      {totalPagesDownload > 1 && (
+                        <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-3">
+                          <div className="text-muted">
+                            <small>
+                              {t("showing")} {currentOrdersDownload.length}{" "}
+                              {t("of")} {filteredOrdersForDownload.length}{" "}
+                              {t("orders")}
+                            </small>
+                          </div>
+
+                          <nav>
+                            <ul className="pagination mb-0">
+                              <li
+                                className={`page-item ${currentPageDown === 1 ? "disabled" : ""}`}
+                              >
+                                <button
+                                  type="button"
+                                  className="page-link py-1 px-2"
+                                  onClick={() =>
+                                    handlePageChangeDown(currentPageDown - 1)
+                                  }
+                                  disabled={currentPageDown === 1}
+                                >
+                                  {t("previous")}
+                                </button>
+                              </li>
+
+                              {[...Array(totalPagesDownload)].map(
+                                (_, index) => {
+                                  const pageNumber = index + 1;
+                                  if (
+                                    pageNumber === 1 ||
+                                    pageNumber === totalPagesDownload ||
+                                    (pageNumber >= currentPageDown - 1 &&
+                                      pageNumber <= currentPageDown + 1)
+                                  ) {
+                                    return (
+                                      <li
+                                        key={pageNumber}
+                                        className={`page-item ${
+                                          currentPageDown === pageNumber
+                                            ? "active"
+                                            : ""
+                                        }`}
+                                      >
+                                        <button
+                                          type="button"
+                                          className="page-link py-1 px-2"
+                                          onClick={() =>
+                                            handlePageChangeDown(pageNumber)
+                                          }
+                                        >
+                                          {pageNumber}
+                                        </button>
+                                      </li>
+                                    );
+                                  } else if (
+                                    pageNumber === currentPageDown - 2 ||
+                                    pageNumber === currentPageDown + 2
+                                  ) {
+                                    return (
+                                      <li
+                                        key={`ellipsis-${pageNumber}`}
+                                        className="page-item disabled"
+                                      >
+                                        <span className="page-link py-1 px-2">
+                                          ...
+                                        </span>
+                                      </li>
+                                    );
+                                  }
+                                  return null;
+                                }
+                              )}
+
+                              <li
+                                className={`page-item ${
+                                  currentPageDown === totalPagesDownload
+                                    ? "disabled"
+                                    : ""
+                                }`}
+                              >
+                                <button
+                                  type="button"
+                                  className="page-link py-1 px-2"
+                                  onClick={() =>
+                                    handlePageChangeDown(currentPageDown + 1)
+                                  }
+                                  disabled={
+                                    currentPageDown === totalPagesDownload
+                                  }
+                                >
+                                  {t("next")}
+                                </button>
+                              </li>
+                            </ul>
+                          </nav>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </Tab.Pane>
 
               <Tab.Pane eventKey="payment">
                 <div className="my-account-area__content">
-                  <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-                    <h3 className="mb-0">
-                      <i className="bi bi-graph-up-arrow me-2 text-primary"></i>
-                      {t("payment_analytics")}
-                    </h3>
+                  {role === "admin" && (
+                    <>
+                      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                        <h3 className="mb-0">
+                          <i className="bi bi-graph-up-arrow me-2 text-primary"></i>
+                          {t("payment_analytics")}
+                        </h3>
 
-                    <div className="d-flex gap-2 flex-wrap">
-                      <select
-                        className="form-select form-select-sm"
-                        style={{ width: "auto" }}
-                        value={filterYear}
-                        onChange={handleYearChange}
-                      >
-                        {[...Array(5)].map((_, idx) => {
-                          const year = new Date().getFullYear() - idx;
-                          return (
-                            <option key={year} value={year.toString()}>
-                              {year}
-                            </option>
-                          );
-                        })}
-                      </select>
+                        <div className="d-flex gap-2 flex-wrap">
+                          <select
+                            className="form-select form-select-sm"
+                            style={{ width: "auto" }}
+                            value={filterYear}
+                            onChange={handleYearChange}
+                          >
+                            {[...Array(5)].map((_, idx) => {
+                              const year = new Date().getFullYear() - idx;
+                              return (
+                                <option key={year} value={year.toString()}>
+                                  {year}
+                                </option>
+                              );
+                            })}
+                          </select>
 
-                      <button
-                        className="btn btn-sm btn-outline-primary"
-                        onClick={() => {
-                          // Toggle currency display
-                          // You can add this state if not exists: const [displayCurrency, setDisplayCurrency] = useState('mkd');
-                        }}
-                      >
-                        <i className="bi bi-currency-exchange"></i>
-                        {currentLanguage === "mk" ? "MKD" : "EUR"}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Key Metrics Cards */}
-                  <div className="row mb-4 g-3">
-                    <div className="col-md-3 col-sm-6">
-                      <div className="card border-0 shadow-sm h-100">
-                        <div className="card-body text-center p-4">
-                          <div className="text-primary mb-2">
-                            <i
-                              className="bi bi-cash-stack"
-                              style={{ fontSize: "2rem" }}
-                            ></i>
-                          </div>
-                          <h4 className="mb-1" style={{ fontSize: "1.3rem" }}>
-                            {formatTotal(
-                              filteredOrdersForCharts.reduce((sum, order) => {
-                                const mk = parseFloat(order.totalMK || 0);
-                                const en = parseFloat(order.totalEN || 0);
-                                return currentLanguage === "mk"
-                                  ? sum + (mk > 0 ? mk : en * conversionRate)
-                                  : sum + (en > 0 ? en : mk / conversionRate);
-                              }, 0),
-                              currentLanguage
-                            )}
-                          </h4>
-                          <small className="text-muted">
-                            {t("total_payments")}
-                          </small>
+                          <button
+                            className="btn btn-sm btn-outline-primary"
+                            onClick={() => {
+                              // Toggle currency display
+                              // You can add this state if not exists: const [displayCurrency, setDisplayCurrency] = useState('mkd');
+                            }}
+                          >
+                            <i className="bi bi-currency-exchange"></i>
+                            {currentLanguage === "mk" ? "MKD" : "EUR"}
+                          </button>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="col-md-3 col-sm-6">
-                      <div className="card border-0 shadow-sm h-100">
-                        <div className="card-body text-center p-4">
-                          <div className="text-success mb-2">
-                            <i
-                              className="bi bi-calculator"
-                              style={{ fontSize: "2rem" }}
-                            ></i>
-                          </div>
-                          <h4 className="mb-1" style={{ fontSize: "1.3rem" }}>
-                            {formatTotal(
-                              getAverageOrderValue(filteredOrdersForCharts),
-                              currentLanguage
-                            )}
-                          </h4>
-                          <small className="text-muted">
-                            {t("avg_payment")}
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-md-3 col-sm-6">
-                      <div className="card border-0 shadow-sm h-100">
-                        <div className="card-body text-center p-4">
-                          <div className="text-info mb-2">
-                            <i
-                              className="bi bi-wallet2"
-                              style={{ fontSize: "2rem" }}
-                            ></i>
-                          </div>
-                          <h4 className="mb-1" style={{ fontSize: "1.3rem" }}>
-                            {
-                              filteredOrdersForCharts.filter(
-                                (o) => o.paymentMethod === "payment_cash"
-                              ).length
-                            }
-                          </h4>
-                          <small className="text-muted">
-                            {t("cash_payments")}
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-md-3 col-sm-6">
-                      <div className="card border-0 shadow-sm h-100">
-                        <div className="card-body text-center p-4">
-                          <div className="text-warning mb-2">
-                            <i
-                              className="bi bi-bank"
-                              style={{ fontSize: "2rem" }}
-                            ></i>
-                          </div>
-                          <h4 className="mb-1" style={{ fontSize: "1.3rem" }}>
-                            {
-                              filteredOrdersForCharts.filter(
-                                (o) => o.paymentMethod === "payment_bank"
-                              ).length
-                            }
-                          </h4>
-                          <small className="text-muted">
-                            {t("bank_payments")}
-                          </small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Payment Method Distribution */}
-                  <div className="row mb-4">
-                    <div className="col-lg-6 mb-4">
-                      <div className="card border-0 shadow-sm">
-                        <div className="card-body">
-                          <h5 className="mb-3">
-                            <i className="bi bi-pie-chart me-2 text-primary"></i>
-                            {t("payment_method_distribution")}
-                          </h5>
-                          <ResponsiveContainer width="100%" height={300}>
-                            <PieChart>
-                              <Pie
-                                data={formattedPaymentData}
-                                dataKey="value"
-                                nameKey="name"
-                                cx="50%"
-                                cy="50%"
-                                outerRadius="80%"
-                                label={(entry) =>                                  
-                                  `${entry.name} (${((entry.value / grandTotalInDisplayCurrency) * 100).toFixed(1)}%)`                                 
-                                }
+                      {/* Key Metrics Cards */}
+                      <div className="row mb-4 g-3">
+                        <div className="col-md-3 col-sm-6">
+                          <div className="card border-0 shadow-sm h-100">
+                            <div className="card-body text-center p-4">
+                              <div className="text-primary mb-2">
+                                <i
+                                  className="bi bi-cash-stack"
+                                  style={{ fontSize: "2rem" }}
+                                ></i>
+                              </div>
+                              <h4
+                                className="mb-1"
+                                style={{ fontSize: "1.3rem" }}
                               >
-                                {formattedPaymentData.map((entry, index) => (
-                                  <Cell
-                                    key={index}
-                                    fill={COLORS[index % COLORS.length]}
-                                  />
-                                ))}
-                              </Pie>
-                              <Tooltip
-                                formatter={(value) =>
-                                  formatTotal(value, currentLanguage)
-                                }                                
-                              />
-                            </PieChart>
-                          </ResponsiveContainer>
+                                {formatTotal(
+                                  filteredOrdersForCharts.reduce(
+                                    (sum, order) => {
+                                      const mk = parseFloat(order.totalMK || 0);
+                                      const en = parseFloat(order.totalEN || 0);
+                                      return currentLanguage === "mk"
+                                        ? sum +
+                                            (mk > 0 ? mk : en * conversionRate)
+                                        : sum +
+                                            (en > 0 ? en : mk / conversionRate);
+                                    },
+                                    0
+                                  ),
+                                  currentLanguage
+                                )}
+                              </h4>
+                              <small className="text-muted">
+                                {t("total_payments")}
+                              </small>
+                            </div>
+                          </div>
+                        </div>
 
-                          {/* Payment Method Stats Table */}
-                          <div className="mt-3">
-                            <table className="table table-sm table-borderless" style={{ fontSize: "0.75rem" }}>
-                              <tbody>
-                                {formattedPaymentData.map((entry, index) => (
-                                  <tr key={index}>
-                                    <td style={{ width: "20px" }}>
-                                      <span
-                                        className="badge"
-                                        style={{
-                                          backgroundColor:
-                                            COLORS[index % COLORS.length],
-                                          width: "10px",
-                                          height: "10px",
-                                          display: "inline-block",
-                                        }}
-                                      ></span>
-                                    </td>
-                                    <td>
-                                      <small className="fw-bold">
-                                        {entry.name}
-                                      </small>
-                                    </td>
-                                    <td className="text-end">
-                                      <small className="text-muted">
-                                        {
-                                          filteredOrdersForCharts.filter(
-                                            (o) =>
-                                              (entry.name ===
-                                                (currentLanguage === "mk"
-                                                  ? "Готовина"
-                                                  : "Cash") &&
-                                                o.paymentMethod ===
-                                                  "payment_cash") ||
-                                              (entry.name ===
-                                                (currentLanguage === "mk"
-                                                  ? "Банка"
-                                                  : "Bank") &&
-                                                o.paymentMethod ===
-                                                  "payment_bank")
-                                          ).length
-                                        }{" "}
-                                        {t("orders")}
-                                      </small>
-                                    </td>
-                                    <td className="text-end">
-                                      <small className="fw-bold">
-                                        {formatTotal(
-                                          entry.value,
-                                          currentLanguage
-                                        )}
-                                      </small>
-                                    </td>
-                                    <td className="text-end">
-                                      <span className="badge bg-light text-dark">
-                                        {(
-                                          (entry.value /
-                                            grandTotalInDisplayCurrency) *
-                                          100
-                                        ).toFixed(1)}
-                                        %
-                                      </span>
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
+                        <div className="col-md-3 col-sm-6">
+                          <div className="card border-0 shadow-sm h-100">
+                            <div className="card-body text-center p-4">
+                              <div className="text-success mb-2">
+                                <i
+                                  className="bi bi-calculator"
+                                  style={{ fontSize: "2rem" }}
+                                ></i>
+                              </div>
+                              <h4
+                                className="mb-1"
+                                style={{ fontSize: "1.3rem" }}
+                              >
+                                {formatTotal(
+                                  getAverageOrderValue(filteredOrdersForCharts),
+                                  currentLanguage
+                                )}
+                              </h4>
+                              <small className="text-muted">
+                                {t("avg_payment")}
+                              </small>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="col-md-3 col-sm-6">
+                          <div className="card border-0 shadow-sm h-100">
+                            <div className="card-body text-center p-4">
+                              <div className="text-info mb-2">
+                                <i
+                                  className="bi bi-wallet2"
+                                  style={{ fontSize: "2rem" }}
+                                ></i>
+                              </div>
+                              <h4
+                                className="mb-1"
+                                style={{ fontSize: "1.3rem" }}
+                              >
+                                {
+                                  filteredOrdersForCharts.filter(
+                                    (o) => o.paymentMethod === "payment_cash"
+                                  ).length
+                                }
+                              </h4>
+                              <small className="text-muted">
+                                {t("cash_payments")}
+                              </small>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="col-md-3 col-sm-6">
+                          <div className="card border-0 shadow-sm h-100">
+                            <div className="card-body text-center p-4">
+                              <div className="text-warning mb-2">
+                                <i
+                                  className="bi bi-bank"
+                                  style={{ fontSize: "2rem" }}
+                                ></i>
+                              </div>
+                              <h4
+                                className="mb-1"
+                                style={{ fontSize: "1.3rem" }}
+                              >
+                                {
+                                  filteredOrdersForCharts.filter(
+                                    (o) => o.paymentMethod === "payment_bank"
+                                  ).length
+                                }
+                              </h4>
+                              <small className="text-muted">
+                                {t("bank_payments")}
+                              </small>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Monthly Payment Trends */}
-                    <div className="col-lg-6 mb-4">
-                      <div className="card border-0 shadow-sm">
-                        <div className="card-body">
-                          <h5 className="mb-3">
-                            <i className="bi bi-graph-up me-2 text-success"></i>
-                            {t("monthly_payment_trends")}
-                          </h5>
-                          <ResponsiveContainer width="100%" height={300}>
-                            <BarChart
-                              data={getMonthlyRevenue(
-                                filteredOrdersForCharts,
-                                parseInt(filterYear)
-                              )}
-                            >
-                              <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-                              <YAxis tick={{ fontSize: 12 }} />
-                              <Tooltip
-                                formatter={(value) =>
-                                  formatTotal(value, currentLanguage)
-                                }
-                              />
-                              <Legend />
-                              <Bar
-                                dataKey="revenue"
-                                fill="#0088FE"
-                                name={
-                                  currentLanguage === "mk"
-                                    ? "Приход"
-                                    : "Revenue"
-                                }
-                              />
-                            </BarChart>
-                          </ResponsiveContainer>
-
-                          {/* Best/Worst Month Stats */}
-                          <div className="row mt-3 g-2">
-                            <div className="col-6">
-                              <div className="card border-success">
-                                <div className="card-body text-center py-2">
-                                  <small className="text-muted d-block">
-                                    {t("best_month")}
-                                  </small>
-                                  <strong className="text-success">
-                                    {(() => {
-                                      const monthlyData = getMonthlyRevenue(
-                                        filteredOrdersForCharts,
-                                        parseInt(filterYear)
-                                      );
-                                      const best = monthlyData.reduce(
-                                        (max, m) =>
-                                          m.revenue > max.revenue ? m : max,
-                                        monthlyData[0]
-                                      );
-                                      return best?.month || "-";
-                                    })()}
-                                  </strong>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-6">
-                              <div className="card border-info">
-                                <div className="card-body text-center py-2">
-                                  <small className="text-muted d-block">
-                                    {t("total_months")}
-                                  </small>
-                                  <strong className="text-info">
-                                    {
-                                      getMonthlyRevenue(
-                                        filteredOrdersForCharts,
-                                        parseInt(filterYear)
-                                      ).filter((m) => m.revenue > 0).length
+                      {/* Payment Method Distribution */}
+                      <div className="row mb-4">
+                        <div className="col-lg-6 mb-4">
+                          <div className="card border-0 shadow-sm">
+                            <div className="card-body">
+                              <h5 className="mb-3">
+                                <i className="bi bi-pie-chart me-2 text-primary"></i>
+                                {t("payment_method_distribution")}
+                              </h5>
+                              <ResponsiveContainer width="100%" height={300}>
+                                <PieChart>
+                                  <Pie
+                                    data={formattedPaymentData}
+                                    dataKey="value"
+                                    nameKey="name"
+                                    cx="50%"
+                                    cy="50%"
+                                    outerRadius="80%"
+                                    label={(entry) =>
+                                      `${entry.name} (${(
+                                        (entry.value /
+                                          grandTotalInDisplayCurrency) *
+                                        100
+                                      ).toFixed(1)}%)`
                                     }
-                                  </strong>
+                                  >
+                                    {formattedPaymentData.map(
+                                      (entry, index) => (
+                                        <Cell
+                                          key={index}
+                                          fill={COLORS[index % COLORS.length]}
+                                        />
+                                      )
+                                    )}
+                                  </Pie>
+                                  <Tooltip
+                                    formatter={(value) =>
+                                      formatTotal(value, currentLanguage)
+                                    }
+                                  />
+                                </PieChart>
+                              </ResponsiveContainer>
+
+                              {/* Payment Method Stats Table */}
+                              <div className="mt-3">
+                                <table
+                                  className="table table-sm table-borderless"
+                                  style={{ fontSize: "0.75rem" }}
+                                >
+                                  <tbody>
+                                    {formattedPaymentData.map(
+                                      (entry, index) => (
+                                        <tr key={index}>
+                                          <td style={{ width: "20px" }}>
+                                            <span
+                                              className="badge"
+                                              style={{
+                                                backgroundColor:
+                                                  COLORS[index % COLORS.length],
+                                                width: "10px",
+                                                height: "10px",
+                                                display: "inline-block",
+                                              }}
+                                            ></span>
+                                          </td>
+                                          <td>
+                                            <small className="fw-bold">
+                                              {entry.name}
+                                            </small>
+                                          </td>
+                                          <td className="text-end">
+                                            <small className="text-muted">
+                                              {
+                                                filteredOrdersForCharts.filter(
+                                                  (o) =>
+                                                    (entry.name ===
+                                                      (currentLanguage === "mk"
+                                                        ? "Готовина"
+                                                        : "Cash") &&
+                                                      o.paymentMethod ===
+                                                        "payment_cash") ||
+                                                    (entry.name ===
+                                                      (currentLanguage === "mk"
+                                                        ? "Банка"
+                                                        : "Bank") &&
+                                                      o.paymentMethod ===
+                                                        "payment_bank")
+                                                ).length
+                                              }{" "}
+                                              {t("orders")}
+                                            </small>
+                                          </td>
+                                          <td className="text-end">
+                                            <small className="fw-bold">
+                                              {formatTotal(
+                                                entry.value,
+                                                currentLanguage
+                                              )}
+                                            </small>
+                                          </td>
+                                          <td className="text-end">
+                                            <span className="badge bg-light text-dark">
+                                              {(
+                                                (entry.value /
+                                                  grandTotalInDisplayCurrency) *
+                                                100
+                                              ).toFixed(1)}
+                                              %
+                                            </span>
+                                          </td>
+                                        </tr>
+                                      )
+                                    )}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Monthly Payment Trends */}
+                        <div className="col-lg-6 mb-4">
+                          <div className="card border-0 shadow-sm">
+                            <div className="card-body">
+                              <h5 className="mb-3">
+                                <i className="bi bi-graph-up me-2 text-success"></i>
+                                {t("monthly_payment_trends")}
+                              </h5>
+                              <ResponsiveContainer width="100%" height={300}>
+                                <BarChart
+                                  data={getMonthlyRevenue(
+                                    filteredOrdersForCharts,
+                                    parseInt(filterYear)
+                                  )}
+                                >
+                                  <XAxis
+                                    dataKey="month"
+                                    tick={{ fontSize: 12 }}
+                                  />
+                                  <YAxis tick={{ fontSize: 12 }} />
+                                  <Tooltip
+                                    formatter={(value) =>
+                                      formatTotal(value, currentLanguage)
+                                    }
+                                  />
+                                  <Legend />
+                                  <Bar
+                                    dataKey="revenue"
+                                    fill="#0088FE"
+                                    name={
+                                      currentLanguage === "mk"
+                                        ? "Приход"
+                                        : "Revenue"
+                                    }
+                                  />
+                                </BarChart>
+                              </ResponsiveContainer>
+
+                              {/* Best/Worst Month Stats */}
+                              <div className="row mt-3 g-2">
+                                <div className="col-6">
+                                  <div className="card border-success">
+                                    <div className="card-body text-center py-2">
+                                      <small className="text-muted d-block">
+                                        {t("best_month")}
+                                      </small>
+                                      <strong className="text-success">
+                                        {(() => {
+                                          const monthlyData = getMonthlyRevenue(
+                                            filteredOrdersForCharts,
+                                            parseInt(filterYear)
+                                          );
+                                          const best = monthlyData.reduce(
+                                            (max, m) =>
+                                              m.revenue > max.revenue ? m : max,
+                                            monthlyData[0]
+                                          );
+                                          return best?.month || "-";
+                                        })()}
+                                      </strong>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-6">
+                                  <div className="card border-info">
+                                    <div className="card-body text-center py-2">
+                                      <small className="text-muted d-block">
+                                        {t("total_months")}
+                                      </small>
+                                      <strong className="text-info">
+                                        {
+                                          getMonthlyRevenue(
+                                            filteredOrdersForCharts,
+                                            parseInt(filterYear)
+                                          ).filter((m) => m.revenue > 0).length
+                                        }
+                                      </strong>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
 
-                  {/* Payment Details Table */}
+                      {/* Payment Method Comparison */}
+                      <div className="row">
+                        <div className="col-12">
+                          <div className="card border-0 shadow-sm">
+                            <div className="card-body">
+                              <h5 className="mb-3">
+                                <i className="bi bi-bar-chart-line me-2 text-info"></i>
+                                {t("payment_method_comparison")}
+                              </h5>
+
+                              <div className="row g-3">
+                                {/* Cash Payments */}
+                                <div className="col-md-6">
+                                  <div className="card border-success">
+                                    <div className="card-header bg-success text-white">
+                                      <h6 className="mb-0">
+                                        <i className="bi bi-cash me-2"></i>
+                                        {t("payment_cash")}
+                                      </h6>
+                                    </div>
+                                    <div className="card-body">
+                                      <div className="row text-center">
+                                        <div className="col-6 border-end">
+                                          <h4 className="text-success mb-1">
+                                            {
+                                              filteredOrdersForCharts.filter(
+                                                (o) =>
+                                                  o.paymentMethod ===
+                                                  "payment_cash"
+                                              ).length
+                                            }
+                                          </h4>
+                                          <small className="text-muted">
+                                            {t("transactions")}
+                                          </small>
+                                        </div>
+                                        <div className="col-6">
+                                          <h4
+                                            className="text-success mb-1"
+                                            style={{ fontSize: "1.2rem" }}
+                                          >
+                                            {formatTotal(
+                                              filteredOrdersForCharts
+                                                .filter(
+                                                  (o) =>
+                                                    o.paymentMethod ===
+                                                    "payment_cash"
+                                                )
+                                                .reduce((sum, order) => {
+                                                  const mk = parseFloat(
+                                                    order.totalMK || 0
+                                                  );
+                                                  const en = parseFloat(
+                                                    order.totalEN || 0
+                                                  );
+                                                  return currentLanguage ===
+                                                    "mk"
+                                                    ? sum +
+                                                        (mk > 0
+                                                          ? mk
+                                                          : en * conversionRate)
+                                                    : sum +
+                                                        (en > 0
+                                                          ? en
+                                                          : mk /
+                                                            conversionRate);
+                                                }, 0),
+                                              currentLanguage
+                                            )}
+                                          </h4>
+                                          <small className="text-muted">
+                                            {t("total")}
+                                          </small>
+                                        </div>
+                                      </div>
+                                      <hr />
+                                      <div className="text-center">
+                                        <small className="text-muted">
+                                          {t("avg_transaction")}
+                                        </small>
+                                        <h5 className="text-success mt-1">
+                                          {formatTotal(
+                                            getAverageOrderValue(
+                                              filteredOrdersForCharts.filter(
+                                                (o) =>
+                                                  o.paymentMethod ===
+                                                  "payment_cash"
+                                              )
+                                            ),
+                                            currentLanguage
+                                          )}
+                                        </h5>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Bank Payments */}
+                                <div className="col-md-6">
+                                  <div className="card border-primary">
+                                    <div className="card-header bg-primary text-white">
+                                      <h6 className="mb-0">
+                                        <i className="bi bi-bank me-2"></i>
+                                        {t("payment_bank")}
+                                      </h6>
+                                    </div>
+                                    <div className="card-body">
+                                      <div className="row text-center">
+                                        <div className="col-6 border-end">
+                                          <h4 className="text-primary mb-1">
+                                            {
+                                              filteredOrdersForCharts.filter(
+                                                (o) =>
+                                                  o.paymentMethod ===
+                                                  "payment_bank"
+                                              ).length
+                                            }
+                                          </h4>
+                                          <small className="text-muted">
+                                            {t("transactions")}
+                                          </small>
+                                        </div>
+                                        <div className="col-6">
+                                          <h4
+                                            className="text-primary mb-1"
+                                            style={{ fontSize: "1.2rem" }}
+                                          >
+                                            {formatTotal(
+                                              filteredOrdersForCharts
+                                                .filter(
+                                                  (o) =>
+                                                    o.paymentMethod ===
+                                                    "payment_bank"
+                                                )
+                                                .reduce((sum, order) => {
+                                                  const mk = parseFloat(
+                                                    order.totalMK || 0
+                                                  );
+                                                  const en = parseFloat(
+                                                    order.totalEN || 0
+                                                  );
+                                                  return currentLanguage ===
+                                                    "mk"
+                                                    ? sum +
+                                                        (mk > 0
+                                                          ? mk
+                                                          : en * conversionRate)
+                                                    : sum +
+                                                        (en > 0
+                                                          ? en
+                                                          : mk /
+                                                            conversionRate);
+                                                }, 0),
+                                              currentLanguage
+                                            )}
+                                          </h4>
+                                          <small className="text-muted">
+                                            {t("total")}
+                                          </small>
+                                        </div>
+                                      </div>
+                                      <hr />
+                                      <div className="text-center">
+                                        <small className="text-muted">
+                                          {t("avg_transaction")}
+                                        </small>
+                                        <h5 className="text-primary mt-1">
+                                          {formatTotal(
+                                            getAverageOrderValue(
+                                              filteredOrdersForCharts.filter(
+                                                (o) =>
+                                                  o.paymentMethod ===
+                                                  "payment_bank"
+                                              )
+                                            ),
+                                            currentLanguage
+                                          )}
+                                        </h5>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {/* ================= PAYMENT DETAILS (ADMIN + GUEST) ================= */}
                   <div className="card border-0 shadow-sm mb-4">
                     <div className="card-header bg-white border-bottom">
                       <h5 className="mb-0">
@@ -5892,186 +6107,6 @@ const MyAccount = () => {
                           </nav>
                         </div>
                       )}
-                    </div>
-                  </div>
-
-                  {/* Payment Method Comparison */}
-                  <div className="row">
-                    <div className="col-12">
-                      <div className="card border-0 shadow-sm">
-                        <div className="card-body">
-                          <h5 className="mb-3">
-                            <i className="bi bi-bar-chart-line me-2 text-info"></i>
-                            {t("payment_method_comparison")}
-                          </h5>
-
-                          <div className="row g-3">
-                            {/* Cash Payments */}
-                            <div className="col-md-6">
-                              <div className="card border-success">
-                                <div className="card-header bg-success text-white">
-                                  <h6 className="mb-0">
-                                    <i className="bi bi-cash me-2"></i>
-                                    {t("payment_cash")}
-                                  </h6>
-                                </div>
-                                <div className="card-body">
-                                  <div className="row text-center">
-                                    <div className="col-6 border-end">
-                                      <h4 className="text-success mb-1">
-                                        {
-                                          filteredOrdersForCharts.filter(
-                                            (o) =>
-                                              o.paymentMethod === "payment_cash"
-                                          ).length
-                                        }
-                                      </h4>
-                                      <small className="text-muted">
-                                        {t("transactions")}
-                                      </small>
-                                    </div>
-                                    <div className="col-6">
-                                      <h4
-                                        className="text-success mb-1"
-                                        style={{ fontSize: "1.2rem" }}
-                                      >
-                                        {formatTotal(
-                                          filteredOrdersForCharts
-                                            .filter(
-                                              (o) =>
-                                                o.paymentMethod ===
-                                                "payment_cash"
-                                            )
-                                            .reduce((sum, order) => {
-                                              const mk = parseFloat(
-                                                order.totalMK || 0
-                                              );
-                                              const en = parseFloat(
-                                                order.totalEN || 0
-                                              );
-                                              return currentLanguage === "mk"
-                                                ? sum +
-                                                    (mk > 0
-                                                      ? mk
-                                                      : en * conversionRate)
-                                                : sum +
-                                                    (en > 0
-                                                      ? en
-                                                      : mk / conversionRate);
-                                            }, 0),
-                                          currentLanguage
-                                        )}
-                                      </h4>
-                                      <small className="text-muted">
-                                        {t("total")}
-                                      </small>
-                                    </div>
-                                  </div>
-                                  <hr />
-                                  <div className="text-center">
-                                    <small className="text-muted">
-                                      {t("avg_transaction")}
-                                    </small>
-                                    <h5 className="text-success mt-1">
-                                      {formatTotal(
-                                        getAverageOrderValue(
-                                          filteredOrdersForCharts.filter(
-                                            (o) =>
-                                              o.paymentMethod === "payment_cash"
-                                          )
-                                        ),
-                                        currentLanguage
-                                      )}
-                                    </h5>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Bank Payments */}
-                            <div className="col-md-6">
-                              <div className="card border-primary">
-                                <div className="card-header bg-primary text-white">
-                                  <h6 className="mb-0">
-                                    <i className="bi bi-bank me-2"></i>
-                                    {t("payment_bank")}
-                                  </h6>
-                                </div>
-                                <div className="card-body">
-                                  <div className="row text-center">
-                                    <div className="col-6 border-end">
-                                      <h4 className="text-primary mb-1">
-                                        {
-                                          filteredOrdersForCharts.filter(
-                                            (o) =>
-                                              o.paymentMethod === "payment_bank"
-                                          ).length
-                                        }
-                                      </h4>
-                                      <small className="text-muted">
-                                        {t("transactions")}
-                                      </small>
-                                    </div>
-                                    <div className="col-6">
-                                      <h4
-                                        className="text-primary mb-1"
-                                        style={{ fontSize: "1.2rem" }}
-                                      >
-                                        {formatTotal(
-                                          filteredOrdersForCharts
-                                            .filter(
-                                              (o) =>
-                                                o.paymentMethod ===
-                                                "payment_bank"
-                                            )
-                                            .reduce((sum, order) => {
-                                              const mk = parseFloat(
-                                                order.totalMK || 0
-                                              );
-                                              const en = parseFloat(
-                                                order.totalEN || 0
-                                              );
-                                              return currentLanguage === "mk"
-                                                ? sum +
-                                                    (mk > 0
-                                                      ? mk
-                                                      : en * conversionRate)
-                                                : sum +
-                                                    (en > 0
-                                                      ? en
-                                                      : mk / conversionRate);
-                                            }, 0),
-                                          currentLanguage
-                                        )}
-                                      </h4>
-                                      <small className="text-muted">
-                                        {t("total")}
-                                      </small>
-                                    </div>
-                                  </div>
-                                  <hr />
-                                  <div className="text-center">
-                                    <small className="text-muted">
-                                      {t("avg_transaction")}
-                                    </small>
-                                    <h5 className="text-primary mt-1">
-                                      {formatTotal(
-                                        getAverageOrderValue(
-                                          filteredOrdersForCharts.filter(
-                                            (o) =>
-                                              o.paymentMethod === "payment_bank"
-                                          )
-                                        ),
-                                        currentLanguage
-                                      )}
-                                    </h5>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -6617,7 +6652,7 @@ const MyAccount = () => {
                             style={{
                               maxHeight: "500px",
                               overflowY: "auto",
-                              border: "1px solid #dee2e6",                              
+                              border: "1px solid #dee2e6",
                               position: "relative",
                             }}
                           >
