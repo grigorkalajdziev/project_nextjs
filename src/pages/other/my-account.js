@@ -244,9 +244,15 @@ const MyAccount = () => {
 
   const formatTotal = (amount, lang) => {
     const isEnglish = lang === "en";
+
+    const formatter = new Intl.NumberFormat(isEnglish ? "en-US" : "mk-MK", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
     const symbol = isEnglish ? "€" : "ден.";
-    const formatted = parseFloat(amount || 0).toFixed(2);
-    return `${formatted} ${symbol}`;
+
+    return `${formatter.format(amount || 0)} ${symbol}`;
   };
 
   const filteredOrders = orders
@@ -1592,12 +1598,10 @@ const MyAccount = () => {
           ? t("payment_cash")
           : t("payment_bank");
 
-      // ✅ Normalize discount
       const discountValue = isMK
         ? Number(order.discountMK || 0)
         : Number(order.discountEN || 0);
 
-      // ✅ Build order exactly as API expects
       const orderForPdf = {
         orderNumber: order.orderNumber,
         date: order.date,
@@ -1607,19 +1611,15 @@ const MyAccount = () => {
         paymentMethod: order.paymentMethod,
         paymentText,
 
-        // ✅ language-aware totals
         totalMK: order.totalMK,
         totalEN: order.totalEN,
         displayTotal: isMK ? order.totalMK : order.totalEN,
 
-        // ✅ discount
         discount: discountValue,
         couponCode: order.coupon?.code || null,
 
-        // ✅ products (API will normalize names/prices)
         products: order.products || [],
 
-        // ✅ customer mapping (important)
         customer: {
           name: order.displayName || null,
           email: order.email || null,
@@ -3352,22 +3352,31 @@ const MyAccount = () => {
                                       interval={4}
                                       height={50}
                                     />
+
                                     <YAxis />
+
                                     <Tooltip
-                                      formatter={(value, name) => [
-                                        value.toLocaleString(undefined, {
-                                          minimumFractionDigits: 2,
-                                          maximumFractionDigits: 2,
-                                        }),
-                                        name === "revenue"
-                                          ? currentLanguage === "mk"
-                                            ? "Приход"
-                                            : "Revenue"
-                                          : currentLanguage === "mk"
+                                      formatter={(value, name) => {
+                                        // Revenue → formatted currency
+                                        if (name === "revenue") {
+                                          return [
+                                            formatTotal(value, currentLanguage),
+                                            currentLanguage === "mk"
+                                              ? "Приход"
+                                              : "Revenue",
+                                          ];
+                                        }
+
+                                        // Orders → plain number
+                                        return [
+                                          value,
+                                          currentLanguage === "mk"
                                             ? "Нарачки"
                                             : "Orders",
-                                      ]}
+                                        ];
+                                      }}
                                     />
+
                                     <Bar dataKey="revenue" fill="#0088FE" />
                                   </BarChart>
                                 </ResponsiveContainer>
@@ -3427,6 +3436,7 @@ const MyAccount = () => {
                                           </th>
                                         </tr>
                                       </thead>
+
                                       <tbody>
                                         {getDailyRevenue(
                                           filteredOrdersForCharts,
@@ -3452,18 +3462,16 @@ const MyAccount = () => {
                                             </td>
                                             <td className="text-end pe-3">
                                               <small className="text-success">
-                                                {day.revenue.toLocaleString(
-                                                  undefined,
-                                                  {
-                                                    minimumFractionDigits: 2,
-                                                    maximumFractionDigits: 2,
-                                                  }
+                                                {formatTotal(
+                                                  day.revenue,
+                                                  currentLanguage
                                                 )}
                                               </small>
                                             </td>
                                           </tr>
                                         ))}
                                       </tbody>
+
                                       <tfoot
                                         className="table-secondary"
                                         style={{
@@ -3497,23 +3505,21 @@ const MyAccount = () => {
                                             <small
                                               style={{ fontSize: "0.9rem" }}
                                             >
-                                              {getDailyRevenue(
-                                                filteredOrdersForCharts,
-                                                dateRange === "7days"
-                                                  ? 7
-                                                  : dateRange === "30days"
-                                                    ? 30
-                                                    : 90
-                                              )
-                                                .reduce(
+                                              {formatTotal(
+                                                getDailyRevenue(
+                                                  filteredOrdersForCharts,
+                                                  dateRange === "7days"
+                                                    ? 7
+                                                    : dateRange === "30days"
+                                                      ? 30
+                                                      : 90
+                                                ).reduce(
                                                   (sum, day) =>
                                                     sum + day.revenue,
                                                   0
-                                                )
-                                                .toLocaleString(undefined, {
-                                                  minimumFractionDigits: 2,
-                                                  maximumFractionDigits: 2,
-                                                })}
+                                                ),
+                                                currentLanguage
+                                              )}
                                             </small>
                                           </td>
                                         </tr>
@@ -3530,7 +3536,7 @@ const MyAccount = () => {
                                             {t("avg_daily_revenue")}
                                           </small>
                                           <strong className="text-primary">
-                                            {(
+                                            {formatTotal(
                                               getDailyRevenue(
                                                 filteredOrdersForCharts,
                                                 dateRange === "7days"
@@ -3542,22 +3548,21 @@ const MyAccount = () => {
                                                 (sum, day) => sum + day.revenue,
                                                 0
                                               ) /
-                                              getDailyRevenue(
-                                                filteredOrdersForCharts,
-                                                dateRange === "7days"
-                                                  ? 7
-                                                  : dateRange === "30days"
-                                                    ? 30
-                                                    : 90
-                                              ).length
-                                            ).toLocaleString(undefined, {
-                                              minimumFractionDigits: 2,
-                                              maximumFractionDigits: 2,
-                                            })}
+                                                getDailyRevenue(
+                                                  filteredOrdersForCharts,
+                                                  dateRange === "7days"
+                                                    ? 7
+                                                    : dateRange === "30days"
+                                                      ? 30
+                                                      : 90
+                                                ).length,
+                                              currentLanguage
+                                            )}
                                           </strong>
                                         </div>
                                       </div>
                                     </div>
+
                                     <div className="col-md-4">
                                       <div className="card border-success">
                                         <div className="card-body text-center py-2">
@@ -3581,18 +3586,16 @@ const MyAccount = () => {
                                                     : max,
                                                 dailyData[0]
                                               );
-                                              return bestDay.revenue.toLocaleString(
-                                                undefined,
-                                                {
-                                                  minimumFractionDigits: 2,
-                                                  maximumFractionDigits: 2,
-                                                }
+                                              return formatTotal(
+                                                bestDay.revenue,
+                                                currentLanguage
                                               );
                                             })()}
                                           </strong>
                                         </div>
                                       </div>
                                     </div>
+
                                     <div className="col-md-4">
                                       <div className="card border-info">
                                         <div className="card-body text-center py-2">
@@ -3661,6 +3664,7 @@ const MyAccount = () => {
                                     : filterYear}
                                 </span>
                               </div>
+
                               <div className="chart-container">
                                 <ResponsiveContainer>
                                   <BarChart
@@ -3679,17 +3683,16 @@ const MyAccount = () => {
                                   >
                                     <XAxis dataKey="month" />
                                     <YAxis />
+
                                     <Tooltip
                                       formatter={(value) => [
-                                        value.toLocaleString(undefined, {
-                                          minimumFractionDigits: 2,
-                                          maximumFractionDigits: 2,
-                                        }),
+                                        formatTotal(value, currentLanguage),
                                         currentLanguage === "mk"
                                           ? "Приход"
                                           : "Revenue",
                                       ]}
                                     />
+
                                     <Bar dataKey="revenue" fill="#00C49F" />
                                   </BarChart>
                                 </ResponsiveContainer>
@@ -3763,6 +3766,7 @@ const MyAccount = () => {
                                           </th>
                                         </tr>
                                       </thead>
+
                                       <tbody>
                                         {getMonthlyRevenue(
                                           filteredOrdersForCharts,
@@ -3787,6 +3791,7 @@ const MyAccount = () => {
                                                 </small>
                                               </div>
                                             </td>
+
                                             <td className="text-center">
                                               <span className="badge bg-info text-dark">
                                                 <small>
@@ -3794,30 +3799,28 @@ const MyAccount = () => {
                                                 </small>
                                               </span>
                                             </td>
+
                                             <td className="text-end">
                                               <small className="text-success">
-                                                {month.revenue.toLocaleString(
-                                                  undefined,
-                                                  {
-                                                    minimumFractionDigits: 2,
-                                                    maximumFractionDigits: 2,
-                                                  }
+                                                {formatTotal(
+                                                  month.revenue,
+                                                  currentLanguage
                                                 )}
                                               </small>
                                             </td>
+
                                             <td className="text-end pe-3 text-muted">
                                               <small>
-                                                {(
-                                                  month.revenue / 30
-                                                ).toLocaleString(undefined, {
-                                                  minimumFractionDigits: 2,
-                                                  maximumFractionDigits: 2,
-                                                })}
+                                                {formatTotal(
+                                                  month.revenue / 30,
+                                                  currentLanguage
+                                                )}
                                               </small>
                                             </td>
                                           </tr>
                                         ))}
                                       </tbody>
+
                                       <tfoot
                                         className="table-secondary"
                                         style={{
@@ -3846,29 +3849,8 @@ const MyAccount = () => {
                                             </span>
                                           </td>
                                           <td className="text-end text-primary">
-                                            <strong
-                                              style={{ fontSize: "1rem" }}
-                                            >
-                                              {getMonthlyRevenue(
-                                                filteredOrdersForCharts,
-                                                filterYear === "all"
-                                                  ? new Date().getFullYear()
-                                                  : parseInt(filterYear, 10)
-                                              )
-                                                .reduce(
-                                                  (sum, month) =>
-                                                    sum + month.revenue,
-                                                  0
-                                                )
-                                                .toLocaleString(undefined, {
-                                                  minimumFractionDigits: 2,
-                                                  maximumFractionDigits: 2,
-                                                })}
-                                            </strong>
-                                          </td>
-                                          <td className="text-end pe-3 text-primary">
                                             <strong>
-                                              {(
+                                              {formatTotal(
                                                 getMonthlyRevenue(
                                                   filteredOrdersForCharts,
                                                   filterYear === "all"
@@ -3878,11 +3860,26 @@ const MyAccount = () => {
                                                   (sum, month) =>
                                                     sum + month.revenue,
                                                   0
-                                                ) / 365
-                                              ).toLocaleString(undefined, {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2,
-                                              })}
+                                                ),
+                                                currentLanguage
+                                              )}
+                                            </strong>
+                                          </td>
+                                          <td className="text-end pe-3 text-primary">
+                                            <strong>
+                                              {formatTotal(
+                                                getMonthlyRevenue(
+                                                  filteredOrdersForCharts,
+                                                  filterYear === "all"
+                                                    ? new Date().getFullYear()
+                                                    : parseInt(filterYear, 10)
+                                                ).reduce(
+                                                  (sum, month) =>
+                                                    sum + month.revenue,
+                                                  0
+                                                ) / 365,
+                                                currentLanguage
+                                              )}
                                             </strong>
                                           </td>
                                         </tr>
@@ -3899,7 +3896,7 @@ const MyAccount = () => {
                                             {t("avg_monthly_revenue")}
                                           </small>
                                           <strong className="text-success">
-                                            {(
+                                            {formatTotal(
                                               getMonthlyRevenue(
                                                 filteredOrdersForCharts,
                                                 filterYear === "all"
@@ -3910,20 +3907,19 @@ const MyAccount = () => {
                                                   sum + month.revenue,
                                                 0
                                               ) /
-                                              getMonthlyRevenue(
-                                                filteredOrdersForCharts,
-                                                filterYear === "all"
-                                                  ? new Date().getFullYear()
-                                                  : parseInt(filterYear, 10)
-                                              ).length
-                                            ).toLocaleString(undefined, {
-                                              minimumFractionDigits: 2,
-                                              maximumFractionDigits: 2,
-                                            })}
+                                                getMonthlyRevenue(
+                                                  filteredOrdersForCharts,
+                                                  filterYear === "all"
+                                                    ? new Date().getFullYear()
+                                                    : parseInt(filterYear, 10)
+                                                ).length,
+                                              currentLanguage
+                                            )}
                                           </strong>
                                         </div>
                                       </div>
                                     </div>
+
                                     <div className="col-md-3">
                                       <div className="card border-primary">
                                         <div className="card-body text-center py-2">
@@ -3953,6 +3949,7 @@ const MyAccount = () => {
                                         </div>
                                       </div>
                                     </div>
+
                                     <div className="col-md-3">
                                       <div className="card border-warning">
                                         <div className="card-body text-center py-2">
@@ -3974,6 +3971,7 @@ const MyAccount = () => {
                                         </div>
                                       </div>
                                     </div>
+
                                     <div className="col-md-3">
                                       <div className="card border-info">
                                         <div className="card-body text-center py-2">
@@ -4006,6 +4004,7 @@ const MyAccount = () => {
                                   </div>
                                 </div>
                               </div>
+
                               <div className="mt-3 p-3 bg-light rounded">
                                 <small className="text-muted">
                                   <i className="bi bi-info-circle me-2"></i>
@@ -4031,6 +4030,7 @@ const MyAccount = () => {
                                   />
                                   {t("yearly_comparison")}
                                 </h5>
+
                                 <div className="chart-container">
                                   <ResponsiveContainer>
                                     <BarChart
@@ -4044,21 +4044,21 @@ const MyAccount = () => {
                                     >
                                       <XAxis dataKey="year" />
                                       <YAxis />
+
                                       <Tooltip
                                         formatter={(value) => [
-                                          value.toLocaleString(undefined, {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                          }),
+                                          formatTotal(value, currentLanguage),
                                           currentLanguage === "mk"
                                             ? "Приход"
                                             : "Revenue",
                                         ]}
                                       />
+
                                       <Bar dataKey="revenue" fill="#FFBB28" />
                                     </BarChart>
                                   </ResponsiveContainer>
                                 </div>
+
                                 {/* Yearly Comparison Table */}
                                 <div className="mt-4">
                                   <div className="d-flex justify-content-between align-items-center mb-3">
@@ -4128,6 +4128,7 @@ const MyAccount = () => {
                                           </th>
                                         </tr>
                                       </thead>
+
                                       <tbody>
                                         {getYearlyRevenue(orders).map(
                                           (year, index) => {
@@ -4137,6 +4138,7 @@ const MyAccount = () => {
                                                     index - 1
                                                   ]
                                                 : null;
+
                                             const growth = previousYear
                                               ? (
                                                   ((year.revenue -
@@ -4166,6 +4168,7 @@ const MyAccount = () => {
                                                     </small>
                                                   </div>
                                                 </td>
+
                                                 <td className="text-center">
                                                   <span className="badge bg-info text-dark">
                                                     <small>
@@ -4173,45 +4176,40 @@ const MyAccount = () => {
                                                     </small>
                                                   </span>
                                                 </td>
+
                                                 <td className="text-end">
                                                   <small className="text-warning">
-                                                    {year.revenue.toLocaleString(
-                                                      undefined,
-                                                      {
-                                                        minimumFractionDigits: 2,
-                                                        maximumFractionDigits: 2,
-                                                      }
+                                                    {formatTotal(
+                                                      year.revenue,
+                                                      currentLanguage
                                                     )}
                                                   </small>
                                                 </td>
+
                                                 <td className="text-end">
-                                                  <small>
-                                                    {index > 0 ? (
-                                                      <span
-                                                        className={`badge ${growth >= 0 ? "bg-success" : "bg-danger"}`}
-                                                      >
-                                                        {growth >= 0
-                                                          ? "↑"
-                                                          : "↓"}{" "}
-                                                        {Math.abs(growth)}%
-                                                      </span>
-                                                    ) : (
-                                                      <span className="badge bg-secondary">
-                                                        -
-                                                      </span>
-                                                    )}
-                                                  </small>
+                                                  {index > 0 ? (
+                                                    <span
+                                                      className={`badge ${
+                                                        growth >= 0
+                                                          ? "bg-success"
+                                                          : "bg-danger"
+                                                      }`}
+                                                    >
+                                                      {growth >= 0 ? "↑" : "↓"}{" "}
+                                                      {Math.abs(growth)}%
+                                                    </span>
+                                                  ) : (
+                                                    <span className="badge bg-secondary">
+                                                      -
+                                                    </span>
+                                                  )}
                                                 </td>
+
                                                 <td className="text-end pe-3 text-muted">
                                                   <small>
-                                                    {(
-                                                      year.revenue / 12
-                                                    ).toLocaleString(
-                                                      undefined,
-                                                      {
-                                                        minimumFractionDigits: 2,
-                                                        maximumFractionDigits: 2,
-                                                      }
+                                                    {formatTotal(
+                                                      year.revenue / 12,
+                                                      currentLanguage
                                                     )}
                                                   </small>
                                                 </td>
@@ -4220,6 +4218,7 @@ const MyAccount = () => {
                                           }
                                         )}
                                       </tbody>
+
                                       <tfoot
                                         className="table-secondary"
                                         style={{
@@ -4233,6 +4232,7 @@ const MyAccount = () => {
                                             <i className="bi bi-calculator me-2"></i>
                                             {t("total")}
                                           </td>
+
                                           <td className="text-center">
                                             <span className="badge bg-dark">
                                               {getYearlyRevenue(orders).reduce(
@@ -4242,39 +4242,42 @@ const MyAccount = () => {
                                               )}
                                             </span>
                                           </td>
+
                                           <td className="text-end text-primary">
-                                            <strong
-                                              style={{ fontSize: "1rem" }}
-                                            >
-                                              {getYearlyRevenue(orders)
-                                                .reduce(
+                                            <strong>
+                                              {formatTotal(
+                                                getYearlyRevenue(orders).reduce(
                                                   (sum, year) =>
                                                     sum + year.revenue,
                                                   0
-                                                )
-                                                .toLocaleString(undefined, {
-                                                  minimumFractionDigits: 2,
-                                                  maximumFractionDigits: 2,
-                                                })}
+                                                ),
+                                                currentLanguage
+                                              )}
                                             </strong>
                                           </td>
+
                                           <td className="text-end">
                                             {(() => {
                                               const years =
                                                 getYearlyRevenue(orders);
                                               if (years.length > 1) {
-                                                const firstYear = years[0];
-                                                const lastYear =
+                                                const first = years[0];
+                                                const last =
                                                   years[years.length - 1];
                                                 const totalGrowth = (
-                                                  ((lastYear.revenue -
-                                                    firstYear.revenue) /
-                                                    firstYear.revenue) *
+                                                  ((last.revenue -
+                                                    first.revenue) /
+                                                    first.revenue) *
                                                   100
                                                 ).toFixed(1);
+
                                                 return (
                                                   <span
-                                                    className={`badge ${totalGrowth >= 0 ? "bg-success" : "bg-danger"}`}
+                                                    className={`badge ${
+                                                      totalGrowth >= 0
+                                                        ? "bg-success"
+                                                        : "bg-danger"
+                                                    }`}
                                                   >
                                                     {totalGrowth >= 0
                                                       ? "↑"
@@ -4290,21 +4293,20 @@ const MyAccount = () => {
                                               );
                                             })()}
                                           </td>
+
                                           <td className="text-end pe-3 text-primary">
                                             <strong>
-                                              {(
+                                              {formatTotal(
                                                 getYearlyRevenue(orders).reduce(
                                                   (sum, year) =>
                                                     sum + year.revenue,
                                                   0
                                                 ) /
-                                                (getYearlyRevenue(orders)
-                                                  .length *
-                                                  12)
-                                              ).toLocaleString(undefined, {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2,
-                                              })}
+                                                  (getYearlyRevenue(orders)
+                                                    .length *
+                                                    12),
+                                                currentLanguage
+                                              )}
                                             </strong>
                                           </td>
                                         </tr>
@@ -4320,15 +4322,13 @@ const MyAccount = () => {
                                           <small className="text-muted d-block">
                                             {t("total_years")}
                                           </small>
-                                          <strong
-                                            className="text-warning"
-                                            style={{ fontSize: "1.1rem" }}
-                                          >
+                                          <strong className="text-warning">
                                             {getYearlyRevenue(orders).length}
                                           </strong>
                                         </div>
                                       </div>
                                     </div>
+
                                     <div className="col-md-3">
                                       <div className="card border-success">
                                         <div className="card-body text-center py-2">
@@ -4339,20 +4339,19 @@ const MyAccount = () => {
                                             {(() => {
                                               const yearlyData =
                                                 getYearlyRevenue(orders);
-                                              const bestYear =
-                                                yearlyData.reduce(
-                                                  (max, year) =>
-                                                    year.revenue > max.revenue
-                                                      ? year
-                                                      : max,
-                                                  yearlyData[0]
-                                                );
-                                              return bestYear.year;
+                                              return yearlyData.reduce(
+                                                (max, year) =>
+                                                  year.revenue > max.revenue
+                                                    ? year
+                                                    : max,
+                                                yearlyData[0]
+                                              ).year;
                                             })()}
                                           </strong>
                                         </div>
                                       </div>
                                     </div>
+
                                     <div className="col-md-3">
                                       <div className="card border-primary">
                                         <div className="card-body text-center py-2">
@@ -4360,21 +4359,20 @@ const MyAccount = () => {
                                             {t("avg_yearly_revenue")}
                                           </small>
                                           <small className="text-primary">
-                                            {(
+                                            {formatTotal(
                                               getYearlyRevenue(orders).reduce(
                                                 (sum, year) =>
                                                   sum + year.revenue,
                                                 0
                                               ) /
-                                              getYearlyRevenue(orders).length
-                                            ).toLocaleString(undefined, {
-                                              minimumFractionDigits: 0,
-                                              maximumFractionDigits: 0,
-                                            })}
+                                                getYearlyRevenue(orders).length,
+                                              currentLanguage
+                                            )}
                                           </small>
                                         </div>
                                       </div>
                                     </div>
+
                                     <div className="col-md-3">
                                       <div className="card border-info">
                                         <div className="card-body text-center py-2">
@@ -4386,16 +4384,16 @@ const MyAccount = () => {
                                               const years =
                                                 getYearlyRevenue(orders);
                                               if (years.length > 1) {
-                                                const firstYear = years[0];
-                                                const lastYear =
+                                                const first = years[0];
+                                                const last =
                                                   years[years.length - 1];
-                                                const totalGrowth = (
-                                                  ((lastYear.revenue -
-                                                    firstYear.revenue) /
-                                                    firstYear.revenue) *
+                                                const growth = (
+                                                  ((last.revenue -
+                                                    first.revenue) /
+                                                    first.revenue) *
                                                   100
                                                 ).toFixed(1);
-                                                return `${totalGrowth >= 0 ? "+" : ""}${totalGrowth}%`;
+                                                return `${growth >= 0 ? "+" : ""}${growth}%`;
                                               }
                                               return "-";
                                             })()}
@@ -4405,6 +4403,7 @@ const MyAccount = () => {
                                     </div>
                                   </div>
                                 </div>
+
                                 <div className="mt-3 p-3 bg-light rounded">
                                   <small className="text-muted">
                                     <i className="bi bi-info-circle me-2"></i>
@@ -4419,6 +4418,7 @@ const MyAccount = () => {
                       )}
 
                       <div className="row">
+                        {/* Revenue by Payment Method */}
                         <div className="col-12 col-md-6 mb-4">
                           <div className="card">
                             <div className="card-body">
@@ -4437,13 +4437,7 @@ const MyAccount = () => {
                                       cy="50%"
                                       outerRadius="80%"
                                       label={(entry) =>
-                                        `${entry.name} (${entry.value.toLocaleString(
-                                          undefined,
-                                          {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                          }
-                                        )})`
+                                        `${entry.name} (${formatTotal(entry.value, currentLanguage)})`
                                       }
                                     >
                                       {formattedPaymentData.map(
@@ -4457,15 +4451,13 @@ const MyAccount = () => {
                                     </Pie>
                                     <Tooltip
                                       formatter={(value) =>
-                                        value.toLocaleString(undefined, {
-                                          minimumFractionDigits: 2,
-                                          maximumFractionDigits: 2,
-                                        })
+                                        formatTotal(value, currentLanguage)
                                       }
                                     />
                                   </PieChart>
                                 </ResponsiveContainer>
                               </div>
+
                               <div className="mt-3">
                                 <table className="table table-sm">
                                   <thead>
@@ -4495,12 +4487,9 @@ const MyAccount = () => {
                                             {entry.name}
                                           </td>
                                           <td className="text-end">
-                                            {entry.value.toLocaleString(
-                                              undefined,
-                                              {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2,
-                                              }
+                                            {formatTotal(
+                                              entry.value,
+                                              currentLanguage
                                             )}
                                           </td>
                                           <td className="text-end">
@@ -4517,6 +4506,7 @@ const MyAccount = () => {
                                   </tbody>
                                 </table>
                               </div>
+
                               <div className="mt-3 p-3 bg-light rounded">
                                 <small className="text-muted">
                                   <i className="bi bi-info-circle me-2"></i>
@@ -4528,6 +4518,7 @@ const MyAccount = () => {
                           </div>
                         </div>
 
+                        {/* Revenue by Status */}
                         <div className="col-12 col-md-6 mb-4">
                           <div className="card">
                             <div className="card-body">
@@ -4576,15 +4567,9 @@ const MyAccount = () => {
                                     <XAxis dataKey="status" />
                                     <YAxis />
                                     <Tooltip
-                                      formatter={(value) => [
-                                        value.toLocaleString(undefined, {
-                                          minimumFractionDigits: 2,
-                                          maximumFractionDigits: 2,
-                                        }),
-                                        currentLanguage === "mk"
-                                          ? "Вкупно"
-                                          : "Total",
-                                      ]}
+                                      formatter={(value) =>
+                                        formatTotal(value, currentLanguage)
+                                      }
                                     />
                                     <Bar dataKey="Total">
                                       {statusData(orders, filterYear).map(
@@ -4599,6 +4584,7 @@ const MyAccount = () => {
                                   </BarChart>
                                 </ResponsiveContainer>
                               </div>
+
                               <div className="mt-3">
                                 <table className="table table-sm">
                                   <thead>
@@ -4651,13 +4637,12 @@ const MyAccount = () => {
                                               {entry.count}
                                             </td>
                                             <td className="text-end">
-                                              {(currentLanguage === "mk"
-                                                ? entry.mkd
-                                                : entry.eng
-                                              ).toLocaleString(undefined, {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2,
-                                              })}
+                                              {formatTotal(
+                                                currentLanguage === "mk"
+                                                  ? entry.mkd
+                                                  : entry.eng,
+                                                currentLanguage
+                                              )}
                                             </td>
                                           </tr>
                                         );
@@ -4666,6 +4651,7 @@ const MyAccount = () => {
                                   </tbody>
                                 </table>
                               </div>
+
                               <div className="mt-3 p-3 bg-light rounded">
                                 <small className="text-muted">
                                   <i className="bi bi-info-circle me-2"></i>
@@ -5183,7 +5169,7 @@ const MyAccount = () => {
                                 </td>
                                 <td className="text-center pe-3">
                                   <button
-                                    className="btn btn-sm btn-outline-primary rounded-pill"
+                                    className="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center justify-content-center gap-1"
                                     onClick={() => downloadPdfEnhanced(order)}
                                     disabled={downloadingOrderId === order.id}
                                     style={{ minWidth: "100px" }}
@@ -5199,7 +5185,9 @@ const MyAccount = () => {
                                     ) : (
                                       <>
                                         <i className="bi bi-download"></i>
-                                        <small>{t("download")}</small>
+                                        <span className="small">
+                                          {t("download")}
+                                        </span>
                                       </>
                                     )}
                                   </button>
