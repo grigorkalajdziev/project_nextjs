@@ -20,6 +20,13 @@ import heroSliderData from "../../data/hero-sliders/hero-slider-two.json";
 const Trending = ({ products }) => {
   const { t } = useLocalization();
   const [loading, setLoading] = useState(false);
+  const currentYear = new Date().getFullYear();
+  console.log("Current Year:", currentYear);
+
+  const subtitle = t("find_your_style").replace(
+    "{{year}}",
+    currentYear
+  );
 
   const handleSeeMoreClick = (e) => {
     setLoading(true);
@@ -42,7 +49,7 @@ const Trending = ({ products }) => {
       <SectionTitleOne
         key={t("spring_summer")}
         title={t("spring_summer")}
-        subtitle={t("find_your_style")}
+        subtitle={subtitle}
       />
       <div className="products-wrapper space-mb--r100">
         <Container className="wide">

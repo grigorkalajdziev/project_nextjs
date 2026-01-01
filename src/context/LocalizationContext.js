@@ -14,7 +14,7 @@ const translations = {
     title: "Kika Makeup and Beauty Academy",
     spring_summer: "Discover Your Beauty",
     find_your_style:
-      "Get ready for 2025 with our curated makeup collection – bold shades, luxurious textures, and a glow that lasts.",
+      "Get ready for {{year}} with our curated makeup collection – bold shades, luxurious textures, and a glow that lasts.",
     shop_now: "Shop Now",
     men_collection: "Kika Makeup and Beauty Academy",
     sport_collection: "Kika Makeup and Beauty Academy",
@@ -657,7 +657,7 @@ const translations = {
     signup_login: "Најавете се",
     title: "Кика - Академија за Шминка и Убавина",
     spring_summer: "Откријте ја вашата природна убавина",
-    find_your_style: "Подгответе се за 2025 со нашиот избор на шминка – впечатливи нијанси, луксузни текстури и сјај кој трае.",
+    find_your_style: "Подгответе се за {{year}} со нашиот избор на шминка – впечатливи нијанси, луксузни текстури и сјај кој трае.",
     shop_now: "Купувај сега",
     men_collection: "Кика - Академија за Шминка и Убавина",
     sport_collection: "Кика - Академија за Шминка и Убавина",
