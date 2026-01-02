@@ -20,8 +20,7 @@ import heroSliderData from "../../data/hero-sliders/hero-slider-two.json";
 const Trending = ({ products }) => {
   const { t } = useLocalization();
   const [loading, setLoading] = useState(false);
-  const currentYear = new Date().getFullYear();
-  console.log("Current Year:", currentYear);
+  const currentYear = new Date().getFullYear();  
 
   const subtitle = t("find_your_style").replace(
     "{{year}}",
