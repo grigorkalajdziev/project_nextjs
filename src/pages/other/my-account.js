@@ -5076,7 +5076,7 @@ const MyAccount = () => {
                                 <small>{t("download_history")}</small>
                               </th>
                               <th
-                                style={{ minWidth: "180px" }}
+                                style={{ minWidth: "80px" }}
                                 className="text-center pe-3"
                               >
                                 <small>{t("action")}</small>
