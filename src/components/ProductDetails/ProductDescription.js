@@ -150,72 +150,7 @@ const ProductDescription = ({
         <p>{product.shortDescription[currentLanguage]}</p>
       </div>
       {product.variation ? (
-        <div className="product-content__size-color">
-          {/*<div className="product-content__size space-mb--20">
-           <div className="product-content__size__title">{t("size")}</div>
-            <div className="product-content__size__content">
-              {product.variation &&
-                product.variation.map((single) => {
-                  return single.color === selectedProductColor
-                    ? single.size.map((singleSize, i) => {
-                        return (
-                          <Fragment key={i}>
-                            <input
-                              type="radio"
-                              value={singleSize.name}
-                              checked={
-                                singleSize.name === selectedProductSize
-                                  ? "checked"
-                                  : ""
-                              }
-                              id={singleSize.name}
-                              onChange={() => {
-                                setSelectedProductSize(singleSize.name);
-                                setProductStock(singleSize.stock);
-                                setQuantityCount(1);
-                              }}
-                            />
-                            <label htmlFor={singleSize.name}>
-                              {singleSize.name}
-                            </label>
-                          </Fragment>
-                        );
-                      })
-                    : "";
-                })}
-            </div> 
-          </div>
-          <div className="product-content__color space-mb--20">
-           {/* <div className="product-content__color__title">{t("color")}</div>
-             <div className="product-content__color__content">
-              {product.variation.map((single, i) => {
-                return (
-                  <Fragment key={i}>
-                    <input
-                      type="radio"
-                      value={single.color}
-                      name="product-color"
-                      id={single.color}
-                      checked={
-                        single.color === selectedProductColor ? "checked" : ""
-                      }
-                      onChange={() => {
-                        setSelectedProductColor(single.color);
-                        setSelectedProductSize(single.size[0].name);
-                        setProductStock(single.size[0].stock);
-                        setQuantityCount(1);
-                      }}
-                    />
-                    <label
-                      htmlFor={single.color}
-                      style={{ backgroundColor: single.colorCode }}
-                    ></label>
-                  </Fragment>
-                );
-              })}
-            </div> 
-          </div>*/}
-        </div>
+        <div className="product-content__size-color"></div>
       ) : (
         ""
       )}
@@ -294,41 +229,57 @@ const ProductDescription = ({
               </button>
             )}
 
-            <button
-              className={`product-content__wishlist space-mr--10 ${
-                wishlistItem !== undefined ? "active" : ""
-              }`}
+            <Tooltip
               title={
                 wishlistItem !== undefined
                   ? t("added_to_wishlist")
                   : t("add_to_wishlist")
               }
-              onClick={
-                wishlistItem !== undefined
-                  ? () => deleteFromWishlist(product, addToast)
-                  : () => addToWishlist(product, addToast)
-              }
+              position="top"
+              trigger="mouseenter"
+              animation="shift"
+              arrow={true}
+              duration={200}
             >
-              <IoIosHeartEmpty />
-            </button>
+              <button
+                className={`product-content__wishlist space-mr--10 ${
+                  wishlistItem !== undefined ? "active" : ""
+                }`}
+                onClick={
+                  wishlistItem !== undefined
+                    ? () => deleteFromWishlist(product, addToast)
+                    : () => addToWishlist(product, addToast)
+                }
+              >
+                <IoIosHeartEmpty />
+              </button>
+            </Tooltip>
 
-            <button
-              className={`product-content__compare space-mr--10 ${
-                compareItem !== undefined ? "active" : ""
-              }`}
+            <Tooltip
               title={
                 compareItem !== undefined
                   ? t("added_to_compare")
                   : t("add_to_compare")
               }
-              onClick={
-                compareItem !== undefined
-                  ? () => deleteFromCompare(product, addToast)
-                  : () => addToCompare(product, addToast)
-              }
+              position="top"
+              trigger="mouseenter"
+              animation="shift"
+              arrow={true}
+              duration={200}
             >
-              <IoIosShuffle />
-            </button>
+              <button
+                className={`product-content__compare space-mr--10 ${
+                  compareItem !== undefined ? "active" : ""
+                }`}
+                onClick={
+                  compareItem !== undefined
+                    ? () => deleteFromCompare(product, addToast)
+                    : () => addToCompare(product, addToast)
+                }
+              >
+                <IoIosShuffle />
+              </button>
+            </Tooltip>
           </div>
 
           <div className="product-content__other-info space-mt--50">

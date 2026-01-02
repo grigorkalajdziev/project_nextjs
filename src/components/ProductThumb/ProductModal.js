@@ -2,6 +2,7 @@ import { useState, useEffect, Fragment } from "react";
 import { Modal, Row, Col } from "react-bootstrap";
 import { IoIosHeartEmpty, IoIosShuffle } from "react-icons/io";
 import Swiper from "react-id-swiper";
+import { Tooltip } from "react-tippy";
 import CustomScroll from "react-custom-scroll";
 import { getProductCartQuantity } from "../../lib/product";
 import { ProductRating } from "../Product";
@@ -261,41 +262,61 @@ const ProductModal = (props) => {
                         </button>
                       )}
 
-                      <button
-                        className={`product-quickview__wishlist space-mr--10 ${
-                          wishlistitem !== undefined ? "active" : ""
-                        }`}
+                      <Tooltip
                         title={
                           wishlistitem !== undefined
                             ? t("added_to_wishlist")
                             : t("add_to_wishlist")
                         }
-                        onClick={
-                          wishlistitem !== undefined
-                            ? () => deletefromwishlist(product, addtoast, t)
-                            : () => addtowishlist(product, addtoast, t)
-                        }
+                        position="top"
+                        trigger="mouseenter"
+                        animation="shift"
+                        arrow={true}
+                        duration={200}
                       >
-                        <IoIosHeartEmpty />
-                      </button>
+                        <span style={{ display: "inline-flex" }}>
+                          <button
+                            className={`product-quickview__wishlist space-mr--10 ${
+                              wishlistitem !== undefined ? "active" : ""
+                            }`}
+                            onClick={
+                              wishlistitem !== undefined
+                                ? () => deletefromwishlist(product, addtoast, t)
+                                : () => addtowishlist(product, addtoast, t)
+                            }
+                          >
+                            <IoIosHeartEmpty />
+                          </button>
+                        </span>
+                      </Tooltip>
 
-                      <button
-                        className={`product-quickview__compare space-mr--10 ${
-                          compareitem !== undefined ? "active" : ""
-                        }`}
+                      <Tooltip
                         title={
                           compareitem !== undefined
                             ? t("added_to_compare")
                             : t("add_to_compare")
                         }
-                        onClick={
-                          compareitem !== undefined
-                            ? () => deletefromcompare(product, addtoast, t)
-                            : () => addtocompare(product, addtoast, t)
-                        }
+                        position="top"
+                        trigger="mouseenter"
+                        animation="shift"
+                        arrow={true}
+                        duration={200}
                       >
-                        <IoIosShuffle />
-                      </button>
+                        <span style={{ display: "inline-flex" }}>
+                          <button
+                            className={`product-quickview__compare space-mr--10 ${
+                              compareitem !== undefined ? "active" : ""
+                            }`}
+                            onClick={
+                              compareitem !== undefined
+                                ? () => deletefromcompare(product, addtoast, t)
+                                : () => addtocompare(product, addtoast, t)
+                            }
+                          >
+                            <IoIosShuffle />
+                          </button>
+                        </span>
+                      </Tooltip>
                     </div>
                   </Fragment>
                 )}

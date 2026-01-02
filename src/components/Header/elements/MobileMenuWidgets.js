@@ -78,18 +78,15 @@ const MobileMenuWidgets = () => {
         </ul>
       </div>
       <div className="social-widget">
-        <a href="https://www.twitter.com" target="_blank">
+        <a href="https://www.x.com" target="_blank">
           <FaXTwitter />
         </a>
-        <a href="https://www.instagram.com" target="_blank">
+        <a href="https://www.instagram.com/kikamakeup_and_beautyacademy/" target="_blank">
           <IoLogoInstagram />
         </a>
-        <a href="https://www.facebook.com" target="_blank">
+        <a href="https://www.facebook.com/kristina.iloski" target="_blank">
           <IoLogoFacebook />
-        </a>
-        <a href="https://www.pinterest.com" target="_blank">
-          <IoLogoPinterest />
-        </a>
+        </a>        
       </div>
     </div>)
   );
