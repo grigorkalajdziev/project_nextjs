@@ -23,18 +23,14 @@ const HeaderTop = () => {
   useEffect(() => {
     setCurrency(currentLanguage === "en" ? "EUR" : "MKD");
   }, [currentLanguage]);
-
-  // Track authentication state.
-  // Since our registration function signs the user out immediately,
-  // a non-null "user" here indicates the user has explicitly logged in.
+ 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
     });
     return () => unsubscribe();
   }, []);
-
-  // Logout handler remains unchanged.
+ 
   const handleLogout = async () => {
     try {
       await signOut(auth);
