@@ -76,12 +76,6 @@ const Navigation = () => {
             {t("contact_us")}
           </Link>
         </li>
-
-        <li className="one-line-nav__item">
-          <Link href="/other/login-register" className="one-line-nav__link">
-            {t("login_register")}
-          </Link>
-        </li>
       </ul>
     </nav>
   );
