@@ -14,13 +14,13 @@ import {
   ShopHeader,
   ShopFilter,
   ShopSidebar,
-  ShopProducts
+  ShopProducts,
 } from "../../components/Shop";
 
 const LeftSidebar = ({ products }) => {
   const { t, currentLanguage } = useLocalization();
   const router = useRouter();
-  const { search } = router.query;
+  const { search, category } = router.query;
 
   const [layout, setLayout] = useState("grid five-column");
   const [sortType, setSortType] = useState("");
@@ -36,49 +36,76 @@ const LeftSidebar = ({ products }) => {
 
   const pageLimit = 20;
 
-  const getLayout = (layout) => {
-    setLayout(layout);
+  const getLayout = (layout) => setLayout(layout);
+
+  const getSortParams = (type, value) => {
+    setSortType(type);
+    setSortValue(value);
+    setOffset(0);
+    setCurrentPage(1);
   };
 
-  const getSortParams = (sortType, sortValue) => {
-    setSortType(sortType);
-    setSortValue(sortValue);
-  };
-
-  const getFilterSortParams = (sortType, sortValue) => {
-    setFilterSortType(sortType);
-    setFilterSortValue(sortValue);
+  const getFilterSortParams = (type, value) => {
+    setFilterSortType(type);
+    setFilterSortValue(value);
+    setOffset(0);
+    setCurrentPage(1);
   };
 
   useEffect(() => {
-    if (router.query.search) {
-      setSearchTerm(router.query.search);
-    } else {
-      setSearchTerm("");
-    }
+    setSearchTerm(router.query.search || "");
   }, [router.query.search]);
 
   useEffect(() => {
-    let sortedProducts = getSortedProducts(products, sortType, sortValue, currentLanguage);
-    const filterSortedProducts = getSortedProducts(
-      sortedProducts,
+    let sorted = getSortedProducts(
+      products,
+      sortType,
+      sortValue,
+      currentLanguage
+    );
+    sorted = getSortedProducts(
+      sorted,
       filterSortType,
       filterSortValue,
       currentLanguage
     );
-    sortedProducts = filterSortedProducts;
+
     if (searchTerm) {
-      sortedProducts = sortedProducts.filter((product) =>
-        product.name[currentLanguage]
-              ?.toString()
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase())
+      sorted = sorted.filter((p) =>
+        p.name[currentLanguage]
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase())
       );
     }
 
-    setSortedProducts(sortedProducts);
+    if (category) {
+      sorted = sorted.filter(
+        (p) => String(p.category || "").toLowerCase() === category.toLowerCase()
+      );
+
+      setSortType("");
+      setSortValue("");
+      setFilterSortType("");
+      setFilterSortValue("");
+    }
+
+    setSortedProducts(sorted);
+    setOffset(0);
+    setCurrentPage(1);
+  }, [
+    products,
+    sortType,
+    sortValue,
+    filterSortType,
+    filterSortValue,
+    searchTerm,
+    category,
+    currentLanguage,
+  ]);
+
+  useEffect(() => {
     setCurrentData(sortedProducts.slice(offset, offset + pageLimit));
-  }, [offset, products, sortType, sortValue, filterSortType, filterSortValue, searchTerm, currentLanguage]);
+  }, [sortedProducts, offset]);
 
   return (
     <LayoutFive>
@@ -89,15 +116,12 @@ const LeftSidebar = ({ products }) => {
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              {t("home")}
-            </Link>
+            <Link href="/home/trending">{t("home")}</Link>
           </li>
-
           <li>{t("shop")}</li>
         </ul>
       </BreadcrumbOne>
-      
+
       <div className="shop-page-content">
         {/* shop page header */}
         <ShopHeader
@@ -110,7 +134,7 @@ const LeftSidebar = ({ products }) => {
         />
 
         {/* shop header filter */}
-        <SlideDown closed={shopTopFilterStatus ? false : true}>
+        <SlideDown closed={!shopTopFilterStatus}>
           <ShopFilter products={products} getSortParams={getSortParams} />
         </SlideDown>
 
@@ -122,7 +146,6 @@ const LeftSidebar = ({ products }) => {
                 lg={3}
                 className="order-2 order-lg-1 space-mt-mobile-only--50"
               >
-                {/* shop sidebar */}
                 <ShopSidebar
                   products={products}
                   getSortParams={getSortParams}
@@ -132,10 +155,8 @@ const LeftSidebar = ({ products }) => {
               </Col>
 
               <Col lg={9} className="order-1 order-lg-2">
-                {/* shop products */}
-                <ShopProducts layout={layout} products={currentData}/>
+                <ShopProducts layout={layout} products={currentData} />
 
-                {/* shop product pagination */}
                 <div className="pro-pagination-style">
                   <Paginator
                     totalRecords={sortedProducts.length}
@@ -154,17 +175,14 @@ const LeftSidebar = ({ products }) => {
           </Container>
         </div>
       </div>
-      
-      {/*shop info - matching Trending page*/}
+
       <ShopInfo />
     </LayoutFive>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    products: state.productData
-  };
-};
+const mapStateToProps = (state) => ({
+  products: state.productData,
+});
 
 export default connect(mapStateToProps)(LeftSidebar);

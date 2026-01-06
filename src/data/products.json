@@ -739,8 +739,8 @@
     "new": false,
     "rating": 4,    
     "saleCount": 12,
-    "category": ["extras","makeup"],
-    "tag": ["extras","makeup"],
+    "category": ["extras"],
+    "tag": ["extras"],
     "stock": 20,
     "thumbImage": [
       "/assets/images/product/cosmetics/ArtificialEyelashes.webp"
@@ -773,8 +773,8 @@
     "new": false,
     "rating": 5,    
     "saleCount": 12,
-    "category": ["extras","makeup"],
-    "tag": ["extras","makeup"],
+    "category": ["extras"],
+    "tag": ["extras"],
     "stock": 40,
     "thumbImage": [
       "/assets/images/product/cosmetics/IndividualEyelashes.webp"
@@ -807,8 +807,8 @@
     "new": false,
     "rating": 5,    
     "saleCount": 22,
-    "category": ["extras","makeup"],
-    "tag": ["extras","makeup"],
+    "category": ["extras"],
+    "tag": ["extras"],
     "stock": 50,
     "thumbImage": [
       "/assets/images/product/cosmetics/SprayTan.webp"
@@ -841,8 +841,8 @@
     "new": false,
     "rating": 5,   
     "saleCount": 30,
-    "category": ["extras","makeup"],
-    "tag": ["extras","makeup"],
+    "category": ["extras"],
+    "tag": ["extras"],
     "stock": 40,
     "thumbImage": [
       "/assets/images/product/cosmetics/LashLamination.webp"
@@ -875,8 +875,8 @@
     "new": false,
     "rating": 5,    
     "saleCount": 30,
-    "category": ["extras","makeup"],
-    "tag": ["extras","makeup"],
+    "category": ["extras"],
+    "tag": ["extras"],
     "stock": 40,
     "thumbImage": [
       "/assets/images/product/cosmetics/BrowLamination.webp"
@@ -909,8 +909,8 @@
     "new": false,
     "rating": 5,    
     "saleCount": 20,
-    "category": ["extras", "makeup"],
-    "tag": ["extras", "makeup"],
+    "category": ["extras"],
+    "tag": ["extras"],
     "stock": 10,
     "thumbImage": [
       "/assets/images/product/cosmetics/Microblading.webp"

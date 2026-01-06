@@ -1,109 +1,86 @@
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { IoIosArrowDown } from "react-icons/io";
-import {
-  IoIosHome,
-  IoIosBriefcase,
-  IoIosCash,
-  IoIosGitCompare,
-  IoMdPerson,
-  IoMdLogIn,
-  IoIosInformationCircleOutline,
-  IoIosCall,
-  IoIosHelpCircleOutline
-} from "react-icons/io";
 import { useLocalization } from "../../../context/LocalizationContext";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../../pages/api/register";
+import { IoIosHome } from "react-icons/io";
 
 const Navigation = () => {
   const { t } = useLocalization();
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, setUser);
-    return () => unsubscribe();
-  }, []);
-
-  // bigger icon size
-  const iconSize = 24;
+  const iconSize = 22;
 
   return (
-    <nav className="header-content__navigation space-pr--15 space-pl--15 d-none d-lg-block">
-      <ul>
-        {/* HOME (ICON ONLY) */}
-        <li>
-          <Link href="/home/trending" className="home-icon">
-            <IoIosHome size={iconSize} title={t("home")} />
+    <nav className="header-content__navigation one-line-nav space-pr--15 space-pl--15 d-none d-lg-block">
+      <ul className="one-line-nav__list">
+        {/* HOME ICON */}
+        <li className="one-line-nav__item">
+          <Link href="/home/trending" className="one-line-nav__link" aria-label={t("home")}>
+            <IoIosHome size={iconSize} />
           </Link>
         </li>
-
-        {/* SHOP */}
-        <li>
-          <Link href="/shop/left-sidebar">            
+   
+        <li className="one-line-nav__item">
+          <Link href="/shop/left-sidebar" className="one-line-nav__link">
             {t("shop")}
           </Link>
-          <IoIosArrowDown size={iconSize} />
-
-          <ul className="sub-menu sub-menu--mega sub-menu--mega--column-1">
-            <li className="sub-menu--mega__title">
-              <ul className="sub-menu--mega__list">
-                <li>
-                  <Link href="/other/checkout">
-                    <IoIosCash size={iconSize} className="me-1" />
-                    {t("checkout")}
-                  </Link>
-                </li>
-
-                <li>
-                  <Link href="/other/compare">
-                    <IoIosGitCompare size={iconSize} className="me-1" />
-                    {t("compare")}
-                  </Link>
-                </li>
-
-                {user ? (
-                  <li>
-                    <Link href="/other/my-account">
-                      <IoMdPerson size={iconSize} className="me-1" />
-                      {t("my_account")}
-                    </Link>
-                  </li>
-                ) : (
-                  <li>
-                    <Link href="/other/login-register">
-                      <IoMdLogIn size={iconSize} className="me-1" />
-                      {t("login_register")}
-                    </Link>
-                  </li>
-                )}
-              </ul>
-            </li>
-          </ul>
         </li>
 
-        {/* ABOUT */}
-        <li className="position-relative">
-          <Link href="/other/about">            
+        <li className="one-line-nav__item">
+          <Link href={{ pathname: "/shop/left-sidebar", query: { category: "makeup" }, }} className="one-line-nav__link">
+            {t("makeup")}
+          </Link>
+        </li>
+
+        <li className="one-line-nav__item">
+          <Link href={{ pathname: "/shop/left-sidebar", query: { category: "pedicure" }, }} className="one-line-nav__link">
+            {t("pedicure")}
+          </Link>
+        </li>
+
+        <li className="one-line-nav__item">
+          <Link href={{ pathname: "/shop/left-sidebar", query: { category: "waxing" }, }} className="one-line-nav__link">
+            {t("waxing")}
+          </Link>
+        </li>
+
+        <li className="one-line-nav__item">
+          <Link href={{ pathname: "/shop/left-sidebar", query: { category: "extras" }, }} className="one-line-nav__link">
+            {t("extras")}
+          </Link>
+        </li>
+
+         <li className="one-line-nav__item">
+          <Link href={{ pathname: "/shop/left-sidebar", query: { category: "training" }, }} className="one-line-nav__link">
+            {t("training")}
+          </Link>
+        </li>
+
+        <li className="one-line-nav__item">
+          <Link href="/other/compare" className="one-line-nav__link">
+            {t("compare")}
+          </Link>
+        </li>
+
+        <li className="one-line-nav__item">
+          <Link href="/other/checkout" className="one-line-nav__link">
+            {t("checkout")}
+          </Link>
+        </li>       
+
+        <li className="one-line-nav__item">
+          <Link href="/other/about" className="one-line-nav__link">
             {t("about_us")}
           </Link>
-          <IoIosArrowDown size={iconSize} />
+        </li>
 
-          <ul className="sub-menu sub-menu--one-column">
-            <li>
-              <Link href="/other/contact">
-                <IoIosCall size={iconSize} className="me-1" />
-                {t("contact_us")}
-              </Link>
-            </li>
+        <li className="one-line-nav__item">
+          <Link href="/other/contact" className="one-line-nav__link">
+            {t("contact_us")}
+          </Link>
+        </li>
 
-            <li>
-              <Link href="/other/faq">
-                <IoIosHelpCircleOutline size={iconSize} className="me-1" />
-                {t("faq")}
-              </Link>
-            </li>
-          </ul>
+        <li className="one-line-nav__item">
+          <Link href="/other/login-register" className="one-line-nav__link">
+            {t("login_register")}
+          </Link>
         </li>
       </ul>
     </nav>
