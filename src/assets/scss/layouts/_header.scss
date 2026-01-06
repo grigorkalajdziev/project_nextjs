@@ -352,9 +352,9 @@ header {
 
         text-align: left;
 
-@include respond(small-desktop) {
-          margin-right: 30px;
-        }
+        @include respond(small-desktop) {
+                  margin-right: 30px;
+                }
 
         & > a {
           font-weight: 500;
@@ -366,20 +366,20 @@ header {
 
           color: $grey;
 
-          &:after {
-            position: absolute;
-            right: 0;
-            bottom: 30px;
-            left: auto;
+          // &:after {
+          //   position: absolute;
+          //   right: 0;
+          //   bottom: 30px;
+          //   left: auto;
 
-            width: 0;
-            height: 1px;
+          //   width: 0;
+          //   height: 1px;
 
-            content: "";
-            transition: $transition--default;
+          //   content: "";
+          //   transition: $transition--default;
 
-            background-color: $black--two;
-          }
+          //   background-color: $black--two;
+          // }
         }
         & > svg {
           font-size: 12px;
@@ -394,12 +394,12 @@ header {
         &:hover {
           & > a {
             color: $black--two;
-            &:after {
-              right: auto;
-              left: 0;
+            // &:after {
+            //   right: auto;
+            //   left: 0;
 
-              width: 100%;
-            }
+            //   width: 100%;
+            // }
           }
           & > svg {
             fill: $black--two;
