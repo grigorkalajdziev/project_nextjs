@@ -126,7 +126,7 @@ header {
         & > ul {
           & > li {
             & > a {
-              color: $black--two;
+               color: rgba(0, 0, 0, 0.85);
               &:hover {
                 &:after {
                   background-color: $black--two;
@@ -212,7 +212,7 @@ header {
 
 .header-top {
   display: flex;
-  font-size: 14px;
+  
   &__left {    
     display: flex;
     flex-basis: 50%;
@@ -1798,6 +1798,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 80px;
   }
 
   & > ul > li {
@@ -1838,6 +1839,25 @@ header {
   }
 }
 
+.header-content__icons,
+.header-content__icon {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 1440px) {
+  .header-content__navigation.one-line-nav > ul > li > a {
+    font-size: 14px;          // slightly smaller
+    letter-spacing: 0.3px;    // tighter
+  }
+
+  .header-content__navigation.one-line-nav
+  > ul
+  > li:not(:last-child)::after {
+    margin: 0 14px;           // ⬅ reduce separator space
+  }
+}
+
 @media (max-width: 768px) {
   .hero-title, 
   .hero-content h1 { /* Target the specific title class */
@@ -1850,5 +1870,27 @@ header {
   .hero-content a.btn {
     font-size: 14px;
     padding: 10px 20px;
+  }
+}
+
+@media (max-width: 1024px) {
+  /* Compress navigation more */
+  .header-content__navigation.one-line-nav > ul > li > a {
+    font-size: 13px;        // ⬅ tighter
+    letter-spacing: 0.2px;
+  }
+
+  /* Tighten separators */
+  .header-content__navigation.one-line-nav
+  > ul
+  > li:not(:last-child)::after {
+    margin: 0 10px;         // ⬅ critical
+    font-size: 12px;
+  }
+
+  /* Ensure nav never pushes icons */
+  .header-content__navigation {
+    min-width: 0;
+    max-width: calc(100% - 140px); // space for icons
   }
 }
