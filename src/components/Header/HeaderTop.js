@@ -100,7 +100,11 @@ const HeaderTop = () => {
                 a non-null "user" here means the user is properly logged in. */}
             {user ? (
               <>
-                <VscAccount style={{ marginRight: "6px", fontSize: "18px", verticalAlign: "middle" }} />  
+              <Link href="/other/my-account" className="account-link">
+                <VscAccount style={{ marginRight: "6px", fontSize: "18px", verticalAlign: "middle" }} />
+              </Link>
+
+              
                 <span className="user-email">{user.email}</span>
                 <span className="header-separator">|</span>
                 <a href="#" className="signout-link" onClick={handleLogout}>
