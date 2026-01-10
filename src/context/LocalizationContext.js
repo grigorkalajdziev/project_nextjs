@@ -648,7 +648,9 @@ const translations = {
     no_orders_selected: "No orders selected",
     successfully_downloaded: "Successfully downloaded",
     failed_to_download: "Failed to download",
-    invoices: "invoices"
+    invoices: "invoices",
+    dont_have_account: "Don't have an account?",
+    already_have_account : "Already have an account?",
   },
   mk: {
     english: "Англиски",
@@ -758,7 +760,7 @@ const translations = {
     makeup: "Шминка",
     waxing: "Депилација",
     pedicure: "Педикир",
-    extras: "Дополнителни услуги",
+    extras: "Доп. услуги",
     searchPlaceholder: "Пребарување на услуги ...",
     categories: "Услуга",
     allCategories: "Сите услуги",
@@ -1299,7 +1301,9 @@ const translations = {
     no_orders_selected: "Нема избрани нарачки",
     successfully_downloaded: "Успешно симнато",
     failed_to_download: "Неуспешно симнување",
-    invoices: "фактури"
+    invoices: "фактури",
+    dont_have_account: "Се уште немате профил?",
+    already_have_account: "Веќе имате профил?",
   },
 };
 
