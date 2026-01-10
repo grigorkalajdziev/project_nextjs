@@ -97,7 +97,7 @@ const Trending = ({ products }) => {
 const mapStateToProps = (state) => {
   const products = state.productData;
   return {
-    products: getProducts(products, "makeup", "extras").slice(0, 10),
+    products: getProducts(products, ["makeup", "waxing"]).slice(0, 10),
   };
 };
 

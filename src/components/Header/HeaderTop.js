@@ -100,7 +100,7 @@ const HeaderTop = () => {
                 a non-null "user" here means the user is properly logged in. */}
             {user ? (
               <>
-              <Link href="/other/my-account" className="account-link">
+              <Link href="/other/my-account" className="account-hint">
                 <VscAccount style={{ marginRight: "6px", fontSize: "18px", verticalAlign: "middle" }} />
               </Link>
 
@@ -112,7 +112,7 @@ const HeaderTop = () => {
                 </a>
               </>
             ) : (
-              <div className="signup-link">
+              <div>
                 <VscAccount style={{ marginRight: "6px", fontSize: "18px", verticalAlign: "middle" }} />
                 <Link
                   href="/other/login-register"

@@ -1894,3 +1894,18 @@ header {
     max-width: calc(100% - 140px); // space for icons
   }
 }
+
+.account-hint {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 6px;
+    height: 6px;
+    background-color: #e63946; // subtle red
+    border-radius: 50%;
+  }
+}

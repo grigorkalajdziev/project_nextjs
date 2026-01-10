@@ -1,46 +1,58 @@
 // get products
-export const getProducts = (products, category, type, limit) => {
-  const finalProducts = category
-    ? products.filter(
-        (product) => product.category.filter((single) => single === category)[0]
-      )
-    : products;
+export const getProducts = (products, categories, type, limit) => {
+  let finalProducts = [...products];
 
-  if (type && type === "new") {
-    const newProducts = finalProducts.filter((single) => single.new);
-    return newProducts.slice(0, limit ? limit : newProducts.length);
-  }
-  if (type && type === "popular") {
-    return (
-      finalProducts &&
-      finalProducts
-        .sort((a, b) => {
-          return b.saleCount - a.saleCount;
-        })
-        .slice(0, limit ? limit : finalProducts.length)
+  // filter by one OR multiple categories
+  if (categories) {
+    const categoryArray = Array.isArray(categories)
+      ? categories
+      : [categories];
+
+    finalProducts = finalProducts.filter((product) =>
+      product.category?.some((cat) => categoryArray.includes(cat))
     );
   }
-  if (type && type === "topRated") {
-    return (
-      finalProducts &&
-      finalProducts
-        .sort((a, b) => {
-          return b.rating - a.rating;
-        })
-        .slice(0, limit ? limit : finalProducts.length)
-    );
+
+  // filter by type
+  if (type) {
+    switch (type) {
+      case "new":
+        finalProducts = finalProducts.filter(
+          (product) => product.new === true
+        );
+        break;
+
+      case "bestSeller":
+        finalProducts = finalProducts.sort(
+          (a, b) => b.saleCount - a.saleCount
+        );
+        break;
+
+      case "topRated":
+        finalProducts = finalProducts.sort(
+          (a, b) => b.rating - a.rating
+        );
+        break;
+
+      case "discounted":
+        finalProducts = finalProducts.filter(
+          (product) => product.discount && product.discount > 0
+        );
+        break;
+
+      default:
+        break;
+    }
   }
-  if (type && type === "sale") {
-    const saleItems =
-      finalProducts &&
-      finalProducts.filter((single) => single.discount && single.discount > 0);
-    return saleItems.slice(0, limit ? limit : saleItems.length);
+
+  // limit results
+  if (limit) {
+    finalProducts = finalProducts.slice(0, limit);
   }
-  return (
-    finalProducts &&
-    finalProducts.slice(0, limit ? limit : finalProducts.length)
-  );
+
+  return finalProducts;
 };
+
 
 // get product discount price
 export const getDiscountPrice = (price, discount) => {
