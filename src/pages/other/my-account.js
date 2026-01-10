@@ -2768,13 +2768,14 @@ const MyAccount = () => {
                             position: "relative",
                           }}
                         >
-                          <table className="table table-hover table-striped mb-0">
+                          <table className="table table-hover table-striped mb-0" style={{ borderCollapse: 'separate', borderSpacing: '0', }}>
                             <thead
                               className="table-primary"
                               style={{
                                 position: "sticky",
                                 top: 0,
                                 zIndex: 1,
+                                backgroundColor: "inherit",
                               }}
                             >
                               <tr>
