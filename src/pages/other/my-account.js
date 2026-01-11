@@ -158,8 +158,12 @@ const MyAccount = () => {
   const [currentPageUsers, setCurrentPageUsers] = useState(1);
   const [showUserFilters, setShowUserFilters] = useState(false);
   const usersPerPage = 6;
-  const COLORS = ["#F4C430","#E04545", "#2EAD65",  ];
-  const PAYMENT_COLORS = ["#2EAD65", "#0088FE"];  
+  const COLORS = {
+    pending: "#F4C430",
+    confirmed: "#2EAD65",
+    cancelled: "#E04545",
+  };
+  const PAYMENT_COLORS = ["#2EAD65", "#0088FE"];
 
   const [selectedOrdersForDownload, setSelectedOrdersForDownload] = useState(
     []
@@ -2769,7 +2773,13 @@ const MyAccount = () => {
                             position: "relative",
                           }}
                         >
-                          <table className="table table-hover table-striped mb-0" style={{ borderCollapse: 'separate', borderSpacing: '0', }}>
+                          <table
+                            className="table table-hover table-striped mb-0"
+                            style={{
+                              borderCollapse: "separate",
+                              borderSpacing: "0",
+                            }}
+                          >
                             <thead
                               className="table-primary"
                               style={{
@@ -4446,7 +4456,11 @@ const MyAccount = () => {
                                         (entry, index) => (
                                           <Cell
                                             key={index}
-                                            fill={PAYMENT_COLORS[index % PAYMENT_COLORS.length]}
+                                            fill={
+                                              PAYMENT_COLORS[
+                                                index % PAYMENT_COLORS.length
+                                              ]
+                                            }
                                           />
                                         )
                                       )}
@@ -4480,7 +4494,10 @@ const MyAccount = () => {
                                               className="badge me-2"
                                               style={{
                                                 backgroundColor:
-                                                  PAYMENT_COLORS[index % PAYMENT_COLORS.length],
+                                                  PAYMENT_COLORS[
+                                                    index %
+                                                      PAYMENT_COLORS.length
+                                                  ],
                                                 width: "12px",
                                                 height: "12px",
                                                 display: "inline-block",
@@ -4528,30 +4545,34 @@ const MyAccount = () => {
                                 <TbReportAnalytics size={24} className="me-2" />
                                 {t("revenue_by_status")}
                               </h5>
+
+                              {/* ===== CHART ===== */}
                               <div className="chart-container">
                                 <ResponsiveContainer>
                                   <BarChart
                                     data={statusData(orders, filterYear).map(
                                       (entry) => {
-                                        let status = entry.status;
-                                        if (status === "pending")
-                                          status =
+                                        let statusLabel = entry.status;
+
+                                        if (entry.status === "pending")
+                                          statusLabel =
                                             currentLanguage === "mk"
                                               ? "Во тек"
                                               : "Pending";
-                                        else if (status === "confirmed")
-                                          status =
+                                        else if (entry.status === "confirmed")
+                                          statusLabel =
                                             currentLanguage === "mk"
                                               ? "Потврдено"
                                               : "Confirmed";
-                                        else if (status === "cancelled")
-                                          status =
+                                        else if (entry.status === "cancelled")
+                                          statusLabel =
                                             currentLanguage === "mk"
                                               ? "Откажано"
                                               : "Cancelled";
 
                                         return {
-                                          status,
+                                          status: statusLabel, // X-axis label
+                                          rawStatus: entry.status, // used for color
                                           Total:
                                             currentLanguage === "mk"
                                               ? entry.mkd
@@ -4573,12 +4594,13 @@ const MyAccount = () => {
                                         formatTotal(value, currentLanguage)
                                       }
                                     />
+
                                     <Bar dataKey="Total">
                                       {statusData(orders, filterYear).map(
                                         (entry, index) => (
                                           <Cell
                                             key={index}
-                                            fill={COLORS[index % COLORS.length]}
+                                            fill={COLORS[entry.status]}
                                           />
                                         )
                                       )}
@@ -4587,6 +4609,7 @@ const MyAccount = () => {
                                 </ResponsiveContainer>
                               </div>
 
+                              {/* ===== TABLE ===== */}
                               <div className="mt-3">
                                 <table className="table table-sm">
                                   <thead>
@@ -4598,46 +4621,48 @@ const MyAccount = () => {
                                       </th>
                                     </tr>
                                   </thead>
+
                                   <tbody>
                                     {statusData(orders, filterYear).map(
-                                      (entry, index) => {
+                                      (entry) => {
                                         let statusLabel = entry.status;
-                                        if (statusLabel === "pending")
+
+                                        if (entry.status === "pending")
                                           statusLabel =
                                             currentLanguage === "mk"
                                               ? "Во тек"
                                               : "Pending";
-                                        else if (statusLabel === "confirmed")
+                                        else if (entry.status === "confirmed")
                                           statusLabel =
                                             currentLanguage === "mk"
                                               ? "Потврдено"
                                               : "Confirmed";
-                                        else if (statusLabel === "cancelled")
+                                        else if (entry.status === "cancelled")
                                           statusLabel =
                                             currentLanguage === "mk"
                                               ? "Откажано"
                                               : "Cancelled";
 
                                         return (
-                                          <tr key={index}>
+                                          <tr key={entry.status}>
                                             <td>
                                               <span
                                                 className="badge me-2"
                                                 style={{
                                                   backgroundColor:
-                                                    COLORS[
-                                                      index % COLORS.length
-                                                    ],
+                                                    COLORS[entry.status],
                                                   width: "12px",
                                                   height: "12px",
                                                   display: "inline-block",
                                                 }}
-                                              ></span>
+                                              />
                                               {statusLabel}
                                             </td>
+
                                             <td className="text-end">
                                               {entry.count}
                                             </td>
+
                                             <td className="text-end">
                                               {formatTotal(
                                                 currentLanguage === "mk"
@@ -4654,6 +4679,7 @@ const MyAccount = () => {
                                 </table>
                               </div>
 
+                              {/* ===== INFO ===== */}
                               <div className="mt-3 p-3 bg-light rounded">
                                 <small className="text-muted">
                                   <i className="bi bi-info-circle me-2"></i>
@@ -5043,7 +5069,10 @@ const MyAccount = () => {
                             style={{ position: "sticky", top: 0, zIndex: 1 }}
                           >
                             <tr>
-                              <th style={{ width: "50px" }} className="ps-3 text-center align-middle">
+                              <th
+                                style={{ width: "50px" }}
+                                className="ps-3 text-center align-middle"
+                              >
                                 <input
                                   type="checkbox"
                                   className="form-check-input"
@@ -5053,20 +5082,32 @@ const MyAccount = () => {
                               </th>
 
                               {role === "admin" && (
-                                <th style={{ minWidth: "140px" }} className="align-middle">
+                                <th
+                                  style={{ minWidth: "140px" }}
+                                  className="align-middle"
+                                >
                                   <small>{t("user")}</small>
                                 </th>
                               )}
 
-                              <th style={{ minWidth: "120px" }} className="align-middle">
+                              <th
+                                style={{ minWidth: "120px" }}
+                                className="align-middle"
+                              >
                                 <small>{t("order")}</small>
                               </th>
 
-                              <th style={{ minWidth: "100px" }} className="align-middle">
+                              <th
+                                style={{ minWidth: "100px" }}
+                                className="align-middle"
+                              >
                                 <small>{t("date")}</small>
                               </th>
 
-                              <th style={{ minWidth: "130px" }} className="align-middle">
+                              <th
+                                style={{ minWidth: "130px" }}
+                                className="align-middle"
+                              >
                                 <small>{t("payment_method")}</small>
                               </th>
 
@@ -5148,32 +5189,34 @@ const MyAccount = () => {
                                   >
                                     <small>{t(order.status)}</small>
                                   </span>
-                                </td>                                
+                                </td>
                                 <td className="text-center align-middle pe-3">
-                                <div className="d-flex justify-content-center align-items-center">
-                                  <button
-                                    className="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center justify-content-center gap-1"
-                                    onClick={() => downloadPdfEnhanced(order)}
-                                    disabled={downloadingOrderId === order.id}
-                                    style={{ minWidth: "100px" }}
-                                  >
-                                    {downloadingOrderId === order.id ? (
-                                      <Spinner
-                                        as="span"
-                                        animation="border"
-                                        size="sm"
-                                        role="status"
-                                        aria-hidden="true"
-                                      />
-                                    ) : (
-                                      <>
-                                        <i className="bi bi-download"></i>
-                                        <span className="small">{t("download")}</span>
-                                      </>
-                                    )}
-                                  </button>
-                                </div>
-                              </td>
+                                  <div className="d-flex justify-content-center align-items-center">
+                                    <button
+                                      className="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center justify-content-center gap-1"
+                                      onClick={() => downloadPdfEnhanced(order)}
+                                      disabled={downloadingOrderId === order.id}
+                                      style={{ minWidth: "100px" }}
+                                    >
+                                      {downloadingOrderId === order.id ? (
+                                        <Spinner
+                                          as="span"
+                                          animation="border"
+                                          size="sm"
+                                          role="status"
+                                          aria-hidden="true"
+                                        />
+                                      ) : (
+                                        <>
+                                          <i className="bi bi-download"></i>
+                                          <span className="small">
+                                            {t("download")}
+                                          </span>
+                                        </>
+                                      )}
+                                    </button>
+                                  </div>
+                                </td>
                               </tr>
                             ))}
                           </tbody>
@@ -5471,7 +5514,11 @@ const MyAccount = () => {
                                       (entry, index) => (
                                         <Cell
                                           key={index}
-                                          fill={PAYMENT_COLORS[index % PAYMENT_COLORS.length]}
+                                          fill={
+                                            PAYMENT_COLORS[
+                                              index % PAYMENT_COLORS.length
+                                            ]
+                                          }
                                         />
                                       )
                                     )}
@@ -5499,7 +5546,10 @@ const MyAccount = () => {
                                               className="badge"
                                               style={{
                                                 backgroundColor:
-                                                  PAYMENT_COLORS[index % PAYMENT_COLORS.length],
+                                                  PAYMENT_COLORS[
+                                                    index %
+                                                      PAYMENT_COLORS.length
+                                                  ],
                                                 width: "12px",
                                                 height: "12px",
                                                 display: "inline-block",
