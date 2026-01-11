@@ -158,7 +158,8 @@ const MyAccount = () => {
   const [currentPageUsers, setCurrentPageUsers] = useState(1);
   const [showUserFilters, setShowUserFilters] = useState(false);
   const usersPerPage = 6;
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  const COLORS = ["#F4C430","#E04545", "#2EAD65",  ];
+  const PAYMENT_COLORS = ["#2EAD65", "#0088FE"];  
 
   const [selectedOrdersForDownload, setSelectedOrdersForDownload] = useState(
     []
@@ -4436,7 +4437,7 @@ const MyAccount = () => {
                                       nameKey="name"
                                       cx="50%"
                                       cy="50%"
-                                      outerRadius="80%"
+                                      outerRadius="60%"
                                       label={(entry) =>
                                         `${entry.name} (${formatTotal(entry.value, currentLanguage)})`
                                       }
@@ -4445,7 +4446,7 @@ const MyAccount = () => {
                                         (entry, index) => (
                                           <Cell
                                             key={index}
-                                            fill={COLORS[index % COLORS.length]}
+                                            fill={PAYMENT_COLORS[index % PAYMENT_COLORS.length]}
                                           />
                                         )
                                       )}
@@ -4479,7 +4480,7 @@ const MyAccount = () => {
                                               className="badge me-2"
                                               style={{
                                                 backgroundColor:
-                                                  COLORS[index % COLORS.length],
+                                                  PAYMENT_COLORS[index % PAYMENT_COLORS.length],
                                                 width: "12px",
                                                 height: "12px",
                                                 display: "inline-block",
@@ -5042,7 +5043,7 @@ const MyAccount = () => {
                             style={{ position: "sticky", top: 0, zIndex: 1 }}
                           >
                             <tr>
-                              <th style={{ width: "50px" }} className="ps-3">
+                              <th style={{ width: "50px" }} className="ps-3 text-center align-middle">
                                 <input
                                   type="checkbox"
                                   className="form-check-input"
@@ -5050,40 +5051,41 @@ const MyAccount = () => {
                                   onChange={toggleSelectAll}
                                 />
                               </th>
+
                               {role === "admin" && (
-                                <th style={{ minWidth: "140px" }}>
+                                <th style={{ minWidth: "140px" }} className="align-middle">
                                   <small>{t("user")}</small>
                                 </th>
                               )}
-                              <th style={{ minWidth: "120px" }}>
+
+                              <th style={{ minWidth: "120px" }} className="align-middle">
                                 <small>{t("order")}</small>
                               </th>
-                              <th style={{ minWidth: "100px" }}>
+
+                              <th style={{ minWidth: "100px" }} className="align-middle">
                                 <small>{t("date")}</small>
                               </th>
-                              <th style={{ minWidth: "130px" }}>
+
+                              <th style={{ minWidth: "130px" }} className="align-middle">
                                 <small>{t("payment_method")}</small>
                               </th>
+
                               <th
                                 style={{ minWidth: "100px" }}
-                                className="text-center"
+                                className="text-center align-middle"
                               >
                                 <small>{t("status")}</small>
                               </th>
+
                               <th
-                                style={{ minWidth: "120px" }}
-                                className="text-center"
-                              >
-                                <small>{t("download_history")}</small>
-                              </th>
-                              <th
-                                style={{ minWidth: "80px" }}
-                                className="text-center pe-3"
+                                style={{ minWidth: "100px" }}
+                                className="text-center align-middle"
                               >
                                 <small>{t("action")}</small>
                               </th>
                             </tr>
                           </thead>
+
                           <tbody>
                             {currentOrdersDownload.map((order) => (
                               <tr key={order.id}>
@@ -5146,29 +5148,9 @@ const MyAccount = () => {
                                   >
                                     <small>{t(order.status)}</small>
                                   </span>
-                                </td>
-                                <td className="text-center">
-                                  {downloadHistory[order.id] ? (
-                                    <div>
-                                      <span className="badge bg-info">
-                                        <i className="bi bi-download me-1"></i>
-                                        {downloadHistory[order.id].count}x
-                                      </span>
-                                      <br />
-                                      <small
-                                        className="text-muted"
-                                        style={{ fontSize: "0.7rem" }}
-                                      >
-                                        {new Date(
-                                          downloadHistory[order.id].lastDownload
-                                        ).toLocaleDateString()}
-                                      </small>
-                                    </div>
-                                  ) : (
-                                    <small className="text-muted">-</small>
-                                  )}
-                                </td>
-                                <td className="text-center pe-3">
+                                </td>                                
+                                <td className="text-center align-middle pe-3">
+                                <div className="d-flex justify-content-center align-items-center">
                                   <button
                                     className="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center justify-content-center gap-1"
                                     onClick={() => downloadPdfEnhanced(order)}
@@ -5186,13 +5168,12 @@ const MyAccount = () => {
                                     ) : (
                                       <>
                                         <i className="bi bi-download"></i>
-                                        <span className="small">
-                                          {t("download")}
-                                        </span>
+                                        <span className="small">{t("download")}</span>
                                       </>
                                     )}
                                   </button>
-                                </td>
+                                </div>
+                              </td>
                               </tr>
                             ))}
                           </tbody>
@@ -5465,7 +5446,7 @@ const MyAccount = () => {
                         <div className="col-lg-6 mb-4">
                           <div className="card border-0 shadow-sm">
                             <div className="card-body">
-                              <h5 className="mb-3">
+                              <h5 className="mb-3 d-flex align-items-center justify-content-center">
                                 <i className="bi bi-pie-chart me-2 text-primary"></i>
                                 {t("payment_method_distribution")}
                               </h5>
@@ -5477,7 +5458,7 @@ const MyAccount = () => {
                                     nameKey="name"
                                     cx="50%"
                                     cy="50%"
-                                    outerRadius="80%"
+                                    outerRadius="60%"
                                     label={(entry) =>
                                       `${entry.name} (${(
                                         (entry.value /
@@ -5490,7 +5471,7 @@ const MyAccount = () => {
                                       (entry, index) => (
                                         <Cell
                                           key={index}
-                                          fill={COLORS[index % COLORS.length]}
+                                          fill={PAYMENT_COLORS[index % PAYMENT_COLORS.length]}
                                         />
                                       )
                                     )}
@@ -5518,9 +5499,9 @@ const MyAccount = () => {
                                               className="badge"
                                               style={{
                                                 backgroundColor:
-                                                  COLORS[index % COLORS.length],
-                                                width: "10px",
-                                                height: "10px",
+                                                  PAYMENT_COLORS[index % PAYMENT_COLORS.length],
+                                                width: "12px",
+                                                height: "12px",
                                                 display: "inline-block",
                                               }}
                                             ></span>
@@ -5584,7 +5565,7 @@ const MyAccount = () => {
                         <div className="col-lg-6 mb-4">
                           <div className="card border-0 shadow-sm">
                             <div className="card-body">
-                              <h5 className="mb-3">
+                              <h5 className="mb-3 d-flex align-items-center justify-content-center">
                                 <i className="bi bi-graph-up me-2 text-success"></i>
                                 {t("monthly_payment_trends")}
                               </h5>
@@ -5671,7 +5652,7 @@ const MyAccount = () => {
                         <div className="col-12">
                           <div className="card border-0 shadow-sm">
                             <div className="card-body">
-                              <h5 className="mb-3">
+                              <h5 className="mb-3 d-flex align-items-center justify-content-center">
                                 <i className="bi bi-bar-chart-line me-2 text-info"></i>
                                 {t("payment_method_comparison")}
                               </h5>
@@ -5859,7 +5840,7 @@ const MyAccount = () => {
                   {/* ================= PAYMENT DETAILS (ADMIN + GUEST) ================= */}
                   <div className="card border-0 shadow-sm mb-4">
                     <div className="card-header bg-white border-bottom">
-                      <h5 className="mb-0">
+                      <h5 className="mb-3 d-flex align-items-center justify-content-center">
                         <i className="bi bi-table me-2"></i>
                         {t("payment_details")}
                       </h5>
