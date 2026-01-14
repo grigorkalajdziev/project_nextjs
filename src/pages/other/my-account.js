@@ -4595,7 +4595,7 @@ const MyAccount = () => {
                                       }
                                     />
 
-                                    <Bar dataKey="Total">
+                                    <Bar dataKey="Total" name={currentLanguage === "mk" ? "Вкупно" : "Total"}>
                                       {statusData(orders, filterYear).map(
                                         (entry, index) => (
                                           <Cell
