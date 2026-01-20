@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Container, Row, Col, Card, Accordion } from "react-bootstrap";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
+import { FaHome } from "react-icons/fa";
 import { useLocalization } from "../../context/LocalizationContext";
 
 const Faq = () => {
@@ -16,8 +17,8 @@ const Faq = () => {
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              {t("home")}
+            <Link href="/home/trending" aria-label={t("home")}>
+              <FaHome size={16} />
             </Link>
           </li>
           <li>{t("faq")}</li>

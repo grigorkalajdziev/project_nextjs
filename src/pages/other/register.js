@@ -4,6 +4,7 @@ import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useState } from "react";
+import { FaHome } from "react-icons/fa";
 import { registerUser } from "../api/register";
 import { useToasts } from "react-toast-notifications";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
@@ -163,7 +164,9 @@ const Register = () => {
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link href="/home/trending">{t("home")}</Link>
+            <Link href="/home/trending" aria-label={t("home")}>
+              <FaHome size={16} />
+            </Link>
           </li>
           <li>{t("register")}</li>
         </ul>

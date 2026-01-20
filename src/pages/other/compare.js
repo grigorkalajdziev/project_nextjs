@@ -11,6 +11,7 @@ import { addToCart } from "../../redux/actions/cartActions";
 import { ProductRating } from "../../components/Product";
 import { getDiscountPrice } from "../../lib/product";
 import { useLocalization } from "../../context/LocalizationContext";
+import { FaHome } from "react-icons/fa";
 
 const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
   const { addToast } = useToasts();
@@ -29,8 +30,8 @@ const Compare = ({ cartItems, compareItems, addToCart, deleteFromCompare }) => {
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              {t("home")}
+            <Link href="/home/trending" aria-label={t("home")}>
+              <FaHome size={16} />
             </Link>
           </li>
 

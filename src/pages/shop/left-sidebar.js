@@ -16,6 +16,7 @@ import {
   ShopSidebar,
   ShopProducts,
 } from "../../components/Shop";
+import { FaHome } from "react-icons/fa";
 
 const LeftSidebar = ({ products }) => {
   const { t, currentLanguage } = useLocalization();
@@ -116,7 +117,9 @@ const LeftSidebar = ({ products }) => {
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link href="/home/trending">{t("home")}</Link>
+            <Link href="/home/trending" aria-label={t("home")}>
+              <FaHome size={16} />
+            </Link>
           </li>
           <li>{t("shop")}</li>
         </ul>

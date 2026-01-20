@@ -8,6 +8,7 @@ import {
   SectionTitleOne,
   SectionTitleTwo,
 } from "../../components/SectionTitle";
+import { FaHome } from "react-icons/fa";
 import { useToasts } from "react-toast-notifications";
 import LocalizationContext from "../../context/LocalizationContext";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -170,11 +171,8 @@ const Contact = () => {
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link
-              href="/home/trending"
-              as={process.env.PUBLIC_URL + "/home/trending"}
-            >
-              {t("home")}
+            <Link href="/home/trending" aria-label={t("home")}>
+              <FaHome size={16} />
             </Link>
           </li>
           <li>{t("contact")}</li>

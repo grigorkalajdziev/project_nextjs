@@ -5,7 +5,7 @@ import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { FaPhoneAlt } from "react-icons/fa";
+import { FaPhoneAlt, FaHome } from "react-icons/fa";
 import {
   setPersistence,
   browserSessionPersistence,
@@ -242,7 +242,9 @@ const Login = () => {
     <LayoutTwo>
       <BreadcrumbOne pageTitle={t("customer_login")} backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.webp">
         <ul className="breadcrumb__list">
-          <li><Link href="/home/trending">{t("home")}</Link></li>
+          <li><Link href="/home/trending" aria-label={t("home")}>
+              <FaHome size={16} />
+            </Link></li>
           <li>{t("customer_login")}</li>
         </ul>
       </BreadcrumbOne>

@@ -7,6 +7,7 @@ import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
 import { TestimonialOne } from "../../components/Testimonial";
 import { BrandLogoOne } from "../../components/BrandLogo";
+import { FaHome } from "react-icons/fa";
 import testimonialData from "../../data/testimonials/testimonial-one.json";
 import brandLogoData from "../../data/brand-logos/brand-logo-one.json";
 import { useLocalization } from "../../context/LocalizationContext";
@@ -24,11 +25,8 @@ const About = () => {
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link
-              href="/home/trending"
-              as={process.env.PUBLIC_URL + "/home/trending"}
-            >
-              {t("home")}
+            <Link href="/home/trending" aria-label={t("home")}>
+              <FaHome size={16} />
             </Link>
           </li>
           <li>{t("about")}</li>

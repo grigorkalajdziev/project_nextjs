@@ -6,6 +6,7 @@ import { useToasts } from "react-toast-notifications";
 import { LayoutTwo } from "../../../components/Layout";
 import { getDiscountPrice } from "../../../lib/product";
 import { BreadcrumbOne } from "../../../components/Breadcrumb";
+import { FaHome } from "react-icons/fa";
 import {
   ImageGalleryBottomThumb,
   ProductDescription,
@@ -84,8 +85,8 @@ const ProductBasic = ({
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link href="/" as={process.env.PUBLIC_URL + "/"}>
-              {t("home")}
+            <Link href="/home/trending" aria-label={t("home")}>
+              <FaHome size={16} />
             </Link>
           </li>
           <li>

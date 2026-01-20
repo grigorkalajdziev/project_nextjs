@@ -21,6 +21,7 @@ import { IoFilter } from "react-icons/io5";
 import { TbReportAnalytics } from "react-icons/tb";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
+import { FaHome } from "react-icons/fa";
 import { useLocalization } from "../../context/LocalizationContext";
 import { useToasts } from "react-toast-notifications";
 import { Badge } from "react-bootstrap";
@@ -1977,11 +1978,8 @@ const MyAccount = () => {
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link
-              href="/home/trending"
-              as={process.env.PUBLIC_URL + "/home/trending"}
-            >
-              {t("home")}
+            <Link href="/home/trending" aria-label={t("home")}>
+              <FaHome size={16} />
             </Link>
           </li>
           <li>{t("my_account")}</li>

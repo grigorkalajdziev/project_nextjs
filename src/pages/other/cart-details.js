@@ -11,6 +11,7 @@ import {
   deleteAllFromCart,
   cartItemStock,
 } from "../../redux/actions/cartActions";
+import { FaHome } from "react-icons/fa";
 import { getDiscountPrice } from "../../lib/product";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
@@ -280,8 +281,8 @@ const Cart = ({ cartItems, decreaseQuantity, addToCart, deleteFromCart, deleteAl
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              {t("home")}
+            <Link href="/home/trending" aria-label={t("home")}>
+              <FaHome size={16} />
             </Link>
           </li>
           <li>{t("cart")}</li>

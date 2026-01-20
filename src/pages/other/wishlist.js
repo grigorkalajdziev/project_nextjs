@@ -6,12 +6,13 @@ import { useToasts } from "react-toast-notifications";
 import {
   addToWishlist,
   deleteFromWishlist,
-  deleteAllFromWishlist
+  deleteAllFromWishlist,
 } from "../../redux/actions/wishlistActions";
 import { addToCart } from "../../redux/actions/cartActions";
 import { getDiscountPrice } from "../../lib/product";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
+import { FaHome } from "react-icons/fa";
 import { IoIosClose, IoIosHeartEmpty } from "react-icons/io";
 import { useLocalization } from "../../context/LocalizationContext";
 
@@ -20,7 +21,7 @@ const Wishlist = ({
   cartItems,
   addToCart,
   deleteFromWishlist,
-  deleteAllFromWishlist
+  deleteAllFromWishlist,
 }) => {
   const { addToast } = useToasts();
   const { t, currentLanguage } = useLocalization();
@@ -29,12 +30,18 @@ const Wishlist = ({
     document.querySelector("body").classList.remove("overflow-hidden");
   });
 
-  const handleAddToCart = (item, addToast, quantityCount, selectedColor, selectedSize) => {
+  const handleAddToCart = (
+    item,
+    addToast,
+    quantityCount,
+    selectedColor,
+    selectedSize
+  ) => {
     addToCart(item, addToast, quantityCount, selectedColor, selectedSize, t);
   };
 
   return (
-    (<LayoutTwo>
+    <LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={t("wishlist_title")}
@@ -42,8 +49,8 @@ const Wishlist = ({
       >
         <ul className="breadcrumb__list">
           <li>
-            <Link href="/home/trending" as={process.env.PUBLIC_URL + "/home/trending"}>
-              {t("home")}
+            <Link href="/home/trending" aria-label={t("home")}>
+              <FaHome size={16} />
             </Link>
           </li>
 
@@ -61,7 +68,7 @@ const Wishlist = ({
                   <thead>
                     <tr>
                       <th className="product-name" colSpan="2">
-                      {t("product")}
+                        {t("product")}
                       </th>
                       <th className="product-price">{t("price")}</th>
                       <th className="product-subtotal">&nbsp;</th>
@@ -70,7 +77,8 @@ const Wishlist = ({
                   </thead>
                   <tbody>
                     {wishlistItems.map((product, i) => {
-                      const productPrice = product.price[currentLanguage] || "00.00";
+                      const productPrice =
+                        product.price[currentLanguage] || "00.00";
                       const discountedPrice = getDiscountPrice(
                         productPrice,
                         product.discount
@@ -81,22 +89,19 @@ const Wishlist = ({
                       )[0];
 
                       return (
-                        (<tr key={i}>
+                        <tr key={i}>
                           <td className="product-thumbnail">
                             <Link
                               href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                               as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                             >
-
                               <img
                                 src={
-                                  process.env.PUBLIC_URL +
-                                  product.thumbImage[0]
+                                  process.env.PUBLIC_URL + product.thumbImage[0]
                                 }
                                 className="img-fluid"
                                 alt=""
                               />
-
                             </Link>
                           </td>
                           <td className="product-name">
@@ -104,13 +109,18 @@ const Wishlist = ({
                               href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                               as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
                             >
-                              {product.name[currentLanguage] || product.name["en"]}
+                              {product.name[currentLanguage] ||
+                                product.name["en"]}
                             </Link>
                             {product.selectedProductColor &&
                             product.selectedProductSize ? (
                               <div className="product-variation">
-                                <span>{t("color")}: {product.selectedProductColor}</span>
-                                <span>{t("size")}: {product.selectedProductSize}</span>
+                                <span>
+                                  {t("color")}: {product.selectedProductColor}
+                                </span>
+                                <span>
+                                  {t("size")}: {product.selectedProductSize}
+                                </span>
                               </div>
                             ) : (
                               ""
@@ -118,11 +128,10 @@ const Wishlist = ({
                           </td>
                           <td className="product-price">
                             <span className="price">
-                              
-                              {currentLanguage === 'mk' 
-                                ? `${discountedPrice} ${t("currency")}` 
-                                : `${t("currency")} ${discountedPrice}`}                              
-                              </span>
+                              {currentLanguage === "mk"
+                                ? `${discountedPrice} ${t("currency")}`
+                                : `${t("currency")} ${discountedPrice}`}
+                            </span>
                           </td>
                           <td>
                             {product.affiliateLink ? (
@@ -138,16 +147,21 @@ const Wishlist = ({
                               <Link
                                 href={`/shop/product-basic/[slug]?slug=${product.slug}`}
                                 as={`${process.env.PUBLIC_URL}/shop/product-basic/${product.slug}`}
-                                className="lezada-button lezada-button--medium">
-
+                                className="lezada-button lezada-button--medium"
+                              >
                                 {t("select_option")}
-
                               </Link>
                             ) : product.stock && product.stock > 0 ? (
                               <button
-                              onClick={() =>
-                                handleAddToCart(product, addToast, 1, product.selectedProductColor, product.selectedProductSize)
-                              }
+                                onClick={() =>
+                                  handleAddToCart(
+                                    product,
+                                    addToast,
+                                    1,
+                                    product.selectedProductColor,
+                                    product.selectedProductSize
+                                  )
+                                }
                                 className={` lezada-button lezada-button--medium ${
                                   cartItem !== undefined &&
                                   cartItem.quantity > 0
@@ -186,7 +200,7 @@ const Wishlist = ({
                               <IoIosClose />
                             </button>
                           </td>
-                        </tr>)
+                        </tr>
                       );
                     })}
                   </tbody>
@@ -219,10 +233,9 @@ const Wishlist = ({
                     <Link
                       href="/shop/left-sidebar"
                       as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-                      className="lezada-button lezada-button--medium">
-
+                      className="lezada-button lezada-button--medium"
+                    >
                       {t("shop_now")}
-
                     </Link>
                   </div>
                 </div>
@@ -231,21 +244,30 @@ const Wishlist = ({
           )}
         </Container>
       </div>
-    </LayoutTwo>)
+    </LayoutTwo>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
     wishlistItems: state.wishlistData,
-    cartItems: state.cartData
+    cartItems: state.cartData,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addToCart: (item, addToast, quantityCount, selectedColor, selectedSize, t) => {
-      dispatch(addToCart(item, addToast, quantityCount, selectedColor, selectedSize, t));
+    addToCart: (
+      item,
+      addToast,
+      quantityCount,
+      selectedColor,
+      selectedSize,
+      t
+    ) => {
+      dispatch(
+        addToCart(item, addToast, quantityCount, selectedColor, selectedSize, t)
+      );
     },
     addToWishlist: (item, addToast, t) => {
       dispatch(addToWishlist(item, addToast, t));
@@ -255,7 +277,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     deleteAllFromWishlist: (addToast, t) => {
       dispatch(deleteAllFromWishlist(addToast, t));
-    }
+    },
   };
 };
 
