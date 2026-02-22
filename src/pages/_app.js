@@ -42,7 +42,7 @@ const beautyBusinessSchema = {
   "logo": "https://www.kikamakeupandbeautyacademy.com/logo.png",
   "image": "https://www.kikamakeupandbeautyacademy.com/og-image.jpg",
   "description":
-    "Кика Академија за шминка и убавина нуди професионални курсеви за шминкање, педикир, восочење и убавински третмани во Македонија.",
+    "Кика Академија за шминка и убавина нуди професионални курсеви за шминкање, педикир и третмани за убавина.",
   "address": {
     "@type": "PostalAddress",
     "addressCountry": "MK"
