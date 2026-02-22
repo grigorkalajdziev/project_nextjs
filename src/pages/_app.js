@@ -190,7 +190,7 @@ function LocalizedHead({ canonicalUrl }) {
 
   const siteName = "Кика - Академија за шминка и убавина";
   const description =
-    "Кика Академија за шминка и убавина нуди професионални курсеви за шминкање, педикир, восочење и убавински третмани во Македонија.";
+    "Кика Академија за шминка и убавина нуди професионални курсеви за шминкање, педикир и третмани за убавина.";
   const ogImage = "https://www.kikamakeupandbeautyacademy.com/og-image.jpg";
 
   return (
@@ -200,7 +200,7 @@ function LocalizedHead({ canonicalUrl }) {
       <meta name="description" content={description} />
       <meta
         name="keywords"
-        content="шминка, убавина, академија, курсеви за шминкање, педикир, восочење, тренинзи, Македонија"
+        content="шминка, убавина, академија, курсеви за шминкање, педикир"
       />
       <meta name="author" content="Кика Академија" />
       <meta name="robots" content="index, follow" />
