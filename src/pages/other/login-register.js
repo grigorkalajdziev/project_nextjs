@@ -204,99 +204,97 @@ const Login = () => {
   };
 
   const handlePhoneSignIn = async () => {
-    try {
-      const { value: phoneNumber } = await Swal.fire({
-        title: t("enter_your_phone_number"),
-        input: "tel",
-        inputPlaceholder: "+38970123456",
-        confirmButtonText: t("continue"),
-        cancelButtonText: t("cancel"),
-        showCancelButton: true,
-        inputValidator: (value) =>
-          !value ? t("please_enter_phone") : undefined,
+  try {
+    const { value: phoneNumber } = await Swal.fire({
+      title: t("enter_your_phone_number"),
+      input: "tel",
+      inputPlaceholder: "+38970123456",
+      confirmButtonText: t("continue"),
+      cancelButtonText: t("cancel"),
+      showCancelButton: true,
+      inputValidator: (value) =>
+        !value ? t("please_enter_phone") : undefined,
+    });
+
+    if (!phoneNumber) return;
+
+    // Check if phone exists (ONLY for information)
+    const phoneExists = await checkPhoneExists(phoneNumber);
+
+    setPhoneLoading(true);
+
+    Swal.fire({
+      title: t("sending_sms"),
+      text: t("please_wait"),
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading(),
+    });
+
+    auth.languageCode = currentLanguage === "mk" ? "mk" : "en";
+
+    const appVerifier = window.recaptchaVerifier;
+
+    const confirmationResult = await signInWithPhoneNumber(
+      auth,
+      phoneNumber,
+      appVerifier
+    );
+
+    Swal.close();
+
+    const { value: code } = await Swal.fire({
+      title: t("enter_verification_code"),
+      input: "text",
+      inputPlaceholder: "123456",
+      confirmButtonText: t("verify"),
+      cancelButtonText: t("cancel"),
+      showCancelButton: true,
+      inputValidator: (value) =>
+        !value ? t("please_enter_code") : undefined,
+    });
+
+    if (!code) return;
+
+    const result = await confirmationResult.confirm(code);
+    const user = result.user;
+
+    addToast(t("login_success"), {
+      appearance: "success",
+      autoDismiss: true,
+    });
+
+    // If phone was NOT registered → create new user profile
+    if (!phoneExists) {
+      await set(ref(database, `users/${user.uid}`), {
+        displayName: "",
+        firstName: "",
+        lastName: "",
+        billingInfo: {
+          address: "",
+          city: "",
+          phone: user.phoneNumber,
+          zipCode: "",
+        },
+        role: "guest",
+        coupon: "",
       });
-
-      if (!phoneNumber) return;
-
-      const phoneExists = await checkPhoneExists(phoneNumber);
-      if (!phoneExists) {
-        Swal.fire({
-          icon: "error",
-          title: t("phone_not_registered"),
-          text: t("please_register_first"),
-        });
-        return;
-      }
-
-      setPhoneLoading(true);
-      Swal.fire({
-        title: t("sending_sms"),
-        text: t("please_wait"),
-        allowOutsideClick: false,
-        didOpen: () => Swal.showLoading(),
-      });
-
-      auth.languageCode = currentLanguage === "mk" ? "mk" : "en";
-      const appVerifier = window.recaptchaVerifier;
-      const confirmationResult = await signInWithPhoneNumber(
-        auth,
-        phoneNumber,
-        appVerifier,
-      );
-
-      Swal.close();
-
-      const { value: code } = await Swal.fire({
-        title: t("enter_verification_code"),
-        input: "text",
-        inputPlaceholder: "123456",
-        confirmButtonText: t("verify"),
-        cancelButtonText: t("cancel"),
-        showCancelButton: true,
-        inputValidator: (value) =>
-          !value ? t("please_enter_code") : undefined,
-      });
-
-      if (!code) return;
-
-      const result = await confirmationResult.confirm(code);
-      const user = result.user;
-
-      addToast(t("login_success"), {
-        appearance: "success",
-        autoDismiss: true,
-      });
-
-      // if new user - create basic profile in your DB
-      const userExists = await checkUserExists(user.uid);
-      if (!userExists) {
-        await set(ref(database, `users/${user.uid}`), {
-          displayName: "",
-          firstName: "",
-          lastName: "",
-          billingInfo: {
-            address: "",
-            city: "",
-            phone: user.phoneNumber,
-            zipCode: "",
-          },
-          role: "guest",
-          coupon: "",
-        });
-      }
-
-      setTimeout(() => (window.location.href = "/other/my-account"), 1000);
-    } catch (error) {
-      console.error(error);
-      Swal.fire({
-        icon: "error",
-        title: t("something_went_wrong"),
-        text: error.message,
-      });
-    } finally {
-      setPhoneLoading(false);
     }
-  };
+
+    setTimeout(() => (window.location.href = "/other/my-account"), 1000);
+
+  } catch (error) {
+    console.error(error);
+
+    Swal.fire({
+      icon: "error",
+      title: t("something_went_wrong"),
+      text: error.message,
+    });
+
+  } finally {
+    setPhoneLoading(false);
+  }
+};
 
   return (
     <LayoutTwo>
