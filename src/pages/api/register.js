@@ -49,6 +49,25 @@ export async function checkUserExists(userId) {
   }
 }
 
+export async function checkPhoneExists(phoneNumber) {
+  try {
+    const snapshot = await get(ref(database, "users"));
+
+    if (!snapshot.exists()) return false;
+
+    const users = snapshot.val();
+
+    const exists = Object.values(users).some(
+      (user) => user?.billingInfo?.phone === phoneNumber
+    );
+
+    return exists;
+  } catch (error) {
+    console.error("Error checking phone:", error);
+    return false;
+  }
+}
+
 // Email + Password Registration
 export async function registerUser(email, password, firstName, lastName) {
   try {

@@ -16,7 +16,15 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "firebase/auth";
-import { auth, checkUserExists, registerGoogleUser, set, ref, database } from "../api/register";
+import {
+  auth,
+  checkUserExists,
+  checkPhoneExists,
+  registerGoogleUser,
+  set,
+  ref,
+  database,
+} from "../api/register";
 import { useToasts } from "react-toast-notifications";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import Swal from "sweetalert2";
@@ -51,7 +59,7 @@ const Login = () => {
       window.recaptchaVerifier = new RecaptchaVerifier(
         "recaptcha-container",
         { size: "invisible", callback: () => {} },
-        auth
+        auth,
       );
     }
 
@@ -84,15 +92,24 @@ const Login = () => {
     setLoginErrors({ email: emailError, password: passwordError });
 
     if (emailError || passwordError) {
-      if (emailError) addToast(emailError, { appearance: "error", autoDismiss: true });
-      if (passwordError) addToast(passwordError, { appearance: "error", autoDismiss: true });
+      if (emailError)
+        addToast(emailError, { appearance: "error", autoDismiss: true });
+      if (passwordError)
+        addToast(passwordError, { appearance: "error", autoDismiss: true });
       return;
     }
 
     setLoginLoading(true);
     try {
-      await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
-      const userCredential = await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
+      await setPersistence(
+        auth,
+        rememberMe ? browserLocalPersistence : browserSessionPersistence,
+      );
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        loginData.email,
+        loginData.password,
+      );
       const user = userCredential.user;
 
       // send login success email once per user (client-side throttle)
@@ -109,7 +126,10 @@ const Login = () => {
         localStorage.setItem("loginSuccessEmailSent_" + user.uid, "true");
       }
 
-      addToast(t("login_success"), { appearance: "success", autoDismiss: true });
+      addToast(t("login_success"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
 
       if (rememberMe) localStorage.setItem("rememberedEmail", loginData.email);
       else localStorage.removeItem("rememberedEmail");
@@ -136,7 +156,8 @@ const Login = () => {
       if (!userExists) {
         // register first time google user
         const regResult = await registerGoogleUser(user);
-        if (!regResult.success) throw new Error(regResult.error || "google_registration_failed");
+        if (!regResult.success)
+          throw new Error(regResult.error || "google_registration_failed");
 
         await fetch("/api/sendRegistrationEmail", {
           method: "POST",
@@ -166,10 +187,16 @@ const Login = () => {
         }
       }
 
-      addToast(t("login_success"), { appearance: "success", autoDismiss: true });
+      addToast(t("login_success"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
       setTimeout(() => (window.location.href = "/other/my-account"), 1500);
     } catch (err) {
-      const message = err && err.code ? getFriendlyAuthMessage(err.code, t) : err.message || t("something_went_wrong");
+      const message =
+        err && err.code
+          ? getFriendlyAuthMessage(err.code, t)
+          : err.message || t("something_went_wrong");
       addToast(message, { appearance: "error", autoDismiss: true });
     } finally {
       setGoogleLoading(false);
@@ -185,17 +212,37 @@ const Login = () => {
         confirmButtonText: t("continue"),
         cancelButtonText: t("cancel"),
         showCancelButton: true,
-        inputValidator: (value) => (!value ? t("please_enter_phone") : undefined),
+        inputValidator: (value) =>
+          !value ? t("please_enter_phone") : undefined,
       });
 
       if (!phoneNumber) return;
 
+      const phoneExists = await checkPhoneExists(phoneNumber);
+      if (!phoneExists) {
+        Swal.fire({
+          icon: "error",
+          title: t("phone_not_registered"),
+          text: t("please_register_first"),
+        });
+        return;
+      }
+
       setPhoneLoading(true);
-      Swal.fire({ title: t("sending_sms"), text: t("please_wait"), allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      Swal.fire({
+        title: t("sending_sms"),
+        text: t("please_wait"),
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading(),
+      });
 
       auth.languageCode = currentLanguage === "mk" ? "mk" : "en";
       const appVerifier = window.recaptchaVerifier;
-      const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phoneNumber,
+        appVerifier,
+      );
 
       Swal.close();
 
@@ -206,7 +253,8 @@ const Login = () => {
         confirmButtonText: t("verify"),
         cancelButtonText: t("cancel"),
         showCancelButton: true,
-        inputValidator: (value) => (!value ? t("please_enter_code") : undefined),
+        inputValidator: (value) =>
+          !value ? t("please_enter_code") : undefined,
       });
 
       if (!code) return;
@@ -214,7 +262,10 @@ const Login = () => {
       const result = await confirmationResult.confirm(code);
       const user = result.user;
 
-      addToast(t("login_success"), { appearance: "success", autoDismiss: true });
+      addToast(t("login_success"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
 
       // if new user - create basic profile in your DB
       const userExists = await checkUserExists(user.uid);
@@ -223,7 +274,12 @@ const Login = () => {
           displayName: "",
           firstName: "",
           lastName: "",
-          billingInfo: { address: "", city: "", phone: user.phoneNumber, zipCode: "" },
+          billingInfo: {
+            address: "",
+            city: "",
+            phone: user.phoneNumber,
+            zipCode: "",
+          },
           role: "guest",
           coupon: "",
         });
@@ -232,7 +288,11 @@ const Login = () => {
       setTimeout(() => (window.location.href = "/other/my-account"), 1000);
     } catch (error) {
       console.error(error);
-      Swal.fire({ icon: "error", title: t("something_went_wrong"), text: error.message });
+      Swal.fire({
+        icon: "error",
+        title: t("something_went_wrong"),
+        text: error.message,
+      });
     } finally {
       setPhoneLoading(false);
     }
@@ -240,11 +300,16 @@ const Login = () => {
 
   return (
     <LayoutTwo>
-      <BreadcrumbOne pageTitle={t("customer_login")} backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.webp">
+      <BreadcrumbOne
+        pageTitle={t("customer_login")}
+        backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.webp"
+      >
         <ul className="breadcrumb__list">
-          <li><Link href="/home/trending" aria-label={t("home")}>
+          <li>
+            <Link href="/home/trending" aria-label={t("home")}>
               <FaHome size={16} />
-            </Link></li>
+            </Link>
+          </li>
           <li>{t("customer_login")}</li>
         </ul>
       </BreadcrumbOne>
@@ -269,8 +334,15 @@ const Login = () => {
                         name="email"
                         placeholder={t("email_address")}
                         value={loginData.email}
-                        onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                        onBlur={(e) => setLoginErrors((p) => ({ ...p, email: validateLoginEmail(e.target.value) }))}
+                        onChange={(e) =>
+                          setLoginData({ ...loginData, email: e.target.value })
+                        }
+                        onBlur={(e) =>
+                          setLoginErrors((p) => ({
+                            ...p,
+                            email: validateLoginEmail(e.target.value),
+                          }))
+                        }
                       />
                     </Col>
 
@@ -281,23 +353,101 @@ const Login = () => {
                           name="password"
                           placeholder={t("password")}
                           value={loginData.password}
-                          onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                          onBlur={(e) => setLoginErrors((p) => ({ ...p, password: validateLoginPassword(e.target.value) }))}
+                          onChange={(e) =>
+                            setLoginData({
+                              ...loginData,
+                              password: e.target.value,
+                            })
+                          }
+                          onBlur={(e) =>
+                            setLoginErrors((p) => ({
+                              ...p,
+                              password: validateLoginPassword(e.target.value),
+                            }))
+                          }
                           style={{ width: "100%", paddingRight: "70px" }}
                         />
-                        <span onClick={() => setLoginPasswordVisible((s) => !s)} style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", cursor: "pointer" }}>
-                          {loginPasswordVisible ? <AiOutlineEye size={20} /> : <AiOutlineEyeInvisible size={20} />}
+                        <span
+                          onClick={() => setLoginPasswordVisible((s) => !s)}
+                          style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            cursor: "pointer",
+                          }}
+                        >
+                          {loginPasswordVisible ? (
+                            <AiOutlineEye size={20} />
+                          ) : (
+                            <AiOutlineEyeInvisible size={20} />
+                          )}
                         </span>
                       </div>
 
                       <div className="col-12">
-                        <div className="single-method remember-container d-flex justify-content-between align-items-center" style={{ marginTop: "10px" }}>
+                        <div
+                          className="single-method remember-container d-flex justify-content-between align-items-center"
+                          style={{ marginTop: "10px" }}
+                        >
                           <div className="remember-me d-flex align-items-center">
-                            <input type="checkbox" id="rememberMe" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
-                            <label htmlFor="rememberMe" style={{ cursor: "pointer", fontSize: "12px" }}>{t("remember_me")}</label>
+                            <input
+                              type="checkbox"
+                              id="rememberMe"
+                              checked={rememberMe}
+                              onChange={(e) => setRememberMe(e.target.checked)}
+                            />
+                            <label
+                              htmlFor="rememberMe"
+                              style={{ cursor: "pointer", fontSize: "12px" }}
+                            >
+                              {t("remember_me")}
+                            </label>
                           </div>
 
-                          <button type="button" onClick={() => { if (!loginData.email) return addToast(t("please_enter_your_email_first"), { appearance: "error", autoDismiss: true }); window.fetch && fetch("/api/reset-password", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: loginData.email, language: currentLanguage }) }).then(r => r.json()).then(() => addToast(t("reset_email_sent"), { appearance: "success", autoDismiss: true })).catch(e => addToast(e.message, { appearance: "error", autoDismiss: true })); }} style={{ background: "none", border: "none", color: "blue", padding: 0, cursor: "pointer", fontSize: "12px", textDecoration: "underline" }}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (!loginData.email)
+                                return addToast(
+                                  t("please_enter_your_email_first"),
+                                  { appearance: "error", autoDismiss: true },
+                                );
+                              window.fetch &&
+                                fetch("/api/reset-password", {
+                                  method: "POST",
+                                  headers: {
+                                    "Content-Type": "application/json",
+                                  },
+                                  body: JSON.stringify({
+                                    email: loginData.email,
+                                    language: currentLanguage,
+                                  }),
+                                })
+                                  .then((r) => r.json())
+                                  .then(() =>
+                                    addToast(t("reset_email_sent"), {
+                                      appearance: "success",
+                                      autoDismiss: true,
+                                    }),
+                                  )
+                                  .catch((e) =>
+                                    addToast(e.message, {
+                                      appearance: "error",
+                                      autoDismiss: true,
+                                    }),
+                                  );
+                            }}
+                            style={{
+                              background: "none",
+                              border: "none",
+                              color: "blue",
+                              padding: 0,
+                              cursor: "pointer",
+                              fontSize: "12px",
+                              textDecoration: "underline",
+                            }}
+                          >
                             {t("forgot_password")}
                           </button>
                         </div>
@@ -305,8 +455,22 @@ const Login = () => {
                     </Col>
 
                     <Col lg={12} className="text-center space-mb--30">
-                      <button type="submit" className="lezada-button lezada-button--medium" disabled={loginLoading}>
-                        {loginLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : t("login")}
+                      <button
+                        type="submit"
+                        className="lezada-button lezada-button--medium"
+                        disabled={loginLoading}
+                      >
+                        {loginLoading ? (
+                          <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          t("login")
+                        )}
                       </button>
                     </Col>
 
@@ -315,24 +479,73 @@ const Login = () => {
                     </Col>
 
                     <Row className="justify-content-center space-mt--30">
-                      <Col lg={12} className="d-flex flex-column gap-3 align-items-center">
-                        <button onClick={handleGoogleSignIn} className="lezada-button lezada-button--small w-100 d-flex align-items-center justify-content-center" disabled={googleLoading} style={{ minHeight: "45px" }}>
-                          {googleLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : (<><FcGoogle size={24} style={{ marginRight: "10px" }} />{t("continue_with_google")}</>)}
+                      <Col
+                        lg={12}
+                        className="d-flex flex-column gap-3 align-items-center"
+                      >
+                        <button
+                          onClick={handleGoogleSignIn}
+                          className="lezada-button lezada-button--small w-100 d-flex align-items-center justify-content-center"
+                          disabled={googleLoading}
+                          style={{ minHeight: "45px" }}
+                        >
+                          {googleLoading ? (
+                            <Spinner
+                              as="span"
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <>
+                              <FcGoogle
+                                size={24}
+                                style={{ marginRight: "10px" }}
+                              />
+                              {t("continue_with_google")}
+                            </>
+                          )}
                         </button>
-                        
-                        <div id="recaptcha-container" style={{ opacity: 0, position: "absolute", left: 0 }}></div>
 
-                        <button type="button" onClick={handlePhoneSignIn} className="lezada-button lezada-button--small w-100 d-flex align-items-center justify-content-center" style={{ minHeight: "45px" }} disabled={phoneLoading}>
-                          {phoneLoading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : (<><FaPhoneAlt size={22} style={{ marginRight: "10px" }} />{t("continue_with_phone")}</>)}
+                        <div
+                          id="recaptcha-container"
+                          style={{ opacity: 0, position: "absolute", left: 0 }}
+                        ></div>
+
+                        <button
+                          type="button"
+                          onClick={handlePhoneSignIn}
+                          className="lezada-button lezada-button--small w-100 d-flex align-items-center justify-content-center"
+                          style={{ minHeight: "45px" }}
+                          disabled={phoneLoading}
+                        >
+                          {phoneLoading ? (
+                            <Spinner
+                              as="span"
+                              animation="border"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
+                          ) : (
+                            <>
+                              <FaPhoneAlt
+                                size={22}
+                                style={{ marginRight: "10px" }}
+                              />
+                              {t("continue_with_phone")}
+                            </>
+                          )}
                         </button>
                         <div className="text-center mt-3">
-                            <p className="mb-0">
-                              {t("dont_have_account")}{" "}
-                              <Link href="/other/register" className="fw-bold">
-                                {t("register")}
-                              </Link>
-                            </p>
-                          </div>
+                          <p className="mb-0">
+                            {t("dont_have_account")}{" "}
+                            <Link href="/other/register" className="fw-bold">
+                              {t("register")}
+                            </Link>
+                          </p>
+                        </div>
                       </Col>
                     </Row>
                   </Row>
