@@ -169,7 +169,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
   if (!billingInfo.address1.trim()) {
     addToast(t("address_required"), { appearance: "error", autoDismiss: true });
     return false;
-  }
+  } 
 
   if (!billingInfo.state.trim()) {
     addToast(t("state_required"), { appearance: "error", autoDismiss: true });

@@ -659,7 +659,7 @@ const translations = {
     city_required: "City is required",
     state_required: "State is required",
     zip_required: "Zip code is required",
-    no_products_found: "No products found",
+    no_products_found: "No products found", 
   },
   mk: {
     english: "Англиски",
