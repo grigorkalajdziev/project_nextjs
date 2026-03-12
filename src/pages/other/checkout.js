@@ -139,7 +139,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
             address1: userData.billingInfo?.address || "",
             city: userData.billingInfo?.city || "",
             zip: userData.billingInfo?.zipCode || "",
-            state: userData.billingInfo?.country.label || "",
+            state: userData.billingInfo?.country?.label || "",
           });
         }
       } catch (error) {
@@ -149,6 +149,45 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
 
     fetchBillingInfo();
   }, []);
+
+  const validateBillingInfo = () => {
+  if (!billingInfo.firstName.trim()) {
+    addToast(t("first_name_required"), { appearance: "error", autoDismiss: true });
+    return false;
+  }
+
+  if (!billingInfo.lastName.trim()) {
+    addToast(t("last_name_required"), { appearance: "error", autoDismiss: true });
+    return false;
+  }
+
+  if (!billingInfo.phone.trim()) {
+    addToast(t("phone_required"), { appearance: "error", autoDismiss: true });
+    return false;
+  }
+
+  if (!billingInfo.address1.trim()) {
+    addToast(t("address_required"), { appearance: "error", autoDismiss: true });
+    return false;
+  }
+
+  if (!billingInfo.state.trim()) {
+    addToast(t("state_required"), { appearance: "error", autoDismiss: true });
+    return false;
+  }
+
+  if (!billingInfo.city.trim()) {
+    addToast(t("city_required"), { appearance: "error", autoDismiss: true });
+    return false;
+  }
+
+  if (!billingInfo.zip.trim()) {
+    addToast(t("zip_required"), { appearance: "error", autoDismiss: true });
+    return false;
+  }
+
+  return true;
+};
 
   const handlePlaceOrder = async () => {
     setIsPlacingOrder(true);
@@ -161,6 +200,20 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       setIsPlacingOrder(false);
       return;
     }
+
+    if (!validateBillingInfo()) {
+    addToast(
+      t("profile_details_required"), {
+        appearance: "error",
+        autoDismiss: true,
+      }
+    );
+
+    setIsPlacingOrder(false);  
+    router.push("/other/my-account");
+
+    return;
+  }
 
     if (!selectedPaymentMethod) {
       addToast(t("please_select_payment_method"), {
