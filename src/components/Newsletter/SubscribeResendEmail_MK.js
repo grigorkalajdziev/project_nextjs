@@ -32,7 +32,7 @@ export const SubscribeResendEmail_MK = () => (
           />
         </Section>
 
-        {/* Hero Слика */}
+        {/* Hero Image */}
         <Section style={heroSection}>
           <Img
             src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1000&auto=format&fit=crop" 
@@ -41,7 +41,7 @@ export const SubscribeResendEmail_MK = () => (
           />
         </Section>
 
-        {/* Главна Содржина */}
+        {/* Main Content */}
         <Section style={contentSection}>
           <Text style={heading}>Добредојдовте во Кика Makeup и Beauty Academy!</Text>
           
@@ -70,7 +70,7 @@ export const SubscribeResendEmail_MK = () => (
 
         <Hr style={hr} />
 
-        {/* Социјални Мрежи */}
+        {/* Social Media */}
         <Section style={socialSection}>
           <Text style={socialHeading}>Следете нè на социјалните мрежи:</Text>
           <Row style={socialRow}>
@@ -87,11 +87,15 @@ export const SubscribeResendEmail_MK = () => (
           </Row>
         </Section>
 
-        {/* Футер */}
+        {/* Footer */}
         <Section style={footer}>
           <Text style={footerNote}>
             2026 © Кика Makeup и Beauty Academy<br />
             ул. „Туристичка“, Охрид 6000, Македонија
+          </Text>
+          <Text style={unsubscribeText}>
+            Доколку не сакате да примате повеќе пораки, 
+            <Link href="{{{resend_unsubscribe_url}}}" style={unsubscribeLink}> одјавете се тука</Link>.
           </Text>
         </Section>
       </Container>
@@ -215,4 +219,16 @@ const footerNote = {
   lineHeight: '18px',
   textAlign: 'center',
   margin: '0',
+};
+
+const unsubscribeText = {
+  fontSize: '11px',
+  color: '#aaaaaa',
+  textAlign: 'center',
+  marginTop: '15px',
+};
+
+const unsubscribeLink = {
+  color: '#888888',
+  textDecoration: 'underline',
 };
