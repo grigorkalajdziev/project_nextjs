@@ -15,7 +15,7 @@ import {
 } from '@react-email/components';
 import * as React from 'react';
 
-export const SubscribeResendEmail = () => (
+export const SubscribeResendEmail = ({ email }) => (
   <Html>
     <Head />
     <Preview>Welcome to Kika Makeup and Beauty Academy!</Preview>
@@ -87,11 +87,19 @@ export const SubscribeResendEmail = () => (
           </Row>
         </Section>
 
-        {/* Footer */}
+        {/* Footer */} 
         <Section style={footer}>
           <Text style={footerNote}>
             2026 © Kika Makeup and Beauty Academy<br />
             Turistichka Blvd, Ohrid 6000, Macedonia
+          </Text>
+          <Text style={{ ...footerNote, marginTop: '10px' }}>
+            <Link 
+              href={`https://www.kikamakeupandbeautyacademy.com/unsubscribe?email=${encodeURIComponent(email)}`}
+              style={{ color: '#fa7268', textDecoration: 'underline' }}
+            >
+              Unsubscribe
+            </Link> from this newsletter
           </Text>
         </Section>
       </Container>
@@ -215,4 +223,16 @@ const footerNote = {
   lineHeight: '18px',
   textAlign: 'center',
   margin: '0',
+};
+
+const unsubscribeText = {
+  fontSize: '11px',
+  color: '#aaaaaa',
+  textAlign: 'center',
+  marginTop: '15px',
+};
+
+const unsubscribeLink = {
+  color: '#888888',
+  textDecoration: 'underline',
 };

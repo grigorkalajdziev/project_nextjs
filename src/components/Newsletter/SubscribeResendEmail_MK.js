@@ -94,12 +94,11 @@ export const SubscribeResendEmail_MK = ({ email }) => (
             ул. „Туристичка“, Охрид 6000, Македонија
           </Text>
           <Text style={unsubscribeText}>
-            Доколку не сакате да примате повеќе пораки, 
+            Доколку не сакате да примате повеќе пораки, одјавете се{' '}
             <Link
               href={`https://www.kikamakeupandbeautyacademy.com/unsubscribe?email=${encodeURIComponent(email)}`}
-              style={unsubscribeLink}
-            >
-              одјавете се тука
+              style={{ color: '#fa7268', textDecoration: 'underline' }}
+            >тука
             </Link>
           </Text>
         </Section>
@@ -231,9 +230,4 @@ const unsubscribeText = {
   color: '#aaaaaa',
   textAlign: 'center',
   marginTop: '15px',
-};
-
-const unsubscribeLink = {
-  color: '#888888',
-  textDecoration: 'underline',
 };
