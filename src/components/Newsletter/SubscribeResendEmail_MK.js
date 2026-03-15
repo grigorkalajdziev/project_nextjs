@@ -15,7 +15,7 @@ import {
 } from '@react-email/components';
 import * as React from 'react';
 
-export const SubscribeResendEmail_MK = () => (
+export const SubscribeResendEmail_MK = ({ email }) => (
   <Html>
     <Head />
     <Preview>Добредојдовте во Кика Makeup и Beauty Academy!</Preview>
@@ -95,7 +95,12 @@ export const SubscribeResendEmail_MK = () => (
           </Text>
           <Text style={unsubscribeText}>
             Доколку не сакате да примате повеќе пораки, 
-            <Link href="{{{resend_unsubscribe_url}}}" style={unsubscribeLink}> одјавете се тука</Link>.
+            <Link
+              href={`https://www.kikamakeupandbeautyacademy.com/unsubscribe?email=${encodeURIComponent(email)}`}
+              style={unsubscribeLink}
+            >
+              одјавете се тука
+            </Link>
           </Text>
         </Section>
       </Container>

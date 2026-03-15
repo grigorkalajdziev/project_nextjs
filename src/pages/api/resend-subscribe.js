@@ -36,17 +36,21 @@ export default async function handler(req, res) {
 
       // 2️⃣ RENDER & SEND EMAIL
       const emailHtml = ReactDOMServer.renderToStaticMarkup(
-        currentLanguage === "mk" ? <SubscribeResendEmail_MK /> : <SubscribeResendEmail />
+        currentLanguage === "mk" ? <SubscribeResendEmail_MK email={targetEmail}/> : <SubscribeResendEmail email={targetEmail}/>
       );
 
       const { data: emailData, error: sendError } = await resend.emails.send({
-        from: "newsletter@kikamakeupandbeautyacademy.com",
-        to: targetEmail,
-        subject: currentLanguage === "mk" 
-          ? "Добредојдовте во Кика Makeup и Beauty Academy!" 
-          : "Welcome to Kika Makeup and Beauty Academy!",
-        html: emailHtml,
-      });
+            from: "newsletter@kikamakeupandbeautyacademy.com",
+            to: targetEmail,
+            subject: currentLanguage === "mk" 
+              ? "Добредојдовте во Кика Makeup и Beauty Academy!" 
+              : "Welcome to Kika Makeup and Beauty Academy!",
+            html: emailHtml,
+
+            headers: {
+              "List-Unsubscribe": `<https://www.kikamakeupandbeautyacademy.com/unsubscribe?email=${encodeURIComponent(targetEmail)}>`
+            }
+          });
 
       results.push({ email: targetEmail, status: sendError ? "email_failed" : "success" });
     }
