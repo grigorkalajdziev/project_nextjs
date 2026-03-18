@@ -61,7 +61,7 @@ const LoginSuccessEmail_MK = () => {
         React.createElement(
           Text,
           { style: footer },
-          '2025 © Kika Makeup and Beauty Academy, Охрид 6000, Македонија'
+          `${new Date().getFullYear()} © Kika Makeup and Beauty Academy, Охрид 6000, Македонија`
         )
       )
     )

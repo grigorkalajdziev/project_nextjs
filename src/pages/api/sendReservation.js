@@ -83,8 +83,7 @@ export default async function handler(req, res) {
       subject,
       html: emailHtml,
     });
-
-    console.log("Reservation email sent:", data);
+    
     return res
       .status(200)
       .json({ message: "Email sent successfully", data });

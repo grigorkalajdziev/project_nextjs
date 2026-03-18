@@ -316,7 +316,7 @@ const ReservationEmail_MK = ({
                     margin: 0,
                   }}
                 >
-                  © 2025 Kika Makeup и Beauty Academy — Охрид, Македонија
+                  © {new Date().getFullYear()} Kika Makeup и Beauty Academy — Охрид, Македонија
                 </Text>
               </Column>
 

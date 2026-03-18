@@ -38,7 +38,7 @@ const PasswordResetEmail_MK = ({ resetUrl }) => {
           </Section>
           <Hr style={hr} />
           <Text style={footer}>
-            2025 © Kika Makeup and Beauty Academy, Охрид 6000, Македонија
+            {new Date().getFullYear()} © Kika Makeup and Beauty Academy, Охрид 6000, Македонија
           </Text>
         </Container>
       </Body>

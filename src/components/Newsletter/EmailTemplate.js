@@ -73,7 +73,7 @@ const ContactEmailTemplate = ({ name, email, subject, message }) => {
         React.createElement(
           Text,
           { style: footer },
-          '2025 © Kika Makeup and Beauty Academy, Ohrid 6000, Macedonia'
+          `${new Date().getFullYear()} © Kika Makeup and Beauty Academy, Охрид 6000, Македонија`
         )
       )
     )

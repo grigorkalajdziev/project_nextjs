@@ -53,7 +53,7 @@ const CancelationEmail = ({
           <a href="mailto:makeupbykika@hotmail.com" style={{ color: '#fa7268', textDecoration: 'none' }}>makeupbykika@hotmail.com</a>
         </Text>
         <Text style={{ fontSize: '12px', color: '#888', textAlign: 'center', marginTop: '16px' }}>
-          2025 © Kika Makeup and Beauty Academy, Ohrid 6000, Macedonia
+          {new Date().getFullYear()} © Kika Makeup and Beauty Academy, Ohrid 6000, Macedonia
         </Text>
 
       </Container>

@@ -268,7 +268,7 @@ const ReservationEmailInternal = ({
                     margin: 0,
                   }}
                 >
-                  © 2025 Kika Makeup & Beauty Academy — Ohrid, Macedonia
+                  © {new Date().getFullYear()} Kika Makeup & Beauty Academy — Ohrid, Macedonia
                 </Text>
               </Column>
 

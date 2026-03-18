@@ -215,7 +215,7 @@ const ReservationEmail = ({
             <Row style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <Column style={{ width: "60%", display: "flex", alignItems: "center", paddingRight: "12px" }}>
                 <Text style={{ fontSize: 12, color: MUTED, lineHeight: "18px", margin: 0 }}>
-                  © 2025 Kika Makeup & Beauty Academy — Ohrid, North Macedonia
+                  © {new Date().getFullYear()} Kika Makeup & Beauty Academy — Ohrid, Macedonia
                 </Text>
               </Column>
               <Column style={{ width: "40%", display: "flex", justifyContent: "flex-end" }}>
