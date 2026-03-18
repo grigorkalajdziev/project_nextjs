@@ -1268,7 +1268,7 @@ const MyAccount = () => {
             orderList.push({
               userId: user.uid,
               id,
-              displayName: user.displayName || "",
+              displayName: user.displayName || firstName + " " + lastName || "",
               email: user.email || "",
               date: order.date || "",
               reservationDate: order.reservationDate,
@@ -1316,7 +1316,7 @@ const MyAccount = () => {
     };
 
     fetchOrders();
-  }, [user, role, currentLanguage]); // include currentLanguage so displayTotal reflects language changes
+  }, [user, role, currentLanguage, displayName]); // include currentLanguage so displayTotal reflects language changes
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -1627,7 +1627,7 @@ const MyAccount = () => {
         products: order.products || [],
 
         customer: {
-          name: order.displayName || null,
+          name: order.displayName || displayName || `${firstName} ${lastName}`.trim() || null,
           email: order.email || null,
           phone: order.customerPhone || null,
           address: order.customerAddress || null,
