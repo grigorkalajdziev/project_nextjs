@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { LayoutTwo } from "../../components/Layout";
 import { BreadcrumbOne } from "../../components/Breadcrumb";
@@ -24,6 +25,7 @@ const getFriendlyAuthMessage = (code, t) => {
 const Register = () => {
   const { t, currentLanguage } = useLocalization();
   const { addToast } = useToasts();
+  const router = useRouter();
 
   const [registerData, setRegisterData] = useState({
     firstName: "",
@@ -133,6 +135,10 @@ const Register = () => {
           appearance: "success",
           autoDismiss: true,
         });
+
+        setTimeout(() => {
+          router.push("/other/login-register");
+        }, 1500);
 
         setRegisterData({
           firstName: "",
