@@ -38,7 +38,7 @@ const ReservationEmailInternal_MK = ({
 
   const subtotal = products.reduce(
     (s, p) => s + parseFloat(p.price || 0) * (p.quantity || 1),
-    0
+    0,
   );
   const discountAmount =
     Number(total) < subtotal ? subtotal - Number(total) : 0;
@@ -244,75 +244,49 @@ const ReservationEmailInternal_MK = ({
             style={{
               marginTop: 24,
               borderTop: "1px solid #f0f0f0",
-              paddingTop: 12,
+              paddingTop: 16,
+              textAlign: "center",
             }}
           >
-            <Row
+            <Text
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
+                fontSize: 12,
+                color: MUTED,
+                lineHeight: "18px",
+                margin: "0 0 10px",
               }}
             >
-              <Column
-                style={{
-                  width: "60%",
-                  display: "flex",
-                  alignItems: "center",
-                  paddingRight: "12px",
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: MUTED,
-                    lineHeight: "18px",
-                    margin: 0,
-                  }}
-                >
-                  © {new Date().getFullYear()} Kika Makeup и Beauty Academy — Охрид, Македонија
-                </Text>
-              </Column>
+              © {new Date().getFullYear()} Kika Makeup & Beauty Academy —
+              Ohrid, Macedonia
+            </Text>
 
-              <Column
-                style={{
-                  width: "40%",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
+            <div style={{ textAlign: "center" }}>
+              <a
+                href="https://instagram.com/"
+                style={{ display: "inline-block", marginRight: 10 }}
               >
-                {/* Use both gap and explicit margin as fallback for email clients */}
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "12px" }}
-                >
-                  <a
-                    href="https://instagram.com/"
-                    style={{ display: "inline-block", marginRight: "0" }}
-                  >
-                    <Img
-                      src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
-                      alt="Instagram"
-                      width={20}
-                      height={20}
-                      style={{ display: "block" }}
-                    />
-                  </a>
+                <Img
+                  src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
+                  alt="Instagram"
+                  width={20}
+                  height={20}
+                  style={{ display: "inline-block" }} // 🔥 IMPORTANT
+                />
+              </a>
 
-                  <a
-                    href="https://facebook.com/"
-                    style={{ display: "inline-block", marginLeft: "12px" }}
-                  >
-                    <Img
-                      src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
-                      alt="Facebook"
-                      width={20}
-                      height={20}
-                      style={{ display: "block" }}
-                    />
-                  </a>
-                </div>
-              </Column>
-            </Row>
+              <a
+                href="https://facebook.com/"
+                style={{ display: "inline-block", marginLeft: 10 }}
+              >
+                <Img
+                  src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
+                  alt="Facebook"
+                  width={20}
+                  height={20}
+                  style={{ display: "inline-block" }} // 🔥 IMPORTANT
+                />
+              </a>
+            </div>
           </Section>
         </Container>
       </Body>

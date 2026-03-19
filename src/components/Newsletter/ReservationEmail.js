@@ -42,7 +42,7 @@ const ReservationEmail = ({
 
   const subtotal = products.reduce(
     (s, p) => s + parseFloat(p.price || 0) * (p.quantity || 1),
-    0
+    0,
   );
   const discountAmount = Number(discount || 0);
   const totalAfterDiscount = Math.max(0, subtotal - discountAmount);
@@ -107,7 +107,12 @@ const ReservationEmail = ({
   const productName = { maxWidth: "60%", fontSize: 14 };
   const productQty = { width: 50, textAlign: "center", color: MUTED };
   const productPrice = { textAlign: "right", minWidth: 90 };
-  const totalRow = { display: "flex", justifyContent: "space-between", marginTop: 10, fontSize: 15 };
+  const totalRow = {
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: 10,
+    fontSize: 15,
+  };
   const grandTotal = { fontSize: 18, fontWeight: 700, color: BRAND };
 
   return (
@@ -137,29 +142,49 @@ const ReservationEmail = ({
           <div style={{ textAlign: "center", marginBottom: 12 }}>
             <h1 style={titleStyle}>Your Reservation is Confirmed</h1>
             <div style={smallMuted}>
-              Dear <strong>{customerName}</strong>, your reservation has been successfully confirmed!
+              Dear <strong>{customerName}</strong>, your reservation has been
+              successfully confirmed!
             </div>
           </div>
 
           {/* Reservation summary */}
           <Section>
             <div style={sectionTitle}>💅 Reservation Details</div>
-            <div style={infoRow}><div style={{ color: MUTED }}>Date:</div><div>{reservationDate}</div></div>
-            <div style={infoRow}><div style={{ color: MUTED }}>Time:</div><div>{reservationTime}</div></div>
-            <div style={infoRow}><div style={{ color: MUTED }}>Payment Method:</div><div>{paymentText}</div></div>
+            <div style={infoRow}>
+              <div style={{ color: MUTED }}>Date:</div>
+              <div>{reservationDate}</div>
+            </div>
+            <div style={infoRow}>
+              <div style={{ color: MUTED }}>Time:</div>
+              <div>{reservationTime}</div>
+            </div>
+            <div style={infoRow}>
+              <div style={{ color: MUTED }}>Payment Method:</div>
+              <div>{paymentText}</div>
+            </div>
           </Section>
 
           {/* Contact info */}
           <Section style={{ marginTop: 10 }}>
             <div style={sectionTitle}>📞 Contact Information</div>
-            <div style={infoRow}><div style={{ color: MUTED }}>Name:</div><div>{customerName}</div></div>
-            <div style={infoRow}><div style={{ color: MUTED }}>Email:</div><div>{customerEmail}</div></div>
-            <div style={infoRow}><div style={{ color: MUTED }}>Phone:</div><div>{customerPhone}</div></div>
+            <div style={infoRow}>
+              <div style={{ color: MUTED }}>Name:</div>
+              <div>{customerName}</div>
+            </div>
+            <div style={infoRow}>
+              <div style={{ color: MUTED }}>Email:</div>
+              <div>{customerEmail}</div>
+            </div>
+            <div style={infoRow}>
+              <div style={{ color: MUTED }}>Phone:</div>
+              <div>{customerPhone}</div>
+            </div>
             {(customerAddress || customerCity || customerState) && (
               <div style={infoRow}>
                 <div style={{ color: MUTED }}>Address:</div>
                 <div>
-                  {customerAddress}{customerCity && `, ${customerCity}`}
+                  {customerAddress}
+                  {customerCity && `, ${customerCity}`}
                   {customerPostalCode && `, (${customerPostalCode})`}
                   {customerState && ` ${customerState}`}
                 </div>
@@ -170,12 +195,18 @@ const ReservationEmail = ({
           {/* Products */}
           <Section style={{ marginTop: 18 }}>
             <div style={sectionTitle}>💖 Selected Services</div>
-            {products.length === 0 && <div style={{ color: MUTED }}>No services added.</div>}
+            {products.length === 0 && (
+              <div style={{ color: MUTED }}>No services added.</div>
+            )}
             {products.map((p, i) => (
               <div key={p.id || i} style={productRow}>
                 <div style={productName}>
                   <div style={{ fontWeight: 600 }}>{p.name}</div>
-                  {p.variant && <div style={{ color: MUTED, fontSize: 12 }}>{p.variant}</div>}
+                  {p.variant && (
+                    <div style={{ color: MUTED, fontSize: 12 }}>
+                      {p.variant}
+                    </div>
+                  )}
                 </div>
                 <div style={productQty}>x {p.quantity || 1}</div>
                 <div style={productPrice}>{formatEUR(p.price)}</div>
@@ -185,9 +216,22 @@ const ReservationEmail = ({
 
           {/* Totals */}
           <Section>
-            <div style={totalRow}><div style={{ color: MUTED }}>Subtotal:</div><div>{formatEUR(subtotal)}</div></div>
-            {discountAmount > 0 && <div style={totalRow}><div style={{ color: MUTED }}>Discount {couponCode ? `(${couponCode})` : ""}</div><div>-{formatEUR(discountAmount)}</div></div>}
-            <div style={{ ...totalRow, marginTop: 12 }}><div style={grandTotal}>Total:</div><div style={grandTotal}>{formatEUR(totalAfterDiscount)}</div></div>
+            <div style={totalRow}>
+              <div style={{ color: MUTED }}>Subtotal:</div>
+              <div>{formatEUR(subtotal)}</div>
+            </div>
+            {discountAmount > 0 && (
+              <div style={totalRow}>
+                <div style={{ color: MUTED }}>
+                  Discount {couponCode ? `(${couponCode})` : ""}
+                </div>
+                <div>-{formatEUR(discountAmount)}</div>
+              </div>
+            )}
+            <div style={{ ...totalRow, marginTop: 12 }}>
+              <div style={grandTotal}>Total:</div>
+              <div style={grandTotal}>{formatEUR(totalAfterDiscount)}</div>
+            </div>
           </Section>
 
           {/* CTA */}
@@ -195,7 +239,15 @@ const ReservationEmail = ({
             <Button
               pX={24}
               pY={16}
-              style={{ backgroundColor: BRAND, color: "#fff", borderRadius: 5, textDecoration: "none", fontWeight: 700, fontSize: 15, boxShadow: "0 3px 6px rgba(193,85,139,0.3)" }}
+              style={{
+                backgroundColor: BRAND,
+                color: "#fff",
+                borderRadius: 5,
+                textDecoration: "none",
+                fontWeight: 700,
+                fontSize: 15,
+                boxShadow: "0 3px 6px rgba(193,85,139,0.3)",
+              }}
               href={`https://www.kikamakeupandbeautyacademy.com/my-account/orders/${orderID}`}
             >
               💋 View Your Reservation
@@ -205,30 +257,65 @@ const ReservationEmail = ({
           {/* Note */}
           <Section style={{ marginTop: 18 }}>
             <Text style={{ color: MUTED, fontSize: 13, lineHeight: "20px" }}>
-              If you have any questions or want to change your reservation, email us at{" "}
-              <a href="mailto:makeupbykika@hotmail.com" style={{ color: BRAND, textDecoration: "none" }}>makeupbykika@hotmail.com</a> or call (+389) 78 / 343 - 377.
+              If you have any questions or want to change your reservation,
+              email us at{" "}
+              <a
+                href="mailto:makeupbykika@hotmail.com"
+                style={{ color: BRAND, textDecoration: "none" }}
+              >
+                makeupbykika@hotmail.com
+              </a>{" "}
+              or call (+389) 78 / 343 - 377.
             </Text>
           </Section>
 
           {/* Footer */}
-          <Section style={{ marginTop: 24, borderTop: "1px solid #f0f0f0", paddingTop: 12 }}>
-            <Row style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <Column style={{ width: "60%", display: "flex", alignItems: "center", paddingRight: "12px" }}>
-                <Text style={{ fontSize: 12, color: MUTED, lineHeight: "18px", margin: 0 }}>
-                  © {new Date().getFullYear()} Kika Makeup & Beauty Academy — Ohrid, Macedonia
-                </Text>
-              </Column>
-              <Column style={{ width: "40%", display: "flex", justifyContent: "flex-end" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                  <a href="https://instagram.com/" style={{ display: "inline-block", marginRight: "0" }}>
-                    <Img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" width={20} height={20} />
-                  </a>
-                  <a href="https://facebook.com/" style={{ display: "inline-block", marginLeft: "12px" }}>
-                    <Img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" width={20} height={20} />
-                  </a>
-                </div>
-              </Column>
-            </Row>
+          {/* Footer */}
+          <Section
+            style={{
+              marginTop: 24,
+              borderTop: "1px solid #f0f0f0",
+              paddingTop: 16,
+              textAlign: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 12,
+                color: MUTED,
+                lineHeight: "18px",
+                margin: "0 0 10px",
+              }}
+            >
+              © {new Date().getFullYear()} Kika Makeup & Beauty Academy —
+              Ohrid, Macedonia
+            </Text>
+
+            <div>
+              <a
+                href="https://instagram.com/"
+                style={{ display: "inline-block", marginRight: 10 }}
+              >
+                <Img
+                  src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
+                  alt="Instagram"
+                  width={20}
+                  height={20}
+                />
+              </a>
+
+              <a
+                href="https://facebook.com/"
+                style={{ display: "inline-block", marginLeft: 10 }}
+              >
+                <Img
+                  src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
+                  alt="Facebook"
+                  width={20}
+                  height={20}
+                />
+              </a>
+            </div>
           </Section>
         </Container>
       </Body>

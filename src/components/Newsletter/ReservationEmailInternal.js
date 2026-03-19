@@ -41,7 +41,7 @@ const ReservationEmailInternal = ({
 
   const subtotal = products.reduce(
     (s, p) => s + parseFloat(p.price || 0) * (p.quantity || 1),
-    0
+    0,
   );
   const discountAmount =
     Number(total) < subtotal ? subtotal - Number(total) : 0;
@@ -119,7 +119,9 @@ const ReservationEmailInternal = ({
     <Html>
       <Head />
       <Body style={containerStyle}>
-        <Preview>💄 Reservation confirmation #{orderID} — Kika Makeup & Beauty Academy</Preview>
+        <Preview>
+          💄 Reservation confirmation #{orderID} — Kika Makeup & Beauty Academy
+        </Preview>
 
         <Container style={cardStyle}>
           {/* Header */}
@@ -201,7 +203,9 @@ const ReservationEmailInternal = ({
                   <div style={productName}>
                     <div style={{ fontWeight: 600 }}>{p.name}</div>
                     {p.variant && (
-                      <div style={{ color: MUTED, fontSize: 12 }}>{p.variant}</div>
+                      <div style={{ color: MUTED, fontSize: 12 }}>
+                        {p.variant}
+                      </div>
                     )}
                   </div>
                   <div style={productQty}>x {p.quantity || 1}</div>
@@ -232,8 +236,9 @@ const ReservationEmailInternal = ({
           {/* Note */}
           <Section style={{ marginTop: 18 }}>
             <Text style={{ color: MUTED, fontSize: 13, lineHeight: "20px" }}>
-              Please review the reservation and prepare for the client. If you have any
-              questions or need to make changes, feel free to contact us at (+389) 78 / 343 - 377.
+              Please review the reservation and prepare for the client. If you
+              have any questions or need to make changes, feel free to contact
+              us at (+389) 78 / 343 - 377.
             </Text>
           </Section>
 
@@ -242,66 +247,43 @@ const ReservationEmailInternal = ({
             style={{
               marginTop: 24,
               borderTop: "1px solid #f0f0f0",
-              paddingTop: 12,
+              paddingTop: 16,
+              textAlign: "center",
             }}
           >
-            <Row
+            <Text
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
+                fontSize: 12,
+                color: MUTED,
+                lineHeight: "18px",
+                margin: "0 0 10px",
               }}
             >
-              <Column
-                style={{
-                  width: "60%",
-                  display: "flex",
-                  alignItems: "center",
-                  paddingRight: "12px",
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: MUTED,
-                    lineHeight: "18px",
-                    margin: 0,
-                  }}
-                >
-                  © {new Date().getFullYear()} Kika Makeup & Beauty Academy — Ohrid, Macedonia
-                </Text>
-              </Column>
+              © {new Date().getFullYear()} Kika Makeup & Beauty Academy —
+              Ohrid, Macedonia
+            </Text>
 
-              <Column
-                style={{
-                  width: "40%",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                  <a href="https://instagram.com/" style={{ display: "inline-block", marginRight: "0" }}>
-                    <Img
-                      src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
-                      alt="Instagram"
-                      width={20}
-                      height={20}
-                      style={{ display: "block" }}
-                    />
-                  </a>
+            <Text style={{ textAlign: "center" }}>
+              <a href="https://instagram.com/" style={{ marginRight: 10 }}>
+                <Img
+                  src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
+                  alt="Instagram"
+                  width={20}
+                  height={20}
+                  style={{ display: "inline-block" }} 
+                />
+              </a>
 
-                  <a href="https://facebook.com/" style={{ display: "inline-block", marginLeft: "12px" }}>
-                    <Img
-                      src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
-                      alt="Facebook"
-                      width={20}
-                      height={20}
-                      style={{ display: "block" }}
-                    />
-                  </a>
-                </div>
-              </Column>
-            </Row>
+              <a href="https://facebook.com/" style={{ marginLeft: 10 }}>
+                <Img
+                  src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
+                  alt="Facebook"
+                  width={20}
+                  height={20}
+                  style={{ display: "inline-block" }} 
+                />
+              </a>
+            </Text>
           </Section>
         </Container>
       </Body>
