@@ -357,6 +357,7 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       const emailData = {
         to: auth.currentUser.email,
         from: "reservation@kikamakeupandbeautyacademy.com",
+        userId: auth.currentUser.uid,
         orderID: orderData.orderNumber,
         reservationDate: orderData.reservationDate,
         reservationTime: orderData.reservationTime,

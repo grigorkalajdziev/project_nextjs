@@ -1001,6 +1001,7 @@ const MyAccount = () => {
         to: toEmail,
         from: "confirmation@kikamakeupandbeautyacademy.com",
         orderNumber,
+        userId,
         status: newStatus,
         date: date,
         reservationDate: reservationDate,

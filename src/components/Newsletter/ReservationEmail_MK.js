@@ -14,6 +14,7 @@ import {
 
 const ReservationEmail_MK = ({
   orderID,
+  userId,
   reservationDate,
   reservationTime,
   customerName,
@@ -251,24 +252,23 @@ const ReservationEmail_MK = ({
           </Section>
 
           {/* CTA */}
-          <Section style={{ textAlign: "center", marginTop: 24 }}>
-            <Button
-              pX={24}
-              pY={16}
-              style={{
-                backgroundColor: BRAND,
-                color: "#fff",
-                borderRadius: 5,
-                textDecoration: "none",
-                fontWeight: 700,
-                fontSize: 15,
-                boxShadow: "0 3px 6px rgba(193,85,139,0.3)",
-              }}
-              href={`https://www.kikamakeupandbeautyacademy.com/my-account/orders/${orderID}`}
-            >
-              💋 Прегледај ја резервацијата
-            </Button>
-          </Section>
+         <Section style={{ textAlign: "center", marginTop: 24 }}>
+          <Button
+            href={`https://www.kikamakeupandbeautyacademy.com/other/cart-details?viewOrder=true&userId=${userId}&orderId=${orderID}`}
+            style={{
+              display: "inline-block",
+              backgroundColor: BRAND,
+              color: "#fff",
+              borderRadius: 8,
+              fontWeight: 700,
+              fontSize: 18,
+              padding: "18px 32px",
+              textDecoration: "none",
+            }}
+          >
+            💋 Прегледај ја резервацијата
+          </Button>
+        </Section>
 
           {/* Note */}
           <Section style={{ marginTop: 18 }}>

@@ -24,6 +24,7 @@ export default async function handler(req, res) {
     to,
     from,
     orderNumber,
+    userId,
     status,
     date,
     reservationDate,
@@ -83,6 +84,7 @@ export default async function handler(req, res) {
     emailHtml = await render(
       <EmailComponent
         orderID={orderNumber}
+        userId={userId}
         reservationDate={reservationDate}
         reservationTime={reservationTime}
         customerName={customerName}
