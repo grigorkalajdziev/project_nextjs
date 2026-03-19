@@ -257,7 +257,7 @@ const ReservationEmailInternal_MK = ({
               }}
             >
               © {new Date().getFullYear()} Kika Makeup & Beauty Academy —
-              Ohrid, Macedonia
+              Охрид, Македонија
             </Text>
 
             <div style={{ textAlign: "center" }}>
