@@ -7,9 +7,6 @@ import { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaPhoneAlt, FaHome } from "react-icons/fa";
 import {
-  setPersistence,
-  browserSessionPersistence,
-  browserLocalPersistence,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
@@ -54,7 +51,6 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   useEffect(() => {
-    // initialize invisible reCAPTCHA (only client-side)
     if (typeof window !== "undefined" && !window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
         "recaptcha-container",
@@ -101,10 +97,7 @@ const Login = () => {
 
     setLoginLoading(true);
     try {
-      await setPersistence(
-        auth,
-        rememberMe ? browserLocalPersistence : browserSessionPersistence,
-      );
+      // ✅ No setPersistence here — already set to browserLocalPersistence in register.js
       const userCredential = await signInWithEmailAndPassword(
         auth,
         loginData.email,
@@ -112,7 +105,6 @@ const Login = () => {
       );
       const user = userCredential.user;
 
-      // send login success email once per user (client-side throttle)
       if (!localStorage.getItem("loginSuccessEmailSent_" + user.uid)) {
         await fetch("/api/sendLoginSuccessEmail", {
           method: "POST",
@@ -126,10 +118,7 @@ const Login = () => {
         localStorage.setItem("loginSuccessEmailSent_" + user.uid, "true");
       }
 
-      addToast(t("login_success"), {
-        appearance: "success",
-        autoDismiss: true,
-      });
+      addToast(t("login_success"), { appearance: "success", autoDismiss: true });
 
       if (rememberMe) localStorage.setItem("rememberedEmail", loginData.email);
       else localStorage.removeItem("rememberedEmail");
@@ -147,14 +136,12 @@ const Login = () => {
     setGoogleLoading(true);
     const provider = new GoogleAuthProvider();
     try {
-      await setPersistence(auth, browserSessionPersistence);
+      // ✅ No setPersistence here — already set to browserLocalPersistence in register.js
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      // Client-side check if user exists in your DB
       const userExists = await checkUserExists(user.uid);
       if (!userExists) {
-        // register first time google user
         const regResult = await registerGoogleUser(user);
         if (!regResult.success)
           throw new Error(regResult.error || "google_registration_failed");
@@ -171,7 +158,6 @@ const Login = () => {
           }),
         });
       } else {
-        // login-success email once
         if (!localStorage.getItem("loginSuccessEmailSent_" + user.uid)) {
           await fetch("/api/sendLoginSuccessEmail", {
             method: "POST",
@@ -187,10 +173,7 @@ const Login = () => {
         }
       }
 
-      addToast(t("login_success"), {
-        appearance: "success",
-        autoDismiss: true,
-      });
+      addToast(t("login_success"), { appearance: "success", autoDismiss: true });
       setTimeout(() => (window.location.href = "/other/my-account"), 1500);
     } catch (err) {
       const message =
@@ -204,97 +187,89 @@ const Login = () => {
   };
 
   const handlePhoneSignIn = async () => {
-  try {
-    const { value: phoneNumber } = await Swal.fire({
-      title: t("enter_your_phone_number"),
-      input: "tel",
-      inputPlaceholder: "+38970123456",
-      confirmButtonText: t("continue"),
-      cancelButtonText: t("cancel"),
-      showCancelButton: true,
-      inputValidator: (value) =>
-        !value ? t("please_enter_phone") : undefined,
-    });
-
-    if (!phoneNumber) return;
-
-    // Check if phone exists (ONLY for information)
-    const phoneExists = await checkPhoneExists(phoneNumber);
-
-    setPhoneLoading(true);
-
-    Swal.fire({
-      title: t("sending_sms"),
-      text: t("please_wait"),
-      allowOutsideClick: false,
-      didOpen: () => Swal.showLoading(),
-    });
-
-    auth.languageCode = currentLanguage === "mk" ? "mk" : "en";
-
-    const appVerifier = window.recaptchaVerifier;
-
-    const confirmationResult = await signInWithPhoneNumber(
-      auth,
-      phoneNumber,
-      appVerifier
-    );
-
-    Swal.close();
-
-    const { value: code } = await Swal.fire({
-      title: t("enter_verification_code"),
-      input: "text",
-      inputPlaceholder: "123456",
-      confirmButtonText: t("verify"),
-      cancelButtonText: t("cancel"),
-      showCancelButton: true,
-      inputValidator: (value) =>
-        !value ? t("please_enter_code") : undefined,
-    });
-
-    if (!code) return;
-
-    const result = await confirmationResult.confirm(code);
-    const user = result.user;
-
-    addToast(t("login_success"), {
-      appearance: "success",
-      autoDismiss: true,
-    });
-
-    // If phone was NOT registered → create new user profile
-    if (!phoneExists) {
-      await set(ref(database, `users/${user.uid}`), {
-        displayName: "",
-        firstName: "",
-        lastName: "",
-        billingInfo: {
-          address: "",
-          city: "",
-          phone: user.phoneNumber,
-          zipCode: "",
-        },
-        role: "guest",
-        coupon: "",
+    try {
+      const { value: phoneNumber } = await Swal.fire({
+        title: t("enter_your_phone_number"),
+        input: "tel",
+        inputPlaceholder: "+38970123456",
+        confirmButtonText: t("continue"),
+        cancelButtonText: t("cancel"),
+        showCancelButton: true,
+        inputValidator: (value) =>
+          !value ? t("please_enter_phone") : undefined,
       });
+
+      if (!phoneNumber) return;
+
+      const phoneExists = await checkPhoneExists(phoneNumber);
+
+      setPhoneLoading(true);
+
+      Swal.fire({
+        title: t("sending_sms"),
+        text: t("please_wait"),
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading(),
+      });
+
+      auth.languageCode = currentLanguage === "mk" ? "mk" : "en";
+
+      const appVerifier = window.recaptchaVerifier;
+
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phoneNumber,
+        appVerifier,
+      );
+
+      Swal.close();
+
+      const { value: code } = await Swal.fire({
+        title: t("enter_verification_code"),
+        input: "text",
+        inputPlaceholder: "123456",
+        confirmButtonText: t("verify"),
+        cancelButtonText: t("cancel"),
+        showCancelButton: true,
+        inputValidator: (value) =>
+          !value ? t("please_enter_code") : undefined,
+      });
+
+      if (!code) return;
+
+      const result = await confirmationResult.confirm(code);
+      const user = result.user;
+
+      addToast(t("login_success"), { appearance: "success", autoDismiss: true });
+
+      if (!phoneExists) {
+        await set(ref(database, `users/${user.uid}`), {
+          displayName: "",
+          firstName: "",
+          lastName: "",
+          billingInfo: {
+            address: "",
+            city: "",
+            phone: user.phoneNumber,
+            zipCode: "",
+          },
+          role: "guest",
+          coupon: "",
+        });
+      }
+
+      setTimeout(() => (window.location.href = "/other/my-account"), 1000);
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: t("something_went_wrong"),
+        text: error.message,
+      });
+    } finally {
+      setPhoneLoading(false);
     }
-
-    setTimeout(() => (window.location.href = "/other/my-account"), 1000);
-
-  } catch (error) {
-    console.error(error);
-
-    Swal.fire({
-      icon: "error",
-      title: t("something_went_wrong"),
-      text: error.message,
-    });
-
-  } finally {
-    setPhoneLoading(false);
-  }
-};
+  };
 
   return (
     <LayoutTwo>
@@ -414,9 +389,7 @@ const Login = () => {
                               window.fetch &&
                                 fetch("/api/reset-password", {
                                   method: "POST",
-                                  headers: {
-                                    "Content-Type": "application/json",
-                                  },
+                                  headers: { "Content-Type": "application/json" },
                                   body: JSON.stringify({
                                     email: loginData.email,
                                     language: currentLanguage,
@@ -497,10 +470,7 @@ const Login = () => {
                             />
                           ) : (
                             <>
-                              <FcGoogle
-                                size={24}
-                                style={{ marginRight: "10px" }}
-                              />
+                              <FcGoogle size={24} style={{ marginRight: "10px" }} />
                               {t("continue_with_google")}
                             </>
                           )}
@@ -528,14 +498,12 @@ const Login = () => {
                             />
                           ) : (
                             <>
-                              <FaPhoneAlt
-                                size={22}
-                                style={{ marginRight: "10px" }}
-                              />
+                              <FaPhoneAlt size={22} style={{ marginRight: "10px" }} />
                               {t("continue_with_phone")}
                             </>
                           )}
                         </button>
+
                         <div className="text-center mt-3">
                           <p className="mb-0">
                             {t("dont_have_account")}{" "}

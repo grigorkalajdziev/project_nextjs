@@ -949,7 +949,7 @@ const MyAccount = () => {
       if (!matchingOrder) throw new Error("Order not found");
 
       const {
-        userId,
+        userId,        
         orderNumber,
         date,
         reservationDate,
@@ -1001,6 +1001,7 @@ const MyAccount = () => {
         to: toEmail,
         from: "confirmation@kikamakeupandbeautyacademy.com",
         orderNumber,
+        orderId,
         userId,
         status: newStatus,
         date: date,

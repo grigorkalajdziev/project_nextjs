@@ -13,7 +13,8 @@ import {
 } from "@react-email/components";
 
 const ReservationEmail = ({
-  orderID,
+  orderId,
+  orderNumber,
   userId,
   reservationDate,
   reservationTime,
@@ -120,7 +121,7 @@ const ReservationEmail = ({
     <Html>
       <Head />
       <Preview>
-        💄 Reservation Confirmation #{orderID} — Kika Makeup & Beauty Academy
+        💄 Reservation Confirmation #{orderNumber} — Kika Makeup & Beauty Academy
       </Preview>
       <Body style={containerStyle}>
         <Container style={cardStyle}>
@@ -135,7 +136,7 @@ const ReservationEmail = ({
             />
             <div style={{ textAlign: "right" }}>
               <div style={{ fontSize: 12, color: MUTED }}>Reservation</div>
-              <div style={{ fontWeight: 700, color: BRAND }}>#{orderID}</div>
+              <div style={{ fontWeight: 700, color: BRAND }}>#{orderNumber}</div>
             </div>
           </div>
 
@@ -238,7 +239,7 @@ const ReservationEmail = ({
           {/* CTA */}
           <Section style={{ textAlign: "center", marginTop: 24 }}>
             <Button
-              href={`https://www.kikamakeupandbeautyacademy.com/other/cart-details?viewOrder=true&userId=${userId}&orderId=${orderID}`}
+              href={`https://www.kikamakeupandbeautyacademy.com/other/cart-details?viewOrder=true&userId=${userId}&orderId=${orderId}`}
               style={{
                 display: "inline-block",
                 backgroundColor: BRAND,
