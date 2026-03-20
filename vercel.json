@@ -3,6 +3,6 @@
     {
       "path": "/api/cron/broadcast",
       "schedule": "0 * * * *"
-    }
+    } 
   ]
 }
