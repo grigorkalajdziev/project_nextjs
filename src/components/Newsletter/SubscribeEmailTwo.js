@@ -9,33 +9,44 @@ const SubscribeEmailTwo = () => {
   const [status, setStatus] = useState(""); // "", "sending", "success", "error"
   const [message, setMessage] = useState("");
 
-  const submit = async () => {
-    // Basic email validation
-    if (email && email.indexOf("@") > -1) {
-      setStatus("sending");
-      try {
-        const response = await fetch("/api/resend-subscribe", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, currentLanguage }),
-        });
-        const data = await response.json();
-        if (response.ok) {
-          setStatus("success");
-          setMessage(t("thank_you_for_subscribing")); 
-        } else {
-          setStatus("error");
-          setMessage(data.error || t("unknown_error"));
-        }
-      } catch (error) {
-        setStatus("error");
-        setMessage(error.message);
+const submit = async () => {
+  if (email && email.indexOf("@") > -1) {
+    setStatus("sending");
+
+    try {
+      // --- 1️⃣ Add subscriber ---
+      const subscribeResponse = await fetch("/api/resend-subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, currentLanguage }),
+      });
+
+      if (!subscribeResponse.ok) {
+        const data = await subscribeResponse.json();
+        throw new Error(data.error || "Subscription failed");
       }
-      setEmail(""); // Clear the input after submission
+
+      // --- 2️⃣ Schedule broadcast welcome email ---
+      const subject =
+        currentLanguage === "mk"
+          ? "Добредојдовте во нашиот Newsletter!"
+          : "Welcome to our Newsletter!";
+      const html = `<p>${
+        currentLanguage === "mk"
+          ? "Ви благодариме што се претплативте!"
+          : "Thank you for subscribing!"
+      }</p><p>${email}</p>`;     
+
+      // ✅ Success
+      setStatus("success");
+      setMessage(t("thank_you_for_subscribing"));
+      setEmail(""); // clear input
+    } catch (error) {
+      setStatus("error");
+      setMessage(error.message);
     }
-  };
+  }
+};
 
   useEffect(() => {
     let timer;

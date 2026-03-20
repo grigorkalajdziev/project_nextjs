@@ -1,6 +1,4 @@
-// pages/api/resend-subscribe.js
 import { Resend } from "resend";
-import React from "react";
 import ReactDOMServer from "react-dom/server";
 import SubscribeResendEmail from "../../components/Newsletter/SubscribeResendEmail";
 import SubscribeResendEmail_MK from "../../components/Newsletter/SubscribeResendEmail_MK";
@@ -17,24 +15,21 @@ export default async function handler(req, res) {
   const results = [];
 
   try {
-    for (const targetEmail of emailsToProcess) {
-      // 1️⃣ CREATE GLOBAL CONTACT
-      // In v6.x, audienceId is completely optional/removed for contact creation.
+    for (const targetEmail of emailsToProcess) {      
       const { data: contact, error: contactError } = await resend.contacts.create({
         email: targetEmail,
         unsubscribed: false,
-        // Optional: You can add custom properties here instead of audiences
-        // properties: { source: 'website_footer' } 
+        segments: [
+          { id: process.env.RESEND_SEGMENT_ID }
+        ]  
       });
-
-      // Handle duplicate subscribers (Validation Error)
+      
       if (contactError && contactError.name !== "validation_error") {
         console.error(`Error for ${targetEmail}:`, contactError);
         results.push({ email: targetEmail, status: "failed", error: contactError.message });
         continue;
       }
-
-      // 2️⃣ RENDER & SEND EMAIL
+    
       const emailHtml = ReactDOMServer.renderToStaticMarkup(
         currentLanguage === "mk" ? <SubscribeResendEmail_MK email={targetEmail}/> : <SubscribeResendEmail email={targetEmail}/>
       );

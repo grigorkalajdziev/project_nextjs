@@ -135,7 +135,7 @@ const MyAccount = () => {
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterPayment, setFilterPayment] = useState("all");
   const [filterYear, setFilterYear] = useState(
-    new Date().getFullYear().toString()
+    new Date().getFullYear().toString(),
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
@@ -167,7 +167,7 @@ const MyAccount = () => {
   const PAYMENT_COLORS = ["#2EAD65", "#0088FE"];
 
   const [selectedOrdersForDownload, setSelectedOrdersForDownload] = useState(
-    []
+    [],
   );
   const [selectAllDownload, setSelectAllDownload] = useState(false);
   const [downloadSearchQuery, setDownloadSearchQuery] = useState("");
@@ -176,7 +176,15 @@ const MyAccount = () => {
   const [showDownloadFilters, setShowDownloadFilters] = useState(false);
   const [downloadHistory, setDownloadHistory] = useState({});
   const [bulkDownloading, setBulkDownloading] = useState(false);
-
+  const [showBroadcastModal, setShowBroadcastModal] = useState(false);
+  const [subscriberStats, setSubscriberStats] = useState(null);
+  const [subscriberLoading, setSubscriberLoading] = useState(false);
+  const [broadcastSchedule, setBroadcastSchedule] = useState(null);
+  const [broadcastPeriod, setBroadcastPeriod] = useState("weekly");
+  const [broadcastSubject, setBroadcastSubject] = useState("");
+  const [broadcastSendTime, setBroadcastSendTime] = useState("09:00");
+  const [broadcastLoading, setBroadcastLoading] = useState(false);
+  const [scheduleLoading, setScheduleLoading] = useState(false);
   // Styles to match your form-control inputs
   const customStyles = {
     control: (provided) => ({
@@ -218,6 +226,142 @@ const MyAccount = () => {
       ...provided,
       textAlign: "left",
     }),
+  };
+
+  const fetchSchedule = async () => {
+    setScheduleLoading(true);
+    try {
+      const res = await fetch("/api/broadcast-schedule", {
+        headers: { "x-admin-secret": process.env.NEXT_PUBLIC_ADMIN_SECRET },
+      });
+      const data = await res.json();
+      if (data) {
+        setBroadcastSchedule(data);
+        setBroadcastPeriod(data.period);
+        setBroadcastSubject(data.subject);
+        setBroadcastSendTime(data.sendTime || "09:00");
+      }
+    } finally {
+      setScheduleLoading(false);
+    }
+  };
+
+  // ── Save schedule ────────────────────────────────────
+  const handleSaveSchedule = async () => {
+    if (!broadcastSubject.trim()) {
+      addToast(t("subject_required"), {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      return;
+    }
+    setBroadcastLoading(true);
+    try {
+      const res = await fetch("/api/broadcast-schedule", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-secret": process.env.NEXT_PUBLIC_ADMIN_SECRET,
+        },
+        body: JSON.stringify({
+          subject: broadcastSubject,
+          period: broadcastPeriod,
+          sendTime: broadcastSendTime,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      setBroadcastSchedule({
+        ...broadcastSchedule,
+        active: true,
+        nextSendAt: data.nextSendAt,
+      });
+      addToast(t("schedule_saved"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
+    } catch (err) {
+      addToast(err.message, { appearance: "error", autoDismiss: true });
+    } finally {
+      setBroadcastLoading(false);
+    }
+  };
+
+  // ── Toggle pause/resume ──────────────────────────────
+  const handleToggleSchedule = async () => {
+    const newActive = !broadcastSchedule?.active;
+    try {
+      await fetch("/api/broadcast-schedule", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-secret": process.env.NEXT_PUBLIC_ADMIN_SECRET,
+        },
+        body: JSON.stringify({ active: newActive }),
+      });
+      setBroadcastSchedule((prev) => ({ ...prev, active: newActive }));
+      addToast(newActive ? t("schedule_resumed") : t("schedule_paused"), {
+        appearance: "info",
+        autoDismiss: true,
+      });
+    } catch (err) {
+      addToast(err.message, { appearance: "error", autoDismiss: true });
+    }
+  };
+
+  const fetchSubscriberStats = async () => {
+    setSubscriberLoading(true);
+    try {
+      const response = await fetch("/api/get-subscribers", {
+        headers: {
+          "x-admin-secret": process.env.NEXT_PUBLIC_ADMIN_SECRET,
+        },
+      });
+      const data = await response.json();
+      if (response.ok) setSubscriberStats(data);
+    } catch (err) {
+      console.error("Failed to fetch subscriber stats:", err);
+    } finally {
+      setSubscriberLoading(false);
+    }
+  };
+
+  const handleSendBroadcast = async () => {
+    if (!broadcastSubject.trim()) {
+      addToast(t("subject_required"), {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      return;
+    }
+
+    setBroadcastLoading(true);
+    try {
+      const response = await fetch("/api/broadcast", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-secret": process.env.NEXT_PUBLIC_ADMIN_SECRET, // ✅ protected
+        },
+        body: JSON.stringify({ subject: broadcastSubject }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.error || "Broadcast failed");
+
+      addToast(t("broadcast_success"), {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      setShowBroadcastModal(false);
+      setBroadcastSubject("");
+    } catch (err) {
+      addToast(err.message, { appearance: "error", autoDismiss: true });
+    } finally {
+      setBroadcastLoading(false);
+    }
   };
 
   // Country select with flags
@@ -265,13 +409,13 @@ const MyAccount = () => {
     .filter(
       (order) =>
         order.orderNumber?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.displayName?.toLowerCase().includes(searchQuery.toLowerCase())
+        order.displayName?.toLowerCase().includes(searchQuery.toLowerCase()),
     )
     .filter((order) =>
-      filterStatus === "all" ? true : order.status === filterStatus
+      filterStatus === "all" ? true : order.status === filterStatus,
     )
     .filter((order) =>
-      filterPayment === "all" ? true : order.paymentMethod === filterPayment
+      filterPayment === "all" ? true : order.paymentMethod === filterPayment,
     )
     .filter((order) => {
       const [day, month, year] = order.date.split("-");
@@ -327,7 +471,7 @@ const MyAccount = () => {
 
     // lastly try match by englishName when DB stored english name
     const byEnglishName = countryOptions.find(
-      (c) => c.englishName === countryFromDb
+      (c) => c.englishName === countryFromDb,
     );
     if (byEnglishName) return byEnglishName;
 
@@ -430,13 +574,13 @@ const MyAccount = () => {
 
   // Pagination for payment tab
   const totalPagesPayment = Math.ceil(
-    filteredOrdersForPayment.length / itemsPerPagePayment
+    filteredOrdersForPayment.length / itemsPerPagePayment,
   );
   const startIndexPayment = (currentPagePayment - 1) * itemsPerPagePayment;
   const endIndexPayment = startIndexPayment + itemsPerPagePayment;
   const currentOrdersPayment = filteredOrdersForPayment.slice(
     startIndexPayment,
-    endIndexPayment
+    endIndexPayment,
   );
 
   const statusData = (orders, filterYear) => {
@@ -879,7 +1023,7 @@ const MyAccount = () => {
 
   const formattedPaymentData = paymentData(
     filteredOrdersForCharts,
-    currentLanguage
+    currentLanguage,
   ).map((entry) => {
     let name = entry.name;
 
@@ -949,7 +1093,7 @@ const MyAccount = () => {
       if (!matchingOrder) throw new Error("Order not found");
 
       const {
-        userId,        
+        userId,
         orderNumber,
         date,
         reservationDate,
@@ -976,8 +1120,8 @@ const MyAccount = () => {
       // Update local state
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
-          order.id === orderId ? { ...order, status: newStatus } : order
-        )
+          order.id === orderId ? { ...order, status: newStatus } : order,
+        ),
       );
 
       const toEmail = matchingOrder.email;
@@ -1066,10 +1210,10 @@ const MyAccount = () => {
                   : {
                       label: userData.billingInfo.country,
                       value: Country.getAllCountries().find(
-                        (c) => c.name === userData.billingInfo.country
+                        (c) => c.name === userData.billingInfo.country,
                       )?.isoCode,
                     }
-                : null
+                : null,
             );
             setSelectedCity(
               userData.billingInfo?.city
@@ -1077,7 +1221,7 @@ const MyAccount = () => {
                     label: userData.billingInfo.city,
                     value: userData.billingInfo.city,
                   }
-                : null
+                : null,
             );
             setCurrentPassword(userData.password || "");
             setNameOnCard(userData.billingInfo?.nameOnCard || "");
@@ -1093,7 +1237,7 @@ const MyAccount = () => {
 
             if (countryOption?.value) {
               const cities = buildCityOptionsFromCountryValue(
-                countryOption.value
+                countryOption.value,
               );
               setCityOptions(cities);
 
@@ -1105,7 +1249,7 @@ const MyAccount = () => {
               setCity(
                 (cityOption && cityOption.label) ||
                   userData.billingInfo?.city ||
-                  ""
+                  "",
               );
             } else {
               setCityOptions([]);
@@ -1162,7 +1306,7 @@ const MyAccount = () => {
       } else if (initialCity) {
         // when initializing (first load), try to set from initialCity if present
         const cityFromDB = cities.find(
-          (c) => c.value === initialCity.value || c.value === initialCity.label
+          (c) => c.value === initialCity.value || c.value === initialCity.label,
         );
         if (cityFromDB) setSelectedCity(cityFromDB);
       }
@@ -1629,7 +1773,11 @@ const MyAccount = () => {
         products: order.products || [],
 
         customer: {
-          name: order.displayName || displayName || `${firstName} ${lastName}`.trim() || null,
+          name:
+            order.displayName ||
+            displayName ||
+            `${firstName} ${lastName}`.trim() ||
+            null,
           email: order.email || null,
           phone: order.customerPhone || null,
           address: order.customerAddress || null,
@@ -1654,7 +1802,7 @@ const MyAccount = () => {
           errBody = await resp.json();
         } catch {}
         throw new Error(
-          errBody?.message || errBody?.error || `Server error ${resp.status}`
+          errBody?.message || errBody?.error || `Server error ${resp.status}`,
         );
       }
 
@@ -1763,7 +1911,7 @@ const MyAccount = () => {
 
     // plain text city input (string)
     setCity(
-      typeof initialCity === "object" ? initialCity.label : initialCity || ""
+      typeof initialCity === "object" ? initialCity.label : initialCity || "",
     );
 
     // restore country: ensure we provide the canonical option object or null
@@ -1804,7 +1952,7 @@ const MyAccount = () => {
   const indexOfLastOrder = currentPage * ordersPerPage;
   const currentOrders = filteredOrders.slice(
     indexOfFirstOrder,
-    indexOfLastOrder
+    indexOfLastOrder,
   );
 
   const ordersOnCurrentPage = currentOrders.length;
@@ -1880,7 +2028,7 @@ const MyAccount = () => {
         {
           appearance: "success",
           autoDismiss: true,
-        }
+        },
       );
     }
     if (failCount > 0) {
@@ -1927,46 +2075,46 @@ const MyAccount = () => {
           order.displayName
             ?.toLowerCase()
             .includes(downloadSearchQuery.toLowerCase())
-        : true
+        : true,
     )
     .filter((order) =>
       downloadFilterPayment === "all"
         ? true
-        : order.paymentMethod === downloadFilterPayment
+        : order.paymentMethod === downloadFilterPayment,
     )
     .filter((order) =>
       downloadFilterStatus === "all"
         ? true
-        : order.status === downloadFilterStatus
+        : order.status === downloadFilterStatus,
     );
 
   // Pagination for download
   const totalPagesDownload = Math.ceil(
-    filteredOrdersForDownload.length / itemsPerPageDown
+    filteredOrdersForDownload.length / itemsPerPageDown,
   );
   const startIndexDownload = (currentPageDown - 1) * itemsPerPageDown;
   const endIndexDownload = startIndexDownload + itemsPerPageDown;
   const currentOrdersDownload = filteredOrdersForDownload.slice(
     startIndexDownload,
-    endIndexDownload
+    endIndexDownload,
   );
 
   // Calculate download stats
   const downloadStats = {
     total: filteredOrdersForDownload.length,
     withHistory: Object.keys(downloadHistory).filter((id) =>
-      filteredOrdersForDownload.some((o) => o.id === id)
+      filteredOrdersForDownload.some((o) => o.id === id),
     ).length,
     totalDownloads: Object.values(downloadHistory).reduce(
       (sum, h) => sum + h.count,
-      0
+      0,
     ),
     avgDownloadsPerOrder:
       Object.keys(downloadHistory).length > 0
         ? (
             Object.values(downloadHistory).reduce(
               (sum, h) => sum + h.count,
-              0
+              0,
             ) / Object.keys(downloadHistory).length
           ).toFixed(1)
         : 0,
@@ -2164,7 +2312,7 @@ const MyAccount = () => {
                                       : sum +
                                           (en > 0 ? en : mk / conversionRate);
                                   }, 0),
-                                  currentLanguage
+                                  currentLanguage,
                                 )}
                               </h3>
                               <small className="text-muted">
@@ -2258,7 +2406,7 @@ const MyAccount = () => {
                                       : sum +
                                           (en > 0 ? en : mk / conversionRate);
                                   }, 0),
-                                  currentLanguage
+                                  currentLanguage,
                                 )}
                               </h3>
                               <small className="text-muted">
@@ -2361,7 +2509,7 @@ const MyAccount = () => {
                                           (currentLanguage === "mk"
                                             ? order.totalMK
                                             : order.totalEN),
-                                        currentLanguage
+                                        currentLanguage,
                                       )}
                                     </small>
                                   </td>
@@ -2392,7 +2540,7 @@ const MyAccount = () => {
                               onClick={() =>
                                 document
                                   .querySelector(
-                                    '[data-rr-ui-event-key="orders"]'
+                                    '[data-rr-ui-event-key="orders"]',
                                   )
                                   .click()
                               }
@@ -2411,7 +2559,7 @@ const MyAccount = () => {
                               onClick={() =>
                                 document
                                   .querySelector(
-                                    '[data-rr-ui-event-key="users"]'
+                                    '[data-rr-ui-event-key="users"]',
                                   )
                                   .click()
                               }
@@ -2430,14 +2578,14 @@ const MyAccount = () => {
                               onClick={() => {
                                 document
                                   .querySelector(
-                                    '[data-rr-ui-event-key="orders"]'
+                                    '[data-rr-ui-event-key="orders"]',
                                   )
                                   .click();
                                 // Scroll to financial reports section
                                 setTimeout(() => {
                                   const reportsSection =
                                     document.querySelector(
-                                      ".financial-reports"
+                                      ".financial-reports",
                                     );
                                   if (reportsSection) {
                                     reportsSection.scrollIntoView({
@@ -2462,7 +2610,7 @@ const MyAccount = () => {
                               onClick={() =>
                                 document
                                   .querySelector(
-                                    '[data-rr-ui-event-key="accountDetails"]'
+                                    '[data-rr-ui-event-key="accountDetails"]',
                                   )
                                   .click()
                               }
@@ -2472,6 +2620,23 @@ const MyAccount = () => {
                                 style={{ fontSize: "1.5rem" }}
                               ></i>
                               <small>{t("edit_profile")}</small>
+                            </button>
+                          </div>
+                          <div className="col-md-3 col-sm-6">
+                            <button
+                              className="btn btn-outline-warning w-100"
+                              style={{ paddingTop: 0, paddingBottom: "0.5rem" }}
+                              onClick={() => {
+                                setShowBroadcastModal(true);
+                                fetchSubscriberStats();
+                                fetchSchedule();
+                              }}
+                            >
+                              <i
+                                className="bi bi-send d-block mb-2"
+                                style={{ fontSize: "1.5rem" }}
+                              ></i>
+                              <small>{t("send_newsletter")}</small>
                             </button>
                           </div>
                         </div>
@@ -2484,7 +2649,7 @@ const MyAccount = () => {
                               onClick={() =>
                                 document
                                   .querySelector(
-                                    '[data-rr-ui-event-key="orders"]'
+                                    '[data-rr-ui-event-key="orders"]',
                                   )
                                   .click()
                               }
@@ -2503,7 +2668,7 @@ const MyAccount = () => {
                               onClick={() =>
                                 document
                                   .querySelector(
-                                    '[data-rr-ui-event-key="accountDetails"]'
+                                    '[data-rr-ui-event-key="accountDetails"]',
                                   )
                                   .click()
                               }
@@ -2522,7 +2687,7 @@ const MyAccount = () => {
                               onClick={() =>
                                 document
                                   .querySelector(
-                                    '[data-rr-ui-event-key="download"]'
+                                    '[data-rr-ui-event-key="download"]',
                                   )
                                   .click()
                               }
@@ -2883,7 +3048,7 @@ const MyAccount = () => {
                                           updateOrder(
                                             order.id,
                                             user.uid,
-                                            e.target.value
+                                            e.target.value,
                                           )
                                         }
                                         className="form-select form-select-sm"
@@ -2928,7 +3093,7 @@ const MyAccount = () => {
                                           (currentLanguage === "mk"
                                             ? order.totalMK
                                             : order.totalEN),
-                                        currentLanguage
+                                        currentLanguage,
                                       )}
                                     </small>
                                   </td>
@@ -2982,7 +3147,7 @@ const MyAccount = () => {
                                   <small>
                                     {formatTotal(
                                       grandTotalInDisplayCurrency,
-                                      currentLanguage
+                                      currentLanguage,
                                     )}
                                   </small>
                                 </td>
@@ -3108,7 +3273,7 @@ const MyAccount = () => {
                                 <h4 className="mb-0 text-warning">
                                   {
                                     filteredOrders.filter(
-                                      (o) => o.status === "pending"
+                                      (o) => o.status === "pending",
                                     ).length
                                   }
                                 </h4>
@@ -3124,7 +3289,7 @@ const MyAccount = () => {
                                 <h4 className="mb-0 text-success">
                                   {
                                     filteredOrders.filter(
-                                      (o) => o.status === "confirmed"
+                                      (o) => o.status === "confirmed",
                                     ).length
                                   }
                                 </h4>
@@ -3140,7 +3305,7 @@ const MyAccount = () => {
                                 <h4 className="mb-0 text-danger">
                                   {
                                     filteredOrders.filter(
-                                      (o) => o.status === "cancelled"
+                                      (o) => o.status === "cancelled",
                                     ).length
                                   }
                                 </h4>
@@ -3217,7 +3382,7 @@ const MyAccount = () => {
 
                                       // fallback: if neither exists, try parsing legacy order.total
                                       const fallback = parseAmount(
-                                        order.total || 0
+                                        order.total || 0,
                                       );
                                       if (!mk && !en) {
                                         // try to guess currency from order.currency (backwards-compat)
@@ -3254,9 +3419,9 @@ const MyAccount = () => {
                                         );
                                       }
                                     },
-                                    0
+                                    0,
                                   ),
-                                  currentLanguage
+                                  currentLanguage,
                                 )}
                               </h3>
                               <small className="text-muted d-block mt-2">
@@ -3274,7 +3439,7 @@ const MyAccount = () => {
                               <h3>
                                 {formatTotal(
                                   getAverageOrderValue(filteredOrdersForCharts),
-                                  currentLanguage
+                                  currentLanguage,
                                 )}
                               </h3>
                               <small className="text-muted d-block mt-2">
@@ -3347,7 +3512,7 @@ const MyAccount = () => {
                                         ? 7
                                         : dateRange === "30days"
                                           ? 30
-                                          : 90
+                                          : 90,
                                     )}
                                     margin={{
                                       top: 10,
@@ -3408,7 +3573,7 @@ const MyAccount = () => {
                                             ? 7
                                             : dateRange === "30days"
                                               ? 30
-                                              : 90
+                                              : 90,
                                         ).length
                                       }{" "}
                                       {t("days")}
@@ -3456,7 +3621,7 @@ const MyAccount = () => {
                                             ? 7
                                             : dateRange === "30days"
                                               ? 30
-                                              : 90
+                                              : 90,
                                         ).map((day, index) => (
                                           <tr
                                             key={index}
@@ -3476,7 +3641,7 @@ const MyAccount = () => {
                                               <small className="text-success">
                                                 {formatTotal(
                                                   day.revenue,
-                                                  currentLanguage
+                                                  currentLanguage,
                                                 )}
                                               </small>
                                             </td>
@@ -3505,11 +3670,11 @@ const MyAccount = () => {
                                                   ? 7
                                                   : dateRange === "30days"
                                                     ? 30
-                                                    : 90
+                                                    : 90,
                                               ).reduce(
                                                 (sum, day) =>
                                                   sum + (day.orders || 0),
-                                                0
+                                                0,
                                               )}
                                             </span>
                                           </td>
@@ -3524,13 +3689,13 @@ const MyAccount = () => {
                                                     ? 7
                                                     : dateRange === "30days"
                                                       ? 30
-                                                      : 90
+                                                      : 90,
                                                 ).reduce(
                                                   (sum, day) =>
                                                     sum + day.revenue,
-                                                  0
+                                                  0,
                                                 ),
-                                                currentLanguage
+                                                currentLanguage,
                                               )}
                                             </small>
                                           </td>
@@ -3555,10 +3720,10 @@ const MyAccount = () => {
                                                   ? 7
                                                   : dateRange === "30days"
                                                     ? 30
-                                                    : 90
+                                                    : 90,
                                               ).reduce(
                                                 (sum, day) => sum + day.revenue,
-                                                0
+                                                0,
                                               ) /
                                                 getDailyRevenue(
                                                   filteredOrdersForCharts,
@@ -3566,9 +3731,9 @@ const MyAccount = () => {
                                                     ? 7
                                                     : dateRange === "30days"
                                                       ? 30
-                                                      : 90
+                                                      : 90,
                                                 ).length,
-                                              currentLanguage
+                                              currentLanguage,
                                             )}
                                           </strong>
                                         </div>
@@ -3589,18 +3754,18 @@ const MyAccount = () => {
                                                   ? 7
                                                   : dateRange === "30days"
                                                     ? 30
-                                                    : 90
+                                                    : 90,
                                               );
                                               const bestDay = dailyData.reduce(
                                                 (max, day) =>
                                                   day.revenue > max.revenue
                                                     ? day
                                                     : max,
-                                                dailyData[0]
+                                                dailyData[0],
                                               );
                                               return formatTotal(
                                                 bestDay.revenue,
-                                                currentLanguage
+                                                currentLanguage,
                                               );
                                             })()}
                                           </strong>
@@ -3622,11 +3787,11 @@ const MyAccount = () => {
                                                   ? 7
                                                   : dateRange === "30days"
                                                     ? 30
-                                                    : 90
+                                                    : 90,
                                               ).reduce(
                                                 (sum, day) =>
                                                   sum + (day.orders || 0),
-                                                0
+                                                0,
                                               ) /
                                               getDailyRevenue(
                                                 filteredOrdersForCharts,
@@ -3634,7 +3799,7 @@ const MyAccount = () => {
                                                   ? 7
                                                   : dateRange === "30days"
                                                     ? 30
-                                                    : 90
+                                                    : 90,
                                               ).length
                                             ).toFixed(1)}
                                           </strong>
@@ -3684,7 +3849,7 @@ const MyAccount = () => {
                                       filteredOrdersForCharts,
                                       filterYear === "all"
                                         ? new Date().getFullYear()
-                                        : parseInt(filterYear, 10)
+                                        : parseInt(filterYear, 10),
                                     )}
                                     margin={{
                                       top: 10,
@@ -3722,7 +3887,7 @@ const MyAccount = () => {
                                           filteredOrdersForCharts,
                                           filterYear === "all"
                                             ? new Date().getFullYear()
-                                            : parseInt(filterYear, 10)
+                                            : parseInt(filterYear, 10),
                                         ).length
                                       }{" "}
                                       {t("months")}
@@ -3784,7 +3949,7 @@ const MyAccount = () => {
                                           filteredOrdersForCharts,
                                           filterYear === "all"
                                             ? new Date().getFullYear()
-                                            : parseInt(filterYear, 10)
+                                            : parseInt(filterYear, 10),
                                         ).map((month, index) => (
                                           <tr
                                             key={index}
@@ -3816,7 +3981,7 @@ const MyAccount = () => {
                                               <small className="text-success">
                                                 {formatTotal(
                                                   month.revenue,
-                                                  currentLanguage
+                                                  currentLanguage,
                                                 )}
                                               </small>
                                             </td>
@@ -3825,7 +3990,7 @@ const MyAccount = () => {
                                               <small>
                                                 {formatTotal(
                                                   month.revenue / 30,
-                                                  currentLanguage
+                                                  currentLanguage,
                                                 )}
                                               </small>
                                             </td>
@@ -3852,11 +4017,11 @@ const MyAccount = () => {
                                                 filteredOrdersForCharts,
                                                 filterYear === "all"
                                                   ? new Date().getFullYear()
-                                                  : parseInt(filterYear, 10)
+                                                  : parseInt(filterYear, 10),
                                               ).reduce(
                                                 (sum, month) =>
                                                   sum + (month.orders || 0),
-                                                0
+                                                0,
                                               )}
                                             </span>
                                           </td>
@@ -3867,13 +4032,13 @@ const MyAccount = () => {
                                                   filteredOrdersForCharts,
                                                   filterYear === "all"
                                                     ? new Date().getFullYear()
-                                                    : parseInt(filterYear, 10)
+                                                    : parseInt(filterYear, 10),
                                                 ).reduce(
                                                   (sum, month) =>
                                                     sum + month.revenue,
-                                                  0
+                                                  0,
                                                 ),
-                                                currentLanguage
+                                                currentLanguage,
                                               )}
                                             </strong>
                                           </td>
@@ -3884,13 +4049,13 @@ const MyAccount = () => {
                                                   filteredOrdersForCharts,
                                                   filterYear === "all"
                                                     ? new Date().getFullYear()
-                                                    : parseInt(filterYear, 10)
+                                                    : parseInt(filterYear, 10),
                                                 ).reduce(
                                                   (sum, month) =>
                                                     sum + month.revenue,
-                                                  0
+                                                  0,
                                                 ) / 365,
-                                                currentLanguage
+                                                currentLanguage,
                                               )}
                                             </strong>
                                           </td>
@@ -3913,19 +4078,19 @@ const MyAccount = () => {
                                                 filteredOrdersForCharts,
                                                 filterYear === "all"
                                                   ? new Date().getFullYear()
-                                                  : parseInt(filterYear, 10)
+                                                  : parseInt(filterYear, 10),
                                               ).reduce(
                                                 (sum, month) =>
                                                   sum + month.revenue,
-                                                0
+                                                0,
                                               ) /
                                                 getMonthlyRevenue(
                                                   filteredOrdersForCharts,
                                                   filterYear === "all"
                                                     ? new Date().getFullYear()
-                                                    : parseInt(filterYear, 10)
+                                                    : parseInt(filterYear, 10),
                                                 ).length,
-                                              currentLanguage
+                                              currentLanguage,
                                             )}
                                           </strong>
                                         </div>
@@ -3945,7 +4110,7 @@ const MyAccount = () => {
                                                   filteredOrdersForCharts,
                                                   filterYear === "all"
                                                     ? new Date().getFullYear()
-                                                    : parseInt(filterYear, 10)
+                                                    : parseInt(filterYear, 10),
                                                 );
                                               const bestMonth =
                                                 monthlyData.reduce(
@@ -3953,7 +4118,7 @@ const MyAccount = () => {
                                                     month.revenue > max.revenue
                                                       ? month
                                                       : max,
-                                                  monthlyData[0]
+                                                  monthlyData[0],
                                                 );
                                               return bestMonth.month;
                                             })()}
@@ -3973,11 +4138,11 @@ const MyAccount = () => {
                                               filteredOrdersForCharts,
                                               filterYear === "all"
                                                 ? new Date().getFullYear()
-                                                : parseInt(filterYear, 10)
+                                                : parseInt(filterYear, 10),
                                             ).reduce(
                                               (sum, month) =>
                                                 sum + (month.orders || 0),
-                                              0
+                                              0,
                                             )}
                                           </strong>
                                         </div>
@@ -3996,17 +4161,17 @@ const MyAccount = () => {
                                                 filteredOrdersForCharts,
                                                 filterYear === "all"
                                                   ? new Date().getFullYear()
-                                                  : parseInt(filterYear, 10)
+                                                  : parseInt(filterYear, 10),
                                               ).reduce(
                                                 (sum, month) =>
                                                   sum + (month.orders || 0),
-                                                0
+                                                0,
                                               ) /
                                               getMonthlyRevenue(
                                                 filteredOrdersForCharts,
                                                 filterYear === "all"
                                                   ? new Date().getFullYear()
-                                                  : parseInt(filterYear, 10)
+                                                  : parseInt(filterYear, 10),
                                               ).length
                                             ).toFixed(1)}
                                           </strong>
@@ -4193,7 +4358,7 @@ const MyAccount = () => {
                                                   <small className="text-warning">
                                                     {formatTotal(
                                                       year.revenue,
-                                                      currentLanguage
+                                                      currentLanguage,
                                                     )}
                                                   </small>
                                                 </td>
@@ -4221,13 +4386,13 @@ const MyAccount = () => {
                                                   <small>
                                                     {formatTotal(
                                                       year.revenue / 12,
-                                                      currentLanguage
+                                                      currentLanguage,
                                                     )}
                                                   </small>
                                                 </td>
                                               </tr>
                                             );
-                                          }
+                                          },
                                         )}
                                       </tbody>
 
@@ -4250,7 +4415,7 @@ const MyAccount = () => {
                                               {getYearlyRevenue(orders).reduce(
                                                 (sum, year) =>
                                                   sum + (year.orders || 0),
-                                                0
+                                                0,
                                               )}
                                             </span>
                                           </td>
@@ -4261,9 +4426,9 @@ const MyAccount = () => {
                                                 getYearlyRevenue(orders).reduce(
                                                   (sum, year) =>
                                                     sum + year.revenue,
-                                                  0
+                                                  0,
                                                 ),
-                                                currentLanguage
+                                                currentLanguage,
                                               )}
                                             </strong>
                                           </td>
@@ -4312,12 +4477,12 @@ const MyAccount = () => {
                                                 getYearlyRevenue(orders).reduce(
                                                   (sum, year) =>
                                                     sum + year.revenue,
-                                                  0
+                                                  0,
                                                 ) /
                                                   (getYearlyRevenue(orders)
                                                     .length *
                                                     12),
-                                                currentLanguage
+                                                currentLanguage,
                                               )}
                                             </strong>
                                           </td>
@@ -4356,7 +4521,7 @@ const MyAccount = () => {
                                                   year.revenue > max.revenue
                                                     ? year
                                                     : max,
-                                                yearlyData[0]
+                                                yearlyData[0],
                                               ).year;
                                             })()}
                                           </strong>
@@ -4375,10 +4540,10 @@ const MyAccount = () => {
                                               getYearlyRevenue(orders).reduce(
                                                 (sum, year) =>
                                                   sum + year.revenue,
-                                                0
+                                                0,
                                               ) /
                                                 getYearlyRevenue(orders).length,
-                                              currentLanguage
+                                              currentLanguage,
                                             )}
                                           </small>
                                         </div>
@@ -4462,7 +4627,7 @@ const MyAccount = () => {
                                               ]
                                             }
                                           />
-                                        )
+                                        ),
                                       )}
                                     </Pie>
                                     <Tooltip
@@ -4508,7 +4673,7 @@ const MyAccount = () => {
                                           <td className="text-end">
                                             {formatTotal(
                                               entry.value,
-                                              currentLanguage
+                                              currentLanguage,
                                             )}
                                           </td>
                                           <td className="text-end">
@@ -4520,7 +4685,7 @@ const MyAccount = () => {
                                             %
                                           </td>
                                         </tr>
-                                      )
+                                      ),
                                     )}
                                   </tbody>
                                 </table>
@@ -4578,7 +4743,7 @@ const MyAccount = () => {
                                               ? entry.mkd
                                               : entry.eng,
                                         };
-                                      }
+                                      },
                                     )}
                                     margin={{
                                       top: 10,
@@ -4595,14 +4760,21 @@ const MyAccount = () => {
                                       }
                                     />
 
-                                    <Bar dataKey="Total" name={currentLanguage === "mk" ? "Вкупно" : "Total"}>
+                                    <Bar
+                                      dataKey="Total"
+                                      name={
+                                        currentLanguage === "mk"
+                                          ? "Вкупно"
+                                          : "Total"
+                                      }
+                                    >
                                       {statusData(orders, filterYear).map(
                                         (entry, index) => (
                                           <Cell
                                             key={index}
                                             fill={COLORS[entry.status]}
                                           />
-                                        )
+                                        ),
                                       )}
                                     </Bar>
                                   </BarChart>
@@ -4668,12 +4840,12 @@ const MyAccount = () => {
                                                 currentLanguage === "mk"
                                                   ? entry.mkd
                                                   : entry.eng,
-                                                currentLanguage
+                                                currentLanguage,
                                               )}
                                             </td>
                                           </tr>
                                         );
-                                      }
+                                      },
                                     )}
                                   </tbody>
                                 </table>
@@ -4722,7 +4894,7 @@ const MyAccount = () => {
                                         {getTopProducts(
                                           orders,
                                           5,
-                                          filterYear
+                                          filterYear,
                                         ).map((product, index) => (
                                           <tr key={index}>
                                             <td>
@@ -4740,7 +4912,7 @@ const MyAccount = () => {
                                               <small>
                                                 {formatTotal(
                                                   product.revenue,
-                                                  currentLanguage
+                                                  currentLanguage,
                                                 )}
                                               </small>
                                             </td>
@@ -4749,7 +4921,7 @@ const MyAccount = () => {
                                                 {formatTotal(
                                                   product.revenue /
                                                     product.count,
-                                                  currentLanguage
+                                                  currentLanguage,
                                                 )}
                                               </small>
                                             </td>
@@ -5135,7 +5307,7 @@ const MyAccount = () => {
                                     type="checkbox"
                                     className="form-check-input"
                                     checked={selectedOrdersForDownload.includes(
-                                      order.id
+                                      order.id,
                                     )}
                                     onChange={() =>
                                       toggleOrderSelection(order.id)
@@ -5296,7 +5468,7 @@ const MyAccount = () => {
                                     );
                                   }
                                   return null;
-                                }
+                                },
                               )}
 
                               <li
@@ -5394,9 +5566,9 @@ const MyAccount = () => {
                                         : sum +
                                             (en > 0 ? en : mk / conversionRate);
                                     },
-                                    0
+                                    0,
                                   ),
-                                  currentLanguage
+                                  currentLanguage,
                                 )}
                               </h4>
                               <small className="text-muted">
@@ -5421,7 +5593,7 @@ const MyAccount = () => {
                               >
                                 {formatTotal(
                                   getAverageOrderValue(filteredOrdersForCharts),
-                                  currentLanguage
+                                  currentLanguage,
                                 )}
                               </h4>
                               <small className="text-muted">
@@ -5446,7 +5618,7 @@ const MyAccount = () => {
                               >
                                 {
                                   filteredOrdersForCharts.filter(
-                                    (o) => o.paymentMethod === "payment_cash"
+                                    (o) => o.paymentMethod === "payment_cash",
                                   ).length
                                 }
                               </h4>
@@ -5472,7 +5644,7 @@ const MyAccount = () => {
                               >
                                 {
                                   filteredOrdersForCharts.filter(
-                                    (o) => o.paymentMethod === "payment_bank"
+                                    (o) => o.paymentMethod === "payment_bank",
                                   ).length
                                 }
                               </h4>
@@ -5520,7 +5692,7 @@ const MyAccount = () => {
                                             ]
                                           }
                                         />
-                                      )
+                                      ),
                                     )}
                                   </Pie>
                                   <Tooltip
@@ -5577,7 +5749,7 @@ const MyAccount = () => {
                                                         ? "Банка"
                                                         : "Bank") &&
                                                       o.paymentMethod ===
-                                                        "payment_bank")
+                                                        "payment_bank"),
                                                 ).length
                                               }{" "}
                                               {t("orders")}
@@ -5587,7 +5759,7 @@ const MyAccount = () => {
                                             <small className="fw-bold">
                                               {formatTotal(
                                                 entry.value,
-                                                currentLanguage
+                                                currentLanguage,
                                               )}
                                             </small>
                                           </td>
@@ -5602,7 +5774,7 @@ const MyAccount = () => {
                                             </span>
                                           </td>
                                         </tr>
-                                      )
+                                      ),
                                     )}
                                   </tbody>
                                 </table>
@@ -5623,7 +5795,7 @@ const MyAccount = () => {
                                 <BarChart
                                   data={getMonthlyRevenue(
                                     filteredOrdersForCharts,
-                                    parseInt(filterYear)
+                                    parseInt(filterYear),
                                   )}
                                 >
                                   <XAxis
@@ -5661,12 +5833,12 @@ const MyAccount = () => {
                                         {(() => {
                                           const monthlyData = getMonthlyRevenue(
                                             filteredOrdersForCharts,
-                                            parseInt(filterYear)
+                                            parseInt(filterYear),
                                           );
                                           const best = monthlyData.reduce(
                                             (max, m) =>
                                               m.revenue > max.revenue ? m : max,
-                                            monthlyData[0]
+                                            monthlyData[0],
                                           );
                                           return best?.month || "-";
                                         })()}
@@ -5684,7 +5856,7 @@ const MyAccount = () => {
                                         {
                                           getMonthlyRevenue(
                                             filteredOrdersForCharts,
-                                            parseInt(filterYear)
+                                            parseInt(filterYear),
                                           ).filter((m) => m.revenue > 0).length
                                         }
                                       </strong>
@@ -5725,7 +5897,7 @@ const MyAccount = () => {
                                               filteredOrdersForCharts.filter(
                                                 (o) =>
                                                   o.paymentMethod ===
-                                                  "payment_cash"
+                                                  "payment_cash",
                                               ).length
                                             }
                                           </h4>
@@ -5743,14 +5915,14 @@ const MyAccount = () => {
                                                 .filter(
                                                   (o) =>
                                                     o.paymentMethod ===
-                                                    "payment_cash"
+                                                    "payment_cash",
                                                 )
                                                 .reduce((sum, order) => {
                                                   const mk = parseFloat(
-                                                    order.totalMK || 0
+                                                    order.totalMK || 0,
                                                   );
                                                   const en = parseFloat(
-                                                    order.totalEN || 0
+                                                    order.totalEN || 0,
                                                   );
                                                   return currentLanguage ===
                                                     "mk"
@@ -5764,7 +5936,7 @@ const MyAccount = () => {
                                                           : mk /
                                                             conversionRate);
                                                 }, 0),
-                                              currentLanguage
+                                              currentLanguage,
                                             )}
                                           </h4>
                                           <small className="text-muted">
@@ -5783,10 +5955,10 @@ const MyAccount = () => {
                                               filteredOrdersForCharts.filter(
                                                 (o) =>
                                                   o.paymentMethod ===
-                                                  "payment_cash"
-                                              )
+                                                  "payment_cash",
+                                              ),
                                             ),
-                                            currentLanguage
+                                            currentLanguage,
                                           )}
                                         </h5>
                                       </div>
@@ -5811,7 +5983,7 @@ const MyAccount = () => {
                                               filteredOrdersForCharts.filter(
                                                 (o) =>
                                                   o.paymentMethod ===
-                                                  "payment_bank"
+                                                  "payment_bank",
                                               ).length
                                             }
                                           </h4>
@@ -5829,14 +6001,14 @@ const MyAccount = () => {
                                                 .filter(
                                                   (o) =>
                                                     o.paymentMethod ===
-                                                    "payment_bank"
+                                                    "payment_bank",
                                                 )
                                                 .reduce((sum, order) => {
                                                   const mk = parseFloat(
-                                                    order.totalMK || 0
+                                                    order.totalMK || 0,
                                                   );
                                                   const en = parseFloat(
-                                                    order.totalEN || 0
+                                                    order.totalEN || 0,
                                                   );
                                                   return currentLanguage ===
                                                     "mk"
@@ -5850,7 +6022,7 @@ const MyAccount = () => {
                                                           : mk /
                                                             conversionRate);
                                                 }, 0),
-                                              currentLanguage
+                                              currentLanguage,
                                             )}
                                           </h4>
                                           <small className="text-muted">
@@ -5869,10 +6041,10 @@ const MyAccount = () => {
                                               filteredOrdersForCharts.filter(
                                                 (o) =>
                                                   o.paymentMethod ===
-                                                  "payment_bank"
-                                              )
+                                                  "payment_bank",
+                                              ),
                                             ),
-                                            currentLanguage
+                                            currentLanguage,
                                           )}
                                         </h5>
                                       </div>
@@ -5980,7 +6152,7 @@ const MyAccount = () => {
                                         (currentLanguage === "mk"
                                           ? order.totalMK
                                           : order.totalEN),
-                                      currentLanguage
+                                      currentLanguage,
                                     )}
                                   </small>
                                 </td>
@@ -6024,9 +6196,9 @@ const MyAccount = () => {
                                         : sum +
                                             (en > 0 ? en : mk / conversionRate);
                                     },
-                                    0
+                                    0,
                                   ),
-                                  currentLanguage
+                                  currentLanguage,
                                 )}
                               </td>
                               <td className="pe-3"></td>
@@ -6054,7 +6226,7 @@ const MyAccount = () => {
                                   className="page-link py-1 px-2"
                                   onClick={() =>
                                     handlePageChangePayment(
-                                      currentPagePayment - 1
+                                      currentPagePayment - 1,
                                     )
                                   }
                                   disabled={currentPagePayment === 1}
@@ -6113,7 +6285,7 @@ const MyAccount = () => {
                                   className="page-link py-1 px-2"
                                   onClick={() =>
                                     handlePageChangePayment(
-                                      currentPagePayment + 1
+                                      currentPagePayment + 1,
                                     )
                                   }
                                   disabled={
@@ -6302,7 +6474,7 @@ const MyAccount = () => {
                               value={cardNumber}
                               onChange={(e) => {
                                 const formatted = formatCardNumber(
-                                  e.target.value
+                                  e.target.value,
                                 );
                                 setCardNumber(formatted);
                               }}
@@ -6319,7 +6491,7 @@ const MyAccount = () => {
                                   value={expiration}
                                   onChange={(e) => {
                                     const formatted = formatExpiration(
-                                      e.target.value
+                                      e.target.value,
                                     );
                                     setExpiration(formatted);
                                   }}
@@ -6470,7 +6642,7 @@ const MyAccount = () => {
                           onClick={async () => {
                             setIsCanceling(true);
                             await new Promise((resolve) =>
-                              setTimeout(resolve, 500)
+                              setTimeout(resolve, 500),
                             );
                             handleCancel();
                             setIsCanceling(false);
@@ -6762,7 +6934,7 @@ const MyAccount = () => {
                                     .filter((usr) =>
                                       userFilterRole === "all"
                                         ? true
-                                        : usr.role === userFilterRole
+                                        : usr.role === userFilterRole,
                                     );
 
                                   // Pagination
@@ -6772,7 +6944,7 @@ const MyAccount = () => {
                                     indexOfLastUser - usersPerPage;
                                   const currentUsers = filteredUsers.slice(
                                     indexOfFirstUser,
-                                    indexOfLastUser
+                                    indexOfLastUser,
                                   );
 
                                   return currentUsers.map((usr) => (
@@ -6850,11 +7022,11 @@ const MyAccount = () => {
                               .filter((usr) =>
                                 userFilterRole === "all"
                                   ? true
-                                  : usr.role === userFilterRole
+                                  : usr.role === userFilterRole,
                               );
 
                             const totalPagesUsers = Math.ceil(
-                              filteredUsers.length / usersPerPage
+                              filteredUsers.length / usersPerPage,
                             );
                             const indexOfLastUser =
                               currentPageUsers * usersPerPage;
@@ -6862,7 +7034,7 @@ const MyAccount = () => {
                               indexOfLastUser - usersPerPage;
                             const usersOnCurrentPage = filteredUsers.slice(
                               indexOfFirstUser,
-                              indexOfLastUser
+                              indexOfLastUser,
                             ).length;
 
                             if (totalPagesUsers > 1) {
@@ -6886,7 +7058,7 @@ const MyAccount = () => {
                                           className="page-link py-1 px-2"
                                           onClick={() =>
                                             setCurrentPageUsers(
-                                              currentPageUsers - 1
+                                              currentPageUsers - 1,
                                             )
                                           }
                                           disabled={currentPageUsers === 1}
@@ -6916,7 +7088,7 @@ const MyAccount = () => {
                                                   className="page-link py-1 px-2"
                                                   onClick={() =>
                                                     setCurrentPageUsers(
-                                                      pageNumber
+                                                      pageNumber,
                                                     )
                                                   }
                                                 >
@@ -6941,7 +7113,7 @@ const MyAccount = () => {
                                             );
                                           }
                                           return null;
-                                        }
+                                        },
                                       )}
 
                                       <li
@@ -6952,7 +7124,7 @@ const MyAccount = () => {
                                           className="page-link py-1 px-2"
                                           onClick={() =>
                                             setCurrentPageUsers(
-                                              currentPageUsers + 1
+                                              currentPageUsers + 1,
                                             )
                                           }
                                           disabled={
@@ -7091,6 +7263,238 @@ const MyAccount = () => {
             ) : (
               t("yes_logout")
             )}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={showBroadcastModal}
+        onHide={() => setShowBroadcastModal(false)}
+        centered
+        size="lg"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <i className="bi bi-send me-2"></i>
+            {t("newsletter_schedule")}
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          {/* Current Status */}
+          {broadcastSchedule && (
+            <div
+              className={`alert ${broadcastSchedule.active ? "alert-success" : "alert-secondary"} d-flex justify-content-between align-items-center mb-4`}
+            >
+              <div>
+                <i
+                  className={`bi ${broadcastSchedule.active ? "bi-play-circle-fill" : "bi-pause-circle-fill"} me-2`}
+                ></i>
+                <strong>
+                  {broadcastSchedule.active
+                    ? t("schedule_active")
+                    : t("schedule_paused")}
+                </strong>
+                {broadcastSchedule.nextSendAt && (
+                  <div className="mt-1">
+                    <small className="text-muted">
+                      {t("next_send")}:{" "}
+                      <strong>
+                        {new Date(broadcastSchedule.nextSendAt).toLocaleString("en-GB", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                            hour12: true,
+                          }).replace(/\//g, "-")}
+                      </strong>
+                    </small>
+                  </div>
+                )}
+                {broadcastSchedule.lastSentAt && (
+                  <div>
+                    <small className="text-muted">
+                      {t("last_sent")}:{" "}
+                      {new Date(broadcastSchedule.lastSentAt).toLocaleString("en-GB", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                            hour12: true,
+                          }).replace(/\//g, "-")}
+                    </small>
+                  </div>
+                )}
+              </div>
+              <Button
+                size="sm"
+                variant={
+                  broadcastSchedule.active
+                    ? "outline-warning"
+                    : "outline-success"
+                }
+                onClick={handleToggleSchedule}
+              >
+                <i
+                  className={`bi ${broadcastSchedule.active ? "bi-pause-fill" : "bi-play-fill"} me-1`}
+                ></i>
+                {broadcastSchedule.active ? t("pause") : t("resume")}
+              </Button>
+            </div>
+          )}
+
+          {/* Subscriber Stats */}
+          {subscriberStats && (
+            <div className="alert alert-primary d-flex justify-content-between align-items-center mb-4 py-2">
+              <span>
+                <i className="bi bi-people me-2"></i>
+                {t("active_subscribers")}
+              </span>
+              <span className="badge bg-primary fs-6">
+                {subscriberStats.total}
+              </span>
+            </div>
+          )}
+
+          <hr />
+
+          {/* Period Selector */}
+          <h6 className="fw-bold mb-3">
+            <i className="bi bi-calendar-check me-2 text-primary"></i>
+            {t("select_frequency")}
+          </h6>
+
+          <div className="row g-2 mb-4">
+            {[
+              {
+                value: "daily",
+                label: t("daily"),
+                icon: "bi-calendar-day",
+                color: "primary",
+                desc: t("every_day"),
+              },
+              {
+                value: "weekly",
+                label: t("weekly"),
+                icon: "bi-calendar-week",
+                color: "success",
+                desc: t("every_7_days"),
+              },
+              {
+                value: "monthly",
+                label: t("monthly"),
+                icon: "bi-calendar-month",
+                color: "info",
+                desc: t("every_30_days"),
+              },
+              {
+                value: "3months",
+                label: t("quarterly"),
+                icon: "bi-calendar3",
+                color: "warning",
+                desc: t("every_90_days"),
+              },
+            ].map((opt) => (
+              <div className="col-md-3 col-sm-6" key={opt.value}>
+                <div
+                  className={`card h-100 ${broadcastPeriod === opt.value ? `border-${opt.color} border-2` : "border"}`}
+                  onClick={() => setBroadcastPeriod(opt.value)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <div className="card-body text-center py-3 position-relative">
+                    {broadcastPeriod === opt.value && (
+                      <i
+                        className={`bi bi-check-circle-fill text-${opt.color} position-absolute top-0 end-0 m-2`}
+                      ></i>
+                    )}
+                    <i
+                      className={`bi ${opt.icon} text-${opt.color} d-block mb-2`}
+                      style={{ fontSize: "1.8rem" }}
+                    ></i>
+                    <h6 className={`mb-0 text-${opt.color}`}>{opt.label}</h6>
+                    <small className="text-muted">{opt.desc}</small>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <hr />
+
+          {/* Compose */}
+          <h6 className="fw-bold mb-3">
+            <i className="bi bi-pencil me-2 text-primary"></i>
+            {t("compose")}
+          </h6>
+
+          <div className="mb-3">
+            <label className="form-label fw-bold">{t("subject")}</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder={t("enter_subject")}
+              value={broadcastSubject}
+              onChange={(e) => setBroadcastSubject(e.target.value)}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label fw-bold">
+              <i className="bi bi-clock me-2"></i>
+              {t("send_time_utc")}
+            </label>
+            <input
+              type="time"
+              className="form-control"
+              value={broadcastSendTime}
+              onChange={(e) => setBroadcastSendTime(e.target.value)}
+            />
+            <small className="text-muted">{t("time_utc_note")}</small>
+          </div>
+
+          <div className="alert alert-warning d-flex align-items-center gap-2">
+            <i className="bi bi-exclamation-triangle-fill flex-shrink-0"></i>
+            <small>
+              {t("schedule_will_send_to")}{" "}
+              <strong>{subscriberStats?.total ?? "..."}</strong>{" "}
+              {t("subscribers")}{" "}
+              {broadcastPeriod === "daily" && t("every_day_auto")}
+              {broadcastPeriod === "weekly" && t("every_monday")}
+              {broadcastPeriod === "monthly" && t("every_month")}
+              {broadcastPeriod === "3months" && t("every_3_months")}
+              {t("automatically")}
+            </small>
+          </div>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowBroadcastModal(false)}
+            disabled={broadcastLoading}
+          >
+            {t("cancel")}
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleSaveSchedule}
+            disabled={broadcastLoading || !broadcastSubject.trim()}
+          >
+            {broadcastLoading ? (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                className="me-2"
+              />
+            ) : (
+              <i className="bi bi-calendar-check me-2"></i>
+            )}
+            {t("save_schedule")}
           </Button>
         </Modal.Footer>
       </Modal>

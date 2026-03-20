@@ -75,8 +75,10 @@ const translations = {
     about_page_title: "About",
     home: "Home",
     about: "About",
-    simply_or_white: "Soft look or dramatic style – Your inspiration, our challenge",
-    clever_unique_ideas: "Creativity, innovation, and professionalism in the world of beauty",
+    simply_or_white:
+      "Soft look or dramatic style – Your inspiration, our challenge",
+    clever_unique_ideas:
+      "Creativity, innovation, and professionalism in the world of beauty",
     about_page_description: "About us - Kika Makeup and Beauty Academy",
     store: "STORE",
     our_story: "OUR STORY",
@@ -205,18 +207,27 @@ const translations = {
     orders_question_2: "How Can I Review or Modify My Reservation?",
     orders_question_3: "Who Should I Contact If I Have Any Questions?",
 
-    shipping_answer_1: "You can make a reservation by selecting the desired service and appointment time. Then, enter your personal and contact details to confirm your booking.",
-    shipping_answer_2: "Currently, we only accept reservations in Macedonia. For any inquiries, please contact our customer support team via email or phone: Email: makeupbykika@hotmail.com, Phone: (+389) 78 / 343 - 377.",
+    shipping_answer_1:
+      "You can make a reservation by selecting the desired service and appointment time. Then, enter your personal and contact details to confirm your booking.",
+    shipping_answer_2:
+      "Currently, we only accept reservations in Macedonia. For any inquiries, please contact our customer support team via email or phone: Email: makeupbykika@hotmail.com, Phone: (+389) 78 / 343 - 377.",
     shipping_answer_3: "",
-    shipping_answer_4: "To confirm your reservation or for additional information, please contact our team via the provided email or phone. We will assist you in finalizing the process quickly and easily.",
-  
-    payment_answer_1: "We gladly accept Visa, MasterCard, and American Express. Please note: if your card is issued outside Macedonia, additional verification may be required. All reservations must be paid in full when confirmed.",
-    payment_answer_2: "We do our best to provide accurate pricing and service details, but errors may occasionally occur. If a pricing error happens, we reserve the right to correct it. You’ll be notified immediately, and any authorized payments will be adjusted or refunded.",
-    payment_answer_3: "We use your information only to process your reservation quickly and securely, and to improve your experience. We respect your privacy and never share your details, except when necessary to complete your booking. For more information, please see our Privacy Policy.",
-  
-    orders_answer_1: "To make a reservation, select a service and add it to the cart. Then, enter your personal and contact information (first name, last name, address, email, phone) and choose an appointment date and time. Finally, select a payment method and confirm your reservation by clicking the ‘Place Order’ button.",
-    orders_answer_2: "In the cart you can review your reservation before proceeding to checkout. You will see the selected services or products with their quantity and price. You can apply a discount code, update the quantity, or empty the cart completely. Once ready, click the “Checkout” button to finalize your reservation.",
-    orders_answer_3: "Once you contact our team via the provided email or phone number, we will assist you in choosing the most suitable appointment.",
+    shipping_answer_4:
+      "To confirm your reservation or for additional information, please contact our team via the provided email or phone. We will assist you in finalizing the process quickly and easily.",
+
+    payment_answer_1:
+      "We gladly accept Visa, MasterCard, and American Express. Please note: if your card is issued outside Macedonia, additional verification may be required. All reservations must be paid in full when confirmed.",
+    payment_answer_2:
+      "We do our best to provide accurate pricing and service details, but errors may occasionally occur. If a pricing error happens, we reserve the right to correct it. You’ll be notified immediately, and any authorized payments will be adjusted or refunded.",
+    payment_answer_3:
+      "We use your information only to process your reservation quickly and securely, and to improve your experience. We respect your privacy and never share your details, except when necessary to complete your booking. For more information, please see our Privacy Policy.",
+
+    orders_answer_1:
+      "To make a reservation, select a service and add it to the cart. Then, enter your personal and contact information (first name, last name, address, email, phone) and choose an appointment date and time. Finally, select a payment method and confirm your reservation by clicking the ‘Place Order’ button.",
+    orders_answer_2:
+      "In the cart you can review your reservation before proceeding to checkout. You will see the selected services or products with their quantity and price. You can apply a discount code, update the quantity, or empty the cart completely. Once ready, click the “Checkout” button to finalize your reservation.",
+    orders_answer_3:
+      "Once you contact our team via the provided email or phone number, we will assist you in choosing the most suitable appointment.",
 
     checkout_title: "Checkout",
     home: "Home",
@@ -425,43 +436,62 @@ const translations = {
     user: "User",
     order_deleted: "Order deleted!",
     privacy_policy: "Privacy Policy",
-    terms_of_service: "Terms of Service",     
-    terms_of_service_register: "Terms of Service",   
-    privacy_intro: "We respect your privacy and are committed to protecting your personal data. When you shop with us, we only collect information necessary to process orders, improve your experience, and provide customer support.",
+    terms_of_service: "Terms of Service",
+    terms_of_service_register: "Terms of Service",
+    privacy_intro:
+      "We respect your privacy and are committed to protecting your personal data. When you shop with us, we only collect information necessary to process orders, improve your experience, and provide customer support.",
     information_we_collect: "Information We Collect",
-    info_collect_name_email: "- Name, email, phone, and shipping address when placing an order.",
-    info_collect_payment_details: "- Payment details (processed securely via third-party payment systems).",
-    info_collect_optional: "- Additional information you voluntarily provide, such as preferences or account details.",
+    info_collect_name_email:
+      "- Name, email, phone, and shipping address when placing an order.",
+    info_collect_payment_details:
+      "- Payment details (processed securely via third-party payment systems).",
+    info_collect_optional:
+      "- Additional information you voluntarily provide, such as preferences or account details.",
     how_we_use_your_information: "How We Use Your Information",
     use_order_processing: "- To process and deliver your orders.",
     use_communication: "- To communicate about orders, promotions, or news.",
     use_improvement: "- To improve products, services, and website experience.",
     how_we_protect_your_information: "How We Protect Your Information",
-    protect_info_text: "We use security systems and follow industry standards to protect your data. We never sell, rent, or share your information with third parties, except when necessary to complete an order (e.g., delivery or payment).",
+    protect_info_text:
+      "We use security systems and follow industry standards to protect your data. We never sell, rent, or share your information with third parties, except when necessary to complete an order (e.g., delivery or payment).",
     your_rights: "Your Rights",
-    your_rights_text: "You may request access, correction, or deletion of your personal data at any time by contacting us at:",
+    your_rights_text:
+      "You may request access, correction, or deletion of your personal data at any time by contacting us at:",
     terms_of_service: "Terms of Service",
-    tos_intro: "Welcome to Kika Makeup Academy. By accessing or using our website and services, you agree to comply with these Terms of Service. Please read them carefully before using our platform.",
+    tos_intro:
+      "Welcome to Kika Makeup Academy. By accessing or using our website and services, you agree to comply with these Terms of Service. Please read them carefully before using our platform.",
     user_responsibilities: "User Responsibilities",
-    user_responsibility_1: "- You are responsible for all activities performed under your account.",
-    user_responsibility_2: "- You must not use the website for any unlawful or prohibited purpose.",
-    user_responsibility_3: "- You must provide accurate and up-to-date information when registering or placing orders.",
+    user_responsibility_1:
+      "- You are responsible for all activities performed under your account.",
+    user_responsibility_2:
+      "- You must not use the website for any unlawful or prohibited purpose.",
+    user_responsibility_3:
+      "- You must provide accurate and up-to-date information when registering or placing orders.",
     account_security: "Account and Security",
-    account_security_1: "- Keep your account credentials secure and confidential.",
-    account_security_2: "- Notify us immediately if you suspect unauthorized access to your account.",
+    account_security_1:
+      "- Keep your account credentials secure and confidential.",
+    account_security_2:
+      "- Notify us immediately if you suspect unauthorized access to your account.",
     orders_payments: "Orders and Payments",
-    orders_payments_1: "- All orders are subject to acceptance and availability.",
-    orders_payments_2: "- Payments are processed securely through third-party providers.",
-    orders_payments_3: "- You are responsible for any taxes, duties, or fees related to your purchases.",
+    orders_payments_1:
+      "- All orders are subject to acceptance and availability.",
+    orders_payments_2:
+      "- Payments are processed securely through third-party providers.",
+    orders_payments_3:
+      "- You are responsible for any taxes, duties, or fees related to your purchases.",
     changes: "Changes to Terms",
-    changes_text: "Kika Makeup Academy may update these Terms of Service at any time. Continued use of our services constitutes acceptance of the updated terms.",
+    changes_text:
+      "Kika Makeup Academy may update these Terms of Service at any time. Continued use of our services constitutes acceptance of the updated terms.",
     limitation_of_liability: "Limitation of Liability",
-    limitation_text: "Kika Makeup Academy is not liable for indirect, incidental, or consequential damages arising from the use of our website or services.",
+    limitation_text:
+      "Kika Makeup Academy is not liable for indirect, incidental, or consequential damages arising from the use of our website or services.",
     governing_law: "Governing Law",
-    governing_law_text: "These Terms of Service are governed by the laws of North Macedonia. Any disputes will be resolved in accordance with applicable law.",
+    governing_law_text:
+      "These Terms of Service are governed by the laws of North Macedonia. Any disputes will be resolved in accordance with applicable law.",
     contact: "Contact",
-    contact_text: "For any questions about these Terms of Service, please contact us at: ",
-    back_to_account: "Back to My Account",    
+    contact_text:
+      "For any questions about these Terms of Service, please contact us at: ",
+    back_to_account: "Back to My Account",
     invalid_credentials: "Incorrect email or password.",
     user_not_found: "No account found with this email.",
     email_in_use: "This email is already registered.",
@@ -511,11 +541,15 @@ const translations = {
     confirmed_analysis: "Confirmed",
     analysis: "Analysis",
     daily_revenue_description: "Shows revenue trends over the selected period",
-    monthly_revenue_description: "Monthly revenue breakdown for the selected year",
+    monthly_revenue_description:
+      "Monthly revenue breakdown for the selected year",
     yearly_comparison_description: "Year-over-year revenue comparison",
-    top_products_description: "Best selling products ranked by total revenue generated",
-    revenue_by_status_description: "Shows revenue distribution based on order status",
-    revenue_by_payment_method_description: "Shows revenue distribution based on payment methods used",
+    top_products_description:
+      "Best selling products ranked by total revenue generated",
+    revenue_by_status_description:
+      "Shows revenue distribution based on order status",
+    revenue_by_payment_method_description:
+      "Shows revenue distribution based on payment methods used",
     payment_method: "Payment Method",
     amount: "Amount",
     count: "Count",
@@ -567,8 +601,10 @@ const translations = {
     all_payments: "All payments",
     filter_by_year: "Year",
     all_years: "All years",
-    please_confirm_your_password: "Please confirm your password before continuing.",
-    password_must_contain_letter_and_number: "The password must contain at least one upper letter and one number.",
+    please_confirm_your_password:
+      "Please confirm your password before continuing.",
+    password_must_contain_letter_and_number:
+      "The password must contain at least one upper letter and one number.",
     please_enter_your_first_name: "Please enter your first name.",
     please_enter_your_last_name: "Please enter your last name.",
     first_name_too_short: "First name must be at least 2 characters.",
@@ -576,7 +612,7 @@ const translations = {
     i_accept: "I accept the ",
     and: " and ",
     coupon_min_total: "Cart total must exceed 48.67 € to apply coupon",
-    users: "Users",    
+    users: "Users",
     total_users: "Total Users",
     no_users_found: "No users found",
     search_user_name_email: "Search by name or email...",
@@ -601,7 +637,8 @@ const translations = {
     please_wait: "Please wait...",
     please_enter_code: "Please enter the verification code.",
     verify: "Verify",
-    admin_dashboard_welcome: "Welcome to your admin dashboard. Here you can manage orders, users, and view financial reports.",
+    admin_dashboard_welcome:
+      "Welcome to your admin dashboard. Here you can manage orders, users, and view financial reports.",
     all_orders: "All Orders",
     pending_review: "Pending Review",
     recent_system_orders: "Recent System Orders",
@@ -650,8 +687,9 @@ const translations = {
     failed_to_download: "Failed to download",
     invoices: "invoices",
     dont_have_account: "Don't have an account?",
-    already_have_account : "Already have an account?",
-    profile_details_required: "First name, last name, phone, address, city and postal code must be filled in 'Account Details' before placing a reservation.",
+    already_have_account: "Already have an account?",
+    profile_details_required:
+      "First name, last name, phone, address, city and postal code must be filled in 'Account Details' before placing a reservation.",
     first_name_required: "First name is required",
     last_name_required: "Last name is required",
     phone_required: "Phone number is required",
@@ -659,7 +697,57 @@ const translations = {
     city_required: "City is required",
     state_required: "State is required",
     zip_required: "Zip code is required",
-    no_products_found: "No products found", 
+    no_products_found: "No products found",
+    // Newsletter / Broadcast
+    send_newsletter: "Send Newsletter",
+    newsletter_schedule: "Newsletter Schedule",
+    subscriber_overview: "Subscriber Overview",
+    active_subscribers: "Active Subscribers",
+    new_last_week: "New this week",
+    new_last_month: "New this month",
+    new_last_3_months: "New in 3 months",
+    unsubscribed: "Unsubscribed",
+    total_all_time: "Total all time",
+    all_subscribers: "All subscribers",
+    loading_subscribers: "Loading subscriber data...",
+    could_not_load_subscribers: "Could not load subscriber stats.",
+    compose: "Compose",
+    send_to: "Send to",
+    subscribers: "Subscribers",
+    subject_required: "Subject is required",
+    enter_subject: "Enter email subject...",
+    subject: "Subject",
+    broadcast_success: "Newsletter sent successfully to",
+    broadcast_will_send_to: "This will send to",
+    broadcast_cannot_undo: "This action cannot be undone.",
+
+    // Schedule
+    select_frequency: "Select Frequency",
+    weekly: "Weekly",
+    monthly: "Monthly",
+    quarterly: "Quarterly",
+    every_7_days: "Every 7 days",
+    every_30_days: "Every 30 days",
+    every_90_days: "Every 90 days",
+    send_time_utc: "Send Time (UTC)",
+    time_utc_note: "Time is in UTC timezone.",
+    save_schedule: "Save Schedule",
+    schedule_saved: "Schedule saved successfully!",
+    schedule_active: "Schedule Active",
+    schedule_paused: "Schedule Paused",
+    schedule_resumed: "Schedule resumed",
+    next_send: "Next send",
+    last_sent: "Last sent",
+    pause: "Pause",
+    resume: "Resume",
+    schedule_will_send_to: "This will automatically send to",
+    every_monday: "every week",
+    every_month: "every month",
+    every_3_months: "every 3 months",
+    automatically: " automatically.",
+    daily: "Daily",
+    every_day: "Every day",
+    every_day_auto: "every day",
   },
   mk: {
     english: "Англиски",
@@ -668,7 +756,8 @@ const translations = {
     signup_login: "Најавете се",
     title: "Академија за Шминка и Убавина",
     spring_summer: "Откријте ја вашата природна убавина",
-    find_your_style: "Подгответе се за {{year}} со нашиот избор на шминка – впечатливи нијанси, луксузни текстури и сјај кој трае.",
+    find_your_style:
+      "Подгответе се за {{year}} со нашиот избор на шминка – впечатливи нијанси, луксузни текстури и сјај кој трае.",
     shop_now: "Купувајте сега",
     men_collection: "Академија за Шминка и Убавина",
     sport_collection: "Академија за Шминка и Убавина",
@@ -729,8 +818,10 @@ const translations = {
     about_page_title: "За нас",
     home: "Дома",
     about: "За нас",
-    simply_or_white: "Нежен изглед или драматичен стил – Ваша инспирација, наш предизвик",
-    clever_unique_ideas: "Креативност, иновација и професионализам во светот на убавината",
+    simply_or_white:
+      "Нежен изглед или драматичен стил – Ваша инспирација, наш предизвик",
+    clever_unique_ideas:
+      "Креативност, иновација и професионализам во светот на убавината",
     about_page_description: "За нас - Кика Makeup and Beauty Academy",
     store: "Дома",
     our_story: "Нашата приказна",
@@ -849,21 +940,22 @@ const translations = {
     shipping_question_1: "Како можам да направам резервација?",
     shipping_question_2: "Дали можам да направам резервација од странство?",
     shipping_question_3: "",
-    shipping_question_4: "Како да проверам дали мојата резервација е потврдена?",
+    shipping_question_4:
+      "Како да проверам дали мојата резервација е потврдена?",
     payment_information_title: "Информации за плаќање",
     payment_question_1: "Кои методи за плаќање ги прифаќате?",
     payment_question_2: "Што се случува ако има грешка во цените?",
     payment_question_3: "Што правите со моите информации?",
     orders_and_returns_title: "Резервации и откажување",
     orders_question_1: "Како да направам резервација?",
-    orders_question_2: "Како можам да ја откажам или сменам мојата резервација?",
+    orders_question_2:
+      "Како можам да ја откажам или сменам мојата резервација?",
     orders_question_3: "Кого треба да контактирам ако имам прашања?",
     shipping_answer_1:
       "Резервација можете да направите преку нашата веб-страница со избор на услуга и термин кој најмногу ви одговара. Ќе треба да ги внесете вашите контакт информации и да ја потврдите резервацијата.",
     shipping_answer_2:
       "Да, можете да направите резервација од било која локација. За дополнителни информации, контактирајте го нашиот тим за поддршка преку е-пошта или телефон: makeupbykika@hotmail.com, Телефон: (+389) 78 / 343 - 377",
-    shipping_answer_3:
-      "",
+    shipping_answer_3: "",
     shipping_answer_4:
       "По завршување на резервацијата, ќе добиете е-пошта со потврда и детали за вашиот термин. Доколку не ја добиете потврдата во рок од неколку минути, проверете ја папката за несакана пошта (spam) или контактирајте нè директно.",
     payment_answer_1:
@@ -1045,7 +1137,8 @@ const translations = {
     please_enter_your_email: "Ве молам, внесете го вашиот е-пошта.",
     please_enter_a_subject: "Ве молиме, внесете тема.",
     please_enter_a_message: "Ве молиме, внесете порака.",
-    message_too_short: "Пораката е прекратка. Ве молиме, внесете подолга порака.",
+    message_too_short:
+      "Пораката е прекратка. Ве молиме, внесете подолга порака.",
     you_must_be_logged_in: "Мора да сте најавени за да објавете рецензија.",
     review_submitted_successfully: "Рецензијата е успешно испратена!",
     please_give_a_rating: "Ве молиме, доделете оценка.",
@@ -1087,44 +1180,64 @@ const translations = {
     user: "Корисник",
     order_deleted: "Нарачката е избришана.",
     privacy_policy: "Политика за приватност",
-    terms_of_service: "Услови за користење",   
+    terms_of_service: "Услови за користење",
     terms_of_service_register: "Условите за користење",
-    privacy_intro: "Ние ја почитуваме вашата приватност и сме посветени на заштита на вашите лични податоци. Кога купувате кај нас, ги собираме само информациите потребни за обработка на нарачки, подобрување на вашето искуство и обезбедување корисничка поддршка.",
+    privacy_intro:
+      "Ние ја почитуваме вашата приватност и сме посветени на заштита на вашите лични податоци. Кога купувате кај нас, ги собираме само информациите потребни за обработка на нарачки, подобрување на вашето искуство и обезбедување корисничка поддршка.",
     information_we_collect: "Кои информации ги собираме",
-    info_collect_name_email: "- Име, е-пошта, телефон и адреса за испорака при нарачка.",
-    info_collect_payment_details: "- Детали за плаќање (се обработуваат безбедно преку надворешни платежни системи).",
-    info_collect_optional: "- Дополнителни информации што доброволно ги давате, како преференци или детали за сметка.",
+    info_collect_name_email:
+      "- Име, е-пошта, телефон и адреса за испорака при нарачка.",
+    info_collect_payment_details:
+      "- Детали за плаќање (се обработуваат безбедно преку надворешни платежни системи).",
+    info_collect_optional:
+      "- Дополнителни информации што доброволно ги давате, како преференци или детали за сметка.",
     how_we_use_your_information: "Како ги користиме вашите информации",
     use_order_processing: "- За обработка и испорака на вашите нарачки.",
-    use_communication: "- За комуникација во врска со нарачки, промоции или новости.",
-    use_improvement: "- За подобрување на производите, услугите и искуството на веб-страницата.",
+    use_communication:
+      "- За комуникација во врска со нарачки, промоции или новости.",
+    use_improvement:
+      "- За подобрување на производите, услугите и искуството на веб-страницата.",
     how_we_protect_your_information: "Како ги заштитуваме вашите информации",
-    protect_info_text: "Користиме безбедносни системи и ги следиме индустриските стандарди за заштита на вашите податоци. Никогаш не ги продаваме, изнајмуваме или споделуваме вашите информации со трети страни, освен кога е потребно за завршување на нарачката (пример: испорака или плаќање).",
+    protect_info_text:
+      "Користиме безбедносни системи и ги следиме индустриските стандарди за заштита на вашите податоци. Никогаш не ги продаваме, изнајмуваме или споделуваме вашите информации со трети страни, освен кога е потребно за завршување на нарачката (пример: испорака или плаќање).",
     your_rights: "Ваши права",
-    your_rights_text: "Може да побарате пристап, исправка или бришење на вашите лични податоци во секое време преку контакт со нас на:",
+    your_rights_text:
+      "Може да побарате пристап, исправка или бришење на вашите лични податоци во секое време преку контакт со нас на:",
 
     terms_of_service: "Услови за користење",
-    tos_intro: "Добредојдовте во Kika Makeup Academy. Со пристап или користење на нашата веб-страница и услуги, се согласувате да ги почитувате овие Услови за користење. Ве молиме внимателно прочитајте ги пред да ја користите нашата платформа.",
+    tos_intro:
+      "Добредојдовте во Kika Makeup Academy. Со пристап или користење на нашата веб-страница и услуги, се согласувате да ги почитувате овие Услови за користење. Ве молиме внимателно прочитајте ги пред да ја користите нашата платформа.",
     user_responsibilities: "Одговорности на корисникот",
-    user_responsibility_1: "- Вие сте одговорни за сите активности извршени на вашата сметка.",
-    user_responsibility_2: "- Не смее да ја користите веб-страницата за незаконски или забранети цели.",
-    user_responsibility_3: "- Треба да обезбедите точни и ажурирани информации при регистрација или поставување на нарачки.",
+    user_responsibility_1:
+      "- Вие сте одговорни за сите активности извршени на вашата сметка.",
+    user_responsibility_2:
+      "- Не смее да ја користите веб-страницата за незаконски или забранети цели.",
+    user_responsibility_3:
+      "- Треба да обезбедите точни и ажурирани информации при регистрација или поставување на нарачки.",
     account_security: "Сметка и безбедност",
-    account_security_1: "- Чувајте ги вашите акредитиви за сметката безбедни и доверливи.",
-    account_security_2: "- Веднаш известете не ако се сомневате на неовластен пристап до вашата сметка.",
+    account_security_1:
+      "- Чувајте ги вашите акредитиви за сметката безбедни и доверливи.",
+    account_security_2:
+      "- Веднаш известете не ако се сомневате на неовластен пристап до вашата сметка.",
     orders_payments: "Нарачки и плаќања",
     orders_payments_1: "- Сите нарачки се тема на прифаќање и достапност.",
-    orders_payments_2: "- Плаќањата се обработуваат безбедно преку трети лица провајдери.",
-    orders_payments_3: "- Вие сте одговорни за сите даноци, давачки или такси поврзани со вашите купувања.",
+    orders_payments_2:
+      "- Плаќањата се обработуваат безбедно преку трети лица провајдери.",
+    orders_payments_3:
+      "- Вие сте одговорни за сите даноци, давачки или такси поврзани со вашите купувања.",
     changes: "Промени во условите",
-    changes_text: "Kika Makeup Academy може да ги ажурира овие Услови за користење во секое време. Продолженото користење на нашите услуги се смета за прифаќање на ажурираните услови.",
+    changes_text:
+      "Kika Makeup Academy може да ги ажурира овие Услови за користење во секое време. Продолженото користење на нашите услуги се смета за прифаќање на ажурираните услови.",
     limitation_of_liability: "Ограничување на одговорност",
-    limitation_text: "Kika Makeup Academy не е одговорен за индиректни, случајни или последователни штети што произлегуваат од користењето на нашата веб-страница или услуги.",
+    limitation_text:
+      "Kika Makeup Academy не е одговорен за индиректни, случајни или последователни штети што произлегуваат од користењето на нашата веб-страница или услуги.",
     governing_law: "Применливо право",
-    governing_law_text: "Овие Услови за користење се регулирани со законите на Македонија. Сите спорови ќе се решаваат согласно применливото законодавство.",
+    governing_law_text:
+      "Овие Услови за користење се регулирани со законите на Македонија. Сите спорови ќе се решаваат согласно применливото законодавство.",
     contact: "Контакт",
-    contact_text: "За било какви прашања во врска со овие Услови за користење, ве молиме контактирајте не на: ",
-    back_to_account: "Назад во мој профил",   
+    contact_text:
+      "За било какви прашања во врска со овие Услови за користење, ве молиме контактирајте не на: ",
+    back_to_account: "Назад во мој профил",
     invalid_credentials: "Погрешен е-пошта или лозинка.",
     user_not_found: "Не постои корисник со оваа е-пошта адреса.",
     email_in_use: "Овој е-пошта веќе е регистриран.",
@@ -1137,16 +1250,18 @@ const translations = {
     back_home: "Дома",
     comingSoon: "Веб-страницата наскоро ќе биде достапна",
     confirm_deletion: "Потврди бришење",
-    are_you_sure_delete_order: "Дали сте сигурни дека сакате да ја избришете оваа нарачка?",
+    are_you_sure_delete_order:
+      "Дали сте сигурни дека сакате да ја избришете оваа нарачка?",
     yes_delete: "Да, избриши",
     financial_reports: "Финансиски извештаи",
     revenue_by_payment_method: "Приход по метод на плаќање",
-    revenue_by_status: "Приход по статус на нарачка",  
+    revenue_by_status: "Приход по статус на нарачка",
     payment_cash: "Плаќање на лице место",
     select_country: "Изберете држава",
     select_city: "Изберете град",
     confirm_logout: "Одјави се",
-    are_you_sure_logout: "Дали сте сигурни дека сакате да се одјавите од вашиот профил?",
+    are_you_sure_logout:
+      "Дали сте сигурни дека сакате да се одјавите од вашиот профил?",
     yes_logout: "Да, одјави се",
     financial_reports: "Финансиски Извештаи",
     total_orders: "Вкупно Нарачки",
@@ -1173,12 +1288,17 @@ const translations = {
     confirmed: "Потврденo",
     confirmed_analysis: "Потврдени",
     analysis: "Анализа",
-    daily_revenue_description: "Прикажува трендови на приходи за избраниот период",
-    monthly_revenue_description: "Месечен распоред на приходи за избраната година",
+    daily_revenue_description:
+      "Прикажува трендови на приходи за избраниот период",
+    monthly_revenue_description:
+      "Месечен распоред на приходи за избраната година",
     yearly_comparison_description: "Споредба на приходи по години",
-    top_products_description: "Најпродавани услуги рангирани по продадено количество",
-    revenue_by_status_description: "Прикажува приходи распределени по статус на нарачки",
-    revenue_by_payment_method_description: "Прикажува приходи распределени по метод на плаќање",
+    top_products_description:
+      "Најпродавани услуги рангирани по продадено количество",
+    revenue_by_status_description:
+      "Прикажува приходи распределени по статус на нарачки",
+    revenue_by_payment_method_description:
+      "Прикажува приходи распределени по метод на плаќање",
     payment_method: "Метод на плаќање",
     amount: "Износ",
     count: "Број",
@@ -1230,16 +1350,19 @@ const translations = {
     all_payments: "Сите плаќања",
     filter_by_year: "Година",
     all_years: "Сите години",
-    please_confirm_your_password: "Ве молиме, потврдете ја вашата лозинка пред да продолжите.",
-    password_must_contain_letter_and_number: "Лозинката мора да содржи барем една голема буква и еден број.",
+    please_confirm_your_password:
+      "Ве молиме, потврдете ја вашата лозинка пред да продолжите.",
+    password_must_contain_letter_and_number:
+      "Лозинката мора да содржи барем една голема буква и еден број.",
     please_enter_your_first_name: "Ве молиме, внесете го вашето име.",
     please_enter_your_last_name: "Ве молиме, внесете го вашето презиме.",
     first_name_too_short: "Име мора да содржи најмалку 2 карактери.",
     last_name_too_short: "Презиме мора да содржи најмалку 2 карактери.",
     i_accept: "Се согласувам со ",
     and: " и ",
-    coupon_min_total: "Вкупниот износ на кошничката треба да надмине 2999 ден. за да се примени купонот",
-    users: "Корисници",   
+    coupon_min_total:
+      "Вкупниот износ на кошничката треба да надмине 2999 ден. за да се примени купонот",
+    users: "Корисници",
     total_users: "Вкупно корисници",
     no_users_found: "Нема пронајдено корисници",
     search_user_name_email: "Пребарај по име или email...",
@@ -1264,7 +1387,8 @@ const translations = {
     please_wait: "Ве молиме почекајте...",
     please_enter_code: "Ве молиме внесете го кодот за верификација.",
     verify: "Верификувај",
-    admin_dashboard_welcome: "Добредојдовте во вашиот администраторски панел. Тука можете да управувате со нарачките, корисниците и да ги прегледате финансиските извештаи.",
+    admin_dashboard_welcome:
+      "Добредојдовте во вашиот администраторски панел. Тука можете да управувате со нарачките, корисниците и да ги прегледате финансиските извештаи.",
     all_orders: "Сите нарачки",
     pending_review: "Во тек",
     recent_system_orders: "Последни нарачки",
@@ -1282,7 +1406,8 @@ const translations = {
     guests: "Гости",
     recent_orders: "Последни нарачки",
     share_on_twitter: "Сподели на X",
-    share_on_facebook: "Сподели на Facebook","payment_analytics": "Аналитика на плаќања",
+    share_on_facebook: "Сподели на Facebook",
+    payment_analytics: "Аналитика на плаќања",
     total_payments: "Вкупни плаќања",
     avg_payment: "Просечно плаќање",
     cash_payments: "Готовински плаќања",
@@ -1313,7 +1438,8 @@ const translations = {
     invoices: "фактури",
     dont_have_account: "Се уште немате профил?",
     already_have_account: "Веќе имате профил?",
-    profile_details_required: "Името, презимето, телефонот, адресата, градот и поштенскиот код мора да се внесат во „Детали за профилот“.",
+    profile_details_required:
+      "Името, презимето, телефонот, адресата, градот и поштенскиот код мора да се внесат во „Детали за профилот“.",
     first_name_required: "Името е задолжително",
     last_name_required: "Презимето е задолжително",
     phone_required: "Телефонот е задолжителен",
@@ -1322,6 +1448,56 @@ const translations = {
     state_required: "Државата е задолжителна",
     zip_required: "Поштенскиот код е задолжителен",
     no_products_found: "Нема пронајдено услуги",
+    // Newsletter / Broadcast
+    send_newsletter: "Испрати Newsletter",
+    newsletter_schedule: "Распоред на Newsletter",
+    subscriber_overview: "Преглед на претплатници",
+    active_subscribers: "Активни претплатници",
+    new_last_week: "Нови оваа недела",
+    new_last_month: "Нови овој месец",
+    new_last_3_months: "Нови за 3 месеци",
+    unsubscribed: "Одјавени",
+    total_all_time: "Вкупно сите",
+    all_subscribers: "Сите претплатници",
+    loading_subscribers: "Се вчитуваат претплатниците...",
+    could_not_load_subscribers: "Не можат да се вчитаат статистиките.",
+    compose: "Составување",
+    send_to: "Испрати до",
+    subscribers: "Претплатници",
+    subject_required: "Насловот е задолжителен",
+    enter_subject: "Внесете наслов на е-маил...",
+    subject: "Наслов",
+    broadcast_success: "Newsletter успешно испратен до",
+    broadcast_will_send_to: "Ова ќе се испрати до",
+    broadcast_cannot_undo: "Оваа акција не може да се поништи.",
+
+    // Schedule
+    select_frequency: "Изберете фреквенција",
+    weekly: "Неделно",
+    monthly: "Месечно",
+    quarterly: "На секои 3 месеци",
+    every_7_days: "На секои 7 дена",
+    every_30_days: "На секои 30 дена",
+    every_90_days: "На секои 90 дена",
+    send_time_utc: "Време на испраќање (UTC)",
+    time_utc_note: "Времето е во UTC временска зона.",
+    save_schedule: "Зачувај распоред",
+    schedule_saved: "Распоредот е успешно зачуван!",
+    schedule_active: "Распоредот е активен",
+    schedule_paused: "Распоредот е паузиран",
+    schedule_resumed: "Распоредот е продолжен",
+    next_send: "Следно испраќање",
+    last_sent: "Последно испратено",
+    pause: "Пауза",
+    resume: "Продолжи",
+    schedule_will_send_to: "Ова автоматски ќе се испрати до",
+    every_monday: "секоја недела",
+    every_month: "секој месец",
+    every_3_months: "на секои 3 месеци",
+    automatically: " автоматски.",
+    daily: "Дневно",
+    every_day: "Секој ден",
+    every_day_auto: "секој ден",
   },
 };
 
