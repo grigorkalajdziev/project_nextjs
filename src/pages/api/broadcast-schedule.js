@@ -1,4 +1,4 @@
-import { database } from "./register";
+import { database } from "../api/register";
 import { ref, set, get, update } from "firebase/database";
 
 export default async function handler(req, res) {

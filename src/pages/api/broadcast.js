@@ -1,4 +1,4 @@
-import { database } from "../register";
+import { database } from "../../pages/api/register";
 import { ref, get, update } from "firebase/database";
 import { Resend } from "resend";
 import ReactDOMServer from "react-dom/server";
