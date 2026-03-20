@@ -182,7 +182,7 @@ const MyAccount = () => {
   const [broadcastSchedule, setBroadcastSchedule] = useState(null);
   const [broadcastPeriod, setBroadcastPeriod] = useState("weekly");
   const [broadcastSubject, setBroadcastSubject] = useState("");
-  const [broadcastSendTime, setBroadcastSendTime] = useState("09:00");
+  const [broadcastSendTime, setBroadcastSendTime] = useState("12:00");
   const [broadcastLoading, setBroadcastLoading] = useState(false);
   const [scheduleLoading, setScheduleLoading] = useState(false);
   // Styles to match your form-control inputs
@@ -7448,11 +7448,16 @@ const MyAccount = () => {
               {t("send_time_utc")}
             </label>
             <input
-              type="time"
-              className="form-control"
-              value={broadcastSendTime}
-              onChange={(e) => setBroadcastSendTime(e.target.value)}
-            />
+                type="time"
+                className="form-control"
+                value={broadcastSendTime}
+                readOnly
+                style={{ 
+                  pointerEvents: "none",
+                  backgroundColor: "#e9ecef",
+                  cursor: "not-allowed" 
+                }}
+              />
             <small className="text-muted">{t("time_utc_note")}</small>
           </div>
 
