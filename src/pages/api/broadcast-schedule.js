@@ -41,14 +41,18 @@ export default async function handler(req, res) {
         if (period === "3months") firstSend.setMonth(firstSend.getMonth() + 3);
       }
 
+      // ✅ Fetch existing data to preserve lastSentAt and createdAt
+      const existingSnap = await get(ref(database, "schedules/broadcast"));
+      const existing = existingSnap.exists() ? existingSnap.val() : {};
+
       await set(ref(database, "schedules/broadcast"), {
         active: true,
         period,
         subject,
         sendTime,
         nextSendAt: firstSend.toISOString(),
-        lastSentAt: null,
-        createdAt: now.toISOString(),
+        lastSentAt: existing.lastSentAt || null, // ✅ preserve last sent
+        createdAt: existing.createdAt || now.toISOString(), // ✅ preserve original created date
       });
 
       return res.status(200).json({

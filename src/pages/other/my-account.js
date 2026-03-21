@@ -239,7 +239,7 @@ const MyAccount = () => {
         setBroadcastSchedule(data);
         setBroadcastPeriod(data.period);
         setBroadcastSubject(data.subject);
-        setBroadcastSendTime(data.sendTime || "09:00");
+        setBroadcastSendTime(data.sendTime || "12:00");
       }
     } finally {
       setScheduleLoading(false);
@@ -324,43 +324,6 @@ const MyAccount = () => {
       console.error("Failed to fetch subscriber stats:", err);
     } finally {
       setSubscriberLoading(false);
-    }
-  };
-
-  const handleSendBroadcast = async () => {
-    if (!broadcastSubject.trim()) {
-      addToast(t("subject_required"), {
-        appearance: "error",
-        autoDismiss: true,
-      });
-      return;
-    }
-
-    setBroadcastLoading(true);
-    try {
-      const response = await fetch("/api/broadcast", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-admin-secret": process.env.NEXT_PUBLIC_ADMIN_SECRET, // ✅ protected
-        },
-        body: JSON.stringify({ subject: broadcastSubject }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) throw new Error(data.error || "Broadcast failed");
-
-      addToast(t("broadcast_success"), {
-        appearance: "success",
-        autoDismiss: true,
-      });
-      setShowBroadcastModal(false);
-      setBroadcastSubject("");
-    } catch (err) {
-      addToast(err.message, { appearance: "error", autoDismiss: true });
-    } finally {
-      setBroadcastLoading(false);
     }
   };
 

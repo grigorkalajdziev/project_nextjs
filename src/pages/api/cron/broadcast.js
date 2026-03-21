@@ -7,6 +7,10 @@ import SubscribeResendEmail_MK from "../../../components/Newsletter/SubscribeRes
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
+  if (req.method !== "GET" && req.method !== "POST") {
+    return res.status(405).end();
+  }
+
   // ✅ Authorization check
   const authHeader = req.headers["authorization"];
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -16,6 +20,8 @@ export default async function handler(req, res) {
   try {
     const scheduleRef = ref(database, "schedules/broadcast");
     const snap = await get(scheduleRef);
+    console.log("Schedule exists:", snap.exists());
+    console.log("Schedule:", snap.val());
 
     if (!snap.exists()) {
       return res.status(200).json({ message: "No schedule configured" });
@@ -39,11 +45,15 @@ export default async function handler(req, res) {
 
     // Fetch all active contacts
     const { data: contactData, error: contactError } = await resend.contacts.list();
+    console.log("Contacts fetched:", contactData?.data?.length);
+
     if (contactError) throw new Error(contactError.message);
 
     const emails = (contactData?.data || [])
       .filter(c => !c.unsubscribed)
       .map(c => c.email);
+
+    console.log("Active emails:", emails.length);
 
     if (emails.length === 0) {
       return res.status(200).json({ message: "No active subscribers" });
@@ -59,6 +69,8 @@ export default async function handler(req, res) {
 
     for (let i = 0; i < emails.length; i += batchSize) {
       const batch = emails.slice(i, i + batchSize);
+      console.log(`Sending batch ${i / batchSize + 1}:`, batch);
+
       const { error: sendError } = await resend.emails.send({
         from: "newsletter@kikamakeupandbeautyacademy.com",
         to: batch,
@@ -71,21 +83,27 @@ export default async function handler(req, res) {
         console.error("Batch send error:", sendError);
       } else {
         successCount += batch.length;
+        console.log(`Batch sent successfully to ${batch.length} emails`);
       }
     }
 
-    // Calculate next send date
+    // ✅ Calculate next send date using configured sendTime
+    const [hours, minutes] = schedule.sendTime.split(":").map(Number);
     const nextDate = new Date(now);
     if (schedule.period === "daily")   nextDate.setDate(nextDate.getDate() + 1);
     if (schedule.period === "weekly")  nextDate.setDate(nextDate.getDate() + 7);
     if (schedule.period === "monthly") nextDate.setMonth(nextDate.getMonth() + 1);
     if (schedule.period === "3months") nextDate.setMonth(nextDate.getMonth() + 3);
+    // ✅ Always set to exact configured time
+    nextDate.setHours(hours, minutes, 0, 0);
 
     // Update Firebase with last sent + next send
     await update(scheduleRef, {
       lastSentAt: now.toISOString(),
       nextSendAt: nextDate.toISOString(),
     });
+
+    console.log("Done! successCount:", successCount, "failCount:", failCount);
 
     return res.status(200).json({
       success: true,
