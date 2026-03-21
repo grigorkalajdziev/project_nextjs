@@ -1,8 +1,14 @@
-import { database } from "../api/register";
+import { database } from "./register";
 import { ref, set, get, update } from "firebase/database";
 
 export default async function handler(req, res) {
+  // ✅ Authorization check
+  const adminSecret = req.headers["x-admin-secret"];
+  if (adminSecret !== process.env.ADMIN_SECRET) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
 
+  // GET — fetch current schedule
   if (req.method === "GET") {
     try {
       const snap = await get(ref(database, "schedules/broadcast"));
@@ -13,6 +19,7 @@ export default async function handler(req, res) {
     }
   }
 
+  // POST — create or update schedule
   if (req.method === "POST") {
     try {
       const { subject, period, sendTime } = req.body;
@@ -44,18 +51,29 @@ export default async function handler(req, res) {
         createdAt: now.toISOString(),
       });
 
-      return res.status(200).json({ success: true, nextSendAt: firstSend.toISOString() });
+      return res.status(200).json({
+        success: true,
+        nextSendAt: firstSend.toISOString(),
+      });
+
     } catch (err) {
       console.error("POST error:", err);
       return res.status(500).json({ error: err.message });
     }
   }
 
+  // PATCH — toggle active/paused or override nextSendAt
   if (req.method === "PATCH") {
     try {
-      const { active } = req.body;
-      await update(ref(database, "schedules/broadcast"), { active });
-      return res.status(200).json({ success: true, active });
+      const { active, nextSendAt } = req.body;
+
+      const updateData = {};
+      if (active !== undefined) updateData.active = active;
+      if (nextSendAt !== undefined) updateData.nextSendAt = nextSendAt;
+
+      await update(ref(database, "schedules/broadcast"), updateData);
+      return res.status(200).json({ success: true, ...updateData });
+
     } catch (err) {
       console.error("PATCH error:", err);
       return res.status(500).json({ error: err.message });

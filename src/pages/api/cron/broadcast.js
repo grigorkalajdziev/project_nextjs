@@ -1,12 +1,17 @@
-import { database } from "../../pages/api/register";
+import { database } from "../register";
 import { ref, get, update } from "firebase/database";
 import { Resend } from "resend";
 import ReactDOMServer from "react-dom/server";
-import SubscribeResendEmail_MK from "../../components/Newsletter/SubscribeResendEmail_MK";
+import SubscribeResendEmail_MK from "../../../components/Newsletter/SubscribeResendEmail_MK";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
+  // ✅ Authorization check
+  const authHeader = req.headers["authorization"];
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
 
   try {
     const scheduleRef = ref(database, "schedules/broadcast");
@@ -32,6 +37,7 @@ export default async function handler(req, res) {
       });
     }
 
+    // Fetch all active contacts
     const { data: contactData, error: contactError } = await resend.contacts.list();
     if (contactError) throw new Error(contactError.message);
 
@@ -43,8 +49,10 @@ export default async function handler(req, res) {
       return res.status(200).json({ message: "No active subscribers" });
     }
 
+    // Render email HTML
     const html = ReactDOMServer.renderToStaticMarkup(<SubscribeResendEmail_MK />);
 
+    // Send in batches of 50
     const batchSize = 50;
     let successCount = 0;
     let failCount = 0;
@@ -60,6 +68,7 @@ export default async function handler(req, res) {
 
       if (sendError) {
         failCount += batch.length;
+        console.error("Batch send error:", sendError);
       } else {
         successCount += batch.length;
       }
@@ -72,12 +81,18 @@ export default async function handler(req, res) {
     if (schedule.period === "monthly") nextDate.setMonth(nextDate.getMonth() + 1);
     if (schedule.period === "3months") nextDate.setMonth(nextDate.getMonth() + 3);
 
+    // Update Firebase with last sent + next send
     await update(scheduleRef, {
       lastSentAt: now.toISOString(),
       nextSendAt: nextDate.toISOString(),
     });
 
-    return res.status(200).json({ success: true, successCount, failCount, nextSendAt: nextDate.toISOString() });
+    return res.status(200).json({
+      success: true,
+      successCount,
+      failCount,
+      nextSendAt: nextDate.toISOString(),
+    });
 
   } catch (err) {
     console.error("Cron error:", err);
