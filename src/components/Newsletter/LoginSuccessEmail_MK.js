@@ -54,7 +54,7 @@ const LoginSuccessEmail_MK = () => {
               style: button,
               href: 'https://www.kikamakeupandbeautyacademy.com/',
             },
-            'Оди во твојата сметка'
+            'Пристапете до вашата сметка'
           )
         ),
         React.createElement(Hr, { style: hr }),

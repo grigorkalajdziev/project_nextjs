@@ -38,7 +38,7 @@ const GoogleLoginSuccessEmail_MK = ({ userName }) => {
               style={button}
               href="https://www.kikamakeupandbeautyacademy.com/"
             >
-              Оди во твојата сметка
+              Пристапете до вашата сметка
             </Button>
           </Section>
           <Hr style={hr} />
