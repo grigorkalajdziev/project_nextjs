@@ -145,7 +145,7 @@ const About = () => {
         {/* testimonial */}
         <TestimonialOne
           testimonialData={testimonialData}
-          backgroundImage="/assets/images/backgrounds/testimonials-bg.webp"
+          backgroundImage="/assets/images/backgrounds/breadcrumb-bg-2.png"
         />
         <div className="space-mb--r100"></div>
         {/* brand logo */}
