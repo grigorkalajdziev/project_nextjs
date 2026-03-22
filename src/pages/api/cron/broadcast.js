@@ -39,11 +39,9 @@ export default async function handler(req, res) {
         nextSendAt: schedule.nextSendAt,
       });
     }
-
-    // ✅ Render email HTML
+    
     const html = ReactDOMServer.renderToStaticMarkup(<SubscribeResendEmail_MK />);
-
-    // ✅ Step 1 — Create broadcast
+    
     const { data: broadcastData, error: createError } = await resend.broadcasts.create({
       audienceId: process.env.RESEND_SEGMENT_ID,
       from: "newsletter@kikamakeupandbeautyacademy.com",
@@ -57,31 +55,29 @@ export default async function handler(req, res) {
     }
 
     console.log("Broadcast created:", broadcastData.id);
-
-    // ✅ Step 2 — Send broadcast
+    
     const { data: sendData, error: sendError } = await resend.broadcasts.send(
       broadcastData.id
     );
 
     if (sendError) {
-      console.error("Send broadcast error:", sendError);
-      // ✅ Clean up draft if send fails
+      console.error("Send broadcast error:", sendError);      
       await resend.broadcasts.remove(broadcastData.id);
       throw new Error(sendError.message);
     }
 
     console.log("Broadcast sent:", sendData);
-
-    // ✅ Calculate next send date using configured sendTime
+    
     const [hours, minutes] = schedule.sendTime.split(":").map(Number);
     const nextDate = new Date(now);
-    if (schedule.period === "daily")   nextDate.setDate(nextDate.getDate() + 1);
-    if (schedule.period === "weekly")  nextDate.setDate(nextDate.getDate() + 7);
-    if (schedule.period === "monthly") nextDate.setMonth(nextDate.getMonth() + 1);
-    if (schedule.period === "3months") nextDate.setMonth(nextDate.getMonth() + 3);
-    nextDate.setHours(hours, minutes, 0, 0);
 
-    // ✅ Update Firebase
+    if (schedule.period === "daily")   nextDate.setUTCDate(nextDate.getUTCDate() + 1);
+    if (schedule.period === "weekly")  nextDate.setUTCDate(nextDate.getUTCDate() + 7);
+    if (schedule.period === "monthly") nextDate.setUTCMonth(nextDate.getUTCMonth() + 1);
+    if (schedule.period === "3months") nextDate.setUTCMonth(nextDate.getUTCMonth() + 3);
+
+    nextDate.setUTCHours(hours, minutes, 0, 0);
+    
     await update(scheduleRef, {
       lastSentAt: now.toISOString(),
       nextSendAt: nextDate.toISOString(),

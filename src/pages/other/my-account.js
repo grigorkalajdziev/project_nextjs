@@ -1059,8 +1059,8 @@ const MyAccount = () => {
               <div>
                 <i className={`bi ${broadcastSchedule.active ? "bi-play-circle-fill" : "bi-pause-circle-fill"} me-2`}></i>
                 <strong>{broadcastSchedule.active ? t("schedule_active") : t("schedule_paused")}</strong>
-                {broadcastSchedule.nextSendAt && <div className="mt-1"><small className="text-muted">{t("next_send")}: <strong>{new Date(broadcastSchedule.nextSendAt).toLocaleString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true }).replace(/\//g, "-")}</strong></small></div>}
-                {broadcastSchedule.lastSentAt && <div><small className="text-muted">{t("last_sent")}: {new Date(broadcastSchedule.lastSentAt).toLocaleString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true }).replace(/\//g, "-")}</small></div>}
+                {broadcastSchedule.nextSendAt && <div className="mt-1"><small className="text-muted">{t("next_send")}: <strong>{new Date(broadcastSchedule.nextSendAt).toLocaleString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }).replace(/\//g, "-")}</strong></small></div>}
+                {broadcastSchedule.lastSentAt && <div><small className="text-muted">{t("last_sent")}: {new Date(broadcastSchedule.lastSentAt).toLocaleString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }).replace(/\//g, "-")}</small></div>}
               </div>
               <Button size="sm" variant={broadcastSchedule.active ? "outline-warning" : "outline-success"} onClick={handleToggleSchedule}>
                 <i className={`bi ${broadcastSchedule.active ? "bi-pause-fill" : "bi-play-fill"} me-1`}></i>
@@ -1103,7 +1103,7 @@ const MyAccount = () => {
           </div>
           <div className="mb-3">
             <label className="form-label fw-bold"><i className="bi bi-clock me-2"></i>{t("send_time_utc")}</label>
-            <input type="time" className="form-control" value={broadcastSendTime} readOnly style={{ pointerEvents: "none", backgroundColor: "#e9ecef", cursor: "not-allowed" }} />
+            <input type="text" className="form-control" value={broadcastSendTime} readOnly style={{ pointerEvents: "none", backgroundColor: "#e9ecef", cursor: "not-allowed" }} />
             <small className="text-muted">{t("time_utc_note")}</small>
           </div>
           <div className="alert alert-warning d-flex align-items-center gap-2">

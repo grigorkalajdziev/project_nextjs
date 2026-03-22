@@ -1449,8 +1449,8 @@ const translations = {
     zip_required: "Поштенскиот код е задолжителен",
     no_products_found: "Нема пронајдено услуги",
     // Newsletter / Broadcast
-    send_newsletter: "Испрати Newsletter",
-    newsletter_schedule: "Распоред на Newsletter",
+    send_newsletter: "Испрати весник",
+    newsletter_schedule: "Распоред на Весници",
     subscriber_overview: "Преглед на претплатници",
     active_subscribers: "Активни претплатници",
     new_last_week: "Нови оваа недела",
@@ -1467,7 +1467,7 @@ const translations = {
     subject_required: "Насловот е задолжителен",
     enter_subject: "Внесете наслов на е-маил...",
     subject: "Наслов",
-    broadcast_success: "Newsletter успешно испратен до",
+    broadcast_success: "Весникот е успешно испратен до",
     broadcast_will_send_to: "Ова ќе се испрати до",
     broadcast_cannot_undo: "Оваа акција не може да се поништи.",
 
