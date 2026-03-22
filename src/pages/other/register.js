@@ -9,6 +9,7 @@ import { FaHome } from "react-icons/fa";
 import { registerUser } from "../api/register";
 import { useToasts } from "react-toast-notifications";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
+import { logActivity } from "../lib/logActivity";
 
 const getFriendlyAuthMessage = (code, t) => {
   const errorMap = {
@@ -83,31 +84,17 @@ const Register = () => {
     const passwordError = validateRegisterPassword(registerData.password);
     const confirmError = validateConfirmPassword();
 
-    if (
-      firstNameError ||
-      lastNameError ||
-      emailError ||
-      passwordError ||
-      confirmError
-    ) {
-      if (firstNameError)
-        addToast(firstNameError, { appearance: "error", autoDismiss: true });
-      if (lastNameError)
-        addToast(lastNameError, { appearance: "error", autoDismiss: true });
-      if (emailError)
-        addToast(emailError, { appearance: "error", autoDismiss: true });
-      if (passwordError)
-        addToast(passwordError, { appearance: "error", autoDismiss: true });
-      if (confirmError)
-        addToast(confirmError, { appearance: "error", autoDismiss: true });
+    if (firstNameError || lastNameError || emailError || passwordError || confirmError) {
+      if (firstNameError) addToast(firstNameError, { appearance: "error", autoDismiss: true });
+      if (lastNameError)  addToast(lastNameError,  { appearance: "error", autoDismiss: true });
+      if (emailError)     addToast(emailError,     { appearance: "error", autoDismiss: true });
+      if (passwordError)  addToast(passwordError,  { appearance: "error", autoDismiss: true });
+      if (confirmError)   addToast(confirmError,   { appearance: "error", autoDismiss: true });
       return;
     }
 
     if (!termsAccepted) {
-      addToast(t("please_accept_terms"), {
-        appearance: "error",
-        autoDismiss: true,
-      });
+      addToast(t("please_accept_terms"), { appearance: "error", autoDismiss: true });
       return;
     }
 
@@ -119,8 +106,16 @@ const Register = () => {
         registerData.firstName,
         registerData.lastName
       );
+
       if (result.success) {
-        // send registration email (coupon included)
+        // ── LOG: New Registration ─────────────────────────────────────
+        await logActivity({
+          username: registerData.email,
+          userId: result.user.uid,
+          action: "LOGIN",
+          details: `Нова регистрација: ${registerData.firstName} ${registerData.lastName}`,
+        });
+
         await fetch("/api/sendRegistrationEmail", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -131,27 +126,16 @@ const Register = () => {
           }),
         });
 
-        addToast(t("registration_success"), {
-          appearance: "success",
-          autoDismiss: true,
-        });
+        addToast(t("registration_success"), { appearance: "success", autoDismiss: true });
 
         setTimeout(() => {
           router.push("/other/login-register");
         }, 1500);
 
-        setRegisterData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          password: "",
-        });
+        setRegisterData({ firstName: "", lastName: "", email: "", password: "" });
         setConfirmPassword("");
       } else {
-        const message = getFriendlyAuthMessage(
-          result.error || "something_went_wrong",
-          t
-        );
+        const message = getFriendlyAuthMessage(result.error || "something_went_wrong", t);
         addToast(message, { appearance: "error", autoDismiss: true });
       }
     } catch (error) {
@@ -199,18 +183,11 @@ const Register = () => {
                         placeholder={t("first_name_placeholder")}
                         value={registerData.firstName}
                         onChange={(e) =>
-                          setRegisterData({
-                            ...registerData,
-                            firstName: e.target.value,
-                          })
+                          setRegisterData({ ...registerData, firstName: e.target.value })
                         }
                         onBlur={(e) => {
                           const err = validateRegisterFirstName(e.target.value);
-                          if (err)
-                            addToast(err, {
-                              appearance: "error",
-                              autoDismiss: true,
-                            });
+                          if (err) addToast(err, { appearance: "error", autoDismiss: true });
                         }}
                       />
                     </Col>
@@ -222,18 +199,11 @@ const Register = () => {
                         placeholder={t("last_name_placeholder")}
                         value={registerData.lastName}
                         onChange={(e) =>
-                          setRegisterData({
-                            ...registerData,
-                            lastName: e.target.value,
-                          })
+                          setRegisterData({ ...registerData, lastName: e.target.value })
                         }
                         onBlur={(e) => {
                           const err = validateRegisterLastName(e.target.value);
-                          if (err)
-                            addToast(err, {
-                              appearance: "error",
-                              autoDismiss: true,
-                            });
+                          if (err) addToast(err, { appearance: "error", autoDismiss: true });
                         }}
                       />
                     </Col>
@@ -245,18 +215,11 @@ const Register = () => {
                         placeholder={t("email_placeholder")}
                         value={registerData.email}
                         onChange={(e) =>
-                          setRegisterData({
-                            ...registerData,
-                            email: e.target.value,
-                          })
+                          setRegisterData({ ...registerData, email: e.target.value })
                         }
                         onBlur={(e) => {
                           const err = validateRegisterEmail(e.target.value);
-                          if (err)
-                            addToast(err, {
-                              appearance: "error",
-                              autoDismiss: true,
-                            });
+                          if (err) addToast(err, { appearance: "error", autoDismiss: true });
                         }}
                       />
                     </Col>
@@ -269,38 +232,22 @@ const Register = () => {
                           placeholder={t("password_placeholder")}
                           value={registerData.password}
                           onChange={(e) =>
-                            setRegisterData({
-                              ...registerData,
-                              password: e.target.value,
-                            })
+                            setRegisterData({ ...registerData, password: e.target.value })
                           }
                           onBlur={(e) => {
-                            const err = validateRegisterPassword(
-                              e.target.value
-                            );
-                            if (err)
-                              addToast(err, {
-                                appearance: "error",
-                                autoDismiss: true,
-                              });
+                            const err = validateRegisterPassword(e.target.value);
+                            if (err) addToast(err, { appearance: "error", autoDismiss: true });
                           }}
                           style={{ width: "100%", paddingRight: "50px" }}
                         />
                         <span
                           onClick={() => setRegisterPasswordVisible((s) => !s)}
                           style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            cursor: "pointer",
+                            position: "absolute", right: "10px", top: "50%",
+                            transform: "translateY(-50%)", cursor: "pointer",
                           }}
                         >
-                          {registerPasswordVisible ? (
-                            <AiOutlineEye size={20} />
-                          ) : (
-                            <AiOutlineEyeInvisible size={20} />
-                          )}
+                          {registerPasswordVisible ? <AiOutlineEye size={20} /> : <AiOutlineEyeInvisible size={20} />}
                         </span>
                       </div>
                     </Col>
@@ -315,33 +262,18 @@ const Register = () => {
                           onChange={(e) => setConfirmPassword(e.target.value)}
                           onBlur={() => {
                             const err = validateConfirmPassword();
-                            if (err)
-                              setTimeout(
-                                () =>
-                                  addToast(err, {
-                                    appearance: "error",
-                                    autoDismiss: true,
-                                  }),
-                                0
-                              );
+                            if (err) setTimeout(() => addToast(err, { appearance: "error", autoDismiss: true }), 0);
                           }}
                           style={{ width: "100%", paddingRight: "50px" }}
                         />
                         <span
                           onClick={() => setConfirmPasswordVisible((s) => !s)}
                           style={{
-                            position: "absolute",
-                            right: "10px",
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            cursor: "pointer",
+                            position: "absolute", right: "10px", top: "50%",
+                            transform: "translateY(-50%)", cursor: "pointer",
                           }}
                         >
-                          {confirmPasswordVisible ? (
-                            <AiOutlineEye size={20} />
-                          ) : (
-                            <AiOutlineEyeInvisible size={20} />
-                          )}
+                          {confirmPasswordVisible ? <AiOutlineEye size={20} /> : <AiOutlineEyeInvisible size={20} />}
                         </span>
                       </div>
                     </Col>
@@ -363,30 +295,17 @@ const Register = () => {
                             htmlFor="termsAccepted"
                             style={{
                               cursor: "pointer",
-                              fontSize:
-                                window?.innerWidth < 376 ? "7px" : "10px",
+                              fontSize: window?.innerWidth < 376 ? "7px" : "10px",
                             }}
                           >
                             {t("i_accept")}{" "}
-                            <Link
-                              href="/other/terms-of-service"
-                              target="_blank"
-                              style={{
-                                textDecoration: "underline",
-                                color: "blue",
-                              }}
-                            >
+                            <Link href="/other/terms-of-service" target="_blank"
+                              style={{ textDecoration: "underline", color: "blue" }}>
                               {t("terms_of_service_register")}
                             </Link>{" "}
                             {t("and")}{" "}
-                            <Link
-                              href="/other/privacy-policy"
-                              target="_blank"
-                              style={{
-                                textDecoration: "underline",
-                                color: "blue",
-                              }}
-                            >
+                            <Link href="/other/privacy-policy" target="_blank"
+                              style={{ textDecoration: "underline", color: "blue" }}>
                               {t("privacy_policy")}
                             </Link>
                           </label>
@@ -401,13 +320,7 @@ const Register = () => {
                         disabled={registerLoading}
                       >
                         {registerLoading ? (
-                          <Spinner
-                            as="span"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                          />
+                          <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
                         ) : (
                           t("register")
                         )}

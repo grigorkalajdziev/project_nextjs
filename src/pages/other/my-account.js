@@ -23,6 +23,10 @@ import DownloadTab from "../../components/Account/Tabs/DownloadTab";
 import PaymentTab from "../../components/Account/Tabs/PaymentTab";
 import AccountDetailsTab from "../../components/Account/Tabs/AccountDetailsTab";
 import UsersTab from "../../components/Account/Tabs/UsersTab";
+import LogsTab from "../../components/Account/Tabs/LogsTab";
+
+// Logger
+import { logActivity } from "../lib/logActivity";
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -555,6 +559,14 @@ const MyAccount = () => {
       const a = document.createElement("a");
       a.href = url; a.download = `${filenamePrefix}-${order.orderNumber}.pdf`;
       document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+
+      // ── LOG: PDF Download ─────────────────────────────────────────────
+      await logActivity({
+        username: user?.email || "",
+        userId: user?.uid || "",
+        action: "PDF_DOWNLOAD",
+        details: `${filenamePrefix}-${order.orderNumber}.pdf`,
+      });
     } catch (err) {
       addToast(err.message || "Download failed", { appearance: "error", autoDismiss: true });
     } finally {
@@ -576,7 +588,16 @@ const MyAccount = () => {
       }
     }
     setBulkDownloading(false); setSelectedOrdersForDownload([]); setSelectAllDownload(false);
-    if (successCount) addToast(`${t("successfully_downloaded")} ${successCount} ${t("invoices")}`, { appearance: "success", autoDismiss: true });
+    if (successCount) {
+      addToast(`${t("successfully_downloaded")} ${successCount} ${t("invoices")}`, { appearance: "success", autoDismiss: true });
+      // ── LOG: Bulk PDF Download ──────────────────────────────────────────
+      await logActivity({
+        username: user?.email || "",
+        userId: user?.uid || "",
+        action: "BULK_PDF_DOWNLOAD",
+        details: `${successCount} PDF фајлови преземени`,
+      });
+    }
     if (failCount) addToast(`${t("failed_to_download")} ${failCount} ${t("invoices")}`, { appearance: "error", autoDismiss: true });
   };
 
@@ -599,6 +620,13 @@ const MyAccount = () => {
     try {
       await remove(ref(db, `orders/${uid}/${orderId}`));
       setOrders((prev) => prev.filter((o) => o.id !== orderId));
+      // ── LOG: Order Deleted ────────────────────────────────────────────
+      await logActivity({
+        username: user.email,
+        userId: user.uid,
+        action: "ORDER_DELETED",
+        details: `Нарачка ID: ${orderId}`,
+      });
       addToast(t("order_deleted"), { appearance: "success", autoDismiss: true });
     } catch (err) {
       addToast(`${t("delete_error")}: ${err.message}`, { appearance: "error", autoDismiss: true });
@@ -618,6 +646,13 @@ const MyAccount = () => {
       const { userId, orderNumber, date, reservationDate, reservationTime, totalMK, totalEN, products, email: orderEmail, language, displayName: orderDisplayName, paymentText, paymentMethod, discountMK, discountEN, coupon } = matchingOrder;
       await update(ref(db, `orders/${userId}/${orderId}`), { status: newStatus });
       setOrders((prev) => prev.map((o) => o.id === orderId ? { ...o, status: newStatus } : o));
+      // ── LOG: Order Status Changed ─────────────────────────────────────
+      await logActivity({
+        username: user?.email || "",
+        userId: user?.uid || "",
+        action: "ORDER_STATUS",
+        details: `Нарачка #${orderNumber} → ${newStatus}`,
+      });
       const orderLanguage = language || currentLanguage;
       const totalToSend = orderLanguage === "mk" ? Number(totalMK) || 0 : Number(totalEN) || 0;
       const discountToSend = orderLanguage === "mk" ? Number(discountMK) || 0 : Number(discountEN) || 0;
@@ -709,11 +744,24 @@ const MyAccount = () => {
         try {
           await updatePassword(user, newPassword);
           await set(userRef, { firstName, lastName, displayName, email, password: newPassword, billingInfo: { address, city: selectedCity || "", country: selectedCountry ? { label: selectedCountry.label, value: selectedCountry.value, flag: selectedCountry.flag } : null, zipCode, phone, nameOnCard, cardNumber, expiration, cvc }, role: "guest" });
+          // ── LOG: Password Changed ───────────────────────────────────────
+          await logActivity({
+            username: user.email,
+            userId: user.uid,
+            action: "PASSWORD_CHANGED",
+          });
           addToast(t("password_changed_success"), { appearance: "success", autoDismiss: true });
           setCurrentPassword(""); setNewPassword(""); setConfirmPassword("");
         } catch (error) { addToast(error.message, { appearance: "error", autoDismiss: true }); setIsLoading(false); return; }
       } else {
         await update(userRef, { firstName, lastName, displayName, email, password: currentPassword, billingInfo: { address, city: selectedCity?.label || "", country: selectedCountry ? { label: selectedCountry.label, value: selectedCountry.value, flag: selectedCountry.flag } : null, zipCode, phone, nameOnCard, cardNumber, expiration, cvc }, role: "guest" });
+        // ── LOG: Profile Updated ──────────────────────────────────────────
+        await logActivity({
+          username: user.email,
+          userId: user.uid,
+          action: "PROFILE_UPDATED",
+          details: `${firstName} ${lastName}`.trim(),
+        });
       }
       addToast(t("profile_updated"), { appearance: "success", autoDismiss: true });
       setTimeout(() => router.reload(), 1500);
@@ -753,6 +801,13 @@ const MyAccount = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setBroadcastSchedule((prev) => ({ ...prev, active: true, nextSendAt: data.nextSendAt }));
+      // ── LOG: Schedule Saved ───────────────────────────────────────────
+      await logActivity({
+        username: user?.email || "",
+        userId: user?.uid || "",
+        action: "SCHEDULE_SAVED",
+        details: `Период: ${broadcastPeriod} | Тема: ${broadcastSubject}`,
+      });
       addToast(t("schedule_saved"), { appearance: "success", autoDismiss: true });
     } catch (err) { addToast(err.message, { appearance: "error", autoDismiss: true }); }
     finally { setBroadcastLoading(false); }
@@ -763,6 +818,13 @@ const MyAccount = () => {
     try {
       await fetch("/api/broadcast-schedule", { method: "PATCH", headers: { "Content-Type": "application/json", "x-admin-secret": process.env.NEXT_PUBLIC_ADMIN_SECRET }, body: JSON.stringify({ active: newActive }) });
       setBroadcastSchedule((prev) => ({ ...prev, active: newActive }));
+      // ── LOG: Schedule Toggled ─────────────────────────────────────────
+      await logActivity({
+        username: user?.email || "",
+        userId: user?.uid || "",
+        action: "SCHEDULE_TOGGLED",
+        details: newActive ? "Распоредот е активиран" : "Распоредот е паузиран",
+      });
       addToast(newActive ? t("schedule_resumed") : t("schedule_paused"), { appearance: "info", autoDismiss: true });
     } catch (err) { addToast(err.message, { appearance: "error", autoDismiss: true }); }
   };
@@ -778,7 +840,8 @@ const MyAccount = () => {
         if (firebaseUser.displayName) {
           const parts = firebaseUser.displayName.split(" ");
           setFirstName(parts[0] || ""); setLastName(parts[1] || "");
-        }
+        }       
+
         try {
           const snapshot = await get(ref(db, `users/${firebaseUser.uid}`));
           if (snapshot.exists()) {
@@ -891,7 +954,8 @@ const MyAccount = () => {
 
   const handleLogout = async () => {
     setIsLoading(true);
-    try {
+    try {      
+      sessionStorage.removeItem("logged_in_" + user?.uid);
       await signOut(auth);
       setUser(null);
       addToast(t("logout_success"), { appearance: "info", autoDismiss: true });
@@ -902,7 +966,6 @@ const MyAccount = () => {
 
   // ── Render ────────────────────────────────────────────────────────────────
 
-  // Shared analytics props passed to multiple tabs
   const analyticsProps = { formatTotal, parseAmount, conversionRate, currentLanguage, getDailyRevenue, getMonthlyRevenue, getYearlyRevenue, getTopProducts, getAverageOrderValue, getOrderSuccessStats, formattedPaymentData, statusData, COLORS, PAYMENT_COLORS, filteredOrdersForCharts, filterYear, setFilterYear, dateRange, setDateRange };
 
   return (
@@ -920,6 +983,7 @@ const MyAccount = () => {
             <Nav variant="pills" className="my-account-area__navigation space-mb--r60">
               <Nav.Item><Nav.Link eventKey="dashboard">{t("dashboard")}</Nav.Link></Nav.Item>
               {role === "admin" && <Nav.Item><Nav.Link eventKey="users">{t("users")}</Nav.Link></Nav.Item>}
+              {role === "admin" && <Nav.Item><Nav.Link eventKey="logs">{t("logs")}</Nav.Link></Nav.Item>}
               <Nav.Item><Nav.Link eventKey="orders">{t("orders")}</Nav.Link></Nav.Item>
               <Nav.Item><Nav.Link eventKey="download">{t("download")}</Nav.Link></Nav.Item>
               <Nav.Item><Nav.Link eventKey="payment">{t("payment")}</Nav.Link></Nav.Item>
@@ -945,6 +1009,12 @@ const MyAccount = () => {
                     currentPageUsers={currentPageUsers} setCurrentPageUsers={setCurrentPageUsers}
                     usersPerPage={usersPerPage} showUserFilters={showUserFilters} setShowUserFilters={setShowUserFilters}
                   />
+                </Tab.Pane>
+              )}
+
+              {role === "admin" && (
+                <Tab.Pane eventKey="logs">
+                  <LogsTab />
                 </Tab.Pane>
               )}
 

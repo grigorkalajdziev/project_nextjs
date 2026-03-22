@@ -7,11 +7,12 @@ import { useLocalization } from "../../context/LocalizationContext";
 import { Container } from "react-bootstrap";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { auth } from "../../pages/api/register"; // Adjust path if necessary
+import { auth } from "../../pages/api/register";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useToasts } from "react-toast-notifications";
 import ReactCountryFlag from "react-country-flag";
+import { logActivity } from "../../pages/lib/logActivity"; // ← ADD THIS
 
 const HeaderTop = () => {
   const { t, currentLanguage, changeLanguage } = useLocalization();
@@ -23,16 +24,23 @@ const HeaderTop = () => {
   useEffect(() => {
     setCurrency(currentLanguage === "en" ? "EUR" : "MKD");
   }, [currentLanguage]);
- 
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
     });
     return () => unsubscribe();
   }, []);
- 
+
   const handleLogout = async () => {
     try {
+      // ── LOG: Logout ───────────────────────────────────────────────────
+      await logActivity({
+        username: user?.email || "",
+        userId: user?.uid || "",
+        action: "LOGOUT",
+      });
+
       await signOut(auth);
       setUser(null);
       addToast(t("logout_success"), {
@@ -76,14 +84,10 @@ const HeaderTop = () => {
               <span>{currency}</span> <IoIosArrowDown />
               <ul>
                 <li>
-                  <button onClick={() => setCurrency("MKD")} disabled={true}>
-                    MKD
-                  </button>
+                  <button onClick={() => setCurrency("MKD")} disabled={true}>MKD</button>
                 </li>
                 <li>
-                  <button onClick={() => setCurrency("EUR")} disabled={true}>
-                    EUR
-                  </button>
+                  <button onClick={() => setCurrency("EUR")} disabled={true}>EUR</button>
                 </li>
               </ul>
             </div>
@@ -95,16 +99,11 @@ const HeaderTop = () => {
           </div>
 
           <div className="header-top__right">
-            {/* Only show user's email & logout if user is logged in.
-                Since our registration flow signs out new users,
-                a non-null "user" here means the user is properly logged in. */}
             {user ? (
               <>
-              <Link href="/other/my-account" className="account-hint">
-                <VscAccount style={{ marginRight: "6px", fontSize: "18px", verticalAlign: "middle" }} />
-              </Link>
-
-              
+                <Link href="/other/my-account" className="account-hint">
+                  <VscAccount style={{ marginRight: "6px", fontSize: "18px", verticalAlign: "middle" }} />
+                </Link>
                 <span className="user-email">{user.email}</span>
                 <span className="header-separator">|</span>
                 <a href="#" className="signout-link" onClick={handleLogout}>
@@ -114,10 +113,7 @@ const HeaderTop = () => {
             ) : (
               <div>
                 <VscAccount style={{ marginRight: "6px", fontSize: "18px", verticalAlign: "middle" }} />
-                <Link
-                  href="/other/login-register"
-                  as={process.env.PUBLIC_URL + "/other/login-register"}
-                >
+                <Link href="/other/login-register" as={process.env.PUBLIC_URL + "/other/login-register"}>
                   {t("signup_login")}
                 </Link>
               </div>
@@ -127,20 +123,14 @@ const HeaderTop = () => {
             <div className="top-social-icons">
               <ul>
                 <li>
-                  <a href="https://x.com" target="_blank" rel="noreferrer">
-                    <FaXTwitter />
-                  </a>
+                  <a href="https://x.com" target="_blank" rel="noreferrer"><FaXTwitter /></a>
                 </li>
                 <li>
-                  <a href="https://www.facebook.com/kristina.iloski" target="_blank" rel="noreferrer">
-                    <IoLogoFacebook />
-                  </a>
+                  <a href="https://www.facebook.com/kristina.iloski" target="_blank" rel="noreferrer"><IoLogoFacebook /></a>
                 </li>
                 <li>
-                  <a href="https://www.instagram.com/kikamakeup_and_beautyacademy/" target="_blank" rel="noreferrer">
-                    <IoLogoInstagram />
-                  </a>
-                </li>                
+                  <a href="https://www.instagram.com/kikamakeup_and_beautyacademy/" target="_blank" rel="noreferrer"><IoLogoInstagram /></a>
+                </li>
               </ul>
             </div>
           </div>

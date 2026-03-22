@@ -19,6 +19,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { MobileTimePicker } from "@mui/x-date-pickers/MobileTimePicker";
 import { FaHome } from "react-icons/fa";
+import { logActivity } from "../lib/logActivity";
 import TextField from "@mui/material/TextField";
 
 import enLocale from "date-fns/locale/en-US";
@@ -342,7 +343,15 @@ const Checkout = ({ cartItems, deleteAllFromCart }) => {
       const db = getDatabase();
       const ordersRef = ref(db, `orders/${auth.currentUser.uid}`);
       const newOrderRef = push(ordersRef);
-      await set(newOrderRef, orderData);      
+      await set(newOrderRef, orderData); 
+      
+      await logActivity({
+        username: auth.currentUser.email,
+        userId: auth.currentUser.uid,
+        action: "ORDER_PLACED",
+        details: `Нарачка #${orderData.orderNumber} `,
+      });
+
       const isEnglish = currentLanguage === "en";
       const currency = isEnglish ? "EUR" : "MKD";
       

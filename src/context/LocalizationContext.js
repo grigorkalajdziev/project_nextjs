@@ -748,6 +748,7 @@ const translations = {
     daily: "Daily",
     every_day: "Every day",
     every_day_auto: "every day",
+    logs: "Logs",
   },
   mk: {
     english: "Англиски",
@@ -1498,6 +1499,7 @@ const translations = {
     daily: "Дневно",
     every_day: "Секој ден",
     every_day_auto: "секој ден",
+    logs: "Логови",
   },
 };
 

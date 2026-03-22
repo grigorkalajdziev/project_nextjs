@@ -25,6 +25,7 @@ import {
 import { useToasts } from "react-toast-notifications";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import Swal from "sweetalert2";
+import { logActivity } from "../lib/logActivity";
 
 const getFriendlyAuthMessage = (code, t) => {
   const errorMap = {
@@ -97,13 +98,20 @@ const Login = () => {
 
     setLoginLoading(true);
     try {
-      // ✅ No setPersistence here — already set to browserLocalPersistence in register.js
       const userCredential = await signInWithEmailAndPassword(
         auth,
         loginData.email,
         loginData.password,
       );
       const user = userCredential.user;
+
+      // ── LOG: Email Login ──────────────────────────────────────────────
+      await logActivity({
+        username: user.email,
+        userId: user.uid,
+        action: "LOGIN",
+        details: "Email најава",
+      });
 
       if (!localStorage.getItem("loginSuccessEmailSent_" + user.uid)) {
         await fetch("/api/sendLoginSuccessEmail", {
@@ -136,7 +144,6 @@ const Login = () => {
     setGoogleLoading(true);
     const provider = new GoogleAuthProvider();
     try {
-      // ✅ No setPersistence here — already set to browserLocalPersistence in register.js
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
@@ -145,6 +152,14 @@ const Login = () => {
         const regResult = await registerGoogleUser(user);
         if (!regResult.success)
           throw new Error(regResult.error || "google_registration_failed");
+
+        // ── LOG: Google Registration ──────────────────────────────────
+        await logActivity({
+          username: user.email,
+          userId: user.uid,
+          action: "LOGIN",
+          details: "Google регистрација",
+        });
 
         await fetch("/api/sendRegistrationEmail", {
           method: "POST",
@@ -158,6 +173,14 @@ const Login = () => {
           }),
         });
       } else {
+        // ── LOG: Google Login ─────────────────────────────────────────
+        await logActivity({
+          username: user.email,
+          userId: user.uid,
+          action: "LOGIN",
+          details: "Google најава",
+        });
+
         if (!localStorage.getItem("loginSuccessEmailSent_" + user.uid)) {
           await fetch("/api/sendLoginSuccessEmail", {
             method: "POST",
@@ -239,6 +262,14 @@ const Login = () => {
 
       const result = await confirmationResult.confirm(code);
       const user = result.user;
+
+      // ── LOG: Phone Login ──────────────────────────────────────────────
+      await logActivity({
+        username: user.phoneNumber || phoneNumber,
+        userId: user.uid,
+        action: "LOGIN",
+        details: "Телефонска најава",
+      });
 
       addToast(t("login_success"), { appearance: "success", autoDismiss: true });
 
