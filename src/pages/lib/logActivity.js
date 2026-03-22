@@ -32,3 +32,5 @@ export async function logActivity({ username, userId, action, details = "", ip =
     console.error("logActivity error:", error);
   }
 }
+
+export default function LogActivityUtil() { return null; }
