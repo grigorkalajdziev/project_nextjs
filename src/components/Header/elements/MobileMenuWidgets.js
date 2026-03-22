@@ -14,6 +14,7 @@ import { useState, useEffect } from "react";
 import { auth } from "../../../pages/api/register"; // Import Firebase authentication
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useToasts } from "react-toast-notifications";
+import { logActivity } from "../../../pages/lib/logActivity";
 
 const MobileMenuWidgets = () => {
   const { t } = useLocalization();  
@@ -32,6 +33,13 @@ const MobileMenuWidgets = () => {
 
   const handleLogout = async () => {
     try {
+      
+      await logActivity({
+        username: user?.email || "",
+        userId: user?.uid || "",
+        action: "LOGOUT",
+      });
+
       await signOut(auth);
       setUser(null);      
       
