@@ -17,12 +17,12 @@ import { cities } from "../../context/CountryCityTranslations";
 import { isoToMK } from "../../context/CountryIsoCode";
 
 // Tab components
-import DashboardTab from "../../components/account/tabs/DashboardTab";
-import OrdersTab from "../../components/account/tabs/OrdersTab";
-import DownloadTab from "../../components/account/tabs/DownloadTab";
-import PaymentTab from "../../components/account/tabs/PaymentTab";
-import AccountDetailsTab from "../../components/account/tabs/AccountDetailsTab";
-import UsersTab from "../../components/account/tabs/UsersTab";
+import DashboardTab from "../../components/Account/Tabs/DashboardTab";
+import OrdersTab from "../../components/Account/Tabs/OrdersTab";
+import DownloadTab from "../../components/Account/Tabs/DownloadTab";
+import PaymentTab from "../../components/Account/Tabs/PaymentTab";
+import AccountDetailsTab from "../../components/Account/Tabs/AccountDetailsTab";
+import UsersTab from "../../components/Account/Tabs/UsersTab";
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
