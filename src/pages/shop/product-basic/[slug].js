@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Container, Row, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import { useToasts } from "react-toast-notifications";
@@ -7,11 +8,6 @@ import { LayoutTwo } from "../../../components/Layout";
 import { getDiscountPrice } from "../../../lib/product";
 import { BreadcrumbOne } from "../../../components/Breadcrumb";
 import { FaHome } from "react-icons/fa";
-import {
-  ImageGalleryBottomThumb,
-  ProductDescription,
-  ProductDescriptionTab
-} from "../../../components/ProductDetails";
 import { addToCart } from "../../../redux/actions/cartActions";
 import {
   addToWishlist,
@@ -24,6 +20,34 @@ import {
 import products from "../../../data/products.json";
 import { useLocalization } from "../../../context/LocalizationContext";
 
+// ─── Lazy load heavy product detail components ───────────────────────────────
+// These three were the main contributors to the 440kB bundle size.
+// By using next/dynamic, they are split into separate chunks and only
+// downloaded when the product page is actually visited.
+
+const ImageGalleryBottomThumb = dynamic(() =>
+  import("../../../components/ProductDetails").then(
+    (mod) => mod.ImageGalleryBottomThumb
+  )
+);
+
+const ProductDescription = dynamic(() =>
+  import("../../../components/ProductDetails").then(
+    (mod) => mod.ProductDescription
+  )
+);
+
+// ProductDescriptionTab sits below the fold, so we can defer it even further
+// with ssr: false — it will only load on the client after hydration.
+const ProductDescriptionTab = dynamic(
+  () =>
+    import("../../../components/ProductDetails").then(
+      (mod) => mod.ProductDescriptionTab
+    ),
+  { ssr: false }
+);
+// ─────────────────────────────────────────────────────────────────────────────
+
 const ProductBasic = ({
   product,
   cartItems,
@@ -35,9 +59,10 @@ const ProductBasic = ({
   addToCompare,
   deleteFromCompare
 }) => {
+  // ✅ Fixed: added [] so this only runs once on mount, not on every render
   useEffect(() => {
     document.querySelector("body").classList.remove("overflow-hidden");
-  });
+  }, []);
 
   const { addToast } = useToasts();
   const { t, currentLanguage } = useLocalization();
@@ -47,37 +72,21 @@ const ProductBasic = ({
     product.discount
   ).toFixed(2);
 
-  const cartItem = cartItems.filter(
-    (cartItem) => cartItem.id === product.id
-  )[0];
-  const wishlistItem = wishlistItems.filter(
-    (wishlistItem) => wishlistItem.id === product.id
-  )[0];
-  const compareItem = compareItems.filter(
-    (compareItem) => compareItem.id === product.id
-  )[0]; 
+  const cartItem = cartItems.find((item) => item.id === product.id);
+  const wishlistItem = wishlistItems.find((item) => item.id === product.id);
+  const compareItem = compareItems.find((item) => item.id === product.id);
 
   const handleAddToCart = (item, addToast, quantityCount, selectedColor, selectedSize) => {
     addToCart(item, addToast, quantityCount, selectedColor, selectedSize, t);
   };
 
-  const handleAddToWishlist = () => {
-    addToWishlist(product, addToast, t); 
-  }
-  const handleDeleteToWishlist = () => {
-    deleteFromWishlist(product, addToast, t); 
-  }
-  
-  const handleAddToCompare = () => {
-    addToCompare(product, addToast, t); 
-  }
-  const handleDeleteToCompare = () => {
-    deleteFromCompare(product, addToast, t); 
-  }
+  const handleAddToWishlist = () => addToWishlist(product, addToast, t);
+  const handleDeleteToWishlist = () => deleteFromWishlist(product, addToast, t);
+  const handleAddToCompare = () => addToCompare(product, addToast, t);
+  const handleDeleteToCompare = () => deleteFromCompare(product, addToast, t);
 
   return (
-    (<LayoutTwo>
-
+    <LayoutTwo>
       {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={product.name[currentLanguage] || product.name["en"]}
@@ -90,22 +99,19 @@ const ProductBasic = ({
             </Link>
           </li>
           <li>
-            <Link
-              href="/shop/left-sidebar"
-              as={process.env.PUBLIC_URL + "/shop/left-sidebar"}
-            >
+            <Link href="/shop/left-sidebar" as={process.env.PUBLIC_URL + "/shop/left-sidebar"}>
               {t("shop")}
             </Link>
           </li>
           <li>{product.name[currentLanguage] || product.name["en"]}</li>
         </ul>
       </BreadcrumbOne>
+
       {/* product details */}
       <div className="product-details space-mt--r100 space-mb--r100">
         <Container>
           <Row>
             <Col lg={6} className="space-mb-mobile-only--50">
-              {/* image gallery bottom thumb */}
               <ImageGalleryBottomThumb
                 product={product}
                 wishlistItem={wishlistItem}
@@ -116,7 +122,6 @@ const ProductBasic = ({
             </Col>
 
             <Col lg={6}>
-              {/* product description */}
               <ProductDescription
                 product={product}
                 productPrice={productPrice}
@@ -134,76 +139,53 @@ const ProductBasic = ({
               />
             </Col>
           </Row>
+
           <Row>
             <Col>
-              {/* product description tab */}
               <ProductDescriptionTab product={product} />
             </Col>
           </Row>
         </Container>
       </div>
-    </LayoutTwo>)
+    </LayoutTwo>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    cartItems: state.cartData,
-    wishlistItems: state.wishlistData,
-    compareItems: state.compareData
-  };
-};
+const mapStateToProps = (state) => ({
+  cartItems: state.cartData,
+  wishlistItems: state.wishlistData,
+  compareItems: state.compareData
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addToCart: (
-      item,
-      addToast,
-      quantityCount,
-      selectedProductColor,
-      selectedProductSize,
-      t
-    ) => {
-      dispatch(
-        addToCart(
-          item,
-          addToast,
-          quantityCount,
-          selectedProductColor,
-          selectedProductSize,
-          t       
-        )
-      );
-    },
-    addToWishlist: (item, addToast, t) => {
-      dispatch(addToWishlist(item, addToast, t));
-    },
-    deleteFromWishlist: (item, addToast, t) => {
-      dispatch(deleteFromWishlist(item, addToast, t));
-    },
-    addToCompare: (item, addToast, t) => {
-      dispatch(addToCompare(item, addToast, t));
-    },
-    deleteFromCompare: (item, addToast, t) => {
-      dispatch(deleteFromCompare(item, addToast, t));
-    }
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  addToCart: (item, addToast, quantityCount, selectedProductColor, selectedProductSize, t) =>
+    dispatch(addToCart(item, addToast, quantityCount, selectedProductColor, selectedProductSize, t)),
+  addToWishlist: (item, addToast, t) => dispatch(addToWishlist(item, addToast, t)),
+  deleteFromWishlist: (item, addToast, t) => dispatch(deleteFromWishlist(item, addToast, t)),
+  addToCompare: (item, addToast, t) => dispatch(addToCompare(item, addToast, t)),
+  deleteFromCompare: (item, addToast, t) => dispatch(deleteFromCompare(item, addToast, t))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductBasic);
 
 export async function getStaticPaths() {
-  // get the paths we want to pre render based on products
-  const paths = products.map((product) => ({
-    params: { slug: product.slug }
-  }));
-
-  return { paths, fallback: false };
+  // Pre-build zero products at build time.
+  // Every product page generates on first request, is then cached,
+  // and silently revalidated in the background — build time is near-instant.
+  return {
+    paths: [],
+    fallback: "blocking"
+  };
 }
 
 export async function getStaticProps({ params }) {
-  // get product data based on slug
-  const product = products.filter((single) => single.slug === params.slug)[0];
+  const product = products.find((single) => single.slug === params.slug);
 
-  return { props: { product } };
+  // Required when fallback is not false — handle unknown slugs gracefully
+  if (!product) return { notFound: true };
+
+  return {
+    props: { product },
+    revalidate: 60 * 60 // re-generate the page at most once per hour
+  };
 }
