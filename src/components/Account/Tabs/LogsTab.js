@@ -4,64 +4,43 @@ import { useLocalization } from "../../../context/LocalizationContext";
 import { IoIosSearch } from "react-icons/io";
 import { IoFilter } from "react-icons/io5";
 
-function formatDate(iso, lang) {
+function formatDate(iso) {
   if (!iso) return "—";
-  return new Date(iso).toLocaleString(lang === "en" ? "en-GB" : "mk-MK", {
-    day: "2-digit", month: "2-digit", year: "numeric",
-    hour: "2-digit", minute: "2-digit",
-  });
+  const d = new Date(iso);
+  const day   = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year  = d.getFullYear();
+  const hour  = String(d.getHours()).padStart(2, "0");
+  const min   = String(d.getMinutes()).padStart(2, "0");
+  return `${day}-${month}-${year}, ${hour}:${min}`;
 }
 
 const LOGS_PER_PAGE = 6;
 
 export default function LogsTab() {
-  const { currentLanguage } = useLocalization();
-  const lang = currentLanguage;
-
-  const tr = {
-    title:        lang === "en" ? "Activity Logs"                 : "Логови на активности",
-    totalLogs:    lang === "en" ? "Total Logs"                    : "Вкупно Логови",
-    filter:       lang === "en" ? "Filter"                        : "Филтер",
-    search:       lang === "en" ? "Search"                        : "Пребарување",
-    searchPh:     lang === "en" ? "Search user, details or IP..." : "Пребарај корисник, детали или IP...",
-    action:       lang === "en" ? "Filter by action"              : "Филтрирај по акција",
-    allActions:   lang === "en" ? "All actions"                   : "Сите акции",
-    user:         lang === "en" ? "User"                          : "Корисник",
-    actionCol:    lang === "en" ? "Action"                        : "Акција",
-    details:      lang === "en" ? "Details"                       : "Детали",
-    ip:           lang === "en" ? "IP Address"                    : "IP Адреса",
-    dateTime:     lang === "en" ? "Date & Time"                   : "Датум и Време",
-    loading:      lang === "en" ? "Loading logs..."               : "Се вчитуваат логови...",
-    noLogs:       lang === "en" ? "No logs found."                : "Нема пронајдени логови.",
-    showing:      lang === "en" ? "Showing"                       : "Прикажани",
-    of:           lang === "en" ? "of"                            : "од",
-    logs:         lang === "en" ? "Logs"                          : "Логови",
-    grandTotal:   lang === "en" ? "Total:"                        : "Вкупно:",
-    previous:     lang === "en" ? "Prev."                         : "Прет.",
-    next:         lang === "en" ? "Next."                         : "След.",
-  };
+  const { t } = useLocalization();
 
   const ACTION_LABELS = {
-    LOGIN:             { label: lang === "en" ? "Login"            : "Најава",            color: "#2EAD65", bg: "#d1fae5" },
-    LOGOUT:            { label: lang === "en" ? "Logout"           : "Одјава",            color: "#6b7280", bg: "#f3f4f6" },
-    ORDER_PLACED:      { label: lang === "en" ? "Order"            : "Нарачка",           color: "#1e40af", bg: "#dbeafe" },
-    ORDER_DELETED:     { label: lang === "en" ? "Order Deleted"    : "Избришана нарачка", color: "#991b1b", bg: "#fee2e2" },
-    ORDER_STATUS:      { label: lang === "en" ? "Order Status"     : "Статус нарачка",    color: "#92400e", bg: "#fef3c7" },
-    PROFILE_UPDATED:   { label: lang === "en" ? "Profile"          : "Профил",            color: "#5b21b6", bg: "#ede9fe" },
-    PASSWORD_CHANGED:  { label: lang === "en" ? "Password"         : "Лозинка",           color: "#9d174d", bg: "#fce7f3" },
-    PDF_DOWNLOAD:      { label: lang === "en" ? "PDF Download"     : "PDF преземање",     color: "#075985", bg: "#e0f2fe" },
-    BULK_PDF_DOWNLOAD: { label: lang === "en" ? "Bulk PDF"         : "Bulk PDF",          color: "#155e75", bg: "#cffafe" },
-    SCHEDULE_SAVED:    { label: lang === "en" ? "Schedule Saved"   : "Распоред зачуван",  color: "#166534", bg: "#dcfce7" },
-    SCHEDULE_TOGGLED:  { label: lang === "en" ? "Schedule Toggled" : "Распоред вклучен",  color: "#14532d", bg: "#f0fdf4" },
-    PAGE_VISIT:        { label: lang === "en" ? "Page Visit"       : "Посета",            color: "#4c1d95", bg: "#f5f3ff" },
+    LOGIN:             { label: t("log_login"),            color: "#2EAD65", bg: "#d1fae5" },
+    LOGOUT:            { label: t("log_logout"),           color: "#6b7280", bg: "#f3f4f6" },
+    ORDER_PLACED:      { label: t("log_order"),            color: "#1e40af", bg: "#dbeafe" },
+    ORDER_DELETED:     { label: t("log_order_deleted"),    color: "#991b1b", bg: "#fee2e2" },
+    ORDER_STATUS:      { label: t("log_order_status"),     color: "#92400e", bg: "#fef3c7" },
+    PROFILE_UPDATED:   { label: t("log_profile"),          color: "#5b21b6", bg: "#ede9fe" },
+    PASSWORD_CHANGED:  { label: t("log_password"),         color: "#9d174d", bg: "#fce7f3" },
+    PDF_DOWNLOAD:      { label: t("log_pdf_download"),     color: "#075985", bg: "#e0f2fe" },
+    BULK_PDF_DOWNLOAD: { label: t("log_bulk_pdf"),         color: "#155e75", bg: "#cffafe" },
+    SCHEDULE_SAVED:    { label: t("log_schedule_saved"),   color: "#166534", bg: "#dcfce7" },
+    SCHEDULE_TOGGLED:  { label: t("log_schedule_toggled"), color: "#14532d", bg: "#f0fdf4" },
+    PAGE_VISIT:        { label: t("log_page_visit"),       color: "#4c1d95", bg: "#f5f3ff" },
   };
 
-  const [logs, setLogs]           = useState([]);
-  const [loading, setLoading]     = useState(true);
-  const [search, setSearch]       = useState("");
-  const [filterAction, setFilter] = useState("all");
+  const [logs, setLogs]               = useState([]);
+  const [loading, setLoading]         = useState(true);
+  const [search, setSearch]           = useState("");
+  const [filterAction, setFilter]     = useState("all");
   const [showFilters, setShowFilters] = useState(false);
-  const [currentPage, setPage]    = useState(1);
+  const [currentPage, setPage]        = useState(1);
 
   useEffect(() => {
     const db = getDatabase();
@@ -92,7 +71,7 @@ export default function LogsTab() {
 
   const renderPageNumbers = () => {
     const pages = [];
-    if (totalPages <= 7) {
+    if (totalPages <= 4) {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
       pages.push(1);
@@ -109,10 +88,10 @@ export default function LogsTab() {
 
       {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-        <h3 className="mb-0">{tr.title}</h3>
+        <h3 className="mb-0">{t("activity_logs")}</h3>
         {logs.length > 0 && (
           <span className="badge bg-primary" style={{ fontSize: "1rem", padding: "0.5rem 1rem" }}>
-            {filtered.length} {tr.totalLogs}
+            {filtered.length} {t("total_logs")}
           </span>
         )}
       </div>
@@ -120,7 +99,7 @@ export default function LogsTab() {
       <div className="card">
         <div className="card-body">
 
-          {/* Filter Section — identical to OrdersTab */}
+          {/* Filter Section */}
           <div className="filter-section mb-4">
             <div className="d-flex align-items-center mb-3">
               <button
@@ -131,19 +110,19 @@ export default function LogsTab() {
               >
                 <IoFilter size={22} className="filter-icon" />
               </button>
-              <span>{tr.filter}</span>
+              <span>{t("filter")}</span>
             </div>
 
             {showFilters && (
               <div className="row mb-3 g-3">
                 {/* Search */}
                 <div className="col-md-6">
-                  <label className="form-label">{tr.search}</label>
+                  <label className="form-label">{t("search")}</label>
                   <div style={{ position: "relative" }}>
                     <input
                       type="text"
                       className="form-control"
-                      placeholder={tr.searchPh}
+                      placeholder={t("search_logs_ph")}
                       value={search}
                       onChange={(e) => { setSearch(e.target.value); setPage(1); }}
                       style={{ paddingLeft: "40px", paddingRight: search ? "40px" : "12px", fontSize: "12px" }}
@@ -162,7 +141,7 @@ export default function LogsTab() {
                 {/* Action filter */}
                 <div className="col-md-6">
                   <label className="form-label">
-                    <i className="bi bi-funnel me-1"></i>{tr.action}
+                    <i className="bi bi-funnel me-1"></i>{t("filter_by_action")}
                   </label>
                   <select
                     className="form-select"
@@ -170,7 +149,7 @@ export default function LogsTab() {
                     onChange={(e) => { setFilter(e.target.value); setPage(1); }}
                     style={{ fontSize: "12px" }}
                   >
-                    <option value="all">{tr.allActions}</option>
+                    <option value="all">{t("all_actions")}</option>
                     {Object.entries(ACTION_LABELS).map(([key, { label }]) => (
                       <option key={key} value={key}>{label}</option>
                     ))}
@@ -182,9 +161,9 @@ export default function LogsTab() {
 
           {/* Table */}
           {loading ? (
-            <p className="text-muted">{tr.loading}</p>
+            <p className="text-muted">{t("loading_logs")}</p>
           ) : filtered.length === 0 ? (
-            <p className="text-muted">{tr.noLogs}</p>
+            <p className="text-muted">{t("no_logs_found")}</p>
           ) : (
             <>
               <div className="table-responsive" style={{ maxHeight: "350px", overflowY: "auto", border: "1px solid #dee2e6", position: "relative" }}>
@@ -192,19 +171,19 @@ export default function LogsTab() {
                   <thead className="table-primary" style={{ position: "sticky", top: 0, zIndex: 1 }}>
                     <tr>
                       <th className="ps-3 text-start" style={{ minWidth: "180px" }}>
-                        <i className="bi bi-person me-2"></i>{tr.user}
+                        <i className="bi bi-person me-2"></i>{t("user")}
                       </th>
                       <th className="text-start" style={{ minWidth: "140px" }}>
-                        <i className="bi bi-lightning me-2"></i>{tr.actionCol}
+                        <i className="bi bi-lightning me-2"></i>{t("action")}
                       </th>
                       <th className="text-start" style={{ minWidth: "200px" }}>
-                        <i className="bi bi-info-circle me-2"></i>{tr.details}
+                        <i className="bi bi-info-circle me-2"></i>{t("details")}
                       </th>
                       <th className="text-start" style={{ minWidth: "130px" }}>
-                        <i className="bi bi-geo me-2"></i>{tr.ip}
+                        <i className="bi bi-geo me-2"></i>{t("ip_address")}
                       </th>
                       <th className="text-start pe-3" style={{ minWidth: "150px" }}>
-                        <i className="bi bi-calendar-date me-2"></i>{tr.dateTime}
+                        <i className="bi bi-calendar-date me-2"></i>{t("date_time")}
                       </th>
                     </tr>
                   </thead>
@@ -224,7 +203,7 @@ export default function LogsTab() {
                           </td>
                           <td className="text-muted"><small>{log.details || "—"}</small></td>
                           <td className="font-monospace text-muted"><small>{log.ip || "—"}</small></td>
-                          <td className="text-muted pe-3"><small>{formatDate(log.createdAt, lang)}</small></td>
+                          <td className="text-muted pe-3"><small>{formatDate(log.createdAt)}</small></td>
                         </tr>
                       );
                     })}
@@ -233,26 +212,26 @@ export default function LogsTab() {
                     <tr className="fw-bold">
                       <td colSpan={4} className="ps-3">
                         <i className="bi bi-calculator me-2"></i>
-                        {tr.showing} {startIndex + 1}–{Math.min(startIndex + LOGS_PER_PAGE, filtered.length)} {tr.of} {filtered.length} {tr.logs}
+                        {t("showing")} {startIndex + 1}–{Math.min(startIndex + LOGS_PER_PAGE, filtered.length)} {t("of")} {filtered.length} {t("logs")}
                       </td>
                       <td className="text-end pe-3 text-primary">
-                        <small>{tr.grandTotal} {filtered.length}</small>
+                        <small>{t("grand_total_colon")} {filtered.length}</small>
                       </td>
                     </tr>
                   </tfoot>
                 </table>
               </div>
 
-              {/* Pagination — identical to OrdersTab */}
+              {/* Pagination */}
               {totalPages > 1 && (
                 <div className="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-3">
                   <div className="text-muted">
-                    <small>{tr.showing} {paginated.length} {tr.of} {filtered.length} {tr.logs}</small>
+                    <small>{t("showing")} {paginated.length} {t("of")} {filtered.length} {t("logs")}</small>
                   </div>
                   <nav>
                     <ul className="pagination mb-0">
                       <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-                        <button type="button" className="page-link py-1 px-2" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>{tr.previous}</button>
+                        <button type="button" className="page-link py-1 px-2" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>{t("previous")}</button>
                       </li>
                       {renderPageNumbers().map((p, i) =>
                         p === "..." ? (
@@ -264,7 +243,7 @@ export default function LogsTab() {
                         )
                       )}
                       <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-                        <button type="button" className="page-link py-1 px-2" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>{tr.next}</button>
+                        <button type="button" className="page-link py-1 px-2" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>{t("next")}</button>
                       </li>
                     </ul>
                   </nav>
