@@ -136,12 +136,12 @@ const UsersTab = ({
 
             {/* Pagination */}
             {totalPagesUsers > 1 && (
-              <div className="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-3">
-                <div className="text-muted">
+              <div className="d-flex flex-column flex-sm-row justify-content-between align-items-center p-3 border-top gap-2">
+                <div className="text-muted text-center text-sm-start small">
                   <small>{t("showing")} {currentUsers.length} {t("of")} {filteredUsers.length} {t("users")}</small>
                 </div>
                 <nav>
-                  <ul className="pagination mb-0">
+                  <ul className="pagination mb-0 flex-wrap justify-content-center">
                     <li className={`page-item ${currentPageUsers === 1 ? "disabled" : ""}`}>
                       <button type="button" className="page-link py-1 px-2" onClick={() => setCurrentPageUsers(currentPageUsers - 1)} disabled={currentPageUsers === 1}>{t("previous")}</button>
                     </li>

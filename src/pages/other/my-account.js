@@ -995,7 +995,7 @@ const MyAccount = () => {
                 <DashboardTab
                   t={t} role={role} displayName={displayName} email={email} orders={orders} allUsers={allUsers}
                   isLoading={isLoading} currentLanguage={currentLanguage} formatTotal={formatTotal}
-                  parseAmount={parseAmount} conversionRate={conversionRate}
+                  parseAmount={parseAmount} conversionRate={conversionRate} userId={user?.uid}
                   setShowLogoutModal={setShowLogoutModal} setShowBroadcastModal={setShowBroadcastModal}
                   fetchSubscriberStats={fetchSubscriberStats} fetchSchedule={fetchSchedule}
                 />

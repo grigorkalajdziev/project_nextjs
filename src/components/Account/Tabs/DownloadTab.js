@@ -215,12 +215,12 @@ const DownloadTab = ({
 
           {/* Pagination */}
           {totalPagesDownload > 1 && (
-            <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-3">
-              <div className="text-muted">
+            <div className="d-flex flex-column flex-sm-row justify-content-between align-items-center mt-4 gap-2">
+              <div className="text-muted text-center text-sm-start">
                 <small>{t("showing")} {currentOrdersDownload.length} {t("of")} {filteredOrdersForDownload.length} {t("orders")}</small>
               </div>
               <nav>
-                <ul className="pagination mb-0">
+                <ul className="pagination mb-0 flex-wrap justify-content-center">
                   <li className={`page-item ${currentPageDown === 1 ? "disabled" : ""}`}>
                     <button type="button" className="page-link py-1 px-2" onClick={() => handlePageChangeDown(currentPageDown - 1)} disabled={currentPageDown === 1}>{t("previous")}</button>
                   </li>

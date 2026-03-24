@@ -224,12 +224,12 @@ export default function LogsTab() {
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-3">
-                  <div className="text-muted">
+                <div className="d-flex flex-column flex-sm-row justify-content-between align-items-center mt-4 gap-2">
+                  <div className="text-muted text-center text-sm-start">
                     <small>{t("showing")} {paginated.length} {t("of")} {filtered.length} {t("logs")}</small>
                   </div>
                   <nav>
-                    <ul className="pagination mb-0">
+                    <ul className="pagination mb-0 flex-wrap justify-content-center" style={{ rowGap: "4px" }}>
                       <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
                         <button type="button" className="page-link py-1 px-2" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>{t("previous")}</button>
                       </li>

@@ -285,35 +285,35 @@ const PaymentTab = ({
             </table>
           </div>
 
-          {/* Pagination */}
-          {totalPagesPayment > 1 && (
-            <div className="d-flex justify-content-between align-items-center p-3 border-top flex-wrap gap-3">
-              <span className="text-muted small">{t("showing")} {currentOrdersPayment.length} {t("of")} {filteredOrdersForPayment.length} {t("orders")}</span>
-              <nav>
-                <ul className="pagination mb-0">
-                  <li className={`page-item ${currentPagePayment === 1 ? "disabled" : ""}`}>
-                    <button type="button" className="page-link py-1 px-2" onClick={() => handlePageChangePayment(currentPagePayment - 1)} disabled={currentPagePayment === 1}>{t("previous")}</button>
-                  </li>
-                  {[...Array(totalPagesPayment)].map((_, index) => {
-                    const pageNumber = index + 1;
-                    if (pageNumber === 1 || pageNumber === totalPagesPayment || (pageNumber >= currentPagePayment - 1 && pageNumber <= currentPagePayment + 1)) {
-                      return (
-                        <li key={pageNumber} className={`page-item ${currentPagePayment === pageNumber ? "active" : ""}`}>
-                          <button type="button" className="page-link py-1 px-2" onClick={() => handlePageChangePayment(pageNumber)}>{pageNumber}</button>
-                        </li>
-                      );
-                    } else if (pageNumber === currentPagePayment - 2 || pageNumber === currentPagePayment + 2) {
-                      return <li key={`ellipsis-${pageNumber}`} className="page-item disabled"><span className="page-link py-1 px-2">...</span></li>;
-                    }
-                    return null;
-                  })}
-                  <li className={`page-item ${currentPagePayment === totalPagesPayment ? "disabled" : ""}`}>
-                    <button type="button" className="page-link py-1 px-2" onClick={() => handlePageChangePayment(currentPagePayment + 1)} disabled={currentPagePayment === totalPagesPayment}>{t("next")}</button>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          )}
+          {/* Pagination */}         
+{totalPagesPayment > 1 && (
+  <div className="d-flex flex-column flex-sm-row justify-content-between align-items-center p-3 border-top gap-2">
+    <span className="text-muted text-center text-sm-start small">{t("showing")} {currentOrdersPayment.length} {t("of")} {filteredOrdersForPayment.length} {t("orders")}</span>
+    <nav>
+      <ul className="pagination mb-0 flex-wrap justify-content-center" style={{ rowGap: "4px" }}>
+        <li className={`page-item ${currentPagePayment === 1 ? "disabled" : ""}`}>
+          <button type="button" className="page-link py-1 px-2" onClick={() => handlePageChangePayment(currentPagePayment - 1)} disabled={currentPagePayment === 1}>{t("previous")}</button>
+        </li>
+        {[...Array(totalPagesPayment)].map((_, index) => {
+          const pageNumber = index + 1;
+          if (pageNumber === 1 || pageNumber === totalPagesPayment || (pageNumber >= currentPagePayment - 1 && pageNumber <= currentPagePayment + 1)) {
+            return (
+              <li key={pageNumber} className={`page-item ${currentPagePayment === pageNumber ? "active" : ""}`}>
+                <button type="button" className="page-link py-1 px-2" onClick={() => handlePageChangePayment(pageNumber)}>{pageNumber}</button>
+              </li>
+            );
+          } else if (pageNumber === currentPagePayment - 2 || pageNumber === currentPagePayment + 2) {
+            return <li key={`ellipsis-${pageNumber}`} className="page-item disabled"><span className="page-link py-1 px-2">...</span></li>;
+          }
+          return null;
+        })}
+        <li className={`page-item ${currentPagePayment === totalPagesPayment ? "disabled" : ""}`}>
+          <button type="button" className="page-link py-1 px-2" onClick={() => handlePageChangePayment(currentPagePayment + 1)} disabled={currentPagePayment === totalPagesPayment}>{t("next")}</button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+)}
         </div>
       </div>
     </div>
