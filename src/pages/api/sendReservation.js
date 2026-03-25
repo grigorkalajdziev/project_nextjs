@@ -52,6 +52,7 @@ export default async function handler(req, res) {
   // Render to static HTML
   const emailHtml = ReactDOMServer.renderToStaticMarkup(
     <EmailComponent
+      orderNumber={orderID}
       orderID={orderID}
       reservationDate={reservationDate}
       reservationTime={reservationTime}

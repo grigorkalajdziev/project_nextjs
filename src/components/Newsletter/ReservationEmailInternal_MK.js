@@ -14,7 +14,7 @@ import {
 } from "@react-email/components";
 
 const ReservationEmailInternal_MK = ({
-  orderID,    
+  orderID,
   reservationDate,
   reservationTime,
   customerName,
@@ -65,9 +65,6 @@ const ReservationEmailInternal_MK = ({
     borderRadius: "10px",
     padding: "18px 20px",
     marginBottom: 22,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
   };
 
   const logoStyle = { display: "block", maxWidth: 160 };
@@ -123,17 +120,23 @@ const ReservationEmailInternal_MK = ({
         <Container style={cardStyle}>
           {/* Header */}
           <div style={headerGradient}>
-            <Img
-              src="https://www.kikamakeupandbeautyacademy.com/assets/images/logo.png"
-              alt="Kika Makeup & Beauty Academy"
-              width="160"
-              height="48"
-              style={logoStyle}
-            />
-            <div style={{ textAlign: "right" }}>
-              <div style={{ fontSize: 12, color: MUTED }}> Резервација</div>
-              <div style={{ fontWeight: 700, color: BRAND }}> #{orderID}</div>
-            </div>
+            <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: "collapse" }}>
+              <tr>
+                <td style={{ verticalAlign: "middle" }}>
+                  <Img
+                    src="https://www.kikamakeupandbeautyacademy.com/assets/images/logo.png"
+                    alt="Kika Makeup & Beauty Academy"
+                    width="160"
+                    height="48"
+                    style={logoStyle}
+                  />
+                </td>
+                <td style={{ verticalAlign: "middle", textAlign: "right" }}>
+                  <div style={{ fontSize: 12, color: MUTED }}>Резервација</div>
+                  <div style={{ fontWeight: 700, color: BRAND }}>#{orderID}</div>
+                </td>
+              </tr>
+            </table>
           </div>
 
           {/* Greeting */}
@@ -270,7 +273,7 @@ const ReservationEmailInternal_MK = ({
                   alt="Instagram"
                   width={20}
                   height={20}
-                  style={{ display: "inline-block" }} // 🔥 IMPORTANT
+                  style={{ display: "inline-block" }}
                 />
               </a>
 
@@ -283,7 +286,7 @@ const ReservationEmailInternal_MK = ({
                   alt="Facebook"
                   width={20}
                   height={20}
-                  style={{ display: "inline-block" }} // 🔥 IMPORTANT
+                  style={{ display: "inline-block" }}
                 />
               </a>
             </div>

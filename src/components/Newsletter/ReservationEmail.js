@@ -70,9 +70,6 @@ const ReservationEmail = ({
     borderRadius: "10px",
     padding: "18px 20px",
     marginBottom: 22,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
   };
 
   const logoStyle = { display: "block", maxWidth: 160 };
@@ -127,17 +124,23 @@ const ReservationEmail = ({
         <Container style={cardStyle}>
           {/* Header */}
           <div style={headerGradient}>
-            <Img
-              src="https://www.kikamakeupandbeautyacademy.com/assets/images/logo.png"
-              alt="Kika Makeup & Beauty Academy"
-              width="160"
-              height="48"
-              style={logoStyle}
-            />
-            <div style={{ textAlign: "right" }}>
-              <div style={{ fontSize: 12, color: MUTED }}>Reservation</div>
-              <div style={{ fontWeight: 700, color: BRAND }}>#{orderNumber}</div>
-            </div>
+            <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: "collapse" }}>
+              <tr>
+                <td style={{ verticalAlign: "middle" }}>
+                  <Img
+                    src="https://www.kikamakeupandbeautyacademy.com/assets/images/logo.png"
+                    alt="Kika Makeup & Beauty Academy"
+                    width="160"
+                    height="48"
+                    style={logoStyle}
+                  />
+                </td>
+                <td style={{ verticalAlign: "middle", textAlign: "right" }}>
+                  <div style={{ fontSize: 12, color: MUTED }}>Reservation</div>
+                  <div style={{ fontWeight: 700, color: BRAND }}>#{orderNumber}</div>
+                </td>
+              </tr>
+            </table>
           </div>
 
           {/* Greeting */}
