@@ -17,13 +17,8 @@ import {
   addToCompare,
   deleteFromCompare
 } from "../../../redux/actions/compareActions";
-import products from "../../../data/products.json";
+import { database, ref, get } from "../../api/register"; // ← replaced products.json
 import { useLocalization } from "../../../context/LocalizationContext";
-
-// ─── Lazy load heavy product detail components ───────────────────────────────
-// These three were the main contributors to the 440kB bundle size.
-// By using next/dynamic, they are split into separate chunks and only
-// downloaded when the product page is actually visited.
 
 const ImageGalleryBottomThumb = dynamic(() =>
   import("../../../components/ProductDetails").then(
@@ -37,8 +32,6 @@ const ProductDescription = dynamic(() =>
   )
 );
 
-// ProductDescriptionTab sits below the fold, so we can defer it even further
-// with ssr: false — it will only load on the client after hydration.
 const ProductDescriptionTab = dynamic(
   () =>
     import("../../../components/ProductDetails").then(
@@ -46,7 +39,6 @@ const ProductDescriptionTab = dynamic(
     ),
   { ssr: false }
 );
-// ─────────────────────────────────────────────────────────────────────────────
 
 const ProductBasic = ({
   product,
@@ -59,7 +51,6 @@ const ProductBasic = ({
   addToCompare,
   deleteFromCompare
 }) => {
-  // ✅ Fixed: added [] so this only runs once on mount, not on every render
   useEffect(() => {
     document.querySelector("body").classList.remove("overflow-hidden");
   }, []);
@@ -87,7 +78,6 @@ const ProductBasic = ({
 
   return (
     <LayoutTwo>
-      {/* breadcrumb */}
       <BreadcrumbOne
         pageTitle={product.name[currentLanguage] || product.name["en"]}
         backgroundImage="/assets/images/backgrounds/breadcrumb-bg-1.webp"
@@ -107,7 +97,6 @@ const ProductBasic = ({
         </ul>
       </BreadcrumbOne>
 
-      {/* product details */}
       <div className="product-details space-mt--r100 space-mb--r100">
         <Container>
           <Row>
@@ -169,9 +158,6 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(ProductBasic);
 
 export async function getStaticPaths() {
-  // Pre-build zero products at build time.
-  // Every product page generates on first request, is then cached,
-  // and silently revalidated in the background — build time is near-instant.
   return {
     paths: [],
     fallback: "blocking"
@@ -179,13 +165,18 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+  const snapshot = await get(ref(database, "products")); // ← fetches from Firebase
+
+  if (!snapshot.exists()) return { notFound: true };
+
+  const data = snapshot.val();
+  const products = Array.isArray(data) ? data : Object.values(data);
   const product = products.find((single) => single.slug === params.slug);
 
-  // Required when fallback is not false — handle unknown slugs gracefully
   if (!product) return { notFound: true };
 
   return {
     props: { product },
-    revalidate: 60 * 60 // re-generate the page at most once per hour
+    revalidate: 60 * 60
   };
 }

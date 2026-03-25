@@ -9,7 +9,6 @@ import { ToastProvider } from "react-toast-notifications";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { fetchProducts } from "../redux/actions/productActions";
-import products from "../data/products.json";
 import "../assets/scss/styles.scss";
 import Preloader from "../components/Preloader";
 import { LocalizationProvider, useLocalization } from "../context/LocalizationContext";
@@ -146,7 +145,7 @@ class MyApp extends App {
   constructor(props) {
     super(props);
     this.persistor = persistStore(props.reduxStore);
-    props.reduxStore.dispatch(fetchProducts(products));
+    props.reduxStore.dispatch(fetchProducts());
   }
 
   render() {
