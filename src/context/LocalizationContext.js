@@ -45,6 +45,7 @@ const translations = {
     useful_links: "Useful links",
     returns: "Returns",
     support_policy: "Support Policy",
+    payment: "Payment",
     size_guide: "Size guide",
     faqs: "FAQs",
     follow_us: "Follow us on",
