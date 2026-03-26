@@ -3,9 +3,13 @@ import { Container, Row, Col } from "react-bootstrap";
 import { SectionTitleOne } from "../SectionTitle";
 import { useLocalization } from "../../context/LocalizationContext"; 
 
-const TestimonialOne = ({ testimonialData, backgroundImage, spaceBottom }) => {
-   const { t, currentLanguage } = useLocalization();
+const textStroke = {
+  color: "#333333",
+  textShadow: "none",
+};
 
+const TestimonialOne = ({ testimonialData, backgroundImage, spaceBottom }) => {
+  const { t, currentLanguage } = useLocalization();
   const params = {
     loop: true,
     slidesPerView: 3,
@@ -16,20 +20,13 @@ const TestimonialOne = ({ testimonialData, backgroundImage, spaceBottom }) => {
       disableOnInteraction: false,
     },
     breakpoints: {
-      1024: {
-        slidesPerView: 3
-      },
-      768: {
-        slidesPerView: 2
-      },
-      640: {
-        slidesPerView: 2
-      },
-      320: {
-        slidesPerView: 1
-      }
+      1024: { slidesPerView: 3 },
+      768:  { slidesPerView: 2 },
+      640:  { slidesPerView: 2 },
+      320:  { slidesPerView: 1 }
     }
   };
+
   return (
     <div
       className={`testimonial-area bg-img ${
@@ -40,7 +37,7 @@ const TestimonialOne = ({ testimonialData, backgroundImage, spaceBottom }) => {
           backgroundImage
             ? `url(${process.env.PUBLIC_URL + backgroundImage})`
             : "none"
-        } `
+        }`,
       }}
     >
       <Container>
@@ -52,8 +49,22 @@ const TestimonialOne = ({ testimonialData, backgroundImage, spaceBottom }) => {
                 {testimonialData &&
                   testimonialData.map((single, i) => {
                     return (
-                      <div className="multi-testimonial-single-item" key={i}>
-                        <div className="multi-testimonial-single-item__text">
+                      <div
+                        className="multi-testimonial-single-item"
+                        key={i}
+                        style={{
+                          backgroundColor: "rgba(255, 255, 255, 0.15)",
+                          backdropFilter: "blur(8px)",
+                          WebkitBackdropFilter: "blur(8px)",
+                          borderRadius: "12px",
+                          padding: "24px",
+                          border: "1px solid rgba(255, 255, 255, 0.2)",
+                        }}
+                      >
+                        <div
+                          className="multi-testimonial-single-item__text"
+                          style={textStroke}
+                        >
                           {single.content[currentLanguage]}
                         </div>
                         <div className="multi-testimonial-single-item__author-info">
@@ -61,12 +72,20 @@ const TestimonialOne = ({ testimonialData, backgroundImage, spaceBottom }) => {
                             <img
                               src={process.env.PUBLIC_URL + single.image}
                               className="img-fluid"
-                              alt="{single.name[currentLanguage]}"
+                              alt={single.name[currentLanguage]}
                             />
                           </div>
                           <div className="content">
-                            <p className="name">{single.name[currentLanguage]}</p>
-                            <span className="designation">
+                            <p
+                              className="name"
+                              style={textStroke}
+                            >
+                              {single.name[currentLanguage]}
+                            </p>
+                            <span
+                              className="designation"
+                              style={textStroke}
+                            >
                               / {single.designation[currentLanguage]}
                             </span>
                           </div>
