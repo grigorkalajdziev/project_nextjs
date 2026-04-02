@@ -24,6 +24,7 @@ import PaymentTab from "../../components/Account/Tabs/PaymentTab";
 import AccountDetailsTab from "../../components/Account/Tabs/AccountDetailsTab";
 import UsersTab from "../../components/Account/Tabs/UsersTab";
 import LogsTab from "../../components/Account/Tabs/LogsTab";
+import ProductsTab from "../../components/Account/Tabs/ProductsTab";
 
 // Logger
 import { logActivity } from "../lib/logActivity";
@@ -984,6 +985,7 @@ const MyAccount = () => {
               <Nav.Item><Nav.Link eventKey="dashboard">{t("dashboard")}</Nav.Link></Nav.Item>
               {role === "admin" && <Nav.Item><Nav.Link eventKey="users">{t("users")}</Nav.Link></Nav.Item>}
               {role === "admin" && <Nav.Item><Nav.Link eventKey="logs">{t("logs")}</Nav.Link></Nav.Item>}
+              {role === "admin" && <Nav.Item><Nav.Link eventKey="products">{t("products")}</Nav.Link></Nav.Item>}
               <Nav.Item><Nav.Link eventKey="orders">{t("orders")}</Nav.Link></Nav.Item>
               <Nav.Item><Nav.Link eventKey="download">{t("download")}</Nav.Link></Nav.Item>
               <Nav.Item><Nav.Link eventKey="payment">{t("payment")}</Nav.Link></Nav.Item>
@@ -1015,6 +1017,17 @@ const MyAccount = () => {
               {role === "admin" && (
                 <Tab.Pane eventKey="logs">
                   <LogsTab />
+                </Tab.Pane>
+              )}
+
+              {role === "admin" && (
+                <Tab.Pane eventKey="products">
+                  <ProductsTab
+                    t={t}
+                    role={role}
+                    currentLanguage={currentLanguage}
+                    user={user}
+                  />
                 </Tab.Pane>
               )}
 

@@ -12,7 +12,9 @@ export const fetchProducts = () => {
     const snapshot = await get(ref(database, "products"));
     if (snapshot.exists()) {
       const data = snapshot.val();
-      const products = Array.isArray(data) ? data : Object.values(data);
+      const products = Object.entries(data)
+        .map(([firebaseKey, product]) => ({ ...product, id: firebaseKey })) 
+        .filter(Boolean); 
       dispatch(fetchProductsSuccess(products));
     }
   };

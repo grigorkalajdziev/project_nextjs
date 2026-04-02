@@ -9,7 +9,7 @@ import {
   browserLocalPersistence,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getDatabase, ref, set, push, get, update } from "firebase/database";
+import { getDatabase, ref, set, push, get, update, remove } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -127,4 +127,5 @@ export {
   facebookProvider,
   googleProvider,
   update,
+  remove,
 };

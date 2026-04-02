@@ -26,7 +26,7 @@ export const LocalizationProvider = ({ children }) => {
   const [translations, setTranslations] = useState({});
   const [loading, setLoading] = useState(true);
 
-  // ── Fetch translations from Firebase on mount ──────────────────────────────
+  // ── Fetch translations on mount ──────────────────────────────
   useEffect(() => {
     const fetchTranslations = async () => {
       try {
@@ -34,10 +34,10 @@ export const LocalizationProvider = ({ children }) => {
         if (snapshot.exists()) {
           setTranslations(snapshot.val());
         } else {
-          console.warn("No translations found in Firebase.");
+          console.warn("No translations found.");
         }
       } catch (error) {
-        console.error("Failed to fetch translations from Firebase:", error);
+        console.error("Failed to fetch translations:", error);
       } finally {
         setLoading(false);
       }

@@ -1,51 +1,33 @@
 // get products
 export const getProducts = (products, categories, type, limit) => {
-  let finalProducts = [...products];
+  let finalProducts = products.filter(Boolean); // 👈 removes undefined/null entries
 
-  // filter by one OR multiple categories
   if (categories) {
-    const categoryArray = Array.isArray(categories)
-      ? categories
-      : [categories];
-
+    const categoryArray = Array.isArray(categories) ? categories : [categories];
     finalProducts = finalProducts.filter((product) =>
       product.category?.some((cat) => categoryArray.includes(cat))
     );
   }
 
-  // filter by type
   if (type) {
     switch (type) {
       case "new":
-        finalProducts = finalProducts.filter(
-          (product) => product.new === true
-        );
+        finalProducts = finalProducts.filter((product) => product.new === true);
         break;
-
       case "bestSeller":
-        finalProducts = finalProducts.sort(
-          (a, b) => b.saleCount - a.saleCount
-        );
+        finalProducts = finalProducts.sort((a, b) => (b.saleCount || 0) - (a.saleCount || 0));
         break;
-
       case "topRated":
-        finalProducts = finalProducts.sort(
-          (a, b) => b.rating - a.rating
-        );
+        finalProducts = finalProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
         break;
-
       case "discounted":
-        finalProducts = finalProducts.filter(
-          (product) => product.discount && product.discount > 0
-        );
+        finalProducts = finalProducts.filter((product) => product.discount && product.discount > 0);
         break;
-
       default:
         break;
     }
   }
 
-  // limit results
   if (limit) {
     finalProducts = finalProducts.slice(0, limit);
   }
