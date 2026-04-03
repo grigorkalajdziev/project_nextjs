@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { ref, get } from "firebase/database";
 import { database } from "../pages/api/register";
+import Preloader from "../components/Preloader";
 
 const fonts = {
   en: "'Libre Baskerville', cursive",
@@ -17,16 +18,18 @@ export const useLocalization = () => {
 };
 
 export const LocalizationProvider = ({ children }) => {
+
   const [language, setLanguage] = useState(() => {
     if (typeof window === "undefined") return DEFAULT_LANG;
     const saved = localStorage.getItem("language");
     return SUPPORTED_LANGS.includes(saved) ? saved : DEFAULT_LANG;
   });
 
-  const [translations, setTranslations] = useState({});
+  
+  const [translations, setTranslations] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ── Fetch translations on mount ──────────────────────────────
+
   useEffect(() => {
     const fetchTranslations = async () => {
       try {
@@ -35,9 +38,11 @@ export const LocalizationProvider = ({ children }) => {
           setTranslations(snapshot.val());
         } else {
           console.warn("No translations found.");
+          setTranslations({});
         }
       } catch (error) {
         console.error("Failed to fetch translations:", error);
+        setTranslations({});
       } finally {
         setLoading(false);
       }
@@ -45,13 +50,14 @@ export const LocalizationProvider = ({ children }) => {
 
     fetchTranslations();
   }, []);
-
-  // ── Persist language choice & update font ──────────────────────────────────
+  
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("language", language);
     }
-    document.body.style.fontFamily = fonts[language] || fonts[DEFAULT_LANG];
+
+    document.body.style.fontFamily =
+      fonts[language] || fonts[DEFAULT_LANG];
   }, [language]);
 
   const changeLanguage = (lang) => {
@@ -59,20 +65,35 @@ export const LocalizationProvider = ({ children }) => {
       setLanguage(lang);
     }
   };
-
-  // ── Translation helper ─────────────────────────────────────────────────────
+ 
   const t = (key) => {
+    if (!translations) return ""; 
+
     const langData = translations[language];
-    if (langData && langData[key] !== undefined) return langData[key];
-    // Fallback to English if key missing in current language
+    if (langData && langData[key] !== undefined) {
+      return langData[key];
+    }
+
     const enData = translations["en"];
-    if (enData && enData[key] !== undefined) return enData[key];
-    return key;
+    if (enData && enData[key] !== undefined) {
+      return enData[key];
+    }
+
+    return "";
   };
+
+ 
+  if (loading) {
+    return <Preloader />; 
+  }
 
   return (
     <LocalizationContext.Provider
-      value={{ changeLanguage, t, currentLanguage: language, translationsLoading: loading }}
+      value={{
+        changeLanguage,
+        t,
+        currentLanguage: language,
+      }}
     >
       {children}
     </LocalizationContext.Provider>
