@@ -59,29 +59,29 @@ const Trending = ({ products }) => {
             />
           </Row>
           <div className="text-center">
-            <Link href="/shop/left-sidebar" legacyBehavior>
-              <a
-                className="lezada-loadmore-button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleSeeMoreClick();
+            <Link
+              href="/shop/left-sidebar"
+              className="lezada-loadmore-button"
+              onClick={(e) => {
+                e.preventDefault();
+                handleSeeMoreClick();
 
-                  setTimeout(() => {
-                    window.location.href = "/shop/left-sidebar";
-                  }, 1200);
-                }}
-              >
-                {loading ? (
-                  <Spinner animation="border" size="sm" />
-                ) : (
-                  <>
-                    <span>
-                      <IoIosAdd />
-                    </span>
-                    {t("see_more")}
-                  </>
-                )}
-              </a>
+                setTimeout(() => {
+                  window.location.href = "/shop/left-sidebar";
+                }, 1200);
+              }}>
+
+              {loading ? (
+                <Spinner animation="border" size="sm" />
+              ) : (
+                <>
+                  <span>
+                    <IoIosAdd />
+                  </span>
+                  {t("see_more")}
+                </>
+              )}
+
             </Link>
           </div>
         </Container>

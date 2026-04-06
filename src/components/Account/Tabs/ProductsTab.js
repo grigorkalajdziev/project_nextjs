@@ -74,15 +74,35 @@ const ProductsTab = ({ t, role, currentLanguage, user }) => {
     }
   };
 
+  // ✅ FIXED: generates a proper numeric ID for new products
+  const getNextProductId = async () => {
+    const snapshot = await get(ref(database, "products"));
+    if (!snapshot.exists()) return 0;
+
+    const data = snapshot.val();
+    const keys = Object.keys(data);
+
+    // Find the highest numeric key (ignores any old string keys like "product_xxx")
+    const maxNumericId = keys.reduce((max, key) => {
+      const num = parseInt(key, 10);
+      return !isNaN(num) && num > max ? num : max;
+    }, -1);
+
+    return maxNumericId + 1; // e.g. if highest is 33, returns 34
+  };
+
   const handleSaveProduct = async (formData) => {
     setIsLoading(true);
     try {
-      const productId = editingProduct?.id || `product_${Date.now()}`;
+      // If editing, keep existing id. If new, generate next numeric id.
+      const productId = editingProduct?.id ?? await getNextProductId();
+
       await set(ref(database, `products/${productId}`), {
         ...formData,
         id: productId,
         updatedAt: new Date().toISOString(),
       });
+
       addToast(editingProduct ? t("product_updated") : t("product_added"), {
         appearance: "success",
         autoDismiss: true,

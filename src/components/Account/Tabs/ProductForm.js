@@ -2,6 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col, Spinner } from "react-bootstrap";
 import { useToasts } from "react-toast-notifications";
 
+const getCategoryPath = (categories) => {
+  const cat = (categories[0] || "").toLowerCase();
+  if (cat === "decor")     return "/assets/images/product/decor/";
+  if (cat === "fashion")   return "/assets/images/product/fashion/";
+  if (cat === "cosmetics") return "/assets/images/product/cosmetics/";
+  if (cat === "makeup")    return "/assets/images/product/cosmetics/";
+  return "/assets/images/product/";
+};
+
 const ProductForm = ({
   show,
   onHide,
@@ -9,7 +18,7 @@ const ProductForm = ({
   onSave,
   categories,
   isLoading,
-  currentLanguage, // "en" | "mk"
+  currentLanguage,
   t,
 }) => {
   const { addToast } = useToasts();
@@ -90,7 +99,6 @@ const ProductForm = ({
     setCategoryInput("");
   };
 
-  // For bilingual fields: always writes to currentLanguage
   const handleBilingualChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -99,7 +107,6 @@ const ProductForm = ({
     setErrors((prev) => ({ ...prev, [field]: "" }));
   };
 
-  // For non-bilingual fields (price uses lang, others don't)
   const handleInputChange = (field, value, lang = null) => {
     if (lang) {
       setFormData((prev) => ({
@@ -115,17 +122,20 @@ const ProductForm = ({
   const handleImageUpload = (e, type) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
+
+    const folder = getCategoryPath(formData.category);
+
     if (type === "image") {
       setImageFiles((prev) => [...prev, ...files]);
       setFormData((prev) => ({
         ...prev,
-        image: [...prev.image, ...files.map((f) => f.name)],
+        image: [...prev.image, ...files.map((f) => `${folder}${f.name}`)],
       }));
     } else {
       setThumbImageFiles((prev) => [...prev, ...files]);
       setFormData((prev) => ({
         ...prev,
-        thumbImage: [...prev.thumbImage, ...files.map((f) => f.name)],
+        thumbImage: [...prev.thumbImage, ...files.map((f) => `${folder}${f.name}`)],
       }));
     }
     e.target.value = "";
@@ -179,7 +189,6 @@ const ProductForm = ({
 
   const validateForm = () => {
     const newErrors = {};
-
     if (!formData.name[currentLanguage]?.trim()) newErrors.name = "error_name_required";
     if (!formData.shortDescription[currentLanguage]?.trim()) newErrors.shortDescription = "error_short_description_required";
     if (!formData.fullDescription[currentLanguage]?.trim()) newErrors.fullDescription = "error_full_description_required";
@@ -208,6 +217,9 @@ const ProductForm = ({
     resetForm();
   };
 
+  const categoryPath = getCategoryPath(formData.category);
+  const noCategorySelected = formData.category.length === 0;
+
   return (
     <Modal show={show} onHide={onHide} centered size="xl" backdrop="static">
       <Modal.Header closeButton>
@@ -219,11 +231,12 @@ const ProductForm = ({
       <Modal.Body style={{ maxHeight: "70vh", overflowY: "auto" }}>
         <Form>
 
-          {/* Name */}
+          {/* ── Product Name ── */}
           <Row className="mb-4">
             <Col md={12}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("product_name")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">{t("desc_name")}</Form.Text>
                 <Form.Control
                   type="text"
                   value={formData.name[currentLanguage]}
@@ -235,11 +248,12 @@ const ProductForm = ({
             </Col>
           </Row>
 
-          {/* Short Description */}
+          {/* ── Short Description ── */}
           <Row className="mb-4">
             <Col md={12}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("short_description")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">{t("desc_short_description")}</Form.Text>
                 <Form.Control
                   as="textarea"
                   rows={3}
@@ -252,11 +266,12 @@ const ProductForm = ({
             </Col>
           </Row>
 
-          {/* Full Description */}
+          {/* ── Full Description ── */}
           <Row className="mb-4">
             <Col md={12}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("full_description")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">{t("desc_full_description")}</Form.Text>
                 <Form.Control
                   as="textarea"
                   rows={5}
@@ -269,11 +284,12 @@ const ProductForm = ({
             </Col>
           </Row>
 
-          {/* SKU and Slug */}
+          {/* ── SKU & Slug ── */}
           <Row className="mb-4">
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("sku")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">{t("desc_sku")}</Form.Text>
                 <Form.Control
                   type="text"
                   value={formData.sku}
@@ -286,6 +302,7 @@ const ProductForm = ({
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("slug")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">{t("desc_slug")}</Form.Text>
                 <Form.Control
                   type="text"
                   value={formData.slug}
@@ -297,11 +314,12 @@ const ProductForm = ({
             </Col>
           </Row>
 
-          {/* Prices */}
+          {/* ── Prices ── */}
           <Row className="mb-4">
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("price_eur")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">{t("desc_price_eur")}</Form.Text>
                 <Form.Control
                   type="number"
                   step="0.01"
@@ -317,6 +335,7 @@ const ProductForm = ({
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("price_mkd")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">{t("desc_price_mkd")}</Form.Text>
                 <Form.Control
                   type="number"
                   step="0.01"
@@ -331,11 +350,12 @@ const ProductForm = ({
             </Col>
           </Row>
 
-          {/* Discount, Stock, Rating */}
+          {/* ── Discount, Stock, Rating ── */}
           <Row className="mb-4">
             <Col md={4}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("discount_percent")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">{t("desc_discount")}</Form.Text>
                 <Form.Control
                   type="number"
                   min="0"
@@ -352,6 +372,7 @@ const ProductForm = ({
             <Col md={4}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("stock")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">{t("desc_stock")}</Form.Text>
                 <Form.Control
                   type="number"
                   min="0"
@@ -367,6 +388,7 @@ const ProductForm = ({
             <Col md={4}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("rating_1_5")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">{t("desc_rating")}</Form.Text>
                 <Form.Control
                   type="number"
                   min="1"
@@ -381,10 +403,12 @@ const ProductForm = ({
             </Col>
           </Row>
 
-          {/* New & Sales Count */}
+          {/* ── New & Sales Count ── */}
           <Row className="mb-4">
             <Col md={6}>
               <Form.Group>
+                <Form.Label className="fw-bold">{t("mark_as_new")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">{t("desc_mark_as_new")}</Form.Text>
                 <Form.Check
                   type="checkbox"
                   label={t("mark_as_new")}
@@ -396,6 +420,7 @@ const ProductForm = ({
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("sales_count")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">{t("desc_sales_count")}</Form.Text>
                 <Form.Control
                   type="number"
                   min="0"
@@ -409,11 +434,12 @@ const ProductForm = ({
             </Col>
           </Row>
 
-          {/* Categories */}
+          {/* ── Categories ── */}
           <Row className="mb-4">
             <Col md={12}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("categories")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">{t("desc_categories")}</Form.Text>
                 <div className="d-flex gap-2 mb-2">
                   <Form.Control
                     type="text"
@@ -421,9 +447,15 @@ const ProductForm = ({
                     onChange={(e) => setCategoryInput(e.target.value)}
                     placeholder={t("enter_category_and_press_add")}
                     onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addCategory(); } }}
+                    isInvalid={!!errors.category}
                   />
                   <Button variant="outline-primary" onClick={addCategory}>{t("add")}</Button>
                 </div>
+                {formData.category.length > 0 && (
+                  <div className="alert alert-info py-1 px-2 mb-2" style={{ fontSize: "0.82rem" }}>
+                    📁 {t("image_save_path")}: <strong>{categoryPath}</strong>
+                  </div>
+                )}
                 <div className="d-flex flex-wrap gap-2">
                   {formData.category.map((cat, idx) => (
                     <span key={idx} className="badge bg-primary">
@@ -442,11 +474,12 @@ const ProductForm = ({
             </Col>
           </Row>
 
-          {/* Tags */}
+          {/* ── Tags ── */}
           <Row className="mb-4">
             <Col md={12}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("tags")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">{t("desc_tags")}</Form.Text>
                 <div className="d-flex gap-2 mb-2">
                   <Form.Control
                     type="text"
@@ -475,24 +508,36 @@ const ProductForm = ({
             </Col>
           </Row>
 
-          {/* Images */}
+          {/* ── Images ── */}
           <Row className="mb-4">
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("product_images")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">
+                  {t("desc_product_images")}
+                  {!noCategorySelected && (
+                    <> {t("files_saved_to")}: <strong>{categoryPath}</strong></>
+                  )}
+                </Form.Text>
                 <Form.Control
                   type="file"
                   multiple
                   accept="image/*"
+                  disabled={noCategorySelected}
                   onChange={(e) => handleImageUpload(e, "image")}
                 />
+                {noCategorySelected && (
+                  <Form.Text className="text-warning fw-semibold">
+                    {t("warning_add_category_before_upload")}
+                  </Form.Text>
+                )}
                 <small className="text-muted d-block mt-2">
                   {t("current_images")}: {formData.image.length}
                 </small>
                 <div className="mt-2">
                   {formData.image.map((img, idx) => (
                     <div key={idx} className="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
-                      <span className="text-truncate">{img}</span>
+                      <span className="text-truncate" style={{ fontSize: "0.8rem" }}>{img}</span>
                       <Button variant="outline-danger" size="sm" onClick={() => removeImage(idx, "image")}>
                         {t("remove")}
                       </Button>
@@ -504,19 +549,31 @@ const ProductForm = ({
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("thumbnail_image")}</Form.Label>
+                <Form.Text className="text-muted d-block mb-1">
+                  {t("desc_thumbnail_image")}
+                  {!noCategorySelected && (
+                    <> {t("files_saved_to")}: <strong>{categoryPath}</strong></>
+                  )}
+                </Form.Text>
                 <Form.Control
                   type="file"
                   multiple
                   accept="image/*"
+                  disabled={noCategorySelected}
                   onChange={(e) => handleImageUpload(e, "thumb")}
                 />
+                {noCategorySelected && (
+                  <Form.Text className="text-warning fw-semibold">
+                    {t("warning_add_category_before_upload")}
+                  </Form.Text>
+                )}
                 <small className="text-muted d-block mt-2">
                   {t("current_thumbnails")}: {formData.thumbImage.length}
                 </small>
                 <div className="mt-2">
                   {formData.thumbImage.map((thumb, idx) => (
                     <div key={idx} className="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
-                      <span className="text-truncate">{thumb}</span>
+                      <span className="text-truncate" style={{ fontSize: "0.8rem" }}>{thumb}</span>
                       <Button variant="outline-danger" size="sm" onClick={() => removeImage(idx, "thumb")}>
                         {t("remove")}
                       </Button>
