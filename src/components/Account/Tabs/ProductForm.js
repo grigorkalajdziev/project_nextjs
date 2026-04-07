@@ -410,12 +410,17 @@ const ProductForm = ({
               <Form.Group>
                 <Form.Label className="fw-bold">{t("mark_as_new")}</Form.Label>
                 <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_mark_as_new")}</Form.Text>
-                <Form.Check
+                <div className="single-method">
+                <input
                   type="checkbox"
-                  label={t("mark_as_new")}
+                  id="mark_as_new"
                   checked={formData.new}
                   onChange={(e) => handleInputChange("new", e.target.checked)}
                 />
+                <label htmlFor="mark_as_new">
+                  {t("mark_as_new")}
+                </label>
+              </div>
               </Form.Group>
             </Col>
             <Col md={6}>
