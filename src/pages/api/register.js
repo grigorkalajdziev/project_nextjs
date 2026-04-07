@@ -9,6 +9,7 @@ import {
   browserLocalPersistence,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 import { getDatabase, ref, set, push, get, update, remove } from "firebase/database";
 
 const firebaseConfig = {
@@ -29,6 +30,7 @@ const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const database = getDatabase(app);
+const storage = getStorage(app);
 
 // Set persistence to LOCAL so session survives new tabs and page refreshes
 setPersistence(auth, browserLocalPersistence).catch((err) => {
@@ -120,6 +122,7 @@ export {
   auth,
   db,
   database,
+  storage,
   push,
   ref,
   set,
