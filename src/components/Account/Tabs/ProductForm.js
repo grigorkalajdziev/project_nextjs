@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col, Spinner } from "react-bootstrap";
 import { useToasts } from "react-toast-notifications";
+import { FaInfoCircle } from "react-icons/fa";
 
 const getCategoryPath = (categories) => {
   const cat = (categories[0] || "").toLowerCase();
@@ -236,7 +237,7 @@ const ProductForm = ({
             <Col md={12}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("product_name")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">{t("desc_name")}</Form.Text>
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_name")}</Form.Text>
                 <Form.Control
                   type="text"
                   value={formData.name[currentLanguage]}
@@ -253,7 +254,7 @@ const ProductForm = ({
             <Col md={12}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("short_description")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">{t("desc_short_description")}</Form.Text>
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_short_description")}</Form.Text>
                 <Form.Control
                   as="textarea"
                   rows={3}
@@ -271,7 +272,7 @@ const ProductForm = ({
             <Col md={12}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("full_description")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">{t("desc_full_description")}</Form.Text>
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_full_description")}</Form.Text>
                 <Form.Control
                   as="textarea"
                   rows={5}
@@ -289,7 +290,7 @@ const ProductForm = ({
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("sku")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">{t("desc_sku")}</Form.Text>
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_sku")}</Form.Text>
                 <Form.Control
                   type="text"
                   value={formData.sku}
@@ -302,7 +303,7 @@ const ProductForm = ({
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("slug")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">{t("desc_slug")}</Form.Text>
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_slug")}</Form.Text>
                 <Form.Control
                   type="text"
                   value={formData.slug}
@@ -319,7 +320,7 @@ const ProductForm = ({
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("price_eur")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">{t("desc_price_eur")}</Form.Text>
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_price_eur")}</Form.Text>
                 <Form.Control
                   type="number"
                   step="0.01"
@@ -335,7 +336,7 @@ const ProductForm = ({
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("price_mkd")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">{t("desc_price_mkd")}</Form.Text>
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_price_mkd")}</Form.Text>
                 <Form.Control
                   type="number"
                   step="0.01"
@@ -355,7 +356,7 @@ const ProductForm = ({
             <Col md={4}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("discount_percent")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">{t("desc_discount")}</Form.Text>
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_discount")}</Form.Text>
                 <Form.Control
                   type="number"
                   min="0"
@@ -372,7 +373,7 @@ const ProductForm = ({
             <Col md={4}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("stock")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">{t("desc_stock")}</Form.Text>
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_stock")}</Form.Text>
                 <Form.Control
                   type="number"
                   min="0"
@@ -388,7 +389,7 @@ const ProductForm = ({
             <Col md={4}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("rating_1_5")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">{t("desc_rating")}</Form.Text>
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_rating")}</Form.Text>
                 <Form.Control
                   type="number"
                   min="1"
@@ -408,7 +409,7 @@ const ProductForm = ({
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("mark_as_new")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">{t("desc_mark_as_new")}</Form.Text>
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_mark_as_new")}</Form.Text>
                 <Form.Check
                   type="checkbox"
                   label={t("mark_as_new")}
@@ -420,7 +421,7 @@ const ProductForm = ({
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("sales_count")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">{t("desc_sales_count")}</Form.Text>
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_sales_count")}</Form.Text>
                 <Form.Control
                   type="number"
                   min="0"
@@ -439,7 +440,7 @@ const ProductForm = ({
             <Col md={12}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("categories")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">{t("desc_categories")}</Form.Text>
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_categories")}</Form.Text>
                 <div className="d-flex gap-2 mb-2">
                   <Form.Control
                     type="text"
@@ -479,7 +480,7 @@ const ProductForm = ({
             <Col md={12}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("tags")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">{t("desc_tags")}</Form.Text>
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />{t("desc_tags")}</Form.Text>
                 <div className="d-flex gap-2 mb-2">
                   <Form.Control
                     type="text"
@@ -513,7 +514,7 @@ const ProductForm = ({
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("product_images")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />
                   {t("desc_product_images")}
                   {!noCategorySelected && (
                     <> {t("files_saved_to")}: <strong>{categoryPath}</strong></>
@@ -549,7 +550,7 @@ const ProductForm = ({
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="fw-bold">{t("thumbnail_image")}</Form.Label>
-                <Form.Text className="text-muted d-block mb-1">
+                <Form.Text className="text-muted d-block mb-1" style={{ fontSize: "0.72rem" }}><FaInfoCircle className="me-1" style={{ color: "#0d6efd", flexShrink: 0, marginTop: "-2px" }} />
                   {t("desc_thumbnail_image")}
                   {!noCategorySelected && (
                     <> {t("files_saved_to")}: <strong>{categoryPath}</strong></>
