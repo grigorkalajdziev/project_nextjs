@@ -46,7 +46,7 @@ export const SubscribeResendEmail_MK = ({ email }) => (
           <Text style={heading}>Добредојдовте во Кика Makeup и Beauty Academy!</Text>
           
           <Text style={paragraph}>
-            Ви благодариме што се пријавивте во <strong>Кика Makeup и Beauty Academy</strong>. 
+            Ви благодариме што се претплативте во <strong>Кика Makeup и Beauty Academy</strong>. 
             Возбудени сме што ќе ви помогнеме да го истражите светот на професионалната шминка и убавина.
           </Text>
           
