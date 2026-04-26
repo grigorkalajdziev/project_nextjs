@@ -237,7 +237,7 @@ const ProductsTab = ({ t, role, currentLanguage, user }) => {
                   >
                     <option value="all">{t("all_categories")}</option>
                     {categories.map((cat) => (
-                      <option key={cat} value={cat}>{cat}</option>
+                      <option key={cat} value={cat}>{t(cat)}</option>
                     ))}
                   </select>
                 </div>
@@ -305,7 +305,7 @@ const ProductsTab = ({ t, role, currentLanguage, user }) => {
                         {Array.isArray(product.category) &&
                           product.category.map((cat) => (
                             <span key={cat} className="badge bg-info text-dark me-1">
-                              <small>{cat}</small>
+                              <small>{t(cat)}</small>
                             </span>
                           ))}
                       </td>
