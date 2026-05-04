@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Image from "next/image";
 import Link from "next/link";
 import Swiper from "react-id-swiper";
 import { useLocalization } from "../../context/LocalizationContext";
@@ -26,7 +27,7 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
 
   const handleButtonClick = () => {
     setLoading(true);
-    setTimeout(() => setLoading(false), 2000); // Simulate loading for 2 seconds
+    //setTimeout(() => setLoading(false), 20); // Simulate loading for 2 seconds
   };
 
   const params = {
@@ -62,10 +63,12 @@ const HeroSliderTwo = ({ sliderData, spaceBottomClass }) => {
                   key={i}
                 >
                   <div className="hero-slider-two__image">
-                    <img
+                    <Image
                       src={process.env.PUBLIC_URL + single.image}
                       alt=""
                       className="img-fluid"
+                      width={600}
+                      height={800}
                     />
                   </div>
                   <div className="hero-slider-two__content">

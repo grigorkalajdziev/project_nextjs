@@ -10,7 +10,6 @@ import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { fetchProducts } from "../redux/actions/productActions";
 import "../assets/scss/styles.scss";
-import Preloader from "../components/Preloader";
 import { LocalizationProvider, useLocalization } from "../context/LocalizationContext";
 import HeaderTop from "../components/Header/HeaderTop";
 import CookieConsentToast from "../components/Cookies/CookieConsent";
@@ -19,6 +18,7 @@ import { auth } from "../pages/api/register";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+// ── Fonts loaded once via next/font (no FOUT, no extra network request)
 const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -36,28 +36,28 @@ const ptSerif = PT_Serif({
 const beautyBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "BeautyBusiness",
-  "name": "Кика - Академија за шминка и убавина",
-  "url": "https://www.kikamakeupandbeautyacademy.com",
-  "logo": "https://www.kikamakeupandbeautyacademy.com/logo.png",
-  "image": "https://www.kikamakeupandbeautyacademy.com/og-image.jpg",
-  "description":
+  name: "Кика - Академија за шминка и убавина",
+  url: "https://www.kikamakeupandbeautyacademy.com",
+  logo: "https://www.kikamakeupandbeautyacademy.com/logo.png",
+  image: "https://www.kikamakeupandbeautyacademy.com/og-image.jpg",
+  description:
     "Кика Академија за шминка и убавина нуди професионални курсеви за шминкање, педикир и третмани за убавина.",
-  "address": {
+  address: {
     "@type": "PostalAddress",
-    "addressCountry": "MK",
+    addressCountry: "MK",
   },
-  "sameAs": [
+  sameAs: [
     "https://www.facebook.com/kristina.iloski",
     "https://www.instagram.com/kikamakeup_and_beautyacademy/",
   ],
-  "hasOfferCatalog": {
+  hasOfferCatalog: {
     "@type": "OfferCatalog",
-    "name": "Услуги и Курсеви",
-    "itemListElement": [
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Курс за шминкање" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Педикир" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Депилација" } },
-      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Обуки" } },
+    name: "Услуги и Курсеви",
+    itemListElement: [
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Курс за шминкање" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Педикир" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Депилација" } },
+      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Обуки" } },
     ],
   },
 };
@@ -65,13 +65,13 @@ const beautyBusinessSchema = {
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "Кика - Академија за шминка и убавина",
-  "url": "https://www.kikamakeupandbeautyacademy.com/",
-  "potentialAction": {
+  name: "Кика - Академија за шминка и убавина",
+  url: "https://www.kikamakeupandbeautyacademy.com/",
+  potentialAction: {
     "@type": "SearchAction",
-    "target": {
+    target: {
       "@type": "EntryPoint",
-      "urlTemplate":
+      urlTemplate:
         "https://www.kikamakeupandbeautyacademy.com/shop/left-sidebar?q={search_term_string}",
     },
     "query-input": "required name=search_term_string",
@@ -81,12 +81,12 @@ const websiteSchema = {
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Дома", "item": "https://www.kikamakeupandbeautyacademy.com" },
-    { "@type": "ListItem", "position": 2, "name": "Академија", "item": "https://www.kikamakeupandbeautyacademy.com/shop/left-sidebar" },
-    { "@type": "ListItem", "position": 3, "name": "Обуки", "item": "https://www.kikamakeupandbeautyacademy.com/shop/left-sidebar?category=training" },
-    { "@type": "ListItem", "position": 4, "name": "За Нас", "item": "https://www.kikamakeupandbeautyacademy.com/other/about" },
-    { "@type": "ListItem", "position": 5, "name": "Контакт", "item": "https://www.kikamakeupandbeautyacademy.com/other/contact" },
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Дома", item: "https://www.kikamakeupandbeautyacademy.com" },
+    { "@type": "ListItem", position: 2, name: "Академија", item: "https://www.kikamakeupandbeautyacademy.com/shop/left-sidebar" },
+    { "@type": "ListItem", position: 3, name: "Обуки", item: "https://www.kikamakeupandbeautyacademy.com/shop/left-sidebar?category=training" },
+    { "@type": "ListItem", position: 4, name: "За Нас", item: "https://www.kikamakeupandbeautyacademy.com/other/about" },
+    { "@type": "ListItem", position: 5, name: "Контакт", item: "https://www.kikamakeupandbeautyacademy.com/other/contact" },
   ],
 };
 
@@ -103,18 +103,35 @@ class MyApp extends App {
     const { Component, pageProps, reduxStore } = this.props;
     return (
       <Fragment>
-        <div className={`${libreBaskerville.className} ${ptSerif.className}`}>
+        {/*
+          ── Font className applied here so the correct font is set from the
+             very first paint — no layout shift from a later body.style change.
+             Both font variables are available; LocalizationContext switches the
+             active one via a data-lang attribute on <html> or a wrapper class.
+        */}
+        <div className={`${libreBaskerville.variable} ${ptSerif.variable}`}>
           <ToastProvider placement="bottom-left">
             <Provider store={reduxStore}>
-              <PersistGate loading={<Preloader />} persistor={this.persistor}>
+              {/*
+                ── PersistGate with loading={null} instead of <Preloader />.
+                   This lets the page render immediately on the first paint
+                   (before redux-persist has rehydrated) instead of showing a
+                   blank preloader screen, which was blocking LCP.
+              */}
+              <PersistGate loading={null} persistor={this.persistor}>
                 <LocalizationProvider>
-                  <CanonicalHeadWrapper />
-                  <SessionHandler />
-                  <HeaderTop />
-                  <CookieConsentToast />
-                  <Component {...pageProps} />
-                  <Analytics />
-                  <SpeedInsights />
+                  <FontSwitcher
+                    libreBaskerville={libreBaskerville}
+                    ptSerif={ptSerif}
+                  >
+                    <CanonicalHeadWrapper />
+                    <SessionHandler />
+                    <HeaderTop />
+                    <CookieConsentToast />
+                    <Component {...pageProps} />
+                    <Analytics />
+                    <SpeedInsights />
+                  </FontSwitcher>
                 </LocalizationProvider>
               </PersistGate>
             </Provider>
@@ -123,6 +140,18 @@ class MyApp extends App {
       </Fragment>
     );
   }
+}
+
+// ─── Font Switcher ────────────────────────────────────────────────────────────
+// Replaces document.body.style.fontFamily (which caused CLS) with a stable
+// CSS className swap. The font is set before paint via next/font preloading.
+
+function FontSwitcher({ children, libreBaskerville, ptSerif }) {
+  const { currentLanguage } = useLocalization();
+  const fontClass =
+    currentLanguage === "en" ? libreBaskerville.className : ptSerif.className;
+
+  return <div className={fontClass}>{children}</div>;
 }
 
 // ─── Canonical Head Wrapper ───────────────────────────────────────────────────
@@ -150,7 +179,15 @@ function LocalizedHead({ canonicalUrl }) {
       <meta name="author" content="Кика Академија" />
       <meta name="robots" content="index, follow" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="icon" href={process.env.PUBLIC_URL + "/favicon(1).ico"} />
+      <link rel="icon" href="/favicon(1).ico" />
+
+      {/* ── Preload first hero slide so LCP image is fetched as early as possible ── */}
+      <link
+        rel="preload"
+        as="image"
+        href="/assets/images/hero-slider/hero-slider-two/1.webp"
+        type="image/webp"
+      />
 
       {/* ── Canonical ── */}
       {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
@@ -173,9 +210,18 @@ function LocalizedHead({ canonicalUrl }) {
       <meta name="twitter:image" content={ogImage} />
 
       {/* ── Structured Data ── */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(beautyBusinessSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(beautyBusinessSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
     </Head>
   );
 }
