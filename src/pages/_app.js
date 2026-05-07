@@ -102,22 +102,10 @@ class MyApp extends App {
   render() {
     const { Component, pageProps, reduxStore } = this.props;
     return (
-      <Fragment>
-        {/*
-          ── Font className applied here so the correct font is set from the
-             very first paint — no layout shift from a later body.style change.
-             Both font variables are available; LocalizationContext switches the
-             active one via a data-lang attribute on <html> or a wrapper class.
-        */}
+      <Fragment>       
         <div className={`${libreBaskerville.variable} ${ptSerif.variable}`}>
           <ToastProvider placement="bottom-left">
-            <Provider store={reduxStore}>
-              {/*
-                ── PersistGate with loading={null} instead of <Preloader />.
-                   This lets the page render immediately on the first paint
-                   (before redux-persist has rehydrated) instead of showing a
-                   blank preloader screen, which was blocking LCP.
-              */}
+            <Provider store={reduxStore}>             
               <PersistGate loading={null} persistor={this.persistor}>
                 <LocalizationProvider>
                   <FontSwitcher
@@ -141,10 +129,6 @@ class MyApp extends App {
     );
   }
 }
-
-// ─── Font Switcher ────────────────────────────────────────────────────────────
-// Replaces document.body.style.fontFamily (which caused CLS) with a stable
-// CSS className swap. The font is set before paint via next/font preloading.
 
 function FontSwitcher({ children, libreBaskerville, ptSerif }) {
   const { currentLanguage } = useLocalization();
