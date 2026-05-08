@@ -1,61 +1,32 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { ref, get } from "firebase/database";
-import { database } from "../pages/api/register";
+// Import your exported JSON directly
+import translationsData from "../data/translations.json";
 
 const SUPPORTED_LANGS = ["en", "mk"];
 const DEFAULT_LANG = "mk";
 
 const LocalizationContext = createContext();
 
-export const useLocalization = () => {
-  return useContext(LocalizationContext);
-};
+export const useLocalization = () => useContext(LocalizationContext);
 
 export const LocalizationProvider = ({ children }) => {
-  const [language, setLanguage] = useState(() => {
-    if (typeof window === "undefined") return DEFAULT_LANG;
-    const saved = localStorage.getItem("language");
-    return SUPPORTED_LANGS.includes(saved) ? saved : DEFAULT_LANG;
-  });
- 
-  const [translations, setTranslations] = useState(null);
+  const [language, setLanguage] = useState(DEFAULT_LANG);
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
-  
-    const cached = sessionStorage.getItem("translations");
-    if (cached) {
-      try {
-        setTranslations(JSON.parse(cached));
-        return;
-      } catch {
-        sessionStorage.removeItem("translations");
-      }
+    // Check localStorage only once on mount
+    const saved = localStorage.getItem("language");
+    if (SUPPORTED_LANGS.includes(saved)) {
+      setLanguage(saved);
     }
-
-    const fetchTranslations = async () => {
-      try {
-        const snapshot = await get(ref(database, "translations"));
-        if (snapshot.exists()) {
-          const data = snapshot.val();
-          setTranslations(data);
-          sessionStorage.setItem("translations", JSON.stringify(data));
-        } else {
-          console.warn("No translations found.");
-          setTranslations({});
-        }
-      } catch (error) {
-        console.error("Failed to fetch translations:", error);
-        setTranslations({});
-      }
-    };
-
-    fetchTranslations();
+    setIsMounted(true);
   }, []);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (isMounted) {
       localStorage.setItem("language", language);
-    }  
-  }, [language]);
+    }
+  }, [language, isMounted]);
 
   const changeLanguage = (lang) => {
     if (SUPPORTED_LANGS.includes(lang)) {
@@ -64,28 +35,30 @@ export const LocalizationProvider = ({ children }) => {
   };
 
   const t = (key) => {
-    if (!translations) return key; 
-
-    const langData = translations[language];
+    // 1. Try current language
+    const langData = translationsData[language];
     if (langData && langData[key] !== undefined) {
       return langData[key];
     }
 
-    const enData = translations["en"];
+    // 2. Fallback to English
+    const enData = translationsData["en"];
     if (enData && enData[key] !== undefined) {
       return enData[key];
     }
 
+    // 3. Last resort: return key itself (prevents layout collapse)
     return key; 
   };
-  
+
   return (
     <LocalizationContext.Provider
       value={{
         changeLanguage,
         t,
         currentLanguage: language,
-        translationsReady: translations !== null,
+        // Always true now because the file is bundled
+        translationsReady: true, 
       }}
     >
       {children}
