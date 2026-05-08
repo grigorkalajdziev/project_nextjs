@@ -1,41 +1,54 @@
-import React, { useEffect, useState } from "react";
-import { useToasts } from "react-toast-notifications";
+import { useEffect, useState } from "react";
 import { useLocalization } from "../../context/LocalizationContext";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 
-const CookieConsentToast = () => {
-  const { addToast, removeAllToasts } = useToasts();
-  const { t, currentLanguage } = useLocalization(); 
-  const [hasShownToast, setHasShownToast] = useState(false);
+const CookieConsent = () => {
+  const { t, translationsReady } = useLocalization();
+  const [mounted, setMounted] = useState(false);
+  const [accepted, setAccepted] = useState(true);
 
   useEffect(() => {
+    setMounted(true);
     const consent = localStorage.getItem("cookieConsent");
-    if (!consent) {
-    
-      removeAllToasts();
-      setHasShownToast(true);
-     
-      addToast(
-        <div className="flex flex-col">
-          <p>{t("cookies")}</p>
-          <button
-            onClick={() => {
-              localStorage.setItem("cookieConsent", "true");
-              window.location.reload(); 
-           }}
-            className="mt-2 bg-blue-600 hover:bg-blue-500 text-black py-1 px-3 rounded"
-          >
-            {t("accept")}
-          </button>
-        </div>,
-        {
-          appearance: "info",
-          autoDismiss: false,
-        }
-      );
+    if (consent === "true") {
+      setAccepted(true);
+    } else {
+      setAccepted(false);
     }
-  }, [addToast, removeAllToasts, t, currentLanguage, hasShownToast]);
+  }, []);
 
-  return null;
+  const handleAccept = () => {
+    localStorage.setItem("cookieConsent", "true");
+    setAccepted(true);
+  };
+
+  // Ensure we don't render during SSR or if already accepted
+  if (!mounted || accepted || !translationsReady) {
+    return null;
+  }
+
+  return (
+    <div className="cookie-consent-banner">
+      <div className="cookie-consent-banner__icon">
+        <IoIosInformationCircleOutline size={24} />
+      </div>
+
+      <div className="cookie-consent-banner__body">
+        <p>{t("cookies") || "We use cookies to improve your experience."}</p>
+        <button onClick={handleAccept}>
+          {t("accept") || "Accept"}
+        </button>
+      </div>
+
+      <button
+        className="cookie-consent-banner__close"
+        onClick={() => setAccepted(true)}
+        aria-label="Close"
+      >
+        ×
+      </button>
+    </div>
+  );
 };
 
-export default CookieConsentToast;
+export default CookieConsent;
