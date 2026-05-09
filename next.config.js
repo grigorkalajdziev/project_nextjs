@@ -13,10 +13,8 @@ const nextConfig = {
       },
     ],
     formats: ['image/avif', 'image/webp'], // Opt-in to ultra-modern formats
-  },
-
-  // 2. Production Optimizations
-  swcMinify: true, 
+  },  
+  
   compiler: {
     // Remove consoles in production to save bytes
     removeConsole: process.env.NODE_ENV === "production",
