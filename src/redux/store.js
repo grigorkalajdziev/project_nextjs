@@ -1,21 +1,23 @@
-import { createStore, applyMiddleware } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { persistReducer } from "redux-persist";
+import { configureStore } from "@reduxjs/toolkit";
+import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import thunkMiddleware from "redux-thunk";
 import rootReducer from "./reducers/rootReducer";
 
 const persistConfig = {
   key: "primary",
   storage,
-  blacklist: ["productData"]  
+  blacklist: ["productData"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export function initializeStore() {
-  return createStore(
-    persistedReducer,
-    composeWithDevTools(applyMiddleware(thunkMiddleware))
-  );
-}
+export const store = configureStore({
+  reducer: persistedReducer,
+
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+});
+
+export const persistor = persistStore(store);
