@@ -101,8 +101,8 @@ const Register = () => {
     setRegisterLoading(true);
     try {
       const result = await registerUser(
-        registerData.email,
-        registerData.password,
+        registerData.email,      
+        registerData.password,  
         registerData.firstName,
         registerData.lastName
       );

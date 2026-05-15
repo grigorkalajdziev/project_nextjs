@@ -82,8 +82,7 @@ export async function registerUser(email, password, firstName, lastName) {
       lastName: lastName,
       displayName: `${firstName} ${lastName}`,
       billingInfo: { address: "", city: "", phone: "", zipCode: "" },
-      role: "guest",
-      password: password,
+      role: "guest",      
       coupon: coupon,
     });
     await signOut(auth);

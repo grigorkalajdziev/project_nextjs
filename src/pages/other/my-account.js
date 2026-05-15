@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import { auth } from "../api/register";
-import { onAuthStateChanged, signOut, updatePassword } from "firebase/auth";
+import { onAuthStateChanged, signOut, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 import { getDatabase, ref, set, get, update, remove } from "firebase/database";
 import Link from "next/link";
 import Tab from "react-bootstrap/Tab";
@@ -743,8 +743,10 @@ const MyAccount = () => {
         if (newPassword !== confirmPassword) { addToast(t("password_mismatch"), { appearance: "error", autoDismiss: true }); setIsLoading(false); return; }
         if (newPassword.length < 6) { addToast(t("password_strength"), { appearance: "error", autoDismiss: true }); setIsLoading(false); return; }
         try {
+          const credential = EmailAuthProvider.credential(user.email, currentPassword);
+          await reauthenticateWithCredential(user, credential);
           await updatePassword(user, newPassword);
-          await set(userRef, { firstName, lastName, displayName, email, password: newPassword, billingInfo: { address, city: selectedCity || "", country: selectedCountry ? { label: selectedCountry.label, value: selectedCountry.value, flag: selectedCountry.flag } : null, zipCode, phone, nameOnCard, cardNumber, expiration, cvc }, role: "guest" });
+          await set(userRef, { firstName, lastName, displayName, email, billingInfo: { address, city: selectedCity || "", country: selectedCountry ? { label: selectedCountry.label, value: selectedCountry.value, flag: selectedCountry.flag } : null, zipCode, phone, nameOnCard, cardNumber, expiration, cvc }, role: "guest" });
           // ── LOG: Password Changed ───────────────────────────────────────
           await logActivity({
             username: user.email,
@@ -755,7 +757,7 @@ const MyAccount = () => {
           setCurrentPassword(""); setNewPassword(""); setConfirmPassword("");
         } catch (error) { addToast(error.message, { appearance: "error", autoDismiss: true }); setIsLoading(false); return; }
       } else {
-        await update(userRef, { firstName, lastName, displayName, email, password: currentPassword, billingInfo: { address, city: selectedCity?.label || "", country: selectedCountry ? { label: selectedCountry.label, value: selectedCountry.value, flag: selectedCountry.flag } : null, zipCode, phone, nameOnCard, cardNumber, expiration, cvc }, role: "guest" });
+        await update(userRef, { firstName, lastName, displayName, email, billingInfo: { address, city: selectedCity?.label || "", country: selectedCountry ? { label: selectedCountry.label, value: selectedCountry.value, flag: selectedCountry.flag } : null, zipCode, phone, nameOnCard, cardNumber, expiration, cvc }, role: "guest" });
         // ── LOG: Profile Updated ──────────────────────────────────────────
         await logActivity({
           username: user.email,
@@ -848,8 +850,7 @@ const MyAccount = () => {
           if (snapshot.exists()) {
             const data = snapshot.val();
             setFirstName(data.firstName || ""); setLastName(data.lastName || ""); setDisplayName(data.displayName || "");
-            setAddress(data.billingInfo?.address || ""); setZipCode(data.billingInfo?.zipCode || ""); setPhone(data.billingInfo?.phone || "");
-            setCurrentPassword(data.password || "");
+            setAddress(data.billingInfo?.address || ""); setZipCode(data.billingInfo?.zipCode || ""); setPhone(data.billingInfo?.phone || "");           
             setNameOnCard(data.billingInfo?.nameOnCard || ""); setCardNumber(data.billingInfo?.cardNumber || ""); setExpiration(data.billingInfo?.expiration || ""); setCvc(data.billingInfo?.cvc || "");
             setRole(data.role || "guest");
             const countryOption = findCountryOption(data.billingInfo?.country || null);
